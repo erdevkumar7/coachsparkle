@@ -1,8 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { HandleLogin } from "@/app/api/auth";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -29,13 +32,13 @@ export default function Login() {
             localStorage.setItem('token', result.data.token);
             localStorage.setItem('user', JSON.stringify(result.data.user));
            
-            // if (result.data.user.user_type === 1) {
-            //     router.push('/dashboard/user');
-            // } else if (result.data.user.user_type === 2) {
-            //     router.push('/dashboard/coach');
-            // } else if (result.data.user.user_type === 3) {
-            //     router.push('/dashboard/admin');
-            // }
+            if (result.data.user.user_type === 1) {
+                router.push('/dashboard');
+            } else if (result.data.user.user_type === 2) {
+                router.push('/dashboard');
+            } else if (result.data.user.user_type === 3) {
+                router.push('/dashboard');
+            }
         }
     };
 
@@ -91,7 +94,7 @@ export default function Login() {
 
                                 <p className="signup-text">
                                     Don’t have an account?
-                                    <a href="#">Sign up as a Coach</a>
+                                    <Link href="/select-role">Sign up as a Coach</Link>
                                 </p>
                             </form>
                         </div>

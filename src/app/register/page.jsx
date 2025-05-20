@@ -1,4 +1,5 @@
 'use client';
+import Link from "next/link";
 import { useEffect, useState } from 'react';
 import { BACK_END_BASE_URL } from "@/config/url_config";
 import { HandleRegister } from "@/app/api/auth";
@@ -56,11 +57,6 @@ export default function Register() {
                 const newErrors = { ...prev };
                 delete newErrors[name];
 
-                if (name === 'password' || name === 'password_confirmation') {
-                    delete newErrors['password'];
-                    delete newErrors['password_confirmation'];
-                }
-
                 return newErrors;
             });
         }
@@ -70,10 +66,7 @@ export default function Register() {
         e.preventDefault();
         setErrors({});
         setGeneralError("");
-        if (formData.password !== formData.password_confirmation) {
-            setErrors({ password_confirmation: ["Passwords do not match"] });
-            return;
-        }
+     
         const res = await HandleRegister(formData);
 
         if (res.success) {
@@ -190,7 +183,7 @@ export default function Register() {
 
                             <button type="submit" className="create-btn-aad">Apply as a User</button>
 
-                            <div className="login-link">Already have an account? <a href="#">Log in</a></div>
+                            <div className="login-link">Already have an account? <Link href="/login">Log in</Link></div>
                         </form>
                     </div>
                 </div>
