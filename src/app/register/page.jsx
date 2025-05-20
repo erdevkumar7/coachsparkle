@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import { BACK_END_BASE_URL } from "@/config/url_config";
 import { HandleRegister } from "@/app/api/auth";
 import axios from "axios";
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
+    const router = useRouter();
     const [countries, setCountries] = useState([]);
     const [formData, setFormData] = useState({
         first_name: '',
@@ -16,7 +18,7 @@ export default function Register() {
         // terms: false,
         country_id: '',  // will be set from select box
         user_type: 2,
-         user_timezone:"asia/calcutta"
+        user_timezone: "asia/calcutta"
     });
 
     useEffect(() => {
@@ -40,33 +42,12 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // if (!formData.terms) {
-        //     alert('Please accept the terms and conditions.');
-        //     return;
-        // }
-
-        // try {
-        //     // const response = await API.post('register', formData); // Now uses baseURL
-        //     //  console.log('User registered:', formData);
-
-        // } catch (error) {
-        //     console.error('Registration failed:', error);
-        //     alert('Registration failed. Please try again.');
-        // }
-
-
-        try {
-            const res = await HandleRegister(formData);
-            // console.log('reessssponse',res)
-            if (res.status === 201) {
-                setTimeout(() => {
-                    router.push("/login");
-                }, 4000);
-                // setLoading(false);
-            }
-        } catch (error) {
-            console.log('error', error)
-            // setLoading(false);
+        const res = await HandleRegister(formData);
+     
+        if (res.status === 200) {
+            setTimeout(() => {
+                router.push("/login");
+            }, 2000);         
         }
 
     };
@@ -141,7 +122,7 @@ export default function Register() {
                                 ))}
                             </select>
 
-                            <div className="checkbox-row">
+                            {/* <div className="checkbox-row">
                                 <input type="checkbox" id="email-optin-1" name="email_optin" />
                                 <label htmlFor="email-optin-1">Send me emails with tips on how to find talent that fits my needs.</label>
                             </div>
@@ -149,7 +130,7 @@ export default function Register() {
                             <div className="checkbox-row">
                                 <input type="checkbox" id="terms" name="terms" />
                                 <label htmlFor="terms">Yes, I have read and agree to the terms & conditions</label>
-                            </div>
+                            </div> */}
 
                             {/* Hidden field - included in formData */}
                             <input type="hidden" name="user_type" value="user" />

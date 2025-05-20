@@ -1,0 +1,103 @@
+'use client';
+import { useState } from 'react';
+import { HandleLogin } from "@/app/api/auth";
+
+export default function Login() {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+    const [error, setError] = useState('');
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+        setError('');
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const result = await HandleLogin(formData);
+        if (result?.response?.status === 401) {
+            setError(result.response.data.error || 'Invalid credentials');
+        } else {
+            // Handle success (store token, redirect, etc.)
+            localStorage.setItem('token', result.data.token);
+            localStorage.setItem('user', JSON.stringify(result.data.user));
+           
+            // if (result.data.user.user_type === 1) {
+            //     router.push('/dashboard/user');
+            // } else if (result.data.user.user_type === 2) {
+            //     router.push('/dashboard/coach');
+            // } else if (result.data.user.user_type === 3) {
+            //     router.push('/dashboard/admin');
+            // }
+        }
+    };
+
+
+
+    return (
+        <div className="signup-page-add login-page-form">
+            <div className="container-fluid">
+                <div className="row signup-page-top login-content-add">
+                    <div className="col-md-5 signup-left-side login-left-side">
+                        <a className="navbar-logo-add" href="#"><img src="./images/signup-logo.png" alt="Logo" /></a>
+                    </div>
+                    <div className="col-md-7 signup-right-side login-right-side">
+                        <div className="login-container">
+                            <h2>Log in</h2>
+
+                            <div className="tabs">
+                                <button className="tab active">I'm a Coach</button>
+                                <button className="tab">I'm a User</button>
+                            </div>
+
+                            <form className="login-form" onSubmit={handleSubmit}>
+                                <label>Email </label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+
+                                <label>Password</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+                                <div className="forgot">
+                                    <a href="#">Forgot password?</a>
+                                </div>
+
+                                <button type="submit" className="login-btn">Log in <i className="bi bi-arrow-right"></i></button>
+
+                                <div className="divider"><span>Or</span></div>
+
+                                <button className="google-login">
+                                    <img src="./images/google.png" alt="google" />
+                                    Log in with Google
+                                </button>
+
+                                <p className="signup-text">
+                                    Don’t have an account?
+                                    <a href="#">Sign up as a Coach</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}

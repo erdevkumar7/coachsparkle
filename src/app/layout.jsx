@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
         <BootstrapClient />
         <Header />
         {children}
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );

@@ -4,7 +4,7 @@ export default function Footer(){
             <div className="container">
                 <div className="row coach-footer-inner">
                     <div className="col-md-3 coach-footer-one">
-                        <img src="./imges/logo.png" alt="Logo" />
+                        <img src="./images/logo.png" alt="Logo" />
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
                     </div>
 
