@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function Register() {
+export default function SelectRole() {
     const router = useRouter();
     const [role, setRole] = useState(null);
 
@@ -12,9 +12,8 @@ export default function Register() {
     };
 
     const handleCreateAccount = () => {
-        if (role) {
-            // Navigate to /signup and pass role via state
-            router.push('/register', { state: { role } });
+        if (role) {   
+             router.push(`/register?role=${role}`);
         } else {
             alert('Please select a role.');
         }

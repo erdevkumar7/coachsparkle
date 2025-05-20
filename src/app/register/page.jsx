@@ -3,54 +3,87 @@ import { useEffect, useState } from 'react';
 import { BACK_END_BASE_URL } from "@/config/url_config";
 import { HandleRegister } from "@/app/api/auth";
 import axios from "axios";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Register() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [countries, setCountries] = useState([]);
+    const [errors, setErrors] = useState({}); // for field-specific errors
+    const [generalError, setGeneralError] = useState("");
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
         email: '',
         password: '',
         password_confirmation: '',
-        // email_optin: false,
-        // terms: false,
-        country_id: '',  // will be set from select box
-        user_type: 2,
-        user_timezone: "asia/calcutta"
+        country_id: '',
+        user_type: '',
+        user_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'asia/calcutta'
     });
 
     useEffect(() => {
-        axios.post(`${BACK_END_BASE_URL}/getCountries`)
-            .then(response => {
+        const fetchCountries = async () => {
+            try {
+                const response = await axios.post(`${BACK_END_BASE_URL}/getCountries`);
                 setCountries(response.data);
-            })
-            .catch(error => {
-                console.error("Error fetching countries", error);
-            });
+            } catch (error) {
+                console.error('Error fetching countries', error);
+            }
+        };
+
+        fetchCountries();
     }, []);
 
+    // Get user role from URL query
+    useEffect(() => {
+        const role = searchParams.get('role');
+        if (role) {
+            setFormData((prev) => ({ ...prev, user_type: parseInt(role) }));
+        }
+    }, [searchParams]);
+
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value
-        });
+        const { name, value } = e.target;
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+
+        if (errors[name]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+
+                if (name === 'password' || name === 'password_confirmation') {
+                    delete newErrors['password'];
+                    delete newErrors['password_confirmation'];
+                }
+
+                return newErrors;
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const res = await HandleRegister(formData);
-     
-        if (res.status === 200) {
-            setTimeout(() => {
-                router.push("/login");
-            }, 2000);         
+        setErrors({});
+        setGeneralError("");
+        if (formData.password !== formData.password_confirmation) {
+            setErrors({ password_confirmation: ["Passwords do not match"] });
+            return;
         }
+        const res = await HandleRegister(formData);
 
+        if (res.success) {
+            router.push("/login");
+        } else {
+            setErrors(res.errors);
+            setGeneralError(res.message);
+        }
     };
+
 
     return (
         <div className="signup-page-add signup-user-add">
@@ -73,32 +106,52 @@ export default function Register() {
                                 <div style={{ flex: 1 }}>
                                     <label htmlFor="first-name">First Name</label>
                                     <input id="first-name" name="first_name" type="text" value={formData.first_name} onChange={handleChange} required />
+                                    {errors.first_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.first_name[0]}</p>}
                                 </div>
                                 <div style={{ flex: 1 }}>
                                     <label htmlFor="last-name">Last Name</label>
                                     <input id="last-name" name="last_name" type="text" value={formData.last_name} onChange={handleChange} required />
+                                    {errors.last_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.last_name[0]}</p>}
                                 </div>
                             </div>
 
                             <div className="input-group">
                                 <label htmlFor="email">Work email address</label>
                                 <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+                                {errors.email && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.email[0]}</p>}
                             </div>
 
                             <div className="input-group">
                                 <label htmlFor="password">Password</label>
                                 <div className="password-add">
-                                    <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                     <i className="fa fa-eye" id="togglePassword" style={{ cursor: 'pointer' }}></i>
                                 </div>
+                                {errors.password && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.password[0]}</p>}
                             </div>
 
                             <div className="input-group">
                                 <label htmlFor="password_confirmation">Confirm Password</label>
                                 <div className="password-add">
-                                    <input type="password" id="password_confirmation" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} required />
+                                    <input
+                                        type="password"
+                                        id="password_confirmation"
+                                        name="password_confirmation"
+                                        value={formData.password_confirmation}
+                                        onChange={handleChange}
+                                        required />
                                     <i className="fa fa-eye" id="togglePassword" style={{ cursor: 'pointer' }}></i>
                                 </div>
+                                {errors.password_confirmation && (
+                                    <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.password_confirmation[0]}</p>
+                                )}
                             </div>
 
                             <label htmlFor="country">Country</label>
