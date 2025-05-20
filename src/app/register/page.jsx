@@ -1,12 +1,12 @@
 'use client';
 import Link from "next/link";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { BACK_END_BASE_URL } from "@/config/url_config";
 import { HandleRegister } from "@/app/api/auth";
 import axios from "axios";
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function Register() {
+function RegisterForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [countries, setCountries] = useState([]);
@@ -83,7 +83,7 @@ export default function Register() {
             <div className="container-fluid">
                 <div className="row signup-page-top signup-user">
                     <div className="col-md-5 signup-left-side">
-                        <a className="navbar-logo-add" href="#"><img src="/images/signup-logo.png" alt="Logo" /></a>
+                        <a className="navbar-logo-add" href="#"><img src="./images/signup-logo.png" alt="Logo" /></a>
                     </div>
                     <div className="col-md-7 signup-right-side sign-user-content">
                         <h2>User Sign Up</h2>
@@ -190,4 +190,13 @@ export default function Register() {
             </div>
         </div>
     );
+}
+
+
+export default function Register() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RegisterForm />
+    </Suspense>
+  );
 }

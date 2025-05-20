@@ -24,7 +24,7 @@ export default function SelectRole() {
                 <div className="container-fluid">
                     <div className="row signup-page-top">
                         <div className="col-md-5 signup-left-side">
-                            <a className="navbar-logo-add" href="#"><img src="/images/signup-logo.png" alt="Logo" /></a>
+                            <a className="navbar-logo-add" href="#"><img src="./images/signup-logo.png" alt="Logo" /></a>
                         </div>
                         <div className="col-md-7 signup-right-side">
                             <h4>Join as a user or coach</h4>
@@ -32,7 +32,7 @@ export default function SelectRole() {
                             <div className="card-container">
                                 <label className="card">
                                     <input type="radio" name="role" value="2" onChange={handleRoleChange} />
-                                    <img src="/images/user.png" alt="user" />
+                                    <img src="./images/user.png" alt="user" />
                                     <label>
                                         I'm user,<br />
                                         hiring a work
@@ -41,7 +41,7 @@ export default function SelectRole() {
 
                                 <label className="card">
                                     <input type="radio" name="role" value="3" onChange={handleRoleChange} />
-                                    <img src="/images/coach.png" alt="coach" />
+                                    <img src="./images/coach.png" alt="coach" />
                                     <label>
                                         I'm a coach,<br />
                                         looking for work

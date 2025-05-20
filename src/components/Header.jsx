@@ -7,7 +7,7 @@ export default function Header() {
     return (
         <nav className="navbar navbar-expand-lg coach-top-navber-add">           
             <div className="container">
-                <Link className="navbar-logo-add" href="/"><Image src="/images/logo.png" alt="Logo" width={100} height={100} /></Link>
+                <Link className="navbar-logo-add" href="/"><img src="./images/logo.png" alt="Logo" width={100} height={100} /></Link>
                 <button className="navbar-toggler tech" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -56,8 +56,8 @@ export default function Header() {
 
                     <div className="register-login">
                         <div className="register-content">
-                            <Link href="/" className="Login-navbar">Login</Link>
-                            <Link href="/"
+                            <Link href="/login" className="Login-navbar">Login</Link>
+                            <Link href="/select-role"
                                 style={{
                                     display: 'inline-block',
                                     padding: '8px 16px',
