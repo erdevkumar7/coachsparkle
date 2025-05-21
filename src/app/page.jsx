@@ -2,9 +2,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-// Owl Carousel (CSS only; JS needs jQuery, not ideal for React)
-// import 'owl.carousel/dist/assets/owl.carousel.css';
-// import 'owl.carousel/dist/assets/owl.theme.default.css';
+
 
 export default function Home() {
   useEffect(() => {
@@ -325,7 +323,7 @@ export default function Home() {
                     style={{ width: "128.906px", marginRight: "10px" }}
                   >
                     <div className="item">
-                      <img src={`/images/${img}`} alt="carousel" />
+                      <img src={`./images/${img}`} alt="carousel" />
                     </div>
                   </div>
                 ))}
@@ -742,7 +740,7 @@ export default function Home() {
             <div className="latest-articles-cards-content">
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src="/images/articles-img-one.png" className="card-img-top" alt="Coach Image" />
+                  <img src="./images/articles-img-one.png" className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -754,7 +752,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src="/images/articles-img-two.png" className="card-img-top" alt="Coach Image" />
+                  <img src="./images/articles-img-two.png" className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -766,7 +764,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src="/images/articles-img-three.png" className="card-img-top" alt="Coach Image" />
+                  <img src="./images/articles-img-three.png" className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
