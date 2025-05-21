@@ -1,6 +1,10 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'swiper/css'; 
+@import 'swiper/css/navigation'; 
+@import 'swiper/css/pagination';
 
 .coach-top-navber-add div#navbarTogglerDemo01 {
   justify-content: space-between;
@@ -450,7 +454,7 @@
 }
 
 .explore-coaches {
-  background-image: url("/public/images/explore-bg-img.png");
+  background-image: url("/images/explore-bg-img.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -670,7 +674,7 @@
 
 .how-it-work {
   margin-top: 80px;
-  background-image: url("/public/images/how-it-work-bg.png");
+  background-image: url("/images/how-it-work-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
@@ -1033,7 +1037,7 @@
 }
 
 .choose-plan-you {
-  background: url("/public/images/plan-bg-img.png");
+  background: url("/images/plan-bg-img.png");
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
@@ -1119,7 +1123,7 @@
 }
 
 .choose-plan-you .featured {
-  background: url("/public/images/price-bg-img.png");
+  background: url("/images/price-bg-img.png");
   color: white;
   position: relative;
   background-repeat: no-repeat;
@@ -1219,7 +1223,7 @@
 }
 
 .your-organization-coach .container {
-  background: url("/public/images/organization-map.png");
+  background: url("/images/organization-map.png");
   background-color: #009bfa;
   background-repeat: no-repeat;
   background-size: 50%;
@@ -1804,7 +1808,7 @@ footer.coach-footer-section .coach-footer-three {
   }
 
   .choose-plan-you {
-    background: url("/public/images/plan-bg-img.png");
+    background: url("/images/plan-bg-img.png");
     background-repeat: no-repeat;
     background-position: 100% 100%;
     background-size: cover;
@@ -1858,7 +1862,7 @@ footer.coach-footer-section .coach-footer-three {
   }
 
   .your-organization-coach .container {
-    background: url("/public/images/organization-bg-img.png");
+    background: url("/images/organization-bg-img.png");
     background-repeat: no-repeat;
     background-size: cover;
     padding: 40px 0px;

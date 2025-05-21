@@ -337,6 +337,12 @@ export default function Home() {
         <div className="owl-nav disabled"></div>
       </div>
 
+      {/* <div className="global-companies">
+        <div className="container">
+          <h1 className="text-center">Trusted by 1000+ global companies</h1>
+        </div>
+      </div> */}
+
 
       <div className="dedicated-career-coach">
         <div className="container">

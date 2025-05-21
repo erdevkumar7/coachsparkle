@@ -4,26 +4,28 @@ import "./globals.css";
 import Header from "@/components/Header";
 import BootstrapClient from "@/components/BootstrapClient";
 import Footer from "@/components/Footer";
+import { Inter, Roboto } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const roboto = Roboto({
   subsets: ["latin"],
+  variable: "--font-roboto",
+  display: "swap",
 });
-
 export const metadata = {
   title: "CoachSparkle",
-  description: "Coach app", 
+  description: "Coach app",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${inter.variable} ${roboto.variable}`}>
         <BootstrapClient />
         <Header />
         {children}
