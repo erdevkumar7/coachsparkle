@@ -89,8 +89,8 @@ function RegisterForm() {
                         <h2>User Sign Up</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="social-buttons">
-                                <button type="button" className="apple-btn"><img src="/images/apple.png" alt="apple" />Continue with Apple</button>
-                                <button type="button" className="google-btn"><img src="/images/google.png" alt="google" />Log in with Google</button>
+                                <button type="button" className="apple-btn"><img src="./images/apple.png" alt="apple" />Continue with Apple</button>
+                                <button type="button" className="google-btn"><img src="./images/google.png" alt="google" />Log in with Google</button>
                             </div>
 
                             <div className="divider"><span>or</span></div>
