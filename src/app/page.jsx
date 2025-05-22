@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { FRONTEND_BASE_URL} from "@/config/url_config";
 
 
 export default function Home() {
@@ -132,7 +133,7 @@ export default function Home() {
               <marquee direction="up" height="628px" id="coachMarquee">
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-one.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -148,7 +149,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-two.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -164,7 +165,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-three.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -180,7 +181,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-two.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -196,7 +197,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-three.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -212,7 +213,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-one.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -228,7 +229,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-three.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -244,7 +245,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-three.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -260,7 +261,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src="./images/ellipse-two.png" alt="Coach Image" />
+                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} alt="Coach Image" />
                   </div>
 
                   <div className="coach-name-right-side">
@@ -323,7 +324,7 @@ export default function Home() {
                     style={{ width: "128.906px", marginRight: "10px" }}
                   >
                     <div className="item">
-                      <img src={`./images/${img}`} alt="carousel" />
+                      <img src={`${FRONTEND_BASE_URL}/images/${img}`} alt="carousel" />
                     </div>
                   </div>
                 ))}
@@ -361,14 +362,14 @@ export default function Home() {
 
 
             <div className="col-md-6 dedicated-career-coach-right">
-              <img src="./images/career-coach-img.png" alt="Career Coach" className="img-fluid" />
+              <img src={`${FRONTEND_BASE_URL}/images/career-coach-img.png`} alt="Career Coach" className="img-fluid" />
             </div>
           </div>
 
           <div className="row coaching-approach-inner">
 
             <div className="col-md-6 coaching-approach-right">
-              <img src="./images/coaching-approach-img.png" alt="coaching approach" className="img-fluid" />
+              <img src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.png`} alt="coaching approach" className="img-fluid" />
             </div>
 
 
@@ -379,7 +380,7 @@ export default function Home() {
               </h1>
               <div className="clear-informative">
                 <div className="informative-text">
-                  <img src="./images/informative-icons.png" />
+                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
                   <div>
                     <h5>Clear and Informative</h5>
                     <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
@@ -389,7 +390,7 @@ export default function Home() {
 
               <div className="clear-informative">
                 <div className="informative-text">
-                  <img src="./images/informative-icons.png" />
+                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
                   <div>
                     <h5>Friendly and Empowering</h5>
                     <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
@@ -399,7 +400,7 @@ export default function Home() {
 
               <div className="clear-informative">
                 <div className="informative-text">
-                  <img src="./images/informative-icons.png" />
+                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
                   <div>
                     <h5>Guided with Choices</h5>
                     <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
@@ -409,7 +410,7 @@ export default function Home() {
 
               <div className="clear-informative">
                 <div className="informative-text">
-                  <img src="./images/informative-icons.png" />
+                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
                   <div>
                     <h5>Personalized and Reassuring</h5>
                     <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
@@ -434,7 +435,7 @@ export default function Home() {
                 <a href="#" className="view-all-add-btn text-right">VIEW ALL<i className="bi bi-arrow-right"></i></a>
                 <div className="professional-cards">
                   <div className="card">
-                    <img src="./images/explore-ellipse-one.png" alt="Career & Professional" className="img-fluid" />
+                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Career & Professional" className="img-fluid" />
                     <h5>Career & Professional Coaches</h5>
                     <ul>
                       <li><i className="bi bi-check-lg"></i>Career Coach</li>
@@ -444,7 +445,7 @@ export default function Home() {
                   </div>
 
                   <div className="card">
-                    <img src="./images/explore-ellipse-one.png" alt="Personal Development" className="img-fluid" />
+                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Personal Development" className="img-fluid" />
                     <h5>Personal Development & Life Coaches</h5>
                     <ul>
                       <li><i className="bi bi-check-lg"></i>Life Coach</li>
@@ -454,7 +455,7 @@ export default function Home() {
                   </div>
 
                   <div className="card">
-                    <img src="./images/explore-ellipse-one.png" alt="Wellness & Health" className="img-fluid" />
+                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Wellness & Health" className="img-fluid" />
                     <h5>
                       Wellness & Health <br />
                       Coaches
@@ -467,7 +468,7 @@ export default function Home() {
                   </div>
 
                   <div className="card">
-                    <img src="./images/explore-ellipse-one.png" alt="Family & Youth" className="img-fluid" />
+                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Family & Youth" className="img-fluid" />
                     <h5>Family, Relationship & Youth Coaches</h5>
                     <ul>
                       <li><i className="bi bi-check-lg"></i>Academic Coach</li>
@@ -497,7 +498,7 @@ export default function Home() {
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-two.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -514,7 +515,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-two.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -529,7 +530,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-one.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -543,7 +544,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-two.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -560,7 +561,7 @@ export default function Home() {
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-two.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -577,7 +578,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-two.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -592,7 +593,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-one.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -606,7 +607,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src="./images/coaches-img-two.png" className="card-img-top" alt="Coach Image" />
+                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -740,7 +741,7 @@ export default function Home() {
             <div className="latest-articles-cards-content">
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src="./images/articles-img-one.png" className="card-img-top" alt="Coach Image" />
+                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-one.png`} className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -752,7 +753,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src="./images/articles-img-two.png" className="card-img-top" alt="Coach Image" />
+                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-two.png`} className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -764,7 +765,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src="./images/articles-img-three.png" className="card-img-top" alt="Coach Image" />
+                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-three.png`} className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>

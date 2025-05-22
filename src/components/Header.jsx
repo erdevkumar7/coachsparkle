@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/styles/header.module.css";
+import { FRONTEND_BASE_URL} from "@/config/url_config";
 
 export default function Header() {
 
     return (
         <nav className="navbar navbar-expand-lg coach-top-navber-add">           
             <div className="container">
-                <Link className="navbar-logo-add" href="/"><img src="./images/logo.png" alt="Logo" width={100} height={100} /></Link>
+                <Link className="navbar-logo-add" href="/"><img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo"  /></Link>
                 <button className="navbar-toggler tech" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

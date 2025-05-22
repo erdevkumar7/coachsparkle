@@ -1,3 +1,6 @@
+'use client';
+import { FRONTEND_BASE_URL} from "@/config/url_config";
+
 export default function Footer() {
     return (
         <>
@@ -5,7 +8,7 @@ export default function Footer() {
                 <div className="container">
                     <div className="row coach-footer-inner">
                         <div className="col-md-3 coach-footer-one">
-                            <img src="./images/logo.png" alt="Logo" />
+                            <img src={`${FRONTEND_BASE_URL}/images/signup-logo.png`} alt="Logo" />
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
                         </div>
 

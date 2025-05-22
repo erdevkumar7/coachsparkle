@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { HandleLogin } from "@/app/api/auth";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { FRONTEND_BASE_URL} from "@/config/url_config";
 
 export default function Login() {
     const router = useRouter();
@@ -49,7 +50,7 @@ export default function Login() {
             <div className="container-fluid">
                 <div className="row signup-page-top login-content-add">
                     <div className="col-md-5 signup-left-side login-left-side">
-                        <a className="navbar-logo-add" href="#"><img src="./images/signup-logo.png" alt="Logo" /></a>
+                        <a className="navbar-logo-add" href="#"><img src={`${FRONTEND_BASE_URL}/images/signup-logo.png`} alt="Logo" /></a>
                     </div>
                     <div className="col-md-7 signup-right-side login-right-side">
                         <div className="login-container">

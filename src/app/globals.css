@@ -457,7 +457,7 @@
 }
 
 .explore-coaches {
-  background-image: url("/images/explore-bg-img.png");
+  background-image: url("https://votivetechnology.in/coach/images/explore-bg-img.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -677,7 +677,7 @@
 
 .how-it-work {
   margin-top: 80px;
-  background-image: url("/images/how-it-work-bg.png");
+  background-image: url("https://votivetechnology.in/coach/images/how-it-work-bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top;
@@ -1040,7 +1040,7 @@
 }
 
 .choose-plan-you {
-  background: url("/images/plan-bg-img.png");
+  background: url("https://votivetechnology.in/coach/images/plan-bg-img.png");
   background-repeat: no-repeat;
   background-position: top;
   background-size: cover;
@@ -1126,7 +1126,7 @@
 }
 
 .choose-plan-you .featured {
-  background: url("/images/price-bg-img.png");
+  background: url("https://votivetechnology.in/coach/images/price-bg-img.png");
   color: white;
   position: relative;
   background-repeat: no-repeat;
@@ -1226,7 +1226,7 @@
 }
 
 .your-organization-coach .container {
-  background: url("/images/organization-map.png");
+  background: url("https://votivetechnology.in/coach/images/organization-map.png");
   background-color: #009bfa;
   background-repeat: no-repeat;
   background-size: 50%;
@@ -1811,7 +1811,7 @@ footer.coach-footer-section .coach-footer-three {
   }
 
   .choose-plan-you {
-    background: url("/images/plan-bg-img.png");
+    background: url("https://votivetechnology.in/coach/images/plan-bg-img.png");
     background-repeat: no-repeat;
     background-position: 100% 100%;
     background-size: cover;
@@ -1865,7 +1865,7 @@ footer.coach-footer-section .coach-footer-three {
   }
 
   .your-organization-coach .container {
-    background: url("/images/organization-bg-img.png");
+    background: url("https://votivetechnology.in/coach/images/organization-bg-img.png");
     background-repeat: no-repeat;
     background-size: cover;
     padding: 40px 0px;
