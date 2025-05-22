@@ -9,6 +9,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 function RegisterForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const role = searchParams.get('role');
+    const userType = parseInt(role);
     const [countries, setCountries] = useState([]);
     const [errors, setErrors] = useState({}); // for field-specific errors
     const [generalError, setGeneralError] = useState("");
@@ -38,11 +40,12 @@ function RegisterForm() {
 
     // Get user role from URL query
     useEffect(() => {
-        const role = searchParams.get('role');
-        if (role) {
-            setFormData((prev) => ({ ...prev, user_type: parseInt(role) }));
+        if (!userType) {
+            router.replace("/select-role");
+        } else {
+            setFormData((prev) => ({ ...prev, user_type: userType }));
         }
-    }, [searchParams]);
+    }, [userType]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -66,7 +69,7 @@ function RegisterForm() {
         e.preventDefault();
         setErrors({});
         setGeneralError("");
-     
+
         const res = await HandleRegister(formData);
 
         if (res.success) {
@@ -86,7 +89,13 @@ function RegisterForm() {
                         <a className="navbar-logo-add" href="#"><img src="./images/signup-logo.png" alt="Logo" /></a>
                     </div>
                     <div className="col-md-7 signup-right-side sign-user-content">
-                        <h2>User Sign Up</h2>
+                        <h2>
+                            {userType === 2
+                                ? 'User Sign Up'
+                                : userType === 3
+                                    ? 'Coach Sign Up'
+                                    : 'Sign Up'}
+                        </h2>
                         <form onSubmit={handleSubmit}>
                             <div className="social-buttons">
                                 <button type="button" className="apple-btn"><img src="./images/apple.png" alt="apple" />Continue with Apple</button>
@@ -194,9 +203,9 @@ function RegisterForm() {
 
 
 export default function Register() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <RegisterForm />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <RegisterForm />
+        </Suspense>
+    );
 }

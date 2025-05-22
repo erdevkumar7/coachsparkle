@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { HandleLogin } from "@/app/api/auth";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FRONTEND_BASE_URL} from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
 
 export default function Login() {
     const router = useRouter();
+    const [role, setRole] = useState(3);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -22,6 +23,10 @@ export default function Login() {
         setError('');
     };
 
+    const handleRoleSwitch = (newRole) => {
+        setRole(newRole);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -32,7 +37,7 @@ export default function Login() {
             // Handle success (store token, redirect, etc.)
             localStorage.setItem('token', result.data.token);
             localStorage.setItem('user', JSON.stringify(result.data.user));
-           
+
             if (result.data.user.user_type === 1) {
                 router.push('/dashboard');
             } else if (result.data.user.user_type === 2) {
@@ -44,7 +49,7 @@ export default function Login() {
     };
 
 
-
+console.log('role',role)
     return (
         <div className="signup-page-add login-page-form">
             <div className="container-fluid">
@@ -57,8 +62,8 @@ export default function Login() {
                             <h2>Log in</h2>
 
                             <div className="tabs">
-                                <button className="tab active">I'm a Coach</button>
-                                <button className="tab">I'm a User</button>
+                                <button onClick={() => handleRoleSwitch(3)} className={`tab ${role === 3 ? "active" : ""}`}>I'm a Coach</button>
+                                <button onClick={() => handleRoleSwitch(2)} className={`tab ${role === 2 ? "active" : ""}`}>I'm a User</button>
                             </div>
 
                             <form className="login-form" onSubmit={handleSubmit}>
