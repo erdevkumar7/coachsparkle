@@ -19,17 +19,23 @@ export const HandleRegister = async (reqData) => {
     }
 };
 
-export const HandleLogin = async (reqData) => {
-    return await axios({
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        method: "POST",
-        url: `${BACK_END_BASE_URL}/login`,
-        data: reqData,
-    }).then((request) => {
-        return request;
-    }).catch((error) => {
+export const HandleLogin = async (reqData) => {  
+
+    const loginUrl = reqData.user_type === 2 
+        ? `${BACK_END_BASE_URL}/userlogin` 
+        : `${BACK_END_BASE_URL}/coachlogin`;
+
+    try {
+        const response = await axios({
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: "POST",
+            url: loginUrl,
+            data: reqData,
+        });
+        return response;
+    } catch (error) {
         return error;
-    })
-}
+    }
+};

@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { FRONTEND_BASE_URL} from "@/config/url_config";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+// import "./globals.css";
 
 
 export default function Home() {
@@ -91,6 +94,7 @@ export default function Home() {
   }, []);
   return (
     <>
+      <Header />
       <div className="smarter-matching py-5">
         <div className="container">
           <div className="row smarter-matching-inner align-items-center">
@@ -859,6 +863,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+        <Footer />
     </>
   );
 }

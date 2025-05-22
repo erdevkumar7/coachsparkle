@@ -26,10 +26,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${roboto.variable}`}>
-        <BootstrapClient />
-        <Header />
-        {children}
-        <Footer />
+        <BootstrapClient />      
+        {children}      
       </body>
     </html>
   );
