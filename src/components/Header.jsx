@@ -1,14 +1,32 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from "next/link";
-import Image from "next/image";
 import styles from "@/styles/header.module.css";
-import { FRONTEND_BASE_URL} from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
 
 export default function Header() {
+    const router = useRouter();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setIsLoggedIn(false);
+        router.push('/login');
+    };
+
+    console.log(isLoggedIn, 'isLoggedIn')
     return (
-        <nav className="navbar navbar-expand-lg coach-top-navber-add">           
+        <nav className="navbar navbar-expand-lg coach-top-navber-add">
             <div className="container">
-                <Link className="navbar-logo-add" href="/"><img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo"  /></Link>
+                <Link className="navbar-logo-add" href="/"><img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo" /></Link>
                 <button className="navbar-toggler tech" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -57,21 +75,38 @@ export default function Header() {
 
                     <div className="register-login">
                         <div className="register-content">
-                            <Link href="/login" className="Login-navbar">Login</Link>
-                            <Link href="/select-role"
-                                style={{
+                            {isLoggedIn ? (
+                                <button onClick={handleLogout} style={{
                                     display: 'inline-block',
-                                    padding: '8px 16px',
+                                    padding: '6px 16px',
                                     backgroundColor: '#007bff',
                                     color: 'white',
                                     borderRadius: '4px',
                                     textDecoration: 'none',
                                     textAlign: 'center',
-                                }}
-                            >
-                                Sign up
-                            </Link>
-
+                                    marginLeft: '10px',
+                                    border: 'white'
+                                }}>Logout</button>
+                            ) : (
+                                <>
+                                    <Link href="/login" className="Login-navbar">Login</Link>
+                                    <Link
+                                        href="/select-role"
+                                        style={{
+                                            display: 'inline-block',
+                                            padding: '8px 16px',
+                                            backgroundColor: '#007bff',
+                                            color: 'white',
+                                            borderRadius: '4px',
+                                            textDecoration: 'none',
+                                            textAlign: 'center',
+                                            marginLeft: '10px'
+                                        }}
+                                    >
+                                        Sign up
+                                    </Link>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -10,7 +10,7 @@ import Header from '@/components/Header';
 
 export default function Login() {
     const router = useRouter();
-    const [role, setRole] = useState(3);
+    const [role, setRole] = useState(2);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
