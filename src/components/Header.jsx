@@ -22,7 +22,7 @@ export default function Header() {
         router.push('/login');
     };
 
-    console.log(isLoggedIn, 'isLoggedIn')
+    // console.log(isLoggedIn, 'isLoggedIn')
     return (
         <nav className="navbar navbar-expand-lg coach-top-navber-add">
             <div className="container">
@@ -35,16 +35,9 @@ export default function Header() {
                         <li className="nav-item">
                             <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                         </li>
-                        <li className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Browse Coaches
-                            </Link>
-                            <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" href="/">Coaches 1</Link></li>
-                                <li><Link className="dropdown-item" href="/">Coaches 2</Link></li>
-                                <li><Link className="dropdown-item" href="/">Coaches 3</Link></li>
-                            </ul>
-                        </li>
+                         <li className="nav-item">
+                            <Link className="nav-link" href="/coach-list">Browse Coaches</Link>
+                        </li>                    
 
                         <li className="nav-item dropdown">
                             <Link className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">

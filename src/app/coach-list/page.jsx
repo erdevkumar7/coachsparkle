@@ -1,13 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { FRONTEND_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL, BACK_END_BASE_URL } from "@/config/url_config";
+import axios from 'axios';
 
 
 export default function CoachList() {
+    const [coaches, setCoaches] = useState([]);
+    const [pagination, setPagination] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
 
     //   useEffect(() => {
     //     (async () => {
@@ -77,6 +82,41 @@ export default function CoachList() {
     // }, []);
 
 
+
+    useEffect(() => {
+        getAllCoaches(currentPage);
+    }, [currentPage]);
+
+    const getAllCoaches = async (page = 1) => {
+        setLoading(true);
+        try {
+            const response = await axios({
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: "POST",
+                url: `${BACK_END_BASE_URL}/coachlist?page=${page}`,
+            });
+
+            setCoaches(response.data.data);
+            setPagination(response.data.pagination);
+        } catch (error) {
+            console.error('Error fetching coaches:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handlePageChange = (page) => {
+        // console.log(page, 'pageee')
+        if (page !== pagination.current_page && page >= 1 && page <= pagination.last_page) {
+            setCurrentPage(page);
+        }
+    };
+
+
+
+    console.log(currentPage, 'coachescoaches')
     return (
         <>
             <Header />
@@ -191,146 +231,68 @@ export default function CoachList() {
                     </aside>
 
 
-                    <main className="main-content">
-                        <div className="coach-card">
-                            <img src={`${FRONTEND_BASE_URL}/images/coach-list-img-two.png`} alt="coach-img-two" />
-                            <div className="coach-info">
-                                <div className="senior-engineer-details-add">
-                                    <div>
-                                        <h2>Coach Name</h2>
-                                        <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
-                                        <p className="senior-engineer-text">
-                                            <i className="bi bi-briefcase"></i><strong>Senior Engineer at <b>Company</b></strong>
-                                        </p>
-                                        <p className="description">
-                                            Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical
-                                            guidance designed to help you move forward with confidence.
-                                        </p>
-                                    </div>
-                                    <div className="coach-actions">
-                                        <p className="price">$120 / month</p>
-                                        <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
-                                        <button className="profile">View Profile <i className="bi bi-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                                <div className="tags">
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                </div>
-                            </div>
-                        </div>
+                    {loading ? (
+                        <main className="main-content">
+                            <p>Loading...</p>
+                        </main>) : coaches.length > 0 ? (
 
-                        <div className="coach-card">
-                            <img src={`${FRONTEND_BASE_URL}/images/coach-list-img-one.png`} alt="coach-img-one" />
-                            <div className="coach-info">
-                                <div className="senior-engineer-details-add">
-                                    <div>
-                                        <h2>Coach Name</h2>
-                                        <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
-                                        <p className="senior-engineer-text">
-                                            <i className="bi bi-briefcase"></i><strong>Senior Engineer at <b>Company</b></strong>
-                                        </p>
-                                        <p className="description">
-                                            Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical
-                                            guidance designed to help you move forward with confidence.
-                                        </p>
+                            <main className="main-content">
+                                {coaches.map((coach, index) => (
+                                    <div className="coach-card" key={index}>
+                                        <img src={`${FRONTEND_BASE_URL}/images/coach-list-img-two.png`} alt="coach-img-two" />
+                                        <div className="coach-info">
+                                            <div className="senior-engineer-details-add">
+                                                <div>
+                                                    <h2>{coach.first_name} {coach.last_name}</h2>
+                                                    <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
+                                                    <p className="senior-engineer-text">
+                                                        <i className="bi bi-briefcase"></i><strong>Senior Engineer at <b>Company</b></strong>
+                                                    </p>
+                                                    <p className="description">
+                                                        Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical
+                                                        guidance designed to help you move forward with confidence.
+                                                    </p>
+                                                </div>
+                                                <div className="coach-actions">
+                                                    <p className="price">$120 / month</p>
+                                                    <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
+                                                    <button className="profile">View Profile <i className="bi bi-arrow-right"></i></button>
+                                                </div>
+                                            </div>
+                                            <div className="tags">
+                                                <span>Software</span>
+                                                <span>Software</span>
+                                                <span>Software</span>
+                                                <span>Software</span>
+                                                <span>Software</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="coach-actions">
-                                        <p className="price">$120 / month</p>
-                                        <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
-                                        <button className="profile">View Profile <i className="bi bi-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                                <div className="tags">
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                </div>
-                            </div>
-                        </div>
+                                ))}
 
-                        <div className="coach-card">
-                            <img src={`${FRONTEND_BASE_URL}/images/coach-list-img-three.png`} alt="coach-img-three" />
-                            <div className="coach-info">
-                                <div className="senior-engineer-details-add">
-                                    <div>
-                                        <h2>Coach Name</h2>
-                                        <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
-                                        <p className="senior-engineer-text">
-                                            <i className="bi bi-briefcase"></i><strong>Senior Engineer at <b>Company</b></strong>
-                                        </p>
-                                        <p className="description">
-                                            Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical
-                                            guidance designed to help you move forward with confidence.
-                                        </p>
-                                    </div>
-                                    <div className="coach-actions">
-                                        <p className="price">$120 / month</p>
-                                        <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
-                                        <button className="profile">View Profile <i className="bi bi-arrow-right"></i></button>
+                                <div className="container-fluid pt-3 pagination-content-add">
+                                    <div className="row pagination-content-inner">
+                                        <div className="pagination">
+                                            <button className="page-btn" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}><i className="bi bi-chevron-left"></i> Back</button>
+                                            {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((page) => (
+                                                <button
+                                                    key={page}
+                                                    className={`page-number ${page === currentPage ? 'active' : ''}`}
+                                                    onClick={() => handlePageChange(page)}
+                                                >
+                                                    {page}
+                                                </button>
+                                            ))}
+                                            <button className="page-btn" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === pagination.last_page}>Next <i className="bi bi-chevron-right"></i></button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="tags">
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                </div>
-                            </div>
-                        </div>
+                            </main>) : (
+                        <main className="main-content">
+                            <p>No coaches found.</p>
+                        </main>
+                    )}
 
-                        <div className="coach-card">
-                            <img src={`${FRONTEND_BASE_URL}/images/coach-list-img-two.png`} alt="coach-img-two" />
-                            <div className="coach-info">
-                                <div className="senior-engineer-details-add">
-                                    <div>
-                                        <h2>Coach Name</h2>
-                                        <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
-                                        <p className="senior-engineer-text">
-                                            <i className="bi bi-briefcase"></i><strong>Senior Engineer at <b>Company</b></strong>
-                                        </p>
-                                        <p className="description">
-                                            Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical
-                                            guidance designed to help you move forward with confidence.
-                                        </p>
-                                    </div>
-                                    <div className="coach-actions">
-                                        <p className="price">$120 / month</p>
-                                        <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
-                                        <button className="profile">View Profile <i className="bi bi-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                                <div className="tags">
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                    <span>Software</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="container-fluid pt-3 pagination-content-add">
-
-                            <div className="row pagination-content-inner">
-                                <div className="pagination">
-                                    <button className="page-btn"><i className="bi bi-chevron-left"></i> Back</button>
-                                    <button className="page-number">1</button>
-                                    <button className="page-number active">2</button>
-                                    <button className="page-number">3</button>
-                                    <button className="page-number">4</button>
-                                    <button className="page-number">5</button>
-                                    <button className="page-btn">Next <i className="bi bi-chevron-right"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
                 </div>
             </div>
             <Footer />
