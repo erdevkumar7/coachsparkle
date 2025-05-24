@@ -36,7 +36,7 @@ export default function Header() {
                             <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                         </li>
                          <li className="nav-item">
-                            <Link className="nav-link" href="/coach-list">Browse Coaches</Link>
+                            <Link className="nav-link" href="/coach/list">Browse Coaches</Link>
                         </li>                    
 
                         <li className="nav-item dropdown">
