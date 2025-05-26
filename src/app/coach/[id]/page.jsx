@@ -1,15 +1,32 @@
-'use client';
 
-import { useEffect, useState } from 'react';
+
+
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { FRONTEND_BASE_URL, BACK_END_BASE_URL } from "@/config/url_config";
 import axios from 'axios';
 
 
-export default function CoachDetail() {
+export default async function CoachDetail({ params }) {
+    const { id } = params;
+    console.log(id)
 
+    const res = await fetch(
+        `${BACK_END_BASE_URL}/coachDetails?id=${id}`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id }),
+            cache: "no-store", // prevent caching if dynamic
+        }
+    );
 
+    const result = await res.json();
+    const coach = result.data;
+
+    if (!coach) {
+        return <div>Coach not found.</div>;
+    }
 
 
     return (
@@ -23,7 +40,7 @@ export default function CoachDetail() {
                                 <div className="coach-profile-content">
                                     <div className="coach-card">
                                         <img src={`${FRONTEND_BASE_URL}/images/coach-list-img-two.png`} alt="Coach Image" />
-                                       
+
                                         <div className="coach-info">
                                             <div className="senior-engineer-details-add">
                                                 <div>
