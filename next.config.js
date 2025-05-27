@@ -1,7 +1,7 @@
-const nextConfig = {
-  // output: 'export',
-  // basePath: '/coach',          // your subfolder
-  // assetPrefix: '/coach/',      // important for assets like CSS, JS
-};
+// const nextConfig = {
+//   output: 'export',
+//   basePath: '/coach',       
+//   assetPrefix: '/coach/',     
+// };
 
-module.exports = nextConfig;
+// module.exports = nextConfig;

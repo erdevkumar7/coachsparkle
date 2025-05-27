@@ -39,7 +39,7 @@ export default function SelectRole() {
                                     <img src="./images/user.png" alt="user" />
                                     <label>
                                         I'm user,<br />
-                                        hiring a work
+                                       looking for coach
                                     </label>
                                 </label>
 
@@ -48,7 +48,7 @@ export default function SelectRole() {
                                     <img src="./images/coach.png" alt="coach" />
                                     <label>
                                         I'm a coach,<br />
-                                        looking for work
+                                        ready to offer my services
                                     </label>
                                 </label>
                             </div>

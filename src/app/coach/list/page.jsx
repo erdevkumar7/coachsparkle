@@ -186,24 +186,28 @@ export default function CoachList() {
                                                     <h2>{coach.first_name} {coach.last_name}</h2>
                                                     <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
                                                     <p className="senior-engineer-text">
-                                                        <i className="bi bi-briefcase"></i><strong>{coach.professional_title ?? 'Senior Engineer'} </strong>
+                                                        <i className="bi bi-briefcase"></i><strong>{coach.coach_type || 'free coaching'} </strong>
                                                     </p>
                                                     <p className="description">
-                                                        {coach.short_bio ?? "Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical guidance designed to help you move forward with confidence."}
+                                                        {coach.short_bio || "Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical guidance designed to help you move forward with confidence."}
                                                     </p>
                                                 </div>
                                                 <div className="coach-actions">
-                                                    <p className="price">$120 / month</p>
+                                                    <p className="price">
+                                                        {coach.price ? `$${coach.price}/month` : 'N/A'}
+                                                    </p>
                                                     <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
-                                                     <Link href="/coach/detail"><button className="profile">View Profile <i className="bi bi-arrow-right"></i></button></Link>
+                                                    <Link href={`/coach/${coach.user_id}`}><button className="profile">View Profile <i className="bi bi-arrow-right"></i></button></Link>
                                                 </div>
                                             </div>
                                             <div className="tags">
-                                                <span>Software</span>
-                                                <span>Software</span>
-                                                <span>Software</span>
-                                                <span>Software</span>
-                                                <span>Software</span>
+                                                {coach.service_names && coach.service_names.length > 0 ? (
+                                                    coach.service_names.map((service, index) => (
+                                                        <span key={index}>{service}</span>
+                                                    ))
+                                                ) : (
+                                                    <span>No services listed</span>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

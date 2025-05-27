@@ -2004,13 +2004,15 @@ footer.coach-footer-section .coach-footer-three {
   height: 50px;
   margin-bottom: 10px;
 }
-
+.sign-user-content .divider::after {
+    width: 46% !important;
+}
 .signup-right-side .card label {
   display: block;
   font-weight: bold;
   text-align: left;
   font-family: "Inter";
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.2;
   padding-top: 10px;
 }
@@ -2200,6 +2202,7 @@ select:focus-visible {
   height: 1px;
   background: #A7A7A7;
 }
+
 
 .login-right-side .login-container .divider::before,
 .divider::after {
@@ -2558,6 +2561,15 @@ select:focus-visible {
 
 .login-right-side .login-container .google-login:hover {
   background-color: #3c3b3b;
+}
+
+.login-right-side .login-container .divider:before, .divider:after {
+    content: "";
+    background: #000;
+    width: 15% !important;
+    height: 1px;
+    position: absolute;
+    top: 50%;
 }
 
 @media only screen and (max-width: 767px) {
