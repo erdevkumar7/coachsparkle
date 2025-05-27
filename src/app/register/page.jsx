@@ -123,7 +123,7 @@ function RegisterForm() {
                                 </div>
 
                                 <div className="input-group">
-                                    <label htmlFor="email">Work email address</label>
+                                    <label htmlFor="email">Email</label>
                                     <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
                                     {errors.email && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.email[0]}</p>}
                                 </div>
@@ -195,7 +195,11 @@ function RegisterForm() {
                                 {/* Hidden field - included in formData */}
                                 <input type="hidden" name="user_type" value="user" />
 
-                                <button type="submit" className="create-btn-aad">Apply as a User</button>
+                                <button type="submit" className="create-btn-aad">{userType === 2
+                                    ? 'Sign up as a User'
+                                    : userType === 3
+                                        ? 'Sign up as a Coach'
+                                        : 'Sign Up'}</button>
 
                                 <div className="login-link">Already have an account? <Link href="/login">Log in</Link></div>
                             </form>

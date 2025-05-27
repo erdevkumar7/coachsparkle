@@ -1,10 +1,10 @@
 
-
-
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { FRONTEND_BASE_URL, BACK_END_BASE_URL } from "@/config/url_config";
 import axios from 'axios';
+
+
 
 
 export default async function CoachDetail({ params }) {
@@ -29,6 +29,25 @@ export default async function CoachDetail({ params }) {
     }
 
 
+    // const res = await fetch(
+    //     `${BACK_END_BASE_URL}/coachDetails?id=${id}`,
+    //     {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify({ id }),
+    //         cache: "no-store", // prevent caching if dynamic
+    //     }
+    // );
+
+
+    // const result = await res.json();
+    // const coach = result.data;
+
+    // if (!coach) {
+    //     return <div>Coach not found.</div>;
+    // }
+
+
     return (
         <>
             <Header />
@@ -39,19 +58,25 @@ export default async function CoachDetail({ params }) {
                             <div className="col-md-8 coach-profile-list-left">
                                 <div className="coach-profile-content">
                                     <div className="coach-card">
-                                        <img src={`${FRONTEND_BASE_URL}/images/coach-list-img-two.png`} alt="Coach Image" />
-
+                                        <img
+                                            src={
+                                                coach.profile_image
+                                                    ? coach.profile_image
+                                                    : `${FRONTEND_BASE_URL}/images/default_profile.jpg`
+                                            }
+                                            alt="coach"
+                                        />
                                         <div className="coach-info">
                                             <div className="senior-engineer-details-add">
                                                 <div>
                                                     <h2>
-                                                        Coach Name <span className="verified-text"> <i className="bi bi-check"></i>Verified</span>
+                                                        {coach?.first_name} {coach?.last_name} <span className="verified-text"> <i className="bi bi-check"></i>Verified</span>
                                                     </h2>
                                                     <p className="senior-engineer-text">
-                                                        <strong>Senior Engineer at <b>Company</b></strong>
+                                                        <strong>{coach.coach_type}</strong>
                                                     </p>
                                                     <p className="senior-engineer-text">
-                                                        <strong>12+ Years in <b>Personal Development & Life Coaches</b></strong>
+                                                        <strong>{coach?.experience}+ Years in <b>{coach.coach_type || 'free coaching'}</b></strong>
                                                     </p>
 
                                                     <div className="profile-card">
@@ -59,12 +84,13 @@ export default async function CoachDetail({ params }) {
 
                                                         <div className="info-item">
                                                             <i className="bi bi-geo-alt"></i>
-                                                            <span>Canada</span>
+                                                            <span>{coach.country_id}</span>
                                                         </div>
 
                                                         <div className="info-item">
                                                             <i className="bi bi-translate"></i>
-                                                            <span>Speaks English, Portuguese and Spanish</span>
+                                                            <span>{coach.language_names?.join(', ') || 'Not available'}</span>
+                                                            {/* <span>Speaks English, Portuguese and Spanish</span> */}
                                                         </div>
 
                                                         <div className="info-item">
@@ -94,15 +120,10 @@ export default async function CoachDetail({ params }) {
 
                                     <div className="about-section">
                                         <h4>About</h4>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                                            qui officia deserunt mollit anim id est laborum.
-                                        </p>
-                                        <p>
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                                            sunt explicabo.
-                                        </p>
+                                        <p>{coach.detailed_bio || `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+                                                qui officia deserunt mollit anim id est laborum.`}</p>
+
                                     </div>
 
                                     <h5 className="what-user-text">What User's Say</h5>
@@ -324,7 +345,9 @@ export default async function CoachDetail({ params }) {
                                     <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
 
                                     <div className="profile-message">
-                                        <div className="price">$120 <span>/ month</span></div>
+                                        <p className="price">
+                                            {coach.price ? `$${coach.price}/month` : 'N/A'}
+                                        </p>
 
                                         <button className="btn-primary"><i className="bi bi-chat-dots"></i>Send Message</button>
                                         <button className="btn-secondary"><i className="bi bi-envelope"></i>Message Via Email</button>
