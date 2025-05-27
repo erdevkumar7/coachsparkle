@@ -1,3 +1,4 @@
+"use client";
 import { FRONTEND_BASE_URL } from "@/config/url_config";
 
 export default function UserFooter() {

@@ -2,10 +2,9 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import '@fortawesome/fontawesome-free/css/all.min.css';
-@import 'swiper/css'; 
-@import 'swiper/css/navigation'; 
+@import 'swiper/css';
+@import 'swiper/css/navigation';
 @import 'swiper/css/pagination';
-
 @import 'owl.carousel/dist/assets/owl.carousel.css';
 @import 'owl.carousel/dist/assets/owl.theme.default.css';
 
@@ -2971,14 +2970,14 @@ select:focus-visible {
             margin: 20px 0 20px 0;
         }
     }
-    
+
     .range-bar {
         border: none;
         background: #009BFA;
-        height: 3px;    
+        height: 3px;
         width: 96%;
         margin-left: 8px;
-        
+
       .ui-slider-range {
     background: #009BFA;
 }
@@ -2992,7 +2991,7 @@ select:focus-visible {
     top: -0.52em;
     cursor: pointer;
 }
-    
+
     }
 
 
@@ -3054,7 +3053,7 @@ select:focus-visible {
     border-color: #000;
     padding: 8px 13px;
 }
- 
+
 .pagination-content-inner .page-btn:hover,
 .page-number:hover:not(.active) {
   background-color: #f3f4f6;
@@ -3359,7 +3358,7 @@ h5.what-user-text {
     -webkit-transform: translate3d(0,0,0);
     padding-bottom: 30px;
 }
- 
+
 .related-coaches .owl-carousel .owl-dots.disabled, .owl-carousel .owl-nav.disabled {
     display: block;
 }
@@ -4067,10 +4066,63 @@ h5.what-user-text {
     text-align: center;
 }
 
-
+#proBanner {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  background: #000;
+}
+#proBanner .card-body-padding {
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+}
+#proBanner .buy-now-text {
+  color: #ffffff;
+}
+@media (max-width: 766px) {
+  #proBanner .buy-now-text {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+}
+#proBanner .btn.buy-now-btn {
+  background: transparent;
+  color: #88b6ff;
+  border-radius: 10px;
+  padding: 1rem 0;
+  border-radius: 4px;
+  font-weight: bold;
+}
+@media (max-width: 766px) {
+  #proBanner .btn.buy-now-btn {
+    min-width: 80px;
+    padding: 1rem 0.5rem;
+    font-size: 12px;
+  }
+}
+#proBanner .btn#bannerClose i {
+  margin-right: 1rem;
+}
+@media (max-width: 766px) {
+  #proBanner .btn#bannerClose i {
+    font-size: 1rem;
+    margin-right: 0;
+  }
+}
+#proBanner a {
+  text-decoration: none;
+}
+@media (max-width: 766px) {
+  #proBanner a i {
+    font-size: 1rem;
+  }
+}
 
 
 
 
 
 }
+

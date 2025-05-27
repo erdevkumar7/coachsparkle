@@ -1,11 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-// import UserHeader from '@/components/userdashboard/UserHeader';
-// import UserMainContent from '@/components/userdashboard/UserMainContent';
-// import UserFooter from '@/components/userdashboard/UserFooter';
+import UserHeader from '@/components/coachdashboard/CoachHeader';
+import UserMainContent from '@/components/coachdashboard/CoachMainContent';
+import UserFooter from '@/components/coachdashboard/CoachFooter';
 
 export default function Dashboard() {
     const router = useRouter();
@@ -36,15 +34,15 @@ export default function Dashboard() {
         setUser(null);
         router.push('/login');
     };
-
+console.log(user);
     return (
         <>
-            {/* <div className="container-scroller">
-                <UserHeader />
-                <UserMainContent />
-                <UserFooter />
-            </div> */}
-            <Header />
+        <UserHeader user={user}/>
+        <UserMainContent/>
+        <UserFooter/>
+
+            {/* <Header /> */}
+            {/*
             <div className="coach-banner-add">
                 <div className="coach-profile-list-add">
                     <div className="container">
@@ -56,13 +54,12 @@ export default function Dashboard() {
                                     </h2>
                                     <p>Welcome, <strong>{user?.first_name} {user?.last_name}</strong>!! Your dashboard is Under-development</p>
                                     {/* <button onClick={handleLogout}>Logout</button> */}
-                                </div>
+                                {/* </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <Footer />
+            </div> */}
         </>
     )
 }
