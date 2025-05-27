@@ -1,9 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CoachHeader from '@/components/coachdashboard/CoachHeader';
-import CoachMainContent from '@/components/coachdashboard/CoachMainContent';
-import CoachFooter from '@/components/coachdashboard/CoachFooter';
+import UserHeader from '@/components/userdashboard/UserHeader';
+import UserMainContent from '@/components/userdashboard/UserMainContent';
 
 export default function Dashboard() {
     const router = useRouter();
@@ -37,9 +36,8 @@ export default function Dashboard() {
 console.log(user);
     return (
         <>
-        <CoachHeader user={user}/>
-        <CoachMainContent/>
-        <CoachFooter/>
+        <UserHeader user={user}/>
+        <UserMainContent user={user}/>
         </>
     )
 }

@@ -230,7 +230,7 @@ useEffect(() => {
                 <div className="col-md-3 stretch-card transparent">
                   <div className="card card-tale-custom shadow-sm rounded-4 p-3 border-0 two">
                     <div className="d-flex align-items-center">
-                      <i class="bi bi-chat-dots"></i>
+                      <i className="bi bi-chat-dots"></i>
                       <div>
                         <p className="view-text">New Messages</p>
                         <h4 className="mb-0 fw-bold">24</h4>
@@ -393,7 +393,7 @@ useEffect(() => {
                   <p className="card-title">Profile Links</p>
                   <div className="social-icons">
                     <a href="#" className="icon facebook" title="Facebook">
-                      <i class="fab fa-facebook-f"></i>
+                      <i className="fab fa-facebook-f"></i>
                       Facebook
                     </a>
                     <a href="#" className="icon instagram" title="Instagram">
@@ -401,12 +401,12 @@ useEffect(() => {
                       Instagram
                     </a>
                     <a href="#" className="icon linkedin" title="LinkedIn">
-                      <i class="bi bi-linkedin"></i>
+                      <i className="bi bi-linkedin"></i>
 
                       LinkedIn
                     </a>
                     <a href="#" className="icon youtube" title="YouTube">
-                     <i class="bi bi-youtube"></i>
+                     <i className="bi bi-youtube"></i>
                       YouTube
                     </a>
                     <a href="#" className="icon twitter" title="Twitter"><img src="assets/images/twitter.png"/> Twitter</a>
