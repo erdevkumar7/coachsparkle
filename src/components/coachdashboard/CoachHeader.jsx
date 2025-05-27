@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 export default function UserHeader({user}) {
   const [collapsed, setCollapsed] = useState(false);
