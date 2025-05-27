@@ -26,13 +26,7 @@ export default function Dashboard() {
         }
     }, []);
 
-    // const handleLogout = () => {
-    //     localStorage.removeItem('token');
-    //     localStorage.removeItem('user');
-    //     setIsLoggedIn(false);
-    //     setUser(null);
-    //     router.push('/login');
-    // };
+
 console.log(user);
     return (
         <>

@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useRouter } from "next/navigation";
 
-export default function UserHeader({user}) {
+export default function UserHeader({ user }) {
+  const router = useRouter()
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleSidebar = () => {
@@ -12,6 +14,13 @@ export default function UserHeader({user}) {
     }
     setCollapsed(!collapsed);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/login');
+  };
+
   return (
     <>
       <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -133,6 +142,17 @@ export default function UserHeader({user}) {
                 <img src="assets/images/faces/face-img.png" alt="profile" />
                 <p className="top-name-add">{user?.first_name}</p>
               </a>
+              <button onClick={handleLogout} style={{
+                display: 'inline-block',
+                padding: '6px 16px',
+                backgroundColor: '#007bff',
+                color: 'white',
+                borderRadius: '4px',
+                textDecoration: 'none',
+                textAlign: 'center',
+                marginLeft: '10px',
+                border: 'white'
+              }}>Logout</button>
               <div
                 className="dropdown-menu dropdown-menu-right navbar-dropdown"
                 aria-labelledby="profileDropdown"
