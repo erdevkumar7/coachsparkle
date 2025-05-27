@@ -47,9 +47,9 @@ export default function Login() {
             localStorage.setItem('user', JSON.stringify(result.data.user));
 
             if (result.data.user.user_type === 1) {
-                router.push('/dashboard');
+                router.push('/');
             } else if (result.data.user.user_type === 2) {
-                router.push('/dashboard');
+                router.push('/userdashboard');
             } else if (result.data.user.user_type === 3) {
                 router.push('/dashboard');
             }
