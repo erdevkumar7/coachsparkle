@@ -1,19 +1,21 @@
 "use client";
 
-export default function MainContent({user}) {
-
+export default function MainContent({ user }) {
   return (
     <div className="container-fluid page-body-wrapper">
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <ul className="nav">
           <li className="nav-item">
-            <a className="nav-link" href="#"
-            data-bs-toggle="collapse"
-            aria-expanded="false"
-              aria-controls="ui-basic">
+            <a
+              className="nav-link"
+              href="#"
+              data-bs-toggle="collapse"
+              aria-expanded="false"
+              aria-controls="ui-basic"
+            >
               <div>
-              <i className="bi bi-grid-3x3-gap-fill"></i>
-              <span className="menu-title">Overview</span>
+                <i className="bi bi-grid-3x3-gap-fill"></i>
+                <span className="menu-title">Overview</span>
               </div>
             </a>
           </li>
@@ -117,8 +119,8 @@ export default function MainContent({user}) {
               <div className="row">
                 <div className="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h3 className="font-weight-bold quick-text-add">
-                    Hi {user?.first_name}, <br/>
-Ready to level up?
+                    Hi {user?.first_name}, <br />
+                    Ready to level up?
                   </h3>
                 </div>
               </div>
@@ -162,18 +164,7 @@ Ready to level up?
               </div>
             </div>
           </div>
-
-
-
-
-
         </div>
-
-
-
-
-
-
       </div>
     </div>
   );
