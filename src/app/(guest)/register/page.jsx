@@ -6,8 +6,6 @@ import { BACK_END_BASE_URL } from "@/config/url_config";
 import { HandleRegister } from "@/app/api/auth";
 import axios from "axios";
 import { useRouter, useSearchParams } from 'next/navigation';
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 
 function RegisterForm() {
     const router = useRouter();
@@ -86,7 +84,6 @@ function RegisterForm() {
 
     return (
         <>
-            <Header />
             <div className="signup-page-add signup-user-add">
                 <div className="container-fluid">
                     <div className="row signup-page-top signup-user">
@@ -207,7 +204,6 @@ function RegisterForm() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 }

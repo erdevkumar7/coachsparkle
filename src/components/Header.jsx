@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
-import styles from "@/styles/header.module.css";
 import { FRONTEND_BASE_URL } from "@/config/url_config";
 
 export default function Header() {
@@ -12,6 +11,19 @@ export default function Header() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        const userData = localStorage.getItem('user')
+
+        if (userData) {
+            const user = JSON.parse(userData);            
+            if (user.user_type === 2) {
+                router.push('/user/dashboard');
+            } else if (user.user_type === 3) {
+                router.push('/coach/dashboard');
+            } else {
+                router.push('/');
+            }
+        }
+
         setIsLoggedIn(!!token);
     }, []);
 
@@ -22,11 +34,11 @@ export default function Header() {
         router.push('/login');
     };
 
-    // console.log(isLoggedIn, 'isLoggedIn')
+    console.log(router, 'isLoggedIn')
     return (
         <nav className="navbar navbar-expand-lg coach-top-navber-add">
             <div className="container">
-                <Link className="navbar-logo-add" href="/"><img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo" /></Link>
+                <Link className="navbar-logo-add" href="/"><img src={`${FRONTEND_BASE_URL}/images/logo.png`}  alt="Logo" /></Link>
                 <button className="navbar-toggler tech" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -35,9 +47,9 @@ export default function Header() {
                         <li className="nav-item">
                             <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                         </li>
-                         <li className="nav-item">
-                            <Link className="nav-link" href="/coach/list">Browse Coaches</Link>
-                        </li>                    
+                        <li className="nav-item">
+                            <Link className="nav-link" href="/coach-detail/list">Browse Coaches</Link>
+                        </li>
 
                         <li className="nav-item dropdown">
                             <Link className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">

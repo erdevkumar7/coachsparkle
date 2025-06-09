@@ -1,9 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { FRONTEND_BASE_URL, BACK_END_BASE_URL } from "@/config/url_config";
 import axios from 'axios';
 import Link from 'next/link';
@@ -52,7 +49,6 @@ export default function CoachList() {
     // console.log(currentPage, 'coachescoaches')
     return (
         <>
-            <Header />
             <div className="coach-banner-add">
                 <div className="banner">
                     <div className="overlay"></div>
@@ -238,7 +234,6 @@ export default function CoachList() {
 
                 </div>
             </div>
-            <Footer />
         </>
     );
 }

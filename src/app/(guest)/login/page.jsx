@@ -4,9 +4,6 @@ import { HandleLogin } from "@/app/api/auth";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FRONTEND_BASE_URL } from "@/config/url_config";
-// import "./globals.css";
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 
 export default function Login() {
     const router = useRouter();
@@ -49,9 +46,9 @@ export default function Login() {
             if (result.data.user.user_type === 1) {
                 router.push('/');
             } else if (result.data.user.user_type === 2) {
-                router.push('/userdashboard');
+                router.push('/user/dashboard');
             } else if (result.data.user.user_type === 3) {
-                router.push('/dashboard');
+                router.push('/coach/dashboard');
             }
         }
     };
@@ -60,7 +57,6 @@ export default function Login() {
 
     return (
         <>
-            <Header />
             <div className="signup-page-add login-page-form">
                 <div className="container-fluid">
                     <div className="row signup-page-top login-content-add">
@@ -118,7 +114,6 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     )
 }

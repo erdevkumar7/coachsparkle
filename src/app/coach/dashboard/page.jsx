@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CoachHeader from '@/components/coachdashboard/CoachHeader';
-import CoachMainContent from '@/components/coachdashboard/CoachMainContent';
-import CoachFooter from '@/components/coachdashboard/CoachFooter';
+import CoachHeader from '@/app/coach/_coach_components/CoachHeader';
+import CoachMainContent from '@/app/coach/_coach_components/CoachMainContent';
+import CoachFooter from '@/app/coach/_coach_components/CoachFooter';
 
 export default function Dashboard() {
     const router = useRouter();

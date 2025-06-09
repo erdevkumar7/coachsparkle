@@ -1,9 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-// import "./globals.css";
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 
 export default function SelectRole() {
     const router = useRouter();
@@ -23,7 +20,6 @@ export default function SelectRole() {
     };
     return (
         <>
-            <Header />
             <div className="signup-page-add">
                 <div className="container-fluid">
                     <div className="row signup-page-top">
@@ -39,7 +35,7 @@ export default function SelectRole() {
                                     <img src="./images/user.png" alt="user" />
                                     <label>
                                         I'm user,<br />
-                                       looking for coach
+                                        looking for coach
                                     </label>
                                 </label>
 
@@ -85,8 +81,6 @@ export default function SelectRole() {
                     </div>
                 </div>
             </div>
-
-            <Footer />
         </>
     );
 }

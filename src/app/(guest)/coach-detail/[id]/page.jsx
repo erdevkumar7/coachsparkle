@@ -1,6 +1,5 @@
 
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+
 import { FRONTEND_BASE_URL, BACK_END_BASE_URL } from "@/config/url_config";
 import axios from 'axios';
 
@@ -50,7 +49,6 @@ export default async function CoachDetail({ params }) {
 
     return (
         <>
-            <Header />
             <div className="coach-banner-add">
                 <div className="coach-profile-list-add">
                     <div className="container">
@@ -409,7 +407,6 @@ export default async function CoachDetail({ params }) {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 }

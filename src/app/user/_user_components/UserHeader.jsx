@@ -2,9 +2,10 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/navigation";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
 
 export default function UserHeader({ user }) {
-  const router = useRouter();
+  const router = useRouter()
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleSidebar = () => {
@@ -27,7 +28,7 @@ export default function UserHeader({ user }) {
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a className="navbar-brand" href="#">
             <img
-              src="assets/images/favicon.png"
+              src="/assets/images/favicon.png"
               alt="favicon logo"
               className="navbar-brand-img d-lg-none"
             />
@@ -40,7 +41,7 @@ export default function UserHeader({ user }) {
                 />
               ) : (
                 <img
-                  src="assets/images/logo.png"
+                  src={`${FRONTEND_BASE_URL}/images/logo.png`}
                   alt="full logo"
                   className="navbar-brand-img"
                 />
@@ -139,10 +140,11 @@ export default function UserHeader({ user }) {
                 data-bs-toggle="dropdown"
                 id="profileDropdown"
               >
-                <img src="assets/images/faces/face-img.png" alt="profile" />
+                <img
+                  src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`}
+                  alt="profile" />
                 <p className="top-name-add">{user?.first_name}</p>
               </a>
-
               <button onClick={handleLogout} style={{
                 display: 'inline-block',
                 padding: '6px 16px',

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { BACK_END_BASE_URL } from "@/config/url_config";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const HandleRegister = async (reqData) => {
     try {
-        const response = await axios.post(`${BACK_END_BASE_URL}/register`, reqData, {
+        const response = await axios.post(`${apiUrl}/register`, reqData, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -22,8 +22,8 @@ export const HandleRegister = async (reqData) => {
 export const HandleLogin = async (reqData) => {  
 
     const loginUrl = reqData.user_type === 2 
-        ? `${BACK_END_BASE_URL}/userlogin` 
-        : `${BACK_END_BASE_URL}/coachlogin`;
+        ? `${apiUrl}/userlogin` 
+        : `${apiUrl}/coachlogin`;
 
     try {
         const response = await axios({

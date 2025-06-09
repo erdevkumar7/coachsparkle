@@ -1,11 +1,8 @@
 'use client';
 import React, { useEffect } from "react";
-import Image from "next/image";
-import styles from "./page.module.css";
 import { FRONTEND_BASE_URL} from "@/config/url_config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-// import "./globals.css";
 
 
 export default function Home() {

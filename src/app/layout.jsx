@@ -1,9 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import Header from "@/components/Header";
 import BootstrapClient from "@/components/BootstrapClient";
-import Footer from "@/components/Footer";
 import { Inter, Roboto } from "next/font/google";
 
 const inter = Inter({
