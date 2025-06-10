@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FRONTEND_BASE_URL, BACK_END_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
 import axios from 'axios';
 import Link from 'next/link';
+import "../../_styles/coach-list.css"
 
 
 export default function CoachList() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const [coaches, setCoaches] = useState([]);
     const [pagination, setPagination] = useState({});
     const [loading, setLoading] = useState(true);
@@ -25,7 +27,7 @@ export default function CoachList() {
                     'Content-Type': 'application/json',
                 },
                 method: "POST",
-                url: `${BACK_END_BASE_URL}/coachlist?page=${page}`,
+                url: `${apiUrl}/coachlist?page=${page}`,
             });
 
             setCoaches(response.data.data);
@@ -193,7 +195,7 @@ export default function CoachList() {
                                                         {coach.price ? `$${coach.price}/month` : 'N/A'}
                                                     </p>
                                                     <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
-                                                    <Link href={`/coach/${coach.user_id}`}><button className="profile">View Profile <i className="bi bi-arrow-right"></i></button></Link>
+                                                    <Link href={`/coach-detail/${coach.user_id}`}><button className="profile">View Profile <i className="bi bi-arrow-right"></i></button></Link>
                                                 </div>
                                             </div>
                                             <div className="tags">

@@ -1,17 +1,19 @@
 
 
-import { FRONTEND_BASE_URL, BACK_END_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
 import axios from 'axios';
+import "../../_styles/coach-list.css"
 
 
 
 
 export default async function CoachDetail({ params }) {
+     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const { id } = params;
     console.log(id)
 
     const res = await fetch(
-        `${BACK_END_BASE_URL}/coachDetails?id=${id}`,
+        `${apiUrl}/coachDetails?id=${id}`,
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },

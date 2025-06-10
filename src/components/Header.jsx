@@ -34,7 +34,7 @@ export default function Header() {
         router.push('/login');
     };
 
-    console.log(router, 'isLoggedIn')
+    // console.log(router, 'isLoggedIn')
     return (
         <nav className="navbar navbar-expand-lg coach-top-navber-add">
             <div className="container">

@@ -2,16 +2,15 @@
 import Link from "next/link";
 // import "./globals.css";
 import { useEffect, useState, Suspense } from 'react';
-import { BACK_END_BASE_URL } from "@/config/url_config";
 import { HandleRegister } from "@/app/api/auth";
 import axios from "axios";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-function RegisterForm() {
+
+export default function Register() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const role = searchParams.get('role');
-    const userType = parseInt(role);
+    const [userType, setUserType] = useState(null);
     const [countries, setCountries] = useState([]);
     const [errors, setErrors] = useState({}); // for field-specific errors
     const [generalError, setGeneralError] = useState("");
@@ -29,7 +28,7 @@ function RegisterForm() {
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.post(`${BACK_END_BASE_URL}/getCountries`);
+                const response = await axios.post(`${apiUrl}/getCountries`);
                 setCountries(response.data);
             } catch (error) {
                 console.error('Error fetching countries', error);
@@ -41,12 +40,15 @@ function RegisterForm() {
 
     // Get user role from URL query
     useEffect(() => {
-        if (!userType) {
+        const storedRole = sessionStorage.getItem('role');
+        if (!storedRole) {
             router.replace("/select-role");
         } else {
-            setFormData((prev) => ({ ...prev, user_type: userType }));
+            const parsedRole = parseInt(storedRole, 10);
+            setUserType(parsedRole);
+            setFormData((prev) => ({ ...prev, user_type: parsedRole }));
         }
-    }, [userType]);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -87,10 +89,7 @@ function RegisterForm() {
             <div className="signup-page-add signup-user-add">
                 <div className="container-fluid">
                     <div className="row signup-page-top signup-user">
-                        <div className="col-md-5 signup-left-side">
-                            <a className="navbar-logo-add" href="#"><img src="./images/signup-logo.png" alt="Logo" /></a>
-                        </div>
-                        <div className="col-md-7 signup-right-side sign-user-content">
+                        <div className="col-md-12 signup-right-side sign-user-content">
                             <h2>
                                 {userType === 2
                                     ? 'User Sign Up'
@@ -141,7 +140,7 @@ function RegisterForm() {
                                     {errors.password && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.password[0]}</p>}
                                 </div>
 
-                                <div className="input-group">
+                                {/* <div className="input-group">
                                     <label htmlFor="password_confirmation">Confirm Password</label>
                                     <div className="password-add">
                                         <input
@@ -156,13 +155,10 @@ function RegisterForm() {
                                     {errors.password_confirmation && (
                                         <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.password_confirmation[0]}</p>
                                     )}
-                                </div>
+                                </div> */}
+
 
                                 <label htmlFor="country">Country</label>
-                                {/* <select name="country_id" value={formData.country} onChange={handleChange} required>
-                                <option value="India">India</option>
-                            </select> */}
-
                                 <select
                                     name="country_id"
                                     value={formData.country_id}
@@ -171,7 +167,7 @@ function RegisterForm() {
                                     }
                                     required
                                 >
-                                    <option value="">Select Country</option>
+                                    <option value="199">Singapore</option>
                                     {countries.map((country) => (
                                         <option key={country.country_id} value={country.country_id}>
                                             {country.country_name}
@@ -179,15 +175,17 @@ function RegisterForm() {
                                     ))}
                                 </select>
 
-                                {/* <div className="checkbox-row">
-                                <input type="checkbox" id="email-optin-1" name="email_optin" />
-                                <label htmlFor="email-optin-1">Send me emails with tips on how to find talent that fits my needs.</label>
-                            </div>
 
-                            <div className="checkbox-row">
-                                <input type="checkbox" id="terms" name="terms" />
-                                <label htmlFor="terms">Yes, I have read and agree to the terms & conditions</label>
-                            </div> */}
+                                <div className="checkbox-row">
+                                    <input type="checkbox" id="email-optin-1" name="email_optin" />
+                                    <label htmlFor="email-optin-1">Yes, I'd like to receive updates, tips and news from Coach Sparkle about coaching insights,
+                                        featured coaches and new features.</label>
+                                </div>
+
+                                <div className="checkbox-row">
+                                    <input type="checkbox" id="terms" name="terms" />
+                                    <label htmlFor="terms">Yes, I have read and agree to the Terms of Use and Privacy Policy</label>
+                                </div>
 
                                 {/* Hidden field - included in formData */}
                                 <input type="hidden" name="user_type" value="user" />
@@ -209,10 +207,3 @@ function RegisterForm() {
 }
 
 
-export default function Register() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <RegisterForm />
-        </Suspense>
-    );
-}

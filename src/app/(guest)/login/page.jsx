@@ -3,11 +3,10 @@ import { useState } from 'react';
 import { HandleLogin } from "@/app/api/auth";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FRONTEND_BASE_URL } from "@/config/url_config";
 
 export default function Login() {
     const router = useRouter();
-    const [role, setRole] = useState(2);
+    const [role, setRole] = useState(3);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -60,10 +59,10 @@ export default function Login() {
             <div className="signup-page-add login-page-form">
                 <div className="container-fluid">
                     <div className="row signup-page-top login-content-add">
-                        <div className="col-md-5 signup-left-side login-left-side">
+                        {/* <div className="col-md-5 signup-left-side login-left-side">
                             <a className="navbar-logo-add" href="#"><img src={`${FRONTEND_BASE_URL}/images/signup-logo.png`} alt="Logo" /></a>
-                        </div>
-                        <div className="col-md-7 signup-right-side login-right-side">
+                        </div> */}
+                        <div className="col-md-12 signup-right-side login-right-side">
                             <div className="login-container">
                                 <h2>Log in</h2>
 
@@ -73,7 +72,7 @@ export default function Login() {
                                 </div>
 
                                 <form className="login-form" onSubmit={handleSubmit}>
-                                    <label>Email </label>
+                                    <label>Email or Username</label>
                                     <input
                                         type="email"
                                         name="email"

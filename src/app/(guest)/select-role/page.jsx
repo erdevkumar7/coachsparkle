@@ -13,7 +13,8 @@ export default function SelectRole() {
 
     const handleCreateAccount = () => {
         if (role) {
-            router.push(`/register?role=${role}`);
+            sessionStorage.setItem('role', role);
+            router.push('/register');
         } else {
             alert('Please select a role.');
         }
@@ -23,19 +24,16 @@ export default function SelectRole() {
             <div className="signup-page-add">
                 <div className="container-fluid">
                     <div className="row signup-page-top">
-                        <div className="col-md-5 signup-left-side">
-                            <a className="navbar-logo-add" href="#"><img src="./images/signup-logo.png" alt="Logo" /></a>
-                        </div>
-                        <div className="col-md-7 signup-right-side">
-                            <h4>Join as a user or coach</h4>
+                        <div className="col-md-12 signup-right-side">
+                            <h4>Sign up as a User or Coach</h4>
 
                             <div className="card-container">
                                 <label className="card">
                                     <input type="radio" name="role" value="2" onChange={handleRoleChange} />
                                     <img src="./images/user.png" alt="user" />
                                     <label>
-                                        I'm user,<br />
-                                        looking for coach
+                                        I'm User,<br />
+                                        looking for Coach
                                     </label>
                                 </label>
 
@@ -43,7 +41,7 @@ export default function SelectRole() {
                                     <input type="radio" name="role" value="3" onChange={handleRoleChange} />
                                     <img src="./images/coach.png" alt="coach" />
                                     <label>
-                                        I'm a coach,<br />
+                                        I'm a Coach,<br />
                                         ready to offer my services
                                     </label>
                                 </label>
@@ -72,7 +70,7 @@ export default function SelectRole() {
                                     cursor: 'pointer'
                                 }}
                             >
-                                CREATE ACCOUNT
+                                {role == 2 ? "Sign up as a User" : role == 3 ? "Sign up as a Coach" : "Create Account"}
                             </button>
 
 

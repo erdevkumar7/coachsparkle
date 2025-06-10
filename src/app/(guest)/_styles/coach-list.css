@@ -1,6 +1,8 @@
+/* ------------ coach-list css ------------------ */
+
 .coach-banner-add .overlay {
     width: 100%;
-    background: url(./imges/coach-list-banner-img.png);
+    background: url("/coachsparkle/images/coach-list-banner-img.png");
     background-repeat: no-repeat;
     height: 350px;
     background-size: cover;
@@ -1131,7 +1133,7 @@ h5.what-user-text {
 }
 .coach-banner-add .overlay {
     width: 100%;
-    background: url(./imges/coach-list-banner-img.png);
+    background: url("/coachsparkle/images/coach-list-banner-img.png");
     background-repeat: no-repeat;
     height: 180px;
     background-size: cover;
@@ -1393,3 +1395,4 @@ h5.what-user-text {
 
 
 }
+
