@@ -1,0 +1,602 @@
+.sidebar .nav .nav-item .nav-link .menu-title {
+    color: inherit;
+    vertical-align: middle;
+    font-size: 16px;
+    line-height: 1;
+    display: inline-block;
+}
+
+.sidebar .nav .nav-item .nav-link {
+    white-space: nowrap;
+    border-radius: 8px;
+    align-items: center;
+    padding: 5px 14px;
+    line-height: 1.9;
+}
+
+.sign-out a.nav-link:hover {
+    color: #fff;
+    background: #4b49ac;
+    white-space: nowrap;
+    border-radius: 8px;
+    align-items: center;
+    padding: 14px 14px !important;
+    line-height: 1.9;
+}
+
+nav#sidebar a.nav-link div {
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    display: flex;
+}
+
+.flex.items-center.gap-3.mt-4 {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+i.bi.bi-check-circle-fill {
+    color: #27C200;
+}
+
+h3.font-weight-bold.quick-text-add {
+    margin-bottom: -10px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.content-wrapper {
+    font-family: inter;
+}
+
+.at-glance-add p.text-sm.text-gray-500 {
+    color: #767E94;
+}
+
+.at-glance-add h5.font-medium {
+    align-items: center;
+    gap: 8px;
+    display: flex;
+    margin-bottom: 5px;
+    padding-top: 5px;
+}
+
+.boder-line-add {
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    padding: 20px !important;
+}
+
+.inner-card-add {
+    display: flex;
+    gap: 8px !important;
+    padding-top: 10px;
+}
+
+.inner-card-add .bg-gray-100.rounded-xl.p-4.text-center {
+    background-color: #f8fcff;
+    border: 1px solid #e7e7e7;
+    border-radius: 15px;
+    align-items: center;
+    gap: 5px;
+    display: flex;
+    padding: 10px !important;
+    width: 100%;
+    box-shadow: 0 5px 21px -5px #cdd1e1;
+}
+
+.inner-card-add .new-add-comeing p.font-medium,
+.inner-card-add p.text-blue-600.font-bold {
+    text-align: left;
+    color: #5C6368;
+    font-size: 14px;
+}
+
+.inner-card-add p.text-blue-600.font-bold {
+    text-align: left;
+    color: #181A20;
+    font-weight: 600;
+}
+
+.max-w-5xl.mx-auto.px-4.py-8.at-glance-add {
+    padding-left: 0px !important;
+}
+
+.max-w-5xl.mx-auto.px-4.at-glance-add {
+    padding-left: 0px !important;
+}
+
+.at-glance-add p.mt-6.text-sm.text-gray-500 {
+    color: #181a20;
+    padding-top: 35px;
+    padding-bottom: 5px;
+}
+
+.at-glance-add a.text-blue-600.font-medium.hover\:underline {
+    color: #009BFA;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.content-wrapper {
+    padding-right: 0px;
+}
+
+.at-glance-add h3.text-lg.font-semibold.mb-4 {
+    padding-bottom: 15px;
+    border-bottom: solid 1px #E7E7E7;
+}
+
+
+
+
+
+
+
+
+
+.goals-progress .left-column {
+    flex: 1;
+    width: 65%;
+}
+
+.goals-progress .right-column {
+    width: 35%;
+}
+
+.goals-progress .card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.goals-progress .card-header {
+    background: none;
+    border: none;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    display: flex;
+    padding-left: 0px;
+}
+
+.goals-progress .card-header h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #202020;
+}
+
+.goals-progress .update-btn {
+    color: #fff;
+    cursor: pointer;
+    background: #009BFA;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 14px;
+}
+
+.goals-progress .goal {
+    margin-top: 15px;
+    padding: 10px;
+    border-top: 1px solid #e7e7e7;
+    padding-bottom: 15px;
+    padding: 15px 10px 15px;
+}
+
+.goals-progress .goal p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.goals-progress .progress {
+    background: #8cfac7;
+    border-radius: 15px;
+    height: 28px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.goals-progress .progress div {
+    background: #00e096;
+    height: 100%;
+    width: 40% !important;
+    border-radius: 15px;
+}
+
+.goals-progress .view-btn {
+    color: #009bfa;
+    cursor: pointer;
+    float: right;
+    background: #fff;
+    border: 1px solid #009bfa;
+    border-radius: 12px;
+    margin-top: 15px;
+    padding: 10px 12px;
+    font-size: 14px;
+    width: 20%;
+}
+
+.goals-progress .msg-btn {
+    color: #009bfa;
+    cursor: pointer;
+    float: right;
+    background: #fff;
+    border: 1px solid #009bfa;
+    border-radius: 12px;
+    margin-top: 15px;
+    padding: 10px 21px;
+    font-size: 14px;
+}
+
+.goals-progress .coach,
+.activity {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.goals-progress .coach .info p,
+.activity p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.goals-progress .coach .info span,
+.activity small {
+    color: #777;
+    font-size: 13px;
+}
+
+.goals-progress .view-more {
+    display: block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.goals-progress {
+    gap: 10px;
+    width: 98%;
+    margin-top: 20px;
+    display: flex;
+}
+
+.goals-progress .coaching-card {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 5px #0000000d;
+}
+
+.goals-progress .title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.goals-progress .card {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 5px #0000000d;
+}
+
+.goals-progress .section-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.goals-progress .status {
+    color: #a97a0c;
+    background-color: #FFF2CC;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    font-size: 12px;
+    display: inline-block;
+    width: 120px;
+}
+
+.goals-progress .coach-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.goals-progress .coach-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.goals-progress .coach-details {
+    flex: 1;
+}
+
+.goals-progress .coach-name {
+    margin: 0;
+    font-weight: bold;
+    font-family: 'Roboto';
+    font-weight: 500;
+}
+
+.goals-progress .coach-role {
+    font-size: 13px;
+    color: #444;
+    margin: 2px 0;
+}
+
+.goals-progress .coach-rating {
+    font-size: 13px;
+    color: #444;
+}
+
+.goals-progress .buttons {
+    gap: 10px;
+    display: flex;
+    padding-bottom: 26px;
+}
+
+.goals-progress .btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.goals-progress .btn.view {
+    color: #fff;
+    background-color: #009BFA;
+    padding: 15px 5px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Inter';
+}
+
+.goals-progress .btn.message {
+    background-color: #e6f2ff;
+    color: #007bff;
+}
+
+.progress.two div {
+    width: 0% !important;
+}
+
+.progress.three div {
+    width: 90% !important;
+}
+
+.goals-progress .goal .progress p {
+    text-align: center !important;
+    font-size: 12px;
+}
+
+p.build-text-add {
+    color: #000000;
+    font-size: 18px;
+    font-family: roboto;
+    padding-bottom: 10px;
+}
+
+.progress.two {
+    padding-left: 10px;
+}
+
+.goals-progress .right-column .coaching-card h3.title {
+    font-size: 24px;
+    color: #202020;
+    font-weight: 500;
+    font-family: 'Inter';
+    padding: 5px 0;
+    border-bottom: solid 1px #E7E7E7;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+}
+
+.goals-progress .coach-role strong {
+    color: #000000;
+}
+
+.goals-progress .btn.message {
+    color: #009BFA;
+    background-color: #fff;
+    border: solid 1px #009BFA;
+    font-size: 14px;
+    font-family: 'Inter';
+    border-radius: 12px;
+    padding: 10px 5px;
+}
+
+i.bi.bi-star-fill {
+    color: #FFA432;
+    padding-right: 8px;
+}
+
+p.coach-rating span {
+    color: #000000;
+    font-weight: 600;
+}
+
+.goals-progress .coaching-card h5 {
+    color: #000000;
+    font-weight: 500;
+    padding: 5px 0;
+}
+
+.card.matched-add .info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card.matched-add .info .name-text p {
+    color: #000000;
+    font-weight: 500 !important;
+    font-size: 15px;
+    font-family: 'roboto';
+}
+
+.card.matched-add h3,
+.card.matched-add .coach {
+    border-bottom: 1px solid #e7e7e7;
+    padding-bottom: 18px;
+}
+
+.card.matched-add .coach {
+    border-bottom: solid 1px #E7E7E7;
+    padding-bottom: 15px;
+}
+
+.card.matched-add .coach button.msg-btn {
+    margin-top: 0px;
+    width: 20%;
+}
+
+.goal-left-column {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    width: 65%;
+    padding: 20px;
+    box-shadow: 0 0 5px #0000000d;
+}
+
+.goal-right-column {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 0 5px #0000000d;
+    width: 35%;
+}
+
+.goal-setting-tips {
+    display: flex;
+    width: 98%;
+    gap: 10px;
+}
+
+
+.goal-setting-tips .card-title {
+    margin-bottom: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #e7e7e7;
+    padding-bottom: 18px;
+}
+
+.goal-setting-tips .tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+
+.goal-setting-tips .tips-list li {
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #000000;
+}
+
+.goal-setting-tips .tips-list li i {
+    margin-right: 8px;
+}
+
+.goal-setting-tips .explore-link {
+    color: #009BFA;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Roboto';
+}
+
+.goal-setting-tips .coach-list {
+    flex-direction: column;
+    gap: 20px;
+    display: flex;
+}
+
+.goal-setting-tips .coach-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.goal-setting-tips .coach-img {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.goal-setting-tips .coach-name {
+    flex: 1;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.goal-setting-tips .btn-book {
+    color: #009bfa;
+    cursor: pointer;
+    float: right;
+    background: #fff;
+    border: 1px solid #009bfa;
+    border-radius: 12px;
+    padding: 10px 21px;
+    font-size: 14px;
+}
+
+.goal-setting-tips span.coach-name {
+    margin-left: 0px;
+    font-size: 15px;
+    color: #000000;
+}
+
+.activity-log-card {
+    background-color: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    width: 98%;
+    margin-top: 20px;
+    padding: 15px;
+    box-shadow: 0 0 5px #0000000d;
+    padding-bottom: 80px;
+}
+
+.activity-log-card h3.activity-title {
+    border-bottom: 1px solid #e7e7e7;
+    margin-bottom: 12px;
+    padding-bottom: 18px;
+    font-weight: 600;
+    width: 37%;
+}
+
+.activity-log-card ul.activity-list {
+    padding-left: 0pc;
+    list-style: none;
+    color: #000;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+.goal-right-column img.coach-img {
+    width: 40px;
+    height: 40px;
+}
+
+.grid-margin {
+    margin-bottom: 0.5rem;
+}
