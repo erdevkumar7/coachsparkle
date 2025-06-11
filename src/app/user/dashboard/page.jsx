@@ -1,7 +1,7 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import '../_styles/dashboard.css';
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import "../_styles/dashboard.css";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -9,11 +9,11 @@ export default function Dashboard() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const userData = localStorage.getItem('user');
+        const token = localStorage.getItem("token");
+        const userData = localStorage.getItem("user");
 
         if (!token) {
-            router.push('/login');
+            router.push("/login");
         }
 
         if (token && userData) {
@@ -25,113 +25,121 @@ export default function Dashboard() {
         }
     }, []);
 
-
     return (
         <>
             <div className="container-fluid page-body-wrapper">
                 <nav className="sidebar sidebar-offcanvas" id="sidebar">
                     <ul className="nav">
                         <li className="nav-item">
-                            <a className="nav-link" href="#"
-                                data-bs-toggle="collapse"
-                                aria-expanded="false"
-                                aria-controls="ui-basic">
+                            <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
                                     <i className="bi bi-grid-3x3-gap-fill"></i>
-                                    <span className="menu-title">Overview</span>
+                                    <span className="menu-title">Dashboard</span>
                                 </div>
                             </a>
                         </li>
 
                         <li className="nav-item">
-                            <a
-                                className="nav-link"
-                                data-bs-toggle="collapse"
-                                href="#ui-basic"
-                                aria-expanded="false"
-                                aria-controls="ui-basic"
-                            >
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                    <i className="fa fa-user"></i>
+                                <i class="bi bi-search"></i>
+                                    <span className="menu-title">Explore Coaches</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <div>
+                                <i class="bi bi-duffle"></i>
+                                    <span className="menu-title">Coaching Activities</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <div>
+                                <i class="bi bi-heart"></i>
+                                    <span className="menu-title">Favourite Coach</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <div>
+                                <i class="bi bi-chat-dots"></i>
+                                    <span className="menu-title">Message</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <div>
+                                <i class="bi bi-calendar2-week"></i>
+                                    <span className="menu-title">Booking</span>
+                                </div>
+                            </a>
+                        </li>
+
+
+                        
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <div>
+                                <i class="bi bi-star"></i>
+                                    <span className="menu-title">Reviews</span>
+                                </div>
+                            </a>
+                        </li>
+
+
+
+                        
+                        <li className="nav-item">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <div>
+                                <i class="bi bi-person"></i>
                                     <span className="menu-title">Profile</span>
                                 </div>
                             </a>
                         </li>
 
-                        <li className="nav-item">
-                            <a
-                                className="nav-link"
-                                data-bs-toggle="collapse"
-                                href="#ui-basic"
-                                aria-expanded="false"
-                                aria-controls="ui-basic"
-                            >
-                                <div>
-                                    <i className="fa fa-home" aria-hidden="true"></i>
-                                    <span className="menu-title">Home</span>
-                                </div>
-                            </a>
-                        </li>
 
-                        <li className="nav-item">
-                            <a
-                                className="nav-link"
-                                data-bs-toggle="collapse"
-                                href="#ui-basic"
-                                aria-expanded="false"
-                                aria-controls="ui-basic"
-                            >
-                                <div>
-                                    <i className="fa fa-calendar" aria-hidden="true"></i>
-                                    <span className="menu-title">My Schedule</span>
-                                </div>
-                            </a>
-                        </li>
 
+                        
                         <li className="nav-item">
-                            <a
-                                className="nav-link"
-                                data-bs-toggle="collapse"
-                                href="#ui-basic"
-                                aria-expanded="false"
-                                aria-controls="ui-basic"
-                            >
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                    <i className="fa fa-bell" aria-hidden="true"></i>
-                                    <span className="menu-title">Subscription</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li className="nav-item">
-                            <a
-                                className="nav-link"
-                                data-bs-toggle="collapse"
-                                href="#ui-basic"
-                                aria-expanded="false"
-                                aria-controls="ui-basic"
-                            >
-                                <div>
-                                    <i className="fa fa-cog" aria-hidden="true"></i>
+                                <i class="bi bi-gear"></i>
                                     <span className="menu-title">Account Settings</span>
                                 </div>
                             </a>
                         </li>
 
+
+                        
                         <li className="nav-item">
-                            <a
-                                className="nav-link"
-                                data-bs-toggle="collapse"
-                                href="#ui-basic"
-                                aria-expanded="false"
-                                aria-controls="ui-basic"
-                            >
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                    <i className="fa fa-sign-out" aria-hidden="true"></i>
-                                    <span className="menu-title"> Sign Out</span>
+                                <i class="bi bi-headset"></i>
+                                    <span className="menu-title">FAQs and Support</span>
                                 </div>
                             </a>
                         </li>
+                        
+
+                        <li className="nav-item sign-out">
+                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <div>
+                                <i className="fa fa-sign-out" aria-hidden="true"></i>
+                                    <span className="menu-title">Sign Out</span>
+                                </div>
+                            </a>
+                        </li>
+
                     </ul>
                 </nav>
 
@@ -149,47 +157,292 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-12 grid-margin transparent profile-view-cards">
-                                <div className="row profile-view-inner">
-                                    <div className="col-md-3 stretch-card transparent">
-                                        <div className="card card-tale-custom shadow-sm rounded-4 p-3 border-0 one">
-                                            <div className="d-flex align-items-center">
-                                                <i className="bi bi-card-list"></i>
-                                                <div>
-                                                    <p className="view-text">Find a Coach</p>
-                                                </div>
+
+                        <div className="max-w-5xl mx-auto px-4 py-8 at-glance-add">
+                            <div className="flex items-center gap-3 mt-4">
+                                <img src="/coachsparkle/assets/images/top-nav.png" alt="profile" />
+                                <div>
+                                    <h5 className="font-medium">
+                                        Emma Rose{" "}
+                                        <span className="text-green-500 text-sm">
+                                            <i className="bi bi-check-circle-fill"></i>
+                                        </span>
+                                    </h5>
+                                    <p className="text-sm text-gray-500">User</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="max-w-5xl mx-auto px-4 at-glance-add">
+                            <div className="bg-white p-5 rounded-xl shadow-md boder-line-add">
+                                <h3 className="text-lg font-semibold mb-4">At a Glance</h3>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 inner-card-add">
+                                    <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                        <img src="/coachsparkle/assets/images/glance-img-one.png" className="mx-auto mb-2" />
+                                        <div className="new-add-comeing">
+                                            <p className="font-medium">New Coach Matches</p>
+                                            <p className="text-blue-600 font-bold">02</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                        <img src="/coachsparkle/assets/images/glance-img-two.png" className="mx-auto mb-2" />
+                                        <div className="new-add-comeing">
+                                            <p className="font-medium">Coaching Request Status</p>
+                                            <p className="text-blue-600 font-bold">02</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                        <img src="/coachsparkle/assets/images/glance-img-three.png" className="mx-auto mb-2" />
+                                        <div className="new-add-comeing">
+                                            <p className="font-medium">Active Coaching</p>
+                                            <p className="text-blue-600 font-bold">02</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                        <img src="/coachsparkle/assets/images/glance-img-four.png" className="mx-auto mb-2" />
+                                        <div className="new-add-comeing">
+                                            <div className="new-add-comeing">
+                                                <p className="font-medium">Upcoming Session</p>
+                                                <p className="text-blue-600 font-bold">Aug 15, 8:00PM</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="col-md-3 stretch-card transparent">
-                                        <div className="card card-tale-custom shadow-sm rounded-4 p-3 border-0 two">
-                                            <div className="d-flex align-items-center">
-                                                <i className="bi bi-geo-alt"></i>
-                                                <div>
-                                                    <p className="view-text">View Matches</p>
-                                                </div>
+                                    <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                        <img src="/coachsparkle/assets/images/glance-img-five.png" className="mx-auto mb-2" />
+                                        <div className="new-add-comeing">
+                                            <p className="font-medium">Unread Messages</p>
+                                            <p className="text-blue-600 font-bold">03</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p className="mt-6 text-sm text-gray-500">
+                                    You haven’t responded to any coaches yet.
+                                    <a href="#" className="text-blue-600 font-medium hover:underline">
+                                        View Matches
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="goals-progress">
+                            <div className="left-column">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <h3>Your Coaching Goals Progress</h3>
+                                        <button className="update-btn">Update Goal <i class="bi bi-arrow-right"></i></button>
+                                    </div>
+                                    <div className="goal">
+                                        <p className="build-text-add">Build Confidence For Public Speaking</p>
+                                        <div className="progress">
+                                            <div style={{ width: "80%" }}><p>40%</p></div>
+                                        </div>
+                                        <button className="view-btn">View Session</button>
+                                    </div>
+                                    <div className="goal">
+                                        <p className="build-text-add">Learn Skating In 3 Months</p>
+                                        <div className="progress two">
+                                            <div style={{ width: "70%" }}><p>0%</p></div>
+                                        </div>
+                                        <button className="view-btn">View Match</button>
+                                    </div>
+                                    <div className="goal">
+                                        <p className="build-text-add">Learn Python Coding</p>
+                                        <div className="progress three">
+                                            <div style={{ width: "90%" }}><p>90%</p></div>
+                                        </div>
+                                        <button className="view-btn">View Session</button>
+                                    </div>
+                                </div>
+
+
+                                <div className="card matched-add">
+                                    <h3>AI Matched Recommendations</h3>
+                                    <div className="coach">
+
+                                        <div className="info">
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <div className="name-text">
+                                                <p>Tracy McCoy</p>
+                                                <span><i class="bi bi-star-fill"></i> 5.0</span>
                                             </div>
+                                        </div>
+                                        <button class="msg-btn">Message</button>
+                                    </div>
+                                    <div className="coach">
+
+                                        <div className="info">
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <div className="name-text">
+                                                <p>Jim Saw</p>
+                                                <span><i class="bi bi-star-fill"></i> 5.0</span>
+                                            </div>
+                                        </div>
+                                        <button class="msg-btn">Book Trial</button>
+                                    </div>
+                                    <div className="coach">
+
+
+                                        <div className="info">
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <div className="name-text">
+                                                <p>Jammy Vardy</p>
+                                                <span><i class="bi bi-star-fill"></i> 5.0</span>
+                                            </div>
+                                        </div>
+                                        <button className="msg-btn">Message</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div className="right-column">
+                                <div class="coaching-card">
+                                    <h3 class="title">Recent Coaching Activities</h3>
+                                    <div class="card">
+                                        <p class="section-title">Your Active Match</p>
+                                        <span class="status">Awaiting response</span>
+                                        <div class="coach-info">
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <div class="coach-details">
+                                                <p class="coach-name">Sarah Lee</p>
+                                                <p class="coach-role">
+                                                    Life And Confidence Coach At <strong>Comex Pte. Ltd.</strong>
+                                                </p>
+                                                <p class="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="buttons">
+                                            <button class="btn view">View Profile</button>
+                                            <button class="btn message">Message</button>
                                         </div>
                                     </div>
 
-                                    <div className="col-md-3 stretch-card transparent">
-                                        <div className="card card-tale-custom shadow-sm rounded-4 p-3 border-0 three">
-                                            <div className="d-flex align-items-center">
-                                                <i className="bi bi-calendar-check"></i>
-                                                <div>
-                                                    <p className="view-text">Schedule Session</p>
-                                                </div>
+
+                                    <div class="card">
+                                        <p class="section-title">You’re working with Tracy</p>
+                                        <span class="status">Awaiting response</span>
+                                        <h5>professional title will goes here...</h5>
+
+                                        <div class="coach-info">
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <div class="coach-details">
+                                                <p class="coach-name">Tracy McCoy</p>
+
+                                                <p class="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="buttons">
+                                            <button class="btn view">View Profile</button>
+                                            <button class="btn message">Message</button>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="card">
+                                        <p class="section-title">Recently Matched Coach</p>
+                                        <span class="status">Awaiting response</span>
+                                        <h5>professional title will goes here...</h5>
+
+                                        <div class="coach-info">
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <div class="coach-details">
+                                                <p class="coach-name">Tracy McCoy</p>
+
+                                                <p class="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="buttons">
+                                            <button class="btn view">View Profile</button>
+                                            <button class="btn message">Message</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                        <div className="goal-setting-tips">
+                            <div className="goal-left-column">
+                                <div class="tips-card">
+                                    <h3 class="card-title">Goal Setting Tips</h3>
+                                    <ul class="tips-list">
+                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" class="coach-img" />
+                                        5 - Minute Tips For Goal Setting</li>
+                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" class="coach-img" /> How To Reach Your Goals In Life</li>
+                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" class="coach-img" /> How To Reach Your Goals In Life</li>
+                                    </ul>
+                                    <a href="#" class="explore-link">Explore Coaches to learn Public Speaking, Skating and Python Coding</a>
+                                </div>
+
+                            </div>
+
+                            <div className="goal-right-column">
+                                <div class="coaching-card">
+
+                                    <div class="coach-card">
+                                        <h3 class="card-title">Your Favourite Coach</h3>
+                                        <div class="coach-list">
+                                            <div class="coach-item">
+                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                                <span class="coach-name">Tracy McCoy</span>
+                                                <button class="btn-book">Book Now</button>
+                                            </div>
+                                            <div class="coach-item">
+                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                                <span class="coach-name">Jim Saw</span>
+                                                <button class="btn-book">Book Now</button>
+                                            </div>
+                                            <div class="coach-item">
+                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                                <span class="coach-name">Jammy Vardy</span>
+                                                <button class="btn-book">Book Now</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
+
+
+
+                        <div class="activity-log-card">
+                            <h3 class="activity-title">Activity Log</h3>
+                            <ul class="activity-list">
+                                <li>- You Sent A Request To Coach Tracy McCoy <span class="activity-time">(3 days ago)</span></li>
+                            </ul>
+                        </div>
+
+
+
+
+
+
+
+
+
+
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }
