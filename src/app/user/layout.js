@@ -3,7 +3,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useEffect } from 'react';
-import "./dashboard.css"
+import "./user.main.css"
 import UserHeader from './_user_components/UserHeader';
 
 export default function UserLayout({ children }) {

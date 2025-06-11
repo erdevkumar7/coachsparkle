@@ -23,7 +23,7 @@ export default function Login() {
     };
 
     const handleRoleSwitch = (newRole) => {
-        setRole(newRole);
+        setRole(newRole);     
     };
 
     const handleSubmit = async (e) => {
@@ -105,7 +105,7 @@ export default function Login() {
 
                                     <p className="signup-text">
                                         Don’t have an account?
-                                        <Link href="/select-role">Sign up as a Coach</Link>
+                                        <Link href="/register" onClick={() => sessionStorage.setItem('role', role)}>Sign up as a {role == 3 ? "Coach" : "User"}</Link>
                                     </p>
                                 </form>
                             </div>

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import '../_styles/dashboard.css';
 
 export default function Dashboard() {
     const router = useRouter();
@@ -140,7 +141,7 @@ export default function Dashboard() {
                             <div className="col-md-12 grid-margin">
                                 <div className="row">
                                     <div className="col-12 col-xl-8 mb-4 mb-xl-0">
-                                        <h3 className="font-weight-bold quick-text-add">
+                                        <h3 className="font-weight-bold quick-text-add my-changes">
                                             Hi {user?.first_name}, <br />
                                             Ready to level up?
                                         </h3>

@@ -145,7 +145,7 @@ export default function UserHeader({ user }) {
                   alt="profile" />
                 <p className="top-name-add">{user?.first_name}</p>
               </a>
-              <button onClick={handleLogout} style={{
+              {/* <button onClick={handleLogout} style={{
                 display: 'inline-block',
                 padding: '6px 16px',
                 backgroundColor: '#007bff',
@@ -155,7 +155,7 @@ export default function UserHeader({ user }) {
                 textAlign: 'center',
                 marginLeft: '10px',
                 border: 'white'
-              }}>Logout</button>
+              }}>Logout</button> */}
               <div
                 className="dropdown-menu dropdown-menu-right navbar-dropdown"
                 aria-labelledby="profileDropdown"

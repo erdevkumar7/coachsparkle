@@ -133,6 +133,7 @@ export default function Register() {
                                             name="password"
                                             value={formData.password}
                                             onChange={handleChange}
+                                            placeholder="Password (8 or more characters)"
                                             required
                                         />
                                         <i className="fa fa-eye" id="togglePassword" style={{ cursor: 'pointer' }}></i>
