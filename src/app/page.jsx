@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from "react";
-import { FRONTEND_BASE_URL} from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -101,9 +101,10 @@ export default function Home() {
                 Human Connections. <br />
                 Better Outcomes.
               </h1>
-              <p className="lead">Find your fit. Build your path. Achieve more.</p>
+              <p className="lead">Describe your goal or challenge — our AI will match you with
+                the right coach</p>
               <div className="search-container">
-                <input type="text" className="form-control search-input" placeholder="Enter Name, Keywords..." />
+                <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
                 <i className="fas fa-search search-icon"></i>
               </div>
 
@@ -111,20 +112,20 @@ export default function Home() {
                 <div className="row counters-inner-content">
                   <div className="four col-md-4">
                     <div className="counter-box">
-                      <span className="counter" data-count="680">0</span>
+                      <span className="counter" data-count="680">680</span>
                       <p>Available Coaches</p>
                     </div>
                   </div>
                   <div className="four col-md-4">
                     <div className="counter-box">
-                      <span className="counter" data-count="8000">0</span>
+                      <span className="counter" data-count="8000">8k+</span>
                       <p>Matches made</p>
                     </div>
                   </div>
                   <div className="four col-md-4">
                     <div className="counter-box">
-                      <span className="counter" data-count="100">0</span>
-                      <p>Countries represented</p>
+                      <span className="counter" data-count="100">100+</span>
+                      <p>Coaching goals achieved</p>
                     </div>
                   </div>
                 </div>
@@ -285,7 +286,7 @@ export default function Home() {
 
       <div className="global-companies">
         <div className="container">
-          <h1 className="text-center">Trusted by 1000+ global companies</h1>
+          <h1 className="text-center">Trusted by 500+ Global Partners</h1>
 
           <div className="owl-carousel owl-theme owl-loaded owl-drag">
             <div className="owl-stage-outer">
@@ -349,16 +350,12 @@ export default function Home() {
           <div className="row dedicated-career-coach-inner">
 
             <div className="col-md-6 mb-4 mb-md-0 dedicated-career-coach-left">
-              <h1 className="mb-3">At your fingertips: a dedicated career coach</h1>
+              <h1 className="mb-3">Coach Sparkle uses AI to deliver personalized coach matches - faster and smarter</h1>
               <p>
-                Work one-on-one with a dedicated coach who understands your goals and challenges. Whether you're exploring new paths, preparing for a big interview, or looking to advance in your current role, your coach is here
-                to provide personalized advice, actionable strategies, and consistent support—right when you need it.
+                Coach Sparkle uses smart AI to understand your coaching goals, preferences, and availability — then instantly matches you with coaches who align with your needs. Whether you’re looking to build confidence, grow your career, or improve a skill, our AI cuts through the noise to connect you with the right coach — saving you time and ensuring a better fit from the start. You can also use CoachSparkle to find the right coach for your child, a loved one, or even aging parents — because growth and support matter at every stage of life.
               </p>
-              <p>
-                With your dedicated career coach just a message away, you'll get clear direction, honest feedback, and motivation tailored to your goals. From polishing your resume to practicing interviews or pivoting
-                careers—we’ve got your back.
-              </p>
-              <a href="#" className="learn-more-btn-add">LEARN MORE <i className="bi bi-arrow-right"></i></a>
+
+              <a href="#" className="learn-more-btn-add">Try Know <i className="bi bi-arrow-right"></i></a>
             </div>
 
 
@@ -376,48 +373,18 @@ export default function Home() {
 
             <div className="col-md-6 mb-4 mb-md-0 coaching-approach-left">
               <h1 className="mb-3">
-                Pick the coaching approach<br className="mobile-add-br" />
-                that fits
+                It’s always free to use - for learners, users and curious browsers
               </h1>
               <div className="clear-informative">
                 <div className="informative-text">
-                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
                   <div>
-                    <h5>Clear and Informative</h5>
-                    <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
+                    <p>
+                      Coach Sparkle is free to use for anyone looking for coaching. Whether you're exploring options, comparing profiles, or sending a coaching request, there’s no cost to browse, match, or message coaches. No hidden fees. No commitment required — just the freedom to find the right support at your own pace.
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="clear-informative">
-                <div className="informative-text">
-                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
-                  <div>
-                    <h5>Friendly and Empowering</h5>
-                    <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="clear-informative">
-                <div className="informative-text">
-                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
-                  <div>
-                    <h5>Guided with Choices</h5>
-                    <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="clear-informative">
-                <div className="informative-text">
-                  <img src={`${FRONTEND_BASE_URL}/images/informative-icons.png`} />
-                  <div>
-                    <h5>Personalized and Reassuring</h5>
-                    <p>Whether you prefer structured sessions, flexible chat-based support, or on-demand advice, we offer coaching styles to match your personality.</p>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -429,8 +396,11 @@ export default function Home() {
           <div className="explore-coaches-section">
             <div className="row explore-coaches-inner-content">
               <div className="col-md-12 adipiscing-text">
-                <h1>Explore 6,000+ available coaches</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h1>Explore 1,000+ Available Coaches</h1>
+                <p>
+                  Browse by category, read real profiles, and connect with a coach who truly gets you.<br />
+                  Start your journey today — it’s free, personalized, and built around your goals.
+                </p>
               </div>
               <div className="professional-top">
                 <a href="#" className="view-all-add-btn text-right">VIEW ALL<i className="bi bi-arrow-right"></i></a>
@@ -441,7 +411,7 @@ export default function Home() {
                     <ul>
                       <li><i className="bi bi-check-lg"></i>Career Coach</li>
                       <li><i className="bi bi-check-lg"></i>Executive Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Leadership Coach</li>
+                      <li><i className="bi bi-check-lg"></i>Business Coach</li>
                     </ul>
                   </div>
 
@@ -627,15 +597,15 @@ export default function Home() {
 
       <div className="how-it-work">
         <div className="container">
-          <p className="text-center">PROCESS OVERVIEW</p>
-          <h1 className="text-center">How it Works</h1>
+          <h1 className="text-center">Multiple Ways to Find Your Ideal Coaches</h1>
           <div className="row how-it-work-inner-part">
             <div className="col-md-4">
               <div className="card">
                 <div className="card-body">
                   <h1>01</h1>
-                  <h5 className="card-title">Search Your Coach</h5>
-                  <p className="card-text">Browse our network of certified career coaches based on your goals, industry, and preferred coaching style.</p>
+                  <h5 className="card-title">Manual Search</h5>
+                  <p className="card-text">Use standard filters like category, location,
+                    budget, and language to find coaches manually at your own pace.</p>
                 </div>
               </div>
             </div>
@@ -644,8 +614,10 @@ export default function Home() {
               <div className="card two">
                 <div className="card-body">
                   <h1>02</h1>
-                  <h5 className="card-title">Match</h5>
-                  <p className="card-text">Get smart recommendations tailored to your needs—or pick the coach that feels right for you.</p>
+                  <h5 className="card-title">Send a Coaching Request</h5>
+                  <p className="card-text">
+                    Describe your coaching need and we’ll notify all qualified coaches.
+                    Those interested will reach out to you directly.</p>
                 </div>
               </div>
             </div>
@@ -654,8 +626,9 @@ export default function Home() {
               <div className="card">
                 <div className="card-body">
                   <h1>03</h1>
-                  <h5 className="card-title">Connect</h5>
-                  <p className="card-text">Start your journey with one-on-one sessions, personalized guidance, and ongoing support, right when you need it.</p>
+                  <h5 className="card-title">Smart AI Matching</h5>
+                  <p className="card-text">Share your goal, availability, and preferences — our AI will
+                    suggest the most suitable coaches for you in seconds.</p>
                 </div>
               </div>
             </div>
@@ -666,8 +639,8 @@ export default function Home() {
 
       <div className="people-love-living">
         <div className="container">
-          <h1>People Love Living with Coach Sparkle</h1>
-          <p>Aliquam lacinia diam quis lacus euismod</p>
+          <h1>People Love Using Coach Sparkle</h1>
+          <p>Hear What the Coachees have to say</p>
 
           <div className="swiper-container slide-container">
             <div className="swiper-wrapper">
@@ -861,7 +834,7 @@ export default function Home() {
         </div>
       </div>
 
-        <Footer />
+      <Footer />
     </>
   );
 }

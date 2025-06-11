@@ -48,12 +48,12 @@ export default function Header() {
                             <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" href="/coach-detail/list">Browse Coaches</Link>
+                            <Link className="nav-link" href="/coach-detail/list">Explore Coaches</Link>
                         </li>
 
                         <li className="nav-item dropdown">
                             <Link className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Get Match
+                                Send Coaching Request
                             </Link>
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" href="/">Match 1</Link></li>
