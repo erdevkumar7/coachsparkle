@@ -3,8 +3,10 @@ import React, { useEffect } from "react";
 import { FRONTEND_BASE_URL } from "@/config/url_config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import SwiperSlider from "@/components/Swiper";
 import SwiperSecond from "@/components/SwiperSecond";
+import SwiperThird from "@/components/SwiperThird";
+import SwiperOne from "@/components/SwiperOne";
+import SwiperFour from "@/components/SwiperFour";
 
 export default function Home() {
 
@@ -206,7 +208,8 @@ export default function Home() {
       <div className="global-companies">
         <div className="container">
           <h1 className="text-center">Trusted by 500+ Global Partners</h1>
-          <SwiperSecond />        
+          {/* <SwiperSecond />    */}
+          <SwiperThird />     
         </div>     
       </div>
 
@@ -506,7 +509,8 @@ export default function Home() {
         <div className="container">
           <h1>People Love Using Coach Sparkle</h1>
           <p>Hear What the Coachees have to say</p>
-          <SwiperSlider />
+          <SwiperOne />
+          {/* <SwiperFour /> */}
         </div>
       </div>
 

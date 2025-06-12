@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-export default function SwiperSlider() {
+export default function SwiperOne() {
     return (
         <Swiper spaceBetween={20} slidesPerView={3} loop={true}>
             <SwiperSlide>
