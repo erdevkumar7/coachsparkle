@@ -3,92 +3,13 @@ import React, { useEffect } from "react";
 import { FRONTEND_BASE_URL } from "@/config/url_config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
+import SwiperSecond from "@/components/SwiperSecond";
+import SwiperThird from "@/components/SwiperThird";
+import SwiperOne from "@/components/SwiperOne";
+import SwiperFour from "@/components/SwiperFour";
 
 export default function Home() {
-  useEffect(() => {
-    // ✅ Marquee control
-    const marquee = document.getElementById("coachMarquee");
-    if (marquee) {
-      marquee.addEventListener("mouseover", () => marquee.stop());
-      marquee.addEventListener("mouseout", () => marquee.start());
-    }
 
-    // ✅ Owl Carousel
-    if (window.$ && window.$(".owl-carousel").owlCarousel) {
-      window.$(".owl-carousel").owlCarousel({
-        loop: true,
-        margin: 10,
-        autoplay: true,
-        autoplayTimeout: 3000,
-        autoplayHoverPause: true,
-        responsive: {
-          0: { items: 3 },
-          768: { items: 4 },
-          1024: { items: 6 },
-        },
-      });
-    }
-
-    // ✅ Swiper Carousel
-    if (window.Swiper) {
-      new window.Swiper(".swiper-container", {
-        slidesPerView: 3,
-        spaceBetween: 25,
-        loop: true,
-        grabCursor: true,
-        centeredSlides: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-          dynamicBullets: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-          0: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        },
-      });
-    }
-
-    // ✅ Counter animation
-    if (window.$) {
-      window.$(".counter").each(function () {
-        const $this = window.$(this);
-        const countTo = parseInt($this.attr("data-count"), 10);
-        window.$({ countNum: 0 }).animate(
-          { countNum: countTo },
-          {
-            duration: 2000,
-            easing: "swing",
-            step: function () {
-              $this.text(Math.floor(this.countNum));
-            },
-            complete: function () {
-              if (countTo >= 1000) {
-                const kValue = Math.round(countTo / 1000);
-                $this.text(kValue + "K+");
-              } else {
-                $this.text(countTo);
-              }
-            },
-          }
-        );
-      });
-    }
-
-    // ✅ Cleanup for marquee (optional)
-    return () => {
-      if (marquee) {
-        marquee.removeEventListener("mouseover", () => marquee.stop());
-        marquee.removeEventListener("mouseout", () => marquee.start());
-      }
-    };
-  }, []);
   return (
     <>
       <Header />
@@ -287,63 +208,10 @@ export default function Home() {
       <div className="global-companies">
         <div className="container">
           <h1 className="text-center">Trusted by 500+ Global Partners</h1>
-
-          <div className="owl-carousel owl-theme owl-loaded owl-drag">
-            <div className="owl-stage-outer">
-              <div
-                className="owl-stage"
-                style={{
-                  transform: "translate3d(-1527px, 0px, 0px)",
-                  transition: "all 0.25s ease 0s",
-                  width: "3334px"
-                }}
-              >
-                {[
-                  "global-img-one.png",
-                  "global-img-two.png",
-                  "global-img-three.png",
-                  "global-img-four.png",
-                  "global-img-five.png",
-                  "global-img-six.png",
-                  "global-img-one.png",
-                  "global-img-two.png",
-                  "global-img-three.png",
-                  "global-img-four.png",
-                  "global-img-five.png",
-                  "global-img-five.png",
-                  "global-img-four.png",
-                  "global-img-one.png",
-                  "global-img-two.png",
-                  "global-img-six.png",
-                  "global-img-four.png",
-                  "global-img-one.png",
-                  "global-img-three.png",
-                  "global-img-two.png"
-                ].map((img, index) => (
-                  <div
-                    key={index}
-                    className={`owl-item ${index < 7 ? "cloned" : ""}`}
-                    style={{ width: "128.906px", marginRight: "10px" }}
-                  >
-                    <div className="item">
-                      <img src={`${FRONTEND_BASE_URL}/images/${img}`} alt="carousel" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <div className="owl-nav disabled"></div>
+          {/* <SwiperSecond />    */}
+          <SwiperThird />     
+        </div>     
       </div>
-
-      {/* <div className="global-companies">
-        <div className="container">
-          <h1 className="text-center">Trusted by 1000+ global companies</h1>
-        </div>
-      </div> */}
-
 
       <div className="dedicated-career-coach">
         <div className="container">
@@ -641,73 +509,16 @@ export default function Home() {
         <div className="container">
           <h1>People Love Using Coach Sparkle</h1>
           <p>Hear What the Coachees have to say</p>
-
-          <div className="swiper-container slide-container">
-            <div className="swiper-wrapper">
-
-              <div className="swiper-slide">
-                <div className="card-content">
-                  <h2 className="name">Great Work</h2>
-                  <h5 className="description">“At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et”</h5>
-                  <img src="https://votivephp.in/realstate/resources/assets/img/star-symbol.png" />
-                  <div className="good-jobs-content">
-                    <img src="https://votivephp.in/realstate/resources/assets/img/people-one.png" />
-                    <div>
-                      <h4>Ali Tufan</h4>
-                      <h5>Marketing</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="swiper-slide">
-                <div className="card-content">
-                  <h2 className="name">Good Job</h2>
-                  <h5 className="description">“Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae”</h5>
-                  <img src="https://votivephp.in/realstate/resources/assets/img/star-symbol.png" />
-                  <div className="good-jobs-content">
-                    <img src="https://votivephp.in/realstate/resources/assets/img/people-two.png" />
-                    <div>
-                      <h4>Albert Flores</h4>
-                      <h5>Designer</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="swiper-slide">
-                <div className="card-content">
-                  <h2 className="name">Perfect</h2>
-                  <h5 className="description">“Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo”</h5>
-                  <img src="https://votivephp.in/realstate/resources/assets/img/star-symbol.png" />
-                  <div className="good-jobs-content">
-                    <img src="https://votivephp.in/realstate/resources/assets/img/people-three.png" />
-                    <div>
-                      <h4>Robert Fox</h4>
-                      <h5>Developer</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
-
-
-            <div className="swiper-button-next"></div>
-            <div className="swiper-button-prev"></div>
-
-
-            <div className="swiper-pagination"></div>
-          </div>
+          <SwiperOne />
+          {/* <SwiperFour /> */}
         </div>
       </div>
 
 
       <div className="latest-articles-explore">
         <div className="container">
-          <h1>Latest articles</h1>
-          <p>Explore our Free Acticles</p>
+          <h1>Latest Articles</h1>
+          <p>Read Articles Contributed by Featured Coaches</p>
           <div className="row latest-articles-inner">
             <div className="articles-btn-top">
               <a href="#" className="articles-btn-add">All articles</a>
@@ -757,24 +568,28 @@ export default function Home() {
       <div className="choose-plan-you">
         <div className="container">
           <h1 className="text-center">
-            Choose Plan <br />
-            That’s Right For You
+            Free for Everyone <br />
+            Premium for Coaches Who Want More
           </h1>
-          <p className="text-center">Choose plan that works best for you, feel free to contact us</p>
+          <p className="text-center">Whether you’re searching for your next coach or listing your expertise,
+            Coach Sparkle is always free to use.</p>
           <div className="row">
             <div className="pricing">
               <div className="col-md-4">
                 <div className="card">
-                  <h3>Introductory Call</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur</p>
+                  <h3>Free</h3>
+                  <p>Get started with a basic profile to explore the platform and connect with your first few clients.</p>
                   <h2>$<span className="number-add">0</span></h2>
                   <div className="user-list-plan">
                     <ul>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i> Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
+                      <li><i className="bi bi-check"></i>Basic Listing In 1 Category</li>
+                      <li><i className="bi bi-check"></i>500 Character Bio + Photo</li>
+                      <li><i className="bi bi-check"></i> Standard AI Matching</li>
+                      <li><i className="bi bi-check"></i>Up to  5 Notifications / Month</li>
+                      <li><i className="bi bi-check"></i>Manual Booking Only</li>
+                      <li><i className="bi bi-check"></i>Fixed Pricing</li>
+                      <li><i className="bi bi-check"></i>Text Message Only</li>
+                      <li><i className="bi bi-check"></i>Standard Support, Limited Analytics</li>
                     </ul>
                     <button>Signup</button>
                   </div>
@@ -782,24 +597,27 @@ export default function Home() {
               </div>
               <div className="col-md-4">
                 <div className="card featured">
-                  <h3>Study Plan</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur</p>
-                  <h2>$<span className="number-add">8</span></h2>
-                  <span className="save">Save <span> $50 </span> a year</span>
+                  <h3>Pro Coach Plan</h3>
+                  <p>Maximize your reach and revenue with advanced tools, full visibility and priority matching</p>
+                  <h2>$<span className="number-add">190</span></h2>
+                  {/* <span className="save">Save <span> $50 </span> a year</span> */}
                   <div className="user-list-plan">
                     <ul>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i> Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
+                      <li><i className="bi bi-check"></i>Featured Listing In Unlimited Categories With Priority</li>
+                      <li><i className="bi bi-check"></i>3000 Character, Intro Video & Media Gallery</li>
+                      <li><i className="bi bi-check"></i>Real Time Alerts + Priority AI Matching</li>
+                      <li><i className="bi bi-check"></i>Unlimited Coaching Request Notifications</li>
+                      <li><i className="bi bi-check"></i>Smart Calendar Sync + Auto Booking Capabilities</li>
+                      <li><i className="bi bi-check"></i>Custom Pricing, Bundled Packages, and Flexible Offers</li>
+                      <li><i className="bi bi-check"></i>Email, Video Call and Client Interest Insights</li>
+                      <li><i className="bi bi-check"></i>24 Hours Priority Support + Full Analytics Dashboard</li>
                     </ul>
                     <button>Signup</button>
                   </div>
                 </div>
               </div>
 
-              <div className="col-md-4">
+              {/* <div className="col-md-4">
                 <div className="card">
                   <h3>Premium</h3>
                   <p>Lorem ipsum dolor sit amet, consectetur</p>
@@ -815,7 +633,7 @@ export default function Home() {
                     <button>Signup</button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -825,10 +643,13 @@ export default function Home() {
       <div className="your-organization-coach">
         <div className="container">
           <div className="row organization-coach">
-            <h1 className="text-center">Transform your organization with Coach Sparkle today</h1>
-            <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h1 className="text-center">Unlock Human Potential in Your Workforce</h1>
+            <p className="text-center">
+              From executive coaching to team development and mental wellness — Coach Sparkle helps companies elevate people,
+              culture, and performance through curated coaching solutions
+            </p>
             <div className="register-add">
-              <a href="#" className="register-now-btn">REGISTER NOW</a>
+              <a href="#" className="register-now-btn">Find Corporate Coaches</a>
             </div>
           </div>
         </div>
