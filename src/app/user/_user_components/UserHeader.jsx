@@ -28,14 +28,14 @@ export default function UserHeader({ user }) {
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a className="navbar-brand" href="#">
             <img
-              src="/assets/images/favicon.png"
+              src={`${FRONTEND_BASE_URL}/images/favicon.png`}
               alt="favicon logo"
               className="navbar-brand-img d-lg-none"
             />
             <div className="d-none d-lg-block">
               {collapsed ? (
                 <img
-                  src="assets/images/favicon.png"
+                  src={`${FRONTEND_BASE_URL}/images/favicon.png`}
                   alt="collapsed logo"
                   className="navbar-brand-img"
                 />
