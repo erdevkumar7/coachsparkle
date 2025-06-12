@@ -1,0 +1,226 @@
+.content-wrapper {
+    padding-right: 30px;
+}
+.match-card-add .card {
+    box-shadow: 0 5px 21px -5px #cdd1e1;
+    border: none;
+}
+.match-card-add .card .content-part p {
+    color: #1C1C1E;
+    font-size: 16px;
+    font-family: 'Inter';
+    display: flex;
+    flex-direction: column;
+}
+.match-card-add .card .card-body {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.match-card-add .card .content-part span {
+    font-weight: 600;
+    font-size: 17px;
+}
+.match-card-add .card .card-body img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.match-card-add .card .card-body {
+    align-items: center;
+    gap: 8px;
+    display: flex;
+    border-radius: 15px;
+}
+
+.pending-engagements {
+    margin-top: 30px;
+}
+
+.pending-engagements button.accordion-button.collapsed {
+    background: #E5E5E5;
+    color: #202020;
+    font-size: 18px;
+    font-family: 'Inter';
+}
+
+.pending-engagements button.accordion-button.collapsed:focus {
+    box-shadow: none !important;
+}
+.pending-engagements button.accordion-button {
+    color: #202020;
+    background: #e5e5e5;
+    font-family: Inter;
+    font-size: 19px;
+    font-weight: 500;
+}
+.pending-engagements button.accordion-button:focus {
+    box-shadow: none !important;
+}
+.pending-engagements .accordion-item {
+    margin-top: 30px;
+    border-top: 0px;
+    border: none;
+}
+
+.pending-engagements button.accordion-button.collapsed {
+    border-radius: 0px !important;
+}
+
+.card.engagements-cards {
+    border-radius: 7px;
+}
+.card.engagements-cards p {
+    color: #181a20;
+    font-family: inter;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.card.engagements-cards a.Responded-btn {
+    background: #FFA500;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 13px;
+    padding: 8px 15px;
+    line-height: 4.5;
+    font-family: 'Roboto';
+}
+.card.engagements-cards .respond-add {
+    align-items: center;
+    gap: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+}
+.two-btn-free button.start-btn {
+    color: #fff;
+    background-color: #009bfa;
+    border-radius: 12px;
+    padding: 12px 25px;
+    font-family: Inter;
+    font-size: 14px;
+    border: none;
+}
+.two-btn-free button.message-btn {
+    color: #009bfa;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #009bfa;
+    border-radius: 12px;
+    width: 40%;
+    margin-top: 15px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.two-btn-free {
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.cards-engagement {
+    background: #fff;
+    border-radius: 0 0 15px 15px;
+    align-items: center;
+    gap: 40px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 25px;
+    display: flex;
+    box-shadow: 0 5px 21px -8px #cdd1e1;
+}
+
+.card.engagements-cards {
+    border-radius: 7px;
+    width: 32%;
+}
+
+.pending-engagements button.accordion-button {
+    padding: 20px;
+}
+
+.pending-engagements a.accepted-btn {
+    color: #fff;
+    background: #007BFF;
+    border-radius: 100px;
+    padding: 8px 15px;
+    font-size: 13px;
+    line-height: 4.5;
+    font-family: 'Roboto';
+}
+ 
+.pending-engagements .accordion-body.cards-engagement .card .card-body {
+    padding: 16px;
+}
+
+.pending-engagements a.active-btn {
+    color: #fff;
+    background: #28A745;
+    border-radius: 100px;
+    padding: 8px 15px;
+    font-family: Roboto;
+    font-size: 13px;
+    line-height: 4.5;
+}
+
+.pending-engagements a.progress-btn {
+    color: #fff;
+    background: #28A745;
+    border-radius: 100px;
+    padding: 8px 15px;
+    font-family: Roboto;
+    font-size: 13px;
+    line-height: 4.5;
+}
+
+.pending-engagements a.completed-btn {
+    color: #fff;
+    background: #6C757D;
+    border-radius: 100px;
+    padding: 8px 15px;
+    font-family: Roboto;
+    font-size: 13px;
+    line-height: 4.5;
+}
+.pending-engagements a.canceled-btn {
+    color: #fff;
+    background: #FF0000;
+    border-radius: 100px;
+    padding: 8px 15px;
+    font-family: Roboto;
+    font-size: 13px;
+    line-height: 4.5;
+}
+
+
+.pending-engagements .accordion-button {
+    position: relative;
+    justify-content: space-between;
+  }
+  
+  .pending-engagements .accordion-arrow {
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    transform: rotate(45deg);
+    transition: transform 0.3s;
+    margin-left: auto;
+  }
+  
+  .pending-engagements .accordion-button:not(.collapsed) .accordion-arrow {
+    transform: rotate(-135deg);
+  }
+  
+  .pending-engagements .accordion-button:after {
+    display: none;
+}
+
+.pending-engagements button.accordion-button {
+    border-radius: 0px !important;
+}
+

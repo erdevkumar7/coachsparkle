@@ -166,40 +166,40 @@ export default function Profile() {
                                 <div className="upload-photo-add">
                                     <img src="/coachsparkle/assets/images/top-nav.png" alt="profile" />
                                     <div className="upload-btn">
-                                        <a href="#"><i class="bi bi-upload"></i> Upload photo</a>
+                                        <a href="#"><i className="bi bi-upload"></i> Upload photo</a>
 
                                     </div>
                                 </div>
 
                                 <div className="profile-form">
                                     <form>
-                                        <div class="form-row">
-                                            <div class="form-group">
+                                        <div className="form-row">
+                                            <div className="form-group">
                                                 <label for="firstName">First Name*</label>
                                                 <input type="text" id="firstName" name="firstName" required />
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="lastName">Last Name</label>
                                                 <input type="text" id="lastName" name="lastName" />
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="displayName">Display Name*</label>
                                                 <input type="text" id="displayName" name="displayName" required />
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="profile">Professional Profile</label>
                                                 <input type="text" id="profile" name="profile" />
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="email">Email*</label>
                                                 <input type="email" id="email" name="email" required />
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="location">Location</label>
                                                 <select id="location" name="location">
                                                     <option value="">Select Location</option>
@@ -213,12 +213,12 @@ export default function Profile() {
                                             </div>
 
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="topics">Preferred Coaching Topics</label>
                                                 <textarea id="topics" name="topics" rows="3"></textarea>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="ageGroup">Age Group (Learner’s Demographic)</label>
                                                 <select id="ageGroup" name="ageGroup">
                                                     <option value="">Select</option>
@@ -229,7 +229,7 @@ export default function Profile() {
                                                 </select>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="profession">Your Profession</label>
                                                 <input type="text" id="profession" name="profession" />
                                             </div>
@@ -241,31 +241,31 @@ export default function Profile() {
                                         <p className="set-text">Briefly state your coaching goals (e.g., improve leadership presence, transition careers, manage stress better).
                                             This helps us match yu with the the most suitable coaches and allow you to track your own coaching progress. </p>
 
-                                        <div class="form-group goal">
+                                        <div className="form-group goal">
                                             <label for="goal1">Goal #1</label>
                                             <input type="text" name="goal1" />
                                         </div>
 
-                                        <div class="form-group goal">
+                                        <div className="form-group goal">
                                             <label for="goal1">Goal #2</label>
                                             <input type="text" name="goal2" />
                                         </div>
 
 
-                                        <div class="form-group goal">
+                                        <div className="form-group goal">
                                             <label for="goal1">Goal #3</label>
                                             <input type="text" name="goal3" />
                                         </div>
 
 
 
-                                        <div class="form-row preference-input">
-                                            <div class="form-group">
+                                        <div className="form-row preference-input">
+                                            <div className="form-group">
                                                 <label for="language">Language Preference</label>
                                                 <input type="text" id="language" name="language" placeholder="e.g., English, Hindi" />
                                             </div>
 
-                                            <div class="form-group">
+                                            <div className="form-group">
                                                 <label for="mode">Preferred Mode</label>
                                                 <select id="mode" name="mode">
                                                     <option value="">Select Mode</option>
@@ -277,7 +277,7 @@ export default function Profile() {
                                         </div>
 
 
-                                        <div class="form-group">
+                                        <div className="form-group">
                                             <label for="timings">Preferred Coaching Timings</label>
                                             <select id="timings" name="timings">
                                                 <option value="">Select Timing</option>
@@ -290,19 +290,19 @@ export default function Profile() {
                                         </div>
 
 
-                                        <div class="form-group full-width">
+                                        <div className="form-group full-width">
                                             <label for="bio">Short Bio (Optional)</label>
                                             <textarea id="bio" name="bio" rows="3" placeholder="Write a short bio..."></textarea>
                                         </div>
 
-                                        <div class="form-group check-box">
+                                        <div className="form-group check-box">
                                             <input type="checkbox" id="coachAgreement" name="coachAgreement" />
                                             <label for="coachAgreement">I agree to let Coach Sparkle match me with relevant coaches</label>
                                         </div>
 
 
                                         <div className="save-btn">
-                                            <button type="submit" className="save-btn-add">Save Changes <i class="bi bi-arrow-right"></i></button>
+                                            <button type="submit" className="save-btn-add">Save Changes <i className="bi bi-arrow-right"></i></button>
                                         </div>
                                     </form>
 
