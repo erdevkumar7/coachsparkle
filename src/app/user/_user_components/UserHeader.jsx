@@ -163,7 +163,7 @@ export default function UserHeader({ user }) {
                 <a className="dropdown-item">
                   <i className="bi bi-gear mx-0"></i>&nbsp; Settings{" "}
                 </a>
-                <a className="dropdown-item">
+                <a className="dropdown-item" onClick={handleLogout}>
                   <i className="bi bi-power text-primary"></i>&nbsp;Logout{" "}
                 </a>
               </div>
