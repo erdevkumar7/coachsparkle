@@ -36,12 +36,12 @@ export default function Profile() {
                             <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
                                     <i className="bi bi-grid-3x3-gap-fill"></i>
-                                    <span className="menu-title">Dashboard</span>
+                                    <span className="menu-title">Overview</span>
                                 </div>
                             </a>
                         </li>
 
-                        <li className="nav-item">
+                        <li className="nav-item explore-tab">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
                                     <i className="bi bi-search"></i>
@@ -100,7 +100,7 @@ export default function Profile() {
 
 
 
-                        <li className="nav-item">
+                        <li className="nav-item profile-tab">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
                                     <i className="bi bi-person"></i>

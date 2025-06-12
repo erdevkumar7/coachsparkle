@@ -34,15 +34,15 @@ export default function Dashboard() {
                             <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
                                     <i className="bi bi-grid-3x3-gap-fill"></i>
-                                    <span className="menu-title">Dashboard</span>
+                                    <span className="menu-title">Overview</span>
                                 </div>
                             </a>
                         </li>
 
-                        <li className="nav-item">
+                        <li className="nav-item explore-tab">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-search"></i>
+                                <i className="bi bi-search"></i>
                                     <span className="menu-title">Explore Coaches</span>
                                 </div>
                             </a>
@@ -51,7 +51,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-duffle"></i>
+                                <i className="bi bi-duffle"></i>
                                     <span className="menu-title">Coaching Activities</span>
                                 </div>
                             </a>
@@ -60,7 +60,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-heart"></i>
+                                <i className="bi bi-heart"></i>
                                     <span className="menu-title">Favourite Coach</span>
                                 </div>
                             </a>
@@ -69,7 +69,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-chat-dots"></i>
+                                <i className="bi bi-chat-dots"></i>
                                     <span className="menu-title">Message</span>
                                 </div>
                             </a>
@@ -78,7 +78,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-calendar2-week"></i>
+                                <i className="bi bi-calendar2-week"></i>
                                     <span className="menu-title">Booking</span>
                                 </div>
                             </a>
@@ -89,7 +89,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-star"></i>
+                                <i className="bi bi-star"></i>
                                     <span className="menu-title">Reviews</span>
                                 </div>
                             </a>
@@ -98,10 +98,10 @@ export default function Dashboard() {
 
 
                         
-                        <li className="nav-item">
+                        <li className="nav-item profile-tab">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-person"></i>
+                                <i className="bi bi-person"></i>
                                     <span className="menu-title">Profile</span>
                                 </div>
                             </a>
@@ -113,7 +113,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-gear"></i>
+                                <i className="bi bi-gear"></i>
                                     <span className="menu-title">Account Settings</span>
                                 </div>
                             </a>
@@ -124,7 +124,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i class="bi bi-headset"></i>
+                                <i className="bi bi-headset"></i>
                                     <span className="menu-title">FAQs and Support</span>
                                 </div>
                             </a>
@@ -301,66 +301,66 @@ export default function Dashboard() {
                             </div>
 
                             <div className="right-column">
-                                <div class="coaching-card">
-                                    <h3 class="title">Recent Coaching Activities</h3>
-                                    <div class="card">
-                                        <p class="section-title">Your Active Match</p>
-                                        <span class="status">Awaiting response</span>
-                                        <div class="coach-info">
+                                <div className="coaching-card">
+                                    <h3 className="title">Recent Coaching Activities</h3>
+                                    <div className="card">
+                                        <p className="section-title">Your Active Match</p>
+                                        <span className="status">Awaiting response</span>
+                                        <div className="coach-info">
                                             <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
-                                            <div class="coach-details">
-                                                <p class="coach-name">Sarah Lee</p>
-                                                <p class="coach-role">
+                                            <div className="coach-details">
+                                                <p className="coach-name">Sarah Lee</p>
+                                                <p className="coach-role">
                                                     Life And Confidence Coach At <strong>Comex Pte. Ltd.</strong>
                                                 </p>
-                                                <p class="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                                <p className="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
                                             </div>
                                         </div>
-                                        <div class="buttons">
-                                            <button class="btn view">View Profile</button>
-                                            <button class="btn message">Message</button>
+                                        <div className="buttons">
+                                            <button className="btn view">View Profile</button>
+                                            <button className="btn message">Message</button>
                                         </div>
                                     </div>
 
 
-                                    <div class="card">
-                                        <p class="section-title">You’re working with Tracy</p>
-                                        <span class="status">Awaiting response</span>
+                                    <div className="card">
+                                        <p className="section-title">You’re working with Tracy</p>
+                                        <span className="status">Awaiting response</span>
                                         <h5>professional title will goes here...</h5>
 
-                                        <div class="coach-info">
+                                        <div className="coach-info">
                                             <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
-                                            <div class="coach-details">
-                                                <p class="coach-name">Tracy McCoy</p>
+                                            <div className="coach-details">
+                                                <p className="coach-name">Tracy McCoy</p>
 
-                                                <p class="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                                <p className="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
                                             </div>
                                         </div>
                                         <div class="buttons">
-                                            <button class="btn view">View Profile</button>
-                                            <button class="btn message">Message</button>
+                                            <button className="btn view">View Profile</button>
+                                            <button className="btn message">Message</button>
                                         </div>
                                     </div>
 
 
 
 
-                                    <div class="card">
-                                        <p class="section-title">Recently Matched Coach</p>
-                                        <span class="status">Awaiting response</span>
+                                    <div className="card">
+                                        <p className="section-title">Recently Matched Coach</p>
+                                        <span className="status">Awaiting response</span>
                                         <h5>professional title will goes here...</h5>
 
-                                        <div class="coach-info">
+                                        <div className="coach-info">
                                             <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
-                                            <div class="coach-details">
-                                                <p class="coach-name">Tracy McCoy</p>
+                                            <div className="coach-details">
+                                                <p className="coach-name">Tracy McCoy</p>
 
-                                                <p class="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                                <p className="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
                                             </div>
                                         </div>
-                                        <div class="buttons">
-                                            <button class="btn view">View Profile</button>
-                                            <button class="btn message">Message</button>
+                                        <div className="buttons">
+                                            <button className="btn view">View Profile</button>
+                                            <button className="btn message">Message</button>
                                         </div>
                                     </div>
 
