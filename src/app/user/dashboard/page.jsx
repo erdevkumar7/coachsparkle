@@ -42,7 +42,7 @@ export default function Dashboard() {
                         <li className="nav-item explore-tab">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-search"></i>
+                                    <i className="bi bi-search"></i>
                                     <span className="menu-title">Explore Coaches</span>
                                 </div>
                             </a>
@@ -51,7 +51,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-duffle"></i>
+                                    <i className="bi bi-duffle"></i>
                                     <span className="menu-title">Coaching Activities</span>
                                 </div>
                             </a>
@@ -60,7 +60,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-heart"></i>
+                                    <i className="bi bi-heart"></i>
                                     <span className="menu-title">Favourite Coach</span>
                                 </div>
                             </a>
@@ -69,7 +69,7 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-chat-dots"></i>
+                                    <i className="bi bi-chat-dots"></i>
                                     <span className="menu-title">Message</span>
                                 </div>
                             </a>
@@ -78,18 +78,18 @@ export default function Dashboard() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-calendar2-week"></i>
+                                    <i className="bi bi-calendar2-week"></i>
                                     <span className="menu-title">Booking</span>
                                 </div>
                             </a>
                         </li>
 
 
-                        
+
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-star"></i>
+                                    <i className="bi bi-star"></i>
                                     <span className="menu-title">Reviews</span>
                                 </div>
                             </a>
@@ -97,11 +97,11 @@ export default function Dashboard() {
 
 
 
-                        
+
                         <li className="nav-item profile-tab">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-person"></i>
+                                    <i className="bi bi-person"></i>
                                     <span className="menu-title">Profile</span>
                                 </div>
                             </a>
@@ -109,32 +109,32 @@ export default function Dashboard() {
 
 
 
-                        
+
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-gear"></i>
+                                    <i className="bi bi-gear"></i>
                                     <span className="menu-title">Account Settings</span>
                                 </div>
                             </a>
                         </li>
 
 
-                        
+
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="bi bi-headset"></i>
+                                    <i className="bi bi-headset"></i>
                                     <span className="menu-title">FAQs and Support</span>
                                 </div>
                             </a>
                         </li>
-                        
+
 
                         <li className="nav-item sign-out">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                <i className="fa fa-sign-out" aria-hidden="true"></i>
+                                    <i className="fa fa-sign-out" aria-hidden="true"></i>
                                     <span className="menu-title">Sign Out</span>
                                 </div>
                             </a>
@@ -234,7 +234,7 @@ export default function Dashboard() {
                                 <div className="card">
                                     <div className="card-header">
                                         <h3>Your Coaching Goals Progress</h3>
-                                        <button className="update-btn">Update Goal <i class="bi bi-arrow-right"></i></button>
+                                        <button className="update-btn">Update Goal <i className="bi bi-arrow-right"></i></button>
                                     </div>
                                     <div className="goal">
                                         <p className="build-text-add">Build Confidence For Public Speaking</p>
@@ -265,30 +265,30 @@ export default function Dashboard() {
                                     <div className="coach">
 
                                         <div className="info">
-                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="name-text">
                                                 <p>Tracy McCoy</p>
                                                 <span><i class="bi bi-star-fill"></i> 5.0</span>
                                             </div>
                                         </div>
-                                        <button class="msg-btn">Message</button>
+                                        <button className="msg-btn">Message</button>
                                     </div>
                                     <div className="coach">
 
                                         <div className="info">
-                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="name-text">
                                                 <p>Jim Saw</p>
-                                                <span><i class="bi bi-star-fill"></i> 5.0</span>
+                                                <span><i className="bi bi-star-fill"></i> 5.0</span>
                                             </div>
                                         </div>
-                                        <button class="msg-btn">Book Trial</button>
+                                        <button className="msg-btn">Book Trial</button>
                                     </div>
                                     <div className="coach">
 
 
                                         <div className="info">
-                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="name-text">
                                                 <p>Jammy Vardy</p>
                                                 <span><i class="bi bi-star-fill"></i> 5.0</span>
@@ -307,13 +307,13 @@ export default function Dashboard() {
                                         <p className="section-title">Your Active Match</p>
                                         <span className="status">Awaiting response</span>
                                         <div className="coach-info">
-                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="coach-details">
                                                 <p className="coach-name">Sarah Lee</p>
                                                 <p className="coach-role">
                                                     Life And Confidence Coach At <strong>Comex Pte. Ltd.</strong>
                                                 </p>
-                                                <p className="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                                <p className="coach-rating"><i className="bi bi-star-fill"></i><span>5.0</span></p>
                                             </div>
                                         </div>
                                         <div className="buttons">
@@ -329,14 +329,14 @@ export default function Dashboard() {
                                         <h5>professional title will goes here...</h5>
 
                                         <div className="coach-info">
-                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="coach-details">
                                                 <p className="coach-name">Tracy McCoy</p>
 
-                                                <p className="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                                <p className="coach-rating"><i className="bi bi-star-fill"></i><span>5.0</span></p>
                                             </div>
                                         </div>
-                                        <div class="buttons">
+                                        <div className="buttons">
                                             <button className="btn view">View Profile</button>
                                             <button className="btn message">Message</button>
                                         </div>
@@ -351,11 +351,11 @@ export default function Dashboard() {
                                         <h5>professional title will goes here...</h5>
 
                                         <div className="coach-info">
-                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
+                                            <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="coach-details">
                                                 <p className="coach-name">Tracy McCoy</p>
 
-                                                <p className="coach-rating"><i class="bi bi-star-fill"></i><span>5.0</span></p>
+                                                <p className="coach-rating"><i className="bi bi-star-fill"></i><span>5.0</span></p>
                                             </div>
                                         </div>
                                         <div className="buttons">
@@ -380,39 +380,39 @@ export default function Dashboard() {
 
                         <div className="goal-setting-tips">
                             <div className="goal-left-column">
-                                <div class="tips-card">
-                                    <h3 class="card-title">Goal Setting Tips</h3>
-                                    <ul class="tips-list">
-                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" class="coach-img" />
-                                        5 - Minute Tips For Goal Setting</li>
-                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" class="coach-img" /> How To Reach Your Goals In Life</li>
-                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" class="coach-img" /> How To Reach Your Goals In Life</li>
+                                <div className="tips-card">
+                                    <h3 className="card-title">Goal Setting Tips</h3>
+                                    <ul className="tips-list">
+                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" className="coach-img" />
+                                            5 - Minute Tips For Goal Setting</li>
+                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" className="coach-img" /> How To Reach Your Goals In Life</li>
+                                        <li><img src="/coachsparkle/assets/images/carbon_course.png" alt="Coach Image" className="coach-img" /> How To Reach Your Goals In Life</li>
                                     </ul>
-                                    <a href="#" class="explore-link">Explore Coaches to learn Public Speaking, Skating and Python Coding</a>
+                                    <a href="#" className="explore-link">Explore Coaches to learn Public Speaking, Skating and Python Coding</a>
                                 </div>
 
                             </div>
 
                             <div className="goal-right-column">
-                                <div class="coaching-card">
+                                <div className="coaching-card">
 
-                                    <div class="coach-card">
-                                        <h3 class="card-title">Your Favourite Coach</h3>
-                                        <div class="coach-list">
-                                            <div class="coach-item">
-                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
-                                                <span class="coach-name">Tracy McCoy</span>
-                                                <button class="btn-book">Book Now</button>
+                                    <div className="coach-card">
+                                        <h3 className="card-title">Your Favourite Coach</h3>
+                                        <div className="coach-list">
+                                            <div className="coach-item">
+                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
+                                                <span className="coach-name">Tracy McCoy</span>
+                                                <button className="btn-book">Book Now</button>
                                             </div>
-                                            <div class="coach-item">
-                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
-                                                <span class="coach-name">Jim Saw</span>
-                                                <button class="btn-book">Book Now</button>
+                                            <div className="coach-item">
+                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
+                                                <span className="coach-name">Jim Saw</span>
+                                                <button className="btn-book">Book Now</button>
                                             </div>
-                                            <div class="coach-item">
-                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" class="coach-img" />
-                                                <span class="coach-name">Jammy Vardy</span>
-                                                <button class="btn-book">Book Now</button>
+                                            <div className="coach-item">
+                                                <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
+                                                <span className="coach-name">Jammy Vardy</span>
+                                                <button className="btn-book">Book Now</button>
                                             </div>
                                         </div>
                                     </div>
@@ -424,21 +424,12 @@ export default function Dashboard() {
 
 
 
-                        <div class="activity-log-card">
-                            <h3 class="activity-title">Activity Log</h3>
-                            <ul class="activity-list">
-                                <li>- You Sent A Request To Coach Tracy McCoy <span class="activity-time">(3 days ago)</span></li>
+                        <div className="activity-log-card">
+                            <h3 className="activity-title">Activity Log</h3>
+                            <ul className="activity-list">
+                                <li>- You Sent A Request To Coach Tracy McCoy <span className="activity-time">(3 days ago)</span></li>
                             </ul>
                         </div>
-
-
-
-
-
-
-
-
-
 
                     </div>
                 </div>

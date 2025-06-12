@@ -1,0 +1,29 @@
+.favourite-coach-page .card.engagements-cards {
+    width: 100%;
+}
+
+.favourite-coach-page h3.tittle-text {
+    border-bottom: 1px solid #e7e7e7;
+    padding-bottom: 15px;
+}
+.row.favourite-coach-page {
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    row-gap: 20px;
+    padding: 15px 15px 68px;
+    box-shadow: 0 5px 21px -5px #cdd1e1;
+}
+.favourite-coach-page p.favourite-text-tittle {
+    font-size: 16px;
+    padding-bottom: 10px;
+}
+.favourite-coach-page button.start-btn {
+    width: 50%;
+}
+
+
+
+
+
+
