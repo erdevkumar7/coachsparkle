@@ -115,7 +115,7 @@ export default function Profile() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                    <i class="bi bi-gear"></i>
+                                    <i className="bi bi-gear"></i>
                                     <span className="menu-title">Account Settings</span>
                                 </div>
                             </a>
@@ -126,7 +126,7 @@ export default function Profile() {
                         <li className="nav-item">
                             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                                 <div>
-                                    <i class="bi bi-headset"></i>
+                                    <i className="bi bi-headset"></i>
                                     <span className="menu-title">FAQs and Support</span>
                                 </div>
                             </a>
@@ -175,32 +175,32 @@ export default function Profile() {
                                     <form>
                                         <div className="form-row">
                                             <div className="form-group">
-                                                <label for="firstName">First Name*</label>
+                                                <label htmlFor="firstName">First Name*</label>
                                                 <input type="text" id="firstName" name="firstName" required />
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="lastName">Last Name</label>
+                                                <label htmlFor="lastName">Last Name</label>
                                                 <input type="text" id="lastName" name="lastName" />
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="displayName">Display Name*</label>
+                                                <label htmlFor="displayName">Display Name*</label>
                                                 <input type="text" id="displayName" name="displayName" required />
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="profile">Professional Profile</label>
+                                                <label htmlFor="profile">Professional Profile</label>
                                                 <input type="text" id="profile" name="profile" />
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="email">Email*</label>
+                                                <label htmlFor="email">Email*</label>
                                                 <input type="email" id="email" name="email" required />
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="location">Location</label>
+                                                <label htmlFor="location">Location</label>
                                                 <select id="location" name="location">
                                                     <option value="">Select Location</option>
                                                     <option value="new-york">New York</option>
@@ -214,12 +214,12 @@ export default function Profile() {
 
 
                                             <div className="form-group">
-                                                <label for="topics">Preferred Coaching Topics</label>
+                                                <label htmlFor="topics">Preferred Coaching Topics</label>
                                                 <textarea id="topics" name="topics" rows="3"></textarea>
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="ageGroup">Age Group (Learner’s Demographic)</label>
+                                                <label htmlFor="ageGroup">Age Group (Learner’s Demographic)</label>
                                                 <select id="ageGroup" name="ageGroup">
                                                     <option value="">Select</option>
                                                     <option value="children">Children</option>
@@ -230,7 +230,7 @@ export default function Profile() {
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="profession">Your Profession</label>
+                                                <label htmlFor="profession">Your Profession</label>
                                                 <input type="text" id="profession" name="profession" />
                                             </div>
 
@@ -242,18 +242,18 @@ export default function Profile() {
                                             This helps us match yu with the the most suitable coaches and allow you to track your own coaching progress. </p>
 
                                         <div className="form-group goal">
-                                            <label for="goal1">Goal #1</label>
+                                            <label htmlFor="goal1">Goal #1</label>
                                             <input type="text" name="goal1" />
                                         </div>
 
                                         <div className="form-group goal">
-                                            <label for="goal1">Goal #2</label>
+                                            <label htmlFor="goal1">Goal #2</label>
                                             <input type="text" name="goal2" />
                                         </div>
 
 
                                         <div className="form-group goal">
-                                            <label for="goal1">Goal #3</label>
+                                            <label htmlFor="goal1">Goal #3</label>
                                             <input type="text" name="goal3" />
                                         </div>
 
@@ -261,12 +261,12 @@ export default function Profile() {
 
                                         <div className="form-row preference-input">
                                             <div className="form-group">
-                                                <label for="language">Language Preference</label>
+                                                <label htmlFor="language">Language Preference</label>
                                                 <input type="text" id="language" name="language" placeholder="e.g., English, Hindi" />
                                             </div>
 
                                             <div className="form-group">
-                                                <label for="mode">Preferred Mode</label>
+                                                <label htmlFor="mode">Preferred Mode</label>
                                                 <select id="mode" name="mode">
                                                     <option value="">Select Mode</option>
                                                     <option value="online">Online</option>
@@ -278,7 +278,7 @@ export default function Profile() {
 
 
                                         <div className="form-group">
-                                            <label for="timings">Preferred Coaching Timings</label>
+                                            <label htmlFor="timings">Preferred Coaching Timings</label>
                                             <select id="timings" name="timings">
                                                 <option value="">Select Timing</option>
                                                 <option value="morning">Morning (8 AM - 12 PM)</option>
@@ -291,13 +291,13 @@ export default function Profile() {
 
 
                                         <div className="form-group full-width">
-                                            <label for="bio">Short Bio (Optional)</label>
+                                            <label htmlFor="bio">Short Bio (Optional)</label>
                                             <textarea id="bio" name="bio" rows="3" placeholder="Write a short bio..."></textarea>
                                         </div>
 
                                         <div className="form-group check-box">
                                             <input type="checkbox" id="coachAgreement" name="coachAgreement" />
-                                            <label for="coachAgreement">I agree to let Coach Sparkle match me with relevant coaches</label>
+                                            <label htmlFor="coachAgreement">I agree to let Coach Sparkle match me with relevant coaches</label>
                                         </div>
 
 

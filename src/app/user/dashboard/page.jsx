@@ -268,7 +268,7 @@ export default function Dashboard() {
                                             <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="name-text">
                                                 <p>Tracy McCoy</p>
-                                                <span><i class="bi bi-star-fill"></i> 5.0</span>
+                                                <span><i className="bi bi-star-fill"></i> 5.0</span>
                                             </div>
                                         </div>
                                         <button className="msg-btn">Message</button>
@@ -291,7 +291,7 @@ export default function Dashboard() {
                                             <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                             <div className="name-text">
                                                 <p>Jammy Vardy</p>
-                                                <span><i class="bi bi-star-fill"></i> 5.0</span>
+                                                <span><i className="bi bi-star-fill"></i> 5.0</span>
                                             </div>
                                         </div>
                                         <button className="msg-btn">Message</button>

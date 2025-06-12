@@ -418,7 +418,7 @@ export default function Usermessage() {
 
                                                                     </div>
 
-                                                                    <button className="send-message-button">Send Message <i class="bi bi-arrow-right"></i></button>
+                                                                    <button className="send-message-button">Send Message <i className="bi bi-arrow-right"></i></button>
 
                                                                 </div>
 
