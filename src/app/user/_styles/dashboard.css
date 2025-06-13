@@ -5,6 +5,9 @@
     line-height: 1;
     display: inline-block;
 }
+.sidebar.collapsed {
+    width: 53px !important;
+}
 .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link, .sidebar .nav:not(.sub-menu) > .nav-item:hover[aria-expanded="true"] {
     color: #009bfa !important;
     background: #e8f7ff !important;
@@ -636,3 +639,4 @@ p.coach-rating span {
 .grid-margin {
     margin-bottom: 0.5rem;
 }
+
