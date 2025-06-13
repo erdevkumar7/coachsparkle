@@ -1,8 +1,32 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 
 export default function SwiperOne() {
     return (
-        <Swiper spaceBetween={20} slidesPerView={3} loop={true}>
+        <Swiper
+            spaceBetween={20}
+            slidesPerView={3}
+            loop={true}
+            // autoplay={{
+            //     delay: 1000, 
+            //     disableOnInteraction: false, // keep autoplay running after user interaction
+            // }}
+           // modules={[Autoplay]} // IMPORTANT: include the Autoplay module
+            breakpoints={{
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+            }}
+        >
             <SwiperSlide>
                 <div className="card-content">
                     <h2 className="name">Great Work</h2>

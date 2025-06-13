@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "../_styles/dashboard.css";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -160,10 +161,10 @@ export default function Dashboard() {
 
                         <div className="max-w-5xl mx-auto px-4 py-8 at-glance-add">
                             <div className="flex items-center gap-3 mt-4">
-                                <img src="/coachsparkle/assets/images/top-nav.png" alt="profile" />
+                                <img src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`} alt="profile" />
                                 <div>
                                     <h5 className="font-medium">
-                                        Emma Rose{" "}
+                                        {user?.first_name} {user?.last_name}{" "}
                                         <span className="text-green-500 text-sm">
                                             <i className="bi bi-check-circle-fill"></i>
                                         </span>
