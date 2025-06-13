@@ -1,0 +1,278 @@
+.account-information button.save-changes-btn {
+    border: none;
+    background-color: #009BFA;
+    color: #fff;
+    padding: 13px 25px;
+    border-radius: 12px;
+    font-size: 15px;
+}
+.profile-form-add.account-information {
+    margin-top: 0px;
+}
+
+.change-password-add {
+    margin-top: 65px;
+}
+
+.change-password-input-list {
+    align-items: center;
+    gap: 20px;
+    padding-top: 40px;
+    display: flex;
+    padding-bottom: 30px;
+}
+
+.change-password-input-list .input-group {
+    border: solid 1px #EDEFF5;
+    border-radius: 5px;
+}
+.change-password-input-list span.input-group-text {
+    background: none;
+    border: solid 1px #EDEFF5;
+}
+
+.change-password-input-list .input-group.mb-3 {
+    border: none;
+}
+
+.change-password-input-list input {
+    border: solid 1px #EDEFF5;
+    border-right: 0px !important;
+}
+
+.change-password-input-list input:focus {
+   outline: none !important;
+   border: solid 1px #EDEFF5;
+}
+
+.change-password-input-list label.form-label.w-100 {
+    color: #181a20;
+    margin-bottom: 5px;
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.change-password-input-list .form-check.form-switch {
+    display: flex;
+}
+
+
+
+
+
+
+
+
+
+
+.notifications-add .switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+  }
+  
+  .notifications-add .switch input {
+    display: none;
+  }
+  
+  .notifications-add .slider {
+    cursor: pointer;
+    background-color: #009BFA;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+    position: absolute;
+    inset: 0;
+}
+  
+  .notifications-add .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .notifications-add input:checked + .slider {
+    background-color: #2ab934;
+  }
+  
+  .notifications-add input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  .notifications-add input:checked + .slider:before {
+    -webkit-transform: translateX(55px);
+    -ms-transform: translateX(55px);
+    transform: translateX(55px);
+  }
+  
+  /*------ ADDED CSS ---------*/
+  .notifications-add .on {
+    display: none;
+  }
+  
+  .notifications-add .on, .off {
+    color: white;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    font-size: 10px;
+    font-family: Verdana, sans-serif;
+    user-select:none;
+  }
+  
+  .notifications-add input:checked + .slider .on {
+    display: block;
+  }
+  
+  .notifications-add input:checked + .slider .off {
+    display: none;
+  }
+
+  .notifications-add .slider.round {
+    border-radius: 34px;
+  }
+  
+  .notifications-add .slider.round:before {
+    border-radius: 50%;
+  }
+  .col-3.notifications-one {
+    display: flex;
+    align-items: center;
+    padding: 0px;
+}
+.container.notifications-add {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: max-content;
+}
+.col-3.notifications-one p {
+    color: #191f33;
+    margin-right: 10px;
+    padding-left: 12px;
+    font-size: 12px;
+    width: 155px;
+}
+
+.container.notifications-add .row {
+    margin-top: 20px;
+}
+
+.row.privacy-control {
+    align-items: center;
+}
+
+.row.privacy-control input[type="checkbox"] {
+    width: 22px;
+    margin-left: 8px;
+}
+
+.row.privacy-control .col-md-4 {
+    padding-right: 0px;
+}
+
+.row.privacy-control .col-md-2 {
+    padding-right: 0px;
+}
+
+.row.privacy-control.one {
+    width: 75%;
+}
+
+.row.privacy-control.one label {
+    font-size: 13px;
+}
+
+.row.privacy-control.two label {
+    font-size: 13px;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.row.privacy-control.one .col-md-4 {
+    width: 22%;
+}
+
+.row.privacy-control.two .col-md-4 {
+    width: 26%;
+}
+
+.row.privacy-control.one .form-group.check-box {
+    margin-bottom: 0px;
+}
+
+.row.privacy-control.two .form-group.check-box {
+    margin-bottom: 0px;
+}
+
+.row.privacy-control.three .col-md-6.left {
+    width: 20%;
+}
+
+.row.privacy-control label {
+    color: #181A20;
+    font-weight: 500 !important;
+    font-family: 'Roboto' !important;
+}
+.row.privacy-control.two {
+    width: 100%;
+}
+
+a.manage-text {
+    width: 100%;
+    display: flex;
+    color: #009BFA;
+    font-size: 15px;
+    font-family: 'Roboto';
+    margin-bottom: 15px;
+}
+
+a.manage-text-view {
+    width: 100%;
+    display: flex;
+    color: #009BFA;
+    font-size: 15px;
+    font-family: 'Roboto';
+    padding-top: 10px;
+}
+
+.delete-account-add {
+    padding-top: 60px;
+}
+.delete-account-add button.delete-btn {
+    background-color: #FFE5E5;
+    border: solid 1px #FFE5E5;
+    padding: 14px 24px;
+    border-radius: 12px;
+    color: #FF4F4F;
+    font-size: 14px;
+    font-family: 'Roboto';
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.row.account-info-add .col-md-4 {
+    padding-right: 0px;
+}
+
+.row.account-info-add {
+    width: 100%;
+}
+
+.account-info-add select {
+    border: 0px solid #d1d5db;
+}
+
+
