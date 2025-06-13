@@ -208,8 +208,8 @@ export default function Home() {
       <div className="global-companies">
         <div className="container">
           <h1 className="text-center">Trusted by 500+ Global Partners</h1>
-          {/* <SwiperSecond />    */}
-          <SwiperThird />     
+          <SwiperSecond />   
+          {/* <SwiperThird />      */}
         </div>     
       </div>
 

@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "../_styles/dashboard.css";
+import { FRONTEND_BASE_URL } from "@/config/url_config";
+import UserSideBarComp from "../_user_components/UserSideBar";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -28,120 +30,7 @@ export default function Dashboard() {
     return (
         <>
             <div className="container-fluid page-body-wrapper">
-                <nav className="sidebar sidebar-offcanvas" id="sidebar">
-                    <ul className="nav">
-                        <li className="nav-item">
-                            <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-grid-3x3-gap-fill"></i>
-                                    <span className="menu-title">Overview</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li className="nav-item explore-tab">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-search"></i>
-                                    <span className="menu-title">Explore Coaches</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-duffle"></i>
-                                    <span className="menu-title">Coaching Activities</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-heart"></i>
-                                    <span className="menu-title">Favourite Coach</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-chat-dots"></i>
-                                    <span className="menu-title">Message</span>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-calendar2-week"></i>
-                                    <span className="menu-title">Booking</span>
-                                </div>
-                            </a>
-                        </li>
-
-
-
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-star"></i>
-                                    <span className="menu-title">Reviews</span>
-                                </div>
-                            </a>
-                        </li>
-
-
-
-
-                        <li className="nav-item profile-tab">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-person"></i>
-                                    <span className="menu-title">Profile</span>
-                                </div>
-                            </a>
-                        </li>
-
-
-
-
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-gear"></i>
-                                    <span className="menu-title">Account Settings</span>
-                                </div>
-                            </a>
-                        </li>
-
-
-
-                        <li className="nav-item">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="bi bi-headset"></i>
-                                    <span className="menu-title">FAQs and Support</span>
-                                </div>
-                            </a>
-                        </li>
-
-
-                        <li className="nav-item sign-out">
-                            <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                                <div>
-                                    <i className="fa fa-sign-out" aria-hidden="true"></i>
-                                    <span className="menu-title">Sign Out</span>
-                                </div>
-                            </a>
-                        </li>
-
-                    </ul>
-                </nav>
+               <UserSideBarComp />
 
                 <div className="main-panel">
                     <div className="content-wrapper">
@@ -160,10 +49,10 @@ export default function Dashboard() {
 
                         <div className="max-w-5xl mx-auto px-4 py-8 at-glance-add">
                             <div className="flex items-center gap-3 mt-4">
-                                <img src="/coachsparkle/assets/images/top-nav.png" alt="profile" />
+                                <img src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`} alt="profile" />
                                 <div>
                                     <h5 className="font-medium">
-                                        Emma Rose{" "}
+                                        {user?.first_name} {user?.last_name}{" "}
                                         <span className="text-green-500 text-sm">
                                             <i className="bi bi-check-circle-fill"></i>
                                         </span>
