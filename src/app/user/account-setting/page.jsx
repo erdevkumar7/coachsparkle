@@ -251,7 +251,7 @@ export default function Accountsetting() {
                                                 </div>
                                             </div>
 
-                                            <button class="save-changes-btn">Save Changes</button>
+                                            <button className="save-changes-btn">Save Changes</button>
                                         </div>
 
                                         <div className="change-password-add">
@@ -345,7 +345,7 @@ export default function Accountsetting() {
 
                                             <div className="row privacy-control one">
                                                 <div className="col-md-4">
-                                                    <div class="form-group check-box">
+                                                    <div className="form-group check-box">
                                                         <label htmlFor="coachAgreement">Profile Visibility</label>
                                                     </div>
                                                 </div>
@@ -428,7 +428,7 @@ export default function Accountsetting() {
                                             </div>
 
                                             <button className="delete-btn">
-                                                <i class="bi bi-trash3"></i> Delete Account
+                                                <i className="bi bi-trash3"></i> Delete Account
                                             </button>
                                         </div>
                                     </form>
