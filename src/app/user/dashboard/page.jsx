@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "../_styles/dashboard.css";
-import { FRONTEND_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 import UserSideBarComp from "../_user_components/UserSideBar";
 
 export default function Dashboard() {

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/navigation";
-import { FRONTEND_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 export default function UserHeader({ user }) {
   const router = useRouter();

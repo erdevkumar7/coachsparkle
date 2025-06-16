@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from "react";
-import { FRONTEND_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SwiperSecond from "@/components/SwiperSecond";

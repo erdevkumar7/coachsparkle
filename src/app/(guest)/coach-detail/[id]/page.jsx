@@ -1,6 +1,6 @@
 
 
-import { FRONTEND_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 import axios from 'axios';
 import "../../_styles/coach-list.css"
 

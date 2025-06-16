@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { HandleLogin } from "@/app/api/auth";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { HandleLogin } from '@/utiles/api/auth';
 
 export default function Login() {
     const router = useRouter();

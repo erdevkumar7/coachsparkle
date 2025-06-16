@@ -5,7 +5,7 @@ import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import axios from "axios";
 import UserSideBarComp from "../_user_components/UserSideBar";
-import { FRONTEND_BASE_URL } from "@/config/url_config";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 
 export default function Profile() {

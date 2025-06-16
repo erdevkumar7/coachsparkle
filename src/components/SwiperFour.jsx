@@ -1,4 +1,4 @@
-import { FRONTEND_BASE_URL } from '@/config/url_config';
+import { FRONTEND_BASE_URL } from '@/utiles/config';
 import Slider from "react-slick";
 
 export default function SwiperFour() {
