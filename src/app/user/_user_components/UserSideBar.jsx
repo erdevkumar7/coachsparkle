@@ -8,7 +8,7 @@ export default function UserSideBarComp() {
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
             <ul className="nav">
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/dashboard')}>
                     <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-grid-3x3-gap-fill"></i>
@@ -35,7 +35,7 @@ export default function UserSideBarComp() {
                     </a>
                 </li>
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/favourite-coach')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-heart"></i>
@@ -44,7 +44,7 @@ export default function UserSideBarComp() {
                     </a>
                 </li>
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/user-message')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-chat-dots"></i>
@@ -88,7 +88,7 @@ export default function UserSideBarComp() {
 
 
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/account-setting')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-gear"></i>
