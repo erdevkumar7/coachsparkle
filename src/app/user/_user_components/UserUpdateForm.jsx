@@ -4,19 +4,20 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-export default function UserUpdateFormData({ user }) {
+export default function UserUpdateFormData({ user, countries }) {
     const router = useRouter();
     const [getToken, setToken] = useState();
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    let userToken;
 
     const [formData, setFormData] = useState({
         user_type: user.user_type || 2,
         first_name: user.first_name || '',
         last_name: user.last_name || '',
         email: user.email || '',
-        country_id: 2 || '',
-
+        country_id: user.country_id || '',
+        display_name: user.display_name || '',
+        professional_profile: user.professional_profile || '',
+        professional_title: user.professional_title || '',
     });
 
 
@@ -26,13 +27,15 @@ export default function UserUpdateFormData({ user }) {
 
     const getUserData = async () => {
         //    const token = localStorage.getItem("token");
-        const token = Cookies.get('token'); 
+        const token = Cookies.get('token');
         if (!token) {
             router.push("/login");
             return;
         }
         setToken(token);
     };
+
+
 
     // Handle form field changes
     const handleChange = (e) => {
@@ -55,7 +58,7 @@ export default function UserUpdateFormData({ user }) {
                     Authorization: `Bearer ${getToken}`,
                     Accept: 'application/json'
                 },
-            });      
+            });
 
             if (res.data.success) {
                 alert('Profile updated successfully!');
@@ -68,13 +71,9 @@ export default function UserUpdateFormData({ user }) {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        router.push("/login");
-    };
 
 
+    // console.log('user', user.country_id)
     return (
         <div className="profile-form">
             <form onSubmit={handleSubmit}>
@@ -104,13 +103,26 @@ export default function UserUpdateFormData({ user }) {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="displayName">Display Name*</label>
-                        <input type="text" id="displayName" name="displayName" />
+                        <label htmlFor="display_name">Display Name*</label>
+                        <input
+                            required
+                            type="text"
+                            id="display_name"
+                            name="display_name"
+                            value={formData.display_name}
+                            onChange={handleChange}
+                        />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="profile">Professional Profile</label>
-                        <input type="text" id="profile" name="profile" />
+                        <label htmlFor="professional_profile">Professional Profile</label>
+                        <input
+                            type="text"
+                            id="professional_profile"
+                            name="professional_profile"
+                            value={formData.professional_profile}
+                            onChange={handleChange}
+                        />
                     </div>
 
                     <div className="form-group">
@@ -125,11 +137,22 @@ export default function UserUpdateFormData({ user }) {
                         />
                     </div>
 
+
                     <div className="form-group">
-                        <label htmlFor="location">Location</label>
-                        <select id="location" name="location">
-                            <option value="">Select Location</option>
-                            <option value="new-york">New York</option>
+                        <label htmlFor="country_id">Country</label>
+                        <select
+                            id="country_id"
+                            name="country_id"
+                            value={formData.country_id}
+                            onChange={handleChange}
+
+                        >
+                            <option value="">Select Country</option>
+                            {countries.map((country) => (
+                                <option key={country.country_id} value={country.country_id}>
+                                    {country.country_name}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -151,12 +174,12 @@ export default function UserUpdateFormData({ user }) {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="profession">Your Profession</label>
+                        <label htmlFor="professional_title">Your Profession</label>
                         <input
                             type="text"
-                            id="profession"
-                            name="profession"
-                            value={formData.professionalTitle}
+                            id="professional_title"
+                            name="professional_title"
+                            value={formData.professional_title}
                             onChange={handleChange}
                         />
                     </div>

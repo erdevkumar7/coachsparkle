@@ -22,6 +22,13 @@ export default async function Profile() {
     let user = data.data
     user.token = token;
 
+
+    const getCountries = await fetch(`${apiUrl}/getCountries`, {
+        method: 'POST',
+    })
+    const countries = await getCountries.json();
+
+
     return (
         <>
             <div className="container-fluid page-body-wrapper">
@@ -52,7 +59,8 @@ export default async function Profile() {
 
                                     </div>
                                 </div>
-                                <UserUpdateFormData user={user} />
+                          
+                                <UserUpdateFormData user={user} countries={countries} />
                             </div>
                         </div>
                     </div>
