@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import "../_styles/dashboard.css";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import UserSideBarComp from "../_user_components/UserSideBar";
+import Cookies from "js-cookie";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -11,14 +12,15 @@ export default function Dashboard() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = Cookies.get('token'); 
+        // const token = localStorage.getItem('token');
         const userData = localStorage.getItem("user");
 
         if (!token) {
             router.push("/login");
         }
 
-        if (token && userData) {
+        if (userData) {
             setIsLoggedIn(true);
             setUser(JSON.parse(userData));
         } else {

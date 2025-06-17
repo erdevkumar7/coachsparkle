@@ -1,12 +1,12 @@
-'use client';
-import React, { useEffect } from "react";
+// 'use client';
+// import React, { useEffect } from "react";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SwiperSecond from "@/components/SwiperSecond";
-import SwiperThird from "@/components/SwiperThird";
+// import SwiperThird from "@/components/SwiperThird";
 import SwiperOne from "@/components/SwiperOne";
-import SwiperFour from "@/components/SwiperFour";
+// import SwiperFour from "@/components/SwiperFour";
 
 export default function Home() {
 

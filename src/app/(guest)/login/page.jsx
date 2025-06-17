@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { HandleLogin } from '@/utiles/api/auth';
+import Cookies from 'js-cookie';
 
 export default function Login() {
     const router = useRouter();
@@ -23,7 +24,7 @@ export default function Login() {
     };
 
     const handleRoleSwitch = (newRole) => {
-        setRole(newRole);     
+        setRole(newRole);
     };
 
     const handleSubmit = async (e) => {
@@ -40,14 +41,22 @@ export default function Login() {
         } else {
             // Handle success (store token, redirect, etc.)
             localStorage.setItem('token', result.data.token);
+
+            if (result.data.token) {
+                Cookies.set('token', result.data.token, {
+                    expires: 7, // Expires in 7 days
+                    secure: true,
+                    sameSite: 'Lax',
+                });
+            }
             localStorage.setItem('user', JSON.stringify(result.data.user));
 
-            if (result.data.user.user_type === 1) {
-                router.push('/');
-            } else if (result.data.user.user_type === 2) {
+            if (result.data.user.user_type === 2) {
                 router.push('/user/dashboard');
             } else if (result.data.user.user_type === 3) {
                 router.push('/coach/dashboard');
+            } else {
+                router.push('/');
             }
         }
     };

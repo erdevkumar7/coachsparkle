@@ -1,3 +1,4 @@
+'use client';
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
