@@ -143,7 +143,7 @@ export default function UserHeader({ user }) {
                 id="profileDropdown"
               >
                 <img
-                  src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`}
+                  src={`${user.profile_image}`}
                   alt="profile" />
                 <p className="top-name-add">{user?.first_name}</p>
               </a>
