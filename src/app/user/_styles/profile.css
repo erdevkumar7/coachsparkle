@@ -17,6 +17,15 @@
     padding-bottom: 15px;
 }
 
+.upload-btn label {
+    border: solid 1px #009BFA;
+    font-family: 'Inter';
+    color: #009BFA;
+    border-radius: 12px;
+    text-decoration: none;
+    padding: 12px 25px;
+}
+
 .upload-btn a {
     border: solid 1px #009BFA;
     font-family: 'Inter';
@@ -31,6 +40,12 @@
     align-items: center;
     gap: 20px;
     margin-top: 20px;
+}
+
+.upload-photo-add img {
+    border-radius: 100%;
+    width: 54px;
+    height: 54px;
 }
 
 
@@ -172,4 +187,3 @@
     float: right;
     width: 55%;
 }
-

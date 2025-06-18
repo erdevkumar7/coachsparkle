@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-export default function UserUpdateFormData({ user, countries }) {
+export default function UserUpdateFormData({ user, countries, deliveryMode }) {    
     const router = useRouter();
     const [getToken, setToken] = useState();
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;

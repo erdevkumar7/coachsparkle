@@ -1,39 +1,22 @@
-import { cookies } from "next/headers";
 import "../_styles/dashboard.css";
 import "../_styles/profile.css";
-import { FRONTEND_BASE_URL } from "@/utiles/config";
 import UserSideBarComp from "../_user_components/UserSideBar";
 import UserUpdateFormData from "../_user_components/UserUpdateForm";
-
+import { getUserProfileData } from "@/utiles/api/user";
+import { getAllContries, getDeliveryMode } from "@/utiles/api/guest";
+import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-    const res = await fetch(`${apiUrl}/getuserprofile`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        cache: 'no-store',
-    });
+    const { data: user, error } = await getUserProfileData();
 
-    const data = await res.json();
-    let user = data.data
-    user.token = token;
-
-
-    const getCountries = await fetch(`${apiUrl}/getCountries`, {
-        method: 'POST',
-    })
-    const countries = await getCountries.json();
+    const countries = await getAllContries();
+    const deliveryMode = await getDeliveryMode();
 
 
     return (
         <>
             <div className="container-fluid page-body-wrapper">
                 <UserSideBarComp />
-
                 <div className="main-panel">
                     <div className="content-wrapper">
                         <div className="row">
@@ -52,15 +35,15 @@ export default async function Profile() {
                         <div className="profile-form-add">
                             <div className="card">
                                 <h3 className="text-your-name">Your Profile</h3>
-                                <div className="upload-photo-add">
-                                    <img src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`} alt="profile" />
-                                    <div className="upload-btn">
-                                        <a href="#"><i className="bi bi-upload"></i> Upload photo</a>
+                                <UserImageUploader 
+                                    image={user.profile_image}
+                                />
 
-                                    </div>
-                                </div>
-                          
-                                <UserUpdateFormData user={user} countries={countries} />
+                                <UserUpdateFormData
+                                    user={user}
+                                    countries={countries}
+                                    deliveryMode={deliveryMode}
+                                />
                             </div>
                         </div>
                     </div>
