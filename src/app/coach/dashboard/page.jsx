@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import CoachHeader from '@/app/coach/_coach_components/CoachHeader';
 import CoachMainContent from '@/app/coach/_coach_components/CoachMainContent';
 import CoachFooter from '@/app/coach/_coach_components/CoachFooter';
+import Cookies from 'js-cookie';
 
 export default function Dashboard() {
     const router = useRouter();
@@ -11,7 +12,7 @@ export default function Dashboard() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token =  Cookies.get('token');
         const userData = localStorage.getItem('user');
 
         if (!token) {

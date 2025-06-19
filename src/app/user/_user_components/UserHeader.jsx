@@ -1,13 +1,41 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from 'js-cookie';
+import { HandleValidateToken } from "@/app/api/auth";
 
 export default function UserHeader({ user }) {
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false);
+  // const [user, setUser] = useState(null);
+  // const [error, setError] = useState("");
+
+  // useEffect(() => {
+  //   const token = Cookies.get('token');
+  //   if (!token) {
+  //     router.push('/login');
+  //     return;
+  //   }
+
+  //   const fetchUser = async () => {
+  //     const tokenData = await HandleValidateToken(token);   
+
+  //       if (tokenData.success) {
+  //         setUser(tokenData.data);
+  //       } else {
+  //         setError("Failed to get user data.");
+  //         localStorage.removeItem('token');
+  //         localStorage.removeItem('user');
+  //       }
+
+  //   };
+  //   fetchUser();
+
+  // }, [router]);
+
+
 
   const toggleSidebar = () => {
     const sidebar = document.getElementById("sidebar");
@@ -18,7 +46,7 @@ export default function UserHeader({ user }) {
   };
 
   const handleLogout = () => {
-    Cookies.remove('token'); 
+    Cookies.remove('token');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     router.push('/login');
@@ -143,7 +171,7 @@ export default function UserHeader({ user }) {
                 id="profileDropdown"
               >
                 <img
-                  src={`${user.profile_image}`}
+                  src={`${user?.profile_image}`}
                   alt="profile" />
                 <p className="top-name-add">{user?.first_name}</p>
               </a>

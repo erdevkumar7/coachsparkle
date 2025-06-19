@@ -2,8 +2,8 @@ import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import UserSideBarComp from "../_user_components/UserSideBar";
 import UserUpdateFormData from "../_user_components/UserUpdateForm";
-import { getUserProfileData } from "@/utiles/api/user";
-import { getAllContries, getDeliveryMode } from "@/utiles/api/guest";
+import { getUserProfileData } from "@/app/api/user";
+import { getAllContries, getDeliveryMode } from "@/app/api/guest";
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {

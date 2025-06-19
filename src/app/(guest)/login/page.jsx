@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { HandleLogin } from '@/utiles/api/auth';
+import { HandleLogin } from '@/app/api/auth';
 import Cookies from 'js-cookie';
 
 export default function Login() {
@@ -39,9 +39,7 @@ export default function Login() {
         if (result?.response?.status === 401) {
             setError(result.response.data.error || 'Invalid credentials');
         } else {
-            // Handle success (store token, redirect, etc.)
-            localStorage.setItem('token', result.data.token);
-
+            // Handle success (store token, redirect, etc.)            
             if (result.data.token) {
                 Cookies.set('token', result.data.token, {
                     expires: 7, // Expires in 7 days
@@ -49,6 +47,8 @@ export default function Login() {
                     sameSite: 'Lax',
                 });
             }
+
+            localStorage.setItem('token', result.data.token);
             localStorage.setItem('user', JSON.stringify(result.data.user));
 
             if (result.data.user.user_type === 2) {

@@ -2,7 +2,7 @@
 import Link from "next/link";
 // import "./globals.css";
 import { useEffect, useState, Suspense } from 'react';
-import { HandleRegister } from "@/utiles/api/auth";
+import { HandleRegister } from "@/app/api/auth";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 

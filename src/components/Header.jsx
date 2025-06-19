@@ -4,27 +4,28 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
+import Cookies from 'js-cookie';
+import { HandleValidateToken } from '@/app/api/auth';
 
 export default function Header() {
     const router = useRouter();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const userData = localStorage.getItem('user')
+        const token = Cookies.get('token');
+        if (token) {
+            const fetchUser = async () => {
+                const tokenData = await HandleValidateToken(token);
+                if (tokenData.success) {
+                    setIsLoggedIn(true);
+                } else {
+                    console.log("Failed to get user data.");
+                    setIsLoggedIn(false)
+                }
+            };
 
-        if (userData) {
-            const user = JSON.parse(userData);            
-            if (user.user_type === 2) {
-                router.push('/user/dashboard');
-            } else if (user.user_type === 3) {
-                router.push('/coach/dashboard');
-            } else {
-                router.push('/');
-            }
+            fetchUser();
         }
-
-        setIsLoggedIn(!!token);
     }, []);
 
     const handleLogout = () => {
@@ -34,11 +35,11 @@ export default function Header() {
         router.push('/login');
     };
 
-    // console.log(router, 'isLoggedIn')
+    // console.log(token, 'isLoggedIn')
     return (
         <nav className="navbar navbar-expand-lg coach-top-navber-add">
             <div className="container">
-                <Link className="navbar-logo-add" href="/"><img src={`${FRONTEND_BASE_URL}/images/logo.png`}  alt="Logo" /></Link>
+                <Link className="navbar-logo-add" href="/"><img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo" /></Link>
                 <button className="navbar-toggler tech" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
