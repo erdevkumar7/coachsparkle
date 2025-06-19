@@ -3,6 +3,7 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
+import Cookies from "js-cookie";
 
 export default function UserHeader({ user }) {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function UserHeader({ user }) {
   };
 
   const handleLogout = () => {
+    Cookies.remove('token');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     router.push('/login');

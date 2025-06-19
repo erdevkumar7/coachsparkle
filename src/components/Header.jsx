@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from 'js-cookie';
-import { HandleValidateToken } from '@/app/api/auth';
+import { HandleAuthLogout, HandleValidateToken } from '@/app/api/auth';
 
 export default function Header() {
     const router = useRouter();
@@ -18,6 +18,11 @@ export default function Header() {
                 const tokenData = await HandleValidateToken(token);
                 if (tokenData.success) {
                     setIsLoggedIn(true);
+                    if (tokenData.data.user_type == 2) {
+                        router.push('/user/dashboard');
+                    } else if (tokenData.data.user_type == 3) {
+                        router.push('/coach/dashboard');
+                    }
                 } else {
                     console.log("Failed to get user data.");
                     setIsLoggedIn(false)
@@ -29,13 +34,15 @@ export default function Header() {
     }, []);
 
     const handleLogout = () => {
+        setIsLoggedIn(false);
+        // HandleAuthLogout()
+        Cookies.remove('token');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        setIsLoggedIn(false);
         router.push('/login');
     };
 
-    // console.log(token, 'isLoggedIn')
+
     return (
         <nav className="navbar navbar-expand-lg coach-top-navber-add">
             <div className="container">

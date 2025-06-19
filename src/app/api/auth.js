@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const HandleRegister = async (reqData) => {
@@ -60,4 +61,11 @@ export const HandleValidateToken = async (givenToken) => {
     } catch (error) {
         return null;
     }
+}
+
+export const HandleAuthLogout = () => {
+    Cookies.remove('token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/login');
 }

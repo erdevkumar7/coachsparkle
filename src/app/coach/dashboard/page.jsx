@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CoachHeader from '@/app/coach/_coach_components/CoachHeader';
-import CoachMainContent from '@/app/coach/_coach_components/CoachMainContent';
 import CoachFooter from '@/app/coach/_coach_components/CoachFooter';
 import Cookies from 'js-cookie';
+import CoachSideBarComp from '../_coach_components/coachSideBar';
 
 export default function Dashboard() {
     const router = useRouter();
@@ -12,7 +12,7 @@ export default function Dashboard() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token =  Cookies.get('token');
+        const token = Cookies.get('token');
         const userData = localStorage.getItem('user');
 
         if (!token) {
@@ -35,12 +35,18 @@ export default function Dashboard() {
     //     setUser(null);
     //     router.push('/login');
     // };
-console.log(user);
+    console.log(user);
     return (
         <>
-        <CoachHeader user={user}/>
-        <CoachMainContent/>
-        <CoachFooter/>
+            <CoachHeader user={user} />
+            <div className="container-fluid page-body-wrapper">
+                <CoachSideBarComp />
+                <div className="main-panel">
+
+                </div>
+            </div>
+
+            <CoachFooter />
         </>
     )
 }
