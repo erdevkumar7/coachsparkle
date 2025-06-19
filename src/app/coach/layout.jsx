@@ -1,18 +1,16 @@
-"use client";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { getUserProfileData } from "@/app/api/user";
 import "./dashboard.css"
 
-export default function CoachLayout({children}){
-      useEffect(() => {
-    import('bootstrap/dist/js/bootstrap.bundle.min.js');
-    import('@fortawesome/fontawesome-free/css/all.min.css')
-  }, []);
-    return(
-        <>
-            {children}
-        </>
-    );
+export default async function CoachLayout({ children }) {
+  const { data: user, error } = await getUserProfileData();
+
+  if (!user) {
+    return redirect('/login');
+  }
+  return (
+    <>
+      {children}
+    </>
+  );
 }
