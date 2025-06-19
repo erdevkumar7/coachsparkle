@@ -1,13 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
+import { HandleValidateToken } from "@/app/api/auth";
 
 export default function UserHeader({ user }) {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    const fetchUser = async () => {
+      const tokenData = await HandleValidateToken(token);
+
+      if (!tokenData.success) {
+        Cookies.remove('token');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        router.push('/login');
+      }
+
+    };
+    fetchUser();
+  }, [router]);
 
   const toggleSidebar = () => {
     const sidebar = document.getElementById("sidebar");
