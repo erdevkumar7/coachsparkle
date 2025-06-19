@@ -7,12 +7,27 @@ export default function UserSideBarComp() {
    
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
+
+
+                <div className="side-bar-left-top">
+                    <div class="flex items-center mt-4 side-top-bar">
+                        <img alt="profile" src="/coachsparkle/assets/images/faces/face-img.png" />
+                        <div>
+                            <h5 class="font-medium">
+                                dev kumara <span class="text-green-500 text-sm"><i class="bi bi-check-circle-fill"></i></span>
+                            </h5>
+                            <p class="text-sm text-gray-500">User</p>
+                        </div>
+                    </div>
+                </div>
+
+
             <ul className="nav">
                 <li className="nav-item" onClick={() => router.push('/user/dashboard')}>
                     <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-grid-3x3-gap-fill"></i>
-                            <span className="menu-title">Overview</span>
+                            <span className="menu-title">Dashboard</span>
                         </div>
                     </a>
                 </li>
