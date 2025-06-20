@@ -4,7 +4,7 @@ import { getUserProfileData } from "@/app/api/user";
 import { redirect } from 'next/navigation';
 
 export default async function UserLayout({ children }) {
-  const { data: user, error } = await getUserProfileData();
+  const { data: user, error, removeToken } = await getUserProfileData();
 
   if (!user) {
     return redirect('/login');
@@ -12,7 +12,7 @@ export default async function UserLayout({ children }) {
 
   return (
     <>
-      <UserHeader user={user} />
+      <UserHeader user={user} error={error} removeToken={removeToken} />
       {children}
     </>
   );

@@ -20,19 +20,14 @@ export const HandleRegister = async (reqData) => {
     }
 };
 
-export const HandleLogin = async (reqData) => {
-
-    const loginUrl = reqData.user_type === 2
-        ? `${apiUrl}/userlogin`
-        : `${apiUrl}/coachlogin`;
-
+export const HandleLogin = async (reqData) => {      
     try {
         const response = await axios({
             headers: {
                 'Content-Type': 'application/json',
             },
             method: "POST",
-            url: loginUrl,
+            url: `${apiUrl}/login`,
             data: reqData,
         });
         return response;
@@ -54,10 +49,15 @@ export const HandleValidateToken = async (givenToken) => {
             cache: 'no-store',
         });
 
-        if (!res.ok) return null;
+        if (!res.ok) {
+            // Cookies.remove('token');
+            // localStorage.removeItem('token');
+            // localStorage.removeItem('user');
+            return null;
+        }
 
-        const tokenData = await res.json();
-        return tokenData;
+        return await res.json();
+
     } catch (error) {
         return null;
     }

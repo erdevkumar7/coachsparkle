@@ -23,7 +23,7 @@ export const getUserProfileData = async () => {
         if (!response.ok) {
             const errorText = await response.text();
             console.error('API error response:', errorText);
-            return { error: 'Failed to fetch user profile', data: null };
+            return { error: 'Failed to fetch user profile', data: null, removeToken: true };
         }
 
         const json = await response.json();
