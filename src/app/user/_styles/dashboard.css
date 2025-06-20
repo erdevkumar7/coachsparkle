@@ -113,9 +113,10 @@ i.bi.bi-check-circle-fill {
 }
 
 h3.font-weight-bold.quick-text-add {
-    margin-bottom: -10px;
+    margin-bottom: 10px;
     font-weight: 600;
     line-height: 1.1;
+    font-size: 35px;
 }
 
 .content-wrapper {
