@@ -1,6 +1,6 @@
 import '../_styles/coach_sidebar.css';
 
-export default function CoachSideBarComp() {
+export default function CoachSideBarComp({user}) {
 
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
@@ -8,10 +8,11 @@ export default function CoachSideBarComp() {
 
         <div className="side-bar-left-top">
             <div className="flex items-center mt-4 side-top-bar">
-                <img alt="profile" src="/coachsparkle/assets/images/faces/face-img.png" />
+                <img alt="profile" 
+                src="/coachsparkle/assets/images/faces/face-img.png" />
                 <div>
                     <h5 className="font-medium">
-                    James Vince <span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>
+                    {user?.first_name} {user?.last_name} <span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>
                     </h5>
                     <p className="text-sm text-gray-500">Coach</p>
                 </div>

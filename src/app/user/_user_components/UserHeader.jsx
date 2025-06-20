@@ -149,6 +149,24 @@ export default function UserHeader({ user, error, removeToken }) {
                 </a>
               </div>
             </li>
+
+
+
+       <li className="nav-item">
+              <a
+                className="nav-link count-indicator"
+                id="notificationDropdown"
+                href="#"
+                data-bs-toggle="dropdown"
+              >
+                <i className="bi bi-envelope"></i>
+                <span className="count"></span>
+              </a>
+            </li>
+
+
+
+
             <li className="nav-item nav-profile dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -159,7 +177,7 @@ export default function UserHeader({ user, error, removeToken }) {
                 <img
                   src={`${user?.profile_image}`}
                   alt="profile" />
-                <p className="top-name-add">{user?.first_name}</p>
+                <p className="top-name-add">{user?.first_name} <i className="bi bi-chevron-down"></i></p>
               </a>
               {/* <button onClick={handleLogout} style={{
                 display: 'inline-block',

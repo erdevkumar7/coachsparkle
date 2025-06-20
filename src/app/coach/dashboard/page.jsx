@@ -1,32 +1,37 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CoachHeader from '@/app/coach/_coach_components/CoachHeader';
-import CoachFooter from '@/app/coach/_coach_components/CoachFooter';
 import Cookies from 'js-cookie';
 import CoachSideBarComp from '../_coach_components/coachSideBar';
+import { HandleValidateToken } from '@/app/api/auth';
+import { FRONTEND_BASE_URL } from '@/utiles/config';
 
 
 export default function Dashboard() {
     const router = useRouter();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
         const token = Cookies.get('token');
-        const userData = localStorage.getItem('user');
-
         if (!token) {
             router.push('/login');
         }
 
-        if (token && userData) {
-            setIsLoggedIn(true);
-            setUser(JSON.parse(userData));
-        } else {
-            setIsLoggedIn(false);
-            setUser(null);
-        }
+        const fetchUser = async () => {
+            const tokenData = await HandleValidateToken(token);
+            if (!tokenData.success) {
+                Cookies.remove('token');
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                router.push('/login');
+                return;
+            }
+
+            setUser(tokenData.data)
+        };
+
+        fetchUser();
+
     }, []);
 
     // const handleLogout = () => {
@@ -36,30 +41,28 @@ export default function Dashboard() {
     //     setUser(null);
     //     router.push('/login');
     // };
-    console.log(user);
+
     return (
         <>
-            <CoachHeader user={user} />
             <div className="container-fluid page-body-wrapper">
-                <CoachSideBarComp />
-
+                <CoachSideBarComp user={user}/>
                 <div className="main-panel">
                     <div className='content-wrapper'>
 
                         <div className="coach-dashboard-add">
 
                             <div className="header">
-                                <h1>Welcome back, Coach James! Ready to empower someone today?</h1>
+                                <h1>Welcome back, {user?.first_name} {user?.last_name}!  <br /> Ready to empower someone today?</h1>
                             </div>
 
 
                             <div className="profile-box">
                                 <div className="profile-info">
-                                    <img alt="profile" src="/coachsparkle/assets/images/faces/face-img.png" />
+                                    <img alt="profile"  src="/coachsparkle/assets/images/faces/face-img.png" />
                                     <div className='coach-profile-view'>
                                         <div>
                                             <p className='pro-add-value'>Pro</p>
-                                            <div><strong>James Vince</strong></div>
+                                            <div><strong>{user?.first_name} {user?.last_name}</strong></div>
                                             <p className='coach-name-text'>Coach</p>
                                         </div>
                                         <div className="status">
@@ -620,11 +623,7 @@ export default function Dashboard() {
 
 
                 </div>
-
-
             </div>
-
-            <CoachFooter />
         </>
     )
 }

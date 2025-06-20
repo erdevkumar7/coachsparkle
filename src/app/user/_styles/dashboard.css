@@ -5,8 +5,22 @@
     line-height: 1;
     display: inline-block;
 }
+
 .sidebar.collapsed {
     width: 53px !important;
+}
+
+ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
+    margin-right: 0 !important;
+}
+
+i.bi.bi-bell {
+    color: #1A1A1A;
+}
+
+i.bi.bi-envelope {
+    color: #1a1a1a;
+    font-size: 18px;
 }
 
 .flex.items-center.mt-4.side-top-bar {
@@ -17,12 +31,14 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-bottom:30px;
+    margin-bottom: 30px;
     overflow: hidden;
 }
+
 .side-bar-left-top {
     border-bottom: solid 1px #EBEEF7;
 }
+
 .side-top-bar h5.font-medium {
     align-items: center;
     gap: 9px;
@@ -30,30 +46,37 @@
     display: flex;
     font-size: 16px;
 }
+
 .side-top-bar p.text-sm.text-gray-500 {
     color: #767e94;
     margin-bottom: 0;
     font-size: 13px;
 }
+
 .side-top-bar i.bi.bi-check-circle-fill {
     font-size: 15px !important;
 }
 
 
-.sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link, .sidebar .nav:not(.sub-menu) > .nav-item:hover[aria-expanded="true"] {
+.sidebar .nav:not(.sub-menu)>.nav-item:hover>.nav-link,
+.sidebar .nav:not(.sub-menu)>.nav-item:hover[aria-expanded="true"] {
     color: #009bfa !important;
     background: #e8f7ff !important;
     border-radius: 0px;
     border-left: solid 3px;
 }
-.sidebar .nav:not(.sub-menu) > .nav-item > .nav-link {
+
+.sidebar .nav:not(.sub-menu)>.nav-item>.nav-link {
     margin: 0;
     border-left: solid 3px #fff;
 }
 
-.sidebar .nav .nav-item:hover > .nav-link i, .sidebar .nav .nav-item:hover > .nav-link .menu-title, .sidebar .nav .nav-item:hover > .nav-link .menu-arrow {
+.sidebar .nav .nav-item:hover>.nav-link i,
+.sidebar .nav .nav-item:hover>.nav-link .menu-title,
+.sidebar .nav .nav-item:hover>.nav-link .menu-arrow {
     color: #009BFA !important;
 }
+
 .sidebar .nav .nav-item .nav-link {
     white-space: nowrap;
     border-radius: 8px;
@@ -61,15 +84,19 @@
     padding: 5px 14px;
     line-height: 1.9;
 }
+
 li.nav-item.sign-out a.nav-link {
     padding: 14px !important;
 }
+
 li.nav-item.explore-tab {
     padding-top: 50px;
 }
+
 li.nav-item.profile-tab {
     padding-top: 50px;
 }
+
 .sign-out a.nav-link:hover {
     color: #fff;
     background: #4b49ac;
@@ -79,6 +106,7 @@ li.nav-item.profile-tab {
     padding: 14px 14px !important;
     line-height: 1.9;
 }
+
 nav#sidebar ul.nav {
     margin-left: 0px !important;
     margin-right: 0px !important;
@@ -90,6 +118,7 @@ nav#sidebar a.nav-link div {
     gap: 15px;
     display: flex;
 }
+
 .page-body-wrapper {
     -webkit-flex-direction: row;
     flex-direction: row;
@@ -674,4 +703,3 @@ p.coach-rating span {
 .grid-margin {
     margin-bottom: 0.5rem;
 }
-

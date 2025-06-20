@@ -6,7 +6,7 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 
-export default function UserHeader({ user }) {
+export default function CoachHeader({ user }) {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -137,6 +137,21 @@ export default function UserHeader({ user }) {
                 </a>
               </div>
             </li>
+
+
+            <li className="nav-item">
+              <a
+                className="nav-link count-indicator"
+                id="notificationDropdown"
+                href="#"
+                data-bs-toggle="dropdown"
+              >
+                <i className="bi bi-envelope"></i>
+                <span className="count"></span>
+              </a>
+            </li>
+
+
             <li className="nav-item nav-profile dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -145,12 +160,12 @@ export default function UserHeader({ user }) {
                 id="profileDropdown"
               >
                 <img
-                  src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`}
+                  src="/coachsparkle/assets/images/faces/face-img.png"
                   alt="profile" />
-                <p className="top-name-add">{user?.first_name}</p>
+                <p className="top-name-add">{user?.first_name} <i className="bi bi-chevron-down"></i></p>
               </a>
 
-              <button onClick={handleLogout} style={{
+              {/* <button onClick={handleLogout} style={{
                 display: 'inline-block',
                 padding: '6px 16px',
                 backgroundColor: '#007bff',
@@ -160,7 +175,7 @@ export default function UserHeader({ user }) {
                 textAlign: 'center',
                 marginLeft: '10px',
                 border: 'white'
-              }}>Logout</button>
+              }}>Logout</button> */}
               <div
                 className="dropdown-menu dropdown-menu-right navbar-dropdown"
                 aria-labelledby="profileDropdown"
@@ -168,7 +183,7 @@ export default function UserHeader({ user }) {
                 <a className="dropdown-item">
                   <i className="bi bi-gear mx-0"></i>&nbsp; Settings{" "}
                 </a>
-                <a className="dropdown-item">
+                <a className="dropdown-item" onClick={handleLogout}>
                   <i className="bi bi-power text-primary"></i>&nbsp;Logout{" "}
                 </a>
               </div>
