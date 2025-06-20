@@ -35,9 +35,9 @@
 }
 
 .coach-dashboard-add .profile-info img {
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
+  width: 55px;
+  height: 55px;
   margin-right: 15px;
 }
 
@@ -46,34 +46,43 @@
   margin-top: 5px;
 }
 
-.coach-dashboard-add .progress-bar {
-  flex: 1;
-  margin-left: 30px;
-}
  
 .coach-dashboard-add .progress-line {
   background: #ddd;
-  height: 8px;
-  border-radius: 10px;
+  border-radius: 2px;
+  width: 69%;
+  height: 17px;
+  margin-top: 0;
   overflow: hidden;
-  margin-top: 8px;
 }
-
 .coach-dashboard-add .progress-fill {
-  height: 8px;
-  background: #4CAF50;
+  background: #00e096;
   width: 80%;
+  height: 17px;
+  text-align: right;
 }
-
+.coach-dashboard-add .progress-fill span {
+  margin-right: -29px;
+  font-size: 13px;
+  color: #000000;
+  font-family: 'Roboto';
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 2px;
+  font-weight: 500;
+}
 .coach-dashboard-add .links {
+  margin-top: 10px;
   font-size: 12px;
-  margin-top: 4px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
-
 .coach-dashboard-add .links a {
+  color: #009BFA;
   margin-right: 10px;
-  color: #007BFF;
-  text-decoration: none;
+  font-family: 'Roboto';
 }
 
 .coach-dashboard-add .snapshot {
@@ -93,15 +102,6 @@
   gap: 15px;
 }
 
-.coach-dashboard-add .card {
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  flex: 1 1 200px;
-  text-align: center;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
 .coach-dashboard-add .card strong {
   display: block;
   font-size: 18px;
@@ -114,12 +114,16 @@
 }
 
 .coach-dashboard-add .cta button {
-  padding: 10px 20px;
-  background: #007BFF;
-  border: none;
-  color: white;
-  border-radius: 5px;
+  color: #fff;
   cursor: pointer;
+  background: #009bfa;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 35px;
+  font-size: 14px;
+  height: 45px;
+  font-weight: 600;
+  font-family: 'Inter';
 }
 
 .coach-dashboard-add .badge {
@@ -148,15 +152,800 @@
 }
 
 p.pro-add-value {
-  background-color: #FFF2CC;
-  width: 60%;
   text-align: center;
-  padding: 5px 0;
+  color: #664c00;
+  background-color: #fff2cc;
   border-radius: 50px;
-  color: #664C00;
-  font-family: 'Roboto';
+  width: 50%;
+  padding: 6px 0;
+  font-family: Roboto;
   font-weight: 500;
 }
+.coach-profile-view {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.coach-profile-view strong {
+  font-family: 'Inter';
+  color: #191F33;
+  font-weight: 400;
+  font-size: 19px;
+}
+.coach-dashboard-add .status select {
+  border: solid 1px #A9A9A9;
+  color: #000000;
+  font-weight: 600;
+  font-family: 'Inter';
+  padding: 0px 20px;
+  background: #fff;
+  cursor: pointer;
+}
+.coach-dashboard-add .header h1 {
+  color: #000000;
+  margin-bottom: 10px;
+  font-weight: 600;
+  line-height: 1.1;
+  font-size: 35px;
+  font-family: 'Inter';
+  width: 60%;
+}
+p.coach-name-text {
+  color: #767E94;
+}
+.coach-dashboard-add .progress-bar {
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 12px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 65%;
+  margin-top: 15px;
+  padding: 10px;
+  margin-left: 0 !important;
+  display: flex !important;
+  padding-top: 0px;
+}
+
+.complete-bar {
+  font-family: 'Inter';
+  font-size: 13px;
+  margin-top: 30px;
+}
+
+
+.quick-text {
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 15px;
+  font-family: 'Inter';
+  font-size: 24px;
+  color: #181A20;
+}
+.glance-box {
+  background-color: #f8fcff;
+  border: 1px solid #e7e7e7;
+  border-radius: 15px;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  display: flex;
+  box-shadow: 0 5px 21px -5px #cdd1e1;
+  padding: 10px !important;
+  text-align: left;
+}
+
+.coach-dashboard-add .snapshot .card {
+  border: none;
+}
+
+.coach-dashboard-add .snapshot .glance-box p.title {
+  color: #1c1c1e;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 500;
+  width: 86%;
+}
+.coach-dashboard-add .snapshot .glance-box p.count {
+  color: #181A20;
+  font-weight: 600;
+  font-family: 'Poppins';
+  font-size: 15px;
+}
+.coach-dashboard-add .snapshot .glance-box span {
+  color: #181A20;
+  font-weight: 600;
+  font-family: 'Poppins';
+  font-size: 15px;
+}
+.coach-dashboard-add .snapshot .glance-box {
+  width: 215px;
+  height: 110px;
+}
+
+.coach-dashboard-add span.this-month-text {
+  color: #1C1C1E;
+  font-size: 11px !important;
+  display: flex;
+  width: 79%;
+  font-weight: 400 !important;
+} 
+.coach-dashboard-add i.bi.bi-arrow-right {
+  padding-left: 5px;
+}
+.active-coaching .card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.active-coaching .card h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+ 
+.active-coaching .profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.active-coaching .profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.active-coaching .profile-info {
+  flex: 1;
+}
+
+.active-coaching .calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.active-coaching .calendar div {
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.active-coaching .available { background-color: #add8e6; }
+.booked { background-color: #90ee90; }
+.blocked { background-color: #f08080; }
+
+.active-coaching .legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.active-coaching .legend span::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.active-coaching .available-text::before { background-color: #add8e6; }
+.booked-text::before { background-color: #90ee90; }
+.blocked-text::before { background-color: #f08080; }
+
+.active-coaching .review {
+  margin-bottom: 10px;
+}
+
+.active-coaching .review p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.active-coaching .review span {
+  font-size: 12px;
+  color: green;
+}
+
+.active-coaching .session {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+.matches-add {
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  gap: 30px;
+  width: 98%;
+}
+.matches-add button.manage-buttons {
+  color: #fff;
+  cursor: pointer;
+  background: #009bfa;
+  border: none;
+  border-radius: 12px;
+  height: 45px;
+  padding: 12px 10px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 600;
+  width: 55%;
+}
+
+.matches-add .manage {
+  display: flex;
+  justify-content: right;
+}
+.coaching-card thead {
+  background: #F4F4F4;
+  line-height: 3.6;
+  text-align: left;
+}
+.coaching-card table {
+  width: 100%;
+}
+td.match {
+  width: 20%;
+}
+td.goal {
+  width: 37%;
+}
+.tracy-text {
+  font-size: 13px;
+}
+
+.coaching-card td.user-info {
+  align-items: center;
+  gap: 16px;
+  display: flex;
+  border: none;
+}
+tr.coaching-all-match {
+  border-bottom: solid 1px #E7E7E7;
+}
+
+i.bi.bi-star-fill {
+  color: #FFA432;
+}
+.coaching-card td.match {
+  line-height: 3.5;
+  color: #000000;
+  font-family: 'Roboto';
+}
+.active-coaching .goal {
+  color: #000000;
+  line-height: 3.5;
+  font-family: 'Roboto';
+}
+.matches-add .view-btn {
+  color: #fff;
+  cursor: pointer;
+  background: #009bfa;
+  border: none;
+  border-radius: 12px;
+  width: 25%;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter';
+  height: 45px;
+}
+.details-add-btn {
+  display: flex;
+  justify-content: right;
+}
+.tracy-text .rating {
+  padding-top: 5px;
+  font-weight: 600;
+}
+
+.rating-reviews .review-container {
+  max-width: 900px;
+  margin: 0px auto;
+  border-radius: 12px;
+  padding: 20px;
+}
+.quick-text i.bi.bi-star {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.rating-reviews .total-rating {
+    color: #000000;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.rating-reviews .review-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+tr.coaching-all-match td.user-info img {
+  width: 40px;
+}
+.rating-reviews .review-table th,
+.review-table td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #eee;
+}
+.rating-reviews .review-table thead tr {
+  background: #f5f5f5;
+}
+
+.rating-reviews .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.rating-reviews .user-info img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.rating-reviews .user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.rating-reviews .review-stars {
+  color: #ff9800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.rating-reviews .status {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  color: #fff;
+}
+.rating-reviews .status.published {
+  background-color: #F2FFF7;
+  border: solid 1px #00B448;
+  color: #00B448;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 4.8;
+  padding: 6px 10px;
+}
+
+.rating-reviews .reply-btn,
+.view-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.rating-reviews .reply-btn {
+  color: #fff;
+  background-color: #009BFA;
+  border: solid 1px #009BFA;
+  border-radius: 5px;
+  padding: 6px 10px;
+  margin-right: 15px;
+}
+i.bi.bi-eye {
+  font-size: 25px;
+  line-height: 2.5;
+  cursor: pointer;
+}
+.rating-reviews .view-btn {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.rating-reviews .view-all {
+  text-align: right;
+}
+.rating-reviews .view-all button {
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: #009bfa;
+  border: none;
+  border-radius: 12px;
+  width: 25%;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding: 12px 0;
+  font-size: 14px;
+  height: 45px;
+}
+i.bi.bi-arrow-right {
+  margin-left: 5px;
+}
+
+.reviews-right-side .session-card {
+  padding: 16px;
+}
+
+.reviews-right-side .session {
+  gap: 8px;
+  border-bottom: 1px solid #e7e7e7;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  display: flex;
+}
+.reviews-right-side .session-date {
+  text-align: center;
+  color: #000;
+  margin-right: 10px;
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.reviews-right-side .session-date .day {
+  font-size: 18px;
+  display: block;
+}
+
+.reviews-right-side .avatar {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.reviews-right-side .session-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.reviews-right-side .name {
+  color: #000;
+  font-family: Roboto;
+  font-size: 18px;
+}
+.reviews-right-side .time {
+  color: #000000;
+  font-weight: 400;
+  font-family: 'Roboto';
+  font-size: 16px;
+}
+.reviews-right-side .manage-btn {
+  text-align: right;
+}
+
+.reviews-right-side .manage-btn button {
+  color: #fff;
+  cursor: pointer;
+  background: #009bfa;
+  border: none;
+  border-radius: 12px;
+  width: 50%;
+  height: 45px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+.rating-reviews {
+  gap: 30px;
+  width: 98%;
+  display: flex;
+  align-items: center;
+}
+
+.rating-reviews .review-table th {
+  font-family: 'Roboto';
+  color: #000000;
+}
+td.sed-tab {
+  width: 33%;
+}
+.user-details strong {
+  color: #000000;
+  font-family: 'Roboto';
+  font-size: 14px;
+  padding: 5px 0;
+}
+.user-details small {
+  color: #778088;
+  font-size: 14px;
+  font-family: 'Roboto';
+}
+
+td.sed-tab p {
+  margin-bottom: 0px;
+  margin-top: 15px;
+}
+.card.col-md-4.reviews-right-side {
+  height: 100%;
+}
+.rating-reviews .review-table .user-row {
+  box-shadow: 0 2px 8px #0000001a;
+}
+
+.industry-insights .insight-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+.industry-insights p.subtitle {
+  color: #000;
+  font-family: Roboto;
+  font-size: 16px;
+  padding-top: 10px;
+}
+
+.industry-insights .insight-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #1A1A1A;
+  font-family: 'Roboto';
+}
+.industry-insights {
+  margin: 30px 0px;
+}
+
+ .service-performance {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background: #fff;
+  margin: auto;
+}
+
+.services-performances .service-performance h3 {
+  margin-bottom: 15px;
+}
+
+.services-performances table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.services-performances thead {
+  background-color: #f4f4f4;
+}
+
+.services-performances th, td {
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+  font-family: 'Roboto';
+  color: #000000;
+}
+
+.services-performances .badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+.services-performances .badge.active {
+  background-color: #28A745;
+  border-radius: 5px;
+  padding: 9px 18px;
+  font-family: 'Roboto';
+  font-size: 13px;
+}
+.services-performances .badge.unpublished {
+  color: #ED9B22;
+  background-color: #FFF6E8;
+  border: solid 1px #FFCC81;
+  padding: 9px 10px;
+}
+
+.services-performances .actions a {
+  margin-right: 8px;
+  text-decoration: none;
+}
+
+.services-performances .actions img {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+.services-performances .footer-btn {
+  text-align: right;
+}
+
+.services-performances .manage-btn {
+  color: #fff;
+  cursor: pointer;
+  background: #009bfa;
+  border: none;
+  border-radius: 12px;
+  width: 16%;
+  height: 45px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+tbody.growth-package td {
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 400;
+  padding-top: 20px;
+}
+tbody.growth-package td.actions {
+  padding-top: 5px;
+  padding-bottom: 0px;
+}
+tr.service-add {
+  background: #E5E5E5;
+  line-height: 1.9;
+}
+
+
+tbody.growth-package td i.bi.bi-pencil-square {
+  color: #4E7FFF;
+  font-size: 18px;
+}
+
+tbody.growth-package td i.bi.bi-trash3 {
+  color: #FF4B4B;
+  font-size: 18px;
+}
+
+tbody.growth-package td i.bi.bi-eye {
+  color: #111111;
+  font-size: 18px;
+}
+
+tbody.growth-package td.total-text {
+  font-weight: 500;
+}
+
+
+.my-articles th, td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e0e0e0;
+}
+.my-articles {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: auto;
+  padding: 20px;
+  margin-top: 30px;
+}
+.my-articles .article-info {
+  color: #1a1a1a;
+  align-items: center;
+  gap: 30px;
+  font-family: Roboto;
+  font-weight: 400;
+  display: flex;
+}
+.my-articles tr.info-add td {
+  color: #1a1a1a;
+  font-family: Roboto;
+  font-weight: 400;
+  line-height: 1.4;
+}
+.my-articles .article-info img {
+  object-fit: cover;
+  width: 65px;
+  height: 40px;
+}
+
+.my-articles .badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.my-articles .published {
+  color: #00B448;
+  background-color: #F2FFF7;
+  border: 1px solid #00B448;
+  border-radius: 5px;
+  padding: 8px 14px;
+}
+
+.my-articles .pending {
+  color: #ED9B22;
+  background-color: #FFF6E8;
+  border: 1px solid #FFCC81;
+  border-radius: 5px;
+  padding: 8px 18px;
+}
+
+.my-articles .actions i {
+  margin: 0 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.my-articles .edit-icon {
+  color: #007bff;
+}
+
+.my-articles .delete-icon {
+  color: #dc3545;
+}
+.my-articles tr.articles-add {
+  background: #E5E5E5;
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #000000;
+  font-size: 14px;
+}
+
+.my-articles td.voluptatem-text {
+  width: 54%;
+}
+
+.my-articles th.name-art {
+  text-align: center;
+}
+i.bi.bi-pencil-square {
+  color: #4e7fff;
+  font-size: 18px;
+}
+i.bi.bi-trash3 {
+  color: #ff4b4b;
+  font-size: 18px;
+}
+.my-articles tr.info-add {
+  box-shadow: 0 2px 8px #0000001a;
+}
+
+.my-articles table {
+  margin-top: 20px;
+}
+
+.activity-log {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 30px auto;
+  padding: 20px;
+  padding-bottom: 65px;
+}
+
+.activity-log p {
+  font-family: 'Roboto';
+  color: #000000;
+  font-size: 16px;
+  padding-top: 10px;
+}
+
+
+
+
 
 
 
