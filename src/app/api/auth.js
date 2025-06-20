@@ -20,19 +20,14 @@ export const HandleRegister = async (reqData) => {
     }
 };
 
-export const HandleLogin = async (reqData) => {
-
-    const loginUrl = reqData.user_type === 2
-        ? `${apiUrl}/userlogin`
-        : `${apiUrl}/coachlogin`;
-
+export const HandleLogin = async (reqData) => {      
     try {
         const response = await axios({
             headers: {
                 'Content-Type': 'application/json',
             },
             method: "POST",
-            url: loginUrl,
+            url: `${apiUrl}/login`,
             data: reqData,
         });
         return response;

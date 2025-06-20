@@ -7,7 +7,10 @@ import { getAllContries, getDeliveryMode } from "@/app/api/guest";
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {
-    const { data: user, error } = await getUserProfileData();
+    const { data: user, error, removeToken } = await getUserProfileData();
+    if (!user) {
+        return redirect('/login');
+    }
 
     const countries = await getAllContries();
     const deliveryMode = await getDeliveryMode();
@@ -35,7 +38,7 @@ export default async function Profile() {
                         <div className="profile-form-add">
                             <div className="card">
                                 <h3 className="text-your-name">Your Profile</h3>
-                                <UserImageUploader 
+                                <UserImageUploader
                                     image={user.profile_image}
                                 />
 
