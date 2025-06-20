@@ -6,32 +6,42 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from 'js-cookie';
 import { HandleAuthLogout, HandleValidateToken } from "@/app/api/auth";
 
-export default function UserHeader({ user }) {
+export default function UserHeader({ user, error, removeToken }) {
   const router = useRouter()
   const [collapsed, setCollapsed] = useState(false);
-  const [getuser, setUser] = useState(null);
-  const [error, setError] = useState("");
+
 
   useEffect(() => {
-    const token = Cookies.get('token');
-    if (!token) {
+    if (removeToken) {
+      Cookies.remove('token');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       router.push('/login');
-      return;
     }
+  }, []);
 
-    const fetchUser = async () => {
-      const tokenData = await HandleValidateToken(token);
-      
-      if (!tokenData.success) {     
-        Cookies.remove('token');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        router.push('/login');
-      }      
 
-    };
-    fetchUser();
-  }, [router]);
+  // useEffect(() => {
+  //   const token = Cookies.get('token');
+
+  //   if (!token) {
+  //     router.push('/login');
+  //     return;
+  //   }
+
+  //   const fetchUser = async () => {
+  //     const tokenData = await HandleValidateToken(token);
+  //     if (!tokenData.success) {
+  //       Cookies.remove('token');
+  //       localStorage.removeItem('token');
+  //       localStorage.removeItem('user');
+  //       router.push('/login');
+  //       return;
+  //     }
+  //   };
+
+  //   fetchUser();
+  // }, [router]);
 
 
 

@@ -54,10 +54,15 @@ export const HandleValidateToken = async (givenToken) => {
             cache: 'no-store',
         });
 
-        if (!res.ok) return null;
+        if (!res.ok) {
+            // Cookies.remove('token');
+            // localStorage.removeItem('token');
+            // localStorage.removeItem('user');
+            return null;
+        }
 
-        const tokenData = await res.json();
-        return tokenData;
+        return await res.json();
+
     } catch (error) {
         return null;
     }

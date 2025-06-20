@@ -16,16 +16,20 @@ export default function Header() {
         if (token) {
             const fetchUser = async () => {
                 const tokenData = await HandleValidateToken(token);
-                if (tokenData.success) {
+
+                if (!tokenData) {
+                    setIsLoggedIn(false);
+                    Cookies.remove('token');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    console.log("Failed to get user data.");
+                } else {
                     setIsLoggedIn(true);
                     if (tokenData.data.user_type == 2) {
                         router.push('/user/dashboard');
                     } else if (tokenData.data.user_type == 3) {
                         router.push('/coach/dashboard');
                     }
-                } else {
-                    console.log("Failed to get user data.");
-                    setIsLoggedIn(false)
                 }
             };
 
