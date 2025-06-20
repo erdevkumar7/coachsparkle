@@ -5,6 +5,151 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
+/* coach-css-start */
+
+.coach-dashboard-add .header {
+  margin-bottom: 20px;
+}
+
+.coach-dashboard-add .header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.coach-dashboard-add .header p {
+  margin: 4px 0 0;
+  color: #555;
+}
+.coach-dashboard-add .profile-box {
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  display: block;
+}
+
+.coach-dashboard-add .profile-info {
+  display: flex;
+  align-items: center;
+}
+
+.coach-dashboard-add .profile-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.coach-dashboard-add .status {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.coach-dashboard-add .progress-bar {
+  flex: 1;
+  margin-left: 30px;
+}
+ 
+.coach-dashboard-add .progress-line {
+  background: #ddd;
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.coach-dashboard-add .progress-fill {
+  height: 8px;
+  background: #4CAF50;
+  width: 80%;
+}
+
+.coach-dashboard-add .links {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.coach-dashboard-add .links a {
+  margin-right: 10px;
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.coach-dashboard-add .snapshot {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.coach-dashboard-add .snapshot h2 {
+  margin-bottom: 20px;
+}
+
+.coach-dashboard-add .grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.coach-dashboard-add .card {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  flex: 1 1 200px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.coach-dashboard-add .card strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.coach-dashboard-add .cta {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.coach-dashboard-add .cta button {
+  padding: 10px 20px;
+  background: #007BFF;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.coach-dashboard-add .badge {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: #ff00aa;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 3px solid white;
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+
+.coach-dashboard-add .badge.sr1 {
+  top: 100px;
+  left: 90%;
+}
+
+.coach-dashboard-add .badge.sr2 {
+  top: 300px;
+  left: 80%;
+}
+
+
+/* coach-css-start */
+
 
 @-moz-keyframes flash {
   0% {
