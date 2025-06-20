@@ -159,9 +159,7 @@ export default function CoachHeader({ user }) {
                 data-bs-toggle="dropdown"
                 id="profileDropdown"
               >
-                <img
-                  src="/coachsparkle/assets/images/faces/face-img.png"
-                  alt="profile" />
+                 <img alt="profile"  src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}/>
                 <p className="top-name-add">{user?.first_name} <i className="bi bi-chevron-down"></i></p>
               </a>
 

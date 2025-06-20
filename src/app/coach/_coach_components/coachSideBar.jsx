@@ -1,3 +1,4 @@
+import { FRONTEND_BASE_URL } from '@/utiles/config';
 import '../_styles/coach_sidebar.css';
 
 export default function CoachSideBarComp({user}) {
@@ -8,8 +9,7 @@ export default function CoachSideBarComp({user}) {
 
         <div className="side-bar-left-top">
             <div className="flex items-center mt-4 side-top-bar">
-                <img alt="profile" 
-                src="/coachsparkle/assets/images/faces/face-img.png" />
+                 <img alt="profile"  src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}/>
                 <div>
                     <h5 className="font-medium">
                     {user?.first_name} {user?.last_name} <span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>

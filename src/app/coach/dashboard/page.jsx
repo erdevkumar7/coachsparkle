@@ -58,7 +58,7 @@ export default function Dashboard() {
 
                             <div className="profile-box">
                                 <div className="profile-info">
-                                    <img alt="profile"  src="/coachsparkle/assets/images/faces/face-img.png" />
+                                    <img alt="profile"  src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}/>
                                     <div className='coach-profile-view'>
                                         <div>
                                             <p className='pro-add-value'>Pro</p>
