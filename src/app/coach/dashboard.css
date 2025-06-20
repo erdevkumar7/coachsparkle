@@ -147,6 +147,18 @@
   left: 80%;
 }
 
+p.pro-add-value {
+  background-color: #FFF2CC;
+  width: 60%;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 50px;
+  color: #664C00;
+  font-family: 'Roboto';
+  font-weight: 500;
+}
+
+
 
 /* coach-css-start */
 

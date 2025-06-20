@@ -10,13 +10,13 @@ export default function UserSideBarComp() {
 
 
                 <div className="side-bar-left-top">
-                    <div class="flex items-center mt-4 side-top-bar">
+                    <div className="flex items-center mt-4 side-top-bar">
                         <img alt="profile" src="/coachsparkle/assets/images/faces/face-img.png" />
                         <div>
-                            <h5 class="font-medium">
-                                dev kumara <span class="text-green-500 text-sm"><i class="bi bi-check-circle-fill"></i></span>
+                            <h5 className="font-medium">
+                                dev kumara <span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>
                             </h5>
-                            <p class="text-sm text-gray-500">User</p>
+                            <p className="text-sm text-gray-500">User</p>
                         </div>
                     </div>
                 </div>
