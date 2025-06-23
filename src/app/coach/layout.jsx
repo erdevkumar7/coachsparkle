@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getUserProfileData } from "@/app/api/user";
 import "./dashboard.css"
 import CoachHeader from './_coach_components/CoachHeader';
+import CoachSideBarComp from './_coach_components/coachSideBar';
 
 export default async function CoachLayout({ children }) {
   const { data: user, error } = await getUserProfileData();
@@ -12,7 +13,10 @@ export default async function CoachLayout({ children }) {
   return (
     <>
       <CoachHeader user={user} />
-      {children}
+      <div className="container-fluid page-body-wrapper">
+        <CoachSideBarComp user={user} />
+        {children}
+      </div>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 
-export default function UserImageUploader ({ image }) {
+export default function UserImageUploader ({ image, user_type }) {
     const [preview, setPreview] = useState(image);
 
     const handleImageUpload = async (e) => {
@@ -13,7 +13,7 @@ export default function UserImageUploader ({ image }) {
 
         const formData = new FormData();
         formData.append("profile_image", file);
-        formData.append("user_type", 2);
+        formData.append("user_type", user_type);
 
         try {
             const token = Cookies.get("token");

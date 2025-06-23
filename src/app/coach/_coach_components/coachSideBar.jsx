@@ -1,3 +1,4 @@
+'use client';
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 import '../_styles/coach_sidebar.css';
 

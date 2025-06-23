@@ -40,6 +40,7 @@ export default async function Profile() {
                                 <h3 className="text-your-name">Your Profile</h3>
                                 <UserImageUploader
                                     image={user.profile_image}
+                                    user_type={user?.user_type || 2}
                                 />
 
                                 <UserUpdateFormData
