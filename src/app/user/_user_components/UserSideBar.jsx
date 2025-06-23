@@ -1,25 +1,28 @@
 'use client';
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
 
-export default function UserSideBarComp() {
-     const router = useRouter();
+export default function UserSideBarComp({user}) {
+    const router = useRouter();
 
-   
+
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
 
 
-                <div className="side-bar-left-top">
-                    <div className="flex items-center mt-4 side-top-bar">
-                        <img alt="profile" src="/coachsparkle/assets/images/faces/face-img.png" />
-                        <div>
-                            <h5 className="font-medium">
-                                dev kumara <span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>
-                            </h5>
-                            <p className="text-sm text-gray-500">User</p>
-                        </div>
+            <div className="side-bar-left-top">
+                <div className="flex items-center mt-4 side-top-bar">
+                    <img
+                        src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                        alt="profile" />
+                    <div>
+                        <h5 className="font-medium">
+                            {user?.first_name} {user?.last_name}<span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>
+                        </h5>
+                        <p className="text-sm text-gray-500">User</p>
                     </div>
                 </div>
+            </div>
 
 
             <ul className="nav">

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Cookies from "js-cookie";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 export default function UserImageUploader ({ image }) {
     const [preview, setPreview] = useState(image);
@@ -40,7 +41,9 @@ export default function UserImageUploader ({ image }) {
     return (
 
         <div className="upload-photo-add">
-            <img src={preview} alt="profile" />
+            <img 
+            src={preview || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+             alt="profile" />
             <div className="upload-btn">
                 <label htmlFor="upload-photo-input" style={{ cursor: "pointer" }}>
                     <i className="bi bi-upload"></i> Upload photo

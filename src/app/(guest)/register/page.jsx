@@ -20,7 +20,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-        country_id: '',
+        country_id: 199,
         user_type: '',
         user_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'asia/calcutta'
     });

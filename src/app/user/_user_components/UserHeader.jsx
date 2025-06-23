@@ -175,7 +175,7 @@ export default function UserHeader({ user, error, removeToken }) {
                 id="profileDropdown"
               >
                 <img
-                  src={`${user?.profile_image}`}
+                  src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
                   alt="profile" />
                 <p className="top-name-add">{user?.first_name} <i className="bi bi-chevron-down"></i></p>
               </a>

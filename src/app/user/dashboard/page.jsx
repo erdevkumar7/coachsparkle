@@ -5,6 +5,7 @@ import "../_styles/dashboard.css";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import UserSideBarComp from "../_user_components/UserSideBar";
 import Cookies from "js-cookie";
+import { HandleValidateToken } from "@/app/api/auth";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -12,27 +13,31 @@ export default function Dashboard() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = Cookies.get('token'); 
-        // const token = localStorage.getItem('token');
-        const userData = localStorage.getItem("user");
-
+        const token = Cookies.get('token');
         if (!token) {
-            router.push("/login");
+            router.push('/login');
         }
 
-        if (userData) {
-            setIsLoggedIn(true);
-            setUser(JSON.parse(userData));
-        } else {
-            setIsLoggedIn(false);
-            setUser(null);
-        }
+        const fetchUser = async () => {
+            const tokenData = await HandleValidateToken(token);
+            if (!tokenData.success) {
+                Cookies.remove('token');
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                router.push('/login');
+                return;
+            }
+
+            setUser(tokenData.data)
+        };
+
+        fetchUser();
     }, []);
 
     return (
         <>
             <div className="container-fluid page-body-wrapper">
-               <UserSideBarComp />
+                <UserSideBarComp user={user} />
 
                 <div className="main-panel">
                     <div className="content-wrapper">
@@ -50,8 +55,11 @@ export default function Dashboard() {
                         </div>
 
                         <div className="max-w-5xl mx-auto px-4 py-8 at-glance-add">
-                            <div className="flex items-center gap-3 mt-4">
-                                <img src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`} alt="profile" />
+                            <div className="flex items-center gap-3 mt-4 user-profile-change-image">
+                                <img
+                                    src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                                    // src={`${FRONTEND_BASE_URL}/assets/images/faces/face-img.png`}
+                                    alt="profile" />
                                 <div>
                                     <h5 className="font-medium">
                                         {user?.first_name} {user?.last_name}{" "}

@@ -25609,6 +25609,21 @@ table.dataTable tbody td.select-checkbox:after {
   right: auto;
   left: 30px;
 }
+
+
+/* userdashboard CSS */
+.side-top-bar img {
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+}
+
+.user-profile-change-image img {
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+}
+
 @media (max-width: 991px) {
   #settings-trigger {
     display: none;
