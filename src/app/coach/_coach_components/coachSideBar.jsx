@@ -1,9 +1,10 @@
 'use client';
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 import '../_styles/coach_sidebar.css';
+import { useRouter } from 'next/navigation';
 
 export default function CoachSideBarComp({user}) {
-
+    const router = useRouter();
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
 
@@ -22,7 +23,7 @@ export default function CoachSideBarComp({user}) {
 
 
     <ul className="nav">
-        <li className="nav-item" onClick={() => router.push('/user/dashboard')}>
+        <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
             <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                 <div>
                     <i className="bi bi-grid-3x3-gap-fill"></i>
@@ -32,7 +33,7 @@ export default function CoachSideBarComp({user}) {
         </li>
 
 
-        <li className="nav-item profile-tab" onClick={() => router.push('/user/profile')}>
+        <li className="nav-item profile-tab" onClick={() => router.push('/coach/profile')}>
             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <div>
                     <i className="bi bi-person"></i>
@@ -42,7 +43,7 @@ export default function CoachSideBarComp({user}) {
         </li>
 
 
-        <li className="nav-item" onClick={() => router.push('/user/profile')}>
+        <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <div>
                 <i className="bi bi-box-seam"></i>
@@ -70,7 +71,7 @@ export default function CoachSideBarComp({user}) {
             </a>
         </li>
 
-        <li className="nav-item" onClick={() => router.push('/user/user-message')}>
+        <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <div>
                     <i className="bi bi-chat-dots"></i>
@@ -101,7 +102,7 @@ export default function CoachSideBarComp({user}) {
 
 
 
-        <li className="nav-item account-settings-tab" onClick={() => router.push('/user/account-setting')}>
+        <li className="nav-item account-settings-tab" onClick={() => router.push('/coach/dashboard')}>
             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <div>
                     <i className="bi bi-gear"></i>
@@ -110,7 +111,7 @@ export default function CoachSideBarComp({user}) {
             </a>
         </li>
 
-        <li className="nav-item" onClick={() => router.push('/user/account-setting')}>
+        <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
             <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <div>
                 <i className="bi bi-heart"></i>

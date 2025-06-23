@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { HandleValidateToken } from '@/app/api/auth';
 import { FRONTEND_BASE_URL } from '@/utiles/config';
+import CoachCalendar from '../_coach_components/CoachCalendar';
 
 
 export default function CoachDashboard() {
@@ -262,13 +263,12 @@ export default function CoachDashboard() {
 
 
                             <div className="card col-md-4 matches-right-side">
-
-
                                 <div id="app"></div>
-
+                                <CoachCalendar />
                                 <div className='manage'>
                                     <button className="manage-buttons">Manage Calendar <i className="bi bi-arrow-right"></i></button>
                                 </div>
+
                             </div>
 
                         </div>
