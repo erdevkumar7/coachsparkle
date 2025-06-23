@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import "../_styles/account.css";
-import UserSideBarComp from "../_user_components/UserSideBar";
 import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 
@@ -34,11 +33,7 @@ export default function Accountsetting() {
         fetchUser();
     }, []);
 
-    return (
-        <>
-            <div className="container-fluid page-body-wrapper">
-                <UserSideBarComp />
-
+    return ( 
                 <div className="main-panel">
                     <div className="content-wrapper">
 
@@ -342,8 +337,7 @@ export default function Accountsetting() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </>
+                </div>      
+  
     );
 }

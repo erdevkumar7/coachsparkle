@@ -5,7 +5,6 @@ import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import "../_styles/account.css";
 import "../_styles/contactsupport.css";
-import UserSideBarComp from "../_user_components/UserSideBar";
 
 export default function Contactsupport() {
     const router = useRouter();
@@ -30,38 +29,32 @@ export default function Contactsupport() {
     }, []);
 
     return (
-        <>
-            <div className="container-fluid page-body-wrapper">
-              <UserSideBarComp />
+        <div className="main-panel">
+            <div className="content-wrapper">
+                <div className="profile-form-add account-information contact-support-form">
+                    <div className="card">
+                        <h3 className="text-your-name">Contact Support</h3>
+                        <div className="profile-form account-information-form contact-support-add-form">
+                            <form>
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label htmlFor="firstName">First Name</label>
+                                        <input type="text" id="firstName" placeholder="Emma" name="firstName" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="email">Email</label>
+                                        <input type="email" id="email" placeholder="Enter your email" name="email" className="form-control" required />
+                                    </div>
 
-                <div className="main-panel">
-                    <div className="content-wrapper">
-                        <div className="profile-form-add account-information contact-support-form">
-                            <div className="card">
-                                <h3 className="text-your-name">Contact Support</h3>
-                                <div className="profile-form account-information-form contact-support-add-form">
-                                    <form>
-                                        <div className="form-row">
-                                            <div className="form-group">
-                                                <label htmlFor="firstName">First Name</label>
-                                                <input type="text" id="firstName" placeholder="Emma" name="firstName" required />
-                                            </div>
-                                            <div className="form-group">
-                                                        <label htmlFor="email">Email</label>
-                                                        <input type="email" id="email" placeholder="Enter your email" name="email" className="form-control" required />
-                                                    </div>
 
-    
-                                        </div>
-
-                                    
-                                    </form>
                                 </div>
-                            </div>
+
+
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

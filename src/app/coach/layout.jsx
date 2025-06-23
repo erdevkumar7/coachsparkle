@@ -13,6 +13,7 @@ export default async function CoachLayout({ children }) {
   return (
     <>
       <CoachHeader user={user} />
+      
       <div className="container-fluid page-body-wrapper">
         <CoachSideBarComp user={user} />
         {children}

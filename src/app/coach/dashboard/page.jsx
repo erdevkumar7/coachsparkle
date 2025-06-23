@@ -6,7 +6,7 @@ import { HandleValidateToken } from '@/app/api/auth';
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 
 
-export default function Dashboard() {
+export default function CoachDashboard() {
     const router = useRouter();
     const [user, setUser] = useState(null);
 
