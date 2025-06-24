@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 export default function CoachSideBarComp({user}) {
     const router = useRouter();
     return (
-        <nav className="sidebar sidebar-offcanvas" id="sidebar">
+        <nav className="sidebar sidebar-offcanvas add-sdbar" id="sidebar">
 
 
         <div className="side-bar-left-top">

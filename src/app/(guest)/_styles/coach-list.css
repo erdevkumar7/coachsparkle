@@ -1,26 +1,44 @@
 /* ------------ coach-list css ------------------ */
 
-.coach-banner-add .overlay {
-    width: 100%;
-    background: url("/coachsparkle/images/coach-list-banner-img.png");
-    background-repeat: no-repeat;
-    height: 350px;
-    background-size: cover;
-}
 .coach-banner-add .banner-text {
     position: relative;
     z-index: 2;
     color: white;
-    font-size: 50px;
+    font-size: 40px;
     text-align: center;
-    bottom: 265px;
     font-weight: 700;
     font-family: "Inter";
+}
+
+.title-banner p {
+    color: #ffffff;
+}
+
+.search-container .search-input {
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    width: 700px;
+    height: 68px;
+    padding-left: 20px;
+    font-family: Roboto;
+    font-size: 17px;
+}
+.search-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 25px;
+}
+.search-container .search-input:focus {
+    box-shadow: none;
 }
 
 .coach-banner-add .banner {
     position: relative;
     height: 400px;
+    background: url(/coachsparkle/images/coach-list-banner-img.png) 0 0 / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .coach-banner-add .container.list-start {
@@ -29,7 +47,8 @@
     gap: 10px;
     padding-left: 0px;
     padding-right: 0px;
-    padding-top: 10px;
+    padding-top: 50px;
+    padding-bottom: 60px;
 }
 
 /* Sidebar */
@@ -40,20 +59,25 @@
     border-radius: 10px;
     height: fit-content;
     padding-top: 0px;
+    border-right: 0;
 }
 
 .coach-banner-add .sidebar input[type="text"] {
     width: 100%;
     padding: 10px 20px;
     margin-bottom: 10px;
-    border-radius: 60px;
+    border-radius: 12px;
     border: solid 1px #D7D7D7;
     font-size: 13px;
     font-family: 'Roboto';
     color: #666666;
     height: 50px;
-    box-shadow: 0 2px 8px #D7D7D7;
 }
+
+.coach-banner-add .sidebar input[type="text"]:focus-visible {
+    outline: none;
+}
+
 .coach-banner-add .results {
     font-size: 13px;
     color: #333333;
@@ -117,16 +141,17 @@
 .coach-banner-add .coach-card {
     display: flex;
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #D7D7D7;
-    align-items: center;
+    padding: 25px;
+    border-radius: 12px; 
+    box-shadow: 0 5px 20px #0000002b;
     gap: 20px;
+    position: relative;
+    border: 1px solid #d7d7d7;
 }
 
 .coach-banner-add .coach-card img {
-    width: 215px;
-    height: 300px;
+    width: 200px;
+    height: 250px;
     border-radius: 12px;
     object-fit: cover;
 }
@@ -140,6 +165,7 @@
     font-family: 'Inter';
     font-weight: 600;
     color: #000000;
+    text-transform: capitalize;
 }
 .coach-banner-add p.reviews-text i {
     font-size: 20px;
@@ -178,7 +204,7 @@
 }
 .coach-banner-add .coach-actions .price {
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-size: 24px;
     color: #000000;
     font-family: 'Inter';
@@ -217,12 +243,13 @@
 .coach-banner-add p.reviews-text {
     font-size: 18px;
     font-family: 'Inter';
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 .coach-banner-add p.senior-engineer-text {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 20px;
 }
 .coach-banner-add p.senior-engineer-text strong {
     font-weight: 400;
@@ -242,7 +269,8 @@
     padding: 8px 12px;
     border-radius: 12px;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 600;  
+    width: 155px;
 }
 .coach-banner-add i.bi.bi-arrow-right {
     padding-left: 3px;
@@ -1396,3 +1424,43 @@ h5.what-user-text {
 
 }
 
+.co-name {
+    display: flex;
+    align-items: center;
+        margin-bottom: 10px;
+}
+.co-name span {
+    margin-left: 20px;
+    text-align: center;
+    color: #104E00;
+    background-color: #E4F9E0;
+    border-radius: 50px;
+    padding: 5px 10px;
+    font-family: Roboto;
+    font-weight: 500;
+}
+.co-name span .bi-check-circle-fill {
+    color: #27C200;
+}
+.fav-list {
+    position: absolute;
+    left: 35px;
+    top: 35px;
+}
+.fav-list span {
+    padding: 15px;
+    border-radius: 50px;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #009BFA;
+    border: 1px solid #009BFA;
+    color: #ffffff;
+    cursor: pointer;
+}
+.fav-list span .bi-heart {
+    font-size: 20px;
+    margin-top: 3px;
+}
