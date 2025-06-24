@@ -26,7 +26,9 @@ export default function Home() {
                 the right coach</p>
               <div className="search-container">
                 <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
-                <i className="fas fa-search search-icon"></i>
+                <div className="ai-btn-find">
+                  <button>Start AI Matching</button>
+                </div>  
               </div>
 
               <div className="counters-content">
@@ -327,8 +329,7 @@ export default function Home() {
         <div className="container">
           <div className="search-container">
             <div className="search-input">
-              <input type="text" className="form-control search-input" placeholder="Search Coaches..." />
-              <i className="fas fa-search search-icon"></i>
+              <h1>Featured Coaches</h1>
             </div>
             <div className="view-all-btn">
               <a href="#">View All Coaches <i className="bi bi-arrow-right"></i></a>
@@ -472,8 +473,12 @@ export default function Home() {
                 <div className="card-body">
                   <h1>01</h1>
                   <h5 className="card-title">Manual Search</h5>
+                  <span>Browse with Filters</span>
                   <p className="card-text">Use standard filters like category, location,
                     budget, and language to find coaches manually at your own pace.</p>
+                </div>
+                <div className="btn_hiw">
+                  <a href="#">Try Now</a>
                 </div>
               </div>
             </div>
@@ -483,9 +488,13 @@ export default function Home() {
                 <div className="card-body">
                   <h1>02</h1>
                   <h5 className="card-title">Send a Coaching Request</h5>
+                  <span>Let Coaches Come to You</span>
                   <p className="card-text">
                     Describe your coaching need and we’ll notify all qualified coaches.
                     Those interested will reach out to you directly.</p>
+                </div>
+                <div className="btn_hiw">
+                  <a href="#">Try Now</a>
                 </div>
               </div>
             </div>
@@ -495,8 +504,12 @@ export default function Home() {
                 <div className="card-body">
                   <h1>03</h1>
                   <h5 className="card-title">Smart AI Matching</h5>
+                  <span>Let AI Recommend Your Fit</span>
                   <p className="card-text">Share your goal, availability, and preferences — our AI will
                     suggest the most suitable coaches for you in seconds.</p>
+                </div>
+                <div className="btn_hiw">
+                  <a href="#">Try Now</a>
                 </div>
               </div>
             </div>
@@ -573,7 +586,18 @@ export default function Home() {
           </h1>
           <p className="text-center">Whether you’re searching for your next coach or listing your expertise,
             Coach Sparkle is always free to use.</p>
+            <p className="text-center span-txt">Users: Browse, match, and message coaches - 100% free<br />
+Coaches: Join free, list your profile, and get discovered. Ready to stand out? Upgrade to Pro Coach Plan for advance tools and top placement</p>
           <div className="row">
+              <div className="toggle-container">
+                <div className="switch-toggle">
+                    <input type="radio" name="plan" id="monthly" checked></input>
+                    <input type="radio" name="plan" id="yearly"></input>
+                    <label for="monthly">Monthly</label>
+                    <label for="yearly">Yearly</label>
+                    <div className="slider"></div>
+                </div>
+              </div>
             <div className="pricing">
               <div className="col-md-4">
                 <div className="card">
@@ -612,7 +636,7 @@ export default function Home() {
                       <li><i className="bi bi-check"></i>Email, Video Call and Client Interest Insights</li>
                       <li><i className="bi bi-check"></i>24 Hours Priority Support + Full Analytics Dashboard</li>
                     </ul>
-                    <button>Signup</button>
+                    <button>Start Free! First 3 months on us!</button>
                   </div>
                 </div>
               </div>
