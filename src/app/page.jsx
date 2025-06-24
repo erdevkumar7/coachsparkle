@@ -591,7 +591,7 @@ Coaches: Join free, list your profile, and get discovered. Ready to stand out? U
           <div className="row">
               <div className="toggle-container">
                 <div className="switch-toggle">
-                    <input type="radio" name="plan" id="monthly" checked></input>
+                    <input type="radio" name="plan" id="monthly" ></input>
                     <input type="radio" name="plan" id="yearly"></input>
                     <label htmlFor="monthly">Monthly</label>
                     <label htmlFor="yearly">Yearly</label>

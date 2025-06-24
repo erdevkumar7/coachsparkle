@@ -6,10 +6,12 @@ import UserSideBarComp from "./_user_components/UserSideBar";
 
 export default async function UserLayout({ children }) {
   const { data: user, error, removeToken } = await getUserProfileData();
-
   if (!user) {
     return redirect('/login');
+  } else if (user.user_type == 3) {
+    return redirect('/coach/dashboard');
   }
+
 
   return (
     <>

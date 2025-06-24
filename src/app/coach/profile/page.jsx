@@ -6,13 +6,15 @@ import { getAllContries, getDeliveryMode } from '@/app/api/guest';
 
 export default async function CoachProfile() {
     const { data: user, error, removeToken } = await getUserProfileData();
-    if (!user) {
-        return redirect('/login');
-    }
+//    if (!user) {
+//      return redirect('/login');
+//    } else if (user.user_type == 2) {
+//      return redirect('/user/dashboard');
+//    }
 
     const countries = await getAllContries();
     const deliveryMode = await getDeliveryMode();
-
+    // console.log('statess', user.country_id, )
     return (
         <div className="main-panel">
             <div className="content-wrapper">

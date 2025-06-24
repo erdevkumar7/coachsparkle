@@ -9,12 +9,15 @@ export default async function CoachLayout({ children }) {
 
   if (!user) {
     return redirect('/login');
+  } else if (user.user_type == 2) {
+    return redirect('/user/dashboard');
   }
+
   return (
     <>
       <CoachHeader user={user} />
-      
-      <div className="container-fluid page-body-wrapper">
+
+      <div className="container page-body-wrapper">
         <CoachSideBarComp user={user} />
         {children}
       </div>

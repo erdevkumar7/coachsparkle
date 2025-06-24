@@ -19,7 +19,7 @@ export default function Accountsetting() {
         }
         const fetchUser = async () => {
             const tokenData = await HandleValidateToken(token);
-            if (!tokenData.success) {
+            if (!tokenData) {
                 Cookies.remove('token');
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');

@@ -8,7 +8,6 @@ import { HandleValidateToken } from "@/app/api/auth";
 
 export default function UserDashboard() {
     const router = useRouter();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -19,7 +18,7 @@ export default function UserDashboard() {
 
         const fetchUser = async () => {
             const tokenData = await HandleValidateToken(token);
-            if (!tokenData.success) {
+            if (!tokenData) {
                 Cookies.remove('token');
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');

@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { getCitiesOfaState, getStatesOfaCountry } from "@/app/api/guest";
 
 export default function CoachUpdateForm({ user, countries, deliveryMode }) {
     const router = useRouter();
     const [getToken, setToken] = useState();
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
 
     const [formData, setFormData] = useState({
         user_type: user?.user_type || 3,
@@ -15,35 +18,68 @@ export default function CoachUpdateForm({ user, countries, deliveryMode }) {
         last_name: user?.last_name || '',
         email: user?.email || '',
         country_id: user?.country_id || '',
+        state_id: user?.state_id || '',
+        city_id: user?.city_id || '',
+        coaching_category: user?.coaching_category || '',
         professional_title: '',
         company_name: '',
     });
 
 
     useEffect(() => {
-        getUserData();
-    }, []);
+        const loadDefaults = async () => {
+            if (formData.country_id) {
+                const stateRes = await getStatesOfaCountry(formData.country_id);             
+                setStates(stateRes || []);
+            }
+            if (formData.state_id) {
+                const cityRes = await getCitiesOfaState(formData.state_id);
+                setCities(cityRes || []);
+            }
+        };
+        loadDefaults();
+    }, [formData.country_id, formData.state_id]);
 
-    const getUserData = async () => {
-        //    const token = localStorage.getItem("token");
-        const token = Cookies.get('token');
-        if (!token) {
-            router.push("/login");
-            return;
-        }
-        setToken(token);
-    };
 
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
 
+    //     setFormData((prev) => ({
+    //         ...prev,
+    //         [name]: value,
+    //     }));
 
-    // Handle form field changes
-    const handleChange = (e) => {
+    // };
+
+    const handleChange = async (e) => {
         const { name, value } = e.target;
 
         setFormData((prev) => ({
             ...prev,
             [name]: value,
         }));
+
+        if (name === "country_id") {
+            setFormData((prev) => ({
+                ...prev,
+                state_id: "",
+                city_id: "",
+            }));
+
+            const stateRes = await getStatesOfaCountry(value);
+            setStates(stateRes || []);
+            setCities([]); // reset cities
+        }
+
+        if (name === "state_id") {
+            setFormData((prev) => ({
+                ...prev,
+                city_id: "",
+            }));
+
+            const cityRes = await getCitiesOfaState(value);
+            setCities(cityRes || []);
+        }
     };
 
 
@@ -51,23 +87,24 @@ export default function CoachUpdateForm({ user, countries, deliveryMode }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const res = await axios.post(`${apiUrl}/updateProfile`, formData, {
-                headers: {
-                    Authorization: `Bearer ${getToken}`,
-                    Accept: 'application/json'
-                },
-            });
+        console.log('formData', formData)
+        // try {
+        //     const res = await axios.post(`${apiUrl}/updateProfile`, formData, {
+        //         headers: {
+        //             Authorization: `Bearer ${getToken}`,
+        //             Accept: 'application/json'
+        //         },
+        //     });
 
-            if (res.data.success) {
-                alert('Profile updated successfully!');
-            } else {
-                alert('Update failed.');
-            }
-        } catch (err) {
-            console.error(err);
-            alert('Error updating profile.');
-        }
+        //     if (res.data.success) {
+        //         alert('Profile updated successfully!');
+        //     } else {
+        //         alert('Update failed.');
+        //     }
+        // } catch (err) {
+        //     console.error(err);
+        //     alert('Error updating profile.');
+        // }
     };
 
 
@@ -101,112 +138,113 @@ export default function CoachUpdateForm({ user, countries, deliveryMode }) {
                         />
                     </div>
 
-
-
-                    <div className="row ">
-                        <div className="col-md-4">
-                            <div className="form-group">
-                                <label htmlFor="email">Email*</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    required
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-md-4">
-                            <div className="form-group">
-                                <label htmlFor="country_id">Country</label>
-                                <select
-                                    id="country_id"
-                                    name="country_id"
-                                    value={formData.country_id}
-                                    onChange={handleChange}
-
-                                >
-                                    <option value="">Select Country</option>
-                                    {countries.map((country) => (
-                                        <option key={country.country_id} value={country.country_id}>
-                                            {country.country_name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="col-md-4">
-                            <div className="form-group">
-                                <label htmlFor="city_id">City</label>
-                                <select
-                                    id="city_id"
-                                    name="city_id"
-                                    value={formData.city_id}
-                                    onChange={handleChange}
-
-                                >
-                                    <option value=""></option>
-                                    {/* {cities.map((city) => (
-                                        <option key={city.city_id} value={city.city_id}>
-                                            {city.city_name}
-                                        </option>
-                                    ))} */}
-                                </select>
-                            </div>
-                        </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email*</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
                     </div>
 
-                    <div className="row ">
-                       <div className="col-md-4">
-                            <div className="form-group">
-                                <label htmlFor="city_id">Main Coaching Category</label>
-                                <select
-                                    id="city_id"
-                                    name="city_id"
-                                    value={formData.city_id}
-                                    onChange={handleChange}
+                    <div className="form-group">
+                        <label htmlFor="country_id">Country</label>
+                        <select
+                            id="country_id"
+                            name="country_id"
+                            value={formData.country_id}
+                            onChange={handleChange}
 
-                                >
-                                    <option value="">Select Coaching</option>
-                                  
-                                </select>
-                            </div>
-                        </div>
+                        >
+                            <option value="">Select Country</option>
+                            {countries.map((country) => (
+                                <option key={country.country_id} value={country.country_id}>
+                                    {country.country_name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                        <div className="col-md-4">
-                            <div className="form-group">
-                                <label htmlFor="country_id">Sub Coaching Category</label>
-                                <select
-                                    id="country_id"
-                                    name="country_id"
-                                    value={formData.country_id}
-                                    onChange={handleChange}
+                    <div className="form-group">
+                        <label htmlFor="state_id">State</label>
+                        <select
+                            id="state_id"
+                            name="state_id"
+                            value={formData.state_id}
+                            onChange={handleChange}
+                        >
+                            <option value="">Select State</option>
+                            {states.map((state) => (
+                                <option key={state.state_id} value={state.state_id}>
+                                    {state.state_name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                                >
-                                    <option value="">Select Sub category</option>
-                                 
-                                </select>
-                            </div>
-                        </div>
+                    <div className="form-group">
+                        <label htmlFor="city_id">City</label>
+                        <select
+                            id="city_id"
+                            name="city_id"
+                            value={formData.city_id}
+                            onChange={handleChange}
+                        >
+                            <option value="">Select City</option>
+                            {cities.map((city) => (
+                                <option key={city.city_id} value={city.city_id}>
+                                    {city.city_name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                        <div className="col-md-4">
-                            <div className="form-group">
-                                <label htmlFor="city_id">Gender*</label>
-                                <select
-                                    id="city_id"
-                                    name="city_id"
-                                    value={formData.city_id}
-                                    onChange={handleChange}
 
-                                >
-                                    <option value="">Select </option>
-                                  
-                                </select>
-                            </div>
-                        </div>
+
+
+                    <div className="form-group">
+                        <label htmlFor="coaching_category">Main Coaching Category</label>
+                        <select
+                            id="coaching_category"
+                            name="coaching_category"
+                            value={formData.coaching_category}
+                            onChange={handleChange}
+
+                        >
+                            <option value="">Select Coaching</option>
+
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="country_id">Sub Coaching Category</label>
+                        <select
+                            id="country_id"
+                            name="country_id"
+                            value={formData.country_id}
+                            onChange={handleChange}
+
+                        >
+                            <option value="">Select Sub category</option>
+
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="city_id">Gender*</label>
+                        <select
+                            id="city_id"
+                            name="city_id"
+                            value={formData.city_id}
+                            onChange={handleChange}
+
+                        >
+                            <option value="">Select </option>
+
+                        </select>
                     </div>
 
 

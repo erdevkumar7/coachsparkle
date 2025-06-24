@@ -3,27 +3,33 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "../_styles/dashboard.css";
 import "../_styles/match.css";
+import { HandleValidateToken } from "@/app/api/auth";
+import Cookies from "js-cookie";
 
 export default function Matchcoach() {
     const router = useRouter();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        const userData = localStorage.getItem("user");
-
+        const token = Cookies.get('token');
         if (!token) {
-            router.push("/login");
+            router.push('/login');
+            return;
         }
+        const fetchUser = async () => {
+            const tokenData = await HandleValidateToken(token);
+            if (!tokenData) {
+                Cookies.remove('token');
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                router.push('/login');
+                return;
+            }
 
-        if (token && userData) {
-            setIsLoggedIn(true);
-            setUser(JSON.parse(userData));
-        } else {
-            setIsLoggedIn(false);
-            setUser(null);
-        }
+            setUser(tokenData.data)
+        };
+
+        fetchUser();
     }, []);
 
     return (

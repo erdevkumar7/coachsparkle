@@ -11,6 +11,25 @@ export const getAllContries = async () => {
     return countriesData;
 }
 
+export const getStatesOfaCountry = async (country_id) => {
+
+    const StateRes = await fetch(`${apiUrl}/getStates/${country_id}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await StateRes.json();
+}
+
+export const getCitiesOfaState = async (state_id) => {
+    const res = await fetch(`${apiUrl}/getCities/${state_id}`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+    });
+    return await res.json();
+};
+
 export const getDeliveryMode = async () => {
     const deliveryRes = await fetch(`${apiUrl}/getDeliveryMode`, {
         method: 'POST',

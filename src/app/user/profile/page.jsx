@@ -7,9 +7,11 @@ import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {
     const { data: user, error, removeToken } = await getUserProfileData();
-    if (!user) {
-        return redirect('/login');
-    }
+    // if (!user) {
+    //     return redirect('/login');
+    // } else if (user.user_type == 3) {
+    //     return redirect('/coach/dashboard');
+    // }
 
     const countries = await getAllContries();
     const deliveryMode = await getDeliveryMode();
