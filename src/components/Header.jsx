@@ -111,10 +111,10 @@ export default function Header() {
                                         href="/select-role"
                                         style={{
                                             display: 'inline-block',
-                                            padding: '8px 16px',
-                                            backgroundColor: '#007bff',
+                                            padding: '15px 30px',
+                                            backgroundColor: '#009BFA',
                                             color: 'white',
-                                            borderRadius: '4px',
+                                            borderRadius: '10px',
                                             textDecoration: 'none',
                                             textAlign: 'center',
                                             marginLeft: '10px'
