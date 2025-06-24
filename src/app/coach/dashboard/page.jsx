@@ -8,7 +8,7 @@ import CoachCalendar from '../_coach_components/CoachCalendar';
 
 
 export default function CoachDashboard() {
-    const router = useRouter();
+const router = useRouter();
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function CoachDashboard() {
 
         const fetchUser = async () => {
             const tokenData = await HandleValidateToken(token);
-            if (!tokenData.success) {
+            if (!tokenData) {
                 Cookies.remove('token');
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
@@ -44,7 +44,7 @@ export default function CoachDashboard() {
 
     return (
         <div className="main-panel">
-            <div className='content-wrapper'>
+            <div className='content-wrapper coach-wrap'>
 
                 <div className="coach-dashboard-add">
 

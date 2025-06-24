@@ -25,13 +25,13 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  padding: 20px;
   display: block;
 }
 
 .coach-dashboard-add .profile-info {
   display: flex;
   align-items: center;
+      margin: 35px 0px;
 }
 
 .coach-dashboard-add .profile-info img {
@@ -77,7 +77,7 @@
   font-size: 12px;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 }
 .coach-dashboard-add .links a {
   color: #009BFA;
@@ -88,8 +88,9 @@
 .coach-dashboard-add .snapshot {
   background: #fff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
+  border: 1px solid #d7d7d7;
 }
 
 .coach-dashboard-add .snapshot h2 {
@@ -173,7 +174,7 @@ p.pro-add-value {
   font-size: 19px;
 }
 .coach-dashboard-add .status select {
-  border: solid 1px #A9A9A9;
+  border: solid 1px #d7d7d7;
   color: #000000;
   font-weight: 600;
   font-family: 'Inter';
@@ -202,16 +203,17 @@ p.coach-name-text {
   align-items: center;
   width: 65%;
   margin-top: 15px;
-  padding: 10px;
+  padding: 0px 10px 20px 10px;
   margin-left: 0 !important;
   display: flex !important;
   padding-top: 0px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
 }
 
 .complete-bar {
   font-family: 'Inter';
   font-size: 13px;
-  margin-top: 30px;
+  margin-top: 25px;
 }
 
 
@@ -223,14 +225,13 @@ p.coach-name-text {
   color: #181A20;
 }
 .glance-box {
-  background-color: #f8fcff;
   border: 1px solid #e7e7e7;
   border-radius: 15px;
   align-items: center;
   gap: 5px;
   width: 100%;
   display: flex;
-  box-shadow: 0 5px 21px -5px #cdd1e1;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
   padding: 10px !important;
   text-align: left;
 }
@@ -249,13 +250,13 @@ p.coach-name-text {
 .coach-dashboard-add .snapshot .glance-box p.count {
   color: #181A20;
   font-weight: 600;
-  font-family: 'Poppins';
+  font-family: 'Roboto';
   font-size: 15px;
 }
 .coach-dashboard-add .snapshot .glance-box span {
   color: #181A20;
   font-weight: 600;
-  font-family: 'Poppins';
+  font-family: 'Roboto';
   font-size: 15px;
 }
 .coach-dashboard-add .snapshot .glance-box {
@@ -275,8 +276,8 @@ p.coach-name-text {
 }
 .active-coaching .card {
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
   padding: 20px;
 }
 
@@ -457,6 +458,7 @@ i.bi.bi-star-fill {
   margin: 0px auto;
   border-radius: 12px;
   padding: 20px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
 }
 .quick-text i.bi.bi-star {
   font-size: 20px;
@@ -685,7 +687,7 @@ td.sed-tab p {
   border-radius: 8px;
   padding: 20px;
   width: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
   font-family: Arial, sans-serif;
   background-color: #fff;
 }
@@ -713,6 +715,7 @@ td.sed-tab p {
   padding: 20px;
   background: #fff;
   margin: auto;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
 }
 
 .services-performances .service-performance h3 {
@@ -837,6 +840,7 @@ tbody.growth-package td.total-text {
   border-radius: 10px;
   margin: auto;
   padding: 20px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
   margin-top: 30px;
 }
 .my-articles .article-info {
@@ -933,6 +937,7 @@ i.bi.bi-trash3 {
   border-radius: 10px;
   margin: 30px auto;
   padding: 20px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
   padding-bottom: 65px;
 }
 
@@ -24841,12 +24846,16 @@ table.dataTable tbody td.select-checkbox:after {
 }
 
 .content-wrapper {
-  background: #F5F7FF;
   padding: 2.375rem 2.375rem;
   width: 100%;
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
+
+.coach-wrap {
+    padding-top: 0px;
+}
+
 @media (max-width: 767px) {
   .content-wrapper {
     padding: 1.5rem 1.5rem;
@@ -25145,9 +25154,6 @@ table.dataTable tbody td.select-checkbox:after {
   -webkit-transition: background 0.25s ease;
   -moz-transition: background 0.25s ease;
   -ms-transition: background 0.25s ease;
-  -webkit-box-shadow: 0px 5px 21px -5px #CDD1E1;
-  -moz-box-shadow: 0px 5px 21px -5px #CDD1E1;
-  box-shadow: 0px 5px 21px -5px #CDD1E1;
   /* Navbar color variations */
 }
 .sidebar-dark .navbar {
@@ -25186,7 +25192,7 @@ table.dataTable tbody td.select-checkbox:after {
   color: #1b2658;
 }
 .navbar .navbar-brand-wrapper .navbar-brand img {
-  max-width: 64%;
+  max-width: 100%;
   height: auto;
   margin: auto;
   vertical-align: middle;
@@ -27445,4 +27451,19 @@ td.edit-add-btn button {
 
 
 
+}
+
+
+.add-sdbar {
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
+}
+
+.dashboard-header {
+    -webkit-box-shadow: 0 5px 21px -5px #cdd1e1;
+    -moz-box-shadow: 0 5px 21px -5px #cdd1e1;
+    box-shadow: 0 5px 21px -5px #cdd1e1;
+    background: #ffffff;
+    padding: 10px 0px;
 }

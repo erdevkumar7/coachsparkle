@@ -53,10 +53,19 @@ export default function CoachList() {
         <>
             <div className="coach-banner-add">
                 <div className="banner">
-                    <div className="overlay"></div>
-                    <div className="banner-text">
-                        Browse over 1000+ <br />
-                        Coaches.
+                    <div class="container">
+                        <div class="row title-banner text-center">
+                            <div className="banner-text">
+                                Browse Coaches or Get AI-Powered Matches in Seconds
+                            </div>
+                            <p>Find the right coach your way — filter manually or get instant AI-powered suggestions</p>
+                            <div className="search-container">
+                                <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
+                                <div className="ai-btn-find">
+                                <button>Start AI Matching</button>
+                                </div>  
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -181,7 +190,10 @@ export default function CoachList() {
                                         <div className="coach-info">
                                             <div className="senior-engineer-details-add">
                                                 <div>
-                                                    <h2>{coach.first_name} {coach.last_name}</h2>
+                                                    <div className="co-name">
+                                                        <h2>{coach.first_name} {coach.last_name}</h2>
+                                                        <span><i class="bi bi-check-circle-fill"></i> Verified</span>
+                                                    </div>
                                                     <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
                                                     <p className="senior-engineer-text">
                                                         <i className="bi bi-briefcase"></i><strong>{coach.coach_type || 'free coaching'} </strong>
@@ -194,7 +206,7 @@ export default function CoachList() {
                                                     <p className="price">
                                                         {coach.price ? `$${coach.price}/month` : 'N/A'}
                                                     </p>
-                                                    <button className="book">Inquiry Now <i className="bi bi-arrow-right"></i></button>
+                                                    <button className="book">Book Now <i className="bi bi-arrow-right"></i></button>
                                                     <Link href={`/coach-detail/${coach.user_id}`}><button className="profile">View Profile <i className="bi bi-arrow-right"></i></button></Link>
                                                 </div>
                                             </div>
@@ -206,6 +218,9 @@ export default function CoachList() {
                                                 ) : (
                                                     <span>No services listed</span>
                                                 )}
+                                            </div>
+                                            <div className="fav-list">
+                                                <span><i class="bi bi-heart"></i></span>
                                             </div>
                                         </div>
                                     </div>
