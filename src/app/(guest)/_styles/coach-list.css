@@ -90,6 +90,7 @@
     margin-bottom: 20px;
     box-shadow: 0 2px 8px #D7D7D7;
     border-radius: 4px;
+        padding: 10px;
 }
 .coach-banner-add .filter-section h4 {
     margin-bottom: 10px;
@@ -97,8 +98,10 @@
     font-size: 18px;
     border-bottom: solid 1px #D7D7D7;
     padding-bottom: 13px;
-    padding-left: 20px;
+    padding-left: 0px;
     padding-top: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .coach-banner-add .filter-section button, input, optgroup, select, textarea {
@@ -115,7 +118,17 @@
     font-size: 13px;
     font-family: 'Roboto';
     color: #333333;
+    margin-right: 0px;
+    margin-left: 10px;
 }
+
+.coach-banner-add .filter-section span.MuiButtonBase-root {
+    padding: 0px;
+}
+.coach-banner-add .filter-section span.MuiTypography-root {
+    margin-left: 5px;
+}
+
 .coach-banner-add .filter-section a {
     font-size: 12px;
     color: #333333;
@@ -146,7 +159,6 @@
     box-shadow: 0 5px 20px #0000002b;
     gap: 20px;
     position: relative;
-    border: 1px solid #d7d7d7;
 }
 
 .coach-banner-add .coach-card img {
@@ -252,7 +264,6 @@
     margin-bottom: 20px;
 }
 .coach-banner-add p.senior-engineer-text strong {
-    font-weight: 400;
     font-size: 17px;
     font-family: 'Inter';
 }
@@ -368,7 +379,7 @@
     text-align: center;
     font-size: 13px;
     color: #333333;
-    padding-bottom: 15px;
+    padding-bottom: 0px;
     font-weight: 500;
 }
 .coach-banner-add .sidebar .filter-services {
@@ -448,10 +459,11 @@
     padding-right: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
+    height: 35px;
 }
 
 .coach-profile-list-left .coach-info h2 {
-    margin: 0 0 5px;
+    margin: 0 0 10px;
     font-size: 24px;
     font-family: 'Inter';
     font-weight: 600;
@@ -489,7 +501,6 @@
   padding: 4px 8px;
   border-radius: 12px;
   font-weight: bold;
-  margin-bottom: 12px;
 }
 
 .coach-profile-list-left .info-item {
@@ -503,6 +514,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  align-items: baseline;
+}
+
+.coach-profile-list-left .tags h6 {
+    font-weight: bolder;
+    cursor: pointer;
 }
 
 .coach-profile-list-left .tag {
@@ -524,7 +541,9 @@
     border-radius: 50px;
 }
 .coach-action-profile-icon {
-    margin-left: 20%;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .coach-profile-list-left .coach-card {
@@ -532,8 +551,8 @@
 }
 
 .coach-profile-list-left p.senior-engineer-text {
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .coach-profile-list-left .profile-card span.badge {
@@ -562,18 +581,27 @@
     box-shadow: none;
     padding: 0px;
 }
-
+.rating-star-adding {
+    margin-left: 15px;
+}
+.badge-tag {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
 
 .coach-profile-content {
     padding: 20px;
     border-radius: 12px;
     border: solid 1px #D7D7D7;
+    overflow: hidden;
 }
 .coach-profile-list-left .about-section {
     margin-top: 30px;
     border-top: solid 1px #D7D7D7;
     padding-top: 30px;
-    border-bottom: solid 1px #D7D7D7;
     padding-bottom: 10px;
 }
 
@@ -740,12 +768,12 @@ h5.what-user-text {
 }
 
 .coach-profile-list-right .price {
+        color: #000;
+    font-family: Inter;
     font-size: 24px;
-    margin: 15px 0;
-    font-family: 'Inter';
-    color: #000000;
-    margin-top: 0px;
+    text-align: center;
     font-weight: 600;
+    margin-bottom: 5px;
 }
 .coach-profile-list-right .trial-offer .bi-patch-check::before {
     content: "\f4b6";
@@ -784,6 +812,7 @@ h5.what-user-text {
 }
 .coach-profile-list-right .trial-offer {
     margin: 15px 0;
+    margin-top: 25px;
     font-size: 14px;
     background-color: #D9F0FE;
     padding: 5px 15px;
@@ -813,12 +842,15 @@ h5.what-user-text {
 .coach-profile-list-right .social-links {
     display: block;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 .coach-profile-list-right .social-links img {
-    width: 40px;
-    height: 40px;
-    margin-right: 5px;
+    margin-right: 10px;
+}
+.contact-now-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .coach-profile-list-right .calendar {
     width: 100%;
@@ -1464,3 +1496,176 @@ h5.what-user-text {
     font-size: 20px;
     margin-top: 3px;
 }
+.range_sld {
+    padding-left: 10px;
+}
+
+p.small-txt {
+    text-align: center;
+    font-weight: 600;
+}
+
+.certifi {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* space between items */
+}
+.certifi img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    border: 1px solid #d7d7d7;
+    padding: 10px;
+}
+.tabs-block button.Mui-selected {
+    background: #009df6;
+    color: #ffffff !important;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+.tabs-block span.MuiTabs-indicator {
+    background-color: #009df6 !important;
+}
+.rating-star-adding {
+    margin-left: 15px;
+}
+
+.filter-section .MuiSelect-select {
+    padding: 10px 10px;
+}
+.filter-section .MuiFormControl-root {
+    width: 240px;
+}
+.css-imrjgg-MuiButtonBase-root-MuiCheckbox-root {
+    padding: 0px !important;
+}
+.MuiListItemText-root {
+    margin-left: 5px;
+}
+li.MuiListSubheader-root {
+    background: #D9D9D9 !important;
+    color: #1c1c1e;
+    font-size: 16px;
+}
+
+p.senior-engineer-text span {
+    font-weight: 400;
+}
+.coach-profile-list-left .tags h6 {
+    font-weight: bolder;
+}
+span.avail-text {
+    background: #CFE0FE;
+    color: #1c1c1e;
+    border-radius: 100px;
+    align-items: center;
+    padding: 5px 5px 5px 5px;
+    font-weight: 500;
+    display: flex;
+    font-size: 14px;
+    height: 35px;
+}
+span.avail-text i.bi.bi-check {
+    background-color: #7EAAF8;
+}
+
+.coach-action-share-icon {
+    position: absolute;
+    top: 60px;
+    right: 0;
+}
+.coach-action-share-icon i {
+    color: #009bfa;
+    cursor: pointer;
+    background-color: #009bfa26;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 21px;
+    line-height: 2.5;
+}
+
+.session-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .session-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      max-width: 400px;
+      flex: 1 1 300px;
+    }
+    .session-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .session-content {
+      padding: 20px;
+    }
+    .session-content h2 {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .icons-row {
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    .session-description {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 15px;
+    }
+    .session-list {
+      margin: 0 0 15px;
+      padding-left: 20px;
+      font-size: 14px;
+      color: #444;
+    }
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .book-btn {
+      background-color: #008aff;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .slots-left {
+      color: #e53935;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .slots-left::before {
+      content: "🔥";
+      margin-right: 5px;
+    }
+    .note {
+      font-size: 12px;
+      color: #888;
+      font-style: italic;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .session-wrapper {
+        flex-direction: column;
+        align-items: center;
+      }
+    }

@@ -5,6 +5,19 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import axios from 'axios';
 import Link from 'next/link';
 import "../../_styles/coach-list.css"
+import RangeSlider from '../../_components/CoachRange';
+import MultipleSelectCheckmarks from '../../_components/CoachLocation';
+import MultipleSelect from '../../_components/CoachLocation';
+import GroupedSelect from '../../_components/CoachCategory';
+import GroupedMultiSelectWithCheckboxes from '../../_components/CoachCategory';
+import CoachServices from '../../_components/CoachServices';
+import CheckboxLabels from '../../_components/CoachDeliveryMode';
+import CoachTrials from '../../_components/CoachTrials';
+import CoachDeliveryMode from '../../_components/CoachDeliveryMode';
+import CoachCorporateWork from '../../_components/CoachCorporateWork';
+import CoachCategory from '../../_components/CoachCategory';
+import CoachLanguages from '../../_components/CoachLanguages';
+import BasicRating from '../../_components/CoachRatings';
 
 
 export default function CoachList() {
@@ -53,8 +66,8 @@ export default function CoachList() {
         <>
             <div className="coach-banner-add">
                 <div className="banner">
-                    <div class="container">
-                        <div class="row title-banner text-center">
+                    <div className="container">
+                        <div className="row title-banner text-center">
                             <div className="banner-text">
                                 Browse Coaches or Get AI-Powered Matches in Seconds
                             </div>
@@ -62,8 +75,8 @@ export default function CoachList() {
                             <div className="search-container">
                                 <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
                                 <div className="ai-btn-find">
-                                <button>Start AI Matching</button>
-                                </div>  
+                                    <button>Start AI Matching</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -77,20 +90,23 @@ export default function CoachList() {
 
                         <div className="filter-section">
                             <h4>Prices</h4>
-                            <div className="price-range-slider">
+                            {/* <div className="price-range-slider">
                                 <div className="range-values">
                                     <span id="amount-left">$0</span>
                                     <span id="amount-right">$2000</span>
                                 </div>
                                 <div id="slider-range" className="range-bar"></div>
+                            </div> */}
+                            <div className='range_sld'>
+                                <RangeSlider />
                             </div>
 
                             <p className="usd-text">All prices in USD</p>
                         </div>
 
                         <div className="filter-section">
-                            <h4>Services</h4>
-                            <div className="filter-services">
+                            <h4>Location</h4>
+                            {/* <div className="filter-services">
                                 <label><input type="checkbox" /> Leadership</label>
                                 <label><input type="checkbox" /> Product Management</label>
                                 <label><input type="checkbox" /> Career Growth</label>
@@ -99,12 +115,14 @@ export default function CoachList() {
                                 <label><input type="checkbox" /> Startup</label>
                                 <label><input type="checkbox" /> Management</label>
                                 <a href="#">Show more services</a>
-                            </div>
+                            </div> */}
+
+                            <MultipleSelect />
                         </div>
 
                         <div className="filter-section">
-                            <h4>Coach Type</h4>
-                            <div className="filter-services">
+                            <h4>Coaching Category</h4>
+                            {/* <div className="filter-services">
                                 <label><input type="checkbox" /> Career & Professional Coaches</label>
                                 <label><input type="checkbox" /> Personal Development & Life Coaches</label>
                                 <label><input type="checkbox" /> Wellness & Health Coaches</label>
@@ -112,34 +130,40 @@ export default function CoachList() {
                                 <label><input type="checkbox" /> Academic & Learning Coaches </label>
                                 <label><input type="checkbox" /> Specialized & Skill-Based Coaches </label>
                                 <label><input type="checkbox" /> Niches (Emerging)</label>
-                            </div>
+                            </div> */}
+
+                            <CoachCategory />
+                        </div>
+
+                        <div className="filter-section">
+                            <h4>Services</h4>
+                            {/* <div className="filter-services">
+                                <label><input type="checkbox" /> Online</label>
+                                <label><input type="checkbox" /> In-Person</label>
+                                <label><input type="checkbox" /> Hybrid</label>
+                            </div> */}
+
+                            <CoachServices />
                         </div>
 
                         <div className="filter-section">
                             <h4>Delivery Mode</h4>
-                            <div className="filter-services">
-                                <label><input type="checkbox" /> Online</label>
-                                <label><input type="checkbox" /> In-Person</label>
-                                <label><input type="checkbox" /> Hybrid</label>
-                            </div>
-                        </div>
 
-                        <div className="filter-section">
-                            <h4>Coaching Category</h4>
-
-                            <div className="filter-services">
+                            {/* <div className="filter-services">
                                 <label><input type="checkbox" /> Structured</label>
                                 <label><input type="checkbox" /> Free-flow</label>
                                 <label><input type="checkbox" /> Visual</label>
                                 <label><input type="checkbox" /> Practical</label>
                                 <label><input type="checkbox" /> Mindfulness-based</label>
                                 <label><input type="checkbox" /> Conversational </label>
-                            </div>
+                            </div> */}
+
+                            <CoachDeliveryMode />
                         </div>
 
                         <div className="filter-section">
-                            <h4>Languages</h4>
-                            <div className="filter-services">
+                            <h4>Free Trial / Volunteer / Pro Bono</h4>
+                            {/* <div className="filter-services">
                                 <label><input type="checkbox" /> French</label>
                                 <label><input type="checkbox" /> English</label>
                                 <label><input type="checkbox" /> Arabic</label>
@@ -148,13 +172,15 @@ export default function CoachList() {
                                 <label><input type="checkbox" /> Italian</label>
                                 <label><input type="checkbox" /> German</label>
                                 <a href="#">Show more languages</a>
-                            </div>
+                            </div> */}
+
+                            <CoachTrials />
                         </div>
 
                         <div className="filter-section rating-add">
-                            <h4>Rating</h4>
+                            <h4>Available for Corporate Work</h4>
 
-                            <div className="filter-services">
+                            {/* <div className="filter-services">
                                 <label><input type="checkbox" /> <i className="bi bi-star"></i></label>
                                 <label><input type="checkbox" /> <i className="bi bi-star"></i><i className="bi bi-star"></i></label>
                                 <label><input type="checkbox" /> <i className="bi bi-star"></i><i className="bi bi-star"></i><i className="bi bi-star"></i></label>
@@ -166,8 +192,22 @@ export default function CoachList() {
                                     <i className="bi bi-star"></i>
                                     <i className="bi bi-star"></i>
                                 </label>
-                            </div>
+                            </div> */}
+
+                            <CoachCorporateWork />
                         </div>
+
+                        <div className="filter-section">
+                            <h4>Languages</h4>
+                            <CoachLanguages />
+                        </div>
+
+                        <div className="filter-section">
+                            <h4>Rating</h4>
+                            <BasicRating />
+                        </div>
+
+
                     </aside>
 
 
@@ -192,7 +232,7 @@ export default function CoachList() {
                                                 <div>
                                                     <div className="co-name">
                                                         <h2>{coach.first_name} {coach.last_name}</h2>
-                                                        <span><i class="bi bi-check-circle-fill"></i> Verified</span>
+                                                        <span><i className="bi bi-check-circle-fill"></i> Verified</span>
                                                     </div>
                                                     <p className="reviews-text"><i className="bi bi-star"></i><span>5.0</span> (21 reviews)</p>
                                                     <p className="senior-engineer-text">
@@ -220,7 +260,7 @@ export default function CoachList() {
                                                 )}
                                             </div>
                                             <div className="fav-list">
-                                                <span><i class="bi bi-heart"></i></span>
+                                                <span><i className="bi bi-heart"></i></span>
                                             </div>
                                         </div>
                                     </div>
