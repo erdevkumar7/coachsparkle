@@ -2,19 +2,23 @@ import UserImageUploader from '@/app/user/_user_components/ImageUploader';
 import CoachUpdateForm from '../_coach_components/CoachUpdateFormData';
 import '../_styles/coach_profile.css';
 import { getUserProfileData } from '@/app/api/user';
-import { getAllContries, getDeliveryMode } from '@/app/api/guest';
+import { getAgeGroup, getAllContries, getAllLanguages, getCoachType, getDeliveryMode } from '@/app/api/guest';
 
 export default async function CoachProfile() {
     const { data: user, error, removeToken } = await getUserProfileData();
-//    if (!user) {
-//      return redirect('/login');
-//    } else if (user.user_type == 2) {
-//      return redirect('/user/dashboard');
-//    }
+    //    if (!user) {
+    //      return redirect('/login');
+    //    } else if (user.user_type == 2) {
+    //      return redirect('/user/dashboard');
+    //    }
 
     const countries = await getAllContries();
     const deliveryMode = await getDeliveryMode();
-    // console.log('statess', user.country_id, )
+    const coachTypes = await getCoachType();
+    const ageGroup = await getAgeGroup();
+    const allLanguages = await getAllLanguages();
+
+    // console.log('allLanguages', allLanguages, )
     return (
         <div className="main-panel">
             <div className="content-wrapper">
@@ -42,7 +46,9 @@ export default async function CoachProfile() {
                             user={user}
                             countries={countries}
                             deliveryMode={deliveryMode}
-
+                            coachTypes= {coachTypes}
+                            ageGroup={ageGroup}
+                            allLanguages={allLanguages}
                         />
                     </div>
                 </div>

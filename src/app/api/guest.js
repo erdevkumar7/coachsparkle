@@ -11,6 +11,16 @@ export const getAllContries = async () => {
     return countriesData;
 }
 
+export const getAllLanguages = async () => {
+    const langRes = await fetch(`${apiUrl}/getLanguages`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await langRes.json();
+}
+
 export const getStatesOfaCountry = async (country_id) => {
 
     const StateRes = await fetch(`${apiUrl}/getStates/${country_id}`, {
@@ -39,4 +49,36 @@ export const getDeliveryMode = async () => {
     });
     const deliveryData = await deliveryRes.json();
     return deliveryData;
+}
+
+export const getCoachType = async () => {
+    const coachTypeRes = await fetch(`${apiUrl}/getCoachType`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    const coachTypeData = await coachTypeRes.json();
+    return coachTypeData;
+}
+
+export const getSubCoachType = async (coach_type_id) => {
+    const coachSubTypeRes = await fetch(`${apiUrl}/getSubCoachType/${coach_type_id}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    const coachSubTypeData = await coachSubTypeRes.json();
+    return coachSubTypeData;
+}
+
+export const getAgeGroup = async () => {
+    const ageGroupRes = await fetch(`${apiUrl}/ageGroups`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await ageGroupRes.json();
 }
