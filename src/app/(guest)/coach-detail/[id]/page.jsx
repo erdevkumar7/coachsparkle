@@ -1,55 +1,21 @@
 
 
 import { FRONTEND_BASE_URL } from "@/utiles/config";
-import axios from 'axios';
 import "../../_styles/coach-list.css"
 import DetailsTab from "../../_components/DetailsTab";
 import CoachingListDetailPackage from "../../_components/CoachListDetailPackage";
+import { getCoachById } from "@/app/api/coach";
 
 
 
 
 export default async function CoachDetail({ params }) {
-     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const { id } = params;
-    console.log(id)
+    const { id } = await params;
 
-    const res = await fetch(
-        `${apiUrl}/coachDetails?id=${id}`,
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id }),
-            cache: "no-store", // prevent caching if dynamic
-        }
-    );
-
-    const result = await res.json();
-    const coach = result.data;
-
+    const coach = await getCoachById(id)
     if (!coach) {
         return <div>Coach not found.</div>;
     }
-
-
-    // const res = await fetch(
-    //     `${BACK_END_BASE_URL}/coachDetails?id=${id}`,
-    //     {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({ id }),
-    //         cache: "no-store", // prevent caching if dynamic
-    //     }
-    // );
-
-
-    // const result = await res.json();
-    // const coach = result.data;
-
-    // if (!coach) {
-    //     return <div>Coach not found.</div>;
-    // }
-
 
     return (
         <>
@@ -72,18 +38,29 @@ export default async function CoachDetail({ params }) {
                                             <div className="senior-engineer-details-add">
                                                 <div>
                                                     <h2>
-                                                        {coach?.first_name} {coach?.last_name} <span className="verified-text"> <i className="bi bi-check"></i>Verified</span> <span className="avail-text"> <i className="bi bi-check"></i>Available for Corporate Work</span>
+                                                        {coach?.first_name} {coach?.last_name} 
+                                                        {coach?.is_verified === 1 && <span className="verified-text"> <i className="bi bi-check"></i>Verified</span>}
+                                                        <span className="avail-text"> <i className="bi bi-check"></i>Available for Corporate Work</span>
                                                     </h2>
                                                     <p className="senior-engineer-text">
-                                                        <strong>Life and Confidence Coach <span>at</span> Comex Pte. Ltd.</strong>
+                                                        <strong>
+                                                            {coach?.professional_title} {coach?.company_name && (
+                                                                <>
+                                                                    <span> at </span>
+                                                                    {coach.company_name}
+                                                                </>
+                                                            )}
+                                                        </strong>
                                                     </p>
+
+
                                                     <p className="senior-engineer-text">
-                                                        <strong>Experience <span>in</span> Personal Development and Life Coaching</strong>
+                                                        {coach?.coach_type && <strong>Experience <span>in</span> {coach?.coach_type}</strong>}
                                                     </p>
 
                                                     <div className="profile-card">
                                                         <div className="badge-tag">
-                                                            <span className="badge">Life Coaching</span> <span className="badge">Confidence</span> <span className="badge">Mindset</span> <span className="badge">Motivational</span> <span className="badge">Motivational</span>
+                                                            {coach?.coach_subtype && <span className="badge">{coach?.coach_subtype}</span>}
                                                         </div>
 
                                                         <div className="info-item">
@@ -103,39 +80,36 @@ export default async function CoachDetail({ params }) {
                                                         </div>
 
                                                         <div className="info-item">
-                                                            <i className="bi bi-globe"></i>
-                                                            <span>Hybrid</span>
+                                                            {coach?.delivery_mode &&
+                                                                <>
+                                                                    <i className="bi bi-globe"></i>
+                                                                    <span>{coach?.delivery_mode}</span>
+                                                                </>
+                                                            }
                                                         </div>
                                                     </div>
-                                                </div>  
+                                                </div>
                                             </div>
-                                                <div className="coach-action-profile-icon">
-                                                    <i className="bi bi-heart"></i>
-                                                </div>
-                                                <div className="coach-action-share-icon">
-                                                    <i className="bi bi-share"></i>
-                                                </div>
+                                            <div className="coach-action-profile-icon">
+                                                <i className="bi bi-heart"></i>
+                                            </div>
+                                            <div className="coach-action-share-icon">
+                                                <i className="bi bi-share"></i>
+                                            </div>
                                             <div className="tags">
-                                                <span>Software</span>
-                                                <span>Software</span>
-                                                <span>Software</span>
-                                                <span>Software</span>
-                                                <span>Software</span>
-                                                <h6>+5 more</h6>
+                                                {coach?.service_names && coach.service_names.map((service) => (
+                                                    <span key={service}>{service}</span>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="about-section tabs-block">
-                                        
-                                          <DetailsTab />      
+                                        <DetailsTab coach={coach} />
                                     </div>
                                     <div className="about-section package_short">
-                                        
-                                          <CoachingListDetailPackage />      
+                                        <CoachingListDetailPackage />
                                     </div>
-                                    
-
                                 </div>
                             </div>
 
@@ -149,17 +123,17 @@ export default async function CoachDetail({ params }) {
                                         </p>
                                         <p className="small-txt">Prices range from $250 - $290</p>
 
-                                            <div className="trial-offer">
-                                                <span> <i className="bi bi-patch-check"></i>Free trial</span>
-                                                <div className="yes-no-add">
-                                                    <label><input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" /> Yes</label>
-                                                    <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label>
-                                                </div>
+                                        <div className="trial-offer">
+                                            <span> <i className="bi bi-patch-check"></i>Free trial</span>
+                                            <div className="yes-no-add">
+                                                <label><input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" /> Yes</label>
+                                                <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label>
                                             </div>
+                                        </div>
 
                                         <button className="btn-primary"><i className="bi bi-chat-dots"></i>Send Message</button>
 
-                                        
+
 
                                         <div className="social-links">
                                             <div className="contact-now-add">
