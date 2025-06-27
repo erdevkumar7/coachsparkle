@@ -108,7 +108,38 @@ export default async function CoachDetail({ params }) {
                                         <DetailsTab coach={coach} />
                                     </div>
                                     <div className="about-section package_short">
+                                        <h4>Coaching Packages</h4>
                                         <CoachingListDetailPackage />
+                                        <div className="v-all"><button>View All</button></div>
+                                    </div>
+                                    <div className="about-section publs_artcl">
+                                        <h4>Published Articles</h4>
+                                        <div className="artcl-flex">
+                                        <div className="item-artcl">
+                                            <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                              <div className="item-cont1">
+                                                <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
+                                                <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
+                                                <button>Read Article</button>
+                                              </div>
+                                        </div>
+                                        <div className="item-artcl">
+                                            <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                              <div className="item-cont1">
+                                                <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
+                                                <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
+                                                <button>Read Article</button>
+                                              </div>
+                                        </div>
+                                        <div className="item-artcl">
+                                            <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                              <div className="item-cont1">
+                                                <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
+                                                <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
+                                                <button>Read Article</button>
+                                              </div>
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

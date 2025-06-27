@@ -18,6 +18,8 @@ import CoachCorporateWork from '../../_components/CoachCorporateWork';
 import CoachCategory from '../../_components/CoachCategory';
 import CoachLanguages from '../../_components/CoachLanguages';
 import BasicRating from '../../_components/CoachRatings';
+import HalfRating from '../../_components/CoachRatings';
+import CoachAvail from '../../_components/CoachSideCalendar';
 
 
 export default function CoachList() {
@@ -203,8 +205,13 @@ export default function CoachList() {
                         </div>
 
                         <div className="filter-section">
+                            <h4>Availability</h4>
+                            <CoachAvail />
+                        </div>
+
+                        <div className="filter-section rating-star">
                             <h4>Rating</h4>
-                            <BasicRating />
+                            <HalfRating />
                         </div>
 
 
@@ -265,6 +272,11 @@ export default function CoachList() {
                                         </div>
                                     </div>
                                 ))}
+
+                                <div className="info1">
+                                    <p>Couldn't find what you are looking for?</p>
+                                    <button className='ai-mtc'>Try AI Match</button>
+                                </div>
 
                                 <div className="container-fluid pt-3 pagination-content-add">
                                     <div className="row pagination-content-inner">

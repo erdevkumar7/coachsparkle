@@ -122,8 +122,8 @@
     margin-left: 10px;
 }
 
-.coach-banner-add .filter-section span.MuiButtonBase-root {
-    padding: 0px;
+span.MuiButtonBase-root {
+    padding: 0px !important;
 }
 .coach-banner-add .filter-section span.MuiTypography-root {
     margin-left: 5px;
@@ -595,12 +595,10 @@
 .coach-profile-content {
     padding: 20px;
     border-radius: 12px;
-    border: solid 1px #D7D7D7;
     overflow: hidden;
 }
 .coach-profile-list-left .about-section {
     margin-top: 30px;
-    border-top: solid 1px #D7D7D7;
     padding-top: 30px;
     padding-bottom: 10px;
 }
@@ -629,7 +627,6 @@
     display: flex;
     align-items: flex-start;
     gap: 35px;
-    border-bottom: 1px solid #ccc;
     padding: 20px 0;
 }
 
@@ -1482,8 +1479,8 @@ h5.what-user-text {
 .fav-list span {
     padding: 15px;
     border-radius: 50px;
-    height: 48px;
-    width: 48px;
+    height: 42px;
+    width: 42px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1493,7 +1490,7 @@ h5.what-user-text {
     cursor: pointer;
 }
 .fav-list span .bi-heart {
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 3px;
 }
 .range_sld {
@@ -1503,6 +1500,10 @@ h5.what-user-text {
 p.small-txt {
     text-align: center;
     font-weight: 600;
+}
+
+.coach-banner-add .rating-star label {
+    font-size: 24px;
 }
 
 .certifi {
@@ -1595,8 +1596,10 @@ span.avail-text i.bi.bi-check {
       border-radius: 10px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      max-width: 400px;
-      flex: 1 1 300px;
+      max-width: 450px;
+      flex: 450;
+      border: 1px solid #d7d7d7;
+      padding: 20px;
     }
     .session-card img {
       width: 100%;
@@ -1605,6 +1608,8 @@ span.avail-text i.bi.bi-check {
     }
     .session-content {
       padding: 20px;
+      background-color: #F4F4F4;
+    border-top: 10px solid #E7E6E6;
     }
     .session-content h2 {
       font-size: 20px;
@@ -1633,6 +1638,7 @@ span.avail-text i.bi.bi-check {
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 10px;
+      text-align: center;
     }
     .book-btn {
       background-color: #008aff;
@@ -1669,3 +1675,78 @@ span.avail-text i.bi.bi-check {
         align-items: center;
       }
     }
+
+.info1 {
+    display: flex;
+    justify-content: end;
+    align-items: baseline;
+}
+button.ai-mtc {
+    background: #009BFA;
+    color: #ffffff;
+    border: 1px solid #009BFA;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-left: 15px;
+}
+
+.tabs-block button {
+    color: #000000;
+    text-transform: capitalize;
+    font-size: 16px;
+}
+.package_short {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.package_short h4 {
+    margin-bottom: 25px;
+}
+.v-all {
+    text-align: right;
+    margin-top: 20px;
+}
+.v-all button {
+    font-weight: 600;
+    background: none;
+    border: none;
+    color: #009df6;
+}
+.publs_artcl {
+    flex-wrap: wrap;
+    gap: 20px;
+    display: flex;
+    padding-top: 0px !important;
+}
+.artcl-flex {
+    flex-wrap: wrap;
+    gap: 30px;
+    display: flex;
+}
+.item-artcl {
+    flex: 250;
+    max-width: 250px;
+}
+.item-artcl img.top-image {
+    width: 100%;
+    display: block;
+    height: 120px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.artcl-flex .item-cont1 h4 {
+    font-size: 16px;
+    line-height: 20px;
+}
+.artcl-flex .item-cont1 p {
+    font-size: 14px;
+    line-height: 18px;
+}
+.artcl-flex .item-cont1 button {
+    background: #009df6;
+    color: #ffffff;
+    border: 1px solid #009df6;
+    border-radius: 12px;
+    padding: 8px 16px;
+}
