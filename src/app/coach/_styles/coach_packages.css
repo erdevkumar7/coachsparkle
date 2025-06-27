@@ -1,0 +1,158 @@
+.profile-form-add .card {
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    padding: 20px !important;
+}
+
+.content-wrapper {
+    padding-right: 20px;
+}
+
+.profile-form-add {
+    margin-top: 40px;
+}
+
+.profile-form-add h3.text-your-name {
+    border-bottom: 1px solid #e7e7e7;
+    padding-bottom: 15px;
+}
+
+.coach-session-count{
+    display: flex;
+}
+
+.coach-price-currency{
+    display: flex;
+}
+
+
+
+
+.profile-form .form-group {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.profile-form textarea#description {
+    height: 118px;
+}
+
+.profile-form .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #181A20;
+}
+
+.profile-form .form-group input,
+.form-group select,
+.form-group textarea {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 16px;
+    height: 48px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.profile-form .form-group.full-width {
+    flex: 1 1 100%;
+}
+
+.profile-form button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #13498B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-form button[type="submit"]:hover {
+    background-color: #0f3c73;
+}
+
+.profile-form {
+    margin-top: 25px;
+    width: 75%;
+}
+
+.profile-form p.set-text-one {
+    color: #181A20;
+    font-weight: 500;
+    padding-top: 20px;
+    font-family: 'Roboto';
+}
+
+.profile-form p.set-text {
+    color: #181A20;
+    padding-top: 0px;
+    font-family: 'Roboto';
+    margin-bottom: 25px;
+}
+
+.profile-form-add .form-group.goal {
+    display: flex !important;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.form-group.goal input[type="text"] {
+    width: 100%;
+    height: 118px;
+}
+
+.form-group.goal label {
+    width: 68px;
+}
+
+
+.profile-form input#timings {
+    margin-bottom: 15px;
+}
+
+.profile-form .form-group.check-box {
+    display: flex !important;
+    flex-direction: row;
+    align-items: anchor-center;
+    gap: 5px;
+}
+
+.profile-form .form-group.check-box label {
+    margin-bottom: 0px;
+    font-weight: 400;
+}
+
+.profile-form .form-group.check-box input#coachAgreement {
+    width: 18px;
+    cursor: pointer;
+}
+
+.profile-form button.save-btn-add {
+    color: #fff;
+    cursor: pointer;
+    background-color: #009BFA !important;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px !important;
+    font-size: 15px;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.profile-form .save-btn-add:hover {
+    background-color: #009BFA !important;
+}
+
+.profile-form .save-btn {
+    display: flex !important;
+    justify-content: center !important;
+    margin: auto !important;
+    float: right;
+    width: 55%;
+}

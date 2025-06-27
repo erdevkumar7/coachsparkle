@@ -6,7 +6,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-export default function LabTabs({coach}) {
+export default function LabTabs({ coach }) {
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
@@ -28,22 +28,32 @@ export default function LabTabs({coach}) {
                     <div className='tab-cont'>
                         <p><strong>Confidence & Communication Coach | Empowering Professionals to Speak with Impact</strong></p>
 
-                        <p>{coach?.detailed_bio?.trim() ? coach.detailed_bio : 'Not available'}</p>          
+                        <p>{coach?.detailed_bio?.trim() ? coach.detailed_bio : 'Not available'}</p>
                     </div>
                 </TabPanel>
                 <TabPanel value="2">
                     <div className='tab-cont'>
-                        <p>{coach?.exp_and_achievement?.trim() ? coach.exp_and_achievement : 'Not available'}</p>                     
+                        <p>{coach?.exp_and_achievement?.trim() ? coach.exp_and_achievement : 'Not available'}</p>
                     </div>
                 </TabPanel>
                 <TabPanel value="3">
-                    <div className='certifi'>
-                        <a href="#"><img src={`/coachsparkle/images/certi1.jpg`} alt="" /></a>
-                        <a href="#"><img src={`/coachsparkle/images/certi2.png`} alt="" /></a>
-                        <a href="#"><img src={`/coachsparkle/images/certi3.webp`} alt="" /></a>
-                        <a href="#"><img src={`/coachsparkle/images/certi4.webp`} alt="" /></a>
-                        <a href="#"><img src={`/coachsparkle/images/certi5.jpeg`} alt="" /></a>
+                    <div className="certifi">
+                        {coach?.user_documents?.length > 0 ? (
+                            coach.user_documents.map((doc) => (
+                                <a
+                                    key={doc.id}
+                                    href={doc.document_file}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <img src={doc.document_file} alt={doc.original_name} />
+                                </a>
+                            ))
+                        ) : (
+                            <p>Not available</p>
+                        )}
                     </div>
+
                 </TabPanel>
                 <TabPanel value="4">
                     <h5 className="what-user-text">What User's Say</h5>

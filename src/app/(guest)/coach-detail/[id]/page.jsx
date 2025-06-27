@@ -38,9 +38,9 @@ export default async function CoachDetail({ params }) {
                                             <div className="senior-engineer-details-add">
                                                 <div>
                                                     <h2>
-                                                        {coach?.first_name} {coach?.last_name} 
+                                                        {coach?.first_name} {coach?.last_name}
                                                         {coach?.is_verified === 1 && <span className="verified-text"> <i className="bi bi-check"></i>Verified</span>}
-                                                        <span className="avail-text"> <i className="bi bi-check"></i>Available for Corporate Work</span>
+                                                        {coach?.is_corporate === 1 && <span className="avail-text"> <i className="bi bi-check"></i>Available for Corporate Work</span>}
                                                     </h2>
                                                     <p className="senior-engineer-text">
                                                         <strong>
@@ -115,30 +115,30 @@ export default async function CoachDetail({ params }) {
                                     <div className="about-section publs_artcl">
                                         <h4>Published Articles</h4>
                                         <div className="artcl-flex">
-                                        <div className="item-artcl">
-                                            <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
-                                              <div className="item-cont1">
-                                                <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
-                                                <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
-                                                <button>Read Article</button>
-                                              </div>
-                                        </div>
-                                        <div className="item-artcl">
-                                            <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
-                                              <div className="item-cont1">
-                                                <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
-                                                <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
-                                                <button>Read Article</button>
-                                              </div>
-                                        </div>
-                                        <div className="item-artcl">
-                                            <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
-                                              <div className="item-cont1">
-                                                <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
-                                                <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
-                                                <button>Read Article</button>
-                                              </div>
-                                        </div>
+                                            <div className="item-artcl">
+                                                <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                                <div className="item-cont1">
+                                                    <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
+                                                    <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
+                                                    <button>Read Article</button>
+                                                </div>
+                                            </div>
+                                            <div className="item-artcl">
+                                                <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                                <div className="item-cont1">
+                                                    <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
+                                                    <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
+                                                    <button>Read Article</button>
+                                                </div>
+                                            </div>
+                                            <div className="item-artcl">
+                                                <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                                <div className="item-cont1">
+                                                    <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
+                                                    <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
+                                                    <button>Read Article</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -157,8 +157,17 @@ export default async function CoachDetail({ params }) {
                                         <div className="trial-offer">
                                             <span> <i className="bi bi-patch-check"></i>Free trial</span>
                                             <div className="yes-no-add">
-                                                <label><input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" /> Yes</label>
-                                                <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label>
+                                                <label>
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        id="flexCheckDefault"
+                                                        checked={true}
+                                                        readOnly
+                                                    />
+                                                    {coach?.free_trial_session ? 'Yes' : 'No'}
+                                                </label>
+                                                {/* <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label> */}
                                             </div>
                                         </div>
 
@@ -168,11 +177,11 @@ export default async function CoachDetail({ params }) {
 
                                         <div className="social-links">
                                             <div className="contact-now-add">
-                                                <a href="#"><img src={`${FRONTEND_BASE_URL}/images/sm1.png`} alt="WhatsApp" /></a>
-                                                <a href="#"><img src={`${FRONTEND_BASE_URL}/images/sm2.png`} alt="Facebook" /></a>
-                                                <a href="#"><img src={`${FRONTEND_BASE_URL}/images/sm3.png`} alt="LinkedIn" /></a>
-                                                <a href="#"><img src={`${FRONTEND_BASE_URL}/images/sm4.png`} alt="LinkedIn" /></a>
-                                                <a href="#"><img src={`${FRONTEND_BASE_URL}/images/sm5.png`} alt="LinkedIn" /></a>
+                                                {coach?.linkdin_link && <a href={coach?.linkdin_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm1.png`} alt="LinkedIn" /></a>}
+                                                {coach?.website_link && <a href={coach?.website_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm2.png`} alt="website" /></a>}
+                                                {coach?.youtube_link && <a href={coach?.youtube_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm3.png`} alt="youtube" /></a>}
+                                                {coach?.podcast_link && <a href={coach?.podcast_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm4.png`} alt="podcast" /></a>}
+                                                {coach?.booking_link && <a href={coach?.booking_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm5.png`} alt="booking" /></a>}
                                             </div>
                                         </div>
                                     </div>
