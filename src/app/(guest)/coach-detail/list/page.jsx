@@ -206,7 +206,7 @@ export default function CoachList() {
 
                         <div className="filter-section">
                             <h4>Availability</h4>
-                            <CoachAvail />
+                            {/* <CoachAvail /> */}
                         </div>
 
                         <div className="filter-section rating-star">
