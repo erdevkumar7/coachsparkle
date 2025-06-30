@@ -462,6 +462,14 @@ span.MuiButtonBase-root {
     height: 35px;
 }
 
+.box-txts {
+    display: inline-flex;
+    margin-bottom: 10px;
+}
+.box-txts .verified-text {
+    margin-right: 7px;
+}
+
 .coach-profile-list-left .coach-info h2 {
     margin: 0 0 10px;
     font-size: 24px;
@@ -612,9 +620,9 @@ span.MuiButtonBase-root {
 
 .coach-profile-list-left .about-section p {
     color: #000000;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Roboto';
-    line-height: 26px;
+    line-height: 18px;
 }
 
 
@@ -1724,8 +1732,8 @@ button.ai-mtc {
     display: flex;
 }
 .item-artcl {
-    flex: 250;
-    max-width: 250px;
+    flex: 300;
+    max-width: 300px;
 }
 .item-artcl img.top-image {
     width: 100%;
@@ -1749,4 +1757,11 @@ button.ai-mtc {
     border: 1px solid #009df6;
     border-radius: 12px;
     padding: 8px 16px;
+}
+
+.sim-coachs {
+    display: flex
+;
+    flex-wrap: wrap;
+    gap: 20px;
 }
