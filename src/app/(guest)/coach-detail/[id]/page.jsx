@@ -5,6 +5,7 @@ import "../../_styles/coach-list.css"
 import DetailsTab from "../../_components/DetailsTab";
 import CoachingListDetailPackage from "../../_components/CoachListDetailPackage";
 import { getCoachById } from "@/app/api/coach";
+import SimilarCoaches from "../../../../components/SimilarCoaches";
 
 
 
@@ -39,9 +40,11 @@ export default async function CoachDetail({ params }) {
                                                 <div>
                                                     <h2>
                                                         {coach?.first_name} {coach?.last_name}
+                                                    </h2>
+                                                    <div className="box-txts">
                                                         {coach?.is_verified === 1 && <span className="verified-text"> <i className="bi bi-check"></i>Verified</span>}
                                                         {coach?.is_corporate === 1 && <span className="avail-text"> <i className="bi bi-check"></i>Available for Corporate Work</span>}
-                                                    </h2>
+                                                    </div>
                                                     <p className="senior-engineer-text">
                                                         <strong>
                                                             {coach?.professional_title} {coach?.company_name && (
@@ -116,7 +119,7 @@ export default async function CoachDetail({ params }) {
                                         <h4>Published Articles</h4>
                                         <div className="artcl-flex">
                                             <div className="item-artcl">
-                                                <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} alt="Team Image" className="top-image" />
                                                 <div className="item-cont1">
                                                     <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
                                                     <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
@@ -124,7 +127,7 @@ export default async function CoachDetail({ params }) {
                                                 </div>
                                             </div>
                                             <div className="item-artcl">
-                                                <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} alt="Team Image" className="top-image" />
                                                 <div className="item-cont1">
                                                     <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
                                                     <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
@@ -132,7 +135,7 @@ export default async function CoachDetail({ params }) {
                                                 </div>
                                             </div>
                                             <div className="item-artcl">
-                                                <img src={`${FRONTEND_BASE_URL}/images/profile-video.png`} alt="Team Image" className="top-image" />
+                                                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} alt="Team Image" className="top-image" />
                                                 <div className="item-cont1">
                                                     <h4>5 Strategies to Boost Self-Confidence in the Workplace</h4>
                                                     <p>Discover practical techniques enhance your confidence at work and navigate professional challenges with assurance.</p>
@@ -141,6 +144,10 @@ export default async function CoachDetail({ params }) {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="about-section sim-coachs">
+                                        <SimilarCoaches />
+                                    </div>
+                                    
                                 </div>
                             </div>
 
