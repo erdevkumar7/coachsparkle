@@ -1,11 +1,10 @@
-
-
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import "../../_styles/coach-list.css"
 import DetailsTab from "../../_components/DetailsTab";
 import CoachingListDetailPackage from "../../_components/CoachListDetailPackage";
 import { getCoachById } from "@/app/api/coach";
 import SimilarCoaches from "../../../../components/SimilarCoaches";
+import CoachDetailCalendar from "../../_components/CoachDetailCalendar";
 
 
 
@@ -112,7 +111,8 @@ export default async function CoachDetail({ params }) {
                                     </div>
                                     <div className="about-section package_short">
                                         <h4>Coaching Packages</h4>
-                                        <CoachingListDetailPackage />
+                                        {/* <CoachingListDetailPackage /> */}
+                                        <CoachingListDetailPackage packages={coach.service_packages.slice(0, 2)} />
                                         <div className="v-all"><button>View All</button></div>
                                     </div>
                                     <div className="about-section publs_artcl">
@@ -145,6 +145,7 @@ export default async function CoachDetail({ params }) {
                                         </div>
                                     </div>
                                     <div className="about-section sim-coachs">
+                                        <h4>Similar Coaches</h4>
                                         <SimilarCoaches />
                                     </div>
                                     
@@ -197,20 +198,8 @@ export default async function CoachDetail({ params }) {
                                 <div className="calendar shadow-sm calendar-profile-show">
                                     <div className="d-flex prve-next-btn mb-3">
                                         <h4 id="monthYear" className="mb-0"></h4>
-                                        <div className="next-prev-part">
-                                            <button id="prev" className="btn btn-primary btn-sm"><i className="bi bi-chevron-left"></i></button>
-                                            <button id="next" className="btn btn-primary btn-sm"><i className="bi bi-chevron-right"></i></button>
-                                        </div>
-                                    </div>
-
-                                    <div className="day-names border-bottom pb-2 mb-2">
-                                        <div>Sun</div>
-                                        <div>Mon</div>
-                                        <div>Tue</div>
-                                        <div>Wed</div>
-                                        <div>Thu</div>
-                                        <div>Fri</div>
-                                        <div>Sat</div>
+                                        <CoachDetailCalendar />
+                                        
                                     </div>
 
                                     <div className="days" id="calendarDays"></div>

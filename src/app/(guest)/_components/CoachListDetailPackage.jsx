@@ -1,19 +1,51 @@
-export default function CoachingListDetailPackage() {
+'use client';
+export default function CoachingListDetailPackage({ packages }) {
 
   return (
     <>
       <div className="session-wrapper">
-        <div className="session-card">
-          <img src={`/coachsparkle/images/package1.png`} alt="Team Image" className="top-image" />
+        {packages.map((pkg, index) => (
+          <div className="session-card" key={index}>
+            <img
+              src={pkg?.media_file ? pkg?.media_file : '/coachsparkle/images/package1.png'}
+              alt="Team Image" className="top-image" />
+            <div className="session-content">
+              <h2>{pkg?.title}</h2>
+              <div className="icons-row">
+                📍 {pkg?.delivery_mode?.mode_name}   |  
+                👤 {pkg?.session_format?.name}   |  
+                📅 Jun - Aug 2025
+              </div>
+              <div className="icons-row">
+                🗓️ {pkg?.session_count} Sessions   |  
+                ⏱️ {pkg?.session_duration} Min/Session
+              </div>
+              <div className="icons-row">
+                🧠 {pkg?.focus}
+              </div>
+              <p className="session-description">
+                {pkg?.short_description}
+              </p>
+              <ul className="session-list">
+                {pkg?.description ? <li>{pkg?.description}</li> : ''}
+              </ul>
+              <div className="price">{pkg?.price} / {pkg?.price_model?.name}</div>
+              <a href="#" className="book-btn">View Details and Booking Now!</a>
+            </div>
+          </div>
+        ))}
+
+        {/* <div className="session-card">
+          <img src={/coachsparkle/images/package1.png} alt="Team Image" className="top-image" />
           <div className="session-content">
             <h2>Confidence Jumpstart Session</h2>
             <div className="icons-row">
-              📍 Online &nbsp; | &nbsp;
-              👤 1-on-1 coaching &nbsp; | &nbsp;
+              📍 Online   |  
+              👤 1-on-1 coaching   |  
               📅 Jun - Aug 2025
             </div>
             <div className="icons-row">
-              🗓️ 4 Sessions &nbsp; | &nbsp;
+              🗓️ 4 Sessions   |  
               ⏱️ 60 Min/Session
             </div>
             <div className="icons-row">
@@ -33,44 +65,8 @@ export default function CoachingListDetailPackage() {
             <div className="slots-left">Only 4 slots left!</div>
             <div className="note">Best for first timers and those preparing for key life or career transition</div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="session-card">
-          <img src={`/coachsparkle/images/package2.png`} alt="Team Image" className="top-image" />
-          <div className="session-content">
-            <h2>Breakthrough Package</h2>
-            <div className="icons-row">
-              📍 Online &nbsp; | &nbsp;
-              👤 1-on-1 coaching &nbsp; | &nbsp;
-              📅 Jun - Aug 2025
-            </div>
-            <div className="icons-row">
-              🗓️ 4 Sessions &nbsp; | &nbsp;
-              ⏱️ 60 Min/Session
-            </div>
-            <div className="icons-row">
-              🧠 Confidence, Goal Clarity, Custom Action Plan
-            </div>
-            <p className="session-description">
-              Designed for short-term goal clarity and mindset shifts. Ideal if you’re preparing for a presentation, job interview, or important life transition.
-            </p>
-            <ul className="session-list">
-              <li>Gain clarity and confidence to tackle high-stakes situations like:
-                <ul>
-                  <li>Job interviews</li>
-                  <li>Key presentations or public speaking</li>
-                  <li>Career moves or life transitions</li>
-                </ul>
-              </li>
-              <li>Shift limiting beliefs and adopt an empowered mindset</li>
-              <li>Build a focused action plan with support between sessions.</li>
-            </ul>
-            <div className="price">$250 / Package</div>
-            <a href="#" className="book-btn">View Details and Book Now!</a>
-            <div className="slots-left">Only 2 slots left!</div>
-            <div className="note">Clients seeking focused support for a short-term goal or life transition</div>
-          </div>
-        </div>
       </div>
     </>
   )
