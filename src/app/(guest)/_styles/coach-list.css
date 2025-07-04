@@ -1760,8 +1760,17 @@ button.ai-mtc {
 }
 
 .sim-coachs {
-    display: flex
-;
+    display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+.about-section.sim-coachs .swiper {
+    padding-top: 15px;
+}
+.about-section.sim-coachs {
+    padding-bottom: 0px !important;
+    gap: 15px;
+}
+.about-section.sim-coachs h4 {
+    margin-bottom: 0px;
 }
