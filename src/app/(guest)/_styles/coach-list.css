@@ -1765,12 +1765,61 @@ button.ai-mtc {
     gap: 20px;
 }
 .about-section.sim-coachs .swiper {
-    padding-top: 15px;
+    padding-top: 50px;
 }
 .about-section.sim-coachs {
     padding-bottom: 0px !important;
     gap: 15px;
 }
 .about-section.sim-coachs h4 {
-    margin-bottom: 0px;
+    margin-bottom: -45px;
+    margin-top: 24px;
 }
+
+
+.swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden .swiper-wrapper {
+    margin-top: 10px;
+}
+.sim-coachs .swiper-button-prev,
+.sim-coachs .swiper-button-next {
+  top: 25px;              /* adjust as needed */
+  width: 35px;
+  height: 35px;
+  background: #fff;    
+  border: 1px solid #009df6;    /* optional for better visibility */
+  border-radius: 50%;
+  z-index: 10;
+}
+.sim-coachs .swiper-button-prev {
+  right: 50px;             /* move to left of 'next' */
+  left: auto;
+}
+.sim-coachs .swiper-button-next {
+  right: 10px;
+}
+.about-section.sim-coachs .swiper-button-prev::after {
+  font-size: 20px;
+    color: #009df6;
+}
+.about-section.sim-coachs .swiper-button-next::after {
+  font-size: 20px;
+      color: #009df6;
+}
+.sim-coachs .swiper-button-next:hover {
+    background: #009df6;
+    color: #ffffff;
+    border: 1px solid #009df6;
+}
+.sim-coachs .swiper-button-next:hover::after {
+    color: #ffffff;
+}
+.sim-coachs .swiper-button-prev:hover::after {
+    color: #ffffff;
+}
+.sim-coachs .swiper-button-prev:hover {
+    background: #009df6;
+    color: #ffffff;
+    border: 1px solid #009df6;
+}
+
+
