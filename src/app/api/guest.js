@@ -82,3 +82,33 @@ export const getAgeGroup = async () => {
     });
     return await ageGroupRes.json();
 }
+
+export const getAllCoachingCategory = async () => {
+    const res = await fetch(`${apiUrl}/coachingCategories`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await res.json();
+}
+
+export const sessionFormats = async () => {
+    const res = await fetch(`${apiUrl}/sessionFormats`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await res.json();
+}
+
+export const getAllPriceModels = async () => {
+     const res = await fetch(`${apiUrl}/priceModels`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await res.json();
+}

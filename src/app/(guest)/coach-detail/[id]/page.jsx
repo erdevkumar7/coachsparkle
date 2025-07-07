@@ -61,33 +61,56 @@ export default async function CoachDetail({ params }) {
                                                     </p>
 
                                                     <div className="profile-card">
+
                                                         <div className="badge-tag">
                                                             {coach?.coach_subtype && <span className="badge">{coach?.coach_subtype}</span>}
                                                         </div>
+                                                        <div className="d-flex gap-4">
+                                                            <div>
+                                                                <div className="info-item">
+                                                                    <i className="bi bi-geo-alt"></i>
+                                                                    <span>{coach.country_id}</span>
+                                                                </div>
 
-                                                        <div className="info-item">
-                                                            <i className="bi bi-geo-alt"></i>
-                                                            <span>{coach.country_id}</span>
-                                                        </div>
+                                                                <div className="info-item">
+                                                                    <i className="bi bi-translate"></i>
+                                                                    <span>{coach.language_names?.join(', ') || 'Not available'}</span>
+                                                                </div>
 
-                                                        <div className="info-item">
-                                                            <i className="bi bi-translate"></i>
-                                                            <span>{coach.language_names?.join(', ') || 'Not available'}</span>
-                                                            {/* <span>Speaks English, Portuguese and Spanish</span> */}
-                                                        </div>
+                                                                <div className="info-item">
+                                                                    {coach?.delivery_mode &&
+                                                                        <>
+                                                                            <i className="bi bi-globe"></i>
+                                                                            <span>{coach?.delivery_mode}</span>
+                                                                        </>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div className="info-item">
+                                                                    {coach?.experience &&
+                                                                        <>
+                                                                            <i className="bi bi-circle"></i>
+                                                                            <span>{coach?.experience}-years experiences</span>
+                                                                        </>
+                                                                    }
+                                                                </div>
 
-                                                        <div className="info-item">
-                                                            <i className="bi bi-star"></i>
-                                                            <span><b>5.0</b> (21 reviews)</span>
-                                                        </div>
+                                                                <div className="info-item">
+                                                                    {coach?.age_group &&
+                                                                        <>
+                                                                            <i className="bi bi-universal-access-circle"></i>
+                                                                            <span>For Ages {coach?.age_group}</span>
+                                                                        </>
+                                                                    }
+                                                                </div>
 
-                                                        <div className="info-item">
-                                                            {coach?.delivery_mode &&
-                                                                <>
-                                                                    <i className="bi bi-globe"></i>
-                                                                    <span>{coach?.delivery_mode}</span>
-                                                                </>
-                                                            }
+                                                                <div className="info-item">
+                                                                    <i className="bi bi-star"></i>
+                                                                    {/* <span><b>5.0</b> (21 reviews)</span> */}
+                                                                    <span><b>No Rating </b></span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,7 +171,7 @@ export default async function CoachDetail({ params }) {
                                         <h4>Similar Coaches</h4>
                                         <SimilarCoaches />
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -199,7 +222,7 @@ export default async function CoachDetail({ params }) {
                                     <div className="d-flex prve-next-btn mb-3">
                                         <h4 id="monthYear" className="mb-0"></h4>
                                         <CoachDetailCalendar />
-                                        
+
                                     </div>
 
                                     <div className="days" id="calendarDays"></div>
