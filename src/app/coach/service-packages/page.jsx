@@ -37,7 +37,7 @@ export default function CoachServicePackages() {
                 <div className="d-flex justify-content-center align-items-center min-vh-100"><CircularProgress /></div>
             ) : (<div className="content-wrapper">
                 <div className="session-wrapper">
-                    {packages.slice(0,3).map((pkg, index) => (
+                    {packages && packages.slice(0,3).map((pkg, index) => (
                         <div className="session-card" key={index}>
                             <img
                                 src={pkg?.media_file ? pkg?.media_file : `/coachsparkle/images/package1.png`}

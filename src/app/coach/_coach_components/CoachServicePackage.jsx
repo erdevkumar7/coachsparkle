@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { getAgeGroup, getAllCoachingCategory, getAllPriceModels, getDeliveryMode, sessionFormats } from "@/app/api/guest";
 import Cookies from "js-cookie";
+import BookingWindowPicker from "./BookingWindow";
+import CoachAvailability from "./CoachAvailability";
 
 export default function CoachServicePackageForm() {
     const [mediaFile, setMediaFile] = useState(null);
@@ -30,7 +32,8 @@ export default function CoachServicePackageForm() {
         booking_window: "",
         session_validity: "",
         cancellation_policy: "",
-        rescheduling_policy: ""
+        rescheduling_policy: "",
+        booking_availability: ""
     });
 
     useEffect(() => {
@@ -340,31 +343,16 @@ export default function CoachServicePackageForm() {
                                 />
                             </div>
 
-                            <div className='form-group col-md-4'>
-                                <label htmlFor='booking_slot'>Availablity</label>
-                                <select
-                                    id='booking_slot'
-                                    name='booking_slot'
-                                    value={formData.booking_slot}
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Select </option>
-                                    <option value={1}>1</option>
-                                </select>
-                            </div>
+                            {/* <div className='form-group col-md-4'>
+                                <label htmlFor='booking_slot'>Availablity</label>                              
+                            </div> */}
+                            <CoachAvailability formData={formData} setFormData={setFormData} />
 
-                            <div className='form-group col-md-4'>
-                                <label htmlFor='booking_window'>Booking Window</label>
-                                <select
-                                    id='booking_window'
-                                    name='booking_window'
-                                    value={formData.booking_window}
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Select </option>
-                                    <option value={1}>1</option>
-                                </select>
-                            </div>
+                            {/* <div className='form-group col-md-4'>
+                                <label htmlFor='booking_window'>Booking Window</label>                               
+                            </div> */}
+
+                            <BookingWindowPicker formData={formData} setFormData={setFormData} />
                         </div>
 
 
