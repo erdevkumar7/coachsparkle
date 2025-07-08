@@ -16,9 +16,9 @@ export const getCoachById = async (id) => {
     return result.data;
 };
 
-export const allCoachPackages = async (givenToken) => {
+export const allPackagesOfaCoach = async (givenToken) => {
     if (!givenToken) return null;
-    const res = await fetch(`${apiUrl}/getalluserservicepackage`,
+    const res = await fetch(`${apiUrl}/getallcoachservicepackage`,
         {
             method: 'GET',
             headers: {

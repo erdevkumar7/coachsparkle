@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useState } from "react";
 import { getAgeGroup, getAllCoachingCategory, getAllPriceModels, getDeliveryMode, sessionFormats } from "@/app/api/guest";
+import Cookies from "js-cookie";
 
 export default function CoachServicePackageForm() {
+    const [mediaFile, setMediaFile] = useState(null);
     const [categories, setCategories] = useState([]);
     const [ageGroups, setAgeGroups] = useState([]);
     const [deliveryModes, setDeliveryModes] = useState([]);
@@ -22,8 +24,13 @@ export default function CoachServicePackageForm() {
         session_formate: "",
         price: "",
         currency: "USD",
-        pricing_model: "",
+        price_model: "",
         slot_availability: "",
+        booking_slot: "",
+        booking_window: "",
+        session_validity: "",
+        cancellation_policy: "",
+        rescheduling_policy: ""
     });
 
     useEffect(() => {
@@ -85,11 +92,46 @@ export default function CoachServicePackageForm() {
         }));
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log('formData', formData)
-    }
+        try {
+            const token = Cookies.get("token");
+            const form = new FormData();
+
+            Object.entries(formData).forEach(([key, value]) => {
+                form.append(key, value);
+            });
+
+            // Append media file if selected
+            if (mediaFile) {
+                form.append("media_file", mediaFile);
+            }
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: "application/json",
+                },
+                body: form,
+            });
+
+            const result = await response.json();
+
+            if (result.status) {
+                alert("✅ " + result.message);
+            } else {
+                alert("❌ " + result.message || "Something went wrong.");
+            }
+        } catch (err) {
+            console.error("Error submitting package:", err);
+            alert("❌ Network or server error.");
+        }
+    };
+
     return (
         <div className="profile-form-add">
             <div className="card">
@@ -248,6 +290,7 @@ export default function CoachServicePackageForm() {
                                     type="text"
                                     id="price"
                                     name="price"
+                                    value={formData.price}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -265,11 +308,11 @@ export default function CoachServicePackageForm() {
                             </div>
 
                             <div className='form-group col-md-4'>
-                                <label htmlFor='pricing_model'> Pricing Model</label>
+                                <label htmlFor='price_model'> Pricing Model</label>
                                 <select
-                                    id='pricing_model'
-                                    name='pricing_model'
-                                    value={formData.pricing_model}
+                                    id='price_model'
+                                    name='price_model'
+                                    value={formData.price_model}
                                     onChange={handleChange}
                                 >
                                     <option value="">Select </option>
@@ -285,15 +328,16 @@ export default function CoachServicePackageForm() {
                         <div className="coach-slot-and-availability gap-4">
                             <div className='form-group col-md-4'>
                                 <label htmlFor='slot_availability'> Slots Available for Booking</label>
-                                <select
-                                    id='slot_availability'
-                                    name='slot_availability'
+                                <input
+                                    required
+                                    max={2000}
+                                    min={0}
+                                    type="number"
+                                    id="slot_availability"
+                                    name="slot_availability"
                                     value={formData.slot_availability}
                                     onChange={handleChange}
-                                >
-                                    <option value="">Select </option>
-                                    <option value={1}>1</option>
-                                </select>
+                                />
                             </div>
 
                             <div className='form-group col-md-4'>
@@ -332,6 +376,7 @@ export default function CoachServicePackageForm() {
                                     type="text"
                                     id="session_validity"
                                     name="session_validity"
+                                    value={formData.session_validity}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -339,10 +384,10 @@ export default function CoachServicePackageForm() {
                             <div className='form-group col-md-4'>
                                 <label htmlFor="cancellation_policy">Cancellation Policy</label>
                                 <input
-                                    required
                                     type="text"
                                     id="cancellation_policy"
                                     name="cancellation_policy"
+                                    value={formData.cancellation_policy}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -350,13 +395,24 @@ export default function CoachServicePackageForm() {
                             <div className='form-group col-md-4'>
                                 <label htmlFor="rescheduling_policy">Rescheduling Policy</label>
                                 <input
-                                    required
                                     type="text"
                                     id="rescheduling_policy"
                                     name="rescheduling_policy"
+                                    value={formData.rescheduling_policy}
                                     onChange={handleChange}
                                 />
                             </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="media_file"> Media Upload</label>
+                            <input
+                                type="file"
+                                id="media_file"
+                                name="media_file"
+                                accept="image/*"
+                                onChange={(e) => setMediaFile(e.target.files[0])}
+                            />
                         </div>
 
                         <div className="save-btn">

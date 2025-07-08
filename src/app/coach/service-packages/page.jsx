@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 
 import '../_styles/coach_packages.css';
 import CoachServicePackageForm from '../_coach_components/CoachServicePackage';
-import { allCoachPackages } from '@/app/api/coach';
+
 import Cookies from 'js-cookie';
 import { CircularProgress } from '@mui/material';
+import { allPackagesOfaCoach } from '@/app/api/coach';
 
 export default function CoachServicePackages() {
     const [packages, setPackages] = useState([]);
@@ -18,7 +19,7 @@ export default function CoachServicePackages() {
         }
         const fetchPackages = async () => {
             try {
-                const response = await allCoachPackages(token);
+                const response = await allPackagesOfaCoach(token);
                 setPackages(response?.data); // or data.packages if wrapped
             } catch (error) {
                 console.error('Error fetching packages:', error);
@@ -36,7 +37,7 @@ export default function CoachServicePackages() {
                 <div className="d-flex justify-content-center align-items-center min-vh-100"><CircularProgress /></div>
             ) : (<div className="content-wrapper">
                 <div className="session-wrapper">
-                    {packages.map((pkg, index) => (
+                    {packages.slice(0,3).map((pkg, index) => (
                         <div className="session-card" key={index}>
                             <img
                                 src={pkg?.media_file ? pkg?.media_file : `/coachsparkle/images/package1.png`}
