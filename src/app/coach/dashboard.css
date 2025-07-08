@@ -46,7 +46,7 @@
   margin-top: 5px;
 }
 
- 
+
 .coach-dashboard-add .progress-line {
   background: #ddd;
   border-radius: 2px;
@@ -154,8 +154,8 @@
 
 p.pro-add-value {
   text-align: center;
-  color: #664c00;
-  background-color: #fff2cc;
+  color: #664C00;
+  background-color: #34C759;
   border-radius: 50px;
   width: 50%;
   padding: 6px 0;
@@ -264,13 +264,54 @@ p.coach-name-text {
   height: 110px;
 }
 
+.locked-card {
+  position: relative;
+  cursor: not-allowed;
+}
+
+.glance-box.locked {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  height: 100%;
+}
+
+.lock-icon {
+  font-size: 12px;
+  margin-left: 4px;
+  color: #999;
+}
+
+.tooltip-box {
+  position: absolute;
+  bottom: -35px;
+  left: 10px;
+  background: #fff;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: none;
+  z-index: 10;
+}
+
+.locked-card:hover .tooltip-box {
+  display: block;
+}
+
+
+
 .coach-dashboard-add span.this-month-text {
   color: #1C1C1E;
   font-size: 11px !important;
   display: flex;
   width: 79%;
   font-weight: 400 !important;
-} 
+}
 .coach-dashboard-add i.bi.bi-arrow-right {
   padding-left: 5px;
 }
@@ -285,7 +326,7 @@ p.coach-name-text {
   font-size: 18px;
   margin-bottom: 15px;
 }
- 
+
 .active-coaching .profile {
   display: flex;
   align-items: center;
@@ -27467,3 +27508,35 @@ td.edit-add-btn button {
     background: #ffffff;
     padding: 10px 0px;
 }
+
+.upgrade-warning {
+  background-color: #fff7e6;
+  border: 1px solid #ffe58f;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.upgrade-btn {
+  background-color: #1890ff;
+  color: #fff;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  right: 16px;
+  top: 16px;
+  cursor: pointer;
+  height: 50px;
+}
+
+.locked-info-text {
+  font-size: 13px;
+  margin-top: 16px;
+  color: #555;
+  width: 45%;
+}
+
