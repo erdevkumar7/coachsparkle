@@ -1,23 +1,24 @@
 "use client";
-import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 
 import React, { useState } from "react";
 
 export default function QuickSnapshot() {
   const [isProUser, setIsProUser] = useState(false);
 
-  const LockedCard = ({ title, image}) => (
+  const LockedCard = ({ title, image }) => (
     <div className="card locked-card">
       <div className="glance-box locked">
         <img src={image} className="glance-img" />
         <div className="new-add-coming">
           <p className="title">
-            {title}<i className="bi bi-lock-fill text-warning ms-1"></i>
+            {title}
+            <i className="bi bi-lock-fill text-warning"></i>
           </p>
           <p className="count">**</p>
         </div>
         <div className="tooltip-box">
-          <InfoOutlineIcon/>
+          <InfoOutlineIcon />
           Upgrade To Pro Coach Plan To Unlock This Metric
         </div>
       </div>
@@ -67,18 +68,25 @@ export default function QuickSnapshot() {
           </div>
         </div>
 
-        <div className="card">
-          <div className="glance-box">
-            <img
-              src="/coachsparkle/assets/images/snapshot-img-six.png"
-              className="glance-img"
-            />
-            <div className="new-add-coming">
-              <p className="title">Unread messages</p>
-              <span>06</span>
+        {isProUser ? (
+          <div className="card">
+            <div className="glance-box">
+              <img
+                src="/coachsparkle/assets/images/snapshot-img-four.png"
+                className="glance-img"
+              />
+              <div className="new-add-coming">
+                <p className="title">Service Performance</p>
+                <span>54.6% Avg</span>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <LockedCard
+            title="Service Performance"
+            image={"/coachsparkle/assets/images/snapshot-img-four.png"}
+          />
+        )}
 
         <div className="card">
           <div className="glance-box">
@@ -92,6 +100,42 @@ export default function QuickSnapshot() {
             </div>
           </div>
         </div>
+
+        <div className="card">
+          <div className="glance-box">
+            <img
+              src="/coachsparkle/assets/images/snapshot-img-six.png"
+              className="glance-img"
+            />
+            <div className="new-add-coming">
+              <p className="title">Unread messages</p>
+              <span>06</span>
+            </div>
+          </div>
+        </div>
+
+        {isProUser ? (
+          <div className="card">
+            <div className="glance-box">
+              <img
+                src="/coachsparkle/assets/images/snapshot-img-seven.png"
+                className="glance-img"
+              />
+              <div className="new-add-coming">
+                <p className="title">Profile Views</p>
+                <p className="count">15</p>
+                <span className="this-month-text">
+                  this month Increased by 20%
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <LockedCard
+            title="Profile Views"
+            image={"/coachsparkle/assets/images/snapshot-img-seven.png"}
+          />
+        )}
 
         <div className="card">
           <div className="glance-box">
@@ -111,35 +155,6 @@ export default function QuickSnapshot() {
             <div className="card">
               <div className="glance-box">
                 <img
-                  src="/coachsparkle/assets/images/snapshot-img-four.png"
-                  className="glance-img"
-                />
-                <div className="new-add-coming">
-                  <p className="title">Service Performance</p>
-                  <span>54.6% Avg</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="glance-box">
-                <img
-                  src="/coachsparkle/assets/images/snapshot-img-seven.png"
-                  className="glance-img"
-                />
-                <div className="new-add-coming">
-                  <p className="title">Profile Views</p>
-                  <p className="count">15</p>
-                  <span className="this-month-text">
-                    this month Increased by 20%
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="glance-box">
-                <img
                   src="/coachsparkle/assets/images/snapshot-img-nine.png"
                   className="glance-img"
                 />
@@ -152,14 +167,6 @@ export default function QuickSnapshot() {
           </>
         ) : (
           <>
-            <LockedCard
-              title="Service Performance"
-              image={"/coachsparkle/assets/images/snapshot-img-four.png"}
-            />
-            <LockedCard
-              title="Profile Views"
-              image={"/coachsparkle/assets/images/snapshot-img-seven.png"}
-            />
             <LockedCard
               title="No. of Favorite"
               image={"/coachsparkle/assets/images/snapshot-img-nine.png"}
