@@ -5,6 +5,7 @@ import CoachingListDetailPackage from "../../_components/CoachListDetailPackage"
 import { getCoachById } from "@/app/api/coach";
 import SimilarCoaches from "../../../../components/SimilarCoaches";
 import CoachDetailCalendar from "../../_components/CoachDetailCalendar";
+import ViewServicePackage from "@/app/coach/_coach_components/ViewServicePackage";
 
 
 
@@ -134,7 +135,11 @@ export default async function CoachDetail({ params }) {
                                     </div>
                                     <div className="about-section package_short">
                                         <h4>Coaching Packages</h4>
-                                        {/* <CoachingListDetailPackage /> */}
+                                        {/* <div className="session-wrapper">
+                                            {coach.service_packages && coach.service_packages.slice(0, 2).map((pkg, index) => (
+                                                <ViewServicePackage key={index} pkg={pkg} />
+                                            ))}
+                                        </div> */}
                                         <CoachingListDetailPackage packages={coach.service_packages.slice(0, 2)} />
                                         <div className="v-all"><button>View All</button></div>
                                     </div>
