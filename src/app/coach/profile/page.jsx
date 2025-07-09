@@ -35,12 +35,15 @@ export default async function CoachProfile() {
                     </div>
                 </div>
 
+                <div>
+                    <h4>Public Profile</h4>
+                </div>
+
                 <div className="profile-form-add">
-                    <div className="card">
-                        <UserImageUploader
+                        {/* <UserImageUploader
                             image={user?.profile_image}
                             user_type={user?.user_type || 3}
-                        />
+                        /> */}
 
                         <CoachUpdateForm
                             user={user}
@@ -50,7 +53,7 @@ export default async function CoachProfile() {
                             ageGroup={ageGroup}
                             allLanguages={allLanguages}
                         />
-                    </div>
+
                 </div>
             </div>
         </div>
