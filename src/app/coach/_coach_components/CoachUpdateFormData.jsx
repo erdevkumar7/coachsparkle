@@ -24,25 +24,14 @@ export default function CoachUpdateForm({
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [coachSubTypes, setSubCoachTypes] = useState([]);
-  const [isProUser, setIsProUser] = useState(false);
+  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
   const [servicekeyword, setServiceKeyword] = useState("");
   const [servicekeywords, setServiceKeywords] = useState([
     "Software",
     "Research",
     "Survey",
     "UX Strategy",
-    "C#",
-    ".Net",
-    "Python",
-    "AWS",
-    "Frontend",
-    "React",
-    "Node.JS",
-    "Rust",
-    "Blockchain",
-    "DevOps",
-    "Interview",
-    "SQL",
+    "C#",   
   ]);
 
   const [formData, setFormData] = useState({
@@ -63,6 +52,7 @@ export default function CoachUpdateForm({
     price: user?.price || "",
     age_group: user?.age_group || "",
     language_names: user?.language_names?.map((lang) => lang.id) || [],
+    service_names: user?.service_names || []
   });
 
   // console.log('coachSubTypes', coachSubTypes)
@@ -147,7 +137,7 @@ export default function CoachUpdateForm({
     // }
   };
 
-  console.log("user", formData.language_names);
+  console.log("user", user.service_names);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -489,7 +479,7 @@ Highlight:
                 </div>
 
                 <div className="d-flex flex-wrap gap-2">
-                  {servicekeywords.map((kw, idx) => (
+                  {user.service_names.map((kw, idx) => (
                     <span className="keyword-chip" key={idx}>
                       {kw}
                     </span>
@@ -672,101 +662,101 @@ Highlight:
           <div className="upload-section mt-4">
             {isProUser ? (
               <>
-                            <div className="mb-4">
-              <label className="form-label fw-semibold d-block">
-                Upload Your Coach Introduction Video
-                <span className="ms-2 media-size">
-                  Max 2min, MP4, under 100 MB
-                </span>
-              </label>
-              <small className="d-block mb-2 media-size">
-                Showcase your personality, approach and services in a short
-                video to build trust with potential clients
-              </small>
+                <div className="mb-4">
+                  <label className="form-label fw-semibold d-block">
+                    Upload Your Coach Introduction Video
+                    <span className="ms-2 media-size">
+                      Max 2min, MP4, under 100 MB
+                    </span>
+                  </label>
+                  <small className="d-block mb-2 media-size">
+                    Showcase your personality, approach and services in a short
+                    video to build trust with potential clients
+                  </small>
 
-              <div className="custom-file-input-wrapper">
-                <input
-                  type="file"
-                  className="custom-file-hidden"
-                  id="video-upload"
-                />
-                <label htmlFor="video-upload" className="custom-file-btn">
-                  Choose file
-                </label>
-                <span className="custom-file-placeholder">No file chosen</span>
-              </div>
-            </div>
+                  <div className="custom-file-input-wrapper">
+                    <input
+                      type="file"
+                      className="custom-file-hidden"
+                      id="video-upload"
+                    />
+                    <label htmlFor="video-upload" className="custom-file-btn">
+                      Choose file
+                    </label>
+                    <span className="custom-file-placeholder">No file chosen</span>
+                  </div>
+                </div>
 
-            <div>
-              <label className="form-label fw-semibold d-block">
-                Upload Credentials / Certifications
-                <span className="text-muted ms-2 small media-size">
-                  (Upload up to 5 Certifications JPG)
-                </span>
-              </label>
+                <div>
+                  <label className="form-label fw-semibold d-block">
+                    Upload Credentials / Certifications
+                    <span className="text-muted ms-2 small media-size">
+                      (Upload up to 5 Certifications JPG)
+                    </span>
+                  </label>
 
-              <div className="custom-file-input-wrapper">
-                <input
-                  type="file"
-                  id="cert-upload"
-                  className="custom-file-hidden"
-                />
-                <label htmlFor="cert-upload" className="custom-file-btn">
-                  Choose file
-                </label>
-                <span className="custom-file-placeholder">No file chosen</span>
-              </div>
-            </div>
+                  <div className="custom-file-input-wrapper">
+                    <input
+                      type="file"
+                      id="cert-upload"
+                      className="custom-file-hidden"
+                    />
+                    <label htmlFor="cert-upload" className="custom-file-btn">
+                      Choose file
+                    </label>
+                    <span className="custom-file-placeholder">No file chosen</span>
+                  </div>
+                </div>
               </>
             ) : (
               <>
-                            <div className="mb-4">
-              <label className="form-label fw-semibold d-block">
-                Upload Your Coach Introduction Video
-                <span className="ms-2 media-size">
-                  Max 2min, MP4, under 100 MB
-                </span>
-              </label>
-              <small className="d-block mb-2 media-size">
-                Showcase your personality, approach and services in a short
-                video to build trust with potential clients
-              </small>
+                <div className="mb-4">
+                  <label className="form-label fw-semibold d-block">
+                    Upload Your Coach Introduction Video
+                    <span className="ms-2 media-size">
+                      Max 2min, MP4, under 100 MB
+                    </span>
+                  </label>
+                  <small className="d-block mb-2 media-size">
+                    Showcase your personality, approach and services in a short
+                    video to build trust with potential clients
+                  </small>
 
-              <div className="custom-file-input-wrapper">
-                <input
-                  type="file"
-                  className="custom-file-hidden"
-                  id="video-upload"
-                />
-                <label htmlFor="video-upload" className="custom-file-btn">
-                  Choose file
-                </label>
-                <span className="custom-file-placeholder">No file chosen</span>
-              </div>
-            </div>
+                  <div className="custom-file-input-wrapper">
+                    <input
+                      type="file"
+                      className="custom-file-hidden"
+                      id="video-upload"
+                    />
+                    <label htmlFor="video-upload" className="custom-file-btn">
+                      Choose file
+                    </label>
+                    <span className="custom-file-placeholder">No file chosen</span>
+                  </div>
+                </div>
 
-            <div>
-              <label className="form-label fw-semibold d-block">
-                Upload Credentials / Certifications
-                <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>
-                <span className="text-muted ms-2 small media-size">
-                  (Upload up to 5 Certifications JPG)
-                </span>
-              </label>
+                <div>
+                  <label className="form-label fw-semibold d-block">
+                    Upload Credentials / Certifications
+                    <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>
+                    <span className="text-muted ms-2 small media-size">
+                      (Upload up to 5 Certifications JPG)
+                    </span>
+                  </label>
 
-              <div className="custom-file-input-wrapper disable-input">
-                <input
-                  type="file"
-                  id="cert-upload"
-                  className="custom-file-hidden"
-                  disabled
-                />
-                <label htmlFor="cert-upload" className="custom-file-btn">
-                  Choose file
-                </label>
-                <span className="custom-file-placeholder">No file chosen</span>
-              </div>
-            </div>
+                  <div className="custom-file-input-wrapper disable-input">
+                    <input
+                      type="file"
+                      id="cert-upload"
+                      className="custom-file-hidden"
+                      disabled
+                    />
+                    <label htmlFor="cert-upload" className="custom-file-btn">
+                      Choose file
+                    </label>
+                    <span className="custom-file-placeholder">No file chosen</span>
+                  </div>
+                </div>
               </>
             )}
 
