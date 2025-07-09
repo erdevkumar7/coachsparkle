@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useUser } from "@/context/UserContext";
 
 export default function ActiveCoaching() {
-  const [isProUser, setIsProUser] = useState(false);
+  const { user } = useUser();
+  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+
 
   const allRequests = [
     {
@@ -31,20 +33,22 @@ export default function ActiveCoaching() {
 
   return (
     <>
-    <div>
-      <h3 className="text-lg font-semibold">
-        Active Coaching Requests and AI Matches{" "}
-        <strong>{allRequests.length.toString().padStart(2, "0")}</strong>
-      </h3>
-       {!isProUser && (
-         <span>Your current plan limits you to 5 requests and matches per month.</span>
-       )}
+      <div>
+        <h3 className="text-lg font-semibold">
+          Active Coaching Requests and AI Matches{" "}
+          <strong>{allRequests.length.toString().padStart(2, "0")}</strong>
+        </h3>
+        {!isProUser && (
+          <span>Your current plan limits you to 5 requests and matches per month.</span>
+        )}
 
-    </div><hr/>
+      </div><hr />
 
       {!isProUser && (
-        <div className="upgrade-warning" style={{            backgroundColor: "#FEF8D3",
-            border: "1px solid #F5E26B",}}>
+        <div className="upgrade-warning" style={{
+          backgroundColor: "#FEF8D3",
+          border: "1px solid #F5E26B",
+        }}>
           <p>
             You've reached your free plan limit of 3 coaching requests.
             <br />

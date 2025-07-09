@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
+import { useUser } from "@/context/UserContext";
 
-export default function CoachHeader({ user }) {
+export default function CoachHeader() {
+  const { user } = useUser();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
 

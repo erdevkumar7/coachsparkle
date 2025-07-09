@@ -13,11 +13,11 @@ import IndustryInsights from "../_coach_components/IndustryInsights";
 import ServicePerformancess from "../_coach_components/ServicePerformances";
 import MyArticles from "../_coach_components/MyArticles";
 import ActivityLog from "../_coach_components/ActivityLog";
+import { useUser } from "@/context/UserContext";
 
 export default function CoachDashboard() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const[isProUser, setIsProUser] = useState(false);
+   const { user } = useUser();
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -34,20 +34,11 @@ export default function CoachDashboard() {
         router.push("/login");
         return;
       }
-
-      setUser(tokenData.data);
     };
 
     fetchUser();
   }, []);
 
-  // const handleLogout = () => {
-  //     localStorage.removeItem('token');
-  //     localStorage.removeItem('user');
-  //     setIsLoggedIn(false);
-  //     setUser(null);
-  //     router.push('/login');
-  // };
 
   return (
     <div className="main-panel">
@@ -71,7 +62,7 @@ export default function CoachDashboard() {
               />
               <div className="coach-profile-view">
                 <div>
-                  {isProUser ? (
+                  {user?.subscription_plan?.plan_name == 'Pro' ? (
                     <p className="pro-add-value">Pro</p>
                   ) : (
                     <p className="basic-add-value">Basic</p>

@@ -1,8 +1,10 @@
 "use client";
+import { useUser } from "@/context/UserContext";
 import { useState } from "react";
 
 export default function ServicePerformancess() {
-  const [isProUser, setIsProUser] = useState(false);
+  const { user } = useUser();
+  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (

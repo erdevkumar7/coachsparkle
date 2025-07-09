@@ -3,6 +3,7 @@ import { getUserProfileData } from "@/app/api/user";
 import "./dashboard.css"
 import CoachHeader from './_coach_components/CoachHeader';
 import CoachSideBarComp from './_coach_components/coachSideBar';
+import { UserProvider } from '@/context/UserContext';
 
 export default async function CoachLayout({ children }) {
   const { data: user, error } = await getUserProfileData();
@@ -14,13 +15,12 @@ export default async function CoachLayout({ children }) {
   }
 
   return (
-    <>
-      <CoachHeader user={user} />
-
+      <UserProvider initialUser={user}>
+      <CoachHeader />
       <div className="container page-body-wrapper">
-        <CoachSideBarComp user={user} />
+        <CoachSideBarComp />
         {children}
       </div>
-    </>
+    </UserProvider>
   );
 }

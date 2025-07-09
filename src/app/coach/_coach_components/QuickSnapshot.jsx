@@ -1,10 +1,10 @@
 "use client";
+import { useUser } from "@/context/UserContext";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 
-import React, { useState } from "react";
-
 export default function QuickSnapshot() {
-  const [isProUser, setIsProUser] = useState(false);
+  const { user } = useUser();
+   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
 
   const LockedCard = ({ title, image }) => (
     <div className="card locked-card">

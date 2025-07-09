@@ -1,8 +1,11 @@
 "use client";
+import { useUser } from "@/context/UserContext";
 import React, { useState } from "react";
 
 export default function IndustryInsights() {
-  const [isProUser, setIsProUser] = useState(false);
+  const { user } = useUser();
+    let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+  // const [isProUser, setIsProUser] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
   const topServices = [
