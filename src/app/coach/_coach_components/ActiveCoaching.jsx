@@ -43,7 +43,8 @@ export default function ActiveCoaching() {
     </div><hr/>
 
       {!isProUser && (
-        <div className="upgrade-warning">
+        <div className="upgrade-warning" style={{            backgroundColor: "#FEF8D3",
+            border: "1px solid #F5E26B",}}>
           <p>
             You've reached your free plan limit of 3 coaching requests.
             <br />
