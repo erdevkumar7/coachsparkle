@@ -23,7 +23,7 @@ export default function CoachServicePackageForm() {
         delivery_mode: "",
         session_count: "",
         session_duration: "",
-        session_formate: "",
+        session_format: "",
         price: "",
         currency: "USD",
         price_model: "",
@@ -267,12 +267,12 @@ export default function CoachServicePackageForm() {
                             </div>
 
                             <div className='form-group col-md-4'>
-                                <label htmlFor='session_formate'> Session Formate</label>
+                                <label htmlFor='session_format'> Session Formate</label>
                                 <select
                                     required
-                                    id='session_formate'
-                                    name='session_formate'
-                                    value={formData.session_formate}
+                                    id='session_format'
+                                    name='session_format'
+                                    value={formData.session_format}
                                     onChange={handleChange}
                                 >
                                     <option value="">Select </option>
