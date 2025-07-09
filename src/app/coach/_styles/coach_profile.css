@@ -230,11 +230,6 @@ button.save-btn-add {
     margin-left: 10px;
 }
 
-.custom-top{
-    margin-top: -20px;
-}
-
-
 .service-section{
     margin-top: 30px;
 }
@@ -242,6 +237,11 @@ button.save-btn-add {
 .service-section span{
     font-size: 10px;
     margin-top: 0px;
+}
+
+.service-section small{
+  font-size: 12px;
+  margin-left: 5px;
 }
 
 .keyword-wrapper {
@@ -280,12 +280,40 @@ button.save-btn-add {
   color: #111827;
 }
 
+.keyword-limit-wrapper {
+  max-width: 500px;
+  font-family: 'Inter', sans-serif;
+}
+
+
+.limit-box {
+  background-color: #f2f2f2;
+  padding: 14px 20px;
+  border-radius: 16px;
+}
+
+.upgrade-btn:hover {
+  background-color: white;
+  border: 1px solid #009BFA;
+}
+
+.info-box {
+  background-color: #eef7ff;
+  padding: 16px 20px;
+  border-radius: 16px;
+}
+
+
 .social-links{
          margin-top: 30px;
 }
 
 .social-links h3{
     margin-bottom: 50px;
+}
+
+.disable-input input{
+  background-color: #E7E8E9;
 }
 
 .media-section{
@@ -297,14 +325,6 @@ button.save-btn-add {
   font-family: 'Inter', sans-serif;
 }
 
-.media-size{
-    font-size: 10px;
-}
-
-.upload-section small{
-    font-size: 10px;
-}
-
 .custom-file-input-wrapper {
   display: flex;
   align-items: center;
@@ -314,26 +334,42 @@ button.save-btn-add {
   gap: 15px;
   font-size: 14px;
   color: #6b7280;
+  position: relative;
 }
 
 .custom-file-btn {
-  padding: 6px 16px;
   background-color: #F2FFF7;
   color: #009BFA;
   border: 1px solid #009BFA;
   border-radius: 12px;
+  padding: 6px 16px;
   font-weight: 500;
-  cursor: pointer;
   font-size: 14px;
+  cursor: pointer;
   height: 48px;
   display: flex;
   align-items: center;
 }
 
 .custom-file-placeholder {
-  color: #6b7280;
   font-size: 14px;
+  color: #6b7280;
 }
+
+.custom-file-hidden {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.media-size{
+  font-size: 10px;
+}
+
 
 
 @media screen and (max-width: 768px) {

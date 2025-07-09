@@ -24,6 +24,7 @@ export default function CoachUpdateForm({
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [coachSubTypes, setSubCoachTypes] = useState([]);
+  const [isProUser, setIsProUser] = useState(false);
   const [servicekeyword, setServiceKeyword] = useState("");
   const [servicekeywords, setServiceKeywords] = useState([
     "Software",
@@ -149,14 +150,12 @@ export default function CoachUpdateForm({
   console.log("user", formData.language_names);
   return (
     <>
-      <div className="card">
-        <UserImageUploader
-          image={user?.profile_image}
-          user_type={user?.user_type || 3}
-        />
-      </div>
-      <form onSubmit={handleSubmit} className="custom-top">
+      <form onSubmit={handleSubmit}>
         <div className="card">
+          <UserImageUploader
+            image={user?.profile_image}
+            user_type={user?.user_type || 3}
+          />
           <div className="profile-form">
             <div className="form-row two-cols">
               <div className="form-group">
@@ -427,49 +426,120 @@ Highlight:
             </div>
 
             <div className="form-checkbox">
-              <input
-                className="form-checkbox-input"
-                type="checkbox"
-                id="corporateCheck"
-              />
-              <label className="form-checkbox-label" htmlFor="corporateCheck">
-                Yes, I am available for corporate coaching or training projects.
-              </label>
+              {isProUser ? (
+                <>
+                  <input
+                    className="form-checkbox-input"
+                    type="checkbox"
+                    id="corporateCheck"
+                  />
+                  <label
+                    className="form-checkbox-label"
+                    htmlFor="corporateCheck"
+                  >
+                    Yes, I am available for corporate coaching or training
+                    projects.
+                  </label>
+                </>
+              ) : (
+                <>
+                  <input
+                    className="form-checkbox-input"
+                    type="checkbox"
+                    disabled
+                    id="corporateCheck"
+                  />
+                  <label
+                    className="form-checkbox-label"
+                    htmlFor="corporateCheck"
+                  >
+                    Yes, I am available for corporate coaching or training
+                    projects.
+                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                  </label>
+                </>
+              )}
             </div>
           </div>
         </div>
         <div className="card service-section">
-          <h3 className="quick-text">Services</h3>
-          <span>
-            Add your coaching services to get discovered faster. Clients are
-            searching for Service Keywords. Show them what you offer.
-          </span>
-          <div className="keyword-wrapper mt-4">
-            <label className="form-label fw-semibold">
-              Add service keywords
-            </label>
-            <div className="d-flex align-items-center gap-2 mb-3">
-              <input
-                type="text"
-                className="form-control keyword-input"
-                placeholder="Enter keyword"
-                value={servicekeyword}
-                onChange={(e) => setServiceKeyword(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter"}
-              />
-              <button type="button" className="btn add-btn-outline">
-                Add
-              </button>
-            </div>
+          {isProUser ? (
+            <>
+              <h3 className="quick-text">Services</h3>
+              <span>
+                Add your coaching services to get discovered faster. Clients are
+                searching for Service Keywords. Show them what you offer.
+              </span>
+              <div className="keyword-wrapper mt-4">
+                <label className="form-label fw-semibold">
+                  Add service keywords
+                </label>
+                <div className="d-flex align-items-center gap-2 mb-3">
+                  <input
+                    type="text"
+                    className="form-control keyword-input"
+                    placeholder="Enter keyword"
+                    value={servicekeyword}
+                    onChange={(e) => setServiceKeyword(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter"}
+                  />
+                  <button type="button" className="btn add-btn-outline">
+                    Add
+                  </button>
+                </div>
 
-            <div className="d-flex flex-wrap gap-2">
-              {servicekeywords.map((kw, idx) => (
-                <span className="keyword-chip" key={idx}>
-                  {kw}
-                </span>
-              ))}
-            </div>
-          </div>
+                <div className="d-flex flex-wrap gap-2">
+                  {servicekeywords.map((kw, idx) => (
+                    <span className="keyword-chip" key={idx}>
+                      {kw}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <h3 className="quick-text">
+                Services
+                <small>(limited to 5 keywords)</small>
+              </h3>
+              <span>
+                Add your coaching services to get discovered faster. Clients are
+                searching for Service Keywords. Show them what you offer.
+              </span>
+              <div className="keyword-limit-wrapper mt-4">
+                <h6 className="fw-bold">5 Keywords Used</h6>
+                <div className="d-flex flex-wrap gap-2 mb-3">
+                  <span className="keyword-chip">Software</span>
+                  <span className="keyword-chip">Research</span>
+                  <span className="keyword-chip">Survey</span>
+                  <span className="keyword-chip">UX Strategy</span>
+                  <span className="keyword-chip">C#</span>
+                </div>
+
+                <div className="limit-box d-flex justify-content-between align-items-center mb-3">
+                  <p className="d-flex align-items-center gap-1">
+                    <i className="bi bi-exclamation-triangle"></i>
+                    Keyword limit reached.
+                  </p>
+                  <button className="btn upgrade-btn d-flex align-items-center gap-2">
+                    <i className="bi bi-lock-fill"></i> Upgrade to Add More
+                  </button>
+                </div>
+
+                <div className="info-box">
+                  <h6 className="fw-semibold mb-2">Unlock More Reach!</h6>
+                  <p className="mb-0 small">
+                    You've reached the limit of 5 service keywords on the free
+                    plan.
+                    <br />
+                    Upgrade to the Pro Coach Plan to add unlimited keywords and
+                    boost your discoverability.
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="card social-links">
@@ -485,82 +555,226 @@ Highlight:
                 onChange={handleChange}
               />
             </div>
-            <div className="form-group">
-              <label>Website</label>
-              <input
-                type="text"
-                name="website"
-                placeholder="https://www.websites.com/"
-                value={formData.website}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Youtube</label>
-              <input
-                type="text"
-                name="youtube"
-                placeholder="https://www.youtube.com/"
-                value={formData.youtube}
-                onChange={handleChange}
-              />
-            </div>
+            {isProUser ? (
+              <>
+                <div className="form-group">
+                  <label>Website</label>
+                  <input
+                    type="text"
+                    name="website"
+                    placeholder="https://www.websites.com/"
+                    value={formData.website}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Youtube</label>
+                  <input
+                    type="text"
+                    name="youtube"
+                    placeholder="https://www.youtube.com/"
+                    value={formData.youtube}
+                    onChange={handleChange}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="form-group disable-input">
+                  <label>
+                    Website
+                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="website"
+                    disabled
+                    placeholder="https://www.websites.com/"
+                    value={formData.website}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group disable-input">
+                  <label>
+                    Youtube
+                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="youtube"
+                    disabled
+                    placeholder="https://www.youtube.com/"
+                    value={formData.youtube}
+                    onChange={handleChange}
+                  />
+                </div>
+              </>
+            )}
           </div>
 
           <div className="form-row three-cols">
-            <div className="form-group">
-              <label>Podcast</label>
-              <input
-                type="text"
-                name="podcast"
-                value={formData.podcast}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>Blog/Published Articles</label>
-              <input
-                type="text"
-                name="article"
-                value={formData.article}
-                onChange={handleChange}
-              />
-            </div>
+            {isProUser ? (
+              <>
+                <div className="form-group">
+                  <label>Podcast</label>
+                  <input
+                    type="text"
+                    name="podcast"
+                    value={formData.podcast}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Blog/Published Articles</label>
+                  <input
+                    type="text"
+                    name="article"
+                    value={formData.article}
+                    onChange={handleChange}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="form-group disable-input">
+                  <label>
+                    Podcast
+                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="podcast"
+                    disabled
+                    value={formData.podcast}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group disable-input">
+                  <label>
+                    Blog/Published Articles
+                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="article"
+                    disabled
+                    value={formData.article}
+                    onChange={handleChange}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         <div className="card media-section">
-              <h3 className="quick-text">Media</h3>
-              <div className="upload-section mt-4">
-      <div className="mb-4">
-        <label className="form-label fw-semibold d-block">
-          Upload Your Coach Introduction Video
-          <span className="text-muted ms-2 media-size">Max 2min, MP4, under 100 MB</span>
-        </label>
-        <small className="text-muted d-block mb-2">
-          Showcase your personality, approach and services in a short video to build trust with potential clients
-        </small>
-        <div className="custom-file-input-wrapper">
-          <label className="custom-file-btn">Choose file</label>
-          <span className="custom-file-placeholder">No file chosen</span>
-        </div>
-      </div>
+          <h3 className="quick-text">Media</h3>
+          <div className="upload-section mt-4">
+            {isProUser ? (
+              <>
+                            <div className="mb-4">
+              <label className="form-label fw-semibold d-block">
+                Upload Your Coach Introduction Video
+                <span className="ms-2 media-size">
+                  Max 2min, MP4, under 100 MB
+                </span>
+              </label>
+              <small className="d-block mb-2 media-size">
+                Showcase your personality, approach and services in a short
+                video to build trust with potential clients
+              </small>
 
-      <div>
-        <label className="form-label fw-semibold d-block">
-          Upload Credentials / Certifications
-          <span className="text-muted ms-2 small media-size">(Upload up to 5 Certifications JPG)</span>
-        </label>
-        <div className="custom-file-input-wrapper">
-          <label className="custom-file-btn">Choose file</label>
-          <span className="custom-file-placeholder">No file chosen</span>
-        </div>
-      </div>
-    </div>
+              <div className="custom-file-input-wrapper">
+                <input
+                  type="file"
+                  className="custom-file-hidden"
+                  id="video-upload"
+                />
+                <label htmlFor="video-upload" className="custom-file-btn">
+                  Choose file
+                </label>
+                <span className="custom-file-placeholder">No file chosen</span>
+              </div>
+            </div>
+
+            <div>
+              <label className="form-label fw-semibold d-block">
+                Upload Credentials / Certifications
+                <span className="text-muted ms-2 small media-size">
+                  (Upload up to 5 Certifications JPG)
+                </span>
+              </label>
+
+              <div className="custom-file-input-wrapper">
+                <input
+                  type="file"
+                  id="cert-upload"
+                  className="custom-file-hidden"
+                />
+                <label htmlFor="cert-upload" className="custom-file-btn">
+                  Choose file
+                </label>
+                <span className="custom-file-placeholder">No file chosen</span>
+              </div>
+            </div>
+              </>
+            ) : (
+              <>
+                            <div className="mb-4">
+              <label className="form-label fw-semibold d-block">
+                Upload Your Coach Introduction Video
+                <span className="ms-2 media-size">
+                  Max 2min, MP4, under 100 MB
+                </span>
+              </label>
+              <small className="d-block mb-2 media-size">
+                Showcase your personality, approach and services in a short
+                video to build trust with potential clients
+              </small>
+
+              <div className="custom-file-input-wrapper">
+                <input
+                  type="file"
+                  className="custom-file-hidden"
+                  id="video-upload"
+                />
+                <label htmlFor="video-upload" className="custom-file-btn">
+                  Choose file
+                </label>
+                <span className="custom-file-placeholder">No file chosen</span>
+              </div>
+            </div>
+
+            <div>
+              <label className="form-label fw-semibold d-block">
+                Upload Credentials / Certifications
+                <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>
+                <span className="text-muted ms-2 small media-size">
+                  (Upload up to 5 Certifications JPG)
+                </span>
+              </label>
+
+              <div className="custom-file-input-wrapper disable-input">
+                <input
+                  type="file"
+                  id="cert-upload"
+                  className="custom-file-hidden"
+                  disabled
+                />
+                <label htmlFor="cert-upload" className="custom-file-btn">
+                  Choose file
+                </label>
+                <span className="custom-file-placeholder">No file chosen</span>
+              </div>
+            </div>
+              </>
+            )}
+
+          </div>
         </div>
 
         <div className="save-btn gap-3 align-items-center">
-            <span>1/2</span>
+          <span className="fw-bold">1/2</span>
           <button type="submit" className="save-btn-add">
             Save Draft <i className="bi bi-arrow-right"></i>
           </button>
