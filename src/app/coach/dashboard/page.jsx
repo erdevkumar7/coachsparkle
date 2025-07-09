@@ -17,6 +17,7 @@ import ActivityLog from "../_coach_components/ActivityLog";
 export default function CoachDashboard() {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const[isProUser, setIsProUser] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -70,7 +71,11 @@ export default function CoachDashboard() {
               />
               <div className="coach-profile-view">
                 <div>
-                  <p className="pro-add-value">Pro</p>
+                  {isProUser ? (
+                    <p className="pro-add-value">Pro</p>
+                  ) : (
+                    <p className="basic-add-value">Basic</p>
+                  )}
                   <div>
                     <strong>
                       {user?.first_name} {user?.last_name}

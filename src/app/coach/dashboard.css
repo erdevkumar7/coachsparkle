@@ -162,6 +162,17 @@ p.pro-add-value {
   font-family: Roboto;
   font-weight: 500;
 }
+
+p.basic-add-value {
+  text-align: center;
+  color: #664C00;
+  background-color: #CAC4D0;
+  border-radius: 50px;
+  width: 50%;
+  padding: 6px 0;
+  font-family: Roboto;
+  font-weight: 500;
+}
 .coach-profile-view {
   display: flex;
   align-items: center;
@@ -285,8 +296,8 @@ p.coach-name-text {
 
 .tooltip-box {
   position: absolute;
-  bottom: -35px;
-  left: 10px;
+  top: 35px;
+  left: 155px;
   background: #fff;
   padding: 6px 10px;
   font-size: 11px;

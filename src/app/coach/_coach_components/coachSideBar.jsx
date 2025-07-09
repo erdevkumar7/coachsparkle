@@ -2,9 +2,11 @@
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 import '../_styles/coach_sidebar.css';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function CoachSideBarComp({ user }) {
     const router = useRouter();
+    const [isProUser, setIsProUser] = useState(false);
     return (
         <nav className="sidebar sidebar-offcanvas add-sdbar" id="sidebar">
 
@@ -13,6 +15,11 @@ export default function CoachSideBarComp({ user }) {
                 <div className="flex items-center mt-4 side-top-bar">
                     <img alt="profile" src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} />
                     <div>
+                                          {isProUser ? (
+                    <p className="pro-add-value">Pro</p>
+                  ) : (
+                    <p className="basic-add-value">Basic</p>
+                  )}
                         <h5 className="font-medium">
                             {user?.first_name} {user?.last_name} <span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>
                         </h5>
