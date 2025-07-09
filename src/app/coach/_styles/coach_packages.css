@@ -5,9 +5,14 @@
 }
 
 .content-wrapper {
-    padding-right: 20px;
+    padding: 0px 20px 0px 38px;
 }
 
+.content-wrapper .card {
+       border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    padding: 20px !important;
+}
 .profile-form-add {
     margin-top: 40px;
 }
@@ -40,20 +45,16 @@
 }
 
 .session-card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 450px;
     flex: 450;
-    border: 1px solid #d7d7d7;
-    padding: 20px;
 }
 
 .session-card img {
     width: 100%;
-    height: auto;
+    height: 30%;
     display: block;
+    object-fit: cover;
 }
 
 .session-content {

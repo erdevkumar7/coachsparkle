@@ -22,13 +22,14 @@ export default function ServicePerformancess() {
               <i className="bi bi-lock-fill text-warning ms-1"></i>
               {showTooltip && (
                 <div
-                  className="position-absolute bg-light text-dark border rounded shadow px-2 py-2"
+                  className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3"
                   style={{
                     top: "-80%",
-                    left: "50%",
+                    left: "500%",
                     transform: "translateX(-50%)",
-                    zIndex: 100,
+                    zIndex: 10,
                     width: "220px",
+                    whiteSpace: "normal",
                   }}
                 >
                   <i className="bi bi-info-circle me-1 text-primary"></i>
