@@ -31,7 +31,7 @@ export default function CoachUpdateForm({
     "Research",
     "Survey",
     "UX Strategy",
-    "C#",   
+    "C#",
   ]);
 
   const [formData, setFormData] = useState({
@@ -50,12 +50,25 @@ export default function CoachUpdateForm({
     experience: user?.experience || "",
     delivery_mode: user?.delivery_mode || "",
     price: user?.price || "",
+    price_range: user?.price_range || "",
     age_group: user?.age_group || "",
     language_names: user?.language_names?.map((lang) => lang.id) || [],
-    service_names: user?.service_names || []
+    service_names: user?.service_names || [],
+    detailed_bio: user?.detailed_bio || "",
+    exp_and_achievement: user?.exp_and_achievement || "",
+    is_corporate: user?.is_corporate || 0
   });
 
   // console.log('coachSubTypes', coachSubTypes)
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+    setToken(token);
+  }, [])
+
   useEffect(() => {
     const loadDefaults = async () => {
       if (formData.country_id) {
@@ -76,7 +89,7 @@ export default function CoachUpdateForm({
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
-
+  
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -112,32 +125,42 @@ export default function CoachUpdateForm({
       const subTypeRes = await getSubCoachType(value);
       setSubCoachTypes(subTypeRes || []);
     }
+ 
   };
+
+  const handleChangeCheckbox = (e) => {
+  const { name, checked } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: checked,
+  }));
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log("formData", formData);
-    // try {
-    //     const res = await axios.post(`${apiUrl}/updateProfile`, formData, {
-    //         headers: {
-    //             Authorization: `Bearer ${getToken}`,
-    //             Accept: 'application/json'
-    //         },
-    //     });
+    try {
+      const res = await axios.post(`${apiUrl}/updateProfile`, formData, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+          Accept: 'application/json'
+        },
+      });
 
-    //     if (res.data.success) {
-    //         alert('Profile updated successfully!');
-    //     } else {
-    //         alert('Update failed.');
-    //     }
-    // } catch (err) {
-    //     console.error(err);
-    //     alert('Error updating profile.');
-    // }
+      if (res.data.success) {
+        alert('Profile updated successfully!');
+      } else {
+        alert('Update failed.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error updating profile.');
+    }
   };
 
-  console.log("user", user.service_names);
+  console.log("service_names", user.service_names);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -246,7 +269,6 @@ export default function CoachUpdateForm({
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  required
                 >
                   <option value="">Select</option>
                   <option value={1}>Male</option>
@@ -276,14 +298,15 @@ export default function CoachUpdateForm({
                 />
               </div>
               <div className="form-group">
-                <label>Years of Experience</label>
-                <select
+                <label htmlFor="experience">Years of Experience</label>
+                <input
+                  type="number"
+                  min={0}
+                  max={100}
                   name="experience"
                   value={formData.experience}
                   onChange={handleChange}
-                >
-                  <option value="">Select</option>
-                </select>
+                />
               </div>
               <div className="form-group">
                 <label>Delivery Mode</label>
@@ -307,14 +330,16 @@ export default function CoachUpdateForm({
                 <label>Price Range</label>
                 <input
                   type="text"
-                  name="price"
-                  value={formData.price}
+                  name="price_range"
+                  value={formData.price_range}
                   onChange={handleChange}
+                  placeholder="ex. 100-500"
                 />
               </div>
               <div className="form-group">
                 <label>Target Audience / Age Group</label>
                 <select
+                  type="text"
                   name="age_group"
                   value={formData.age_group}
                   onChange={handleChange}
@@ -373,8 +398,8 @@ export default function CoachUpdateForm({
                 <label>Average Charge/Hour</label>
                 <input
                   type="text"
-                  name="average_charge_hour"
-                  value={formData.average_charge_hour}
+                  name="price"
+                  value={formData.price}
                   onChange={handleChange}
                 />
               </div>
@@ -386,15 +411,20 @@ export default function CoachUpdateForm({
               </label>
               <textarea
                 className="bio-textarea"
+                name="detailed_bio"
                 rows="10"
+                value={formData.detailed_bio}
+                onChange={handleChange}
                 placeholder={`Hi, I’m Alex — a certified mindset and performance coach with a passion for helping individuals break through self-doubt and reach their goals. I bring 8 years of experience coaching professionals across tech, education, and creative industries.
 
-Suggested pointers to include:
-• Your name and coaching niche
-• Your mission or passion as a coach
-• Certifications or notable background
-• The types of clients you support`}
-              ></textarea>
+                              Suggested pointers to include:
+                              • Your name and coaching niche
+                              • Your mission or passion as a coach
+                              • Certifications or notable background
+                              • The types of clients you support`}
+              />
+
+
             </div>
 
             <div className="form-group mb-4">
@@ -404,15 +434,18 @@ Suggested pointers to include:
               </label>
               <textarea
                 className="bio-textarea"
+                name="exp_and_achievement"
                 rows="10"
+                value={formData.exp_and_achievement}
+                onChange={handleChange}
                 placeholder={`E.g., I have 5+ years of experience coaching professionals in career transitions, confidence building, and leadership communication. My clients include young executives, startup founders, and mid-career changers.
 
-Highlight:
-• Years of experience
-• Coaching specialties
-• Typical clients or industries served
-• Key achievements or transformation stories`}
-              ></textarea>
+                  Highlight:
+                 • Years of experience
+                 • Coaching specialties
+                 • Typical clients or industries served
+                 • Key achievements or transformation stories`}
+              />
             </div>
 
             <div className="form-checkbox">
@@ -421,7 +454,10 @@ Highlight:
                   <input
                     className="form-checkbox-input"
                     type="checkbox"
+                    name="is_corporate"
                     id="corporateCheck"
+                    checked={formData.is_corporate}
+                    onChange={handleChangeCheckbox}
                   />
                   <label
                     className="form-checkbox-label"

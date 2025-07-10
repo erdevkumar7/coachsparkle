@@ -18,7 +18,7 @@ export default async function CoachProfile() {
     const ageGroup = await getAgeGroup();
     const allLanguages = await getAllLanguages();
 
-    // console.log('allLanguages', allLanguages, )
+    // console.log('useraa', user, )
     return (
         <div className="main-panel">
             <div className="content-wrapper">
