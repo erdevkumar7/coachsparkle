@@ -6,7 +6,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css
 
 import { format } from 'date-fns';
 
-export default function CoachAvailability({ formData, setFormData }) {
+export default function CoachAvailability({ formData, setFormData, isProUser }) {
     const [showPicker, setShowPicker] = useState(false);
     const [range, setRange] = useState([
         {
@@ -38,11 +38,14 @@ export default function CoachAvailability({ formData, setFormData }) {
                 type="text"
                 id="booking_availability"
                 name="booking_availability"
-                className="form-control"
                 readOnly
                 value={formData.booking_availability}
                 onClick={() => setShowPicker(!showPicker)}
                 placeholder="Select Availablity"
+                                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
             />
             {showPicker && (
                 <div className="calendar-container" style={{ zIndex: 9999, position: 'absolute' }}>

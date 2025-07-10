@@ -171,6 +171,12 @@
     padding: 20px 30px 20px 30px;
 }
 
+.preview-section .session-content{
+    background-color: #f4f4f4;
+    border-top: 10px solid #e7e6e6;
+    padding: 10px;
+}
+
 .profile-form .preview-section img{
     max-height: 25vh;
 }
@@ -381,8 +387,10 @@
     float: right;
     width: 55%;
 }
-
-
+.disabled-bg {
+  background-color: #E7E8E9 !important;
+  color: #696974 !important;
+}
 
 @media (max-width: 800px) {
     .session-wrapper {

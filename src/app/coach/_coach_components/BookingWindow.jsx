@@ -7,7 +7,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { format } from 'date-fns';
 
-export default function BookingWindowPicker({ formData, setFormData }) {
+export default function BookingWindowPicker({ formData, setFormData, isProUser }) {
     const [showPicker, setShowPicker] = useState(false);
     const [range, setRange] = useState([
         {
@@ -39,11 +39,14 @@ export default function BookingWindowPicker({ formData, setFormData }) {
                 type="text"
                 id="booking_window"
                 name="booking_window"
-                className="form-control"
                 readOnly
                 value={formData.booking_window}
                 onClick={() => setShowPicker(!showPicker)}
                 placeholder="Select Date Range"
+                                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
             />
             {showPicker && (
                 <div className="calendar-container" style={{ zIndex: 9999, position: 'absolute' }}>

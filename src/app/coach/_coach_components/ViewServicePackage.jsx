@@ -5,7 +5,6 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 export default function ViewServicePackage({ pkg }) {
-  console.log(pkg);
   return (
     <>
       <div className="session-card">
@@ -51,7 +50,7 @@ export default function ViewServicePackage({ pkg }) {
               </button>
             </div>
             <div className={`status status-${pkg?.status}`}>
-              <button>{pkg?.status}</button>
+              <button>{pkg?.package_status}</button>
             </div>
           </div>
         </div>
