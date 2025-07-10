@@ -31,7 +31,7 @@ export default function CoachUpdateForm({
     "Research",
     "Survey",
     "UX Strategy",
-    "C#",   
+    "C#",
   ]);
 
   const [formData, setFormData] = useState({
