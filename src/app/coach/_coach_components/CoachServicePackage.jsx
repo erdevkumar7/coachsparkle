@@ -18,14 +18,16 @@ import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-export default function CoachServicePackageForm() {
+export default function CoachServicePackageForm({ isProUser }) {
   const [mediaFile, setMediaFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
   const [deliveryModes, setDeliveryModes] = useState([]);
   const [getFormats, setSessionFormats] = useState([]);
   const [getPriceModels, setPriceModels] = useState([]);
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showDetailDescription, setShowDetailDescription] = useState(false);
+  const [showSessionFormat, setShowSessionFormat] = useState(false);
+  const [showPricingModal, setShowPricingModal] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -153,9 +155,21 @@ export default function CoachServicePackageForm() {
     <div className="profile-form-add">
       <form onSubmit={handleSubmit}>
         <div className="card">
-          <h3 className="text-lg font-semibold">
-            <AddCircleOutlineRoundedIcon /> Add New Service Package
-          </h3>
+          {isProUser ? (
+            <>
+              <h3 className="text-lg font-semibold">
+                <AddCircleOutlineRoundedIcon /> Add New Service Package
+              </h3>
+            </>
+          ) : (
+            <>
+              <h3>
+                <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                &nbsp;Locked Custom Service Package Builder
+              </h3>
+              <p>Pro Feature - Unlock to edit</p>
+            </>
+          )}
           <div>
             <div className="profile-form">
               <div className="form-section">
@@ -169,6 +183,10 @@ export default function CoachServicePackageForm() {
                     placeholder="e.g., Confidence Jumpstart Session"
                     value={formData.title}
                     onChange={handleChange}
+                    disabled={!isProUser}
+                    className={`form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    }`}
                   />
                 </div>
                 <div className="form-group">
@@ -183,6 +201,10 @@ export default function CoachServicePackageForm() {
                     placeholder="Snapshot descriptions"
                     onChange={handleChange}
                     value={formData.short_description}
+                    disabled={!isProUser}
+                    className={`form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    }`}
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -192,6 +214,10 @@ export default function CoachServicePackageForm() {
                     name="coaching_category"
                     value={formData.coaching_category}
                     onChange={handleChange}
+                    disabled={!isProUser}
+                    className={`form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    }`}
                   >
                     <option value="">Select Category</option>
                     {categories.map((cat) => (
@@ -206,14 +232,14 @@ export default function CoachServicePackageForm() {
                     Detail Desriptions &nbsp;
                     <span
                       className="position-relative d-inline-block"
-                      onMouseEnter={() => setShowTooltip(true)}
-                      onMouseLeave={() => setShowTooltip(false)}
+                      onMouseEnter={() => setShowDetailDescription(true)}
+                      onMouseLeave={() => setShowDetailDescription(false)}
                       style={{ cursor: "pointer" }}
                     >
                       <InfoOutlinedIcon
                         sx={{ color: "#40C0E7", fontSize: 20 }}
                       />
-                      {showTooltip && (
+                      {showDetailDescription && (
                         <div
                           className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
                           style={{
@@ -228,7 +254,9 @@ export default function CoachServicePackageForm() {
                           <InfoOutlinedIcon
                             sx={{ color: "#40C0E7", fontSize: 20 }}
                           />
-                          <p><strong>Guideline</strong></p>
+                          <p>
+                            <strong>Guideline</strong>
+                          </p>
                           <ol>
                             <li>This program is design for what purpose</li>
                             <li>What the package helps client to achieve?</li>
@@ -247,6 +275,10 @@ export default function CoachServicePackageForm() {
                     rows="3"
                     onChange={handleChange}
                     value={formData.description}
+                    disabled={!isProUser}
+                    className={`form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    }`}
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -259,6 +291,10 @@ export default function CoachServicePackageForm() {
                     value={formData.focus}
                     onChange={handleChange}
                     placeholder="e.g., Confidence, Goal clarity, Custom action plan"
+                    disabled={!isProUser}
+                    className={`form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    }`}
                   />
                 </div>
                 <div className="form-group">
@@ -268,6 +304,10 @@ export default function CoachServicePackageForm() {
                     name="target_audience"
                     value={formData.target_audience}
                     onChange={handleChange}
+                    disabled={!isProUser}
+                    className={`form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    }`}
                     placeholder="e.g., Best for first-timers and those preparing for key life or career transitions."
                   >
                     <option value="">Select </option>
@@ -285,27 +325,58 @@ export default function CoachServicePackageForm() {
 
                   <div className="delivery-checkboxes">
                     <label className="delivery-option">
-                      <input type="checkbox" /> Online
+                      <input
+                        type="checkbox"
+                        disabled={!isProUser}
+                        className={`${
+                          !isProUser ? "disabled-bg" : ""
+                        }`}
+                      />{" "}
+                      Online
                     </label>
                     <label className="delivery-option">
-                      <input type="checkbox" /> In-person
+                      <input
+                        type="checkbox"
+                        disabled={!isProUser}
+                        className={`${
+                          !isProUser ? "disabled-bg" : ""
+                        }`}
+                      />{" "}
+                      In-person
                     </label>
                     <label className="delivery-option">
-                      <input type="checkbox" /> Hybrid
+                      <input
+                        type="checkbox"
+                        disabled={!isProUser}
+                        className={`${
+                          !isProUser ? "disabled-bg" : ""
+                        }`}
+                      />{" "}
+                      Hybrid
                     </label>
                   </div>
                 </div>
                 <div className="form-group">
                   <textarea
-                    className="delivery-textarea"
                     rows={3}
                     placeholder="Enter details of delivery mode such as  Zoom, Google Meet or venue"
+                    disabled={!isProUser}
+                    className={`delivery-textarea form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    }`}
                   />
                 </div>
                 <div className="coach-session-count gap-4">
                   <div className="form-group col-md-4">
                     <label htmlFor="session_count">Number Of Session</label>
-                    <select required onChange={handleChange}>
+                    <select
+                      required
+                      onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
+                    >
                       <option value="">Select</option>
                     </select>
                   </div>
@@ -315,7 +386,14 @@ export default function CoachServicePackageForm() {
                       {" "}
                       Duration per session
                     </label>
-                    <select required onChange={handleChange}>
+                    <select
+                      required
+                      onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
+                    >
                       <option value="">Select</option>
                     </select>
                   </div>
@@ -323,14 +401,122 @@ export default function CoachServicePackageForm() {
                   <div className="form-group col-md-4">
                     <label htmlFor="session_format">
                       Session Format &nbsp;
-                      <InfoOutlinedIcon
-                        sx={{ color: "#40C0E7", fontSize: 20 }}
-                      />
+                      <span
+                        className="position-relative d-inline-block"
+                        onMouseEnter={() => setShowSessionFormat(true)}
+                        onMouseLeave={() => setShowSessionFormat(false)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <InfoOutlinedIcon
+                          sx={{ color: "#40C0E7", fontSize: 20 }}
+                        />
+                        {showSessionFormat && (
+                          <div
+                            className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
+                            style={{
+                              top: "80%",
+                              left: "900%",
+                              transform: "translateX(-50%)",
+                              zIndex: 10,
+                              width: "320px",
+                              whiteSpace: "normal",
+                            }}
+                          >
+                            <InfoOutlinedIcon
+                              sx={{ color: "#40C0E7", fontSize: 20 }}
+                            />
+                            <ol style={{ marginTop: "20px" }}>
+                              <li>
+                                <strong>1-on-1 Coaching</strong>
+                                <p>
+                                  A personalized, individual coaching session
+                                  tailored to the client’s goals.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Group Session</strong>
+                                <p>
+                                  Small group format (e.g., 3–10 participants)
+                                  ideal for peer learning and discussions.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Workshop / Masterclass</strong>
+                                <p>
+                                  One-time, topic-focused session typically
+                                  longer in duration (.g., 90 mins – 3 hours).
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Coaching Program / Package</strong>
+                                <p>
+                                  A structured series of sessions (e.g., 4-week
+                                  program) offered as a bundle.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Self-paced Learning</strong>
+                                <p>
+                                  Pre-recorded or guided material that clients
+                                  can consume on their own time.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Webinar / Live Talk</strong>
+                                <p>
+                                  Larger, live session often for awareness,
+                                  education, or engagement purposes.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Drop-in / On-demand Session</strong>
+                                <p>
+                                  Flexible sessions that clients can join
+                                  spontaneously when available.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Corporate/Team Training</strong>
+                                <p>
+                                  Tailored sessions for companies or teams,
+                                  often goal-driven and strategic.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Accountability / Check-in Calls</strong>
+                                <p>
+                                  Great for user to trial first before
+                                  committing to a long term programme.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Trial / Discovery Session</strong>
+                                <p>
+                                  Introductory session offered for free or at a
+                                  reduced rate to assess fit.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Free / Pro Bono</strong>
+                                <p>
+                                  if you'd like to offer this service at no cost
+                                  — either to support the community, as part of
+                                  a trial, or for personal contribution
+                                </p>
+                              </li>
+                            </ol>
+                          </div>
+                        )}
+                      </span>
                     </label>
                     <input
                       required
                       placeholder="1-on-1 Coaching"
                       onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     />
                   </div>
                 </div>
@@ -344,6 +530,10 @@ export default function CoachServicePackageForm() {
                       name="price"
                       value={formData.price}
                       onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     />
                   </div>
 
@@ -354,6 +544,10 @@ export default function CoachServicePackageForm() {
                       name="currency"
                       value={formData.currency}
                       onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     >
                       <option value="SGD">SGD</option>
                     </select>
@@ -362,15 +556,119 @@ export default function CoachServicePackageForm() {
                   <div className="form-group col-md-4">
                     <label htmlFor="price_model">
                       Pricing Model &nbsp;
-                      <InfoOutlinedIcon
-                        sx={{ color: "#40C0E7", fontSize: 20 }}
-                      />
+                      <span
+                        className="position-relative d-inline-block"
+                        onMouseEnter={() => setShowPricingModal(true)}
+                        onMouseLeave={() => setShowPricingModal(false)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <InfoOutlinedIcon
+                          sx={{ color: "#40C0E7", fontSize: 20 }}
+                        />
+                        {showPricingModal && (
+                          <div
+                            className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
+                            style={{
+                              top: "80%",
+                              left: "900%",
+                              transform: "translateX(-50%)",
+                              zIndex: 10,
+                              width: "320px",
+                              whiteSpace: "normal",
+                            }}
+                          >
+                            <InfoOutlinedIcon
+                              sx={{ color: "#40C0E7", fontSize: 20 }}
+                            />
+                            <ol style={{ marginTop: "20px" }}>
+                              <li>
+                                <strong>Package-Based Pricing</strong>
+                                <p>
+                                  Bundle of multiple sessions at a fixed rate
+                                  (e.g., “4 sessions for $300”). Great for
+                                  building long-term commitment.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Program-Based Pricing</strong>
+                                <p>
+                                  Structured learning over weeks/months (e.g.,
+                                  “8-week transformation program”). Includes
+                                  resources, milestones, and assignments.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Subscription-Based Pricing</strong>
+                                <p>
+                                  Ongoing monthly access to the coach (e.g.,
+                                  “$150/month for 2 sessions + email support”).
+                                  seful for corporate clients or long-term
+                                  coaching.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Performance-Based Pricing</strong>
+                                <p>
+                                  Payment tied to achieving specific outcomes
+                                  (e.g., % of salary increase after career
+                                  coaching). Best for experienced coaches with
+                                  measurable goals.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Pay-As-You-Go</strong>
+                                <p>
+                                  No commitment; user pays per session when
+                                  booked. Low barrier for new users.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Sliding Scale Pricing</strong>
+                                <p>
+                                  Variable rate based on client’s income or
+                                  situation. Common in life coaching or
+                                  non-profit engagements.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>
+                                  Ask for Quote: Custom-Based pricing
+                                </strong>
+                                <p>
+                                  Custom pricing for organizations booking in
+                                  bulk or group formats. Enables monetization
+                                  through B2B opportunities.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Trial / Discovery</strong>
+                                <p>
+                                  Great for user to trial first before
+                                  committing to a long term programme.
+                                </p>
+                              </li>
+                              <li>
+                                <strong>Free / Pro Bono</strong>
+                                <p>
+                                  if you'd like to offer this service at no cost
+                                  — either to support the community, as part of
+                                  a trial, or for personal contribution
+                                </p>
+                              </li>
+                            </ol>
+                          </div>
+                        )}
+                      </span>
                     </label>
                     <select
                       id="price_model"
                       name="price_model"
                       value={formData.price_model}
                       onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     >
                       <option value="">Select </option>
                       {getPriceModels.map((mdl) => (
@@ -391,6 +689,10 @@ export default function CoachServicePackageForm() {
                       name="price"
                       value={formData.price}
                       onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     />
                   </div>
 
@@ -400,6 +702,7 @@ export default function CoachServicePackageForm() {
                   <CoachAvailability
                     formData={formData}
                     setFormData={setFormData}
+                    isProUser={isProUser}
                   />
 
                   {/* <div className='form-group col-md-4'>
@@ -409,6 +712,7 @@ export default function CoachServicePackageForm() {
                   <BookingWindowPicker
                     formData={formData}
                     setFormData={setFormData}
+                    isProUser={isProUser}
                   />
                 </div>
                 <div className="validity-cancel-resedule gap-4">
@@ -422,6 +726,10 @@ export default function CoachServicePackageForm() {
                       value={formData.session_validity}
                       onChange={handleChange}
                       placeholder="Use within 6 weeks from first session "
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     />
                   </div>
 
@@ -429,14 +737,35 @@ export default function CoachServicePackageForm() {
                     <label htmlFor="cancellation_policy">
                       Cancellation Policy
                     </label>
-                    <input
-                      type="text"
+                    <select
                       id="cancellation_policy"
                       name="cancellation_policy"
                       value={formData.cancellation_policy}
                       onChange={handleChange}
-                      placeholder="Flexible – Full refund if canceled ≥24 hours before session "
-                    />
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
+                    >
+                      <option>
+                        Flexible – Full refund if canceled ≥24 hours before
+                        session
+                      </option>
+                      <option>
+                        Moderate – 50% refund if canceled ≥24 hours before
+                        session
+                      </option>
+                      <option>{`Strict – No refund if canceled <48 hours before session`}</option>
+                      <option>
+                        Rescheduling Only – No refund, but reschedule allowed
+                        with 24-hour notice
+                      </option>
+                      <option>
+                        Non-refundable – All bookings are final and
+                        non-refundable
+                      </option>
+                      <option>Custom Policy (show text box below)</option>
+                    </select>
                   </div>
 
                   <div className="form-group col-md-4">
@@ -450,6 +779,10 @@ export default function CoachServicePackageForm() {
                       value={formData.rescheduling_policy}
                       onChange={handleChange}
                       placeholder="One free reschedule allowed per session"
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     />
                   </div>
                 </div>
@@ -474,6 +807,10 @@ export default function CoachServicePackageForm() {
                         document.querySelector(".file-name").textContent =
                           fileName;
                       }}
+                      disabled={!isProUser}
+                      className={`form-control ${
+                        !isProUser ? "disabled-bg" : ""
+                      }`}
                     />
                   </div>
                 </div>
