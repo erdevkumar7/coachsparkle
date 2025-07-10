@@ -12,6 +12,7 @@ import ViewServicePackage from "../_coach_components/ViewServicePackage";
 export default function CoachServicePackages() {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isProUser, setIsProUser] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -21,7 +22,7 @@ export default function CoachServicePackages() {
     const fetchPackages = async () => {
       try {
         const response = await allPackagesOfaCoach(token);
-        setPackages(response?.data); // or data.packages if wrapped
+        setPackages(response?.data);
       } catch (error) {
         console.error("Error fetching packages:", error);
       } finally {
@@ -40,18 +41,35 @@ export default function CoachServicePackages() {
         </div>
       ) : (
         <div className="content-wrapper">
-          <div className="card p-3">
-            <h3 className="quick-text">Service Packages</h3>
-            <div className="session-wrapper">
-              {packages &&
-                packages
-                  .slice(0, 3)
-                  .map((pkg, index) => (
-                    <ViewServicePackage key={index} pkg={pkg} />
-                  ))}
-            </div>
-          </div>
-          <CoachServicePackageForm />
+          {isProUser ? (
+            <>
+              <div className="card p-3">
+                <h3 className="quick-text">Service Packages</h3>
+                <div className="session-wrapper">
+                  {packages &&
+                    packages
+                      .slice(0, 3)
+                      .map((pkg, index) => (
+                        <ViewServicePackage key={index} pkg={pkg} />
+                      ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mt-5">
+                <h3>
+                  <strong>Create Custom Coaching Packages Like A Pro</strong>
+                </h3>
+                <p className="mt-3 fs-5 w-50">
+                  This powerful tool is available with Pro Coach Plan - preview
+                  below what you could unlock.
+                </p>
+              </div>
+            </>
+          )}
+
+          <CoachServicePackageForm isProUser={isProUser} />
         </div>
       )}
     </div>
