@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css'; // theme css
+import 'react-date-range/dist/theme/default.css';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { format } from 'date-fns';
 
@@ -33,7 +34,7 @@ export default function BookingWindowPicker({ formData, setFormData }) {
     // console.log('range', range)
     return (
         <div className="form-group col-md-4">
-            <label htmlFor="booking_window">Booking Window</label>
+            <label htmlFor="booking_window">Booking Window &nbsp;<InfoOutlinedIcon sx={{ color: '#40C0E7', fontSize: 20}}/></label>
             <input
                 type="text"
                 id="booking_window"
@@ -42,7 +43,7 @@ export default function BookingWindowPicker({ formData, setFormData }) {
                 readOnly
                 value={formData.booking_window}
                 onClick={() => setShowPicker(!showPicker)}
-                placeholder="Select booking window"
+                placeholder="Select Date Range"
             />
             {showPicker && (
                 <div className="calendar-container" style={{ zIndex: 9999, position: 'absolute' }}>
