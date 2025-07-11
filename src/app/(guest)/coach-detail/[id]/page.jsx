@@ -217,7 +217,7 @@ export default async function CoachDetail({ params }) {
                                                 {coach?.website_link && <a href={coach?.website_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm2.png`} alt="website" /></a>}
                                                 {coach?.youtube_link && <a href={coach?.youtube_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm3.png`} alt="youtube" /></a>}
                                                 {coach?.podcast_link && <a href={coach?.podcast_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm4.png`} alt="podcast" /></a>}
-                                                {coach?.booking_link && <a href={coach?.booking_link} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm5.png`} alt="booking" /></a>}
+                                                {coach?.blog_article && <a href={coach?.blog_article} target="_blank"><img src={`${FRONTEND_BASE_URL}/images/sm5.png`} alt="booking" /></a>}
                                             </div>
                                         </div>
                                     </div>
