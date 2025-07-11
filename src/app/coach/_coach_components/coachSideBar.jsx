@@ -8,7 +8,7 @@ import { useUser } from '@/context/UserContext';
 export default function CoachSideBarComp() {
     const { user } = useUser();
     const router = useRouter();
-    
+
     return (
         <nav className="sidebar sidebar-offcanvas add-sdbar" id="sidebar">
 
@@ -61,7 +61,7 @@ export default function CoachSideBarComp() {
                     </a>
                 </li>
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/coach/coaching-activities')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-duffle"></i>
