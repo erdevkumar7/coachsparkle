@@ -8,6 +8,11 @@
     padding: 20px !important;
 }
 
+.content-wrapper h3{
+    font-size: 24px;
+    font-weight: 500;
+}
+
 .coach-session-count {
     display: flex;
 }
