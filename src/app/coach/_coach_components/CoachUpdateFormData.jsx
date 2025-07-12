@@ -194,6 +194,8 @@ export default function CoachUpdateForm({
       Object.entries(formData).forEach(([key, value]) => {
         if (Array.isArray(value)) {
           value.forEach((v) => form.append(`${key}[]`, v)); // For arrays like language_names[]
+        } else if (typeof value === 'boolean') {
+          form.append(key, value ? 1 : 0); // ✅ Convert true/false → 1/0
         } else {
           form.append(key, value); // Works for file and normal fields
         }
