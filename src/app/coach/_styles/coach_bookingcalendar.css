@@ -1,0 +1,275 @@
+.booking-header h5{
+  font-size: 24px;
+  font-weight: 500;
+  color: #181A20;
+}
+
+.booking-header .sync{
+  color: #009BFA !important;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.booking-status{
+  background-color: #F0F0F0;
+  border-radius: 12px;
+  padding: 8px 20px 8px 20px;
+  border: 1px solid #D7D7D7;
+}
+
+.booking-status .dot {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.booking-status .confirm{
+  background-color: #50C878;
+}
+
+.booking-status .pending{
+  background-color: #DB6E00;
+}
+
+.booking-status .complete{
+  background-color: #B6C1CA;
+}
+
+.booking-status .cancel{
+  background-color: #FF0101;
+}
+
+.booking-status .today{
+  background-color: #314AF0;
+}
+
+.add-new-btn{
+  background-color: #009BFA !important;
+  color: white !important;
+  padding: 15px 20px 15px 20px !important;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.fc {
+  width: 100% !important;
+}
+
+.fc .fc-list {
+  width: 100% !important;
+}
+
+.fc .fc-list-table {
+  width: 100% !important;
+  table-layout: fixed;
+}
+
+.fc .fc-list-day-cushion,
+.fc .fc-list-event-time,
+.fc .fc-list-event-title {
+  white-space: normal !important;
+}
+
+.fc-event {
+  cursor: pointer;
+  margin-bottom: 2px;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.fc .fc-event:hover {
+  background-color: inherit !important;
+  filter: none !important;
+}
+
+.fc-timegrid-event {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+    width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+.fc .fc-timegrid-event:hover {
+  background-color: transparent !important;
+  filter: none !important;
+}
+
+.fc .fc-event-main {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+.fc .fc-daygrid-day-frame {
+  aspect-ratio: 1 / 1;
+}
+
+
+.fc .fc-daygrid-event {
+  margin: 2px 0;
+  padding: 0 !important;
+}
+
+.fc .fc-toolbar {
+  flex-wrap: nowrap !important;
+ justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.fc .fc-toolbar-chunk {
+ display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 8px;
+}
+
+.fc .fc-button-group {
+  background-color: #EDF0F2;
+  border-radius: 10px;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.fc .fc-button {
+  background-color: transparent !important;
+  color: #4A5568 !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-transform: capitalize !important;
+  transition: all 0.2s ease;
+}
+
+.fc .fc-button.fc-button-active {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 1px solid #CBD5E0 !important;
+  font-weight: 600 !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+  text-decoration: none !important;
+  color: #181A20 !important;
+  font-weight: 500;
+}
+
+
+.fc .fc-daygrid-day-number {
+  text-decoration: none !important;
+  color: #181A20 !important;
+  font-weight: 500;
+}
+
+
+.custom-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.custom-modal {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+.custom-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-dialog {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 550px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.custom-dialog .btn-outline-primary {
+  border-width: 2px;
+  font-weight: 500;
+}
+
+.custom-dialog-body h3{
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.custom-dialog-body p{
+  font-size: 12px;
+  font-weight: 500;
+
+}
+
+.custom-dialog-body button{
+  border: 1px solid #009BFA;
+  color: #009BFA;
+  background-color: transparent;
+  border-radius: 12px;
+}
+
+.custom-dialog-body a{
+  color: #009BFA !important;
+}
+
+.custom-border{
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 15px;
+}
+
+.custom-dialog ul li{
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.action-btn{
+  background-color: transparent;
+  color: #009BFA;
+  border: 1px solid #009BFA;
+border-radius: 12px;
+padding: 10px 0px 10px 0px;
+}

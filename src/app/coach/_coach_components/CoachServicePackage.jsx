@@ -190,7 +190,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                 </div>
                 <div className="form-group">
                   <label htmlFor="short_description">
-                    Short Desriptions{" "}
+                    Short Descriptions{" "}
                     <small>Not more than 200 characters</small>
                   </label>
                   <textarea
@@ -558,7 +558,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
                         }`}
                     >
-                      <option value="SGD">SGD</option>
+                      <option value="SGD">USD</option>
                     </select>
                   </div>
 
