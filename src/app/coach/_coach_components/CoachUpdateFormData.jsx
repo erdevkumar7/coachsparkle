@@ -59,6 +59,8 @@ export default function CoachUpdateForm({
     detailed_bio: user?.detailed_bio || "",
     exp_and_achievement: user?.exp_and_achievement || "",
     is_corporate: user?.is_corporate || 0,
+    free_trial_session: user?.free_trial_session || 0,
+    is_pro_bono: user?.is_pro_bono || 0,
     //SocialLink
     linkdin_link: user?.linkdin_link,
     website_link: user?.website_link,
@@ -449,21 +451,25 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Free Trial Available</label>
                 <select
-                  name="trial"
-                  value={formData.trial}
+                  name="free_trial_session"
+                  value={formData.free_trial_session}
                   onChange={handleChange}
                 >
                   <option value="">Select</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
                 </select>
               </div>
               <div className="form-group">
                 <label>Is Pro Bono Coach</label>
                 <select
-                  name="pro_bono_coach"
-                  value={formData.pro_bono_coach}
+                  name="is_pro_bono"
+                  value={formData.is_pro_bono}
                   onChange={handleChange}
                 >
                   <option value="">Select</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
                 </select>
               </div>
               <div className="form-group">
