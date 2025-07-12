@@ -8,6 +8,11 @@
     padding: 20px !important;
 }
 
+.content-wrapper h3{
+    font-size: 24px;
+    font-weight: 500;
+}
+
 .coach-session-count {
     display: flex;
 }
@@ -160,7 +165,7 @@
 
 .profile-form .preview-section{
     max-width: 55%;
-    height: 115vh;
+    height: 135vh;
 }
 
 .profile-form .preview-section button{
@@ -168,7 +173,10 @@
     color: white;
     border: none;
     border-radius: 10px;
-    padding: 20px 30px 20px 30px;
+    padding: 12px 20px;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
 }
 
 .preview-section .session-content{
@@ -383,9 +391,11 @@
 .action-button .save-btn {
     display: flex !important;
     justify-content: center !important;
-    margin: auto !important;
     float: right;
-    width: 55%;
+    padding: 12px 20px;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
 }
 .disabled-bg {
   background-color: #E7E8E9 !important;
