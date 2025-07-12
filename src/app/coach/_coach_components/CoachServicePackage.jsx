@@ -35,8 +35,8 @@ export default function CoachServicePackageForm({ isProUser }) {
     coaching_category: "",
     description: "",
     focus: "",
-    target_audience: "",
-    delivery_mode: "",
+    age_group: "",
+    delivery_mode: 1,
     session_count: "",
     session_duration: "",
     session_format: "",
@@ -293,11 +293,11 @@ export default function CoachServicePackageForm({ isProUser }) {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="target_audience"> Targeted Audience</label>
+                  <label htmlFor="age_group"> Targeted Audience</label>
                   <select
-                    id="target_audience"
-                    name="target_audience"
-                    value={formData.target_audience}
+                    id="age_group"
+                    name="age_group"
+                    value={formData.age_group}
                     onChange={handleChange}
                     disabled={!isProUser}
                     className={`form-control ${!isProUser ? "disabled-bg" : ""
