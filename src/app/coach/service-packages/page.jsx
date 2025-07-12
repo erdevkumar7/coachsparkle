@@ -8,11 +8,14 @@ import Cookies from "js-cookie";
 import { CircularProgress } from "@mui/material";
 import { allPackagesOfaCoach } from "@/app/api/coach";
 import ViewServicePackage from "../_coach_components/ViewServicePackage";
+import { useUser } from "@/context/UserContext";
 
 export default function CoachServicePackages() {
+  const { user } = useUser();
+  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isProUser, setIsProUser] = useState(false);
+  // const [isProUser, setIsProUser] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");

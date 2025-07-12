@@ -33,6 +33,7 @@ export default function CoachUpdateForm({
     "UX Strategy",
     "C#",
   ]);
+  const [certificates, setCertificates] = useState([]);
 
   const [formData, setFormData] = useState({
     user_type: user?.user_type || 3,
@@ -53,13 +54,21 @@ export default function CoachUpdateForm({
     price_range: user?.price_range || "",
     age_group: user?.age_group || "",
     language_names: user?.language_names?.map((lang) => lang.id) || [],
+
     service_names: user?.service_names || [],
     detailed_bio: user?.detailed_bio || "",
     exp_and_achievement: user?.exp_and_achievement || "",
-    is_corporate: user?.is_corporate || 0
+    is_corporate: user?.is_corporate || 0,
+    //SocialLink
+    linkdin_link: user?.linkdin_link,
+    website_link: user?.website_link,
+    youtube_link: user?.youtube_link,
+    podcast_link: user?.podcast_link,
+    blog_article: user?.blog_article,
+    video_link: user?.video_link,
   });
 
-  // console.log('coachSubTypes', coachSubTypes)
+  // console.log('allLanguages', allLanguages)
   useEffect(() => {
     const token = Cookies.get('token');
     if (!token) {
@@ -89,7 +98,7 @@ export default function CoachUpdateForm({
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
-  
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -125,29 +134,85 @@ export default function CoachUpdateForm({
       const subTypeRes = await getSubCoachType(value);
       setSubCoachTypes(subTypeRes || []);
     }
- 
+
   };
 
   const handleChangeCheckbox = (e) => {
-  const { name, checked } = e.target;
+    const { name, checked } = e.target;
 
-  setFormData((prev) => ({
-    ...prev,
-    [name]: checked,
-  }));
-};
+    setFormData((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    const file = files[0];
+
+    // ✅ Optional: validation
+    if (name === "video_link") {
+      if (file.type !== "video/mp4") {
+        alert("Only MP4 files are allowed.");
+        return;
+      }
+      if (file.size > 100 * 1024 * 1024) {
+        alert("Video must be under 100MB.");
+        return;
+      }
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: file,
+    }));
+  };
+
+  const handleMultipleFiles = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+
+    // ✅ Only allow JPG and max 5 files
+    const validFiles = selectedFiles.filter(
+      (file) => file.type === "image/jpeg" || file.type === "image/jpg"
+    );
+
+    if (validFiles.length > 5) {
+      alert("You can upload a maximum of 5 certifications.");
+      return;
+    }
+    console.log('validFiles', validFiles)
+    setCertificates(validFiles);
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("formData", formData);
     try {
-      const res = await axios.post(`${apiUrl}/updateProfile`, formData, {
+      const form = new FormData();
+
+      Object.entries(formData).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((v) => form.append(`${key}[]`, v)); // For arrays like language_names[]
+        } else if (typeof value === 'boolean') {
+          form.append(key, value ? 1 : 0); // ✅ Convert true/false → 1/0
+        } else {
+          form.append(key, value); // Works for file and normal fields
+        }
+      });
+
+      certificates.forEach((file, index) => {
+        form.append(`upload_credentials[]`, file);
+      });
+
+      const res = await axios.post(`${apiUrl}/updateProfile`, form, {
         headers: {
           Authorization: `Bearer ${getToken}`,
-          Accept: 'application/json'
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
+
 
       if (res.data.success) {
         alert('Profile updated successfully!');
@@ -160,7 +225,7 @@ export default function CoachUpdateForm({
     }
   };
 
-  console.log("service_names", user.service_names);
+  // console.log("service_names", user.service_names);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -356,15 +421,20 @@ export default function CoachUpdateForm({
                 <label>Language</label>
                 <select
                   name="language_names"
-                  value={formData.language_names[0] || ""}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      language_names: [parseInt(e.target.value)],
-                    })
-                  }
+                  multiple
+                  value={formData.language_names} // ✅ array of selected IDs
+                  onChange={(e) => {
+                    const selectedIds = Array.from(e.target.selectedOptions).map((opt) =>
+                      parseInt(opt.value)
+                    );
+
+                    setFormData((prev) => ({
+                      ...prev,
+                      language_names: selectedIds, // ✅ store only IDs
+                    }));
+                  }}
                 >
-                  <option value="">Select</option>
+                  <option disabled value="">Select Languages</option>
                   {allLanguages.map((lang) => (
                     <option key={lang.id} value={lang.id}>
                       {lang.language}
@@ -372,6 +442,8 @@ export default function CoachUpdateForm({
                   ))}
                 </select>
               </div>
+
+
             </div>
             <div className="form-row three-cols">
               <div className="form-group">
@@ -575,9 +647,9 @@ export default function CoachUpdateForm({
               <label>LinkedIn</label>
               <input
                 type="text"
-                name="linkedin"
+                name="linkdin_link"
                 placeholder="https://linkedin.com/"
-                value={formData.linkedin}
+                value={formData.linkdin_link}
                 onChange={handleChange}
               />
             </div>
@@ -587,9 +659,9 @@ export default function CoachUpdateForm({
                   <label>Website</label>
                   <input
                     type="text"
-                    name="website"
+                    name="website_link"
                     placeholder="https://www.websites.com/"
-                    value={formData.website}
+                    value={formData.website_link}
                     onChange={handleChange}
                   />
                 </div>
@@ -597,9 +669,9 @@ export default function CoachUpdateForm({
                   <label>Youtube</label>
                   <input
                     type="text"
-                    name="youtube"
+                    name="youtube_link"
                     placeholder="https://www.youtube.com/"
-                    value={formData.youtube}
+                    value={formData.youtube_link}
                     onChange={handleChange}
                   />
                 </div>
@@ -645,8 +717,8 @@ export default function CoachUpdateForm({
                   <label>Podcast</label>
                   <input
                     type="text"
-                    name="podcast"
-                    value={formData.podcast}
+                    name="podcast_link"
+                    value={formData.podcast_link}
                     onChange={handleChange}
                   />
                 </div>
@@ -654,8 +726,8 @@ export default function CoachUpdateForm({
                   <label>Blog/Published Articles</label>
                   <input
                     type="text"
-                    name="article"
-                    value={formData.article}
+                    name="blog_article"
+                    value={formData.blog_article}
                     onChange={handleChange}
                   />
                 </div>
@@ -701,25 +773,27 @@ export default function CoachUpdateForm({
                 <div className="mb-4">
                   <label className="form-label fw-semibold d-block">
                     Upload Your Coach Introduction Video
-                    <span className="ms-2 media-size">
-                      Max 2min, MP4, under 100 MB
-                    </span>
+                    <span className="ms-2 media-size">Max 2min, MP4, under 100 MB</span>
                   </label>
                   <small className="d-block mb-2 media-size">
-                    Showcase your personality, approach and services in a short
-                    video to build trust with potential clients
+                    Showcase your personality, approach and services in a short video to build trust with potential clients
                   </small>
 
                   <div className="custom-file-input-wrapper">
                     <input
-                      type="file"
                       className="custom-file-hidden"
+                      type="file"
                       id="video-upload"
+                      name="video_link"
+                      accept="video/mp4"
+                      onChange={handleFileChange}
                     />
                     <label htmlFor="video-upload" className="custom-file-btn">
                       Choose file
                     </label>
-                    <span className="custom-file-placeholder">No file chosen</span>
+                    <span className="custom-file-placeholder">
+                      {formData.video_link ? formData.video_link.name : "No file chosen"}
+                    </span>
                   </div>
                 </div>
 
@@ -732,15 +806,20 @@ export default function CoachUpdateForm({
                   </label>
 
                   <div className="custom-file-input-wrapper">
+
                     <input
+                      name="upload_credentials"
                       type="file"
                       id="cert-upload"
+                      accept=".jpg,.jpeg"
                       className="custom-file-hidden"
+                      multiple                     // ✅ Allow multiple
+                      onChange={handleMultipleFiles}
                     />
                     <label htmlFor="cert-upload" className="custom-file-btn">
                       Choose file
                     </label>
-                    <span className="custom-file-placeholder">No file chosen</span>
+                    <span className="custom-file-placeholder"> {certificates.length > 0 ? `${certificates.length} files selected` : 'No file chosen'}</span>
                   </div>
                 </div>
               </>
@@ -780,19 +859,25 @@ export default function CoachUpdateForm({
                     </span>
                   </label>
 
-                  <div className="custom-file-input-wrapper disable-input">
+                  <div className="custom-file-input-wrapper">
                     <input
+                      name="upload_credentials"
                       type="file"
                       id="cert-upload"
+                      accept=".jpg,.jpeg"
                       className="custom-file-hidden"
-                      disabled
+                      multiple                     // ✅ Allow multiple
+                      onChange={handleMultipleFiles}
                     />
                     <label htmlFor="cert-upload" className="custom-file-btn">
-                      Choose file
+                      Choose files
                     </label>
-                    <span className="custom-file-placeholder">No file chosen</span>
+                    <span className="custom-file-placeholder">
+                      {certificates.length > 0 ? `${certificates.length} files selected` : 'No file chosen'}
+                    </span>
                   </div>
                 </div>
+
               </>
             )}
 
