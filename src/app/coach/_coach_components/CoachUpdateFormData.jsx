@@ -9,6 +9,9 @@ import {
   getSubCoachType,
 } from "@/app/api/guest";
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
+import MultipleSelectChip from "@/components/MultipleSelectChip";
+import MultipleSelectCheckmarks from "@/components/MultipleSelectCheckmarks";
+
 
 export default function CoachUpdateForm({
   user,
@@ -17,6 +20,7 @@ export default function CoachUpdateForm({
   coachTypes,
   deliveryMode,
   ageGroup,
+  getAllServices
 }) {
   const router = useRouter();
   const [getToken, setToken] = useState();
@@ -54,6 +58,7 @@ export default function CoachUpdateForm({
     price_range: user?.price_range || "",
     age_group: user?.age_group || "",
     language_names: user?.language_names?.map((lang) => lang.id) || [],
+    service_keyword: user?.service_keyword?.map((servc) => servc.id) || [],
 
     service_names: user?.service_names || [],
     detailed_bio: user?.detailed_bio || "",
@@ -227,7 +232,7 @@ export default function CoachUpdateForm({
     }
   };
 
-  // console.log("service_names", user.service_names);
+  // console.log("service_names", getAllServices);
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -262,7 +267,7 @@ export default function CoachUpdateForm({
               </div>
             </div>
 
-            <div className="form-row three-cols">
+            <div className="form-row two-cols">
               <div className="form-group">
                 <label>Email*</label>
                 <input
@@ -288,14 +293,40 @@ export default function CoachUpdateForm({
                   ))}
                 </select>
               </div>
+            </div>
+
+            <div className="form-row two-cols">
+              <div className="form-group">
+                <label>State</label>
+                <select
+                  name="state_id"
+                  value={formData.state_id}
+                  onChange={handleChange}
+                >
+                  <option value="">Select State</option>
+                  {states.map((s) => (
+                    <option key={s.state_id} value={s.state_id}>
+                      {s.state_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="form-group">
                 <label>City</label>
-                <input
+                <select
                   type="text"
-                  name="city"
-                  value={formData.city}
+                  name="city_id"
+                  value={formData.city_id}
                   onChange={handleChange}
-                />
+                >
+                  <option>Select City</option>
+                  {cities.map((c) => (
+                    <option key={c.city_id} value={c.city_id}>
+                      {c.city_name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -421,28 +452,27 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group">
                 <label>Language</label>
-                <select
-                  name="language_names"
-                  multiple
-                  value={formData.language_names} // ✅ array of selected IDs
-                  onChange={(e) => {
-                    const selectedIds = Array.from(e.target.selectedOptions).map((opt) =>
-                      parseInt(opt.value)
-                    );
-
+                {/* <MultipleSelectChip
+                  value={formData.language_names}
+                  onChange={(selectedIds) =>
                     setFormData((prev) => ({
                       ...prev,
-                      language_names: selectedIds, // ✅ store only IDs
-                    }));
-                  }}
-                >
-                  <option disabled value="">Select Languages</option>
-                  {allLanguages.map((lang) => (
-                    <option key={lang.id} value={lang.id}>
-                      {lang.language}
-                    </option>
-                  ))}
-                </select>
+                      language_names: selectedIds, 
+                    }))
+                  }
+                  options={allLanguages}
+                /> */}
+
+                <MultipleSelectCheckmarks
+                  value={formData.language_names}
+                  onChange={(selectedIds) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      language_names: selectedIds,
+                    }))
+                  }
+                  options={allLanguages}
+                />
               </div>
 
 
@@ -579,7 +609,7 @@ export default function CoachUpdateForm({
                   Add service keywords
                 </label>
                 <div className="d-flex align-items-center gap-2 mb-3">
-                  <input
+                  {/* <input
                     type="text"
                     className="form-control keyword-input"
                     placeholder="Enter keyword"
@@ -589,16 +619,26 @@ export default function CoachUpdateForm({
                   />
                   <button type="button" className="btn add-btn-outline">
                     Add
-                  </button>
+                  </button> */}
+                  <MultipleSelectChip
+                    value={formData.service_keyword}
+                    onChange={(selectedIds) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        service_keyword: selectedIds, // Store IDs in state
+                      }))
+                    }
+                    options={getAllServices}
+                  />
                 </div>
 
-                <div className="d-flex flex-wrap gap-2">
-                  {user.service_names.map((kw, idx) => (
+                {/* <div className="d-flex flex-wrap gap-2">
+                  {user.service_keyword.map((kw, idx) => (
                     <span className="keyword-chip" key={idx}>
-                      {kw}
+                      {kw.service}
                     </span>
                   ))}
-                </div>
+                </div> */}
               </div>
             </>
           ) : (

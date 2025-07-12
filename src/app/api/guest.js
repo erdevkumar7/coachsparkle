@@ -112,3 +112,13 @@ export const getAllPriceModels = async () => {
     });
     return await res.json();
 }
+
+export const getAllCoachServices = async () => {
+     const res = await fetch(`${apiUrl}/getAllCoachServices`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await res.json();
+}

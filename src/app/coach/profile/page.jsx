@@ -2,7 +2,7 @@ import UserImageUploader from '@/app/user/_user_components/ImageUploader';
 import CoachUpdateForm from '../_coach_components/CoachUpdateFormData';
 import '../_styles/coach_profile.css';
 import { getUserProfileData } from '@/app/api/user';
-import { getAgeGroup, getAllContries, getAllLanguages, getCoachType, getDeliveryMode } from '@/app/api/guest';
+import { getAgeGroup, getAllCoachServices, getAllContries, getAllLanguages, getCoachType, getDeliveryMode } from '@/app/api/guest';
 
 export default async function CoachProfile() {
     const { data: user, error, removeToken } = await getUserProfileData();
@@ -17,8 +17,9 @@ export default async function CoachProfile() {
     const coachTypes = await getCoachType();
     const ageGroup = await getAgeGroup();
     const allLanguages = await getAllLanguages();
+    const getAllServices = await getAllCoachServices();
 
-    // console.log('useraa', user, )
+    // console.log('getAllCoachServices', getAllServices)
     return (
         <div className="main-panel">
             <div className="content-wrapper">
@@ -52,6 +53,7 @@ export default async function CoachProfile() {
                             coachTypes= {coachTypes}
                             ageGroup={ageGroup}
                             allLanguages={allLanguages}
+                            getAllServices={getAllServices.data}
                         />
 
                 </div>
