@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ServicePerformancess() {
   const { user } = useUser();
-  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+  let isProUser = user.subscription_plan.plan_name == 'Basic' ? true : false;
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
@@ -229,7 +229,7 @@ export default function ServicePerformancess() {
             </ul>
           </div>
 
-          <div className="d-flex justify-content-start align-items-center mt-3 flex-wrap gap-2">
+          <div className="d-flex justify-content-start start-making align-items-center mt-3 flex-wrap gap-2">
             <p className="mb-0">
               Start making data-driven decision for your coaching
             </p>
@@ -243,7 +243,7 @@ export default function ServicePerformancess() {
                 padding: "20px 16px",
               }}
             >
-              Upgrade & Unlock Now
+              Upgrade & Unlock Now <i class="bi bi-arrow-right"></i>
             </a>
           </div>
         </div>

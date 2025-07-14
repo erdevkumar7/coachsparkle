@@ -357,7 +357,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                   />
                 </div>
                 <div className="coach-session-count gap-4">
-                  <div className="form-group col-md-4">
+                  <div className="form-group col-md-4 number-of-session-input">
                     <label htmlFor="session_count">Number Of Session</label>
                     <select
                       required
@@ -375,7 +375,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     </select>
                   </div>
 
-                  <div className="form-group col-md-4">
+                  <div className="form-group col-md-4  duration-per-session-input">
                     <label htmlFor="session_duration">
                       {" "}
                       Duration per session
@@ -547,7 +547,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     />
                   </div>
 
-                  <div className="form-group col-md-4">
+                  <div className="form-group col-md-4 currency-input">
                     <label htmlFor="currency">Currency</label>
                     <select
                       id="currency"
@@ -562,7 +562,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     </select>
                   </div>
 
-                  <div className="form-group col-md-4">
+                  <div className="form-group col-md-4 pricing-model-input">
                     <label htmlFor="price_model">
                       Pricing Model &nbsp;
                       <span
@@ -688,7 +688,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                   </div>
                 </div>
                 <div className="coach-slot-and-availability gap-4">
-                  <div className="form-group col-md-4">
+                  <div className="form-group col-md-4 slots-available-input">
                     <label htmlFor="price">Slots available for Booking</label>
                     <input
                       required
@@ -739,7 +739,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     />
                   </div>
 
-                  <div className="form-group col-md-4">
+                  <div className="form-group col-md-4 cancellation-policy-input">
                     <label htmlFor="cancellation_policy">
                       Cancellation Policy
                     </label>
