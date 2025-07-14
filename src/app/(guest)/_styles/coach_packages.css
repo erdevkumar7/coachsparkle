@@ -1,0 +1,380 @@
+.nav-bar {
+  border-bottom: 1px solid #e1e1e1;
+  background-color: #fff;
+}
+
+.coach-avatar {
+  width: 80px;
+  height: 90px;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+.service-page {
+  padding-bottom: 40px;
+  max-width: 640px;
+  margin: 0 auto 10px;
+}
+
+.coach-bio {
+  font-size: 16px;
+  max-width: 550px;
+  margin: 0 auto 10px;
+}
+
+.service-page .msg-btn {
+  background-color: #009bfa;
+  color: white;
+  padding: 15px 20px 15px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.package-card {
+  width: 600px;
+  max-width: 95%;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #eee;
+  padding: 0px 10px 0px 10px;
+  background-color: #ffffff;
+}
+
+.package-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.package-card ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.package-card .book-btn {
+  background-color: #009bfa;
+  color: white;
+  padding: 15px 30px 15px 30px;
+  border-radius: 10px;
+  min-width: 50px;
+  width: 60%;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body h5 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.card-body .icons {
+  margin-top: 10px;
+}
+
+.share-btn {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  font-size: 18px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #009bfa26;
+  color: #009bfa;
+}
+
+.service-page .numbering {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.service-page .numbering span {
+  color: #009bfa;
+}
+
+.content {
+  color: #1a1a1a;
+}
+
+.swiper-wrapper-container {
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.package-swiper {
+  padding: 0 !important;
+}
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  color: #1a1a1a;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.custom-arrow:hover {
+  background-color: #009bfa;
+  border: none;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  display: none !important;
+  content: none !important;
+}
+
+.swiper-button-prev.custom-arrow {
+  left: -78px;
+}
+
+.swiper-button-next.custom-arrow {
+  right: -78px;
+}
+
+.arrow-icon {
+  color: #1a1a1a;
+  font-size: 10px;
+}
+
+.arrow-icon:hover {
+  color: white;
+}
+
+/*Booking*/
+.booking-card {
+  display: flex;
+  background: white;
+  border: 1px solid #D1D5DB;
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 30px;
+}
+
+.left-panel,
+.calendar-panel,
+.time-panel {
+  width: 100%;
+}
+
+.left-panel, .calendar-panel{
+    border-right: 1px solid #D1D5DB;
+}
+
+.profile-img {
+  width: 70px;
+  height: 80px;
+  object-fit: cover;
+  border: 3px solid white;
+  margin-left: 30px;
+}
+
+.top-divider-line {
+  height: 1px;
+  background-color: #e0e0e0;
+  width: 100%;
+  position: relative;
+  top: 40px;
+}
+
+.left-panel .title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.left-panel .package-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000000;
+}
+
+.left-panel .package-desc {
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+}
+
+.left-panel .pkg-icons {
+  font-size: 20px;
+}
+
+.session-info {
+  margin-top: 55px;
+}
+
+.session-info li i {
+  min-width: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.calendar-wrapper-custom {
+  width: 100%;
+  max-width: 400px;
+}
+
+.calendar-grid-custom {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 13px;
+}
+
+.calendar-day-custom {
+  height: 36px;
+  width: 36px;
+  line-height: 36px;
+  border-radius: 50%;
+  font-size: 14px;
+  margin: auto;
+  transition: 0.2s all ease;
+  cursor: default;
+  gap: auto;
+}
+
+.calendar-day-custom.active {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+  cursor: pointer;
+}
+
+.calendar-day-custom.active:hover {
+  background-color: rgba(0, 123, 255, 0.2);
+}
+
+.calendar-day-custom.selected {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.calendar-day-custom.inactive {
+  color: #c0c0c0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.time-panel .inner-panel{
+    border: 1px solid #D1D5DB;
+    height: 500px;
+    text-align: center;
+    padding: 10px;
+}
+
+.time-slot-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.time-slot-btn {
+  background: white;
+  border: 1px solid #007bff;
+  color: #007bff;
+  padding: 15px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.time-slot-btn.selected {
+  background: #00000099;
+  color: #fff;
+  border-color: #333;
+}
+
+.confirm-btn {
+  white-space: nowrap;
+  padding: 6px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+
+/*Confirmation */
+.booking-confirm-modal{
+    z-index: 9999;
+}
+
+.booking-confirm-modal .modal-content {
+  border-radius: 16px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.booking-confirm-modal .modal-header {
+  background-color: #007bff;
+  color: white;
+  border-bottom: none;
+  padding: 1.75rem 2rem;
+}
+
+.booking-confirm-modal .modal-body {
+  padding: 2rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.booking-confirm-modal h6 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.booking-confirm-modal a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.booking-confirm-modal .modal-footer {
+  padding: 1.5rem 2rem;
+  border-top: none;
+  background-color: #f8f9fa;
+}
+
+.booking-confirm-modal .btn {
+  min-width: 160px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 8px;
+}
+
+.booking-confirm-modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+@media (max-width: 768px) {
+  .swiper-button-prev.custom-arrow {
+    left: -10px;
+  }
+
+  .swiper-button-next.custom-arrow {
+    right: -10px;
+  }
+
+  .package-card {
+    width: 100%;
+  }
+}
