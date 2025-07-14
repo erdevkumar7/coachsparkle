@@ -192,6 +192,8 @@ p.basic-add-value {
   padding: 0px 20px;
   background: #fff;
   cursor: pointer;
+  height: 40px;
+  border-radius: 12px;
 }
 .coach-dashboard-add .header h1 {
   color: #000000;
@@ -200,7 +202,7 @@ p.basic-add-value {
   line-height: 1.1;
   font-size: 35px;
   font-family: 'Inter';
-  width: 60%;
+  width: 80%;
 }
 p.coach-name-text {
   color: #767E94;
@@ -226,14 +228,17 @@ p.coach-name-text {
   font-size: 13px;
   margin-top: 25px;
 }
-
+.position-absolute.bg-light.text-dark.border.small.rounded.shadow.badge.bg-light.text-dark.px-2.py-3 {
+  line-height: 1.5;
+}
 
 .quick-text {
+  color: #181a20;
   border-bottom: 1px solid #e7e7e7;
   padding-bottom: 15px;
-  font-family: 'Inter';
+  font-family: Inter;
   font-size: 24px;
-  color: #181A20;
+  width: 100%;
 }
 .glance-box {
   border: 1px solid #e7e7e7;
@@ -273,6 +278,7 @@ p.coach-name-text {
 .coach-dashboard-add .snapshot .glance-box {
   width: 215px;
   height: 110px;
+  background: #F8FCFF;
 }
 
 .locked-card {
@@ -422,6 +428,14 @@ p.coach-name-text {
   gap: 30px;
   width: 98%;
 }
+
+.tracy-text .name {
+  font-size: 15px;
+  color: #000;
+  font-weight: 500;
+  padding-bottom: 3px;
+}
+
 .matches-add button.manage-buttons {
   color: #fff;
   cursor: pointer;
@@ -701,7 +715,7 @@ i.bi.bi-arrow-right {
   gap: 30px;
   width: 98%;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .rating-reviews .review-table th {
@@ -815,7 +829,7 @@ td.sed-tab p {
 }
 
 .services-performances .actions a {
-  margin-right: 8px;
+  margin-right: 4px;
   text-decoration: none;
 }
 
@@ -862,17 +876,17 @@ tr.service-add {
 
 tbody.growth-package td i.bi.bi-pencil-square {
   color: #4E7FFF;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 tbody.growth-package td i.bi.bi-trash3 {
-  color: #FF4B4B;
-  font-size: 18px;
+  color: #ff4b4b;
+  font-size: 16px;
 }
 
 tbody.growth-package td i.bi.bi-eye {
   color: #111111;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 tbody.growth-package td.total-text {
@@ -11299,6 +11313,25 @@ progress {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+.start-making p {
+  width: 58%;
+}
+
+.start-making a.btn.btn-primary.btn-sm.fw-semibold {
+  width: 40%;
+  font-size: 14px;
+}
+
+.text-black.rounded-2.px-2.py-1.d-inline-flex.align-items-center.justify-content-between.gap-1.w-100 img {
+  height: 10px;
+  width: 40px;
+}
+
+.booking-section {
+  margin-bottom: 25px;
+}
+
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {

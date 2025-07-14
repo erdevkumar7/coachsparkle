@@ -450,7 +450,7 @@ export default function CoachUpdateForm({
                   ))}
                 </select>
               </div>
-              <div className="form-group">
+              <div className="form-group language-input-add">
                 <label>Language</label>
                 {/* <MultipleSelectChip
                   value={formData.language_names}
@@ -608,7 +608,7 @@ export default function CoachUpdateForm({
                 <label className="form-label fw-semibold">
                   Add service keywords
                 </label>
-                <div className="d-flex align-items-center gap-2 mb-3">
+                <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
                   {/* <input
                     type="text"
                     className="form-control keyword-input"
