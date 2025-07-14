@@ -49,8 +49,26 @@ export default function ViewServicePackage({ pkg }) {
                 View Details <ShareIcon />
               </button>
             </div>
-            <div className={`status status-${pkg?.status}`}>
-              <button>{pkg?.package_status}</button>
+            <div
+              className={`status status-${
+                pkg?.package_status === 1
+                  ? "published"
+                  : pkg?.package_status === 2
+                  ? "draft"
+                  : pkg?.package_status === 3
+                  ? "unpublished"
+                  : "Undefined"
+              }`}
+            >
+              <button>
+                {pkg?.package_status === 1
+                  ? "Published"
+                  : pkg?.package_status === 2
+                  ? "Draft"
+                  : pkg?.package_status === 3
+                  ? "Unpublished"
+                  : "Undefined"}
+              </button>
             </div>
           </div>
         </div>
