@@ -245,7 +245,9 @@ button.save-btn-add {
   font-size: 12px;
   margin-left: 5px;
 }
-
+.keywords-input .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
+  height: auto;
+}
 .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
   background: #fff;
   border-radius: 12px;
