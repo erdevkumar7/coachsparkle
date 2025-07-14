@@ -2526,12 +2526,15 @@ select:focus-visible {
   background: #000000;
 }
 
-.login-right-side .login-container .divider::before {
+.login-right-side .login-container .divider:before {
   left: 109px;
+  background: #000 !important;
+  top: 15px !important;
 }
 
-.login-right-side .login-container .divider::after {
-  right: 109px;
+.login-right-side .login-container .divider:after {
+  right: 0;
+  width: 0px !important;
 }
 
 .login-right-side .login-container .google-login {
@@ -2571,13 +2574,13 @@ select:focus-visible {
 }
 
 .login-right-side .login-container .signup-text a {
-  font-weight: 600;
-  text-decoration: none;
-  color: black;
+  color: #000;
+  border-bottom: 1px solid #000;
+  width: 38%;
   padding-top: 5px;
-  border-bottom: solid 1px #000;
-  width: 150px;
+  font-weight: 600;
   line-height: 1.2;
+  text-decoration: none;
 }
 
 .login-right-side {

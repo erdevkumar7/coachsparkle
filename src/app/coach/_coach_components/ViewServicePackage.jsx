@@ -20,7 +20,7 @@ export default function ViewServicePackage({ pkg }) {
         />
         <div className="session-content">
           <h2>{pkg?.title}</h2>
-          <div className="icons-row">
+          <div className="icons-row first-online-add">
             <PersonalVideoIcon /> {pkg?.delivery_mode?.mode_name}
             <PersonOutlineOutlinedIcon /> {pkg?.session_format?.name}
             <CalendarMonthOutlinedIcon /> Jun - Aug 2025
@@ -33,7 +33,7 @@ export default function ViewServicePackage({ pkg }) {
             ></i>{" "}
             {pkg?.session_duration} Min/Session
           </div>
-          <div className="icons-row">
+          <div className="icons-row strength-value">
             <GpsFixedIcon /> {pkg?.focus}
           </div>
           <p className="session-description">{pkg?.short_description}</p>
@@ -41,11 +41,11 @@ export default function ViewServicePackage({ pkg }) {
             ${pkg?.price} / {pkg?.price_model?.name}
           </div>
           <div className="d-flex justify-content-between action-btn">
-            <div>
+            <div className="btn-action-add">
               <button className="cursor-pointer">Edit</button>
               <button className="cursor-pointer">Delete</button>
             </div>
-            <div>
+            <div className="btn-action-add">
               <button className="cursor-pointer">
                 View Details <ShareIcon />
               </button>
