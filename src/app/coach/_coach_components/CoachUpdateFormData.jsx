@@ -195,6 +195,9 @@ export default function CoachUpdateForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const clickedButton = e.nativeEvent.submitter?.value || 'draft'; // fallback to 'draft'
+    const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
+
     try {
       const form = new FormData();
 
@@ -207,6 +210,8 @@ export default function CoachUpdateForm({
           form.append(key, value); // Works for file and normal fields
         }
       });
+
+      form.append('profile_status', profile_status);
 
       certificates.forEach((file, index) => {
         form.append(`upload_credentials[]`, file);
@@ -222,7 +227,11 @@ export default function CoachUpdateForm({
 
 
       if (res.data.success) {
-        alert('Profile updated successfully!');
+        if (clickedButton === 'add_package') {
+          router.push('/coach/service-packages');
+        } else {
+          alert(profile_status === 'complete' ? '✅ Profile published!' : '✅ Draft saved!');
+        }
       } else {
         alert('Update failed.');
       }
@@ -632,13 +641,13 @@ export default function CoachUpdateForm({
                   />
                 </div>
 
-                {/* <div className="d-flex flex-wrap gap-2">
+                <div className="d-flex flex-wrap gap-2">
                   {user.service_keyword.map((kw, idx) => (
                     <span className="keyword-chip" key={idx}>
                       {kw.service}
                     </span>
                   ))}
-                </div> */}
+                </div>
               </div>
             </>
           ) : (
@@ -932,13 +941,28 @@ export default function CoachUpdateForm({
 
         <div className="save-btn gap-3 align-items-center">
           <span className="fw-bold">1/2</span>
-          <button type="submit" className="save-btn-add">
+          <button
+            type="submit"
+            value="draft"
+            name="action"
+            className="save-btn-add"
+          >
             Save Draft <i className="bi bi-arrow-right"></i>
           </button>
-          <button type="submit" className="save-btn-add">
+          <button
+            type="submit"
+            name="action"
+            value="add_package"
+            className="save-btn-add"
+          >
             Add Service Package <i className="bi bi-arrow-right"></i>
           </button>
-          <button type="submit" className="save-btn-add">
+          <button
+            type="submit"
+            name="action"
+            value="publish"
+            className="save-btn-add"
+          >
             Publish <i className="bi bi-arrow-right"></i>
           </button>
         </div>

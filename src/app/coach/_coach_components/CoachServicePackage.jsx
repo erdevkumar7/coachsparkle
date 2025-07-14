@@ -19,15 +19,19 @@ import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export default function CoachServicePackageForm({ isProUser }) {
+  
   const [mediaFile, setMediaFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
+  //all deleveryModes
   const [deliveryModes, setDeliveryModes] = useState([]);
   const [getFormats, setSessionFormats] = useState([]);
   const [getPriceModels, setPriceModels] = useState([]);
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
+  //checked DeleviryMode
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -36,7 +40,6 @@ export default function CoachServicePackageForm({ isProUser }) {
     description: "",
     focus: "",
     age_group: "",
-    delivery_mode: 1,
     session_count: "",
     session_duration: "",
     session_format: "",
@@ -113,6 +116,9 @@ export default function CoachServicePackageForm({ isProUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+     const clickedButton = e.nativeEvent.submitter?.value || 'draft'; // fallback to 'draft'
+    const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
+
     try {
       const token = Cookies.get("token");
       const form = new FormData();
@@ -125,6 +131,8 @@ export default function CoachServicePackageForm({ isProUser }) {
       if (mediaFile) {
         form.append("media_file", mediaFile);
       }
+
+      form.append('delivery_mode', selectedDeliveryMode);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
@@ -141,7 +149,11 @@ export default function CoachServicePackageForm({ isProUser }) {
       const result = await response.json();
 
       if (result.status) {
-        alert("✅ " + result.message);
+         if (clickedButton === 'add_package') {
+          router.push('/coach/service-packages');
+        } else {
+          alert(profile_status === 'complete' ? '✅ Profile published!' : '✅ Draft saved!');
+        }
       } else {
         alert("❌ " + result.message || "Something went wrong.");
       }
@@ -150,7 +162,7 @@ export default function CoachServicePackageForm({ isProUser }) {
       alert("❌ Network or server error.");
     }
   };
-
+  // console.log("deliveryModes", deliveryModes)
   return (
     <div className="profile-form-add">
       <form onSubmit={handleSubmit}>
@@ -305,7 +317,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     placeholder="e.g., Best for first-timers and those preparing for key life or career transitions."
                   >
                     <option value="">Select </option>
-                    {ageGroups.map((group) => (
+                    {ageGroups && ageGroups.map((group) => (
                       <option key={group.id} value={group.id}>
                         {group.group_name}
                       </option>
@@ -317,7 +329,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     Delivery Mode
                   </label>
 
-                  <div className="delivery-checkboxes">
+                  {/* <div className="delivery-checkboxes">
                     <label className="delivery-option">
                       <input
                         type="checkbox"
@@ -345,6 +357,21 @@ export default function CoachServicePackageForm({ isProUser }) {
                       />{" "}
                       Hybrid
                     </label>
+                  </div> */}
+
+                  <div className="delivery-checkboxes">
+                    {deliveryModes.map((mode) => (
+                      <label key={mode.id} className="delivery-option">
+                        <input
+                          type="checkbox"
+                          disabled={!isProUser}
+                          checked={selectedDeliveryMode === mode.id}
+                          onChange={() => setSelectedDeliveryMode(mode.id)}
+                          className={!isProUser ? "disabled-bg" : ""}
+                        />
+                        {mode.mode_name}
+                      </label>
+                    ))}
                   </div>
                 </div>
                 <div className="form-group">
@@ -361,6 +388,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     <label htmlFor="session_count">Number Of Session</label>
                     <select
                       required
+                      name="session_count"
                       onChange={handleChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
@@ -382,6 +410,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     </label>
                     <select
                       required
+                      name="session_duration"
                       onChange={handleChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""

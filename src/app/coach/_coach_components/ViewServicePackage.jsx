@@ -5,6 +5,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 export default function ViewServicePackage({ pkg }) {
+ 
   return (
     <>
       <div className="session-card">
@@ -55,9 +56,9 @@ export default function ViewServicePackage({ pkg }) {
                   ? "published"
                   : pkg?.package_status === 2
                   ? "draft"
-                  : pkg?.package_status === 3
+                  : pkg?.package_status === 0
                   ? "unpublished"
-                  : "Undefined"
+                  : ""
               }`}
             >
               <button>
@@ -65,9 +66,9 @@ export default function ViewServicePackage({ pkg }) {
                   ? "Published"
                   : pkg?.package_status === 2
                   ? "Draft"
-                  : pkg?.package_status === 3
+                  : pkg?.package_status === 0
                   ? "Unpublished"
-                  : "Undefined"}
+                  : ""}
               </button>
             </div>
           </div>
