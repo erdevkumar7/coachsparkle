@@ -9,7 +9,6 @@ import {
 } from "@/app/api/guest";
 import Cookies from "js-cookie";
 import BookingWindowPicker from "./BookingWindow";
-import CoachAvailability from "./CoachAvailability";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -17,6 +16,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import BookingAvailabilityPicker from "./BookingAvailability";
 
 export default function CoachServicePackageForm({ isProUser }) {
 
@@ -46,8 +46,7 @@ export default function CoachServicePackageForm({ isProUser }) {
     price: "",
     currency: "USD",
     price_model: "",
-    slot_availability: "",
-    booking_slot: "",
+    booking_slots: "",
     booking_window: "",
     session_validity: "",
     cancellation_policy: "",
@@ -105,18 +104,20 @@ export default function CoachServicePackageForm({ isProUser }) {
   };
 
   const handleChange = async (e) => {
-    const { name, value } = e.target;
+    const { name, value, files, type } = e.target;
+
+    const finalValue = type === "file" ? files[0] : value;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: finalValue,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     const clickedButton = e.nativeEvent.submitter?.value || 'draft'; // fallback to 'draft'
+    const clickedButton = e.nativeEvent.submitter?.value || 'draft'; // fallback to 'draft'
     const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
 
     try {
@@ -126,11 +127,6 @@ export default function CoachServicePackageForm({ isProUser }) {
       Object.entries(formData).forEach(([key, value]) => {
         form.append(key, value);
       });
-
-      // Append media file if selected
-      if (mediaFile) {
-        form.append("media_file", mediaFile);
-      }
 
       form.append('delivery_mode', selectedDeliveryMode);
 
@@ -149,7 +145,7 @@ export default function CoachServicePackageForm({ isProUser }) {
       const result = await response.json();
 
       if (result.status) {
-         if (clickedButton === 'add_package') {
+        if (clickedButton === 'add_package') {
           router.push('/coach/service-packages');
         } else {
           alert(profile_status === 'complete' ? '✅ Profile published!' : '✅ Draft saved!');
@@ -196,8 +192,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     value={formData.title}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
                   />
                 </div>
                 <div className="form-group">
@@ -213,8 +208,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     onChange={handleChange}
                     value={formData.short_description}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -225,8 +219,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     value={formData.coaching_category}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
                   >
                     <option value="">Select Category</option>
                     {categories.map((cat) => (
@@ -285,8 +278,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     onChange={handleChange}
                     value={formData.description}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""}`}
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -300,8 +292,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     onChange={handleChange}
                     placeholder="e.g., Confidence, Goal clarity, Custom action plan"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
                   />
                 </div>
                 <div className="form-group">
@@ -312,8 +303,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     value={formData.age_group}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
                     placeholder="e.g., Best for first-timers and those preparing for key life or career transitions."
                   >
                     <option value="">Select </option>
@@ -324,41 +314,9 @@ export default function CoachServicePackageForm({ isProUser }) {
                     ))}
                   </select>
                 </div>
+
                 <div className="delivery-row">
-                  <label htmlFor="delivery_mode" className="form-label">
-                    Delivery Mode
-                  </label>
-
-                  {/* <div className="delivery-checkboxes">
-                    <label className="delivery-option">
-                      <input
-                        type="checkbox"
-                        disabled={!isProUser}
-                        className={`${!isProUser ? "disabled-bg" : ""
-                          }`}
-                      />{" "}
-                      Online
-                    </label>
-                    <label className="delivery-option">
-                      <input
-                        type="checkbox"
-                        disabled={!isProUser}
-                        className={`${!isProUser ? "disabled-bg" : ""
-                          }`}
-                      />{" "}
-                      In-person
-                    </label>
-                    <label className="delivery-option">
-                      <input
-                        type="checkbox"
-                        disabled={!isProUser}
-                        className={`${!isProUser ? "disabled-bg" : ""
-                          }`}
-                      />{" "}
-                      Hybrid
-                    </label>
-                  </div> */}
-
+                  <label htmlFor="delivery_mode" className="form-label"> Delivery Mode</label>
                   <div className="delivery-checkboxes">
                     {deliveryModes.map((mode) => (
                       <label key={mode.id} className="delivery-option">
@@ -379,28 +337,23 @@ export default function CoachServicePackageForm({ isProUser }) {
                     rows={3}
                     placeholder="Enter details of delivery mode such as  Zoom, Google Meet or venue"
                     disabled={!isProUser}
-                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : ""
-                      }`}
+                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : "" }`}
                   />
                 </div>
                 <div className="coach-session-count gap-4">
                   <div className="form-group col-md-4 number-of-session-input">
                     <label htmlFor="session_count">Number Of Session</label>
-                    <select
+                    <input
                       required
+                      type="number"
+                      min={1}
                       name="session_count"
                       onChange={handleChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
                         }`}
-                    >
-                      <option value="">Select</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
+                    />
+
                   </div>
 
                   <div className="form-group col-md-4  duration-per-session-input">
@@ -408,19 +361,18 @@ export default function CoachServicePackageForm({ isProUser }) {
                       {" "}
                       Duration per session
                     </label>
-                    <select
+                    <input
                       required
+                      type="number"
+                      min={1}
+                      max={180}
                       name="session_duration"
                       onChange={handleChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
                         }`}
-                    >
-                      <option value="">Select</option>
-                      <option value="30">30</option>
-                      <option value="45">45</option>
-                      <option value="60">60</option>
-                    </select>
+                    />
+
                   </div>
 
                   <div className="form-group col-md-4">
@@ -552,7 +504,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                       onChange={handleChange}
                     >
                       <option value="">Select </option>
-                      {getFormats.map((fmt) => (
+                      {getFormats && getFormats.map((fmt) => (
                         <option key={fmt.id} value={fmt.id}>
                           {fmt.name}
                         </option>
@@ -565,7 +517,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     <label htmlFor="price">Total Price</label>
                     <input
                       required
-                      type="text"
+                      type="number"
                       id="price"
                       name="price"
                       value={formData.price}
@@ -718,13 +670,15 @@ export default function CoachServicePackageForm({ isProUser }) {
                 </div>
                 <div className="coach-slot-and-availability gap-4">
                   <div className="form-group col-md-4 slots-available-input">
-                    <label htmlFor="price">Slots available for Booking</label>
+                    <label htmlFor="booking_slots">Slots available for Booking</label>
                     <input
                       required
-                      type="text"
-                      id="price"
-                      name="price"
-                      value={formData.price}
+                      type="number"
+                      min={1}
+                      max={1000}
+                      id="booking_slots"
+                      name="booking_slots"
+                      value={formData.booking_slots}
                       onChange={handleChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
@@ -732,24 +686,26 @@ export default function CoachServicePackageForm({ isProUser }) {
                     />
                   </div>
 
-                  {/* <div className='form-group col-md-4'>
-                                <label htmlFor='booking_slot'>Availablity</label>
-                            </div> */}
-                  <CoachAvailability
-                    formData={formData}
-                    setFormData={setFormData}
-                    isProUser={isProUser}
-                  />
+                  <div className='form-group col-md-4'>
+                    <label htmlFor="booking_availability">Availablity</label>
+                    <BookingAvailabilityPicker
+                      formData={formData}
+                      setFormData={setFormData}
+                      isProUser={isProUser}
+                    />
+                  </div>
 
-                  {/* <div className='form-group col-md-4'>
-                                <label htmlFor='booking_window'>Booking Window</label>
-                            </div> */}
 
-                  <BookingWindowPicker
-                    formData={formData}
-                    setFormData={setFormData}
-                    isProUser={isProUser}
-                  />
+                  <div className='form-group col-md-4'>
+                    <label htmlFor="booking_window">Booking Window &nbsp;<InfoOutlinedIcon sx={{ color: '#40C0E7', fontSize: 20 }} /></label>
+                    <BookingWindowPicker
+                      formData={formData}
+                      setFormData={setFormData}
+                      isProUser={isProUser}
+                    />
+                  </div>
+
+
                 </div>
                 <div className="validity-cancel-resedule gap-4">
                   <div className="form-group col-md-4">
@@ -834,12 +790,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                       id="media_file"
                       name="media_file"
                       accept="image/*"
-                      onChange={(e) => {
-                        const fileName =
-                          e.target.files[0]?.name || "No file chosen";
-                        document.querySelector(".file-name").textContent =
-                          fileName;
-                      }}
+                      onChange={handleChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
                         }`}
@@ -905,7 +856,7 @@ export default function CoachServicePackageForm({ isProUser }) {
         <div className="action-button">
           <div className="save-btn gap-3 align-items-center">
             <span className="fw-bold">2/2</span>
-            <button type="submit" className="save-btn-add">
+            <button type="submit" className="save-btn-add" disabled={!isProUser}>
               Save Draft <i className="bi bi-arrow-right"></i>
             </button>
             <button type="submit" className="save-btn-add">
