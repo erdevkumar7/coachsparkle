@@ -57,10 +57,10 @@
     font-size: 14px;
     color: #696974;
 }
-.session-content {
+.session-card .session-pkg-content {
     background-color: #f4f4f4;
     border-top: 10px solid #e7e6e6;
-    height: 401px;
+    height: 420px;
     margin-bottom: 40px;
     padding: 12px;
 }
@@ -70,7 +70,7 @@
 }
 
 
-.session-content h2 {
+.session-pkg-content h2 {
     font-size: 20px;
     margin: 10px 0;
 }
@@ -112,6 +112,7 @@
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
+    padding-top: 20px;
 }
 .profile-form input::placeholder {
     color: #696974 !important;
@@ -215,7 +216,7 @@ select#cancellation_policy {
 }
 .profile-form .preview-section {
     max-width: 55%;
-    height: 800px;
+    height: 809px;
 }
 .profile-form .preview-section button{
     background-color: #009BFA;
@@ -228,12 +229,16 @@ select#cancellation_policy {
     text-align: center;
 }
 
-.preview-section .session-content{
+.preview-section .session-preview-content{
     background-color: #f4f4f4;
     border-top: 10px solid #e7e6e6;
     padding: 10px;
+    height: auto;
 }
 
+.preview-section .session-preview-content h2{
+    font-size: 24px;
+}
 .profile-form .preview-section img{
     max-height: 25vh;
 }

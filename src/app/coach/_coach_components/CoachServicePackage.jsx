@@ -19,7 +19,7 @@ import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export default function CoachServicePackageForm({ isProUser }) {
-  
+
   const [mediaFile, setMediaFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
@@ -855,7 +855,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     alt="Team Image"
                     className="top-image"
                   />
-                  <div className="session-content">
+                  <div className="session-preview-content">
                     <h2>Confidence Jumpstart Session</h2>
                     <div className="icons-row">
                       <PersonalVideoIcon /> Online

@@ -5,7 +5,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 export default function ViewServicePackage({ pkg }) {
- 
+
   return (
     <>
       <div className="session-card">
@@ -18,7 +18,7 @@ export default function ViewServicePackage({ pkg }) {
           alt="Team Image"
           className="top-image"
         />
-        <div className="session-content">
+        <div className="session-pkg-content">
           <h2>{pkg?.title}</h2>
           <div className="icons-row first-online-add">
             <PersonalVideoIcon /> {pkg?.delivery_mode?.mode_name}

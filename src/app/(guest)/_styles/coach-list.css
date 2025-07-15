@@ -155,7 +155,7 @@ span.MuiButtonBase-root {
     display: flex;
     background: white;
     padding: 25px;
-    border-radius: 12px; 
+    border-radius: 12px;
     box-shadow: 0 5px 20px #0000002b;
     gap: 20px;
     position: relative;
@@ -280,7 +280,7 @@ span.MuiButtonBase-root {
     padding: 8px 12px;
     border-radius: 12px;
     cursor: pointer;
-    font-weight: 600;  
+    font-weight: 600;
     width: 155px;
 }
 .coach-banner-add i.bi.bi-arrow-right {
@@ -331,14 +331,14 @@ span.MuiButtonBase-root {
             margin: 20px 0 20px 0;
         }
     }
-    
+
     .range-bar {
         border: none;
         background: #009BFA;
-        height: 3px;    
+        height: 3px;
         width: 96%;
         margin-left: 8px;
-        
+
       .ui-slider-range {
     background: #009BFA;
 }
@@ -352,7 +352,7 @@ span.MuiButtonBase-root {
     top: -0.52em;
     cursor: pointer;
 }
-    
+
     }
 
 
@@ -414,7 +414,7 @@ span.MuiButtonBase-root {
     border-color: #000;
     padding: 8px 13px;
 }
- 
+
 .pagination-content-inner .page-btn:hover,
 .page-number:hover:not(.active) {
   background-color: #f3f4f6;
@@ -741,7 +741,7 @@ h5.what-user-text {
     -webkit-transform: translate3d(0,0,0);
     padding-bottom: 30px;
 }
- 
+
 .related-coaches .owl-carousel .owl-dots.disabled, .owl-carousel .owl-nav.disabled {
     display: block;
 }
@@ -1785,7 +1785,7 @@ button.ai-mtc {
   top: 25px;              /* adjust as needed */
   width: 35px;
   height: 35px;
-  background: #fff;    
+  background: #fff;
   border: 1px solid #009df6;    /* optional for better visibility */
   border-radius: 50%;
   z-index: 10;
@@ -1822,4 +1822,18 @@ button.ai-mtc {
     border: 1px solid #009df6;
 }
 
+
+.modal-content {
+  max-height: auto;
+  overflow: hidden;
+width: 700px;
+padding: 0 !important;
+}
+
+.modal-body {
+  overflow-y: auto;
+  width: 640px;
+  max-height: auto;
+  padding-right: 15px;
+}
 

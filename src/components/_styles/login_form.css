@@ -1,0 +1,320 @@
+.login-right-side .login-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-right-side .login-container h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+  font-family: "Inter";
+}
+
+.login-right-side .login-container .tabs {
+  display: flex;
+  margin-bottom: 20px;
+  font-family: "Inter";
+  font-size: 20px;
+}
+
+.login-right-side .login-container .tabs button.tab {
+  border-bottom: solid 2px #000000 !important;
+}
+
+.login-right-side .login-container .tabs button.tab.active {
+  border-bottom: solid 2px #009bfa !important;
+}
+
+.login-right-side .login-container .tabs button.tab:hover {
+  border-bottom: solid 2px #009bfa !important;
+}
+
+.login-right-side .login-container .tab {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  color: #000000;
+}
+
+.login-right-side .login-container .tab.active {
+  border-bottom: 2px solid #00aaff;
+  color: #000000;
+}
+
+.login-right-side .login-container .login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-right-side .login-container .login-form label {
+  font-size: 16px;
+  margin: 10px 0 5px;
+  color: #000000;
+  font-family: "Inter";
+  font-weight: 500;
+  padding-top: 4px;
+}
+
+.login-right-side .login-container .login-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  height: 45px;
+  color: #000000;
+  border-radius: 16px;
+}
+
+.login-right-side .login-container .forgot {
+  text-align: right;
+  margin: 5px 0 15px;
+}
+
+.login-right-side .login-container .forgot a {
+  font-size: 12px;
+  color: #000000;
+  text-decoration: none;
+  font-family: "Inter";
+}
+
+.login-right-side .login-container .login-btn {
+  background: #009bfa;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  height: 45px;
+  font-size: 16px;
+  font-family: "Inter";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-right-side .login-container .divider {
+  text-align: center;
+  margin: 10px 0;
+  position: relative;
+}
+
+.login-right-side .login-container .divider span {
+  background: #fff;
+  padding: 0 10px;
+  font-size: 20px;
+  color: #000000;
+}
+
+.login-right-side .login-container .divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 15%;
+  height: 1px;
+  background: #000000;
+}
+
+.login-right-side .login-container .divider:before {
+  left: 109px;
+  background: #000 !important;
+  top: 15px !important;
+}
+
+.login-right-side .login-container .divider:after {
+  right: 0;
+  width: 0px !important;
+}
+
+.login-right-side .login-container .google-login {
+  background: #333333;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  height: 45px;
+  border-radius: 16px;
+  font-family: "Inter";
+  font-size: 16px;
+}
+
+.login-right-side .login-container .google-login img {
+  width: 20px;
+  height: 20px;
+}
+
+.login-right-side .login-container .signup-text {
+  font-size: 16px;
+  margin-top: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter";
+}
+
+.row.signup-page-top.login-content-add {
+  height: 700px;
+}
+
+.login-right-side .login-container .signup-text a {
+  color: #000;
+  border-bottom: 1px solid #000;
+  width: 38%;
+  padding-top: 5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.login-right-side {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.login-left-side {
+  height: auto !important;
+}
+
+.login-right-side .login-container .login-form input:focus-visible {
+  outline: none;
+}
+
+.login-right-side .login-container .login-btn i.bi.bi-arrow-right {
+  font-size: 18px;
+  padding-left: 5px;
+}
+
+.login-right-side .login-container .login-btn:hover {
+  background-color: #1489d1;
+}
+
+.login-right-side .login-container .google-login:hover {
+  background-color: #3c3b3b;
+}
+
+@media only screen and (max-width: 767px) {
+  .signup-left-side {
+    height: 250px;
+  }
+
+  .signup-right-side {
+    padding: 0 20px;
+    padding-top: 25px;
+  }
+
+  .signup-right-side h4 {
+    font-size: 26px;
+    text-align: center;
+  }
+
+  .signup-right-side .card {
+    width: 100%;
+    transition: border-color 0.3s;
+    margin-bottom: 20px;
+  }
+
+  .row.signup-page-top {
+    align-items: center;
+    height: auto;
+  }
+
+  .signup-right-side .card-container {
+    margin-top: 20px;
+    display: block;
+  }
+
+  .signup-right-side .card label {
+    display: block;
+    font-size: 19px;
+    line-height: 1.3;
+    padding-top: 10px;
+  }
+
+  .signup-right-side a.btn-create {
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 12px;
+    width: 100%;
+    height: 55px;
+  }
+
+  .signup-right-side .login-link {
+    padding-top: 15px;
+    padding-bottom: 30px;
+  }
+
+  .signup-user-add .signup-left-side {
+    height: 250px;
+  }
+
+  .sign-user-content {
+    width: 100%;
+    margin: auto;
+    padding: 0 20px;
+    padding-top: 25px;
+  }
+
+  .signup-user .social-buttons button {
+    height: 45px;
+    width: 100%;
+  }
+
+  .signup-user .social-buttons {
+    display: block;
+  }
+
+  .social-buttons button.google-btn {
+    margin-top: 15px;
+  }
+
+  .sign-user-content button.create-btn-aad {
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .signup-coach {
+    display: block;
+  }
+
+  .signup-user h2 {
+    margin-bottom: 10px;
+    font-size: 26px;
+  }
+
+  .signup-user .checkbox-row {
+    font-size: 14px;
+    padding-top: 5px;
+  }
+
+  .login-right-side .login-container h2 {
+    font-family: "Inter";
+    text-align: center;
+  }
+
+  .row.signup-page-top.login-content-add {
+    height: auto;
+  }
+
+  .login-right-side .login-container .signup-text {
+    padding-bottom: 20px;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+
+}
