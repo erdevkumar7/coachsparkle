@@ -613,17 +613,6 @@ export default function CoachUpdateForm({
                   Add service keywords
                 </label>
                 <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
-                  {/* <input
-                    type="text"
-                    className="form-control keyword-input"
-                    placeholder="Enter keyword"
-                    value={servicekeyword}
-                    onChange={(e) => setServiceKeyword(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter"}
-                  />
-                  <button type="button" className="btn add-btn-outline">
-                    Add
-                  </button> */}
                   <MultipleSelectChip
                     value={formData.service_keyword}
                     onChange={(selectedIds) =>
@@ -637,7 +626,7 @@ export default function CoachUpdateForm({
                 </div>
 
                 <div className="d-flex flex-wrap gap-2">
-                  {user.service_keyword.map((kw, idx) => (
+                  {user?.service_keyword && user.service_keyword.map((kw, idx) => (
                     <span className="keyword-chip" key={idx}>
                       {kw.service}
                     </span>
@@ -658,21 +647,39 @@ export default function CoachUpdateForm({
               <div className="keyword-limit-wrapper mt-4">
                 <h6 className="fw-bold">5 Keywords Used</h6>
                 <div className="d-flex flex-wrap gap-2 mb-3">
-                  <span className="keyword-chip">Software</span>
-                  <span className="keyword-chip">Research</span>
-                  <span className="keyword-chip">Survey</span>
-                  <span className="keyword-chip">UX Strategy</span>
-                  <span className="keyword-chip">C#</span>
+                  {user?.service_keyword && user.service_keyword.slice(0, 5).map((kw, idx) => (
+                    <span className="keyword-chip" key={idx}>
+                      {kw.service}
+                    </span>
+                  ))}
+
                 </div>
 
-                <div className="limit-box d-flex justify-content-between align-items-center mb-3">
+                {user?.service_keyword && user.service_keyword.length >= 5 && <div className="limit-box d-flex justify-content-between align-items-center mb-3">
                   <p className="d-flex align-items-center gap-1">
                     <i className="bi bi-exclamation-triangle"></i>
                     Keyword limit reached.
                   </p>
-                  <button className="btn upgrade-btn d-flex align-items-center gap-2">
+                  <div className="btn upgrade-btn d-flex align-items-center gap-2">
                     <i className="bi bi-lock-fill"></i> Upgrade to Add More
-                  </button>
+                  </div>
+                </div>}
+
+                <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
+                  <MultipleSelectChip
+                    value={formData.service_keyword}
+                    onChange={(selectedIds) => {
+                      if (!isProUser && selectedIds.length > 5) {
+                        alert("Only Pro Coaches can select more than 5 services.");
+                        return;
+                      }
+                      setFormData((prev) => ({
+                        ...prev,
+                        service_keyword: selectedIds,
+                      }));
+                    }}
+                    options={getAllServices}
+                  />
                 </div>
 
                 <div className="info-box">
@@ -702,235 +709,122 @@ export default function CoachUpdateForm({
                 value={formData.linkdin_link}
                 onChange={handleChange}
               />
+            </div>        
+
+            <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
+              <label>
+                Website
+                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+              </label>
+              <input
+                disabled={!isProUser}
+                type="text"
+                name="website_link"
+                placeholder="https://www.websites.com/"
+                value={isProUser ? formData.website_link : ''}
+                onChange={handleChange}
+              />
             </div>
-            {isProUser ? (
-              <>
-                <div className="form-group">
-                  <label>Website</label>
-                  <input
-                    type="text"
-                    name="website_link"
-                    placeholder="https://www.websites.com/"
-                    value={formData.website_link}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Youtube</label>
-                  <input
-                    type="text"
-                    name="youtube_link"
-                    placeholder="https://www.youtube.com/"
-                    value={formData.youtube_link}
-                    onChange={handleChange}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="form-group disable-input">
-                  <label>
-                    Website
-                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="website"
-                    disabled
-                    placeholder="https://www.websites.com/"
-                    value={formData.website}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group disable-input">
-                  <label>
-                    Youtube
-                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="youtube"
-                    disabled
-                    placeholder="https://www.youtube.com/"
-                    value={formData.youtube}
-                    onChange={handleChange}
-                  />
-                </div>
-              </>
-            )}
+            <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
+              <label>
+                Youtube
+                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+              </label>
+              <input
+                disabled={!isProUser}
+                type="text"
+                name="youtube_link"
+                placeholder="https://www.youtube.com/"
+                value={isProUser ? formData.youtube_link : ''}
+                onChange={handleChange}
+              />
+            </div>
+
           </div>
 
           <div className="form-row three-cols">
-            {isProUser ? (
-              <>
-                <div className="form-group">
-                  <label>Podcast</label>
-                  <input
-                    type="text"
-                    name="podcast_link"
-                    value={formData.podcast_link}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Blog/Published Articles</label>
-                  <input
-                    type="text"
-                    name="blog_article"
-                    value={formData.blog_article}
-                    onChange={handleChange}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="form-group disable-input">
-                  <label>
-                    Podcast
-                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="podcast"
-                    disabled
-                    value={formData.podcast}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group disable-input">
-                  <label>
-                    Blog/Published Articles
-                    <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="article"
-                    disabled
-                    value={formData.article}
-                    onChange={handleChange}
-                  />
-                </div>
-              </>
-            )}
+            <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
+              <label>Podcast</label>
+              {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+              <input
+                disabled={!isProUser}
+                type="text"
+                name="podcast_link"
+                value={formData.podcast_link}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={`form-group ${!isProUser ? 'disable-input' : ""}`}>
+              <label>Blog/Published Articles</label>
+              {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+              <input
+                disabled={!isProUser}
+                type="text"
+                name="blog_article"
+                value={formData.blog_article}
+                onChange={handleChange}
+              />
+            </div>
           </div>
         </div>
 
         <div className="card media-section">
           <h3 className="quick-text">Media</h3>
           <div className="upload-section mt-4">
-            {isProUser ? (
-              <>
-                <div className="mb-4">
-                  <label className="form-label fw-semibold d-block">
-                    Upload Your Coach Introduction Video
-                    <span className="ms-2 media-size">Max 2min, MP4, under 100 MB</span>
-                  </label>
-                  <small className="d-block mb-2 media-size">
-                    Showcase your personality, approach and services in a short video to build trust with potential clients
-                  </small>
 
-                  <div className="custom-file-input-wrapper">
-                    <input
-                      className="custom-file-hidden"
-                      type="file"
-                      id="video-upload"
-                      name="video_link"
-                      accept="video/mp4"
-                      onChange={handleFileChange}
-                    />
-                    <label htmlFor="video-upload" className="custom-file-btn">
-                      Choose file
-                    </label>
-                    <span className="custom-file-placeholder">
-                      {formData.video_link ? formData.video_link.name : "No file chosen"}
-                    </span>
-                  </div>
-                </div>
+            <div className="mb-4">
+              <label className="form-label fw-semibold d-block">
+                Upload Your Coach Introduction Video
+                <span className="ms-2 media-size">Max 2min, MP4, under 100 MB</span>
+              </label>
+              <small className="d-block mb-2 media-size">
+                Showcase your personality, approach and services in a short video to build trust with potential clients
+              </small>
 
-                <div>
-                  <label className="form-label fw-semibold d-block">
-                    Upload Credentials / Certifications
-                    <span className="text-muted ms-2 small media-size">
-                      (Upload up to 5 Certifications JPG)
-                    </span>
-                  </label>
+              <div className="custom-file-input-wrapper">
+                <input
+                  className="custom-file-hidden"
+                  type="file"
+                  id="video-upload"
+                  name="video_link"
+                  accept="video/mp4"
+                  onChange={handleFileChange}
+                />
+                <label htmlFor="video-upload" className="custom-file-btn">
+                  Choose file
+                </label>
+                <span className="custom-file-placeholder">
+                  {formData.video_link ? formData.video_link.name : "No file chosen"}
+                </span>
+              </div>
+            </div>
+            <div>
+              <label className="form-label fw-semibold d-block">
+                Upload Credentials / Certifications
+                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>}
+                <span className="text-muted ms-2 small media-size">
+                  (Upload up to 5 Certifications JPG)
+                </span>
+              </label>
 
-                  <div className="custom-file-input-wrapper">
+              <div className="custom-file-input-wrapper">
 
-                    <input
-                      name="upload_credentials"
-                      type="file"
-                      id="cert-upload"
-                      accept=".jpg,.jpeg"
-                      className="custom-file-hidden"
-                      multiple                     // ✅ Allow multiple
-                      onChange={handleMultipleFiles}
-                    />
-                    <label htmlFor="cert-upload" className="custom-file-btn">
-                      Choose file
-                    </label>
-                    <span className="custom-file-placeholder"> {certificates.length > 0 ? `${certificates.length} files selected` : 'No file chosen'}</span>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="mb-4">
-                  <label className="form-label fw-semibold d-block">
-                    Upload Your Coach Introduction Video
-                    <span className="ms-2 media-size">
-                      Max 2min, MP4, under 100 MB
-                    </span>
-                  </label>
-                  <small className="d-block mb-2 media-size">
-                    Showcase your personality, approach and services in a short
-                    video to build trust with potential clients
-                  </small>
-
-                  <div className="custom-file-input-wrapper">
-                    <input
-                      type="file"
-                      className="custom-file-hidden"
-                      id="video-upload"
-                    />
-                    <label htmlFor="video-upload" className="custom-file-btn">
-                      Choose file
-                    </label>
-                    <span className="custom-file-placeholder">No file chosen</span>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="form-label fw-semibold d-block">
-                    Upload Credentials / Certifications
-                    <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>
-                    <span className="text-muted ms-2 small media-size">
-                      (Upload up to 5 Certifications JPG)
-                    </span>
-                  </label>
-
-                  <div className="custom-file-input-wrapper">
-                    <input
-                      name="upload_credentials"
-                      type="file"
-                      id="cert-upload"
-                      accept=".jpg,.jpeg"
-                      className="custom-file-hidden"
-                      multiple                     // ✅ Allow multiple
-                      onChange={handleMultipleFiles}
-                    />
-                    <label htmlFor="cert-upload" className="custom-file-btn">
-                      Choose files
-                    </label>
-                    <span className="custom-file-placeholder">
-                      {certificates.length > 0 ? `${certificates.length} files selected` : 'No file chosen'}
-                    </span>
-                  </div>
-                </div>
-
-              </>
-            )}
-
+                <input
+                  disabled={!isProUser}
+                  name="upload_credentials"
+                  type="file"
+                  id="cert-upload"
+                  accept=".jpg,.jpeg"
+                  className="custom-file-hidden"
+                  multiple                     // ✅ Allow multiple
+                  onChange={handleMultipleFiles}
+                />
+                <label htmlFor="cert-upload" className="custom-file-btn">
+                  Choose file
+                </label>
+                <span className="custom-file-placeholder"> {certificates.length > 0 ? `${certificates.length} files selected` : 'No file chosen'}</span>
+              </div>
+            </div>
           </div>
         </div>
 
