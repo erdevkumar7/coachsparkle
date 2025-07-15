@@ -10,17 +10,11 @@ import {
 import Cookies from "js-cookie";
 import BookingWindowPicker from "./BookingWindow";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import BookingAvailabilityPicker from "./BookingAvailability";
+import { PreviewPackage } from "./PreviewPackage";
 
 export default function CoachServicePackageForm({ isProUser }) {
-
-  const [mediaFile, setMediaFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
   //all deleveryModes
@@ -80,7 +74,9 @@ export default function CoachServicePackageForm({ isProUser }) {
     try {
       const delRes = await getDeliveryMode();
       if (delRes) {
-        setDeliveryModes(delRes);
+        // ✅ Ensure deliveryModes is an array
+        setDeliveryModes(Array.isArray(delRes) ? delRes : []);
+        // setDeliveryModes(delRes);
       }
     } catch (error) {
       console.error("Failed to fetch categories", error);
@@ -192,7 +188,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     value={formData.title}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""}`}
                   />
                 </div>
                 <div className="form-group">
@@ -208,7 +204,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     onChange={handleChange}
                     value={formData.short_description}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""}`}
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -219,7 +215,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     value={formData.coaching_category}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""}`}
                   >
                     <option value="">Select Category</option>
                     {categories.map((cat) => (
@@ -292,7 +288,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     onChange={handleChange}
                     placeholder="e.g., Confidence, Goal clarity, Custom action plan"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""}`}
                   />
                 </div>
                 <div className="form-group">
@@ -303,7 +299,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     value={formData.age_group}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : "" }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""}`}
                     placeholder="e.g., Best for first-timers and those preparing for key life or career transitions."
                   >
                     <option value="">Select </option>
@@ -318,7 +314,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                 <div className="delivery-row">
                   <label htmlFor="delivery_mode" className="form-label"> Delivery Mode</label>
                   <div className="delivery-checkboxes">
-                    {deliveryModes.map((mode) => (
+                    {Array.isArray(deliveryModes) && deliveryModes.map((mode) => (
                       <label key={mode.id} className="delivery-option">
                         <input
                           type="checkbox"
@@ -337,7 +333,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     rows={3}
                     placeholder="Enter details of delivery mode such as  Zoom, Google Meet or venue"
                     disabled={!isProUser}
-                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : "" }`}
+                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : ""}`}
                   />
                 </div>
                 <div className="coach-session-count gap-4">
@@ -800,55 +796,7 @@ export default function CoachServicePackageForm({ isProUser }) {
               </div>
               <div className="card preview-section">
                 <h4 className="quick-text">Preview</h4>
-                <div className="session-card">
-                  <img
-                    src="/coachsparkle/images/service-package1.png"
-                    alt="Team Image"
-                    className="top-image"
-                  />
-                  <div className="session-preview-content">
-                    <h2>Confidence Jumpstart Session</h2>
-                    <div className="icons-row">
-                      <PersonalVideoIcon /> Online
-                      <PersonOutlineOutlinedIcon /> 1-on-1 coaching
-                      <CalendarMonthOutlinedIcon /> Jun - Aug 2025
-                    </div>
-                    <div className="icons-row">
-                      <ForumOutlinedIcon /> 4 Sessions
-                      <i
-                        className="bi bi-clock-history"
-                        style={{ transform: "scaleX(-1)" }}
-                      ></i>{" "}
-                      60 Min/Session
-                    </div>
-                    <div className="icons-row">
-                      <GpsFixedIcon /> Confidence, Goal clarity, Custom action
-                      plan
-                    </div>
-                    <p className="session-description">
-                      A one-time deep-dive session to assess your confidence
-                      blocks, set clear goals, and walk away with a custom
-                      action plan.
-                    </p>
-                    <div className="price">$290 / Package</div>
-                    <div className="d-flex justify-content-center">
-                      <button className="cursor-pointer">
-                        View Details and Book Now
-                      </button>
-                    </div>
-                    <div className="d-flex justify-content-start gap-2 mt-4">
-                      <i
-                        className="bi bi-fire"
-                        style={{ transform: "scaleX(-1)" }}
-                      ></i>
-                      Only 4 slots left!
-                    </div>
-                    <div className="mt-3">
-                      Best for first timers and those preparing for key life or
-                      career transition
-                    </div>
-                  </div>
-                </div>
+                <PreviewPackage />
               </div>
             </div>
           </div>
