@@ -29,14 +29,7 @@ export default function CoachUpdateForm({
   const [cities, setCities] = useState([]);
   const [coachSubTypes, setSubCoachTypes] = useState([]);
   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
-  const [servicekeyword, setServiceKeyword] = useState("");
-  const [servicekeywords, setServiceKeywords] = useState([
-    "Software",
-    "Research",
-    "Survey",
-    "UX Strategy",
-    "C#",
-  ]);
+
   const [certificates, setCertificates] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -255,23 +248,23 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>First Name*</label>
                 <input
+                  required
                   type="text"
                   name="first_name"
                   placeholder="Emma"
                   value={formData.first_name}
                   onChange={handleChange}
-                  required
                 />
               </div>
               <div className="form-group">
                 <label>Last Name*</label>
                 <input
+                  required
                   type="text"
                   name="last_name"
                   placeholder="Rose"
                   value={formData.last_name}
                   onChange={handleChange}
-                  required
                 />
               </div>
             </div>
@@ -280,16 +273,17 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Email*</label>
                 <input
+                  required
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
                 />
               </div>
               <div className="form-group">
                 <label>Country</label>
                 <select
+                  required
                   name="country_id"
                   value={formData.country_id}
                   onChange={handleChange}
@@ -343,6 +337,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Main Coaching Category</label>
                 <select
+                  required
                   name="coach_type"
                   value={formData.coach_type}
                   onChange={handleChange}
@@ -358,6 +353,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Sub Coaching Category</label>
                 <select
+                  required
                   name="coach_subtype"
                   value={formData.coach_subtype}
                   onChange={handleChange}
@@ -373,6 +369,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Gender*</label>
                 <select
+                  required
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
@@ -389,6 +386,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Professional Title</label>
                 <input
+                  required
                   type="text"
                   name="professional_title"
                   value={formData.professional_title}
@@ -398,6 +396,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Company Name</label>
                 <input
+                  required
                   type="text"
                   name="company_name"
                   value={formData.company_name}
@@ -407,6 +406,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label htmlFor="experience">Years of Experience</label>
                 <input
+                  required
                   type="number"
                   min={0}
                   max={100}
@@ -418,6 +418,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Delivery Mode</label>
                 <select
+                  required
                   name="delivery_mode"
                   value={formData.delivery_mode}
                   onChange={handleChange}
@@ -436,6 +437,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Price Range</label>
                 <input
+                  required
                   type="text"
                   name="price_range"
                   value={formData.price_range}
@@ -446,6 +448,7 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Target Audience / Age Group</label>
                 <select
+                  required
                   type="text"
                   name="age_group"
                   value={formData.age_group}
@@ -461,17 +464,6 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group language-input-add">
                 <label>Language</label>
-                {/* <MultipleSelectChip
-                  value={formData.language_names}
-                  onChange={(selectedIds) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      language_names: selectedIds, 
-                    }))
-                  }
-                  options={allLanguages}
-                /> */}
-
                 <MultipleSelectCheckmarks
                   value={formData.language_names}
                   onChange={(selectedIds) =>
@@ -514,7 +506,8 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Average Charge/Hour</label>
                 <input
-                  type="text"
+                  required
+                  type="number"
                   name="price"
                   value={formData.price}
                   onChange={handleChange}
@@ -527,6 +520,7 @@ export default function CoachUpdateForm({
                 clients understand who you are and how you can help.
               </label>
               <textarea
+                required
                 className="bio-textarea"
                 name="detailed_bio"
                 rows="10"
@@ -550,6 +544,7 @@ export default function CoachUpdateForm({
                 expertise, and results you've helped others achieve.
               </label>
               <textarea
+                required
                 className="bio-textarea"
                 name="exp_and_achievement"
                 rows="10"
