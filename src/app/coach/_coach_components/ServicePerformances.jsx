@@ -243,7 +243,7 @@ export default function ServicePerformancess() {
                 padding: "20px 16px",
               }}
             >
-              Upgrade & Unlock Now <i class="bi bi-arrow-right"></i>
+              Upgrade & Unlock Now <i className="bi bi-arrow-right"></i>
             </a>
           </div>
         </div>
