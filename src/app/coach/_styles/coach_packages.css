@@ -36,10 +36,9 @@
 }
 
 .session-card {
-    overflow: hidden;
+    /* overflow: hidden; */
     max-width: 450px;
     flex: 450;
-    height: 80vh;
     position: relative;
 }
 
@@ -49,12 +48,27 @@
     display: block;
     object-fit: cover;
 }
-
-.session-content {
-    padding: 20px;
-    background-color: #F4F4F4;
-    border-top: 10px solid #E7E6E6;
+.profile-form .form-group input, .form-group select, .form-group textarea {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 16px;
+    height: 48px;
+    padding: 8px;
+    font-size: 14px;
+    color: #696974;
 }
+.session-content {
+    background-color: #f4f4f4;
+    border-top: 10px solid #e7e6e6;
+    height: 401px;
+    margin-bottom: 40px;
+    padding: 12px;
+}
+.icons-row.strength-value {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
 
 .session-content h2 {
     font-size: 20px;
@@ -62,20 +76,29 @@
 }
 
 .icons-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    font-size: 14px;
     color: #555;
-    margin-bottom: 10px;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    display: flex;
 }
 
+.icons-row.first-online-add {
+    height: 80px;
+}
+
+
 .session-description {
-    font-size: 14px;
     color: #444;
     margin-bottom: 15px;
-    height: 13vh;
+    font-size: 14px;
+    height: 55px;
+}
+.btn-action-add {
+    display: flex;
+        gap: 5px;
 }
 
 .circular-progress-bar{
@@ -90,12 +113,40 @@
     margin-bottom: 10px;
     text-align: center;
 }
+.profile-form input::placeholder {
+    color: #696974 !important;
+}
 
-
-.action-btn button{
+.profile-form .form-group input, .form-group select, .form-group textarea::placeholder {
+    color: #696974 !important;
+}
+select#coaching_category {
+    border: 0px;
+}
+select#age_group {
     border: none;
-    background-color: #F4F4F4;
+}
+.form-group.col-md-4.number-of-session-input select.form-control {
+    border: none;
+}
+.form-group.col-md-4.duration-per-session-input select.form-control {
+    border: none;
+}
+.form-group.col-md-4.currency-input select#currency {
+    border: none;
+}
+select#price_model {
+    border: none;
+}
+select#cancellation_policy {
+    border: none;
+}
+.action-btn button {
     color: #009BFA;
+    background-color: #f4f4f4;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .status {
@@ -162,12 +213,10 @@
 .profile-form .form-section{
     max-width: 55%;
 }
-
-.profile-form .preview-section{
+.profile-form .preview-section {
     max-width: 55%;
-    height: 135vh;
+    height: 800px;
 }
-
 .profile-form .preview-section button{
     background-color: #009BFA;
     color: white;

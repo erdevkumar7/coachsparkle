@@ -233,15 +233,29 @@ button.save-btn-add {
 .service-section{
     margin-top: 30px;
 }
-
-.service-section span{
-    font-size: 10px;
-    margin-top: 0px;
+.service-section span {
+  margin-top: 0;
+  font-size: 13px;
 }
-
+.css-4ixd0h-MuiFormControl-root {
+    margin: 8px;
+    width: 100% !important;
+}
 .service-section small{
   font-size: 12px;
   margin-left: 5px;
+}
+.keywords-input .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
+  height: auto;
+}
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
+  background: #fff;
+  border-radius: 12px;
+  height: 44px;
+  padding: 0 14px;
+  font-size: 14px;
+  border: none !important;
+  padding-left: 2px;
 }
 
 .keyword-wrapper {
