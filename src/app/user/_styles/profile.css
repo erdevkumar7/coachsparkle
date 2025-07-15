@@ -17,14 +17,14 @@
     padding-bottom: 15px;
 }
 
-.upload-btn label {
+/* .upload-btn label {
     border: solid 1px #009BFA;
     font-family: 'Inter';
     color: #009BFA;
     border-radius: 12px;
     text-decoration: none;
     padding: 12px 25px;
-}
+} */
 
 .upload-btn a {
     border: solid 1px #009BFA;
@@ -50,7 +50,7 @@
 
 
 .profile-form .form-row {
-    display: flex;
+    display: block;
     flex-wrap: wrap;
     gap: 20px;
 }
