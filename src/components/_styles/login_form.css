@@ -6,14 +6,13 @@
 .login-right-side .login-container h2 {
   font-size: 26px;
   font-weight: 600;
-  margin-bottom: 20px;
   color: #1a1a1a;
   font-family: "Inter";
 }
 
 .login-right-side .login-container .tabs {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   font-family: "Inter";
   font-size: 20px;
 }
@@ -53,7 +52,7 @@
 
 .login-right-side .login-container .login-form label {
   font-size: 16px;
-  margin: 10px 0 5px;
+  margin: 5px 0 5px;
   color: #000000;
   font-family: "Inter";
   font-weight: 500;
@@ -99,7 +98,7 @@
 
 .login-right-side .login-container .divider {
   text-align: center;
-  margin: 10px 0;
+  margin: 5px 0;
   position: relative;
 }
 
@@ -164,7 +163,7 @@
 }
 
 .row.signup-page-top.login-content-add {
-  height: 700px;
+  height: 550px;
 }
 
 .login-right-side .login-container .signup-text a {
@@ -222,7 +221,7 @@
   .signup-right-side .card {
     width: 100%;
     transition: border-color 0.3s;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
 
   .row.signup-page-top {
@@ -290,7 +289,7 @@
   }
 
   .signup-user h2 {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-size: 26px;
   }
 
@@ -314,7 +313,7 @@
     text-align: center;
     margin: auto;
     margin-top: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
 
 }
