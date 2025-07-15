@@ -84,9 +84,11 @@ const BookingPackage = () => {
                 fulfilling careers. My goal is to empower lasting change with
                 empathy, mindfulness, and accountability.
               </p>
+             <div className="manage-btn-add">
               <button className="btn mb-4 msg-btn">
                 Message Coach <i className="bi bi-arrow-right"></i>
               </button>
+              </div>
             </div>
 
             <div className="swiper-wrapper-container position-relative">
