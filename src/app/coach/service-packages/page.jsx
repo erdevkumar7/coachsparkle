@@ -54,6 +54,7 @@ export default function CoachServicePackages() {
                       .slice(0, 3)
                       .map((pkg, index) => (
                         <ViewServicePackage key={index} pkg={pkg} />
+
                       ))}
                 </div>
               </div>
