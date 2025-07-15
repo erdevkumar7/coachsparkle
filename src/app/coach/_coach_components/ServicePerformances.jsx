@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ServicePerformancess() {
   const { user } = useUser();
-  let isProUser = user.subscription_plan.plan_name == 'Basic' ? true : false;
+  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
