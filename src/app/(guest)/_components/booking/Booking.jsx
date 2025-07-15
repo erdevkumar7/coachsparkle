@@ -134,24 +134,21 @@ export default function Booking() {
                         </button>
                         <button
                           className="btn btn-primary btn-sm confirm-btn flex-fill"
-                          //onClick={() => setShowConfirmation(true)}
+                          onClick={() => setShowConfirmation(true)}
                         >
                           Confirm
                         </button>
-                        {/* {showConfirmation && (
+                        {showConfirmation && (
                           <>
                             <div className="modal d-block booking-confirm-modal">
                               <div className="modal-dialog modal-lg modal-dialog-centered">
                                 <div className="modal-content rounded-4 overflow-hidden">
-                                  <div className="modal-header bg-primary text-white flex-column align-items-start">
+                                  <div className="modal-header text-white flex-column align-items-start">
                                     <div className="d-flex align-items-center mb-2">
-                                      <span className="me-2 fs-4">✅</span>
                                       <h5 className="modal-title mb-0">
-                                        Booking Confirmed
+                                      <span className="me-2 fs-4">✅</span>
+                                        Booking Confirmed Breakthrough Package with Sarah Lee
                                       </h5>
-                                    </div>
-                                    <div className="fw-semibold">
-                                      Breakthrough Package with Sarah Lee
                                     </div>
                                   </div>
 
@@ -206,7 +203,7 @@ export default function Booking() {
                                       Please join your sessions at the scheduled
                                       time using the link below:
                                       <br />
-                                      <a href="#">[Join Zoom Meeting]</a>
+                                      <a href="#" className="link">Join Zoom Meeting</a>
                                       <br />
                                       (The same link will remain for all
                                       sessions unless otherwise updated by your
@@ -218,14 +215,14 @@ export default function Booking() {
                                     </h6>
                                     <ul className="small">
                                       <li>
-                                        ✔ Personalized coaching worksheets
+                                        Personalized coaching worksheets
                                       </li>
                                       <li>
-                                        ✔ Voice note support between sessions
+                                        Voice note support between sessions
                                         (Mon–Fri)
                                       </li>
                                       <li>
-                                        ✔ One free reschedule per session
+                                        One free reschedule per session
                                         (24-hour notice required)
                                       </li>
                                     </ul>
@@ -239,19 +236,19 @@ export default function Booking() {
                                     </p>
                                   </div>
 
-                                  <div className="modal-footer justify-content-between">
-                                    <button className="btn btn-outline-primary">
-                                      Message Sarah
+                                  <div className="modal-footer justify-content-start gap-3">
+                                    <button className="btn msg-btn">
+                                      Message Sarah <i className="bi bi-arrow-right"></i>
                                     </button>
                                     <button className="btn btn-primary">
-                                      View Bookings
+                                      View Bookings <i className="bi bi-arrow-right"></i>
                                     </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </>
-                        )} */}
+                        )}
                       </div>
                     ) : (
                       <button
