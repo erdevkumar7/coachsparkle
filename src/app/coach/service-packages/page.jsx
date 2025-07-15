@@ -43,7 +43,7 @@ export default function CoachServicePackages() {
           <CircularProgress />
         </div>
       ) : (
-        <div className="content-wrapper-pkg">
+        <div className="content-wrapper">
           {isProUser ? (
             <>
               <div className="card p-3">
@@ -54,6 +54,7 @@ export default function CoachServicePackages() {
                       .slice(0, 3)
                       .map((pkg, index) => (
                         <ViewServicePackage key={index} pkg={pkg} />
+
                       ))}
                 </div>
               </div>

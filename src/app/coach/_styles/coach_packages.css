@@ -1,14 +1,14 @@
-.content-wrapper-pkg {
+.content-wrapper {
     padding: 0px 20px 0px 38px;
 }
 
-.content-wrapper-pkg .card {
+.content-wrapper .card {
        border: 1px solid #d7d7d7;
     border-radius: 12px;
     padding: 20px !important;
 }
 
-.content-wrapper-pkg h3{
+.content-wrapper h3{
     font-size: 24px;
     font-weight: 500;
 }
