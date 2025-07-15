@@ -37,7 +37,7 @@ export default function ViewServicePackage({ pkg }) {
             <GpsFixedIcon /> {pkg?.focus}
           </div>
           <p className="session-description">{pkg?.short_description}</p>
-          <div className="price">
+          <div className="pkg-price">
             ${pkg?.price} / {pkg?.price_model?.name}
           </div>
           <div className="d-flex justify-content-between action-btn">
