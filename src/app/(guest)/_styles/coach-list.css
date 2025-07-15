@@ -9,7 +9,9 @@
     font-weight: 700;
     font-family: "Inter";
 }
-
+div#loginModal .modal-dialog.modal-dialog-centered.modal-lg {
+    top: 90px;
+}
 .title-banner p {
     color: #ffffff;
 }

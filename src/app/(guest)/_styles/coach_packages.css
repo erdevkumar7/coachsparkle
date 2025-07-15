@@ -9,7 +9,9 @@
   border-radius: 40px;
   object-fit: cover;
 }
-
+.modal.d-block.booking-confirm-modal .modal-dialog.modal-lg.modal-dialog-centered {
+  top: 100px;
+}
 .service-page {
   padding-bottom: 40px;
   max-width: 640px;
@@ -342,12 +344,12 @@
 
 
 .booking-confirm-modal .modal-body {
-  padding: 2rem;
-  font-size: 0.95rem;
   color: #333;
   text-align: left;
+  padding: 2rem;
+  font-size: .95rem;
+  overflow-y: scroll;
 }
-
 
 .booking-confirm-modal h6 {
   font-size: 1rem;

@@ -11322,7 +11322,12 @@ progress {
   width: 40%;
   font-size: 14px;
 }
-
+.preview-section .session-preview-content .price {
+    color: #1A1A1A;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 8px;
+}
 .text-black.rounded-2.px-2.py-1.d-inline-flex.align-items-center.justify-content-between.gap-1.w-100 img {
   height: 10px;
   width: 40px;
