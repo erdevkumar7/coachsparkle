@@ -1,14 +1,14 @@
-.content-wrapper {
+.content-wrapper-pkg {
     padding: 0px 20px 0px 38px;
 }
 
-.content-wrapper .card {
+.content-wrapper-pkg .card {
        border: 1px solid #d7d7d7;
     border-radius: 12px;
     padding: 20px !important;
 }
 
-.content-wrapper h3{
+.content-wrapper-pkg h3{
     font-size: 24px;
     font-weight: 500;
 }
@@ -107,7 +107,7 @@
     justify-content: center;
 }
 
-.price {
+.pkg-price {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;

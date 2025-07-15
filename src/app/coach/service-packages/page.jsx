@@ -43,7 +43,7 @@ export default function CoachServicePackages() {
           <CircularProgress />
         </div>
       ) : (
-        <div className="content-wrapper">
+        <div className="content-wrapper-pkg">
           {isProUser ? (
             <>
               <div className="card p-3">
