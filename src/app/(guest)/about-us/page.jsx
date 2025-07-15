@@ -56,7 +56,7 @@ export default function AboutUs() {
                                 <p>From session scheduling and smart calendar sync to bundled packages, messaging, and client insights — we give coaches everything they need to manage their practice from one clean dashboard.</p>
                             </div>
 
-                            <div class="col-6 focus-item">
+                            <div className="col-6 focus-item">
                                 <h4>🆓 Freemium Access for All</h4>
                                 <p className='our-para-text'>We make it easy to coach — so you can focus on impact.</p>
 
@@ -76,7 +76,7 @@ export default function AboutUs() {
 
                         <div className="row values-section">
                             <div className="col-6">
-                                <img src="/coachsparkle/images/our-img.png" alt="Our Values Image" class="values-img" />
+                                <img src="/coachsparkle/images/our-img.png" alt="Our Values Image" className="values-img" />
                             </div>
 
                             <div className="col-6 values-text">
@@ -104,7 +104,82 @@ export default function AboutUs() {
 
             </div>
 
+
+            <div className='journey-head-content'>
+                <div className="container content-section text-center">
+
+                    <h2 className="section-title mb-4">The Journey Ahead</h2>
+
+                    <p className="section-description mb-3">
+                        Coach Sparkle is growing — with mobile apps and enterprise integrations coming in the pipeline.
+                        But one thing will always stay the same: Our belief in human-first coaching supported by smart technology.
+                    </p>
+
+                    <p className="section-description mb-4">
+                        Join us as we spark the next wave of personal and professional transformation — one match at a time.
+                    </p>
+
+                    <div className="centered-image">
+                        <video width="100%" height="360" controls autoPlay>
+                            <source src="/coachsparkle/images/Journey-video.mp4" type="video/mp4" />
+                            x
+                        </video>
+                    </div>
+
+                </div>
+
+
+                <div className="container meet-team">
+
+                    <h2 className="section-title text-center mb-4">Meet the Team</h2>
+
+                    <p className="section-description text-center mb-4">
+                        We’re a diverse team of educators, developers, designers, and growth strategists who believe in making coaching more discoverable, inclusive, and impactful.
+                        Some of us were once in our own careers. Some of us still train mentors we aspire to match up. All of us believe in the power of guided growth.
+                    </p>
+
+                    <div className="row">
+                        <div className="col-md-3 col-sm-6 team-member text-center mb-4">
+                            <img src="/coachsparkle/images/meet-team-one.png" alt="Team Member" className="img-fluid mb-3" />
+                            <h4>Archie Barrett</h4>
+                            <h6>Co-Founder</h6>
+                            <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
+                        </div>
+
+                        <div className="col-md-3 col-sm-6 team-member text-center mb-4">
+                            <img src="/coachsparkle/images/meet-team-two.png" alt="Team Member" className="img-fluid mb-3" />
+                            <h4>Archie Barrett</h4>
+                            <h6>Co-Founder</h6>
+                            <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
+                        </div>
+
+                        <div className="col-md-3 col-sm-6 team-member text-center mb-4">
+                            <img src="/coachsparkle/images/meet-team-three.png" alt="Team Member" className="img-fluid mb-3" />
+                            <h4>Archie Barrett</h4>
+                            <h6>Co-Founder</h6>
+                            <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
+                        </div>
+
+                        <div className="col-md-3 col-sm-6 team-member text-center mb-4">
+                            <img src="/coachsparkle/images/meet-team-four.png" alt="Team Member" className="img-fluid mb-3" />
+                            <h4>Archie Barrett</h4>
+                            <h6>Co-Founder</h6>
+                            <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+            </div>
         </div>
+
+
 
     );
 }
