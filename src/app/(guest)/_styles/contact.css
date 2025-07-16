@@ -1,0 +1,148 @@
+.contact-information {
+    padding: 80px 0px;
+}
+
+.contact-information .contact-container {
+    display: flex;
+}
+.row.contact-info {
+    display: flex;
+    width: 50%;
+}
+
+
+.contact-information .contact-info h3 {
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    font-family: inter;
+    font-size: 30px;
+    font-weight: 600;
+}
+.contact-information .contact-info p {
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    font-family: 'Roboto';
+    font-size: 16px;
+}
+.contact-information form {
+    margin-top: 20px;
+}
+
+.contact-information .form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.contact-information input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.contact-information textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.contact-information button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-information button:hover {
+    background-color: #0056b3;
+}
+
+.contact-information .contact-info img {
+    padding-right: 8px;
+}
+.contact-information .contact-info strong {
+    font-family: Roboto;
+    font-size: 18px;
+    line-height: 1.9;
+}
+
+.contact-information .contact-info h3.sena-msg-add img {
+    padding-right: 8px;
+}
+
+form.contact-form-add label {
+    color: #181A20;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: 'Inter';
+}
+
+form.contact-form-add input {
+    border: 1px solid #d7d7d7;
+    border-radius: 60px;
+    outline: none;
+}
+
+form.contact-form-add .form-row div {
+    width: 100%;
+}
+.form-row.subject-input select {
+    border-radius: 50px;
+    background: none;
+    outline: none;
+}
+.form-row.message-input textarea {
+    border-radius: 10px;
+    outline: none;
+}
+.phone-input-group select {
+    color: #9EA0A6;
+}
+form.contact-form-add input::placeholder {
+    color: #9EA0A6;
+}
+form.contact-form-add select::placeholder {
+    color: #9EA0A6;
+}
+form.contact-form-add textarea::placeholder {
+    color: #9EA0A6;
+}
+form.contact-form-add button.send-message-btn-add {
+    background-color: #009BFA;
+    width: 100%;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter';
+}
+
+.contact-map {
+    width: 50%;
+    padding-left: 80px;
+}
+
+.contact-information  h3.sena-msg-add {
+    margin-bottom: 0px;
+    padding-top: 10px;
+}
+
+.phone-input-group select {
+    border: 1px solid #d7d7d7;
+    border-radius: 60px;
+    background: #fff;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+    .contact-container {
+        flex-direction: column;
+    }
+}

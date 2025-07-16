@@ -1,0 +1,111 @@
+.input-with-btn input[type="text"] {
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    outline: none;
+    width: 88%;
+    height: 55px;
+    padding-left: 15px;
+    font-family: 'Inter';
+}
+
+.input-with-btn {
+    gap: 8px;
+    display: flex;
+    width: 100%;
+    margin-top: 45px;
+}
+
+.input-with-btn button {
+    color: #fff;
+    background: #009bfa;
+    border: none;
+    border-radius: 12px;
+    width: 22%;
+    height: 55px;
+    font-family: 'Inter';
+}
+
+.input-with-btn input[type="text"]::placeholder {
+    color: #767E94;
+}
+
+.frequently-add p.looking-coach-text {
+    color: #202020;
+    padding: 30px 0;
+    font-size: 18px;
+}
+
+.frequently-add .accordion-item {
+    border: 1px solid #d9dbe9;
+    margin-bottom: 20px;
+    border-radius: 9px;
+    padding: 5px;
+}
+
+button.accordion-button {
+    box-shadow: none !important;
+    background: none !important;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.frequently-add h4 {
+    color: #009bfa;
+    padding-top: 0;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 5px;
+}
+
+.frequently-add h4 img {
+    padding-right: 5px;
+}
+
+.frequently-add .accordion-button:not(.collapsed) {
+    background: #91d5ff;
+}
+
+.accordion-text-top {
+    padding-top: 30px;
+}
+
+.frequently-add .accordion-button::after {
+    background-image: none !important;
+    content: '\F285'; /* Right Arrow */
+    font-family: 'bootstrap-icons';
+    background-color: #f2f2f2;
+    color: #6c757d;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    transition: all 0.3s ease;
+}
+
+.frequently-add .accordion-button:not(.collapsed)::after {
+    content: '\F286'; /* Down Arrow */
+    color: #fff;
+    background-color: #009bfa;
+}
+.frequently-add .accordion-button:not(.collapsed) {
+    color: #000;
+}
+
+p.still-below-text {
+    color: #000;
+    font-weight: 500;
+    font-size: 18px;
+    padding: 20px 0px;
+}
+p.still-below-text a {
+    color: #009BFA;
+}
+
+
+

@@ -1,5 +1,7 @@
 import { FRONTEND_BASE_URL} from "@/utiles/config";
 
+
+
 export default function Footer() {
     return (
         <>
@@ -7,7 +9,7 @@ export default function Footer() {
                 <div className="container">
                     <div className="row coach-footer-inner">
                         <div className="col-md-3 coach-footer-one">
-                            <img src={`${FRONTEND_BASE_URL}/images/signup-logo.png`} alt="Logo" />
+                            <img src={`${FRONTEND_BASE_URL}/images/signup-logo.png`} alt="Logo" style={{width:'50%',marginTop:'-25px' }} />
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
                         </div>
 
