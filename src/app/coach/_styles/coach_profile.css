@@ -265,6 +265,10 @@ button.save-btn-add {
     height: 44px !important;
 }
 
+.d-flex.align-items-center.gap-2.mb-3.keywords-input .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-iz33ar {
+    height: auto !important;
+}
+
 .keyword-wrapper {
   max-width: 500px;
 }
