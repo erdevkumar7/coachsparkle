@@ -1,8 +1,3 @@
-.nav-bar {
-  border-bottom: 1px solid #e1e1e1;
-  background-color: #fff;
-}
-
 .coach-avatar {
   width: 80px;
   height: 90px;
@@ -376,6 +371,7 @@
   font-weight: 600;
   border: none;
 }
+
 
 .booking-confirm-modal {
   background-color: rgba(0, 0, 0, 0.5);
