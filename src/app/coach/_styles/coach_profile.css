@@ -248,14 +248,21 @@ button.save-btn-add {
 .keywords-input .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
   height: auto;
 }
-.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
-  background: #fff;
-  border-radius: 12px;
-  height: 44px;
-  padding: 0 14px;
-  font-size: 14px;
-  border: none !important;
-  padding-left: 2px;
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-iz33ar {
+    background: #fff !important;
+    border-radius: 12px !important;
+    height: 44px !important;
+    padding: 0 14px 0 2px !important;
+    font-size: 14px !important;
+    border: none !important;
+}
+
+.MuiFormControl-root.css-10phmba {
+    width: 100% !important;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-iz33ar {
+    height: auto !important;
 }
 
 .keyword-wrapper {
