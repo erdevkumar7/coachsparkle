@@ -189,12 +189,12 @@ select#cancellation_policy {
   padding: 5px 40px 5px 40px;
 }
 
-/* .profile-form{
+.profile-form{
     display: flex;
     gap: 30px;
     width: 95%;
     margin-top: 25px;
-} */
+}
 
 .profile-form-add .card {
     border: 1px solid #d7d7d7;
