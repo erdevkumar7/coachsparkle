@@ -87,7 +87,7 @@ export default function UserMessage() {
 
   return (
     <div className="main-panel">
-      <div className="content-wrapper">
+      <div className="content-panel">
         <ChatPanel
           coaches={coaches}
           initialMessages={initialMessages}

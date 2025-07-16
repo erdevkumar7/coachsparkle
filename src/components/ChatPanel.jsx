@@ -15,7 +15,7 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
       };
       setMessages((prev) => [...prev, msg]);
       setNewMessage("");
-      onSendMessage?.(msg); // optional external handler
+      onSendMessage?.(msg);
     }
   };
 
@@ -24,9 +24,9 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
       <div className="row">
         <div className="col-md-12 left-col-add">
           <div className="card" id="chat3">
+            <h5>Messages</h5>
             <div className="card-body">
               <div className="row both-chat-start">
-                {/* Sidebar */}
                 <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 left-side-message">
                   <div className="p-1">
                     <div className="input-group rounded mb-3">
@@ -69,7 +69,6 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
                   </div>
                 </div>
 
-                {/* Chat Window */}
                 <div className="col-md-6 col-lg-7 col-xl-8 right-side-message">
                   <div className="chat-show-right-side">
                     <div className="start-chat-with-coach">
