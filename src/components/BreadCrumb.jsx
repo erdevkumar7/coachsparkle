@@ -8,17 +8,30 @@ const BreadCrumb = ({ items }) => {
       <HomeOutlinedIcon style={{ fontSize: 20 }} />
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
+        const classNames = `breadcrumb-link ${isLast ? "active" : ""}`;
 
         return (
           <span className="d-flex align-items-center" key={index}>
             <span className="mx-2 fw-bold">{">"}</span>
-            <Link
-              href={item.href}
-              className={`breadcrumb-link ${isLast ? "active" : ""}`}
-              aria-current={isLast ? "page" : undefined}
-            >
-              {item.label}
-            </Link>
+
+            {item.onClick ? (
+              <button
+                type="button"
+                onClick={item.onClick}
+                className={classNames + " btn btn-link p-0 border-0 text-decoration-none"}
+                aria-current={isLast ? "page" : undefined}
+              >
+                {item.label}
+              </button>
+            ) : (
+              <Link
+                href={item.href || "#"}
+                className={classNames}
+                aria-current={isLast ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            )}
           </span>
         );
       })}

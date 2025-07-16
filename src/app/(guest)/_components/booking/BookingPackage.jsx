@@ -14,6 +14,7 @@ import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import Booking from "./Booking";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const packages = [
   {
@@ -60,8 +61,22 @@ const BookingPackage = () => {
     setShowBooking(false);
   };
 
+  const breadcrumbItems = [
+    { label: "Explore Coaches", href: "/coach-detail/list" },
+    { label: "Sarah Lee", href: "#" },
+    {
+      label: "Services",
+      onClick: () => setShowBooking(false),
+    },
+  ];
+
+  if (showBooking) {
+    breadcrumbItems.push({ label: "Booking", href: "#" });
+  }
+
   return (
     <>
+      <BreadCrumb items={breadcrumbItems} />
       {showBooking ? (
         <>
           <div>
@@ -84,10 +99,10 @@ const BookingPackage = () => {
                 fulfilling careers. My goal is to empower lasting change with
                 empathy, mindfulness, and accountability.
               </p>
-             <div className="manage-btn-add">
-              <button className="btn mb-4 msg-btn">
-                Message Coach <i className="bi bi-arrow-right"></i>
-              </button>
+              <div className="manage-btn-add">
+                <button className="btn mb-4 msg-btn">
+                  Message Coach <i className="bi bi-arrow-right"></i>
+                </button>
               </div>
             </div>
 
