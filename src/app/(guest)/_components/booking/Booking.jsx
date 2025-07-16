@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Calendar from "@/components/Calendar";
+import { useRouter } from "next/navigation";
 
 const mockSlots = {
   "2025-07-20": [
@@ -28,6 +29,8 @@ export default function Booking() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [timeSlots, setTimeSlots] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const router = useRouter();
+
 
   useEffect(() => {
     const key = selectedDate.toLocaleDateString("en-CA");
@@ -237,7 +240,13 @@ export default function Booking() {
                                   </div>
 
                                   <div className="modal-footer justify-content-start gap-3">
-                                    <button className="btn msg-btn">
+                                    <button
+                                      className="btn msg-btn"
+                                      onClick={() => {
+                                        setShowConfirmation(false);
+                                        router.push("/send-message")
+                                      }}
+                                    >
                                       Message Sarah <i className="bi bi-arrow-right"></i>
                                     </button>
                                     <button className="btn btn-primary">
