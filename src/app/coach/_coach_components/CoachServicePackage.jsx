@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import {
   getAgeGroup,
   getAllCoachingCategory,
@@ -14,7 +15,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import BookingAvailabilityPicker from "./BookingAvailability";
 import { PreviewPackage } from "./PreviewPackage";
 
-export default function CoachServicePackageForm({ isProUser }) {
+export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
+
   const [categories, setCategories] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
   //all deleveryModes
@@ -27,7 +29,7 @@ export default function CoachServicePackageForm({ isProUser }) {
   //checked DeleviryMode
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(null);
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     title: "",
     short_description: "",
     coaching_category: "",
@@ -46,7 +48,10 @@ export default function CoachServicePackageForm({ isProUser }) {
     cancellation_policy: "",
     rescheduling_policy: "",
     booking_availability: "",
-  });
+    media_file: null,
+  }
+
+  const [formData, setFormData] = useState(initialFormData);
 
   useEffect(() => {
     fetchData();
@@ -100,21 +105,24 @@ export default function CoachServicePackageForm({ isProUser }) {
   };
 
   const handleChange = async (e) => {
-    const { name, value, files, type } = e.target;
-
-    const finalValue = type === "file" ? files[0] : value;
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: finalValue,
+      [name]: value,
     }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prev) => ({ ...prev, media_file: file }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const clickedButton = e.nativeEvent.submitter?.value || 'draft'; // fallback to 'draft'
-    const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
+    const package_status = clickedButton === 'publish' ? 1 : 2;
 
     try {
       const token = Cookies.get("token");
@@ -125,6 +133,7 @@ export default function CoachServicePackageForm({ isProUser }) {
       });
 
       form.append('delivery_mode', selectedDeliveryMode);
+      form.append('package_status', package_status);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
@@ -142,10 +151,15 @@ export default function CoachServicePackageForm({ isProUser }) {
 
       if (result.status) {
         if (clickedButton === 'add_package') {
-          router.push('/coach/service-packages');
+          alert('✅ Package Added!');
         } else {
-          alert(profile_status === 'complete' ? '✅ Profile published!' : '✅ Draft saved!');
+          alert(package_status === 1 ? '✅ Package published!' : '✅ Draft saved!');
         }
+
+        // ✅ Notify the parent
+        onPackageAdded?.();  // call only if defined
+        setFormData(initialFormData);
+        setSelectedDeliveryMode('');
       } else {
         alert("❌ " + result.message || "Something went wrong.");
       }
@@ -303,7 +317,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     placeholder="e.g., Best for first-timers and those preparing for key life or career transitions."
                   >
                     <option value="">Select </option>
-                    {ageGroups && ageGroups.map((group) => (
+                    {Array.isArray(ageGroups) && ageGroups.map((group) => (
                       <option key={group.id} value={group.id}>
                         {group.group_name}
                       </option>
@@ -500,7 +514,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                       onChange={handleChange}
                     >
                       <option value="">Select </option>
-                      {getFormats && getFormats.map((fmt) => (
+                      {Array.isArray(getFormats) && getFormats.map((fmt) => (
                         <option key={fmt.id} value={fmt.id}>
                           {fmt.name}
                         </option>
@@ -514,6 +528,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                     <input
                       required
                       type="number"
+                      min={1}
                       id="price"
                       name="price"
                       value={formData.price}
@@ -786,7 +801,7 @@ export default function CoachServicePackageForm({ isProUser }) {
                       id="media_file"
                       name="media_file"
                       accept="image/*"
-                      onChange={handleChange}
+                      onChange={handleFileChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
                         }`}
@@ -796,7 +811,13 @@ export default function CoachServicePackageForm({ isProUser }) {
               </div>
               <div className="card preview-section">
                 <h4 className="quick-text">Preview</h4>
-                <PreviewPackage />
+                <PreviewPackage
+                  pkg={formData}
+                  DeliveryMode={selectedDeliveryMode}
+                  allDelveryMode={deliveryModes}
+                  allPriceModel={getPriceModels}
+                  allSessionFormat={getFormats}
+                />
               </div>
             </div>
           </div>
@@ -804,13 +825,25 @@ export default function CoachServicePackageForm({ isProUser }) {
         <div className="action-button">
           <div className="save-btn gap-3 align-items-center">
             <span className="fw-bold">2/2</span>
-            <button type="submit" className="save-btn-add" disabled={!isProUser}>
+            <button
+              type="submit"
+              className="save-btn-add"
+              value="draft"
+              disabled={!isProUser}>
               Save Draft <i className="bi bi-arrow-right"></i>
             </button>
-            <button type="submit" className="save-btn-add">
+            <button
+              type="submit"
+              className="save-btn-add"
+              value="add_package"
+              disabled={!isProUser}>
               Add Service Package <i className="bi bi-arrow-right"></i>
             </button>
-            <button type="submit" className="save-btn-add">
+            <button
+              type="submit"
+              className="save-btn-add"
+              value="publish"
+              disabled={!isProUser}>
               Publish <i className="bi bi-arrow-right"></i>
             </button>
           </div>
