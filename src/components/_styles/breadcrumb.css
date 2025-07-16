@@ -1,0 +1,11 @@
+.breadcrumb-nav .breadcrumb-link {
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+}
+
+.breadcrumb-nav .breadcrumb-link.active {
+  color: #009BFA;
+  text-decoration: none;
+  font-weight: 500;
+}

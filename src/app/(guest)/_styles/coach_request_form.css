@@ -60,6 +60,12 @@ textarea.form-textarea {
   display: block !important;
 }
 
+.form-checkbox{
+    float: left;
+    margin-left: -1.5em;
+    margin-right: 5px;
+}
+
 .form-input:focus,
 textarea.form-textarea:focus {
   border-color: #009BFA;
@@ -71,9 +77,6 @@ textarea.form-textarea:focus {
   outline: none !important;
 }
 
-.btn-primary {
-  border-radius: 25px;
-}
 
 .bg-light {
   background-color: #f9f9f9 !important;
@@ -152,6 +155,15 @@ textarea.form-textarea:focus {
 
 .submit-btn{
     color: #fff;
+    background-color: #009bfa;
+    border-radius: 12px;
+    padding: 10px 50px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.submit-btn:hover{
+      color: #fff;
     background-color: #009bfa;
     border-radius: 12px;
     padding: 10px 50px;
