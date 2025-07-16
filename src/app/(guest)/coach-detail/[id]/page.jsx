@@ -7,6 +7,7 @@ import SimilarCoaches from "../../../../components/SimilarCoaches";
 import CoachDetailCalendar from "../../_components/CoachDetailCalendar";
 import ViewServicePackage from "@/app/coach/_coach_components/ViewServicePackage";
 import LoginForm from "@/components/LoginForm";
+import BreadCrumb from "@/components/BreadCrumb";
 
 export default async function CoachDetail({ params }) {
   const { id } = await params;
@@ -16,8 +17,17 @@ export default async function CoachDetail({ params }) {
     return <div>Coach not found.</div>;
   }
 
+  const breadcrumbItems = [
+    { label: "Explore Coaches", href: "/coach-detail/list" },
+    {
+      label: `${coach?.first_name} ${coach?.last_name}`,
+      href: `/coach-detail/${id}`,
+    },
+  ];
+
   return (
     <>
+      <BreadCrumb items={breadcrumbItems} />
       <div className="coach-banner-add">
         <div className="coach-profile-list-add">
           <div className="container">
