@@ -210,12 +210,13 @@
 }
 
 .journey-head-content .team-member p {
-    line-height: 1.4;
     color: #1a1a1a;
     width: 100%;
     margin: auto;
     padding-bottom: 15px;
     font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
 }
 
 .journey-head-content .meet-team {
