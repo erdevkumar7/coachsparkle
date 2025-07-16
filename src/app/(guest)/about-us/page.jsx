@@ -156,14 +156,14 @@ export default function AboutUs() {
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
                             <img src="/coachsparkle/images/meet-team-three.png" alt="Team Member" className="img-fluid mb-3" />
                             <h4>Archie Barrett</h4>
-                            <h6>Co-Founder</h6>
+                            <h6>Manager</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
                         </div>
 
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
                             <img src="/coachsparkle/images/meet-team-four.png" alt="Team Member" className="img-fluid mb-3" />
                             <h4>Archie Barrett</h4>
-                            <h6>Co-Founder</h6>
+                            <h6>Manager</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
                         </div>
                     </div>
