@@ -9,3 +9,8 @@
   text-decoration: none;
   font-weight: 500;
 }
+
+nav.d-flex.align-items-center.breadcrumb-nav.mt-4.container svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
+  width: 20px !important;
+  height: 20px !important;
+}

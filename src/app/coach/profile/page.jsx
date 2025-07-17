@@ -22,7 +22,7 @@ export default async function CoachProfile() {
     // console.log('getAllCoachServices', getAllServices)
     return (
         <div className="main-panel">
-            <div className="content-wrapper">
+            <div className="content-wrapper coach-profile-add">
                 <div className="row">
                     <div className="col-md-12 grid-margin">
                         <div className="row">

@@ -42,7 +42,7 @@ export default function CoachDashboard() {
 
   return (
     <div className="main-panel">
-      <div className="content-wrapper coach-wrap">
+      <div className="new-content-wrapper coach-wrap">
         <div className="coach-dashboard-add">
           <div className="header">
             <h1>
