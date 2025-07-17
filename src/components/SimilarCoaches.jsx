@@ -5,227 +5,76 @@ import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 
+export default function SimilarCoaches({ similarCoachData = [] }) {
+  const coachCount = similarCoachData.length;
 
-export default function SimilarCoaches() {
+  // Determine appropriate slide count and loop setting
+  const slidesPerView = coachCount < 3 ? coachCount : 3;
+  const enableLoop = coachCount >= 3;
+
+  if (coachCount === 0) {
+    return <p className="text-center my-4">No similar coaches found.</p>;
+  }
 
   return (
-    <>
-      <Swiper spaceBetween={20}
-        slidesPerView={3}
-        loop={true}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false, // keep autoplay running after user interaction
-        }}
-        navigation={true} // ← enable navigation
-        modules={[Autoplay, Navigation]} // ← include Navigation module
-        breakpoints={{
-          320: {
-            slidesPerView: 2,
-            spaceBetween: 10,
-          },
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 15,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 20,
-          },
-        }}
-      >
-        <SwiperSlide>
+    <Swiper
+      spaceBetween={20}
+      slidesPerView={slidesPerView}
+      loop={enableLoop}
+      autoplay={{
+        delay: 5000,
+        disableOnInteraction: false,
+      }}
+      navigation={coachCount > 1} // Hide arrows if only 1
+      modules={[Autoplay, Navigation]}
+      breakpoints={{
+        320: {
+          slidesPerView: coachCount < 2 ? coachCount : 2,
+          spaceBetween: 10,
+        },
+        768: {
+          slidesPerView: coachCount < 3 ? coachCount : 3,
+          spaceBetween: 15,
+        },
+        1024: {
+          slidesPerView: coachCount < 3 ? coachCount : 3,
+          spaceBetween: 20,
+        },
+      }}
+    >
+      {similarCoachData.map((coach, index) => (
+        <SwiperSlide key={index}>
           <div className="item">
             <div className="coaches-view-cards">
               <div className="card h-100">
-                <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
+                <img
+                  src={coach.profile_image || `/coachsparkle/images/coaches-img-two.png`}
+                  className="card-img-top"
+                  alt="Coach Image"
+                />
                 <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
+                  <h5 className="card-title">
+                    <a href="#">
+                      {coach?.user?.first_name} {coach?.user?.last_name}
+                    </a>
+                  </h5>
+                  <p className="card-text">
+                    {coach?.user?.professional_title || 'Coach'}{" "}
+                    {coach?.user?.company_name ? `at ${coach?.user?.company_name}` : ''}
+                  </p>
                   <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
+                    {(coach.keywords || []).slice(0, 5).map((keyword, i) => (
+                      <a href="#" key={i}>
+                        {keyword}
+                      </a>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className="item">
-            <div className="coaches-view-cards">
-              <div className="card h-100">
-                <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item">
-            <div className="coaches-view-cards">
-              <div className="card h-100">
-                <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item">
-            <div className="coaches-view-cards">
-              <div className="card h-100">
-                <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item">
-            <div className="coaches-view-cards">
-              <div className="card h-100">
-                <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item">
-            <div className="coaches-view-cards">
-              <div className="card h-100">
-                <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="item">
-            <div className="coaches-view-cards">
-              <div className="card h-100">
-                <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-      </Swiper>
-
-
-      {/* <div className="container">
-                  <div className="row view-all-coaches-view">
-                    <div className="col-md-4 col-sm-6 col-md-3 coaches-view-cards">
-                      <div className="card h-100">
-                        <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                        <div className="card-body">
-                          <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                          <p className="card-text">Staff Software Engineer at eBay</p>
-                          <div className="software-engineer-list">
-                            <a href="#">Software</a>
-                            <a href="#">Software</a>
-                            <a href="#">Software</a>
-                            <a href="#">Software</a>
-                            <a href="#">Software</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-        
-                    <div className="col-md-4 col-sm-6 col-md-3 coaches-view-cards">
-                      <div className="card h-100">
-                        <img src={`/coachsparkle/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
-                        <div className="card-body">
-                          <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                          <p className="card-text">Staff Software Engineer at eBay</p>
-                          <div className="software-engineer-list">
-                            <a href="#">Software</a>
-                            <a href="#">Software</a>
-                            <a href="#">Software</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-        
-                    <div className="col-md-4 col-sm-6 col-md-3 coaches-view-cards">
-                      <div className="card h-100">
-                        <img src={`/coachsparkle/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" />
-                        <div className="card-body">
-                          <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                          <p className="card-text">Staff Software Engineer at eBay</p>
-                          <div className="software-engineer-list">
-                            <a href="#">Software</a>
-                            <a href="#">Software</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-    </>
-  )
+      ))}
+    </Swiper>
+  );
 }
