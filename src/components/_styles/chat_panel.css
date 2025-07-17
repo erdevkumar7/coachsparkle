@@ -1,20 +1,80 @@
+.main-panel h3{
+    font-size: 36px;
+    font-weight: 500;
+    margin-left: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.chat-message-start nav{
+    flex-wrap: wrap !important;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+}
+
+.tab {
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: var(--bs-link-color);
+  --bs-nav-link-hover-color: var(--bs-link-hover-color);
+  --bs-nav-link-disabled-color: var(--bs-secondary-color);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-tabs .link-nav {
+  margin-bottom: 0;
+  border: none;
+}
+
+.link-nav{
+    padding: 10px 20px 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1C1C1E;
+    background: none;
+    border: 0;
+    text-decoration: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+    display: block;
+}
+
+.link-nav:active, .active {
+border-radius: 7px 7px 0px 0px;
+    color: #FFFFFF;
+  background-color: #009BFA;
+  border: 1px solid #009BFA;
+}
+
+.card .card-body{
+    padding: 0;
+}
+
+
 .chat-message-start .card{
     background-color: #F4F4F4;
     border: 1px solid #D7D7D7 !important;
     border-radius: 0 12px 12px 12px;
+    padding: 0px 20px 20px 20px;
 }
 
 .chat-message-start h5{
     font-size: 24px;
     margin-top: 40px;
-    margin-left: 22px;
+
 }
 
 .content-panel {
-    background: #f5f7ff;
     flex-grow: 1;
     width: 100%;
-    padding: 1rem;
+    padding: 2rem;
 }
 
 .right-side-message img {
@@ -25,6 +85,10 @@
 .col-xl-8 {
     flex: none;
     width: 63%;
+}
+
+.row{
+    margin-left: 0px !important;
 }
 
 .user-message-add-page h3.messages-tittle {
@@ -49,7 +113,6 @@
     background: #ffffffd9;
     padding: 15px 10px;
     width: 31%;
-    margin-left: 5px;
 }
 .left-side-message input.form-control.rounded {
     background-color: #E9E9E9;
@@ -57,6 +120,19 @@
     border-radius: 50px !important;
     padding: 12px;
 }
+
+.coach-item.active-chat {
+  background-color: #009BFA1A;
+  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
+
+.coach-item {
+  cursor: pointer;
+}
+
 
 .col-md-12.left-col-add {
     padding: 0px;
@@ -90,7 +166,6 @@
 }
 
 .right-side-message img.alert-icon {
-    width: 80px;
     height: auto;
     padding-right: 10px;
 }
@@ -118,7 +193,6 @@
 }
 .row.both-chat-start {
     gap: 32px;
-    padding-left: 10px;
 }
 
 .right-side-message .start-chat-add p {
@@ -179,6 +253,15 @@
     margin-top: 180px;
 }
 
+.right-side-message .text-send-message input{
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-weight: 400;
+    padding-left: 40px;
+    width: 100%;
+    border-radius: 11px;
+}
+
 .right-side-message button.send-message-button {
     background: #009BFA;
     border: none;
@@ -187,4 +270,33 @@
     color: #fff;
     float: right;
     margin-top: 30px;
+}
+
+.custom-btn{
+    color: #fff;
+    float: right;
+    background: #009bfa;
+    border: none;
+    border-radius: 12px;
+    margin-top: 10px;
+    padding: 14px 20px;
+}
+
+.ai-label {
+  color: #ff00b8;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.session-info h6{
+    font-size: 14px;
+    font-weight: 600;
+    color: #1C1C1E;
+}
+
+.session-info img{
+    width: 25px;
+    height: 20px;
+    margin-bottom: 10px;
+    margin-top: -10px;
 }

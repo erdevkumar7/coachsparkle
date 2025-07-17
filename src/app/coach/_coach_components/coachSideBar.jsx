@@ -80,7 +80,7 @@ export default function CoachSideBarComp() {
                     </a>
                 </li>
 
-                <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
+                <li className="nav-item" onClick={() => router.push('/coach/messages')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-chat-dots"></i>
