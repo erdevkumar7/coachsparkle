@@ -15,7 +15,7 @@ export default function CoachServicePackages() {
   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [isProUser, setIsProUser] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -34,7 +34,11 @@ export default function CoachServicePackages() {
     };
 
     fetchPackages();
-  }, []);
+  }, [refreshKey]);
+
+  const handlePackageAdded = () => {
+    setRefreshKey(prev => prev + 1); // triggers useEffect to reload packages
+  };
 
   return (
     <div className="main-panel">
@@ -73,7 +77,10 @@ export default function CoachServicePackages() {
             </>
           )}
 
-          <CoachServicePackageForm isProUser={isProUser} />
+          <CoachServicePackageForm
+            isProUser={isProUser}
+            onPackageAdded={handlePackageAdded}
+          />
         </div>
       )}
     </div>
