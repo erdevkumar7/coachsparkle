@@ -263,7 +263,7 @@ export default function CoachList() {
                         <p className="senior-engineer-text">
                           <i className="bi bi-briefcase"></i>
                           <strong>
-                            {coach.coach_type || "free coaching"}{" "}
+                            {coach.professional_title || "free coaching"}{" "}
                           </strong>
                         </p>
                         <p className="description">
