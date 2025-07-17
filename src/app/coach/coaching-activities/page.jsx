@@ -1,3 +1,4 @@
+"use client";
 import CoachingRequests from "../_coach_components/coachingactivity/CoachingRequests";
 import CoachingProgress from "../_coach_components/coachingactivity/CoachingProgress";
 import CompletedCoaching from "../_coach_components/coachingactivity/CompletedCoaching";
@@ -6,8 +7,10 @@ import "../_styles/coach_coaching_activities.css";
 import Link from "next/link";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import CanceledMissed from "../_coach_components/coachingactivity/CanceledMissed";
+import { useState } from "react";
 
 export default function CoachingActivities() {
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const requests = [
     {
       img: "/coachsparkle/assets/images/glance-img-one.png",
@@ -195,6 +198,7 @@ interview...`,
                   time={coachingRequest.time}
                   note={coachingRequest.note}
                   buttonNote={coachingRequest.buttonNote}
+                  onView={() => setSelectedRequest(coachingRequest)}
                 />
               ))}
             </div>
@@ -289,6 +293,40 @@ interview...`,
           </div>
         </div>
       </div>
+{selectedRequest && (
+  <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+    <div className="modal-dialog modal-dialog-centered" role="document">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">{selectedRequest.heading}</h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setSelectedRequest(null)}
+          ></button>
+        </div>
+        <div className="modal-body">
+          <p><strong>Status:</strong> {selectedRequest.status}</p>
+          <p><strong>Name:</strong> {selectedRequest.name}</p>
+          <p><strong>Location:</strong> {selectedRequest.location}</p>
+          <p><strong>Time:</strong> {selectedRequest.time}</p>
+          <p><strong>Note:</strong> {selectedRequest.note}</p>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setSelectedRequest(null)}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+    <div className="modal-backdrop fade show"></div>
+  </div>
+)}
+
     </div>
   );
 }
