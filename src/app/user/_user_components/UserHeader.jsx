@@ -40,7 +40,8 @@ export default function UserHeader({ user, error, removeToken }) {
 
   return (
     <>
-      <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <nav className="navbar user-add-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div className="container">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a className="navbar-brand" href="#">
             <img
@@ -65,12 +66,12 @@ export default function UserHeader({ user, error, removeToken }) {
             </div>
           </a>
 
-          <button
+          {/* <button
             className="btn btn-link d-none d-lg-block ms-3"
             onClick={toggleSidebar}
           >
             <i className="bi bi-list fs-3"></i>
-          </button>
+          </button> */}
         </div>
 
         <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -210,6 +211,7 @@ export default function UserHeader({ user, error, removeToken }) {
           >
             <i className="bi bi-list fs-2"></i>
           </button>
+        </div>
         </div>
       </nav>
     </>

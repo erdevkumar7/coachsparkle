@@ -13,7 +13,24 @@
     list-style: none;
     display: flex;
 }
+.left-side-message ul.list-unstyled.mb-0::-webkit-scrollbar {
+    width: 0px;
+}
+li.border-bottom.coach-item {
+    margin-bottom: 14px;
+    border: none !important;
+    padding: 5px 8px;
+}
+.left-side-message ul.list-unstyled.mb-0 {
+    height: 600px;
+    overflow-y: scroll;
+    margin-right: -24px;
+    margin-left: -14px;
+}
 
+.both-chat-start a.d-flex.justify-content-between {
+    text-decoration: none;
+}
 .tab {
   --bs-nav-link-padding-x: 1rem;
   --bs-nav-link-padding-y: 0.5rem;

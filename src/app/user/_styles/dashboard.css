@@ -272,14 +272,27 @@ h3.font-weight-bold.quick-text-add {
     font-size: 24px;
     color: #202020;
 }
-
+a.dropdown-item.preview-item {
+    display: flex;
+}
+.preview-icon {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    display: -webkit-flex;
+    display: flex;
+    border-radius: 100%;
+    width: 36px;
+    height: 36px;
+}
 .goals-progress .update-btn {
     color: #fff;
     cursor: pointer;
-    background: #009BFA;
+    background: #009bfa;
     border: none;
     border-radius: 12px;
-    padding: 12px 20px;
+    padding: 12px 15px;
     font-size: 14px;
 }
 
@@ -310,7 +323,6 @@ h3.font-weight-bold.quick-text-add {
     width: 40% !important;
     border-radius: 15px;
 }
-
 .goals-progress .view-btn {
     color: #009bfa;
     cursor: pointer;
@@ -318,10 +330,10 @@ h3.font-weight-bold.quick-text-add {
     background: #fff;
     border: 1px solid #009bfa;
     border-radius: 12px;
+    width: 25%;
     margin-top: 15px;
     padding: 10px 12px;
     font-size: 14px;
-    width: 20%;
 }
 
 .goals-progress .msg-btn {
@@ -500,14 +512,13 @@ p.build-text-add {
 }
 
 .goals-progress .right-column .coaching-card h3.title {
-    font-size: 24px;
     color: #202020;
-    font-weight: 500;
-    font-family: 'Inter';
-    padding: 5px 0;
-    border-bottom: solid 1px #E7E7E7;
+    border-bottom: 1px solid #e7e7e7;
     margin-bottom: 30px;
-    padding-bottom: 15px;
+    padding: 5px 0 15px;
+    font-family: Inter;
+    font-size: 22px;
+    font-weight: 500;
 }
 
 .goals-progress .coach-role strong {

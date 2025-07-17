@@ -30,7 +30,7 @@ export default function CoachHeader() {
 
   return (
     <>
-    <div className="dashboard-header">
+    <div className="top-dashboard-header">
       <div className="container">
       <nav className="navbar col-lg-12 col-12 p-0 d-flex flex-row">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">

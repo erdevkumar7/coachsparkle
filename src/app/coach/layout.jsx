@@ -17,7 +17,7 @@ export default async function CoachLayout({ children }) {
   return (
       <UserProvider initialUser={user}>
       <CoachHeader />
-      <div className="container page-body-wrapper">
+      <div className="container dashboard-wrapper">
         <CoachSideBarComp />
         {children}
       </div>
