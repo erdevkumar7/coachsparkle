@@ -7,8 +7,10 @@ import '../_styles/coach_bookingcalendar.css'
 
 export default function Booking(){
     return(
+        <div className='main-panel'>
         <div className='px-5'>
             <BookingCalendar/>
+        </div>
         </div>
     );
 }

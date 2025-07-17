@@ -2,9 +2,12 @@
 import { useState } from "react";
 import "././_styles/chat_panel.css";
 
-const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
-  const [messages, setMessages] = useState(initialMessages);
+const ChatPanel = ({ tabs = [], onSendMessage }) => {
+  const [activeTab, setActiveTab] = useState(0);
   const [newMessage, setNewMessage] = useState("");
+  const [tabMessages, setTabMessages] = useState(
+    tabs.map((tab) => tab.initialMessages || [])
+  );
 
   const handleSend = () => {
     if (newMessage.trim()) {
@@ -13,14 +16,33 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
         time: "Just now",
         text: newMessage,
       };
-      setMessages((prev) => [...prev, msg]);
+
+      const updatedMessages = [...tabMessages];
+      updatedMessages[activeTab] = [...updatedMessages[activeTab], msg];
+      setTabMessages(updatedMessages);
       setNewMessage("");
-      onSendMessage?.(msg);
+
+      onSendMessage?.(tabs[activeTab].key, msg);
     }
   };
 
+  const currentTab = tabs[activeTab];
+
   return (
-    <div className="container chat-message-start">
+    <div className="chat-message-start">
+      <ul className="tab">
+        {tabs.map((tab, idx) => (
+          <li className="item-nav" key={idx}>
+            <button
+              className={`link-nav ${idx === activeTab ? "active" : ""}`}
+              onClick={() => setActiveTab(idx)}
+            >
+              {tab.label}
+            </button>
+          </li>
+        ))}
+      </ul>
+
       <div className="row">
         <div className="col-md-12 left-col-add">
           <div className="card" id="chat3">
@@ -37,7 +59,7 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
                       />
                     </div>
                     <ul className="list-unstyled mb-0">
-                      {coaches.map((coach, index) => (
+                      {currentTab.coaches.map((coach, index) => (
                         <li key={index} className="p-2 border-bottom">
                           <a href="#!" className="d-flex justify-content-between">
                             <div className="d-flex flex-row">
@@ -80,22 +102,14 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
                           width="60"
                         />
                         <div>
-                          <p>
-                            <b>Start a Conversation with Coach</b>
-                          </p>
-                          <p>
-                            Hi [Coach's Name], excited to connect! I’m looking for
-                            guidance on [specific area]. My biggest challenge is
-                            [briefly describe challenge]. How do you typically work
-                            with new clients, and which of your coaching packages might
-                            help?
-                          </p>
+                          <p><b>{currentTab.bannerTitle}</b></p>
+                          <p>{currentTab.bannerDescription}</p>
                         </div>
                       </div>
                       <a className="report-btn-add">Report</a>
                     </div>
 
-                    {messages.map((msg, i) => (
+                    {tabMessages[activeTab]?.map((msg, i) => (
                       <div className="user-name-text" key={i}>
                         <p className="first-text-tell">{msg.sender}</p>
                         <span>{msg.time}</span>
@@ -110,7 +124,7 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
                       <i className="bi bi-emoji-smile"></i>
                       <input
                         type="text"
-                        className="form-control form-control-lg"
+                        className=" form-control-lg"
                         placeholder="Type a message"
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
@@ -132,4 +146,3 @@ const ChatPanel = ({ coaches = [], initialMessages = [], onSendMessage }) => {
 };
 
 export default ChatPanel;
-

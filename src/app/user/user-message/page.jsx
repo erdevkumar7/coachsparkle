@@ -3,96 +3,63 @@ import ChatPanel from "@/components/ChatPanel";
 import '../_styles/dashboard.css';
 
 export default function UserMessage() {
-  const coaches = [
+  const tabs = [
     {
-      name: "Coach Name 1",
-      img: "/coachsparkle/assets/images/top-nav.png",
-      lastMessage: "Hi",
-      time: "17:36",
-      unread: 5,
+      key: "general",
+      label: "General Inquiries (02)",
+      bannerTitle: "You have initiated a conversation with Coach",
+      bannerDescription:
+        "Your message has been sent! The coach will get back to you shortly — typically within 24–48 hours...",
+      coaches: [
+        { name: "Coach Name 1", img: "/coachsparkle/assets/images/top-nav.png", lastMessage: "Hi", time: "17:36", unread: 5 },
+        { name: "Coach Name 2", img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp", lastMessage: "Hi", time: "17:36", unread: 5 },
+      ],
+      initialMessages: [
+        { sender: "Emma Rose", time: "3 days, 2 hour ago", text: "Hi. Can you tell me whether you provide coaching to employees who are going to get retrenched?" },
+      ],
     },
     {
-      name: "Coach Name 2",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
-      unread: 2,
+      key: "requests",
+      label: "Coaching Requests (103)",
+      bannerTitle: "Start a Conversation with Matched Coach",
+      bannerDescription:
+        "Your coaching request has been shared with qualified coaches who match your needs...",
+      coaches: [
+        { name: "Coach Name AI", img: "/coachsparkle/assets/images/top-nav.png", lastMessage: "Hi", time: "17:36", unread: 5 },
+        { name: "Coach Name3 AI", img: "/coachsparkle/assets/images/top-nav.png", lastMessage: "Hi", time: "17:36", unread: 5 },
+      ],
+      initialMessages: [
+        { sender: "You", time: "2 hour ago", text: "Click to view Coaching Request" },
+      ],
     },
     {
-      name: "Coach Name 3",
-      img: "/coachsparkle/assets/images/top-nav.png",
-      lastMessage: "Hello",
-      time: "15:21",
-    },
-    {
-      name: "Coach Name 4",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
-    },
-    {
-      name: "Coach Name 5",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
-    },
-    {
-      name: "Coach Name 6",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
-    },
-    {
-      name: "Coach Name 7",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
-    },
-    {
-      name: "Coach Name 8",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
-    },
-    {
-      name: "Coach Name 9",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
-    },
-    {
-      name: "Coach Name 10",
-      img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp",
-      lastMessage: "Hello",
-      time: "15:21",
+      key: "active",
+      label: "Active Coaching (02)",
+      bannerTitle: "Start a Conversation with your current Coach",
+      bannerDescription:
+        "This space is for you to engage directly with your coach. Use it to discuss session goals...",
+      coaches: [
+        { name: "Coach Name 1", img: "/coachsparkle/assets/images/top-nav.png", lastMessage: "Hi", time: "17:36", unread: 5 },
+      ],
+      initialMessages: [
+        {
+          sender: "You",
+          time: "3 days, 2 hour ago",
+          text: "Hi. Am I able to change the schedule for the upcoming session?",
+        },
+      ],
     },
   ];
 
-  const initialMessages = [
-    {
-      sender: "Robin Jacks",
-      time: "3 days ago",
-      text: "Hi. Can you tell me what you are looking for with the mentorship?",
-    },
-    {
-      sender: "Emma Rose",
-      time: "35 mins ago",
-      text: "Hi",
-    },
-  ];
-
-  const handleSendMessage = (message) => {
-    console.log("New message sent:", message);
+  const handleSendMessage = (tabKey, message) => {
+    console.log(`New message sent in tab: ${tabKey}`, message);
   };
 
   return (
     <div className="main-panel">
+      <h3>Message Board</h3>
       <div className="content-panel">
-        <ChatPanel
-          coaches={coaches}
-          initialMessages={initialMessages}
-          onSendMessage={handleSendMessage}
-        />
+        <ChatPanel tabs={tabs} onSendMessage={handleSendMessage} />
       </div>
     </div>
   );
