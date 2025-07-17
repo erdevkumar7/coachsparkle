@@ -1881,6 +1881,7 @@ td.edit-add-btn button {
 .top-dashboard-header {
   background: #fff;
   box-shadow: 0 5px 21px -5px #cdd1e1;
+  padding: 8px 0px !important;
 }
 
 .upgrade-warning {
@@ -2169,7 +2170,7 @@ display: none;
   box-shadow: none;
 }
 
-.top-dashboard-header .navbar { 
+.top-dashboard-header .navbar {
   box-shadow: none !important;
   padding: 10px 0px !important;
   background: #fff !important;
