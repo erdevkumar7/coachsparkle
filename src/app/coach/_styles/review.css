@@ -1,0 +1,42 @@
+.review-section-add .rating-reviews {
+    gap: 30px;
+    width: 100%;
+    display: block;
+}
+
+.review-section-add .rating-reviews .review-container {
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 2px 15px #00000017;
+    padding-bottom: 80px;
+}
+
+.review-section-add tr.border-row-add {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.review-section-add td.sed-tab {
+    width: 48%;
+}
+
+.review-section-add td.replied-btns button.reply-btn {
+    background: #50C878;
+    border: solid 1px #50C878;
+    width: 60%;
+}
+
+.review-section-add button.reply-btn {
+    width: 60%;
+}
+
+.review-section-add .user-details small {
+    color: #778088;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+}
