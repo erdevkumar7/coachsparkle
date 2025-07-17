@@ -17,6 +17,15 @@
     display: flex;
 }
 
+.custom-file-upload label {
+    border: solid 1px #009BFA;
+    padding: 5px 18px;
+    background: #F2FFF7;
+    border-radius: 50px;
+}
+
+
+
 .coach-price-currency {
     display: flex;
 }
@@ -199,7 +208,7 @@ select#cancellation_policy {
 .profile-form{
     display: flex;
     gap: 30px;
-    width: 95%;
+    width: 100%;
     margin-top: 25px;
 }
 
@@ -297,17 +306,21 @@ select#cancellation_policy {
   font-weight: 500;
   color: #000;
 }
-
 .custom-file-upload {
-  background-color: #e9eaec;
-  border-radius: 40px;
-  padding: 6px 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 300px;
-  position: relative;
+    background-color: #e9eaec;
+    border-radius: 40px;
+    align-items: center;
+    gap: 12px;
+    width: 300px;
+    padding: 10px 24px;
+    display: flex;
+    position: relative;
 }
+
+.profile-form .form-section select {
+    border: 1px solid #d1d5db !important;
+}
+
 
 /* .upload-btn {
   background-color: #ecfffa;

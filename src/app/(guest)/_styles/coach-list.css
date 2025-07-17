@@ -52,6 +52,24 @@ div#loginModal .modal-dialog.modal-dialog-centered.modal-lg {
     padding-top: 50px;
     padding-bottom: 60px;
 }
+button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today.css-qct7wd-MuiButtonBase-root-MuiPickersDay-root {
+    background: #FB3F4A;
+    color: #fff;
+    border: none;
+}
+.css-5wchs2-MuiDateCalendar-root {
+    overflow: hidden;
+    width: 100% !important;
+}
+
+.MuiDayCalendar-header.css-1rl1vrc-MuiDayCalendar-header {
+    width: 100% !important;
+    justify-content: space-around !important;
+}
+
+.MuiDayCalendar-weekContainer.css-1pv2de5-MuiDayCalendar-weekContainer {
+    justify-content: space-around !important;
+}
 
 /* Sidebar */
 .coach-banner-add .sidebar {
@@ -502,7 +520,7 @@ span.MuiButtonBase-root {
     background: #fff;
     border-radius: 8px;
     width: 100%;
-}    
+}
 .coach-profile-list-left .badge {
   display: inline-block;
   background: #f8f4e9;

@@ -109,7 +109,7 @@ export default function Login() {
                                     <div className="divider"><span>Or</span></div>
 
                                     <button className="google-login">
-                                        <img src="./images/google.png" alt="google" />
+                                        <img src="../images/google.png" alt="google" />
                                         Log in with Google
                                     </button>
 
