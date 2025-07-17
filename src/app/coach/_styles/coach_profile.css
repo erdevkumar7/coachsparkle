@@ -11,7 +11,14 @@
     border-radius: 12px;
     padding: 20px !important;
 }
-
+.form-group.language-input-add .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
+    height: 45px;
+    background: #fff;
+    border: none !important;
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-size: 14px;
+}
 .content-wrapper {
     padding-right: 20px;
 }

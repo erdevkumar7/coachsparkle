@@ -48,6 +48,11 @@
     height: 54px;
 }
 
+h3.font-weight-bold.quick-text-add.my-changes {
+    padding: 0px !important;
+    margin-top: 0px;
+    margin-left: 0px;
+}
 
 .profile-form .form-row {
     display: flex;

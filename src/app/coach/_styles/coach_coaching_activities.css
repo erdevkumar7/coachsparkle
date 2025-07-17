@@ -70,14 +70,14 @@
 }
 
 .coaching-content .button-note {
-  background-color: #009bfa;
-  color: white;
-  width: 135px;
-  height: 37px;
-  padding: 12px 14px 12px 14px;
-  border-radius: 12px;
-  border: none;
-  font-size: 14px;
+    color: #fff;
+    background-color: #009bfa;
+    border: none;
+    border-radius: 12px;
+    width: 135px;
+    height: auto;
+    padding: 12px 14px;
+    font-size: 14px;
 }
 
 .coaching-content .button-msg {
@@ -85,7 +85,7 @@
   color: #009bfa;
   background-color: white;
   width: 98px;
-  height: 37px;
+  height: auto;
   font-size: 14px;
   padding: 12px 14px 12px 14px;
   border-radius: 12px;
@@ -150,7 +150,7 @@
   border: none;
   border-radius: 12px;
   width: 135px;
-  height: 37px;
+  height: auto;
   padding: 12px 0px;
   font-size: 12px;
 }
@@ -160,7 +160,7 @@
   color: #009bfa;
   background-color: white;
   width: 98px;
-  height: 37px;
+  height: auto;
   font-size: 12px;
   padding: 12px 14px 12px 14px;
   border-radius: 12px;
@@ -205,6 +205,13 @@
     height: auto;
 }
 
+h4.coaching-tittle-text {
+    font-size: 17px;
+}
+.coaching-status .sorting-data select {
+    width: auto;
+}
+
 .completed .status-div button {
   font-size: 13px;
   font-weight: 500px;
@@ -228,7 +235,7 @@
   background-color: #009bfa;
   color: white;
   width: 135px;
-  height: 37px;
+  height: auto;
   padding: 12px 14px 12px 14px;
   border-radius: 12px;
   border: none;
@@ -240,7 +247,7 @@
   color: #009bfa;
   background-color: white;
   width: 98px;
-  height: 37px;
+  height: auto;
   font-size: 12px;
   padding: 12px 14px 12px 14px;
   border-radius: 12px;
