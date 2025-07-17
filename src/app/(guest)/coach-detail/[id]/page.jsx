@@ -2,7 +2,7 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import "../../_styles/coach-list.css";
 import DetailsTab from "../../_components/DetailsTab";
 import CoachingListDetailPackage from "../../_components/CoachListDetailPackage";
-import { getCoachById } from "@/app/api/coach";
+import { getCoachById, similarCoaches } from "@/app/api/coach";
 import SimilarCoaches from "../../../../components/SimilarCoaches";
 import CoachDetailCalendar from "../../_components/CoachDetailCalendar";
 import ViewServicePackage from "@/app/coach/_coach_components/ViewServicePackage";
@@ -16,7 +16,8 @@ export default async function CoachDetail({ params }) {
   if (!coach) {
     return <div>Coach not found.</div>;
   }
-
+  const similarCoachData = await similarCoaches(coach.user_id)
+  // console.log('siimilarCoach', similarCoachData)
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
     {
@@ -120,7 +121,7 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.experience && (
                                     <>
-                                      <i className="bi bi-circle"></i>
+                                      <i className="bi bi-award"></i>
                                       <span>
                                         {coach?.experience}-years experiences
                                       </span>
@@ -131,7 +132,7 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.age_group && (
                                     <>
-                                      <i className="bi bi-universal-access-circle"></i>
+                                      <i className="bi bi-crosshair"></i>
                                       <span>For Ages {coach?.age_group}</span>
                                     </>
                                   )}
@@ -169,17 +170,17 @@ export default async function CoachDetail({ params }) {
                   </div>
                   <div className="about-section package_short">
                     <h4>Coaching Packages</h4>
-                    {/* <div className="session-wrapper">
-                                            {coach.service_packages && coach.service_packages.slice(0, 2).map((pkg, index) => (
-                                                <ViewServicePackage key={index} pkg={pkg} />
-                                            ))}
-                                        </div> */}
-                    <CoachingListDetailPackage
-                      packages={coach.service_packages.slice(0, 2)}
-                    />
-                    <div className="v-all">
-                      <button>View All</button>
-                    </div>
+                    {coach?.service_packages.length > 0 ?
+                      <>
+                        <CoachingListDetailPackage packages={coach.service_packages.slice(0, 2)} />
+                        <div className="v-all">
+                          <button>View All</button>
+                        </div>
+                      </> :
+                      <div>
+                        <p>No Service Package Available</p>
+                      </div>}
+
                   </div>
                   <div className="about-section publs_artcl">
                     <h4>Published Articles</h4>
@@ -243,10 +244,11 @@ export default async function CoachDetail({ params }) {
                       </div>
                     </div>
                   </div>
-                  <div className="about-section sim-coachs">
+
+                  {similarCoachData.data.length > 0 && <div className="about-section sim-coachs">
                     <h4>Similar Coaches</h4>
-                    <SimilarCoaches />
-                  </div>
+                    <SimilarCoaches similarCoachData={similarCoachData.data}/>
+                  </div>}
                 </div>
               </div>
 
@@ -262,7 +264,7 @@ export default async function CoachDetail({ params }) {
                     <p className="price">
                       {coach.price ? `$${coach.price}/ hour` : "N/A"}
                     </p>
-                    <p className="small-txt">Prices range from $250 - $290</p>
+                    <p className="small-txt">Prices range from {coach?.price_range ? `${coach?.price_range}$` : 'N/A'}</p>
 
                     <div className="trial-offer">
                       <span>
