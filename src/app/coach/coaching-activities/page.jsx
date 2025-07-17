@@ -154,8 +154,9 @@ interview...`,
   ];
 
   return (
-    <div>
-      <div className="d-flex justify-content-between gap-4 px-5">
+    <div className="main-panel">
+      <div className="new-content-wrapper coach-wrap">
+      <div className=" d-flex justify-content-between gap-4">
         {requests.map((request, index) => (
           <StatusBar
             key={index}
@@ -165,7 +166,7 @@ interview...`,
           />
         ))}
       </div>
-      <div className="mt-5 px-5">
+      <div className="mt-5">
         <div className="coaching-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
@@ -202,7 +203,7 @@ interview...`,
         </div>
       </div>
 
-      <div className="mt-5 px-5">
+      <div className="mt-5">
         <div className="coaching-progress-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
@@ -232,7 +233,7 @@ interview...`,
         </div>
       </div>
 
-      <div className="mt-5 px-5">
+      <div className="mt-5">
         <div className="completed-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
@@ -260,7 +261,7 @@ interview...`,
         </div>
       </div>
 
-            <div className="mt-5 px-5">
+            <div className="mt-5">
         <div className="coaching-progress-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
@@ -288,6 +289,7 @@ interview...`,
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

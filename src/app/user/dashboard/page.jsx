@@ -69,7 +69,7 @@ export default function UserDashboard() {
                 <div className="max-w-5xl mx-auto px-4 at-glance-add">
                     <div className="bg-white p-5 rounded-xl shadow-md boder-line-add">
                         <h3 className="text-lg font-semibold mb-4">At a Glance</h3>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 inner-card-add">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 inner-card-add">
                             <div className="bg-gray-100 rounded-xl p-4 text-center">
                                 <img src="/coachsparkle/assets/images/glance-img-one.png" className="mx-auto mb-2" />
                                 <div className="new-add-comeing">
@@ -127,7 +127,7 @@ export default function UserDashboard() {
                         <div className="card">
                             <div className="card-header">
                                 <h3>Your Coaching Goals Progress</h3>
-                                <button className="update-btn">Update Goal <i className="bi bi-arrow-right"></i></button>
+                                <button className="user-update-btn">Update Goal <i className="bi bi-arrow-right"></i></button>
                             </div>
                             <div className="goal">
                                 <p className="build-text-add">Build Confidence For Public Speaking</p>

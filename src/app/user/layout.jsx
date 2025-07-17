@@ -17,7 +17,7 @@ export default async function UserLayout({ children }) {
     <>
       <UserHeader user={user} error={error} removeToken={removeToken} />
 
-      <div className="container-fluid page-body-wrapper">
+      <div className="container user-wrapper">
         <UserSideBarComp user={user} />
         {children}
       </div>

@@ -188,7 +188,14 @@ select#cancellation_policy {
   border-radius: 5px;
   padding: 5px 40px 5px 40px;
 }
-
+.preview-section .session-preview-content .price {
+    color: #1A1A1A;
+    font-size: 22px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
 .profile-form{
     display: flex;
     gap: 30px;

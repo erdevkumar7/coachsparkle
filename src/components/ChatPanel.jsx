@@ -63,11 +63,14 @@ const ChatPanel = ({
                         placeholder="Search or start a new chat"
                       />
                     </div>
+                   
+                   <div className="coach-chat-list">
+
                     <ul className="list-unstyled mb-0">
                       {currentTab.coaches.map((coach, index) => (
                         <li
                           key={index}
-                          className={`p-2 border-bottom coach-item ${
+                          className={`border-bottom coach-item ${
                             selectedCoachIndex === index ? "active-chat" : ""
                           }`}
                           onClick={() => setSelectedCoachIndex(index)}
@@ -109,6 +112,7 @@ const ChatPanel = ({
                         </li>
                       ))}
                     </ul>
+                    </div>
                   </div>
                 </div>
 

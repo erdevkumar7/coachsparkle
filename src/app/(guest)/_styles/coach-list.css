@@ -266,8 +266,8 @@ span.MuiButtonBase-root {
     margin-bottom: 20px;
 }
 .coach-banner-add p.senior-engineer-text strong {
-    font-size: 17px;
-    font-family: 'Inter';
+    font-family: Inter;
+    font-size: 15px;
 }
 
 .coach-banner-add .tags span:hover {
@@ -289,8 +289,9 @@ span.MuiButtonBase-root {
     padding-left: 3px;
 }
 .senior-engineer-details-add {
-    display: flex;
     gap: 50px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .filter-section.rating-add label {
@@ -497,12 +498,11 @@ span.MuiButtonBase-root {
 }
 
 .coach-profile-list-left .profile-card {
-    font-family: Arial, sans-serif;
-    max-width: 350px;
+    color: #333;
     background: #fff;
     border-radius: 8px;
-    color: #333;
-}
+    width: 100%;
+}    
 .coach-profile-list-left .badge {
   display: inline-block;
   background: #f8f4e9;
@@ -559,10 +559,10 @@ span.MuiButtonBase-root {
 .coach-profile-list-left .coach-card {
     align-items: flex-start;
 }
-
 .coach-profile-list-left p.senior-engineer-text {
-    margin-bottom: 0px;
-    margin-top: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 80%;
 }
 
 .coach-profile-list-left .profile-card span.badge {
