@@ -13,7 +13,7 @@ export default function ViewServicePackage({ pkg }) {
           src={
             pkg?.media_file
               ? pkg?.media_file
-              : `/coachsparkle/images/package1.png`
+              : `/coachsparkle/images/package1.webp`
           }
           alt="Team Image"
           className="top-image"
