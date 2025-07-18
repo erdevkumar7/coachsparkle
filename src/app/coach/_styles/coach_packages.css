@@ -205,11 +205,11 @@ select#cancellation_policy {
     margin-bottom: 10px;
     margin-top: 20px;
 }
-.profile-form{
-    display: flex;
+.profile-form {
+    display: flex !important;
     gap: 30px;
-    width: 100%;
-    margin-top: 25px;
+    width: 100% !important;
+    margin-top: 25px !important;
 }
 
 .profile-form-add .card {

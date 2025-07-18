@@ -103,6 +103,7 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
   button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today.css-tz7n0g {
   background: red;
   border: none;
+  color: #fff !important;
 }
 .sim-coachs .coaches-view-cards .card img {
     cursor: pointer;
