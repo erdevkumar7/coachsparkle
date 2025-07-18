@@ -245,7 +245,7 @@ export default async function CoachDetail({ params }) {
                     </div>
                   </div>
 
-                  {similarCoachData.data.length > 0 && <div className="about-section sim-coachs">
+                  {similarCoachData.data?.length > 0 && <div className="about-section sim-coachs">
                     <h4>Similar Coaches</h4>
                     <SimilarCoaches similarCoachData={similarCoachData.data}/>
                   </div>}
