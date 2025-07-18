@@ -14,7 +14,7 @@ export default function AboutUs() {
                 <div className='row align-items-center'>
 
                     <div className="col-6 images-column-left">
-                        <img src="/coachsparkle/images/human-img.png" alt="Image 1" className="img-fluid" />
+                        <img src="/coachsparkle/images/human-img.webp" alt="Image 1" className="img-fluid" />
                     </div>
 
                     <div className="col-6 text-column-right">
@@ -76,7 +76,7 @@ export default function AboutUs() {
 
                         <div className="row values-section">
                             <div className="col-6">
-                                <img src="/coachsparkle/images/our-img.png" alt="Our Values Image" className="values-img" />
+                                <img src="/coachsparkle/images/our-img.webp" alt="Our Values Image" className="values-img" />
                             </div>
 
                             <div className="col-6 values-text">
