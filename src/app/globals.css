@@ -144,6 +144,11 @@
   padding-right: 5px;
 }
 
+.mui-icons{
+  width: 20px !important;
+  height: 20px !important;
+}
+
 /*fisrt-section-css*/
 .smarter-matching {
   padding: 49px 0;

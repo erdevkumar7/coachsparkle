@@ -9,7 +9,7 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
     // console.log('allSessionFormat', allSessionFormat)
     const getNameById = (list, id) => {
          if (!Array.isArray(list)) return "";
-         
+
         const item = list.find((el) => el.id === parseInt(id));
         return item ? item.name || item.mode_name : "";
     };
@@ -24,12 +24,12 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
             <div className="session-preview-content">
                 <h2>{pkg?.title || "Confidence Jumpstart Session"}</h2>
                 <div className="icons-row">
-                    <PersonalVideoIcon /> {getNameById(allDelveryMode, DeliveryMode) || "Online"}
-                    <PersonOutlineOutlinedIcon /> {getNameById(allSessionFormat, pkg?.session_format) || "1-on-1 coaching"}
-                    <CalendarMonthOutlinedIcon /> {formatBookingAvailability(pkg?.booking_availability) || 'Jun - Aug 2025'}
+                    <PersonalVideoIcon className="mui-icons"/> {getNameById(allDelveryMode, DeliveryMode) || "Online"}
+                    <PersonOutlineOutlinedIcon className="mui-icons"/> {getNameById(allSessionFormat, pkg?.session_format) || "1-on-1 coaching"}
+                    <CalendarMonthOutlinedIcon className="mui-icons"/> {formatBookingAvailability(pkg?.booking_availability) || 'Jun - Aug 2025'}
                 </div>
                 <div className="icons-row">
-                    <ForumOutlinedIcon /> {pkg?.session_count ? `${pkg?.session_count} Sessions` : "1 Sessions"}
+                    <ForumOutlinedIcon className="mui-icons"/> {pkg?.session_count ? `${pkg?.session_count} Sessions` : "1 Sessions"}
                     <i
                         className="bi bi-clock-history"
                         style={{ transform: "scaleX(-1)" }}
@@ -37,7 +37,7 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
                     {pkg?.session_duration ? `${pkg?.session_duration} Min/Session` : "60 Min/Session"}
                 </div>
                 <div className="icons-row">
-                    <GpsFixedIcon /> {pkg?.focus ? pkg?.focus : "Confidence, Goal clarity, Custom action plan"}
+                    <GpsFixedIcon className="mui-icons"/> {pkg?.focus ? pkg?.focus : "Confidence, Goal clarity, Custom action plan"}
                 </div>
                 <p className="session-description">
                     {pkg?.short_description ? pkg?.short_description : `A one-time deep-dive session to assess
