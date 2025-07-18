@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
+import Link from 'next/link';
 
 export default function SimilarCoaches({ similarCoachData = [] }) {
   const coachCount = similarCoachData.length;
@@ -54,18 +55,18 @@ export default function SimilarCoaches({ similarCoachData = [] }) {
                 />
                 <div className="card-body">
                   <h5 className="card-title">
-                    <a href="#">
-                      {coach?.user?.first_name} {coach?.user?.last_name}
-                    </a>
+                    <Link href={`/coach-detail/${coach?.id}`}>
+                      {coach?.first_name} {coach?.last_name}
+                    </Link>
                   </h5>
                   <p className="card-text">
-                    {coach?.user?.professional_title || 'Coach'}{" "}
-                    {coach?.user?.company_name ? `at ${coach?.user?.company_name}` : ''}
+                    {coach?.professional_title || 'Coach'}{" "}
+                    {coach?.company_name ? `at ${coach?.company_name}` : ''}
                   </p>
                   <div className="software-engineer-list">
-                    {(coach.keywords || []).slice(0, 5).map((keyword, i) => (
+                    {(coach.service_names || []).slice(0, 5).map((service, i) => (
                       <a href="#" key={i}>
-                        {keyword}
+                        {service}
                       </a>
                     ))}
                   </div>
