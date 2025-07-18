@@ -17,7 +17,7 @@ export default async function CoachDetail({ params }) {
     return <div>Coach not found.</div>;
   }
   const similarCoachData = await similarCoaches(coach.user_id)
-  // console.log('siimilarCoach', similarCoachData)
+  console.log('coach', coach)
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
     {
@@ -85,298 +85,310 @@ export default async function CoachDetail({ params }) {
                             )}
                           </p>
 
-                          <div className="profile-card">
+                          {/* <div className="profile-card">
                             <div className="badge-tag">
                               {coach?.coach_subtype && (
                                 <span className="badge">
                                   {coach?.coach_subtype}
                                 </span>
                               )}
-                            </div>
-                            <div className="d-flex gap-4">
-                              <div>
-                                <div className="info-item">
-                                  <i className="bi bi-geo-alt"></i>
-                                  <span>{coach.country_id}</span>
-                                </div>
+                            </div> */}
 
-                                <div className="info-item">
-                                  <i className="bi bi-translate"></i>
-                                  <span>
-                                    {coach.language_names?.join(", ") ||
-                                      "Not available"}
-                                  </span>
-                                </div>
-
-                                <div className="info-item">
-                                  {coach?.delivery_mode && (
-                                    <>
-                                      <i className="bi bi-globe"></i>
-                                      <span>{coach?.delivery_mode}</span>
-                                    </>
-                                  )}
-                                </div>
+                            <div className="profile-card">
+                              <div className="badge-tag">
+                                {coach?.coach_subtype?.length > 0 &&
+                                  coach.coach_subtype.map((subtype, index) => (
+                                    <span className="badge" key={index}>
+                                      {subtype.subtype_name}
+                                    </span>
+                                  ))}
                               </div>
-                              <div>
-                                <div className="info-item">
-                                  {coach?.experience && (
-                                    <>
-                                      <i className="bi bi-award"></i>
-                                      <span>
-                                        {coach?.experience}-years experiences
-                                      </span>
-                                    </>
-                                  )}
-                                </div>
 
-                                <div className="info-item">
-                                  {coach?.age_group && (
-                                    <>
-                                      <i className="bi bi-crosshair"></i>
-                                      <span>For Ages {coach?.age_group}</span>
-                                    </>
-                                  )}
-                                </div>
 
-                                <div className="info-item">
-                                  <i className="bi bi-star"></i>
-                                  {/* <span><b>5.0</b> (21 reviews)</span> */}
-                                  <span>
-                                    <b>No Rating </b>
-                                  </span>
+                              <div className="d-flex gap-4">
+                                <div>
+                                  <div className="info-item">
+                                    <i className="bi bi-geo-alt"></i>
+                                    <span>{coach.country_id}</span>
+                                  </div>
+
+                                  <div className="info-item">
+                                    <i className="bi bi-translate"></i>
+                                    <span>
+                                      {coach.language_names?.join(", ") ||
+                                        "Not available"}
+                                    </span>
+                                  </div>
+
+                                  <div className="info-item">
+                                    {coach?.delivery_mode && (
+                                      <>
+                                        <i className="bi bi-globe"></i>
+                                        <span>{coach?.delivery_mode}</span>
+                                      </>
+                                    )}
+                                  </div>
+                                </div>
+                                <div>
+                                  <div className="info-item">
+                                    {coach?.experience && (
+                                      <>
+                                        <i className="bi bi-award"></i>
+                                        <span>
+                                          {coach?.experience}-years experiences
+                                        </span>
+                                      </>
+                                    )}
+                                  </div>
+
+                                  <div className="info-item">
+                                    {coach?.age_group && (
+                                      <>
+                                        <i className="bi bi-crosshair"></i>
+                                        <span>For Ages {coach?.age_group}</span>
+                                      </>
+                                    )}
+                                  </div>
+
+                                  <div className="info-item">
+                                    <i className="bi bi-star"></i>
+                                    {/* <span><b>5.0</b> (21 reviews)</span> */}
+                                    <span>
+                                      <b>No Rating </b>
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="coach-action-profile-icon">
-                        <i className="bi bi-heart"></i>
-                      </div>
-                      <div className="coach-action-share-icon">
-                        <i className="bi bi-share"></i>
-                      </div>
-                      <div className="tags">
-                        {coach?.service_names &&
-                          coach.service_names.map((service) => (
-                            <span key={service}>{service}</span>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="about-section tabs-block">
-                    <DetailsTab coach={coach} />
-                  </div>
-                  <div className="about-section package_short">
-                    <h4>Coaching Packages</h4>
-                    {coach?.service_packages.length > 0 ?
-                      <>
-                        <CoachingListDetailPackage packages={coach.service_packages.slice(0, 2)} />
-                        <div className="v-all">
-                          <button>View All</button>
+                        <div className="coach-action-profile-icon">
+                          <i className="bi bi-heart"></i>
                         </div>
-                      </> :
-                      <div>
-                        <p>No Service Package Available</p>
-                      </div>}
-
-                  </div>
-                  <div className="about-section publs_artcl">
-                    <h4>Published Articles</h4>
-                    <div className="artcl-flex">
-                      <div className="item-artcl">
-                        <img
-                          src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
-                          alt="Team Image"
-                          className="top-image"
-                        />
-                        <div className="item-cont1">
-                          <h4>
-                            5 Strategies to Boost Self-Confidence in the
-                            Workplace
-                          </h4>
-                          <p>
-                            Discover practical techniques enhance your
-                            confidence at work and navigate professional
-                            challenges with assurance.
-                          </p>
-                          <button>Read Article</button>
+                        <div className="coach-action-share-icon">
+                          <i className="bi bi-share"></i>
                         </div>
-                      </div>
-                      <div className="item-artcl">
-                        <img
-                          src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
-                          alt="Team Image"
-                          className="top-image"
-                        />
-                        <div className="item-cont1">
-                          <h4>
-                            5 Strategies to Boost Self-Confidence in the
-                            Workplace
-                          </h4>
-                          <p>
-                            Discover practical techniques enhance your
-                            confidence at work and navigate professional
-                            challenges with assurance.
-                          </p>
-                          <button>Read Article</button>
-                        </div>
-                      </div>
-                      <div className="item-artcl">
-                        <img
-                          src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
-                          alt="Team Image"
-                          className="top-image"
-                        />
-                        <div className="item-cont1">
-                          <h4>
-                            5 Strategies to Boost Self-Confidence in the
-                            Workplace
-                          </h4>
-                          <p>
-                            Discover practical techniques enhance your
-                            confidence at work and navigate professional
-                            challenges with assurance.
-                          </p>
-                          <button>Read Article</button>
+                        <div className="tags">
+                          {coach?.service_names &&
+                            coach.service_names.map((service) => (
+                              <span key={service}>{service}</span>
+                            ))}
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {similarCoachData.data?.length > 0 && <div className="about-section sim-coachs">
-                    <h4>Similar Coaches</h4>
-                    <SimilarCoaches similarCoachData={similarCoachData.data}/>
-                  </div>}
-                </div>
-              </div>
+                    <div className="about-section tabs-block">
+                      <DetailsTab coach={coach} />
+                    </div>
+                    <div className="about-section package_short">
+                      <h4>Coaching Packages</h4>
+                      {coach?.service_packages.length > 0 ?
+                        <>
+                          <CoachingListDetailPackage packages={coach.service_packages.slice(0, 2)} />
+                          <div className="v-all">
+                            <button>View All</button>
+                          </div>
+                        </> :
+                        <div>
+                          <p>No Service Package Available</p>
+                        </div>}
 
-              <div className="col-md-4 coach-profile-list-right">
-                <div className="profile-card">
-                  <img
-                    src={`${FRONTEND_BASE_URL}/images/profile-video.png`}
-                    alt="Team Image"
-                    className="top-image"
-                  />
-
-                  <div className="profile-message">
-                    <p className="price">
-                      {coach.price ? `$${coach.price}/ hour` : "N/A"}
-                    </p>
-                    <p className="small-txt">Prices range from {coach?.price_range ? `${coach?.price_range}$` : 'N/A'}</p>
-
-                    <div className="trial-offer">
-                      <span>
-                        {" "}
-                        <i className="bi bi-patch-check"></i>Free trial
-                      </span>
-                      <div className="yes-no-add">
-                        <label>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="flexCheckDefault"
-                            checked={true}
-                            readOnly
+                    </div>
+                    <div className="about-section publs_artcl">
+                      <h4>Published Articles</h4>
+                      <div className="artcl-flex">
+                        <div className="item-artcl">
+                          <img
+                            src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
+                            alt="Team Image"
+                            className="top-image"
                           />
-                          {coach?.free_trial_session ? "Yes" : "No"}
-                        </label>
-                        {/* <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label> */}
-                      </div>
-                    </div>
-
-                    <button
-                      className="btn btn-primary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#loginModal"
-                    >
-                      <i className="bi bi-chat-dots"></i> Send Message
-                    </button>
-
-                    <div
-                      className="modal fade"
-                      id="loginModal"
-                      tabIndex="-1"
-                      aria-hidden="true"
-                    >
-                      <div className="modal-dialog modal-dialog-centered modal-lg">
-                        <div className="modal-content">
-                          <div className="modal-body">
-                            <LoginForm />
+                          <div className="item-cont1">
+                            <h4>
+                              5 Strategies to Boost Self-Confidence in the
+                              Workplace
+                            </h4>
+                            <p>
+                              Discover practical techniques enhance your
+                              confidence at work and navigate professional
+                              challenges with assurance.
+                            </p>
+                            <button>Read Article</button>
+                          </div>
+                        </div>
+                        <div className="item-artcl">
+                          <img
+                            src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
+                            alt="Team Image"
+                            className="top-image"
+                          />
+                          <div className="item-cont1">
+                            <h4>
+                              5 Strategies to Boost Self-Confidence in the
+                              Workplace
+                            </h4>
+                            <p>
+                              Discover practical techniques enhance your
+                              confidence at work and navigate professional
+                              challenges with assurance.
+                            </p>
+                            <button>Read Article</button>
+                          </div>
+                        </div>
+                        <div className="item-artcl">
+                          <img
+                            src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
+                            alt="Team Image"
+                            className="top-image"
+                          />
+                          <div className="item-cont1">
+                            <h4>
+                              5 Strategies to Boost Self-Confidence in the
+                              Workplace
+                            </h4>
+                            <p>
+                              Discover practical techniques enhance your
+                              confidence at work and navigate professional
+                              challenges with assurance.
+                            </p>
+                            <button>Read Article</button>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="social-links">
-                      <div className="contact-now-add">
-                        {coach?.linkdin_link && (
-                          <a href={coach?.linkdin_link} target="_blank">
-                            <img
-                              src={`${FRONTEND_BASE_URL}/images/sm1.png`}
-                              alt="LinkedIn"
-                            />
-                          </a>
-                        )}
-                        {coach?.website_link && (
-                          <a href={coach?.website_link} target="_blank">
-                            <img
-                              src={`${FRONTEND_BASE_URL}/images/sm2.png`}
-                              alt="website"
-                            />
-                          </a>
-                        )}
-                        {coach?.youtube_link && (
-                          <a href={coach?.youtube_link} target="_blank">
-                            <img
-                              src={`${FRONTEND_BASE_URL}/images/sm3.png`}
-                              alt="youtube"
-                            />
-                          </a>
-                        )}
-                        {coach?.podcast_link && (
-                          <a href={coach?.podcast_link} target="_blank">
-                            <img
-                              src={`${FRONTEND_BASE_URL}/images/sm4.png`}
-                              alt="podcast"
-                            />
-                          </a>
-                        )}
-                        {coach?.blog_article && (
-                          <a href={coach?.blog_article} target="_blank">
-                            <img
-                              src={`${FRONTEND_BASE_URL}/images/sm5.png`}
-                              alt="booking"
-                            />
-                          </a>
-                        )}
-                      </div>
-                    </div>
+                    {similarCoachData.data?.length > 0 && <div className="about-section sim-coachs">
+                      <h4>Similar Coaches</h4>
+                      <SimilarCoaches similarCoachData={similarCoachData.data} />
+                    </div>}
                   </div>
                 </div>
 
-                <div className="calendar shadow-sm calendar-profile-show">
-                  <div className="d-flex prve-next-btn mb-3">
-                    <h4 id="monthYear" className="mb-0"></h4>
-                    <CoachDetailCalendar />
+                <div className="col-md-4 coach-profile-list-right">
+                  <div className="profile-card">
+                    <img
+                      src={`${FRONTEND_BASE_URL}/images/profile-video.png`}
+                      alt="Team Image"
+                      className="top-image"
+                    />
+
+                    <div className="profile-message">
+                      <p className="price">
+                        {coach.price ? `$${coach.price}/ hour` : "N/A"}
+                      </p>
+                      <p className="small-txt">Prices range from {coach?.price_range ? `${coach?.price_range}$` : 'N/A'}</p>
+
+                      <div className="trial-offer">
+                        <span>
+                          {" "}
+                          <i className="bi bi-patch-check"></i>Free trial
+                        </span>
+                        <div className="yes-no-add">
+                          <label>
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="flexCheckDefault"
+                              checked={true}
+                              readOnly
+                            />
+                            {coach?.free_trial_session ? "Yes" : "No"}
+                          </label>
+                          {/* <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label> */}
+                        </div>
+                      </div>
+
+                      <button
+                        className="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#loginModal"
+                      >
+                        <i className="bi bi-chat-dots"></i> Send Message
+                      </button>
+
+                      <div
+                        className="modal fade"
+                        id="loginModal"
+                        tabIndex="-1"
+                        aria-hidden="true"
+                      >
+                        <div className="modal-dialog modal-dialog-centered modal-lg">
+                          <div className="modal-content">
+                            <div className="modal-body">
+                              <LoginForm />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="social-links">
+                        <div className="contact-now-add">
+                          {coach?.linkdin_link && (
+                            <a href={coach?.linkdin_link} target="_blank">
+                              <img
+                                src={`${FRONTEND_BASE_URL}/images/sm1.png`}
+                                alt="LinkedIn"
+                              />
+                            </a>
+                          )}
+                          {coach?.website_link && (
+                            <a href={coach?.website_link} target="_blank">
+                              <img
+                                src={`${FRONTEND_BASE_URL}/images/sm2.png`}
+                                alt="website"
+                              />
+                            </a>
+                          )}
+                          {coach?.youtube_link && (
+                            <a href={coach?.youtube_link} target="_blank">
+                              <img
+                                src={`${FRONTEND_BASE_URL}/images/sm3.png`}
+                                alt="youtube"
+                              />
+                            </a>
+                          )}
+                          {coach?.podcast_link && (
+                            <a href={coach?.podcast_link} target="_blank">
+                              <img
+                                src={`${FRONTEND_BASE_URL}/images/sm4.png`}
+                                alt="podcast"
+                              />
+                            </a>
+                          )}
+                          {coach?.blog_article && (
+                            <a href={coach?.blog_article} target="_blank">
+                              <img
+                                src={`${FRONTEND_BASE_URL}/images/sm5.png`}
+                                alt="booking"
+                              />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="days" id="calendarDays"></div>
-                  <div className="calendar-legend">
-                    <span>
-                      <span className="dot available-dot"></span> Available
-                    </span>
-                    <span>
-                      <span className="dot unavailable-dot"></span> Unavailable
-                    </span>
+                  <div className="calendar shadow-sm calendar-profile-show">
+                    <div className="d-flex prve-next-btn mb-3">
+                      <h4 id="monthYear" className="mb-0"></h4>
+                      <CoachDetailCalendar />
+                    </div>
+
+                    <div className="days" id="calendarDays"></div>
+                    <div className="calendar-legend">
+                      <span>
+                        <span className="dot available-dot"></span> Available
+                      </span>
+                      <span>
+                        <span className="dot unavailable-dot"></span> Unavailable
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+      );
 }
