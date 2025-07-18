@@ -55,7 +55,7 @@ export default function CoachingListDetailPackage({ packages }) {
                 src={
                   pkg?.media_file
                     ? pkg?.media_file
-                    : "/coachsparkle/images/package1.png"
+                    : "/coachsparkle/images/package1.webp"
                 }
                 alt="Team Image"
                 className="top-image"
@@ -63,15 +63,15 @@ export default function CoachingListDetailPackage({ packages }) {
               <div className="session-content">
                 <h2>{pkg?.title}</h2>
                 <div className="icons-row">
-                  <PersonalVideoIcon />
+                  <PersonalVideoIcon className="mui-icons"/>
                   {pkg?.delivery_mode?.mode_name} |
-                  <PersonOutlineOutlinedIcon />
+                  <PersonOutlineOutlinedIcon className="mui-icons"/>
                   {pkg?.session_format?.name} |
-                  <CalendarMonthOutlinedIcon />
+                  <CalendarMonthOutlinedIcon className="mui-icons"/>
                   Jun - Aug 2025
                 </div>
                 <div className="icons-row">
-                  <ForumOutlinedIcon />
+                  <ForumOutlinedIcon className="mui-icons"/>
                   {pkg?.session_count} Sessions |
                   <i
                     className="bi bi-clock-history"
@@ -80,7 +80,7 @@ export default function CoachingListDetailPackage({ packages }) {
                   {pkg?.session_duration} Min/Session
                 </div>
                 <div className="icons-row">
-                  <GpsFixedIcon />
+                  <GpsFixedIcon className="mui-icons"/>
                   {pkg?.focus}
                 </div>
                 <p className="session-description">{pkg?.short_description}</p>
@@ -89,8 +89,8 @@ export default function CoachingListDetailPackage({ packages }) {
                     <li>
                       {expandedIndex === index
                         ? pkg.description
-                        : `${pkg.description.slice(0, 200)}`}
-                      {pkg.description.length > 200 && (
+                        : `${pkg.description.slice(0, 150)}`}
+                      {pkg.description.length > 150 && (
                         <button
               className="read-more-btn btn btn-outline-primary mt-2"
               onClick={() => handleToggle(index)}

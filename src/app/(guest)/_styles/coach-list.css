@@ -104,6 +104,14 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
   background: red;
   border: none;
 }
+.sim-coachs .coaches-view-cards .card img {
+    cursor: pointer;
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+    object-position: top;
+}
 
 /* Sidebar */
 .coach-banner-add .sidebar {
@@ -680,13 +688,19 @@ span.MuiButtonBase-root {
   display: block !important;
   object-fit: cover !important;
 }
-
+.coaches-view-cards .card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+.about-section.sim-coachs .col-md-4.item {
+    width: 80%;
+}
 .about-section.package_short .session-list {
-  margin: 0 0 15px !important;
-  padding-left: 20px !important;
-  font-size: 14px !important;
-  color: #444 !important;
-  height: 118px !important;
+    color: rgb(68, 68, 68) !important;
+    height: auto !important;
+    margin: 0px 0px 15px !important;
+    padding-left: 20px !important;
+    font-size: 14px !important;
 }
 
 .review-section h2 {
@@ -1110,28 +1124,27 @@ textarea {
 
 .coach-profile-list-left .software-engineer-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px !important;
-  width: 0 !important;
+  width: 100% !important;
+  align-items: center;
+  text-align: center;
 }
 .coach-profile-list-left .software-engineer-list a {
-  background-color: #e7e8e9;
-  color: #000000;
-  text-decoration: none;
-  font-family: "Roboto";
-  font-size: 11px;
-  border-radius: 8px;
-  padding: 3px 6px;
+    color: #000;
+    background-color: #e7e8e9;
+    border-radius: 18px;
+    padding: 6px 1px;
+    font-family: Roboto;
+    font-size: 12px;
+    text-decoration: none;
 }
-.coach-profile-list-left .software-engineer-list a:hover {
-  background-color: #009bfa;
-  color: #fff;
-}
+
 .coach-profile-list-left .coaches-view-cards .card-body {
-  border: solid 1px #e7e7e7;
-  box-shadow: 0px 2px 15px rgb(0 0 0 / 10%);
-  padding: 10px;
-  padding-bottom: 20px;
+    border: 1px solid #e7e7e7;
+    padding: 10px 10px 20px;
+    box-shadow: 0 2px 15px #0000001a;
+    height: 200px;
 }
 .related-coaches-inner .coaches-view-cards .card img {
   width: 100%;
@@ -1677,8 +1690,8 @@ span.avail-text i.bi.bi-check {
   border-top: 10px solid #e7e6e6;
 }
 .session-content h2 {
-  font-size: 20px;
-  margin: 10px 0;
+    margin: 10px 0;
+    font-size: 19px;
 }
 .icons-row {
   display: flex;
