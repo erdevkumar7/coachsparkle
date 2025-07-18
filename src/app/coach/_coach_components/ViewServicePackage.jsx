@@ -13,7 +13,7 @@ export default function ViewServicePackage({ pkg }) {
           src={
             pkg?.media_file
               ? pkg?.media_file
-              : `/coachsparkle/images/package1.png`
+              : `/coachsparkle/images/package1.webp`
           }
           alt="Team Image"
           className="top-image"
@@ -21,12 +21,12 @@ export default function ViewServicePackage({ pkg }) {
         <div className="session-pkg-content">
           <h2>{pkg?.title}</h2>
           <div className="icons-row first-online-add">
-            <PersonalVideoIcon /> {pkg?.delivery_mode?.mode_name}
-            <PersonOutlineOutlinedIcon /> {pkg?.session_format?.name}
-            <CalendarMonthOutlinedIcon /> Jun - Aug 2025
+            <PersonalVideoIcon className="mui-icons"/> {pkg?.delivery_mode?.mode_name}
+            <PersonOutlineOutlinedIcon className="mui-icons"/> {pkg?.session_format?.name}
+            <CalendarMonthOutlinedIcon className="mui-icons"/> Jun - Aug 2025
           </div>
           <div className="icons-row">
-            <ForumOutlinedIcon /> {pkg?.session_count} Sessions
+            <ForumOutlinedIcon className="mui-icons"/> {pkg?.session_count} Sessions
             <i
               className="bi bi-clock-history"
               style={{ transform: "scaleX(-1)" }}
@@ -34,7 +34,7 @@ export default function ViewServicePackage({ pkg }) {
             {pkg?.session_duration} Min/Session
           </div>
           <div className="icons-row strength-value">
-            <GpsFixedIcon /> {pkg?.focus}
+            <GpsFixedIcon className="mui-icons"/> {pkg?.focus}
           </div>
           <p className="session-description">{pkg?.short_description}</p>
           <div className="pkg-price">

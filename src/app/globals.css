@@ -144,6 +144,11 @@
   padding-right: 5px;
 }
 
+.mui-icons{
+  width: 20px !important;
+  height: 20px !important;
+}
+
 /*fisrt-section-css*/
 .smarter-matching {
   padding: 49px 0;
@@ -1477,6 +1482,12 @@ footer.coach-footer-section .coach-footer-three {
 .coach-footer-two {
   padding-right: 0px;
 }
+
+.smarter-matching-left p.lead {
+  font-weight: 400;
+}
+
+
 
 /*Mobile-view-css*/
 

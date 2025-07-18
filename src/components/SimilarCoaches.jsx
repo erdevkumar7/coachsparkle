@@ -45,7 +45,7 @@ export default function SimilarCoaches({ similarCoachData = [] }) {
     >
       {similarCoachData.map((coach, index) => (
         <SwiperSlide key={index}>
-          <div className="item">
+          <div className="col-md-4 item">
             <div className="coaches-view-cards">
               <div className="card h-100">
                 <img

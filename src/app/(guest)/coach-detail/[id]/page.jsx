@@ -177,21 +177,21 @@ export default async function CoachDetail({ params }) {
                       </div>
                     </div>
 
-                    <div className="about-section tabs-block">
-                      <DetailsTab coach={coach} />
-                    </div>
-                    <div className="about-section package_short">
-                      <h4>Coaching Packages</h4>
-                      {coach?.service_packages.length > 0 ?
-                        <>
-                          <CoachingListDetailPackage packages={coach.service_packages.slice(0, 2)} />
-                          <div className="v-all">
-                            <button>View All</button>
-                          </div>
-                        </> :
-                        <div>
-                          <p>No Service Package Available</p>
-                        </div>}
+                  <div className="about-section tabs-block">
+                    <DetailsTab coach={coach} />
+                  </div>
+                  <div className="about-section package_short">
+                    {coach?.service_packages.length > 0 ?
+                      <>
+                        <CoachingListDetailPackage packages={coach.service_packages} />
+                        <div className="v-all">
+                          <button>View All</button>
+                        </div>
+                      </> :
+                      <div>
+                        <p>No Service Package Available</p>
+                      </div>}
+
 
                     </div>
                     <div className="about-section publs_artcl">
