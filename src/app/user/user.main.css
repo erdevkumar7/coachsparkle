@@ -129,8 +129,13 @@
     padding-right: 0;
     display: -webkit-flex;
     display: flex;
-    margin-top: 140px !important;
 }
+.container.user-wrapper.user-page-add {
+  padding-top: 60px !important;
+  margin-top: 100px !important;  
+}
+
+
 /* .dashboard-wrapper.full-page-wrapper {
   width: 100%;
   min-height: 100vh;
