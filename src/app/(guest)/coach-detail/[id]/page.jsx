@@ -169,10 +169,9 @@ export default async function CoachDetail({ params }) {
                     <DetailsTab coach={coach} />
                   </div>
                   <div className="about-section package_short">
-                    <h4>Coaching Packages</h4>
                     {coach?.service_packages.length > 0 ?
                       <>
-                        <CoachingListDetailPackage packages={coach.service_packages.slice(0, 2)} />
+                        <CoachingListDetailPackage packages={coach.service_packages} />
                         <div className="v-all">
                           <button>View All</button>
                         </div>
