@@ -37,7 +37,7 @@ div#loginModal .modal-dialog.modal-dialog-centered.modal-lg {
 .coach-banner-add .banner {
     position: relative;
     height: 400px;
-    background: url(/coachsparkle/images/coach-list-banner-img.png) 0 0 / cover no-repeat;
+    background: url(/coachsparkle/images/coach-list-banner-img.webp) 0 0 / cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,6 +69,40 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
 
 .MuiDayCalendar-weekContainer.css-1pv2de5-MuiDayCalendar-weekContainer {
     justify-content: space-around !important;
+}
+
+.coach-profile-list-right .css-w6tl5u {
+    overflow: hidden;
+    width: 100%;
+    max-height: 336px;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    height: 336px;
+}
+
+
+.col-md-4.coach-profile-list-right .css-1bm6bgu {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.coach-profile-list-right .css-cy45vv {
+    margin: 2px 0px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    justify-content: space-around;
+}
+
+.coach-profile-list-right button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today.css-tz7n0g {
+    background: red;
+    border: none;
 }
 
 /* Sidebar */
@@ -643,6 +677,22 @@ span.MuiButtonBase-root {
     font-size: 14px;
     font-family: 'Roboto';
     line-height: 18px;
+}
+
+
+.about-section.package_short .session-card img {
+    width: 100% !important;
+    height: 228px !important;
+    display: block !important;
+    object-fit: cover !important;
+}
+
+   .about-section.package_short .session-list {
+    margin: 0 0 15px !important;
+    padding-left: 20px !important;
+    font-size: 14px !important;
+    color: #444 !important;
+    height: 118px !important;
 }
 
 
