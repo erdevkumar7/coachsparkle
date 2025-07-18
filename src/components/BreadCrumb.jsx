@@ -5,7 +5,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 const BreadCrumb = ({ items }) => {
   return (
     <nav className="d-flex align-items-center breadcrumb-nav mt-4 container">
-      <HomeOutlinedIcon style={{ fontSize: 20 }} />
+      <HomeOutlinedIcon className="mui-icons"/>
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         const classNames = `breadcrumb-link ${isLast ? "active" : ""}`;

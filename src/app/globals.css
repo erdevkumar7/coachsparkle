@@ -1483,6 +1483,12 @@ footer.coach-footer-section .coach-footer-three {
   padding-right: 0px;
 }
 
+.smarter-matching-left p.lead {
+  font-weight: 400;
+}
+
+
+
 /*Mobile-view-css*/
 
 @media only screen and (max-width: 767px) {
