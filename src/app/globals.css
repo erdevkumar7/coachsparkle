@@ -101,6 +101,12 @@
   font-size: 16px;
 }
 
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+    color: var(--bs-navbar-active-color);
+    background-color: transparent;
+    border: none;
+}
+
 .coach-top-navber-add a.sign-up-navbar {
   background-color: #009bfa;
   padding: 12px 25px;
