@@ -28,7 +28,7 @@ export default function Home() {
                 <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
                 <div className="ai-btn-find">
                   <button>Start AI Matching</button>
-                </div>  
+                </div>
               </div>
 
               <div className="counters-content">
@@ -210,9 +210,9 @@ export default function Home() {
       <div className="global-companies">
         <div className="container">
           <h1 className="text-center">Trusted by 500+ Global Partners</h1>
-          <SwiperSecond />   
+          <SwiperSecond />
           {/* <SwiperThird />      */}
-        </div>     
+        </div>
       </div>
 
       <div className="dedicated-career-coach">
@@ -230,14 +230,14 @@ export default function Home() {
 
 
             <div className="col-md-6 dedicated-career-coach-right">
-              <img src={`${FRONTEND_BASE_URL}/images/career-coach-img.png`} alt="Career Coach" className="img-fluid" />
+              <img src={`${FRONTEND_BASE_URL}/images/career-coach-img.webp`} alt="Career Coach" className="img-fluid" />
             </div>
           </div>
 
           <div className="row coaching-approach-inner">
 
             <div className="col-md-6 coaching-approach-right">
-              <img src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.png`} alt="coaching approach" className="img-fluid" />
+              <img src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.webp`} alt="coaching approach" className="img-fluid" />
             </div>
 
 

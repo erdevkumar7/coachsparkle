@@ -1,7 +1,7 @@
 .about-us-page-add .hero {
     color: #fff;
     text-align: center;
-    background: url("/coachsparkle/images/banner-img-about.png") center / cover no-repeat;
+    background: url("/coachsparkle/images/banner-img-about.webp") center / cover no-repeat;
     justify-content: center;
     align-items: center;
     height: 318px;
@@ -116,7 +116,7 @@
     margin-bottom: 2px;
     font-family: Inter;
     font-size: 20px !important;
-}   
+}
 
 .coach-sparkle’s-focus .focus-item p, .values-text p {
     color: #1a1a1a;
