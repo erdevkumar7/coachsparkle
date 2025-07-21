@@ -20,10 +20,12 @@ export default function AccountSettings() {
     <div className="main-panel account-section">
       <div className="account-setting">
         <h3 className="quick-text">Account Setting</h3>
-        <UserImageUploader
+        <div className="mt-4">
+            <UserImageUploader
           image="/coachsparkle/images/coach-list-img-two.png"
           alt="coachsparkle"
         />
+        </div>
         <form className="account-setting-form">
           <div className="account-form">
             <div className="account-form-row account-two-cols">
@@ -105,7 +107,7 @@ export default function AccountSettings() {
 
         <div className="password-section mt-5">
           <h3 className="quick-text">Change Password</h3>
-          <form className="account-setting-form mt-5">
+          <form className="account-setting-form mt-4">
             <div className="account-form">
               <div className="account-form-row account-three-cols">
                 <div className="account-form-group">
@@ -131,8 +133,8 @@ export default function AccountSettings() {
           </form>
 
           <div className="notification-section mt-5">
-            <h3 className="quick-text mt-2">Notifications</h3>
-            <div className="d-flex gap-2 flex-wrap">
+            <h3 className="quick-text">Notifications</h3>
+            <div className="d-flex gap-2 flex-wrap mt-4">
               <ToggleSwitch
                 label="New Coach Match Alert"
                 value={newCoachEnabled}
@@ -184,6 +186,9 @@ export default function AccountSettings() {
                 offLabel="OFF"
               />
             </div>
+          </div>
+          <div className="privacy-section mt-5">
+            <h3 className="quick-text">Data & Privacy Control</h3>
           </div>
         </div>
       </div>
