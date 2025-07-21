@@ -6,7 +6,7 @@ export default function PasswordField({ label, name }) {
 
   return (
     <div className="password-field">
-      <label className="form-label fw-bold">{label}</label>
+      <label className="form-label">{label}</label>
       <div className="input-wrapper">
         <input
           type={visible ? "text" : "password"}
