@@ -24,6 +24,11 @@
     padding-bottom: 50px;
 }
 
+.account-setting-form input[type="checkbox"] {
+    height: 23px;
+    width: 30px;
+}
+
 .upload-photo-add {
     align-items: center !important;
     gap: 20px !important;
@@ -55,6 +60,11 @@
 .account-form-group {
     flex-direction: column;
     display: flex;
+}
+
+.account-form-group input.form-control:focus {
+    box-shadow: none;
+    border: 3px solid black;
 }
 
 .account-form-row {
@@ -89,24 +99,26 @@
     font-size: 14px;
 }
 
+
 .react-tel-input .form-control {
-  border-radius: 12px !important;
-   padding: 13px 14px;
-  background: #fff;
-    border: 1px solid #d1d5db;
-  font-size: 14px !important;
+
+    background: #fff;
+    border: 1px solid #cacaca;
+    border-radius: 12px !important;
   height: 50px !important;
+    margin-left: 0;
+    padding-left: 48px;
+    font-size: 14px;
 }
 
 .react-tel-input .flag-dropdown {
   background: transparent !important;
-   border-bottom: 1px solid #d1d5db !important;
+  border: none;
   border-radius: 12px 0 0 12px !important;
 }
 
 .react-tel-input .selected-flag:hover {
   background-color: transparent !important;
-  border-bottom: 1px solid #d1d5db !important;
     border-radius: 12px 0 0 12px !important;
 }
 
@@ -128,4 +140,35 @@
 .notification-section{
     border-bottom: 1px solid #d7d7d7;
     padding-bottom: 50px;
+}
+
+.privacy-section{
+        border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 50px;
+}
+
+.privacy-section.title{
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.privacy-section input[type="checkbox"] {
+    height: 23px;
+    width: 30px;
+}
+
+.delete-account input[type="checkbox"] {
+    height: 23px;
+    width: 30px;
+}
+
+.delete-account .delete-btn{
+    margin-top: 40px;
+    background-color: #FFE5E5;
+    color: #FF4F4F;
+    border: 1px solid #FFE5E5;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 15px 30px 15px 30px;
 }

@@ -6,6 +6,10 @@ import "react-phone-input-2/lib/style.css";
 import PasswordField from "@/components/PasswordField";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useState } from "react";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+import PodcastsIcon from "@mui/icons-material/Podcasts";
+import CookieIcon from "@mui/icons-material/Cookie";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 
 export default function AccountSettings() {
   const [newCoachEnabled, setNewCoachEnabled] = useState(true);
@@ -21,10 +25,10 @@ export default function AccountSettings() {
       <div className="account-setting">
         <h3 className="quick-text">Account Setting</h3>
         <div className="mt-4">
-            <UserImageUploader
-          image="/coachsparkle/images/coach-list-img-two.png"
-          alt="coachsparkle"
-        />
+          <UserImageUploader
+            image="/coachsparkle/images/coach-list-img-two.png"
+            alt="coachsparkle"
+          />
         </div>
         <form className="account-setting-form">
           <div className="account-form">
@@ -189,6 +193,57 @@ export default function AccountSettings() {
           </div>
           <div className="privacy-section mt-5">
             <h3 className="quick-text">Data & Privacy Control</h3>
+            <div className="mt-4">
+              <div className="d-flex gap-2 mb-2">
+                <PublicOffIcon className="mui-icons" />
+                <span className="title">Profile Visibility</span>
+                <input type="checkbox" />
+                <label htmlFor="public">Public</label>
+                <input type="checkbox" />
+                <label htmlFor="private">Private</label>
+              </div>
+              <div className="d-flex gap-2 mb-2">
+                <PodcastsIcon className="mui-icons" />
+                <span className="title">Communication Preference</span>
+                <input type="checkbox" />
+                <label htmlFor="email">Email</label>
+                <input type="checkbox" />
+                <label htmlFor="inapp">In-App</label>
+                <input type="checkbox" />
+                <label htmlFor="push-toggles">Push Toggles</label>
+              </div>
+              <div className="d-flex gap-2 mb-2">
+                <i className="bi bi-openai mui-icons"></i>
+                <span className="title">Allow AI Matching</span>
+                <input type="checkbox" />
+                <label htmlFor="agree">I agree to AI Personalization</label>
+              </div>
+              <div className="d-flex gap-2 mb-2">
+                <CookieIcon className="mui-icons" />
+                <span className="title">Manage Cookie Preferences</span>
+              </div>
+              <div className="d-flex gap-2">
+                <PersonSearchIcon className="mui-icons" />
+                <span className="title">
+                  View Terms of Use & Privacy Policy
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="delete-account mt-5">
+            <h3 className="quick-text">Delete Account</h3>
+            <p>
+              Are you sure you want to delete your account? This action is
+              permanent and cannot be undone. All your data, messages, and
+              coaching history will be permanently removed.
+            </p>
+            <div className="d-flex gap-2">
+              <input type="checkbox" />
+              <label htmlFor="delete">
+                I understand and wish to proceed with account deletion.
+              </label>
+            </div>
+            <button className="delete-btn d-flex gap-2 align-items-center"><i className="bi bi-trash fs-5"></i>Delete Account</button>
           </div>
         </div>
       </div>
