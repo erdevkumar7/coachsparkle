@@ -9,7 +9,7 @@ export default function CoachingRequests({
   time,
   note,
   buttonNote,
-  onView
+  onClick
 }) {
   const getStatusClass = (status) => {
     switch (status) {
@@ -78,7 +78,7 @@ export default function CoachingRequests({
     </div>
 
     <div className="d-flex gap-3">
-      <button className="btn btn-primary button-note" onClick={onView}>{buttonNote}</button>
+      <button className="btn btn-primary button-note" onClick={onClick}>{buttonNote}</button>
       <button className="btn btn-outline-secondary button-msg">Message</button>
     </div>
   </div>

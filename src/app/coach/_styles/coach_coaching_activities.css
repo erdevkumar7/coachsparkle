@@ -259,3 +259,74 @@ h4.coaching-tittle-text {
   background-color: #FF0000;
   color: white;
 }
+
+.request-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.request-modal {
+  background-color: #fff;
+  width: 850px;
+  max-width: 90%;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease-in-out;
+  border-radius: 17px;
+}
+
+.request-modal-header {
+  border-top-left-radius: 17px;
+  border-top-right-radius: 17px;
+  background-color: #009BFA;
+}
+
+.request-modal-header h5{
+  font-size: 24px;
+  font-weight: 600;
+  color: #FFFFFF;
+  padding: 20px;
+}
+
+.request-modal-main-body{
+  overflow-y: scroll;
+  height: 550px;
+}
+
+.request-modal-body {
+  margin: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #D7D7D7;
+}
+
+.request-modal-body h6{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.request-modal-body p{
+  font-size: 16px;
+  line-height: 24px;
+  margin: 5px;
+}
+
+.request-modal-footer {
+  padding: 20px;
+}
+
+.request-close-btn {
+  background: none;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+  line-height: 1;
+  color: white;
+  padding: 20px;
+}

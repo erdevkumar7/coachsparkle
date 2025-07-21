@@ -40,3 +40,9 @@
     font-size: 14px;
     font-weight: 500;
 }
+
+
+.content-wrapper.coach-wrap.review-section-add {
+    padding: 2.375rem;
+    padding-top: 0px;
+}
