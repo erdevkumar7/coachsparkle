@@ -1,0 +1,128 @@
+
+
+.account-section {
+  padding: 2.375rem;
+  padding-top: 0px;
+  background-color: #ffffff;
+}
+
+.account-setting {
+  border-radius: 12px;
+  border: 1px solid #d7d7d7;
+  padding: 2rem;
+}
+
+.account-setting .account-form{
+    max-width: 1100px;
+    width: 88% !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+.account-setting-form{
+    border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 50px;
+}
+
+.upload-photo-add {
+    align-items: center !important;
+    gap: 20px !important;
+    margin-bottom: 30px !important;
+    display: flex !important;
+}
+
+.upload-photo-add img {
+    object-fit: cover !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 50% !important;
+    width: 72px !important;
+    height: 72px !important;
+}
+
+.upload-btn label {
+    color: #009bfa !important;
+    cursor: pointer !important;
+    border: 1px solid #009bfa !important;
+    border-radius: 10px !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 10px 25px !important;
+    font-size: 14px !important;
+    display: inline-flex !important;
+    font-weight: 600;
+}
+
+.account-form-group {
+    flex-direction: column;
+    display: flex;
+}
+
+.account-form-row {
+    gap: 20px;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.account-form-row.account-two-cols .account-form-group {
+  flex: 1 1 48%;
+}
+.account-form-row.account-three-cols .account-form-group {
+  flex: 1 1 33%;
+}
+.account-form-row.account-four-cols .account-form-group {
+  flex: 1 1 22%;
+}
+
+.account-form-group label {
+    color: #111827;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.account-form-group input, .account-form-group select {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-size: 14px;
+}
+
+.react-tel-input .form-control {
+  border-radius: 12px !important;
+   padding: 13px 14px;
+  background: #fff;
+    border: 1px solid #d1d5db;
+  font-size: 14px !important;
+  height: 50px !important;
+}
+
+.react-tel-input .flag-dropdown {
+  background: transparent !important;
+   border-bottom: 1px solid #d1d5db !important;
+  border-radius: 12px 0 0 12px !important;
+}
+
+.react-tel-input .selected-flag:hover {
+  background-color: transparent !important;
+  border-bottom: 1px solid #d1d5db !important;
+    border-radius: 12px 0 0 12px !important;
+}
+
+.save-changes-btn{
+    color: #fff;
+    cursor: pointer;
+    background-color: #009bfa;
+    border: none;
+    border-radius: 12px;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 40px;
+    font-size: 15px;
+    display: flex;
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+

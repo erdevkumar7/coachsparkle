@@ -105,7 +105,7 @@ export default function CoachSideBarComp() {
 
 
 
-                <li className="nav-item account-settings-tab" onClick={() => router.push('/coach/dashboard')}>
+                <li className="nav-item account-settings-tab" onClick={() => router.push('/coach/account-settings')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-gear"></i>
