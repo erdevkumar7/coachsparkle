@@ -183,11 +183,12 @@
 }
 
 .auto-renew-add .form-check.form-switch.me-3 {
-    display: flex;
     align-items: center;
+    gap: 5px;
+    padding-left: 0;
     font-size: 15px;
-}
-
+    display: flex;
+}  
 .payment-method-part {
     padding-top: 30px;
 }
@@ -306,6 +307,15 @@
 
 
 
+.monthly-paid .toggle-switch {
+    width: 111px;
+}
 
+.monthly-paid .toggle-switch.active .switch-knob {
+    left: 88px;
+}
 
+.auto-renew-add .d-flex.align-items-center.gap-2.mb-3 {
+    margin-bottom: 0px !important;
+}
 

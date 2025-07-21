@@ -1,6 +1,11 @@
+"use client";
+import { useState } from "react";
 import "../_styles/subscription_plan.css";
+import ToggleSwitch from "@/components/ToggleSwitch";
 
 export default function SubscriptionPlan() {
+    const [activePlanEnable, setActivePlanEnable] = useState(true);
+    const [autoRenew, setAutoRenew] = useState(true);
     return (
         <div className="main-panel">
 
@@ -28,11 +33,12 @@ export default function SubscriptionPlan() {
                             <div className="d-flex justify-content-between align-items-center mb-2">
                                 <span className="badge-active">Active Plan</span>
                                 <div className="monthly-paid">
-                                    <label className="switch">
-                                        <input className="form-check-input" type="checkbox" id="autoRenew" defaultChecked />
-                                        <span className="slider"></span>
-                                    </label>
-                                    <span className="toggle-label">Monthly</span>
+                                <ToggleSwitch
+                value={activePlanEnable}
+                onChange={setActivePlanEnable}
+                onLabel="Monthly"
+                offLabel="Yearly"
+              />
 
                                 </div>
                             </div>
@@ -51,8 +57,13 @@ export default function SubscriptionPlan() {
 
                             <div className="d-flex align-items-center mt-3 auto-renew-add">
                                 <div className="form-check form-switch me-3">
-                                    <input className="form-check-input" type="checkbox" id="autoRenew" defaultChecked />
-                                    <label className="form-check-label" for="autoRenew">Auto Renew is On</label>
+                                <ToggleSwitch
+                value={autoRenew}
+                onChange={setAutoRenew}
+                onLabel="On"
+                offLabel="Off"
+              />
+                                    <label className="form-check-label" htmlFor="autoRenew">Auto Renew is On</label>
                                 </div>
                                 <button className="btn btn-primary btn-sm">Manage</button>
                             </div>
