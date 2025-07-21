@@ -2,7 +2,6 @@ import '../_styles/review.css';
 
 export default function Review() {
     return (
-
         <div className="main-panel">
             <div className="content-wrapper coach-wrap review-section-add">
                 <div className="rating-reviews">

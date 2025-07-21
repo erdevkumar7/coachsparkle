@@ -1,0 +1,39 @@
+.toggle-switch {
+  width: 90px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: #009BFA;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding: 0 8px;
+  transition: background-color 0.3s ease;
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.toggle-switch .switch-knob {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 8px;
+  transition: left 0.3s ease;
+}
+
+.toggle-switch.active .switch-knob {
+  left: 65px;
+}
+
+.toggle-switch .switch-label {
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.title{
+    font-size: 14px;
+    font-weight: 500;
+}
