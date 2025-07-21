@@ -2874,4 +2874,18 @@ ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
     padding-top: 0px;
 }
 
-
+.support-icon {
+    color: rgb(255, 255, 255);
+    z-index: 9999;
+    background-color: #1C1C1E;
+    font-size: 25px;
+    width: 60px !important;
+    height: 60px;
+    position: fixed;
+    bottom: 5%;
+    right: 30px;
+    border-radius: 100px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
