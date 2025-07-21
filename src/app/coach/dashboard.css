@@ -56,10 +56,13 @@
   overflow: hidden;
 }
 .coach-dashboard-add .progress-fill {
+  text-align: right;
   background: #00e096;
   width: 80%;
   height: 17px;
-  text-align: right;
+  display: flex;
+  justify-content: right;
+  align-items: center;
 }
 .coach-dashboard-add .progress-fill span {
   margin-right: -29px;
