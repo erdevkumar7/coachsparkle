@@ -114,7 +114,7 @@ export default function CoachSideBarComp() {
                     </a>
                 </li>
 
-                <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
+                <li className="nav-item" onClick={() => router.push('/coach/subscription-plan')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-heart"></i>
@@ -125,7 +125,7 @@ export default function CoachSideBarComp() {
 
 
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('coach/faq')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-headset"></i>

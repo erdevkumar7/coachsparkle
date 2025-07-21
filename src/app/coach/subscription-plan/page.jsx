@@ -18,7 +18,7 @@ export default function SubscriptionPlan() {
                             <button className="btn btn-learn mt-2">Learn More</button>
                         </div>
                         <div className="col-md-5 pro-plan-right-side-img">
-                            <img src="/coachsparkle/images/pro-plan-img.png" alt="Coaches" className="coach-image" />
+                            <img src="/coachsparkle/images/pro-plan-img.webp" alt="Coaches" className="coach-image" />
                         </div>
                     </div>
 
