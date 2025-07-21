@@ -1,0 +1,311 @@
+.pro-coach-banner {
+    color: #fff;
+    background: #09f;
+    border-radius: 10px;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 0px;
+}
+.pro-coach-banner .btn-learn {
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 9px;
+    padding: 5px 20px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+.pro-coach-banner .btn-learn:hover {
+    background-color: #fff;
+    color: #0099ff;
+}
+.pro-coach-banner .you-currently-text {
+    width: 96%;
+    font-family: inter;
+    font-size: 45px;
+}
+.pro-coach-banner p.leverage-text {
+    width: 92%;
+    padding: 10px 0;
+    font-family: inter;
+    font-size: 15px;
+}
+
+.pro-coach-banner img.coach-image {
+    width: 100%;
+}
+.pro-plan-right-side-img {
+    padding-right: 0px;
+    margin-right: -20px;
+    margin-bottom: -15px;
+}
+
+.current-sub-plan .subscription-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 48%;
+}
+.current-sub-plan .badge-active {
+    color: #50C878;
+    background-color: #DFF5FD;
+    border-radius: 8px;
+    padding: 5px 15px;
+    font-size: 12px;
+}
+.current-sub-plan .badge-monthly {
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+.current-sub-plan .subscription-title {
+    color: #009BFA;
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 10px;
+}
+.current-sub-plan .subscription-price {
+    font-weight: bold;
+    font-size: 20px;
+}
+.current-sub-plan .benefit-list li {
+    margin-bottom: 8px;
+    list-style: none;
+}
+.current-sub-plan .notification-bar {
+    color: #333;
+    background-color: #e0f2fe;
+    border-radius: 5px;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 14px;
+    display: inline-flex;
+    width: 48%;
+}
+.current-sub-plan .notification-bar i {
+    font-size: 16px;
+    margin-right: 8px;
+    color: #6b7280; /* gray */
+}
+.current-sub-plan.card {
+    margin-top: 40px;
+    padding: 30px;
+    margin-left: -11px;
+    margin-right: -11px;
+}
+
+.current-sub-plan.card h4 {
+    padding-top: 30px;
+    font-family: inter;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.current-sub-plan .subscription-card button.btn.btn-primary.btn-sm {
+    background: #009BFA;
+    border: none;
+    width: 40%;
+    padding: 13px 0;
+    border-radius: 11px;
+    font-family: inter;
+}
+
+.monthly-paid .switch {
+    width: 50px;
+    height: 24px;
+    display: inline-block;
+    position: relative;
+    margin-right: 5px;
+}
+
+.monthly-paid .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.monthly-paid .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.monthly-paid .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.monthly-paid input:checked + .slider {
+    background-color: #009BFA;
+}
+
+.monthly-paid input:checked + .slider:before {
+    transform: translateX(26px);
+}
+.auto-renew-add {
+    justify-content: space-between;
+} 
+.auto-renew-add .form-switch .form-check-input:checked {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    background-position: 100%;
+    padding: 11px 25px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.auto-renew-add .form-switch .form-check-input {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");
+    background-image: var(--bs-form-switch-bg);
+    background-position: 0;
+    border-radius: 2em;
+    width: 2em;
+    margin-left: -2.5em;
+    transition: background-position .15s ease-in-out;
+    padding: 11px 25px;
+    margin-right: 8px;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.auto-renew-add .form-check.form-switch.me-3 {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+}
+
+.payment-method-part {
+    padding-top: 30px;
+}
+
+.payment-method {
+    padding-top: 10px;
+    display: flex;
+    gap: 25px;
+}
+
+.payment-method .payment-method-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    min-width: 140px;
+    background: #fff;
+    margin-right: 10px;
+}
+.payment-method .payment-method-card.active {
+    border-color: #2D89D4;
+    box-shadow: 0 0 0 1px #2D89D4;
+    background: #E9F4FD;
+}
+.payment-method .payment-method-card .remove-btn {
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    background: #B3B8BC;
+    width: 20px;
+    border-radius: 100px;
+    display: flex;
+    float: right;
+    justify-content: center;
+    margin-top: 10px;
+}
+.payment-method .payment-method-card .add-icon {
+    color: #fff;
+    background: #b3b8bc;
+    border-radius: 100px;
+    justify-content: center;
+    align-items: normal;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    display: flex;
+}
+.payment-method .status-paid {
+    background-color: #198754;
+    color: #fff;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+}
+
+.debit-card-inner {
+    display: flex;
+    align-items: center;
+}
+.payment-method-part small {
+    text-align: left;
+    display: flex;
+    padding-bottom: 8px;
+}
+.payment-method-part .card-number {
+    color: #000000;
+}
+
+.payment-method-card.d-flex.justify-content-center.align-items-center {
+    background: #F2F2F4;
+    width: 25%;
+}
+
+.payment-method-card.active i.bi.bi-check-circle-fill {
+    color: #009BFA;
+    position: absolute;
+    right: -5px;
+    top: -11px;
+    background: #fff;
+    height: 19px;
+}
+
+.payment-history {
+    padding-top: 30px;
+}
+
+.payment-history .table-responsive.card {
+    margin-top: 18px;
+}
+
+.payment-history .table-bordered > :not(caption) > * > * {
+    border-width: 0 var(--bs-border-width);
+    border: none;
+}
+
+.payment-history .table-bordered > :not(caption) > * {
+    border-width: var(--bs-border-width) 0;
+    border: none;
+}
+
+.payment-history thead.table-light th {
+    background: #E5E5E5;
+}
+.payment-history span.status-paid {
+    background: #42A63C;
+    color: #fff;
+    border-radius: 6px;
+    padding: 4px 13px;
+}
+.payment-history table.table.table-bordered.bg-white a {
+    color: #009bfa;
+    text-decoration: none;
+}
+
+
+
+
+
+
