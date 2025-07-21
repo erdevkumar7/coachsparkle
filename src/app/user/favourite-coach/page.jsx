@@ -35,40 +35,29 @@ export default function favourite() {
 
     return (
         <div className="main-panel">
-            <div className="content-wrapper">
+            <div className="content-wrapper favourite-coach-warp">
                 <div className="row favourite-coach-page">
-                    <h3 className="tittle-text">Favourite coach</h3>
+                    <h3 className="tittle-text">Favourite coach </h3>
+
                     <div className="col-md-4 favourite-card">
 
                         <div className="card engagements-cards">
                             <div className="card-body">
-                                <p className="favourite-text-tittle">Tracy McCoy</p>
+                                <div className="inner-card-add">
+                                    <p className="favourite-text-tittle">Sarah Lee</p>
+                                    <i class="bi bi-three-dots"></i>
+                                </div>
                                 <div className="respond-add">
                                     <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <p>Senior Enginner at IBM</p>
+                                    <div>
+                                        <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
+                                        <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                    </div>
                                 </div>
 
                                 <div className="two-btn-free">
-                                    <button className="start-btn">Apply</button>
-                                    <button className="message-btn">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className="col-md-4 favourite-card">
-
-                        <div className="card engagements-cards">
-                            <div className="card-body">
-                                <p className="favourite-text-tittle">Gary Sims</p>
-                                <div className="respond-add">
-                                    <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <p>Data Analyst at IBM</p>
-                                </div>
-
-                                <div className="two-btn-free">
-                                    <button className="start-btn">Apply</button>
-                                    <button className="message-btn">Remove</button>
+                                    <button className="start-btn">Book</button>
+                                    <button className="message-btn">Message</button>
                                 </div>
                             </div>
                         </div>
@@ -79,15 +68,47 @@ export default function favourite() {
 
                         <div className="card engagements-cards">
                             <div className="card-body">
-                                <p className="favourite-text-tittle">Joe Wilson</p>
+                                <div className="inner-card-add">
+                                    <p className="favourite-text-tittle">Tracy McCoy</p>
+                                    <i class="bi bi-three-dots"></i>
+                                </div>
                                 <div className="respond-add">
                                     <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <p>Web Developer at IBM</p>
+                                    <div>
+                                        <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
+                                        <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                    </div>
                                 </div>
 
                                 <div className="two-btn-free">
-                                    <button className="start-btn">Apply</button>
-                                    <button className="message-btn">Remove</button>
+                                    <button className="start-btn">Book</button>
+                                    <button className="message-btn">Message</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div className="col-md-4 favourite-card">
+
+                        <div className="card engagements-cards">
+                            <div className="card-body">
+                                <div className="inner-card-add">
+                                    <p className="favourite-text-tittle">Tracy McCoy</p>
+                                    <i class="bi bi-three-dots"></i>
+                                </div>
+                                <div className="respond-add">
+                                    <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
+                                    <div>
+                                        <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
+                                        <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                    </div>
+                                </div>
+
+                                <div className="two-btn-free">
+                                    <button className="start-btn">Book</button>
+                                    <button className="message-btn">Message</button>
                                 </div>
                             </div>
                         </div>
@@ -100,15 +121,21 @@ export default function favourite() {
 
                         <div className="card engagements-cards">
                             <div className="card-body">
-                                <p className="favourite-text-tittle">Trish Boucher</p>
+                                <div className="inner-card-add">
+                                    <p className="favourite-text-tittle">Tracy McCoy</p>
+                                    <i class="bi bi-three-dots"></i>
+                                </div>
                                 <div className="respond-add">
                                     <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <p>UI/UX at IBM</p>
+                                    <div>
+                                        <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
+                                        <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                    </div>
                                 </div>
 
                                 <div className="two-btn-free">
-                                    <button className="start-btn">Apply</button>
-                                    <button className="message-btn">Remove</button>
+                                    <button className="start-btn">Book</button>
+                                    <button className="message-btn">Message</button>
                                 </div>
                             </div>
                         </div>

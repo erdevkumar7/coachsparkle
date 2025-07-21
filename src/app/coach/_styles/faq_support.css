@@ -30,7 +30,7 @@
 }
 .faq-support-add .form-checkbox {
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     display: flex;
     padding: 8px 0px;
 }
@@ -136,9 +136,9 @@
 }
 
 .faqs-coaches .accordion-item {
-    border: 1px solid rgb(217, 219, 233);
+    border: none;
     border-radius: 9px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding: 5px;
     box-shadow: 0 5px 21px -5px #cdd1e1;
 }
@@ -195,7 +195,35 @@ p.still-below-text a {
     color: #009BFA;
 }
 
+.faq-form-add {
+    padding-top: 30px;
+}
 
+label.form-label {
+    font-family: 'Roboto';
+}
 
+.attach-screenshot {
+    padding-top: 25px;
+}
 
+.accordion-item:has(.accordion-collapse.show) {
+    border: 2px solid #009BFA;
+}
+.faqs-coaches .accordion-button:after {
+    content: "";
+    color: #009BFA;
+    background-color: #f2f2f2;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    font-family: bootstrap-icons;
+    font-size: 12px;
+    transition: all .3s;
+    display: flex;
+    background-image: none !important;
+}
 
