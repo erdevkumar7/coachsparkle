@@ -611,8 +611,15 @@ span.MuiButtonBase-root {
 }
 .coach-action-profile-icon {
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
+  color: #009bfa !important;
+  cursor: pointer;
+  background-color: #009bfa26;
+  border-radius: 4px;
+  padding: 0px 13px;
+  font-size: 21px;
+  line-height: 2.3;
 }
 
 .coach-profile-list-left .coach-card {
@@ -1265,7 +1272,7 @@ textarea {
   font-weight: 800 !important;
 }
 .swiper-slide.swiper-slide-prev {
-    margin-right: 0px !important;
+    margin-right: 20px !important;
 }
 .next-prev-part i:hover {
   color: #009bfa;
