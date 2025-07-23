@@ -539,7 +539,7 @@ export default function Home() {
             <div className="latest-articles-cards-content">
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-one.png`} className="card-img-top" alt="Coach Image" />
+                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-one.webp`} className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -551,7 +551,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-two.png`} className="card-img-top" alt="Coach Image" />
+                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-two.webp`} className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -563,7 +563,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-three.png`} className="card-img-top" alt="Coach Image" />
+                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-three.webp`} className="card-img-top" alt="Coach Image" />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>

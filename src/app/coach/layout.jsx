@@ -20,6 +20,7 @@ export default async function CoachLayout({ children }) {
       <div className="container dashboard-wrapper">
         <CoachSideBarComp />
         {children}
+        <i className="bi bi-chat-dots support-icon"></i>
       </div>
     </UserProvider>
   );
