@@ -31,11 +31,11 @@ export const allPackagesOfaCoach = async (givenToken) => {
     return await res.json()
 };
 
-export const similarCoaches = async(coach_id) => {
-    if(!coach_id) return null;
+export const similarCoaches = async (coach_id) => {
+    if (!coach_id) return null;
 
     const res = await fetch(`${apiUrl}/similarcoaches`,
-           {
+        {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ coach_id }),
@@ -43,4 +43,18 @@ export const similarCoaches = async(coach_id) => {
         }
     );
     return await res.json();
+}
+
+export const cochingRequestsListsUserDashboard = async () => {
+    const res = await fetch(`${apiUrl}/cochingRequestsListsUserDashboard`,
+        {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify()
+        }
+    );
 }
