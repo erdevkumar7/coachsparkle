@@ -1,5 +1,5 @@
 .favourite-coach-page .card.engagements-cards {
-    width: 100%;
+    width: 96%;
 }
 .card.engagements-cards p {
     color: #181a20;
@@ -21,18 +21,19 @@
     box-shadow: 0 5px 21px -5px #cdd1e1;
 }
 .favourite-coach-page p.favourite-text-tittle {
+    padding-bottom: 4px;
     font-size: 16px;
-    padding-bottom: 10px;
 }
 .favourite-coach-page button.start-btn {
     width: 42%;
 }
 
 .inner-card-add {
-    padding-top: 10px;
+    justify-content: flex-end;
+    padding-top: 0;
     display: flex;
     gap: 8px !important;
-    justify-content: space-between;
+    height: 18px;
 }
 
 .inner-card-add i.bi.bi-three-dots {
@@ -53,9 +54,29 @@
     display: flex;
     justify-content: space-between;
 }
+.card.engagements-cards .respond-add {
+    align-items: center;
+    gap: 10px;
+    padding-top: 0px;
+}
 
 .card.engagements-cards .respond-add img {
     width: 45px;
     height: 45px;
+}
+
+.star-add-pointer p {
+    font-size: 15px !important;
+    font-weight: 600;
+}
+/* 
+.favourite-coach-page .card.engagements-cards .card-body {
+    padding-left: 10px;
+    padding-right: 10px;
+} */
+
+.star-add-pointer {
+    display: flex;
+    align-items: center;
 }
 

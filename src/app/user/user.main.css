@@ -130,17 +130,16 @@
     display: -webkit-flex;
     display: flex;
 }
-.container.user-wrapper.user-page-add {
-  padding-top: 60px !important;
-  margin-top: 100px !important;  
+.user-wrapper {
+  padding-top: 150px !important; 
 }
 
 
-/* .dashboard-wrapper.full-page-wrapper {
+.dashboard-wrapper.full-page-wrapper {
   width: 100%;
   min-height: 100vh;
   padding-top: 0;
-} */
+}
 
 
 .max-w-5xl.mx-auto.px-4.at-glance-add .grid.grid-cols-2.sm\:grid-cols-3.md\:grid-cols-5.gap-3.inner-card-add {
