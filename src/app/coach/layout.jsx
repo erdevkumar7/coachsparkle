@@ -4,6 +4,7 @@ import "./dashboard.css"
 import CoachHeader from './_coach_components/CoachHeader';
 import CoachSideBarComp from './_coach_components/coachSideBar';
 import { UserProvider } from '@/context/UserContext';
+import ChatSupportWrapper from './_coach_components/support/ChatSupportWrapper';
 
 export default async function CoachLayout({ children }) {
   const { data: user, error } = await getUserProfileData();
@@ -20,7 +21,7 @@ export default async function CoachLayout({ children }) {
       <div className="container dashboard-wrapper">
         <CoachSideBarComp />
         {children}
-        <i className="bi bi-chat-dots support-icon"></i>
+        <ChatSupportWrapper/>
       </div>
     </UserProvider>
   );
