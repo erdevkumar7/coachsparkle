@@ -8,6 +8,8 @@ import CoachDetailCalendar from "../../_components/CoachDetailCalendar";
 import ViewServicePackage from "@/app/coach/_coach_components/ViewServicePackage";
 import LoginForm from "@/components/LoginForm";
 import BreadCrumb from "@/components/BreadCrumb";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default async function CoachDetail({ params }) {
   const { id } = await params;
@@ -108,7 +110,7 @@ export default async function CoachDetail({ params }) {
                               <div className="d-flex gap-4">
                                 <div>
                                   <div className="info-item">
-                                    <i className="bi bi-geo-alt"></i>
+                                    <LocationOnIcon className="mui-icons"/>
                                     <span>{coach.country_id}</span>
                                   </div>
 
@@ -163,7 +165,7 @@ export default async function CoachDetail({ params }) {
                           </div>
                         </div>
                         <div className="coach-action-profile-icon">
-                          <i className="bi bi-heart"></i>
+                          <FavoriteBorderIcon className="mui-icons"/>
                         </div>
                         <div className="coach-action-share-icon">
                           <i className="bi bi-share"></i>
@@ -267,7 +269,7 @@ export default async function CoachDetail({ params }) {
                 <div className="col-md-4 coach-profile-list-right">
                   <div className="profile-card">
                     <img
-                      src={`${FRONTEND_BASE_URL}/images/profile-video.png`}
+                      src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}
                       alt="Team Image"
                       className="top-image"
                     />

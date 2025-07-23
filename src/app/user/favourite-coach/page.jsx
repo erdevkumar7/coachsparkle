@@ -39,19 +39,26 @@ export default function favourite() {
                 <div className="row favourite-coach-page">
                     <h3 className="tittle-text">Favourite coach </h3>
 
-                    <div className="col-md-4 favourite-card">
+                    <div className="col-md-6 favourite-card">
 
                         <div className="card engagements-cards">
                             <div className="card-body">
                                 <div className="inner-card-add">
-                                    <p className="favourite-text-tittle">Sarah Lee</p>
+
                                     <i class="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
+
                                     <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                     <div>
+                                        <p className="favourite-text-tittle">Sarah Lee</p>
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                        <div className="star-add-pointer">
+                                        <i class="bi bi-star-fill"></i> 
+                                            <p>5.0</p>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -64,19 +71,26 @@ export default function favourite() {
 
                     </div>
 
-                    <div className="col-md-4 favourite-card">
+                    <div className="col-md-6 favourite-card">
 
                         <div className="card engagements-cards">
                             <div className="card-body">
                                 <div className="inner-card-add">
-                                    <p className="favourite-text-tittle">Tracy McCoy</p>
+
                                     <i class="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
+
                                     <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                     <div>
+                                        <p className="favourite-text-tittle">Sarah Lee</p>
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                        <div className="star-add-pointer">
+                                        <i class="bi bi-star-fill"></i> 
+                                            <p>5.0</p>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -90,19 +104,26 @@ export default function favourite() {
                     </div>
 
 
-                    <div className="col-md-4 favourite-card">
+                    <div className="col-md-6 favourite-card">
 
                         <div className="card engagements-cards">
                             <div className="card-body">
                                 <div className="inner-card-add">
-                                    <p className="favourite-text-tittle">Tracy McCoy</p>
+
                                     <i class="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
+
                                     <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                     <div>
+                                        <p className="favourite-text-tittle">Sarah Lee</p>
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                        <div className="star-add-pointer">
+                                        <i class="bi bi-star-fill"></i> 
+                                            <p>5.0</p>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -117,19 +138,26 @@ export default function favourite() {
 
 
 
-                    <div className="col-md-4 favourite-card">
+                    <div className="col-md-6 favourite-card">
 
                         <div className="card engagements-cards">
                             <div className="card-body">
                                 <div className="inner-card-add">
-                                    <p className="favourite-text-tittle">Tracy McCoy</p>
+
                                     <i class="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
+
                                     <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                     <div>
+                                        <p className="favourite-text-tittle">Sarah Lee</p>
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
+                                        <div className="star-add-pointer">
+                                        <i class="bi bi-star-fill"></i> 
+                                            <p>5.0</p>
+
+                                        </div>
                                     </div>
                                 </div>
 

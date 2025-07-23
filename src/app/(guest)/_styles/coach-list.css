@@ -106,14 +106,17 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
   color: #fff !important;
 }
 .sim-coachs .coaches-view-cards .card img {
-    cursor: pointer;
-    border-radius: 20px 20px 0 0;
-    width: 100%;
-    object-fit: cover;
-    height: 200px;
-    object-position: top;
+  cursor: pointer;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 20px 20px 0 0;
+  width: 258px;
+  height: 200px;
 }
-
+/* .swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden .swiper-wrapper {
+  margin-top: 10px;
+  gap: 25px;
+} */
 /* Sidebar */
 .coach-banner-add .sidebar {
   width: 315px;
@@ -608,8 +611,15 @@ span.MuiButtonBase-root {
 }
 .coach-action-profile-icon {
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
+  color: #009bfa !important;
+  cursor: pointer;
+  background-color: #009bfa26;
+  border-radius: 4px;
+  padding: 0px 13px;
+  font-size: 21px;
+  line-height: 2.3;
 }
 
 .coach-profile-list-left .coach-card {
@@ -694,7 +704,7 @@ span.MuiButtonBase-root {
     box-shadow: none !important;
 }
 .about-section.sim-coachs .col-md-4.item {
-    width: 80%;
+  min-width: fit-content !important;
 }
 .about-section.package_short .session-list {
     color: rgb(68, 68, 68) !important;
@@ -1140,13 +1150,23 @@ textarea {
     font-size: 12px;
     text-decoration: none;
 }
-
 .coach-profile-list-left .coaches-view-cards .card-body {
-    border: 1px solid #e7e7e7;
-    padding: 10px 10px 20px;
-    box-shadow: 0 2px 15px #0000001a;
-    height: 200px;
+  border: 1px solid #e7e7e7;
+  width: 236px;
+  height: 200px;
+  padding: 10px 10px 20px;
+  box-shadow: 0 2px 15px #0000001a;
 }
+
+
+.about-section.sim-coachs .swiper-button-prev:after, .about-section.sim-coachs .swiper-button-next:after {
+  color: #009df6;
+  font-size: 15px !important;
+}
+/* 
+.swiper-wrapper {
+  gap: 5px !important;
+} */
 .related-coaches-inner .coaches-view-cards .card img {
   width: 100%;
   cursor: pointer;
@@ -1251,7 +1271,9 @@ textarea {
   font-size: 15px;
   font-weight: 800 !important;
 }
-
+.swiper-slide.swiper-slide-prev {
+    margin-right: 20px !important;
+}
 .next-prev-part i:hover {
   color: #009bfa;
 }
