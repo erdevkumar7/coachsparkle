@@ -30,6 +30,7 @@ export default function Footer() {
                             <h5>Platform</h5>
                             <ul className="list-unstyled">
                                 <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Browse Coaches</a></li>
+                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="/coachsparkle/send-coaching-request" className="text-decoration-none">Send Coaching Request</a></li>
                                 <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Get Match</a></li>
                                 <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">List As Coach</a></li>
                                 <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">For Corporate</a></li>
