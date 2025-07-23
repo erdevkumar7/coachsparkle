@@ -44,7 +44,7 @@ export default function UserSideBarComp({user}) {
                     </a>
                 </li>
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/coaching-activities')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-duffle"></i>
