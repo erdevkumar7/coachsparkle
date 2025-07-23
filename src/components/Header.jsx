@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from 'js-cookie';
 import { HandleAuthLogout, HandleValidateToken } from '@/app/api/auth';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export default function Header() {
     const router = useRouter();
@@ -60,12 +61,13 @@ export default function Header() {
                             <Link className="nav-link active" aria-current="page" href="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" href="/coach-detail/list">Explore Coaches</Link>
+                            <Link className="nav-link" href="/coach-detail/list">Explore Coaches <KeyboardArrowDownIcon className='mui-icons' /></Link>
                         </li>
 
                         <li className="nav-item dropdown">
                             <Link className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Send Coaching Request
+                                <KeyboardArrowDownIcon className='mui-icons' />
                             </Link>
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" href="/">Match 1</Link></li>
@@ -76,7 +78,7 @@ export default function Header() {
 
                         <li className="nav-item dropdown">
                             <Link className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                For Corporate
+                                For Corporate <KeyboardArrowDownIcon className='mui-icons' />
                             </Link>
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" href="/">Corporate 1</Link></li>
