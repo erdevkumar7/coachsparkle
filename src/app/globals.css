@@ -163,7 +163,10 @@
   width: 20px !important;
   height: 20px !important;
 }
-
+nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
+  width: 22px;
+  height: 22px;
+}
 /*fisrt-section-css*/
 .smarter-matching {
   padding: 49px 0;
