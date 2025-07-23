@@ -22,3 +22,17 @@ export const formatBookingAvailability = (range) => {
         return `${startMonth} - ${endMonth} ${year}`;
     }
 };
+
+export function formatBookingWindow(bookingRange) {
+  if (!bookingRange) return "";
+
+  const [startStr, endStr] = bookingRange.split(" - ");
+  const startDate = new Date(startStr);
+  const endDate = new Date(endStr);
+
+  const options = { year: "numeric", month: "long", day: "numeric" };
+
+  return `${startDate.toLocaleDateString("en-US", options)} to ${endDate.toLocaleDateString("en-US", options)}`;
+}
+
+
