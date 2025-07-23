@@ -31,16 +31,33 @@ export const allPackagesOfaCoach = async (givenToken) => {
     return await res.json()
 };
 
-export const similarCoaches = async(coach_id) => {
-    if(!coach_id) return null;
+export const similarCoaches = async (coach_id) => {
+    if (!coach_id) return null;
 
     const res = await fetch(`${apiUrl}/similarcoaches`,
-           {
+        {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ coach_id }),
             cache: "no-store", // prevent caching if dynamic
         }
     );
+    return await res.json();
+}
+
+
+export const packageByPackageId = async (package_id, coach_id) => {
+    if (!package_id) return null;
+
+    const res = await fetch(`${apiUrl}/getServicePackageById/${package_id}`,
+        {
+            method: "POST",
+            headers: {
+                Accept: 'application/json'
+            },
+            cache: "no-store",
+        }
+    )
+
     return await res.json();
 }

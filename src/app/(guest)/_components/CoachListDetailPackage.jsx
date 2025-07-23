@@ -5,6 +5,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { useState } from "react";
+import Link from "next/link";
 export default function CoachingListDetailPackage({ packages }) {
   const [startIndex, setStartIndex] = useState(0);
   const visibleCount = 2;
@@ -105,9 +106,9 @@ export default function CoachingListDetailPackage({ packages }) {
                 <div className="price">
                   {pkg?.price} / {pkg?.price_model?.name}
                 </div>
-                <a href="#" className="book-btn">
+                <Link href={`/coach-detail/package/${pkg.id}`} className="book-btn">
                   View Details and Booking Now!
-                </a>
+                </Link>
                 <div className="d-flex justify-content-start gap-2 mt-4" style={{fontSize: "12px"}}>
                   <i
                     className="bi bi-fire"
