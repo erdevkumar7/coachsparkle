@@ -1,0 +1,231 @@
+"use client";
+import { useEffect, useState } from "react";
+import StatusItem from "./coaching_activities/StatusItem";
+import PendingRequest from "./coaching_activities/PendingRequest";
+import CoachingProgress from "./coaching_activities/CoachingProgress";
+import CompletedCoaching from "./coaching_activities/CompletedCoaching";
+import CanceledMissed from "./coaching_activities/CanceledMissed";
+
+export default function CoachingActivities({ coachingData }) {
+  const statusItems = [
+    {
+      icon: "/coachsparkle/assets/images/glance-img-one.png",
+      title: "Pending Coaching",
+      count: 67,
+    },
+    {
+      icon: "/coachsparkle/assets/images/glance-img-three.png",
+      title: "In progress",
+      count: 2,
+    },
+    {
+      icon: "/coachsparkle/assets/images/match-three.png",
+      title: "Completed",
+      count: 1,
+    },
+    {
+      icon: "/coachsparkle/assets/images/match-four.png",
+      title: "Canceled / Missed",
+      count: 2,
+    },
+  ];
+
+  const pendingRequest = [
+    {
+      title: "Coaching Request sent",
+      statusText: "Awaiting response",
+      statusClass: "",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Male / Female",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "View Request",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Pending Free Trial",
+      statusText: "Accepted",
+      statusClass: "accepted",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Jane Lee",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "Book Free Trial",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Coach Matched",
+      statusText: "AI Matched",
+      statusClass: "ai-matched",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Steven Tan",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "View Profile",
+      secondaryAction: "Message",
+    },
+    {
+      title: "coaching request received, Coach responded",
+      statusText: "Matched",
+      statusClass: "matched",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Amy snicks",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "View Profile",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const coachingProgress = [
+    {
+      title: "Session Booked",
+      sessionLeft: "1 Session left",
+      status: "Confirmed",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Breakthrough Package With User Display Name",
+      time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/zoom.png",
+      primaryAction: "View Session",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Session Rescheduled",
+      sessionLeft: "1 Session left",
+      status: "In Progress",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Custom Package With User Display Name",
+      time: "Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/teams.png",
+      primaryAction: "View Session",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Session In Progress",
+      sessionLeft: "2 Sessions left",
+      status: "In Progress",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Confidence Jump Start PackageWith User Display Name",
+      time: "Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)",
+      platformIcon: "/coachsparkle/images/people.png",
+      primaryAction: "Manage Session",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const completed = [
+    {
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Meditation PackageWith Jenny Sim",
+      time: "Completed Friday, July 9",
+      primaryAction: "Leave a Review",
+      secondaryAction: "Message",
+    },
+    {
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Cross-fit PackageWith Bruce Toh",
+      time: "Completed Friday, July 9",
+      primaryAction: "Leave a Review",
+      secondaryAction: "Message",
+    },
+    {
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Meditation PackageWith Jenny Sim",
+      time: "Completed Friday, July 9",
+      primaryAction: "Leave a Review",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const canceledMissed = [
+    {
+      sessionTitle: "Session canceled",
+      sessionCount: "1 Session left",
+      status: "Canceled",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Breakthrough PackageWith Adam Bell",
+      time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/zoom.png",
+      primaryAction: "Reschedule Session",
+      secondaryAction: "Message",
+    },
+    {
+      sessionTitle: "Session Rescheduled",
+      sessionCount: "1 Session left",
+      status: "Missed",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Custom Package With User Display Name",
+      time: "Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/teams.png",
+      primaryAction: "View Session",
+      secondaryAction: "Message",
+    },
+    {
+      sessionTitle: "Session In Progress",
+      sessionCount: "2 Sessions left",
+      status: "In Progress",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Confidence Jump Start PackageWith User Display Name",
+      time: "Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)",
+      platformIcon: "/coachsparkle/images/people.png",
+      primaryAction: "Manage Session",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+
+  const ITEMS_PER_PAGE = 3;
+  const paginatedRequests = pendingRequest.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setLastPage(Math.ceil(pendingRequest.length / ITEMS_PER_PAGE));
+  }, [pendingRequest]);
+
+  console.log(coachingData);
+  return (
+    <div className="content-wrapper favourite-user-warp">
+      <div className="d-flex justify-content-between gap-4">
+        {statusItems.map((item, index) => (
+          <StatusItem
+            key={index}
+            icon={item.icon}
+            title={item.title}
+            count={item.count}
+          />
+        ))}
+      </div>
+
+      <PendingRequest
+        title="Pending Coaching"
+        count={pendingRequest.length}
+        pendingRequest={pendingRequest}
+        currentPage={currentPage}
+        lastPage={lastPage}
+        onPageChange={setCurrentPage}
+      />
+
+      <CoachingProgress
+        title="Coaching In Progress"
+        count={coachingProgress.length}
+        progress={coachingProgress}
+      />
+
+      <CompletedCoaching
+        title="Completed Coaching"
+        count={completed.length}
+        completed={completed}
+      />
+
+      <CanceledMissed
+        title="Canceled / Missed"
+        count={canceledMissed.length}
+        canceledMissed={canceledMissed}
+      />
+    </div>
+  );
+}

@@ -10,6 +10,9 @@
 .coach-dashboard-add .header {
   margin-bottom: 20px;
 }
+.top-dashboard-header .container {
+  padding: 0px;
+}
 
 .coach-dashboard-add .header h1 {
   margin: 0;
@@ -547,7 +550,7 @@ tr.coaching-all-match td.user-info img {
 }
 .rating-reviews .review-table th,
 .review-table td {
-  padding: 12px;
+  padding: 10px;
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid #eee;
@@ -866,8 +869,9 @@ tbody.growth-package td {
   padding-top: 20px;
 }
 tbody.growth-package td.actions {
-  padding-top: 5px;
+  padding-top: 0px;
   padding-bottom: 0px;
+  padding: 0px;
 }
 tr.service-add {
   background: #E5E5E5;
@@ -2186,7 +2190,7 @@ display: none;
   -ms-transition: width 0.25s ease, background 0.25s ease;
   width: 235px;
   height: 60px;
-  padding-left: 1rem;
+  padding-left: 0px !important;
 }
 .sidebar-dark .navbar .navbar-brand-wrapper {
   background: #232227;
@@ -2226,16 +2230,16 @@ display: none;
   margin: auto;
 }
 .navbar .navbar-menu-wrapper {
-  background: #ffffff;
-  transition: width 0.25s ease;
-  -webkit-transition: width 0.25s ease;
-  -moz-transition: width 0.25s ease;
-  -ms-transition: width 0.25s ease;
-  color: #6C7383;
-  padding-right: 2.375rem;
-  padding-left: 2.375rem;
+  color: #6c7383;
+  background: #fff;
   width: calc(100% - 235px);
   height: 60px;
+  padding-left: 2.375rem;
+  padding-right: 0px !important;
+  -webkit-transition: width .25s;
+  -moz-transition: width .25s;
+  -ms-transition: width .25s;
+  transition: width .25s;
 }
 
 .dashboard-wrapper {
@@ -2870,9 +2874,9 @@ ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
-
 .coach-wrap {
-    padding-top: 0px;
+  padding-top: 15px;
+  padding-right: 0px;
 }
 
 .support-icon {

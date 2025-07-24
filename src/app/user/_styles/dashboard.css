@@ -378,7 +378,7 @@ a.dropdown-item.preview-item {
 
 .goals-progress {
     gap: 10px;
-    width: 98%;
+    width: 100%;
     margin-top: 20px;
     display: flex;
 }
@@ -599,9 +599,10 @@ p.coach-rating span {
 }
 
 .goal-setting-tips {
-    display: flex;
-    width: 98%;
     gap: 10px;
+    width: 100%;
+    display: flex;
+    margin-top: 30px;
 }
 
 
@@ -678,12 +679,14 @@ p.coach-rating span {
     font-size: 15px;
     color: #000000;
 }
-
+.user-add-navbar .container {
+    padding: 0px;
+}
 .activity-log-card {
     background-color: #fff;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
-    width: 98%;
+    width: 100%;
     margin-top: 20px;
     padding: 15px;
     box-shadow: 0 0 5px #0000000d;

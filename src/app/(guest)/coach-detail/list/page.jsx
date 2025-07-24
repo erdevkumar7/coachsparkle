@@ -21,6 +21,7 @@ import BasicRating from "../../_components/CoachRatings";
 import HalfRating from "../../_components/CoachRatings";
 import CoachAvail from "../../_components/CoachSideCalendar";
 import BreadCrumb from "@/components/BreadCrumb";
+import Pagination from "@/components/Pagination";
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -114,6 +115,12 @@ export default function CoachList() {
                                 <div id="slider-range" className="range-bar"></div>
                             </div> */}
               <div className="range_sld">
+              <div className="price-range-box">
+                <span className="price">$ 0</span>
+                <span className="separator">-</span>
+                <span className="price">$ 2000</span>
+              </div>
+
                 <RangeSlider />
               </div>
 
@@ -308,40 +315,11 @@ export default function CoachList() {
                 <button className="ai-mtc">Try AI Match</button>
               </div>
 
-              <div className="container-fluid pt-3 pagination-content-add">
-                <div className="row pagination-content-inner">
-                  <div className="pagination">
-                    <button
-                      className="page-btn"
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <i className="bi bi-chevron-left"></i> Back
-                    </button>
-                    {Array.from(
-                      { length: pagination.last_page },
-                      (_, i) => i + 1
-                    ).map((page) => (
-                      <button
-                        key={page}
-                        className={`page-number ${
-                          page === currentPage ? "active" : ""
-                        }`}
-                        onClick={() => handlePageChange(page)}
-                      >
-                        {page}
-                      </button>
-                    ))}
-                    <button
-                      className="page-btn"
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === pagination.last_page}
-                    >
-                      Next <i className="bi bi-chevron-right"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <Pagination
+                currentPage={currentPage}
+                lastPage={pagination.last_page}
+                onPageChange={handlePageChange}
+              />
             </main>
           ) : (
             <main className="main-content">
