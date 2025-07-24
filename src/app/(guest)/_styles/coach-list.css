@@ -383,6 +383,35 @@ span.MuiButtonBase-root {
 .coach-banner-add .sidebar p.range-value input#amount:focus {
   outline: none;
 }
+.price-range-box {
+  text-align: center;
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+  width: 60%;
+  margin: 30px auto auto;
+  padding: 8px;
+}
+.price-range-box span {
+  color: #333333;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.css-1asissc-MuiSlider-valueLabel { 
+  background-color: #009BFA !important;
+}
+
+.price-range-box span.separator {
+  padding: 0px 24px;
+  font-size: 18px;
+}
+
+span.MuiSlider-track.css-xvk2i-MuiSlider-track {
+  background: #009BFA;
+  border: solid 2px #009BFA;
+}
+
+
 .price-range-slider {
   width: 100%;
   float: left;
@@ -1595,9 +1624,12 @@ textarea {
   margin-top: 3px;
 }
 .range_sld {
-  padding-left: 10px;
+  padding-left: 0px;
 }
-
+.range_sld .css-1xcmt9q-MuiSlider-thumb {
+  background-color: #fff !important;
+  border: solid 2px #009bfa !important;
+}
 p.small-txt {
   text-align: center;
   font-weight: 600;
