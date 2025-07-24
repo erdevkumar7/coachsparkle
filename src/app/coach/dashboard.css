@@ -2875,7 +2875,7 @@ ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
   flex-grow: 1;
 }
 .coach-wrap {
-  padding-top: 0;
+  padding-top: 15px;
   padding-right: 0px;
 }
 

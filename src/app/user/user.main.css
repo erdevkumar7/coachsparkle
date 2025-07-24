@@ -211,6 +211,7 @@
   flex-grow: 1;
   width: 100%;
   padding: 2.375rem;
+  padding-top: 15px;
 }
 @media (max-width: 767px) {
   .content-wrapper {
@@ -526,7 +527,7 @@
   -ms-transition: width 0.25s ease, background 0.25s ease;
   width: 235px;
   height: 60px;
-  padding-left: 1rem;
+  padding-left: 0px !important;
 }
 .sidebar-dark .navbar .navbar-brand-wrapper {
   background: #232227;
@@ -563,7 +564,7 @@ ul.navbar-nav.navbar-nav-right {
 .user-add-navbar {
   background: #fff;
   box-shadow: 0 5px 21px -5px #cdd1e1;
-  padding: 15px 0px !important;
+  padding: 18px 0px !important;
 }
 nav#sidebar {
   z-index: 11;
