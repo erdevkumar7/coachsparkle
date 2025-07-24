@@ -115,10 +115,10 @@ export default function CoachList() {
                                 <div id="slider-range" className="range-bar"></div>
                             </div> */}
               <div className="range_sld">
-              <div class="price-range-box">
-                <span class="price">$ 0</span>
-                <span class="separator">-</span>
-                <span class="price">$ 2000</span>
+              <div className="price-range-box">
+                <span className="price">$ 0</span>
+                <span className="separator">-</span>
+                <span className="price">$ 2000</span>
               </div>
 
                 <RangeSlider />
