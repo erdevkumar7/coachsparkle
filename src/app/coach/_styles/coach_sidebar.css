@@ -58,7 +58,7 @@
     white-space: nowrap;
     border-radius: 8px;
     align-items: center;
-    padding: 5px 14px;
+    padding: 5px 14px !important;
     line-height: 1.9;
 }
 li.nav-item.sign-out a.nav-link {
