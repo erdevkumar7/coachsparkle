@@ -37,9 +37,10 @@
     "react-date-range": "^2.0.1",
     "react-datepicker": "^8.4.0",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.60.0",
+    "react-hook-form": "^7.61.0",
     "react-phone-input-2": "^2.15.1",
     "react-slick": "^0.30.3",
+    "react-toastify": "^11.0.5",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.2.8",
     "yup": "^1.6.1"

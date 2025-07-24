@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -74,7 +75,7 @@ export default function SelectRole() {
                             </button>
 
 
-                            <div className="login-link">Already have an account? <a href="#">Log in</a></div>
+                            <div className="login-link">Already have an account? <Link href="/login">Log in</Link></div>
                         </div>
                     </div>
                 </div>
