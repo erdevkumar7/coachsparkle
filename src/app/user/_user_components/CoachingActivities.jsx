@@ -1,697 +1,231 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import StatusItem from "./coaching_activities/StatusItem";
+import PendingRequest from "./coaching_activities/PendingRequest";
+import CoachingProgress from "./coaching_activities/CoachingProgress";
+import CompletedCoaching from "./coaching_activities/CompletedCoaching";
+import CanceledMissed from "./coaching_activities/CanceledMissed";
 
-export default function CoachingActivities({coachingData}) {
+export default function CoachingActivities({ coachingData }) {
+  const statusItems = [
+    {
+      icon: "/coachsparkle/assets/images/glance-img-one.png",
+      title: "Pending Coaching",
+      count: 67,
+    },
+    {
+      icon: "/coachsparkle/assets/images/glance-img-three.png",
+      title: "In progress",
+      count: 2,
+    },
+    {
+      icon: "/coachsparkle/assets/images/match-three.png",
+      title: "Completed",
+      count: 1,
+    },
+    {
+      icon: "/coachsparkle/assets/images/match-four.png",
+      title: "Canceled / Missed",
+      count: 2,
+    },
+  ];
 
+  const pendingRequest = [
+    {
+      title: "Coaching Request sent",
+      statusText: "Awaiting response",
+      statusClass: "",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Male / Female",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "View Request",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Pending Free Trial",
+      statusText: "Accepted",
+      statusClass: "accepted",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Jane Lee",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "Book Free Trial",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Coach Matched",
+      statusText: "AI Matched",
+      statusClass: "ai-matched",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Steven Tan",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "View Profile",
+      secondaryAction: "Message",
+    },
+    {
+      title: "coaching request received, Coach responded",
+      statusText: "Matched",
+      statusClass: "matched",
+      image: "/coachsparkle/assets/images/professional-img.png",
+      coachName: "Amy snicks",
+      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+      rating: "5.0",
+      primaryAction: "View Profile",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const coachingProgress = [
+    {
+      title: "Session Booked",
+      sessionLeft: "1 Session left",
+      status: "Confirmed",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Breakthrough Package With User Display Name",
+      time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/zoom.png",
+      primaryAction: "View Session",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Session Rescheduled",
+      sessionLeft: "1 Session left",
+      status: "In Progress",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Custom Package With User Display Name",
+      time: "Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/teams.png",
+      primaryAction: "View Session",
+      secondaryAction: "Message",
+    },
+    {
+      title: "Session In Progress",
+      sessionLeft: "2 Sessions left",
+      status: "In Progress",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Confidence Jump Start PackageWith User Display Name",
+      time: "Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)",
+      platformIcon: "/coachsparkle/images/people.png",
+      primaryAction: "Manage Session",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const completed = [
+    {
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Meditation PackageWith Jenny Sim",
+      time: "Completed Friday, July 9",
+      primaryAction: "Leave a Review",
+      secondaryAction: "Message",
+    },
+    {
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Cross-fit PackageWith Bruce Toh",
+      time: "Completed Friday, July 9",
+      primaryAction: "Leave a Review",
+      secondaryAction: "Message",
+    },
+    {
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Meditation PackageWith Jenny Sim",
+      time: "Completed Friday, July 9",
+      primaryAction: "Leave a Review",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const canceledMissed = [
+    {
+      sessionTitle: "Session canceled",
+      sessionCount: "1 Session left",
+      status: "Canceled",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Breakthrough PackageWith Adam Bell",
+      time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/zoom.png",
+      primaryAction: "Reschedule Session",
+      secondaryAction: "Message",
+    },
+    {
+      sessionTitle: "Session Rescheduled",
+      sessionCount: "1 Session left",
+      status: "Missed",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Custom Package With User Display Name",
+      time: "Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)",
+      platformIcon: "/coachsparkle/images/teams.png",
+      primaryAction: "View Session",
+      secondaryAction: "Message",
+    },
+    {
+      sessionTitle: "Session In Progress",
+      sessionCount: "2 Sessions left",
+      status: "In Progress",
+      userImage: "/coachsparkle/assets/images/coaching-img.png",
+      packageTitle: "Confidence Jump Start PackageWith User Display Name",
+      time: "Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)",
+      platformIcon: "/coachsparkle/images/people.png",
+      primaryAction: "Manage Session",
+      secondaryAction: "Message",
+    },
+  ];
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+
+  const ITEMS_PER_PAGE = 3;
+  const paginatedRequests = pendingRequest.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setLastPage(Math.ceil(pendingRequest.length / ITEMS_PER_PAGE));
+  }, [pendingRequest]);
+
+  console.log(coachingData);
   return (
     <div className="content-wrapper favourite-user-warp">
       <div className="d-flex justify-content-between gap-4">
-        <div className="status-bar d-flex align-items-center gap-1">
-          <div>
-            <img
-              src="/coachsparkle/assets/images/glance-img-one.png"
-              alt="coachsparkle"
-            />
-          </div>
-          <div>
-            <h4 className="coaching-tittle-text">Pending Coaching</h4>
-            <span>
-              <strong>67</strong>
-            </span>
-          </div>
-        </div>
-        <div className="status-bar d-flex align-items-center gap-1">
-          <div>
-            <img
-              src="/coachsparkle/assets/images/glance-img-three.png"
-              alt="coachsparkle"
-            />
-          </div>
-          <div>
-            <h4 className="coaching-tittle-text">In progress</h4>
-            <span>
-              <strong>02</strong>
-            </span>
-          </div>
-        </div>
-        <div className="status-bar d-flex align-items-center gap-1">
-          <div>
-            <img
-              src="/coachsparkle/assets/images/match-three.png"
-              alt="coachsparkle"
-            />
-          </div>
-          <div>
-            <h4 className="coaching-tittle-text">Completed</h4>
-            <span>
-              <strong>01</strong>
-            </span>
-          </div>
-        </div>
-        <div className="status-bar d-flex align-items-center gap-1">
-          <div>
-            <img
-              src="/coachsparkle/assets/images/match-four.png"
-              alt="coachsparkle"
-            />
-          </div>
-          <div>
-            <h4 className="coaching-tittle-text">Canceled / Missed</h4>
-            <span>
-              <strong>02</strong>
-            </span>
-          </div>
-        </div>
+        {statusItems.map((item, index) => (
+          <StatusItem
+            key={index}
+            icon={item.icon}
+            title={item.title}
+            count={item.count}
+          />
+        ))}
       </div>
 
-      <div className="coaching-status">
-        <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
-          <div>
-            <h3>Pending Coaching (67)</h3>
-          </div>
-          <div className="sorting-data d-flex align-items-center gap-2">
-            <span>Sort By:</span>
-            <select>
-              <option>Most Recent</option>
-            </select>
-            <select>
-              <option>12</option>
-            </select>
-            <a href="#">Bulk Edit</a>
-          </div>
-        </div>
-        <div className="d-flex justify-content-between flex-wrap py-4 px-4">
-          <div className="row gap-4">
-            <div className="col-md-4 coaching-content p-3">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <h4 className="mb-0">Coaching Request sent</h4>
-                <svg
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-x0hvl5-MuiSvgIcon-root"
-                  focusable="false"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  data-testid="MoreHorizOutlinedIcon"
-                >
-                  <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"></path>
-                </svg>
-              </div>
-              <div className="mb-3 status-div">
-                <button className="border px-3 py-1 rounded-pill">
-                Awaiting response
-                </button>
-              </div>
-              <div className="respond-add">
-                <img
-                  src="/coachsparkle/assets/images/professional-img.png"
-                  alt="Coach Image"
-                  className="coach-img"
-                />
-                <div>
-                  <p className="favourite-text-tittle">Gary Sims</p>
-                  <p className="life-add-text">
-                    Life and Confidence Coach at&nbsp;<b>Comex Pte. Ltd</b>.
-                  </p>
-                  <div className="star-add-pointer">
-                    <i className="bi bi-star-fill"></i>
-                    <p>5.0</p>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex gap-3 view-request">
-                <button className="btn btn-primary button-note">
-                  View Request
-                </button>
-                <button className="btn btn-outline-secondary button-msg">
-                  Message
-                </button>
-              </div>
-            </div>
+      <PendingRequest
+        title="Pending Coaching"
+        count={pendingRequest.length}
+        pendingRequest={pendingRequest}
+        currentPage={currentPage}
+        lastPage={lastPage}
+        onPageChange={setCurrentPage}
+      />
 
-            <div className="col-md-4 coaching-content p-3">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <h4 className="mb-0">Pending Free Trial</h4>
-                <svg
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-x0hvl5-MuiSvgIcon-root"
-                  focusable="false"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  data-testid="MoreHorizOutlinedIcon"
-                >
-                  <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"></path>
-                </svg>
-              </div>
-              <div className="mb-3 status-div">
-                <button className="border px-3 py-1 rounded-pill accepted">
-                  Accepted
-                </button>
-              </div>
-              <div className="respond-add">
-                <img
-                  src="/coachsparkle/assets/images/professional-img.png"
-                  alt="Coach Image"
-                  className="coach-img"
-                />
-                <div>
-                  <p className="favourite-text-tittle">Jane Lee</p>
-                  <p className="life-add-text">
-                    Life and Confidence Coach at&nbsp;<b>Comex Pte. Ltd</b>.
-                  </p>
-                  <div className="star-add-pointer">
-                    <i className="bi bi-star-fill"></i>
-                    <p>5.0</p>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex gap-3 view-request">
-                <button className="btn btn-primary button-note">
-                  Book Free Trial
-                </button>
-                <button className="btn btn-outline-secondary button-msg">
-                  Message
-                </button>
-              </div>
-            </div>
+      <CoachingProgress
+        title="Coaching In Progress"
+        count={coachingProgress.length}
+        progress={coachingProgress}
+      />
 
-            <div className="col-md-4 coaching-content p-3">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <h4 className="mb-0">Coach Matched</h4>
-                <svg
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-x0hvl5-MuiSvgIcon-root"
-                  focusable="false"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  data-testid="MoreHorizOutlinedIcon"
-                >
-                  <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"></path>
-                </svg>
-              </div>
-              <div className="mb-3 status-div">
-                <button className="border px-3 py-1 rounded-pill ai-matched">
-                  AI Matched
-                </button>
-              </div>
-              <div className="respond-add">
-                <img
-                  src="/coachsparkle/assets/images/professional-img.png"
-                  alt="Coach Image"
-                  className="coach-img"
-                />
-                <div>
-                  <p className="favourite-text-tittle">Steven Tan</p>
-                  <p className="life-add-text">
-                    Life and Confidence Coach at&nbsp;<b>Comex Pte. Ltd</b>.
-                  </p>
-                  <div className="star-add-pointer">
-                    <i className="bi bi-star-fill"></i>
-                    <p>5.0</p>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex gap-3 view-request">
-                <button className="btn btn-primary button-note">
-                  View Profile
-                </button>
-                <button className="btn btn-outline-secondary button-msg">
-                  Message
-                </button>
-              </div>
-            </div>
+      <CompletedCoaching
+        title="Completed Coaching"
+        count={completed.length}
+        completed={completed}
+      />
 
-            <div className="col-md-4 coaching-content p-3">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <h4 className="mb-0">
-                  coaching request received, Coach responded
-                </h4>
-                <svg
-                  className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-x0hvl5-MuiSvgIcon-root"
-                  focusable="false"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  data-testid="MoreHorizOutlinedIcon"
-                >
-                  <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"></path>
-                </svg>
-              </div>
-              <div className="mb-3 status-div">
-                <button className="border px-3 py-1 rounded-pill matched">
-                  Matched
-                </button>
-              </div>
-              <div className="respond-add">
-                <img
-                  src="/coachsparkle/assets/images/professional-img.png"
-                  alt="Coach Image"
-                  className="coach-img"
-                />
-                <div>
-                  <p className="favourite-text-tittle">Amy snicks</p>
-                  <p className="life-add-text">
-                    Life and Confidence Coach at&nbsp;<b>Comex Pte. Ltd</b>.
-                  </p>
-                  <div className="star-add-pointer">
-                    <i className="bi bi-star-fill"></i>
-                    <p>5.0</p>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex gap-3 view-request">
-                <button className="btn btn-primary button-note">
-                  View Profile
-                </button>
-                <button className="btn btn-outline-secondary button-msg">
-                  Message
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5">
-        <div className="coaching-progress-status">
-          <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
-            <div>
-              <h3>Coaching In Progress (02)</h3>
-            </div>
-            <div className="sorting-data d-flex align-items-center gap-2">
-              <svg
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                data-testid="ExpandMoreOutlinedIcon"
-              >
-                <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-              </svg>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between flex-wrap py-4 px-4">
-            <div className="row gap-4">
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Session Booked</h4>
-                  <span className="session">1 Session left</span>
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    Confirmed
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Breakthrough Package With User Display Name
-                    </span>
-                    <span className="d-block time">
-                      Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)
-                    </span>
-                    <img
-                      src="/coachsparkle/images/zoom.png"
-                      alt="coachsparkle"
-                    />
-                  </div>
-                </div>
-                <div className="d-flex gap-3">
-                  <button className="btn btn-primary button-note">
-                    View Session
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Session Rescheduled</h4>
-                  <span className="session">1 Session left</span>
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    In Progress
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Custom Package With User Display Name
-                    </span>
-                    <span className="d-block time">
-                      Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)
-                    </span>
-                    <img
-                      src="/coachsparkle/images/teams.png"
-                      alt="coachsparkle"
-                    />
-                  </div>
-                </div>
-                <div className="d-flex gap-3">
-                  <button className="btn btn-primary button-note">
-                    View Session
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Session In Progress</h4>
-                  <span className="session">2 Sessions left</span>
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    In Progress
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Confidence Jump Start PackageWith User Display Name
-                    </span>
-                    <span className="d-block time">
-                      Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)
-                    </span>
-                    <img
-                      src="/coachsparkle/images/people.png"
-                      alt="coachsparkle"
-                    />
-                  </div>
-                </div>
-                <div className="d-flex gap-3">
-                  <button className="btn btn-primary button-note">
-                    Manage Session
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5 meditation-package">
-        <div className="coaching-progress-status">
-          <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
-            <div>
-              <h3>Completed Coaching (02)</h3>
-            </div>
-            <div className="sorting-data d-flex align-items-center gap-2">
-              <svg
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                data-testid="ExpandMoreOutlinedIcon"
-              >
-                <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-              </svg>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between flex-wrap py-4 px-4">
-            <div className="row gap-4">
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Pending review</h4>
-                  {/* <span className="session">1 Session left</span> */}
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    Completed
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Meditation PackageWith Jenny Sim
-                    </span>
-                    <span className="d-block time">
-                      Completed Friday, July 9
-                    </span>
-                    
-                  </div>
-                </div>
-                <div className="d-flex gap-3">
-                  <button className="btn btn-primary button-note">
-                    Leave a Review
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Pending review</h4>
-                  {/* <span className="session">1 Session left</span> */}
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    Completed
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Cross-fit PackageWith Bruce Toh
-                    </span>
-                    <span className="d-block time">
-                      Completed Friday, July 9
-                    </span>
-                    
-                  </div>
-                </div>
-                <div className="d-flex gap-3">
-                  <button className="btn btn-primary button-note">
-                    Leave a Review
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Pending review</h4>
-                  {/* <span className="session">1 Session left</span> */}
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    Completed
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Meditation PackageWith Jenny Sim
-                    </span>
-                    <span className="d-block time">
-                      Completed Friday, July 9
-                    </span>
-                  
-                  </div>
-                </div>
-                <div className="d-flex gap-3">
-                  <button className="btn btn-primary button-note">
-                    Leave a Review
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5 canceled-missed">
-        <div className="coaching-progress-status">
-          <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
-            <div>
-              <h3>Canceled / Missed (02)</h3>
-            </div>
-            <div className="sorting-data d-flex align-items-center gap-2">
-              <svg
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                data-testid="ExpandMoreOutlinedIcon"
-              >
-                <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-              </svg>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between flex-wrap py-4 px-4">
-            <div className="row gap-4">
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Session canceled</h4>
-                  <span className="session">1 Session left</span>
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    Canceled
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Breakthrough PackageWith Adam Bell
-                    </span>
-                    <span className="d-block time">
-                      Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)
-                    </span>
-                    <img
-                      src="/coachsparkle/images/zoom.png"
-                      alt="coachsparkle"
-                    />
-                  </div>
-                </div>
-                <div className="d-flex gap-2">
-                  <button className="btn btn-primary button-note">
-                    Reschedule Session
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Session Rescheduled</h4>
-                  <span className="session">1 Session left</span>
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    Missed
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Custom Package With User Display Name
-                    </span>
-                    <span className="d-block time">
-                      Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)
-                    </span>
-                    <img
-                      src="/coachsparkle/images/teams.png"
-                      alt="coachsparkle"
-                    />
-                  </div>
-                </div>
-                <div className="d-flex gap-2">
-                  <button className="btn btn-primary button-note">
-                    View Session
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-              <div className="col-md-4 coaching-progress p-3">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Session In Progress</h4>
-                  <span className="session">2 Sessions left</span>
-                </div>
-                <div className="mb-3 status-div">
-                  <button className="border px-3 py-1 rounded-pill">
-                    In Progress
-                  </button>
-                </div>
-                <div className="d-flex align-items-start gap-2 mb-3 content">
-                  <div>
-                    <img
-                      src="/coachsparkle/assets/images/coaching-img.png"
-                      alt="coachsparkle"
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <span className="fw-semibold d-block name">
-                      Confidence Jump Start PackageWith User Display Name
-                    </span>
-                    <span className="d-block time">
-                      Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)
-                    </span>
-                    <img
-                      src="/coachsparkle/images/people.png"
-                      alt="coachsparkle"
-                    />
-                  </div>
-                </div>
-                <div className="d-flex gap-2">
-                  <button className="btn btn-primary button-note">
-                    Manage Session
-                  </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    Message
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CanceledMissed
+        title="Canceled / Missed"
+        count={canceledMissed.length}
+        canceledMissed={canceledMissed}
+      />
     </div>
   );
 }

@@ -39,7 +39,7 @@ export const getUserProfileData = async () => {
 };
 
 export const cochingRequestsListsUserDashboard = async () => {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
     if(!token){
         return { error: "No token", data: null};
@@ -48,7 +48,7 @@ export const cochingRequestsListsUserDashboard = async () => {
         const res = await fetch(`${apiUrl}/cochingRequestsListsUserDashboard`, {
             method: "GET",
             headers: {
-                Authorization: `Bearer $(token)`,
+                Authorization: `Bearer ${token}`,
                 Accept: "application/json",
             },
             cache: "no-store",
