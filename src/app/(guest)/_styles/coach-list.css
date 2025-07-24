@@ -1913,7 +1913,9 @@ button.ai-mtc {
   margin-bottom: -45px;
   margin-top: 24px;
 }
-
+.swiper-wrapper {
+  padding-bottom: 30px;
+}
 .swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden
   .swiper-wrapper {
   margin-top: 10px;

@@ -14,9 +14,9 @@ export default function CoachingActivities({coachingData}) {
             />
           </div>
           <div>
-            <h4 className="coaching-tittle-text">Coaching Requests</h4>
+            <h4 className="coaching-tittle-text">Pending Coaching</h4>
             <span>
-              <strong>04</strong>
+              <strong>67</strong>
             </span>
           </div>
         </div>
@@ -30,7 +30,7 @@ export default function CoachingActivities({coachingData}) {
           <div>
             <h4 className="coaching-tittle-text">In progress</h4>
             <span>
-              <strong>03</strong>
+              <strong>02</strong>
             </span>
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function CoachingActivities({coachingData}) {
           <div>
             <h4 className="coaching-tittle-text">Completed</h4>
             <span>
-              <strong>02</strong>
+              <strong>01</strong>
             </span>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default function CoachingActivities({coachingData}) {
       <div className="coaching-status">
         <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
           <div>
-            <h3>Coaching Requests (04)</h3>
+            <h3>Pending Coaching (67)</h3>
           </div>
           <div className="sorting-data d-flex align-items-center gap-2">
             <span>Sort By:</span>
@@ -84,7 +84,7 @@ export default function CoachingActivities({coachingData}) {
           <div className="row gap-4">
             <div className="col-md-4 coaching-content p-3">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <h4 className="mb-0">Coaching request received</h4>
+                <h4 className="mb-0">Coaching Request sent</h4>
                 <svg
                   className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-x0hvl5-MuiSvgIcon-root"
                   focusable="false"
@@ -97,7 +97,7 @@ export default function CoachingActivities({coachingData}) {
               </div>
               <div className="mb-3 status-div">
                 <button className="border px-3 py-1 rounded-pill">
-                  New Coaching Request
+                Awaiting response
                 </button>
               </div>
               <div className="respond-add">
@@ -119,7 +119,7 @@ export default function CoachingActivities({coachingData}) {
               </div>
               <div className="d-flex gap-3 view-request">
                 <button className="btn btn-primary button-note">
-                  View request
+                  View Request
                 </button>
                 <button className="btn btn-outline-secondary button-msg">
                   Message
@@ -457,10 +457,7 @@ export default function CoachingActivities({coachingData}) {
                     <span className="d-block time">
                       Completed Friday, July 9
                     </span>
-                    <img
-                      src="/coachsparkle/images/zoom.png"
-                      alt="coachsparkle"
-                    />
+                    
                   </div>
                 </div>
                 <div className="d-flex gap-3">
@@ -497,10 +494,7 @@ export default function CoachingActivities({coachingData}) {
                     <span className="d-block time">
                       Completed Friday, July 9
                     </span>
-                    <img
-                      src="/coachsparkle/images/zoom.png"
-                      alt="coachsparkle"
-                    />
+                    
                   </div>
                 </div>
                 <div className="d-flex gap-3">
@@ -537,10 +531,7 @@ export default function CoachingActivities({coachingData}) {
                     <span className="d-block time">
                       Completed Friday, July 9
                     </span>
-                    <img
-                      src="/coachsparkle/images/zoom.png"
-                      alt="coachsparkle"
-                    />
+                  
                   </div>
                 </div>
                 <div className="d-flex gap-3">
@@ -561,7 +552,7 @@ export default function CoachingActivities({coachingData}) {
         <div className="coaching-progress-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
-              <h3>Coaching In Progress (02)</h3>
+              <h3>Canceled / Missed (02)</h3>
             </div>
             <div className="sorting-data d-flex align-items-center gap-2">
               <svg
