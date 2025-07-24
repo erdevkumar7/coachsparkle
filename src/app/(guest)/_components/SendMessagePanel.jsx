@@ -1,11 +1,37 @@
+"use client";
 import BreadCrumb from "@/components/BreadCrumb";
+import Cookies from "js-cookie";
+import { HandleValidateToken } from "@/app/api/auth";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function SendMessagePanel() {
+export default function SendMessagePanel({sendMessage}) {
+     const router = useRouter();
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
     { label: "Coach Name", href: "#" },
     { label: "Message", href: "#" },
   ];
+
+    useEffect(() => {
+      const token = Cookies.get("token");
+  if (!token) {
+    router.push("/login?redirect=/send-message");
+    return;
+  }
+
+      const validateUser = async () => {
+        const tokenData = await HandleValidateToken(token);
+        if (!tokenData) {
+          Cookies.remove("token");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          router.push("/login");
+        }
+      };
+
+      validateUser();
+    }, []);
   return (
     <>
       <BreadCrumb items={breadcrumbItems} />
@@ -34,7 +60,7 @@ export default function SendMessagePanel() {
 
           <div className="mb-3">
             <label className="form-label fw-semibold">Subject</label>
-            <input type="text" className="form-input px-4" />
+            <input type="text" className="form-input px-4" name="subject" />
           </div>
 
           <div className="mb-4">

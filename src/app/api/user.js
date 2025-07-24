@@ -63,3 +63,31 @@ export const cochingRequestsListsUserDashboard = async () => {
         return{ error: "Unexpected error", data: null};
     }
 }
+
+export const coachSendMessage = async () => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if(!token) {
+        return { error: "No token", data: null};
+    }
+
+    try {
+        const resp = await fetch (`${apiUrl}/coachSendMessage`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
+            cache: "no-store",
+         });
+        const json = await resp.json();
+        if(!json.status){
+            return{ error: json.message || "Error", data: null};
+        }
+        return{ error: null, data: json.data };
+    } catch(err) {
+        console.error("Message send error:", err);
+        return{ error: "Unexpected error", data: null};
+    }
+}
