@@ -45,16 +45,19 @@ export const similarCoaches = async (coach_id) => {
     return await res.json();
 }
 
-export const cochingRequestsListsUserDashboard = async () => {
-    const res = await fetch(`${apiUrl}/cochingRequestsListsUserDashboard`,
+
+export const packageByPackageId = async (package_id, coach_id) => {
+    if (!package_id) return null;
+
+    const res = await fetch(`${apiUrl}/getServicePackageById/${package_id}`,
         {
             method: "POST",
             headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/json",
-                "Content-Type": "application/json",
+                Accept: 'application/json'
             },
-            body: JSON.stringify()
+            cache: "no-store",
         }
-    );
+    )
+
+    return await res.json();
 }
