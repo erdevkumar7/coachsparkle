@@ -2226,16 +2226,16 @@ display: none;
   margin: auto;
 }
 .navbar .navbar-menu-wrapper {
-  background: #ffffff;
-  transition: width 0.25s ease;
-  -webkit-transition: width 0.25s ease;
-  -moz-transition: width 0.25s ease;
-  -ms-transition: width 0.25s ease;
-  color: #6C7383;
-  padding-right: 2.375rem;
-  padding-left: 2.375rem;
+  color: #6c7383;
+  background: #fff;
   width: calc(100% - 235px);
   height: 60px;
+  padding-left: 2.375rem;
+  padding-right: 0px !important;
+  -webkit-transition: width .25s;
+  -moz-transition: width .25s;
+  -ms-transition: width .25s;
+  transition: width .25s;
 }
 
 .dashboard-wrapper {
@@ -2870,9 +2870,9 @@ ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
-
 .coach-wrap {
-    padding-top: 0px;
+  padding-top: 0;
+  padding-right: 0px;
 }
 
 .support-icon {
