@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-
 export const getUserProfileData = async () => {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
@@ -38,3 +37,29 @@ export const getUserProfileData = async () => {
         return { error: 'Unexpected error', data: null };
     }
 };
+
+export const cochingRequestsListsUserDashboard = async () => {
+    const cookieStore = cookies();
+    const token = cookieStore.get("token")?.value;
+    if(!token){
+        return { error: "No token", data: null};
+    }
+    try{
+        const res = await fetch(`${apiUrl}/cochingRequestsListsUserDashboard`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer $(token)`,
+                Accept: "application/json",
+            },
+            cache: "no-store",
+        });
+        const json = await res.json();
+        if(!json.status){
+            return{ error: json.message || "Error", data: null};
+        }
+        return{ error: null, data: json.data };
+    } catch(err) {
+        console.error("Request list fetch error:", err);
+        return{ error: "Unexpected error", data: null};
+    }
+}
