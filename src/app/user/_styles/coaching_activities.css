@@ -8,10 +8,9 @@
 .favourite-user-warp h4.coaching-tittle-text {
     font-size: 17px;
 }
-
 .favourite-user-warp .topbar.d-flex.justify-content-between.align-items-center.py-2.px-2 {
     background-color: #e5e5e5;
-
+    padding-left: 15px !important;
 }
 .favourite-user-warp .sorting-data.d-flex.align-items-center.gap-2 {
     text-wrap: nowrap;
@@ -71,13 +70,12 @@
     background-color: rgb(0, 123, 255);
     color: rgb(255, 255, 255);
 }
-
 .favourite-user-warp button.btn.btn-primary.button-note {
     color: #fff;
     background-color: #009bfa;
     border: none;
     border-radius: 12px;
-    width: auto;
+    width: 50%;
     height: auto;
     padding: 12px 10px;
     font-size: 13px;
@@ -189,6 +187,10 @@ span.d-block.time {
 .canceled-missed button.border.px-3.py-1.rounded-pill {
     background: #FF0000;
 }
+.canceled-missed button.btn.btn-primary.button-note {
+    padding: 0px 7px !important;
+}
+
 
 
 
