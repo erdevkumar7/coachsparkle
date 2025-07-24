@@ -679,7 +679,9 @@ p.coach-rating span {
     font-size: 15px;
     color: #000000;
 }
-
+.user-add-navbar .container {
+    padding: 0px;
+}
 .activity-log-card {
     background-color: #fff;
     border: 1px solid #e1e1e1;
