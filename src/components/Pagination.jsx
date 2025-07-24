@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-
+import "@/app/(guest)/_styles/coach-list.css";
 export default function Pagination({
   currentPage,
   lastPage,
