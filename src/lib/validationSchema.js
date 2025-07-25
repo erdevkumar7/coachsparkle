@@ -40,3 +40,16 @@ export const registerSchema = yup.object().shape({
     country_id: yup.string().required('Please select your country'),
     terms: yup.bool().oneOf([true], 'You must agree to the terms'),
 });
+
+export const sendMessageSchema = yup.object().shape({
+    subject: yup
+        .string()
+        .required("Enter the subject")
+        .min(2, 'Subject must be at least 2 characters')
+        .max(255, "Subject must be at most 255 characters"),
+    inquiry: yup
+        .string()
+        .required('Enter the message')
+        .min(2, 'Message must be at least 2 characters')
+        .max(255, "Message must be at most 255 characters")
+})
