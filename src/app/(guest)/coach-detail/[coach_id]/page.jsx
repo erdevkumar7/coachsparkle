@@ -12,9 +12,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default async function CoachDetail({ params }) {
-  const { id } = await params;
+  const { coach_id } = await params;
 
-  const coach = await getCoachById(id);
+  const coach = await getCoachById(coach_id);
   if (!coach) {
     return <div>Coach not found.</div>;
   }
@@ -24,7 +24,7 @@ export default async function CoachDetail({ params }) {
     { label: "Explore Coaches", href: "/coach-detail/list" },
     {
       label: `${coach?.first_name} ${coach?.last_name}`,
-      href: `/coach-detail/${id}`,
+      href: `/coach-detail/${coach_id}`,
     },
   ];
 

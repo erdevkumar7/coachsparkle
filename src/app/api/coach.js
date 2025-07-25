@@ -46,10 +46,10 @@ export const similarCoaches = async (coach_id) => {
 }
 
 
-export const packageByPackageId = async (package_id, coach_id) => {
-    if (!package_id) return null;
-
-    const res = await fetch(`${apiUrl}/getServicePackageById/${package_id}`,
+export const packageByPackageId = async (coach_id, package_id) => {
+    if (!package_id || !coach_id) return null;
+   
+    const res = await fetch(`${apiUrl}/getServicePackageById/${coach_id}/${package_id}`,
         {
             method: "POST",
             headers: {
