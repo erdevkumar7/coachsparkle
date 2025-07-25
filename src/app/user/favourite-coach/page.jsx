@@ -45,7 +45,7 @@ export default function favourite() {
                             <div className="card-body">
                                 <div className="inner-card-add">
 
-                                    <i class="bi bi-three-dots"></i>
+                                    <i className="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
 
@@ -55,7 +55,7 @@ export default function favourite() {
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
                                         <div className="star-add-pointer">
-                                        <i class="bi bi-star-fill"></i> 
+                                        <i className="bi bi-star-fill"></i> 
                                             <p>5.0</p>
 
                                         </div>
@@ -77,7 +77,7 @@ export default function favourite() {
                             <div className="card-body">
                                 <div className="inner-card-add">
 
-                                    <i class="bi bi-three-dots"></i>
+                                    <i className="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
 
@@ -87,7 +87,7 @@ export default function favourite() {
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
                                         <div className="star-add-pointer">
-                                        <i class="bi bi-star-fill"></i> 
+                                        <i className="bi bi-star-fill"></i> 
                                             <p>5.0</p>
 
                                         </div>
@@ -110,7 +110,7 @@ export default function favourite() {
                             <div className="card-body">
                                 <div className="inner-card-add">
 
-                                    <i class="bi bi-three-dots"></i>
+                                    <i className="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
 
@@ -120,7 +120,7 @@ export default function favourite() {
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
                                         <div className="star-add-pointer">
-                                        <i class="bi bi-star-fill"></i> 
+                                        <i className="bi bi-star-fill"></i> 
                                             <p>5.0</p>
 
                                         </div>
@@ -144,7 +144,7 @@ export default function favourite() {
                             <div className="card-body">
                                 <div className="inner-card-add">
 
-                                    <i class="bi bi-three-dots"></i>
+                                    <i className="bi bi-three-dots"></i>
                                 </div>
                                 <div className="respond-add">
 
@@ -154,7 +154,7 @@ export default function favourite() {
                                         <p className="life-add-text">Life and Confidence Coach at <b>Comex Pte. Ltd</b>.</p>
                                         <p className="confidence-add-text">Experienced in Personal Development and Life coaching</p>
                                         <div className="star-add-pointer">
-                                        <i class="bi bi-star-fill"></i> 
+                                        <i className="bi bi-star-fill"></i> 
                                             <p>5.0</p>
 
                                         </div>

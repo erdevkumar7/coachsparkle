@@ -117,7 +117,7 @@ export default function UserSideBarComp({user}) {
 
 
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/support')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-headset"></i>

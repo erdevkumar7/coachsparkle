@@ -125,7 +125,7 @@ export default function CoachSideBarComp() {
 
 
 
-                <li className="nav-item" onClick={() => router.push('coach/faq')}>
+                <li className="nav-item" onClick={() => router.push('/coach/faq')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <i className="bi bi-headset"></i>
