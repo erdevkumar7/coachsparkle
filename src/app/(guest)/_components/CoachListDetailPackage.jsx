@@ -64,15 +64,15 @@ export default function CoachingListDetailPackage({ packages }) {
               <div className="session-content">
                 <h2>{pkg?.title}</h2>
                 <div className="icons-row">
-                  <PersonalVideoIcon className="mui-icons"/>
+                  <PersonalVideoIcon className="mui-icons" />
                   {pkg?.delivery_mode?.mode_name} |
-                  <PersonOutlineOutlinedIcon className="mui-icons"/>
+                  <PersonOutlineOutlinedIcon className="mui-icons" />
                   {pkg?.session_format?.name} |
-                  <CalendarMonthOutlinedIcon className="mui-icons"/>
+                  <CalendarMonthOutlinedIcon className="mui-icons" />
                   Jun - Aug 2025
                 </div>
                 <div className="icons-row">
-                  <ForumOutlinedIcon className="mui-icons"/>
+                  <ForumOutlinedIcon className="mui-icons" />
                   {pkg?.session_count} Sessions |
                   <i
                     className="bi bi-clock-history"
@@ -81,7 +81,7 @@ export default function CoachingListDetailPackage({ packages }) {
                   {pkg?.session_duration} Min/Session
                 </div>
                 <div className="icons-row">
-                  <GpsFixedIcon className="mui-icons"/>
+                  <GpsFixedIcon className="mui-icons" />
                   {pkg?.focus}
                 </div>
                 <p className="session-description">{pkg?.short_description}</p>
@@ -93,11 +93,11 @@ export default function CoachingListDetailPackage({ packages }) {
                         : `${pkg.description.slice(0, 150)}`}
                       {pkg.description.length > 150 && (
                         <button
-              className="read-more-btn btn btn-outline-primary mt-2"
-              onClick={() => handleToggle(index)}
-            >
-              {expandedIndex === index ? "Read Less" : "Read More"}
-            </button>
+                          className="read-more-btn btn btn-outline-primary mt-2"
+                          onClick={() => handleToggle(index)}
+                        >
+                          {expandedIndex === index ? "Read Less" : "Read More"}
+                        </button>
                       )}
                     </li>
                   )}
@@ -106,10 +106,10 @@ export default function CoachingListDetailPackage({ packages }) {
                 <div className="price">
                   {pkg?.price} / {pkg?.price_model?.name}
                 </div>
-                <Link href={`/coach-detail/package/${pkg.id}`} className="book-btn">
+                <Link href={`/coach-detail/${pkg.coach_id}/package/${pkg.id}`} className="book-btn">
                   View Details and Booking Now!
                 </Link>
-                <div className="d-flex justify-content-start gap-2 mt-4" style={{fontSize: "12px"}}>
+                <div className="d-flex justify-content-start gap-2 mt-4" style={{ fontSize: "12px" }}>
                   <i
                     className="bi bi-fire"
                     style={{ transform: "scaleX(-1)" }}
@@ -118,7 +118,7 @@ export default function CoachingListDetailPackage({ packages }) {
                     ? `Only ${pkg?.booking_slots} slots left!`
                     : "Only 1 slots left!"}
                 </div>
-                <div className="mt-3" style={{fontSize: "12px"}}>
+                <div className="mt-3" style={{ fontSize: "12px" }}>
                   Best for first timers and those preparing for key life or
                   career transition
                 </div>
