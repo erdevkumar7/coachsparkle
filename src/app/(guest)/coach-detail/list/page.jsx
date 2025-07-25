@@ -22,6 +22,9 @@ import HalfRating from "../../_components/CoachRatings";
 import CoachAvail from "../../_components/CoachSideCalendar";
 import BreadCrumb from "@/components/BreadCrumb";
 import Pagination from "@/components/Pagination";
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -29,6 +32,7 @@ export default function CoachList() {
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+
 
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
@@ -244,6 +248,7 @@ export default function CoachList() {
             <main className="main-content">
               {coaches.map((coach, index) => (
                 <div className="coach-card" key={index}>
+                  
                   <img
                     src={
                       coach.profile_image
@@ -264,11 +269,12 @@ export default function CoachList() {
                           </span>
                         </div>
                         <p className="reviews-text">
-                          <i className="bi bi-star"></i>
+                        <StarOutlineIcon className="mui-icons"/>
+        
                           <span>5.0</span> (21 reviews)
                         </p>
                         <p className="senior-engineer-text">
-                          <i className="bi bi-briefcase"></i>
+                          <BusinessCenterIcon className="mui-icons" />
                           <strong>
                             {coach.professional_title || "free coaching"}{" "}
                           </strong>

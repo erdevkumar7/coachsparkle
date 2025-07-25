@@ -1,4 +1,6 @@
 import '../_styles/about_us.css';
+import Image from 'next/image';
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 export default function AboutUs() {
     return (
@@ -14,7 +16,8 @@ export default function AboutUs() {
                 <div className='row align-items-center'>
 
                     <div className="col-6 images-column-left">
-                        <img src="/coachsparkle/images/human-img.webp" alt="Image 1" className="img-fluid" />
+
+                    <Image src={`${FRONTEND_BASE_URL}/images/human-img.webp`} alt="Image 1" className="img-fluid" width={1000} height={226} />
                     </div>
 
                     <div className="col-6 text-column-right">
@@ -76,7 +79,8 @@ export default function AboutUs() {
 
                         <div className="row values-section">
                             <div className="col-6">
-                                <img src="/coachsparkle/images/our-img.webp" alt="Our Values Image" className="values-img" />
+                            <Image src={`${FRONTEND_BASE_URL}/images/our-img.webp`} alt="Our Values Image" className="img-fluid" width={1000} height={226} />
+
                             </div>
 
                             <div className="col-6 values-text">
@@ -140,28 +144,34 @@ export default function AboutUs() {
 
                     <div className="row">
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
-                            <img src="/coachsparkle/images/meet-team-one.png" alt="Team Member" className="img-fluid mb-3" />
+
+                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-one.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
+
+
                             <h4>Archie Barrett</h4>
                             <h6>Co-Founder</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
                         </div>
 
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
-                            <img src="/coachsparkle/images/meet-team-two.png" alt="Team Member" className="img-fluid mb-3" />
+                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-two.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
+
                             <h4>Archie Barrett</h4>
                             <h6>Co-Founder</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
                         </div>
 
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
-                            <img src="/coachsparkle/images/meet-team-three.png" alt="Team Member" className="img-fluid mb-3" />
+                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-three.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
+
                             <h4>Archie Barrett</h4>
                             <h6>Manager</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
                         </div>
 
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
-                            <img src="/coachsparkle/images/meet-team-four.png" alt="Team Member" className="img-fluid mb-3" />
+                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-four.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
+
                             <h4>Archie Barrett</h4>
                             <h6>Manager</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
