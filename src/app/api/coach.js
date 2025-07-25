@@ -61,3 +61,19 @@ export const packageByPackageId = async (coach_id, package_id) => {
 
     return await res.json();
 }
+
+export const packageIdsByCoachId = async (coach_id) => {
+    if (!coach_id) return null;
+   
+    const res = await fetch(`${apiUrl}/get_AarrayOfServicePackageIds_ByCoachId/${coach_id}`,
+        {
+            method: "POST",
+            headers: {
+                Accept: 'application/json'
+            },
+            cache: "no-store",
+        }
+    )
+
+    return await res.json();
+}
