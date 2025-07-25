@@ -9,6 +9,7 @@ import SwiperOne from "@/components/SwiperOne";
 // import SwiperFour from "@/components/SwiperFour";
 import Image from 'next/image';
 import EastIcon from '@mui/icons-material/East';
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function Home() {
 
@@ -60,7 +61,8 @@ export default function Home() {
               <marquee direction="up" height="628px" id="coachMarquee">
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -76,7 +78,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -92,7 +95,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -108,7 +112,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -124,7 +129,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -140,7 +146,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -156,7 +163,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -172,7 +180,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -188,7 +197,8 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                    <img src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} alt="Coach Image" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+
                   </div>
 
                   <div className="coach-name-right-side">
@@ -232,14 +242,16 @@ export default function Home() {
 
 
             <div className="col-md-6 dedicated-career-coach-right">
-              <img src={`${FRONTEND_BASE_URL}/images/career-coach-img.webp`} alt="Career Coach" className="img-fluid" />
+            <Image src={`${FRONTEND_BASE_URL}/images/career-coach-img.webp`} className="card-img-top" alt="career-coach" width={1000} height={226} />
+
             </div>
           </div>
 
           <div className="row coaching-approach-inner">
 
             <div className="col-md-6 coaching-approach-right">
-              <img src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.webp`} alt="coaching approach" className="img-fluid" />
+            <Image src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.webp`} className="card-img-top" alt="coaching approach" width={1000} height={226} />
+
             </div>
 
 
@@ -281,42 +293,45 @@ export default function Home() {
                     <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Career & Professional" className="img-fluid" />
                     <h5>Career & Professional Coaches</h5>
                     <ul>
-                      <li><i className="bi bi-check-lg"></i>Career Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Executive Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Business Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Career Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Executive Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Business Coach</li>
                     </ul>
                   </div>
 
                   <div className="card">
-                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Personal Development" className="img-fluid" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Personal Development" width={1000} height={226} />
+
                     <h5>Personal Development & Life Coaches</h5>
                     <ul>
-                      <li><i className="bi bi-check-lg"></i>Life Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Confidence Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Mindset Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Life Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Confidence Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Mindset Coach</li>
                     </ul>
                   </div>
 
                   <div className="card">
-                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Wellness & Health" className="img-fluid" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Wellness & Health" width={1000} height={226} />
+
                     <h5>
                       Wellness & Health <br />
                       Coaches
                     </h5>
                     <ul>
-                      <li><i className="bi bi-check-lg"></i>Health Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Fitness Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Nutrition Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Health Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Fitness Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Nutrition Coach</li>
                     </ul>
                   </div>
 
                   <div className="card">
-                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Family & Youth" className="img-fluid" />
+                  <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Family & Youth" width={1000} height={226} />
+
                     <h5>Family, Relationship & Youth Coaches</h5>
                     <ul>
-                      <li><i className="bi bi-check-lg"></i>Academic Coach</li>
-                      <li><i className="bi bi-check-lg"></i>Learning Specialist</li>
-                      <li><i className="bi bi-check-lg"></i>Language Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Academic Coach</li>
+                      <li><CheckIcon className="mui-icons"/>Learning Specialist</li>
+                      <li><CheckIcon className="mui-icons"/>Language Coach</li>
                     </ul>
                   </div>
                 </div>
@@ -340,6 +355,7 @@ export default function Home() {
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
+                
               <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 {/* <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" /> */}
                 <div className="card-body">
@@ -546,7 +562,8 @@ export default function Home() {
             <div className="latest-articles-cards-content">
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-one.webp`} className="card-img-top" alt="Coach Image" />
+                <Image src={`${FRONTEND_BASE_URL}/images/articles-img-one.webp`} alt="Coach Image" width={1000} height={226} />
+
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -558,7 +575,8 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-two.webp`} className="card-img-top" alt="Coach Image" />
+                <Image src={`${FRONTEND_BASE_URL}/images/articles-img-two.webp`} alt="latest articles" width={1000} height={226} />
+
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
@@ -570,7 +588,8 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                  <img src={`${FRONTEND_BASE_URL}/images/articles-img-three.webp`} className="card-img-top" alt="Coach Image" />
+                <Image src={`${FRONTEND_BASE_URL}/images/articles-img-three.webp`} alt="latest articles" width={1000} height={226} />
+
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
                     <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
