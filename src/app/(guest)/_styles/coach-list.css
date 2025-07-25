@@ -328,10 +328,10 @@ span.MuiButtonBase-root {
   margin-bottom: 10px;
 }
 .coach-banner-add p.senior-engineer-text {
-  display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 3px;
   margin-bottom: 20px;
+  display: flex;
 }
 .coach-banner-add p.senior-engineer-text strong {
   font-family: Inter;

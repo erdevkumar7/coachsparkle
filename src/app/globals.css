@@ -257,20 +257,27 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   margin-left: -25%;
   max-width: 780px;
 }
-
+.latest-articles-cards img {
+  width: 100%;
+}
 .row.counters-inner-content .four.col-md-4 {
   width: 29.3333%;
 }
-
+.explore-coaches-section .mui-icons {
+  color: #009BFA;
+  margin-right: 10px;
+  font-size: 20px;
+}
 .smarter-matching-right .card {
-  border: solid 1px #d9d9d9;
-  border-radius: 20px;
-  height: 160px;
-  gap: 15px;
-  margin-bottom: 25px;
-  padding-top: 0px !important;
-  padding-left: 35px !important;
   cursor: pointer;
+  border: 1px solid #d9d9d9;
+  border-radius: 20px;
+  gap: 15px;
+  height: 160px;
+  margin-bottom: 25px;
+  padding-top: 0 !important;
+  padding-left: 35px !important;
+  margin-right: 5px;
 }
 
 .smarter-matching-right .card:hover {
@@ -415,10 +422,10 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 .dedicated-career-coach-left a.learn-more-btn-add i {
   font-size: 20px;
 }
-
 .dedicated-career-coach-right img {
-  width: 85%;
   float: right;
+  width: 85%;
+  height: auto;
 }
 
 .dedicated-career-coach-left {
@@ -433,6 +440,7 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 .coaching-approach-right img {
   width: 85%;
   float: left;
+  height: auto;
 }
 
 .coaching-approach-left h1.mb-3 {
@@ -1507,6 +1515,9 @@ footer.coach-footer-section .coach-footer-three {
   font-weight: 400;
 }
 
+.senior-engineer-details-add .mui-icons {
+  margin-right: 5px;
+}
 
 
 /*Mobile-view-css*/
