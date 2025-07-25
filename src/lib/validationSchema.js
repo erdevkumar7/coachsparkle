@@ -53,3 +53,24 @@ export const sendMessageSchema = yup.object().shape({
         .min(2, 'Message must be at least 2 characters')
         .max(255, "Message must be at most 255 characters")
 })
+
+
+export const requestSchema = yup.object().shape({
+    looking_for: yup.string().required("Category is required"),
+    coaching_category: yup.string().required("Subcategory is required"),
+    preferred_mode_of_delivery: yup.string().required("Delivery mode is required"),
+    location: yup.string().required("Location is required"),
+    coaching_goal: yup.string().required("Coaching goal is required"),
+    language_preference: yup.array().min(1, "At least one language is required"),
+    preferred_communication_channel: yup.string().required("Communication channel is required"),
+    learner_age_group: yup.string().required("Age group is required"),
+    preferred_teaching_style: yup.string().required("Teaching style is required"),
+    budget_range: yup.string().required("Budget is required"),
+    preferred_schedule: yup.string().required("Schedule is required"),
+    coach_gender: yup.string().required("Gender is required"),
+    coach_experience_level: yup.string().required("Experience is required"),
+    only_certified_coach: yup.string().required("Select if only certified"),
+    preferred_start_date_urgency: yup.string().required("Start urgency is required"),
+    special_requirements: yup.string().required("Special requirements are required"),
+    share_with_coaches: yup.number().oneOf([1], "Consent is required"),
+});

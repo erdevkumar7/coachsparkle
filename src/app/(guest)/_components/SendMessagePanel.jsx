@@ -4,28 +4,36 @@ import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { sendMessageSchema } from "@/lib/validationSchema";
+import { toast } from 'react-toastify';
+import { CircularProgress } from "@mui/material";
+import { ToastContainer } from 'react-toastify';
 
 export default function SendMessagePanel() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const [coachId, setCoachId] = useState(null);
-  const [errors, setErrors] = useState({});
-
-
-  const breadcrumbItems = [
-    { label: "Explore Coaches", href: "/coach-detail/list" },
-    { label: "Coach Name", href: "#" },
-    { label: "Message", href: "#" },
-  ];
-
+  const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
 
-  useEffect(() => {
+    const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(sendMessageSchema),
+    mode: "onBlur",
+  });
+
+    useEffect(() => {
     console.log("Checking token...");
     if (!token) {
       console.warn("No token found. Redirecting to login.");
       router.push("/login?redirect=/send-message");
+      toast.error("Login first")
       return;
     }
 
@@ -54,43 +62,27 @@ export default function SendMessagePanel() {
     }
   }, []);
 
-  const [formData, setFormData] = useState({
-    subject: "",
-    inquiry: "",
-  });
+  const breadcrumbItems = [
+    { label: "Explore Coaches", href: "/coach-detail/list" },
+    { label: "Coach Name", href: "#" },
+    { label: "Message", href: "#" },
+  ];
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const onSubmit = async (data) => {
+    if (!coachId) {
+     toast.error("Coach ID not found.");
+      return;
+    }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Form submit triggered.");
-    console.log("coachId:", coachId);
-    console.log("formData:", formData);
+setLoading(true);
 
-    // if (!coachId || !formData.subject || !formData.inquiry) {
-    //   console.warn("Validation failed - missing fields.");
-    //   alert("Please fill all required fields");
-    //   return;
-    // }
-
-    await sendMessageSchema.validate(formData, { abortEarly: false});
-    setErrors({});
-
-    const data = {
+    const payload = {
       coach_id: parseInt(coachId),
-      subject: formData.subject,
-      your_inquiry: formData.inquiry,
+      subject: data.subject,
+      your_inquiry: data.inquiry,
     };
 
     try {
-      console.log("Sending message to API:", `${apiUrl}/coachSendMessage`);
-      console.log("Request body:", data);
-
       const resp = await fetch(`${apiUrl}/coachSendMessage`, {
         method: "POST",
         headers: {
@@ -99,32 +91,25 @@ export default function SendMessagePanel() {
           "Content-Type": "application/json",
         },
         cache: "no-store",
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       const json = await resp.json();
 
-      console.log("API response:", json);
-
       if (!json.status) {
-        console.error("API returned error:", json.message);
-        alert("Failed to send message: " + json.message);
+        toast.error("Failed to send message: " + json.message);
         return;
       }
+      console.log("API Response:", json);
 
-      alert("Message sent successfully.");
-      setFormData({ subject: "", inquiry: "" });
+console.log("✅ Toast success will fire");
+      toast.success("Message sent successfully.");
+      reset();
     } catch (err) {
-  if (err.name === "ValidationError") {
-    const errorObj = {};
-    err.inner.forEach((e) => {
-      errorObj[e.path] = e.message;
-    });
-    setErrors(errorObj);
-  } else {
-    alert("Something went wrong.");
-    console.error(err);
-  }
+      console.error("Unexpected error while sending message:", err);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -154,38 +139,46 @@ export default function SendMessagePanel() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-3">
               <label className="form-label fw-semibold">Subject</label>
               <input
                 type="text"
-                className={`form-input px-4 ${errors.subject ? 'is-invalid' : ''}`}
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
+                className={`form-input px-4 ${errors.subject ? "is-invalid" : ""}`}
+                {...register("subject")}
+                disabled={loading}
               />
-                {errors.subject && (
-    <div className="text-danger mt-1 small">{errors.subject}</div>
-  )}
+              {errors.subject && (
+                <div className="invalid-feedback d-block">
+                  {errors.subject.message}
+                </div>
+              )}
             </div>
 
             <div className="mb-4">
               <label className="form-label fw-semibold">Your Inquiry</label>
               <textarea
-                className={`form-textarea px-4 py-3 ${errors.inquiry ? 'is-invalid' : ''}`}
+                className={`form-textarea px-4 py-3 ${errors.inquiry ? "is-invalid" : ""}`}
                 rows="5"
-                name="inquiry"
-                value={formData.inquiry}
-                onChange={handleChange}
+                {...register("inquiry")}
+                disabled={loading}
               ></textarea>
               {errors.inquiry && (
-    <div className="text-danger mt-1 small">{errors.inquiry}</div>
-  )}
+                <div className="invalid-feedback d-block">
+                  {errors.inquiry.message}
+                </div>
+              )}
             </div>
 
             <div className="text-center mb-2">
-              <button className="btn btn-primary">
-                Send <i className="bi bi-arrow-right ms-1"></i>
+              <button className="btn btn-primary"  disabled={loading}>
+                                {loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  <>
+                    Send <i className="bi bi-arrow-right ms-1"></i>
+                  </>
+                )}
               </button>
             </div>
           </form>
@@ -199,6 +192,7 @@ export default function SendMessagePanel() {
           </p>
         </div>
       </div>
+              <ToastContainer position="bottom-right" autoClose={3000} />
     </>
   );
 }
