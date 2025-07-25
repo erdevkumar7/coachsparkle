@@ -198,13 +198,13 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .smarter-matching-inner input.form-control.search-input {
-  border: solid 1px #d7d7d7;
-  border-radius: 12px;
-  height: 68px;
-  width: 549px;
-  font-family: "Roboto";
-  font-size: 17px;
-  padding-left: 20px;
+	border: 1px solid #d7d7d7;
+	border-radius: 12px;
+	height: 68px;
+	width: 525px;
+	font-family: Roboto;
+	font-size: 17px;
+	padding-left: 20px;
 }
 
 .smarter-matching-inner i.fas.fa-search.search-icon {
@@ -2825,4 +2825,3 @@ select:focus-visible {
     left: 0;
     z-index: 0;
 }
-

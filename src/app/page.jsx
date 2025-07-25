@@ -7,6 +7,8 @@ import SwiperSecond from "@/components/SwiperSecond";
 // import SwiperThird from "@/components/SwiperThird";
 import SwiperOne from "@/components/SwiperOne";
 // import SwiperFour from "@/components/SwiperFour";
+import Image from 'next/image';
+import EastIcon from '@mui/icons-material/East';
 
 export default function Home() {
 
@@ -225,7 +227,7 @@ export default function Home() {
                 Coach Sparkle uses smart AI to understand your coaching goals, preferences, and availability — then instantly matches you with coaches who align with your needs. Whether you’re looking to build confidence, grow your career, or improve a skill, our AI cuts through the noise to connect you with the right coach — saving you time and ensuring a better fit from the start. You can also use CoachSparkle to find the right coach for your child, a loved one, or even aging parents — because growth and support matter at every stage of life.
               </p>
 
-              <a href="#" className="learn-more-btn-add">Try Know <i className="bi bi-arrow-right"></i></a>
+              <a href="#" className="learn-more-btn-add">Try Know <EastIcon className="mui-icons"/></a>
             </div>
 
 
@@ -273,9 +275,9 @@ export default function Home() {
                 </p>
               </div>
               <div className="professional-top">
-                <a href="#" className="view-all-add-btn text-right">VIEW ALL<i className="bi bi-arrow-right"></i></a>
+                <a href="#" className="view-all-add-btn text-right">VIEW ALL <EastIcon className="mui-icons"/></a>
                 <div className="professional-cards">
-                  <div className="card">
+                  <div className="card"> 
                     <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Career & Professional" className="img-fluid" />
                     <h5>Career & Professional Coaches</h5>
                     <ul>
@@ -332,13 +334,14 @@ export default function Home() {
               <h1>Featured Coaches</h1>
             </div>
             <div className="view-all-btn">
-              <a href="#">View All Coaches <i className="bi bi-arrow-right"></i></a>
+              <a href="#">View All Coaches <EastIcon className="mui-icons"/></a>
             </div>
           </div>
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                {/* <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" /> */}
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -355,7 +358,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -370,7 +373,8 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -384,7 +388,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -401,7 +405,7 @@ export default function Home() {
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -418,7 +422,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -433,7 +437,9 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" />
+
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -447,7 +453,8 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
