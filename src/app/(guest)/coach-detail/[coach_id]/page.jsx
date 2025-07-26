@@ -12,6 +12,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { notFound } from "next/navigation";
 import ActionButton from "@/components/reusable/ActionButton";
+import SendMessageButton from "../../_components/SendMessageButton";
 
 export default async function CoachDetail({ params }) {
   const { coach_id } = await params;
@@ -314,16 +315,16 @@ export default async function CoachDetail({ params }) {
                         {/* <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label> */}
                       </div>
                     </div>
-
-                    <button
+                    <SendMessageButton coachId={coach.user_id}/>
+                    {/* <button
                       className="btn btn-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#loginModal"
                     >
                       <i className="bi bi-chat-dots"></i> Send Message
-                    </button>
+                    </button> */}
 
-                    <div
+                    {/* <div
                       className="modal fade"
                       id="loginModal"
                       tabIndex="-1"
@@ -336,7 +337,7 @@ export default async function CoachDetail({ params }) {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="social-links">
                       <div className="contact-now-add">

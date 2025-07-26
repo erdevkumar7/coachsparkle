@@ -3,7 +3,12 @@ import { useRef, useState } from "react";
 import BreadCrumb from "@/components/BreadCrumb";
 import { getSubCoachType } from "@/app/api/guest";
 import Cookies from "js-cookie";
-
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { requestSchema } from "@/lib/validationSchema";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
 export default function RequestForm({
   coachType,
@@ -14,6 +19,24 @@ export default function RequestForm({
   coachingCategory,
 }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      share_with_coaches: 0,
+    },
+    resolver: yupResolver(requestSchema),
+    mode: "onBlur",
+  });
+
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
     { label: "Send Coaching Request", href: "/send-coaching-request" },
@@ -25,16 +48,12 @@ export default function RequestForm({
 
   const handleChange = async (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? (checked ? 1 : 0) : value,
-    }));
+    setValue(name, type === "checkbox" ? (checked ? 1 : 0) : value);
 
     if (name === "looking_for") {
       setCoachId(value);
-      getSubCoachType(value).then((subTypeRes) => {
-        setSubCoachTypes(subTypeRes || []);
-      });
+      const subTypeRes = await getSubCoachType(value);
+      setSubCoachTypes(subTypeRes || []);
     }
   };
 
@@ -43,81 +62,27 @@ export default function RequestForm({
   };
 
   const handleLanguageSelect = (id) => {
-    if (!formData.language_preference.includes(id)) {
-      setFormData((prev) => ({
-        ...prev,
-        language_preference: [...prev.language_preference, id],
-      }));
+    const current = watch("language_preference") || [];
+    if (!current.includes(id)) {
+      setValue("language_preference", [...current, id]);
     }
   };
 
   const removeLanguage = (id) => {
-    setFormData((prev) => ({
-      ...prev,
-      language_preference: prev.language_preference.filter((l) => l !== id),
-    }));
+    const current = watch("language_preference") || [];
+    setValue(
+      "language_preference",
+      current.filter((l) => l !== id)
+    );
   };
 
-  const [formData, setFormData] = useState({
-    looking_for: "",
-    coaching_category: "",
-    preferred_mode_of_delivery: "",
-    location: "",
-    coaching_goal: "",
-    language_preference: [],
-    preferred_communication_channel: "",
-    learner_age_group: "",
-    preferred_teaching_style: "",
-    budget_range: "",
-    preferred_schedule: "",
-    coach_gender: "",
-    coach_experience_level: "",
-    only_certified_coach: "",
-    preferred_start_date_urgency: "",
-    special_requirements: "",
-    share_with_coaches: "",
-  });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-      const requiredFields = [
-    "looking_for",
-    "coaching_category",
-    "preferred_mode_of_delivery",
-    "location",
-    "coaching_goal",
-    "language_preference",
-    "preferred_communication_channel",
-    "learner_age_group",
-    "preferred_teaching_style",
-    "budget_range",
-    "preferred_schedule",
-    "coach_gender",
-    "coach_experience_level",
-    "only_certified_coach",
-    "preferred_start_date_urgency",
-    "special_requirements",
-    "share_with_coaches",
-  ];
-
-  const missingFields = requiredFields.filter((field) => {
-    const value = formData[field];
-    return (
-      value === "" ||
-      value === null ||
-      (Array.isArray(value) && value.length === 0)
-    );
-  });
-
-  if (missingFields.length > 0) {
-    alert("Please fill all required fields.");
-    return;
-  }
+  const onSubmit = async (data) => {
+    setLoading(true);
 
     try {
       const token = Cookies.get("token");
-      console.log("Submitting form with data:", formData);
+      console.log("Submitting form with data:", data);
+
       const response = await fetch(`${apiUrl}/cochingRequestSend`, {
         method: "POST",
         headers: {
@@ -125,21 +90,37 @@ export default function RequestForm({
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
       console.log("Raw response:", result);
 
-    if (!response.ok || result.status === false) {
-      console.error("Backend error:", result.message || "Submission failed.");
-      alert(result.message || "Something went wrong");
-      return;
-    }
-      alert("Request submitted successfully");
+      if (!response.ok || result.status === false) {
+        const messages = [];
+
+        if (result?.errors) {
+          for (const [field, errors] of Object.entries(result.errors)) {
+            messages.push(...errors);
+          }
+        }
+
+        if (messages.length > 0) {
+          messages.forEach((msg) => toast.error(msg));
+        } else {
+          toast.error(result.message || "Something went wrong");
+        }
+
+        return;
+      }
+
+      toast.success("Request submitted successfully");
+      reset();
     } catch (err) {
       console.error(err);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -155,42 +136,51 @@ export default function RequestForm({
           your request, and they’ll reach out to you directly with offers or
           next steps.
         </p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="request-form mx-auto shadow-sm">
             <div className="row g-3">
               <div className="col-md-6">
                 <label className="form-label">I am looking for*</label>
                 <select
                   className="form-selectbox"
-                  name="looking_for"
-                  value={formData.looking_for}
+                  {...register("looking_for")}
                   onChange={handleChange}
-                  required
+                  disabled={loading}
                 >
-                  <option value="" disabled>Select category</option>
+                  <option value="" disabled>
+                    Select category
+                  </option>
                   {coachType.map((type) => (
                     <option key={type.id} value={type.id}>
                       {type.type_name}
                     </option>
                   ))}
                 </select>
+                {errors.looking_for && (
+                  <p className="text-danger">{errors.looking_for.message}</p>
+                )}
               </div>
               <div className="col-md-6">
                 <label className="form-label">Coaching Category*</label>
                 <select
                   className="form-selectbox"
-                  name="coaching_category"
-                  value={formData.coaching_category}
-                  onChange={handleChange}
-                  required
+                  {...register("coaching_category")}
+                  disabled={loading}
                 >
-                  <option value="" disabled>Select sub category</option>
+                  <option value="" disabled>
+                    Select sub category
+                  </option>
                   {coachSubTypes.map((item) => (
                     <option key={item.id} value={item.id}>
                       {item.subtype_name}
                     </option>
                   ))}
                 </select>
+                {errors.coaching_category && (
+                  <p className="text-danger">
+                    {errors.coaching_category.message}
+                  </p>
+                )}
               </div>
               <div className="col-md-6">
                 <label className="form-label">
@@ -198,49 +188,58 @@ export default function RequestForm({
                 </label>
                 <select
                   className="form-selectbox"
-                  name="preferred_mode_of_delivery"
-                  value={formData.preferred_mode_of_delivery}
-                  onChange={handleChange}
-                  required
+                  {...register("preferred_mode_of_delivery")}
+                  disabled={loading}
                 >
-                  <option value="" disabled>Choose delivery mode</option>
+                  <option value="" disabled>
+                    Choose delivery mode
+                  </option>
                   {deliveryMode.map((mode) => (
                     <option key={mode.id} value={mode?.id}>
                       {mode.mode_name}
                     </option>
                   ))}
                 </select>
+                {errors.preferred_mode_of_delivery && (
+                  <p className="text-danger">
+                    {errors.preferred_mode_of_delivery.message}
+                  </p>
+                )}
               </div>
               <div className="col-md-6">
                 <label className="form-label">Location*</label>
                 <select
                   className="form-selectbox"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  required
+                  {...register("location")}
+                  disabled={loading}
                 >
-                  <option value="" disabled>Select location</option>
+                  <option value="" disabled>
+                    Select location
+                  </option>
                   {countries.map((country) => (
                     <option key={country.country_id} value={country.country_id}>
                       {country.country_name}
                     </option>
                   ))}
                 </select>
+                {errors.location && (
+                  <p className="text-danger">{errors.location.message}</p>
+                )}
               </div>
               <div className="col-12">
                 <label className="form-label">
                   Goal Or Objective Of Coaching/Learning*
                 </label>
                 <textarea
-                  name="coaching_goal"
-                  value={formData.coaching_goal}
-                  onChange={handleChange}
-                  required
+                  {...register("coaching_goal")}
                   className="form-textarea"
                   placeholder="e.g. Improve confidence, Career advancement..."
                   rows="5"
+                  disabled={loading}
                 ></textarea>
+                {errors.coaching_goal && (
+                  <p className="text-danger">{errors.coaching_goal.message}</p>
+                )}
               </div>
               <div className="col-md-6">
                 <div className="mb-3 position-relative">
@@ -249,7 +248,7 @@ export default function RequestForm({
                     {languages.map((language) => (
                       <span key={language.id} value={language.id}></span>
                     ))}
-                    {formData.language_preference.map((langId) => {
+                    {(watch("language_preference") || []).map((langId) => {
                       const language = languages.find((l) => l.id === langId);
                       return (
                         <span className="pill-tag" key={langId}>
@@ -273,9 +272,9 @@ export default function RequestForm({
                           className="dropdown-item"
                           type="button"
                           onClick={() => handleLanguageSelect(lang.id)}
-                          disabled={formData.language_preference.includes(
-                            lang.id
-                          )}
+                          disabled={(
+                            watch("language_preference") || []
+                          ).includes(lang.id)}
                         >
                           {lang.language}
                         </button>
@@ -290,14 +289,19 @@ export default function RequestForm({
                 </label>
                 <select
                   className="form-selectbox"
-                  name="preferred_communication_channel"
-                  value={formData.preferred_communication_channel}
-                  onChange={handleChange}
-                  required
+                  {...register("preferred_communication_channel")}
+                  disabled={loading}
                 >
-                  <option value="" disabled>Select communication channel</option>
+                  <option value="" disabled>
+                    Select communication channel
+                  </option>
                   <option value={1}>Video Call</option>
                 </select>
+                {errors.preferred_communication_channel && (
+                  <p className="text-danger">
+                    {errors.preferred_communication_channel.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -310,17 +314,23 @@ export default function RequestForm({
                   </label>
                   <select
                     className="form-selectbox"
-                    name="learner_age_group"
-                    value={formData.learner_age_group}
-                    onChange={handleChange}
+                    {...register("learner_age_group")}
+                    disabled={loading}
                   >
-                    <option value="" disabled>Select age</option>
+                    <option value="" disabled>
+                      Select age
+                    </option>
                     {ageGroup.map((item, index) => (
                       <option key={item.id} value={item.id}>
                         {item.group_name}
                       </option>
                     ))}
                   </select>
+                  {errors.learner_age_group && (
+                    <p className="text-danger">
+                      {errors.learner_age_group.message}
+                    </p>
+                  )}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">
@@ -328,84 +338,113 @@ export default function RequestForm({
                   </label>
                   <select
                     className="form-selectbox"
-                    name="preferred_teaching_style"
-                    value={formData.preferred_teaching_style}
-                    onChange={handleChange}
+                    {...register("preferred_teaching_style")}
+                    disabled={loading}
                   >
-                    <option value="" disabled>Select teaching style</option>
+                    <option value="" disabled>
+                      Select teaching style
+                    </option>
                     {coachingCategory.map((cat) => (
-                      <option key={cat.id} value={cat.id}>{cat.category_name}</option>
+                      <option key={cat.id} value={cat.id}>
+                        {cat.category_name}
+                      </option>
                     ))}
                   </select>
+                  {errors.preferred_teaching_style && (
+                    <p className="text-danger">
+                      {errors.preferred_teaching_style.message}
+                    </p>
+                  )}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Budget Range</label>
                   <input
                     type="text"
                     className="form-input"
-                    name="budget_range"
-                    value={formData.budget_range}
-                    onChange={handleChange}
+                    {...register("budget_range")}
+                    disabled={loading}
                   />
+                  {errors.budget_range && (
+                    <p className="text-danger">{errors.budget_range.message}</p>
+                  )}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Preferred Schedule</label>
                   <input
                     type="text"
                     className="form-input"
-                    name="preferred_schedule"
-                    value={formData.preferred_schedule}
-                    onChange={handleChange}
+                    {...register("preferred_schedule")}
+                    disabled={loading}
                   />
+
+                  {errors.preferred_schedule && (
+                    <p className="text-danger">
+                      {errors.preferred_schedule.message}
+                    </p>
+                  )}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Coach Gender</label>
                   <select
                     className="form-selectbox"
-                    name="coach_gender"
-                    value={formData.coach_gender}
-                    onChange={handleChange}
+                    {...register("coach_gender")}
+                    disabled={loading}
                   >
-                    <option value="" disabled>Select gender</option>
+                    <option value="" disabled>
+                      Select gender
+                    </option>
                     <option value={1}>Male</option>
                     <option value={2}>Female</option>
                     <option value={3}>Other</option>
                   </select>
+                  {errors.coach_gender && (
+                    <p className="text-danger">{errors.coach_gender.message}</p>
+                  )}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Coach Experience Level*</label>
-                                      <input
+                  <input
                     type="text"
                     className="form-input"
-                    name="coach_experience_level"
-                    value={formData.coach_experience_level}
-                    onChange={handleChange}
+                    {...register("coach_experience_level")}
+                    disabled={loading}
                   />
+                  {errors.coach_experience_level && (
+                    <p className="text-danger">
+                      {errors.coach_experience_level.message}
+                    </p>
+                  )}
                   {/* <select
-                    className="form-selectbox"
-                    name="coach_experience_level"
-                    value={formData.coach_experience_level}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="" disabled>Select experience</option>
-                    <option value={1}>Highly Experienced</option>
-                    <option value={2}>Mediun</option>
-                    <option value={3}>Beginner</option>
-                  </select> */}
+                                            className="form-selectbox"
+                                            name="coach_experience_level"
+                                            value={formData.coach_experience_level}
+                                            onChange={handleChange}
+                                            required
+                                          >
+                                            <option value="" disabled>Select experience</option>
+                                            <option value={1}>Highly Experienced</option>
+                                            <option value={2}>Mediun</option>
+                                            <option value={3}>Beginner</option>
+                                          </select> */}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Only Certified Coach</label>
                   <select
                     className="form-selectbox"
-                    name="only_certified_coach"
-                    value={formData.only_certified_coach}
-                    onChange={handleChange}
+                    {...register("only_certified_coach")}
+                    disabled={loading}
                   >
-                    <option value="" disabled>Select</option>
+                    <option value="" disabled>
+                      Select
+                    </option>
                     <option value={1}>Yes</option>
                     <option value={0}>No</option>
                   </select>
+                  {errors.only_certified_coach && (
+                    <p className="text-danger">
+                      {errors.only_certified_coach.message}
+                    </p>
+                  )}
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">
@@ -413,15 +452,21 @@ export default function RequestForm({
                   </label>
                   <select
                     className="form-selectbox"
-                    name="preferred_start_date_urgency"
-                    value={formData.preferred_start_date_urgency}
-                    onChange={handleChange}
+                    {...register("preferred_start_date_urgency")}
+                    disabled={loading}
                   >
-                    <option value="" disabled>Select start duration</option>
+                    <option value="" disabled>
+                      Select start duration
+                    </option>
                     <option value={1}>Immediately</option>
                     <option value={2}>Within a week</option>
                     <option value={3}>Flexible</option>
                   </select>
+                  {errors.preferred_start_date_urgency && (
+                    <p className="text-danger">
+                      {errors.preferred_start_date_urgency.message}
+                    </p>
+                  )}
                 </div>
                 <div className="col-12">
                   <label className="form-label">
@@ -430,37 +475,65 @@ export default function RequestForm({
                   <textarea
                     className="form-input"
                     rows="2"
-                    name="special_requirements"
-                    value={formData.special_requirements}
-                    onChange={handleChange}
+                    {...register("special_requirements")}
+                    disabled={loading}
                   ></textarea>
+                  {errors.special_requirements && (
+                    <p className="text-danger">
+                      {errors.special_requirements.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
 
-            <div className="form-check mt-4 d-flex align-items-center">
-              <input
-                className="form-checkbox"
-                type="checkbox"
-                id="consentCheckbox"
-                name="share_with_coaches"
-                checked={formData.share_with_coaches === 1}
-                onChange={handleChange}
-              />
-              <label className="form-check-label" htmlFor="consentCheckbox">
-                Yes, please share my request with suitable coaches who can help
-                me reach my goals.
-              </label>
-            </div>
-
+            <Controller
+              name="share_with_coaches"
+              control={control}
+              render={({ field }) => (
+                <div className="form-check mt-4 d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="consentCheckbox"
+                    className="form-checkbox"
+                    checked={field.value === 1}
+                    disabled={loading}
+                    onChange={(e) => field.onChange(e.target.checked ? 1 : 0)}
+                  />
+                  <label
+                    className="form-check-label ms-2"
+                    htmlFor="consentCheckbox"
+                  >
+                    Yes, please share my request with suitable coaches who can
+                    help me reach my goals.
+                  </label>
+                </div>
+              )}
+            />
+            {errors.share_with_coaches && (
+              <div className="text-danger">
+                {errors.share_with_coaches.message}
+              </div>
+            )}
             <div className="text-center mt-4">
-              <button type="submit" className="btn submit-btn">
-                Submit <i className="bi bi-arrow-right ms-2"></i>
+              <button
+                type="submit"
+                className="btn submit-btn"
+                disabled={loading}
+              >
+                {loading ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <>
+                    Submit <i className="bi bi-arrow-right ms-2" />
+                  </>
+                )}
               </button>
             </div>
           </div>
         </form>
       </div>
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </>
   );
 }

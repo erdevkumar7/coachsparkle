@@ -64,7 +64,7 @@
     height: 48px;
     padding: 8px;
     font-size: 14px;
-    color: #696974;
+    margin-top: 3px;
 }
 .session-card .session-pkg-content {
     background-color: #f4f4f4;
@@ -312,7 +312,7 @@ select#cancellation_policy {
     align-items: center;
     gap: 12px;
     width: 300px;
-    padding: 10px 24px;
+    padding: 10px 10px;
     display: flex;
     position: relative;
 }
@@ -357,9 +357,11 @@ select#cancellation_policy {
 }
 
 .profile-form .form-group label {
-    margin-bottom: 0px;
+    margin-bottom: 0;
+    font-family: Roboto;
     font-weight: bold;
-    font-family: 'Roboto';
+    font-size: 13px;
+    margin-bottom: 0px;
 }
 
 .profile-form .form-group input,

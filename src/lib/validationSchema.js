@@ -83,5 +83,8 @@ export const requestSchema = yup.object().shape({
     only_certified_coach: yup.string().required("Select if only certified"),
     preferred_start_date_urgency: yup.string().required("Start urgency is required"),
     special_requirements: yup.string().required("Special requirements are required"),
-    share_with_coaches: yup.number().oneOf([1], "Consent is required"),
+    share_with_coaches: yup
+  .number()
+  .required("Consent is required")
+  .oneOf([1], "You must agree to share your request"),
 });

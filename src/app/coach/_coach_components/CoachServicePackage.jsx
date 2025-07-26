@@ -350,7 +350,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : ""}`}
                   />
                 </div>
-                <div className="coach-session-count gap-4">
+                <div className="coach-session-count gap-2">
                   <div className="form-group col-md-4 number-of-session-input">
                     <label htmlFor="session_count">Number Of Session</label>
                     <input
@@ -522,7 +522,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     </select>
                   </div>
                 </div>
-                <div className="coach-price-currency gap-4">
+                <div className="coach-price-currency gap-2">
                   <div className="form-group col-md-4">
                     <label htmlFor="price">Total Price</label>
                     <input
@@ -679,7 +679,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     </select>
                   </div>
                 </div>
-                <div className="coach-slot-and-availability gap-4">
+                <div className="coach-slot-and-availability gap-2">
                   <div className="form-group col-md-4 slots-available-input">
                     <label htmlFor="booking_slots">Slots available for Booking</label>
                     <input
@@ -697,7 +697,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     />
                   </div>
 
-                  <div className='form-group col-md-4'>
+
+                                 <div className='form-group col-md-12'>
                     <label htmlFor="booking_availability">Availablity</label>
                     <BookingAvailabilityPicker
                       formData={formData}
@@ -705,7 +706,6 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       isProUser={isProUser}
                     />
                   </div>
-
 
                   <div className='form-group col-md-4'>
                     <label htmlFor="booking_window">Booking Window &nbsp;<InfoOutlinedIcon sx={{ color: '#40C0E7', fontSize: 20 }} /></label>
@@ -718,7 +718,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
 
                 </div>
-                <div className="validity-cancel-resedule gap-4">
+                <div className="validity-cancel-resedule gap-2">
                   <div className="form-group col-md-4">
                     <label htmlFor="session_validity">Validity</label>
                     <input
