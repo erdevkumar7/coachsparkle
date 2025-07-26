@@ -64,16 +64,16 @@ export default function Header() {
                             <Link className="nav-link" href="/coach-detail/list">Explore Coaches <KeyboardArrowDownIcon className='mui-icons' /></Link>
                         </li>
 
-                        <li className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <li className="nav-item">
+                            <Link className="nav-link" href="/send-coaching-request">
                                 Send Coaching Request
-                                <KeyboardArrowDownIcon className='mui-icons' />
+                                {/* <KeyboardArrowDownIcon className='mui-icons' /> */}
                             </Link>
-                            <ul className="dropdown-menu">
+                            {/* <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" href="/">Match 1</Link></li>
                                 <li><Link className="dropdown-item" href="/">Match 2</Link></li>
                                 <li><Link className="dropdown-item" href="/">Match 3</Link></li>
-                            </ul>
+                            </ul> */}
                         </li>
 
                         <li className="nav-item dropdown">

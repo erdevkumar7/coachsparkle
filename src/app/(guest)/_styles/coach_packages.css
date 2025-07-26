@@ -27,6 +27,16 @@
   font-size: 14px;
   font-weight: 600;
 }
+
+.service-page .msg-btn:hover {
+  background-color: #009bfa;
+  color: white;
+  padding: 10px 18px 10px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .manage-btn-add {
     text-align: right;
     width: 96%;
@@ -61,6 +71,22 @@
   width: 60%;
   font-size: 15px;
   font-weight: 400;
+  display: inline-block;
+}
+
+.package-card .book-btn:hover{
+    background-color: #009bfa;
+  color: white;
+  padding: 15px 30px 15px 30px;
+  border-radius: 10px;
+  min-width: 50px;
+  width: 60%;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.package-card .package-card-header{
+  padding: 20px 20px 0px 20px;
 }
 
 .card-body {
@@ -79,12 +105,17 @@
 
 .share-btn {
   position: absolute;
-  top: 10px;
-  right: 18px;
+  top: 30px;
+  right: 60px;
   font-size: 18px;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 10px;
-  background-color: #009bfa26;
+  background-color: white;
+  color: #009bfa;
+}
+
+.share-btn:hover{
+  background-color: #009BFA26;
   color: #009bfa;
 }
 
@@ -156,6 +187,49 @@
 .arrow-icon:hover {
   color: white;
 }
+
+.prev-next-disable{
+      position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(192, 190, 190);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: auto;
+  z-index: 10;
+}
+
+.prev-next-disable .arrow-icon{
+  color: rgb(138, 137, 137);
+}
+
+
+.prev-next-disable .arrow-icon:hover {
+   color: rgb(138, 137, 137);
+}
+
+.prev-next-disable:hover{
+      position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgb(192, 190, 190);
+  color: #1a1a1a;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: auto;
+  z-index: 10;
+}
+
 
 /*Booking*/
 .booking-card {
@@ -391,4 +465,11 @@
   .package-card {
     width: 100%;
   }
+}
+
+
+.card-body.text-start .mui-icons{
+    width: 25px !important;
+  height: 25px !important;
+color: #212529bf;
 }

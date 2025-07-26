@@ -48,7 +48,7 @@ export default function BookingPackage({ pkg, allPackages }) {
 
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
-    { label: "Sarah Lee", href: "#" },
+    { label: `${pkg?.user?.first_name} ${pkg?.user?.last_name}`, href: `/coach-detail/${pkg?.user_id}` },
     {
       label: "Services",
       onClick: () => setShowBooking(false),
@@ -89,36 +89,36 @@ export default function BookingPackage({ pkg, allPackages }) {
             </div>
 
             <div className="swiper-wrapper-container position-relative">
-              <div className="card package-card mx-auto">
-                <div className="card-header d-flex justify-content-between align-items-start border-0">
+              <div className="package-card mx-auto">
+                <div className="package-card-header d-flex justify-content-between align-items-start border-0">
                   <img
                     src={pkg?.media_file}
                     alt="Package"
                     className="card-img-top rounded-top"
                   />
-                  <button className="btn btn-light share-btn">
+                  <button className="btn share-btn">
                     <ShareIcon />
                   </button>
                 </div>
                 <div className="card-body text-start">
                   <h5 className="mb-1">{pkg?.title}</h5>
                   <div className="d-flex gap-3 small mb-2 icons">
-                    <PersonalVideoIcon className="text-muted" /> {pkg?.delivery_mode?.mode_name}
-                    <PersonOutlineOutlinedIcon className="text-muted" />{" "}
+                    <PersonalVideoIcon className="text-muted mui-icons" /> {pkg?.delivery_mode?.mode_name}
+                    <PersonOutlineOutlinedIcon className="text-muted mui-icons" />{" "}
                     {pkg?.session_format?.name}
-                    <CalendarMonthOutlinedIcon className="text-muted" />{" "}
+                    <CalendarMonthOutlinedIcon className="text-muted mui-icons" />{" "}
                     Jun - Aug 2025
                   </div>
                   <div className="d-flex gap-3 small mb-2">
-                    <ForumOutlinedIcon className="text-muted" />{pkg?.session_count ? pkg?.session_count : 1} Sessions
+                    <ForumOutlinedIcon className="text-muted mui-icons" />{pkg?.session_count ? pkg?.session_count : 1} Sessions
                     <i
-                      className="bi bi-clock-history"
+                      className="bi bi-clock-history mui-icons"
                       style={{ transform: "scaleX(-1)" }}
                     ></i>{" "}
                     {pkg?.session_duration ? pkg?.session_duration : 1} min/Session
                   </div>
                   <div className="d-flex gap-3 small mb-2">
-                    <GpsFixedIcon className="text-muted" />
+                    <GpsFixedIcon className="text-muted mui-icons" />
                     {pkg?.focus ? pkg?.focus : 'N/A'}
                   </div>
                   <div className="mt-4 content">
