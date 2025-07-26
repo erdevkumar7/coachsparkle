@@ -1,6 +1,9 @@
 import { FRONTEND_BASE_URL} from "@/utiles/config";
-
-
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import XIcon from '@mui/icons-material/X';
 
 export default function Footer() {
     return (
@@ -16,25 +19,25 @@ export default function Footer() {
                         <div className="col-md-2 coach-footer-two">
                             <h5>Informational Links</h5>
                             <ul className="list-unstyled">
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">About Us</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Contact Us</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">FAQ</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Terms of Services</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Privacy Policy</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Cookie Policy</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Site Map</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">About Us</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Contact Us</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">FAQ</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Terms of Services</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Privacy Policy</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Cookie Policy</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Site Map</a></li>
                             </ul>
                         </div>
 
-                        <div className="col-md-2 coach-footer-three">
+                        <div className="col-md-2 coach-footer-three new-add-footer">
                             <h5>Platform</h5>
                             <ul className="list-unstyled">
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Browse Coaches</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="/coachsparkle/send-coaching-request" className="text-decoration-none">Send Coaching Request</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Get Match</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">List As Coach</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">For Corporate</a></li>
-                                <li><i className="fa fa-angle-right" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Events</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Browse Coaches</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="/coachsparkle/send-coaching-request" className="text-decoration-none">Send Coaching Request</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Get Match</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">List As Coach</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">For Corporate</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Events</a></li>
                             </ul>
                         </div>
 
@@ -42,10 +45,10 @@ export default function Footer() {
                             <h5>Social Media</h5>
                             <ul className="list-unstyled">
                                 <li><i className="fa fa-facebook" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Facebook</a></li>
-                                <li><i className="fa fa-instagram" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Instagram</a></li>
-                                <li><i className="fa fa-linkedin" aria-hidden="true"></i> <a href="#" className="text-decoration-none">LinkedIn</a></li>
-                                <li><i className="bi bi-youtube"></i> <a href="#" className="text-decoration-none">YouTube</a></li>
-                                <li><i className="fa-brands fa-x-twitter" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Twitter</a></li>
+                                <li><InstagramIcon className="mui-icons"/> <a href="#" className="text-decoration-none">Instagram</a></li>
+                                <li><LinkedInIcon className="mui-icons"/> <a href="#" className="text-decoration-none">LinkedIn</a></li>
+                                <li><YouTubeIcon className="mui-icons"/><a href="#" className="text-decoration-none">YouTube</a></li>
+                                <li><XIcon className="mui-icons"/> <a href="#" className="text-decoration-none">Twitter</a></li>
                             </ul>
                         </div>
 
