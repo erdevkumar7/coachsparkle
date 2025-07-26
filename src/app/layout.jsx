@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.variable} ${roboto.variable}`}>
         <BootstrapClient />
-        <ToastContainer position="top-right" autoClose={3000} />
+        <ToastContainer position="bottom-right" autoClose={3000} />
         {children}
       </body>
     </html>

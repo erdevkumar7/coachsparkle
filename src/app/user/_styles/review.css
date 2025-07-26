@@ -1,0 +1,183 @@
+.review-section-add .rating-reviews {
+    gap: 30px;
+    width: 100%;
+    display: block;
+}
+
+.review-section-add .rating-reviews .review-container {
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 2px 15px #00000017;
+    padding-bottom: 80px;
+}
+
+.review-section-add tr.border-row-add {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.review-section-add td.sed-tab {
+    width: 48%;
+}
+
+.review-section-add td.replied-btns button.reply-btn {
+    background: #50C878;
+    border: solid 1px #50C878;
+    width: 60%;
+}
+
+.review-section-add button.reply-btn {
+    width: 60%;
+}
+
+.review-section-add .user-details small {
+    color: #778088;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.content-wrapper.coach-wrap.review-section-add {
+    padding: 2.375rem;
+    padding-top: 0px;
+}
+
+.quick-text {
+    color: #181a20;
+    border-bottom: 1px solid #e7e7e7;
+    width: 100%;
+    padding-bottom: 15px;
+    font-family: Inter;
+    font-size: 24px;
+}
+.rating-reviews .user-info {
+    align-items: center;
+    display: flex;
+}
+.rating-reviews .user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.rating-reviews .review-stars {
+    color: #ff9800;
+    align-items: center;
+    gap: 1px;
+    font-size: 14px;
+    display: flex;
+}
+
+.user-details strong {
+    color: #000;
+    padding: 5px 0;
+    font-family: Roboto;
+    font-size: 14px;
+}
+.rating-reviews .user-details {
+    flex-direction: column;
+    display: flex;
+}
+
+.rating-reviews .review-table thead tr {
+    background: #f5f5f5;
+}
+.rating-reviews .review-table th {
+    color: #000;
+    font-family: Roboto;
+}
+
+td.sed-tab p {
+    margin-top: 0px;
+    margin-bottom: 0;
+}
+
+.rating-reviews .status.published {
+    color: #00b448;
+    background-color: #f2fff7;
+    border: 1px solid #00b448;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
+    line-height: 4.8;
+}
+
+
+.rating-reviews .user-info i.bi.bi-eye {
+    cursor: pointer;
+    font-size: 25px;
+    line-height: 2.5;
+}
+
+.review-section-add td.sed-tab {
+    width: 48%;
+    font-size: 14px;
+    color: #000;
+}
+
+.rating-reviews .review-table .user-row {
+    box-shadow: 0 2px 8px #0000001a;
+}
+.rating-reviews .reply-btn {
+    color: #fff;
+    background-color: #009bfa;
+    border: 1px solid #009bfa;
+    border-radius: 5px;
+    margin-right: 15px;
+    padding: 6px 10px;
+}
+
+.rating-reviews .review-table th, .review-table td {
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+}
+
+td.user-name-add {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.rating-reviews .user-info p {
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+
+span.status.draft {
+    color: #ed9b22;
+    background-color: #fff6e8;
+    border: 1px solid #ffcc81;
+    border-radius: 5px;
+    padding: 6px 26px;
+    font-size: 14px;
+    line-height: 4.8;
+}
+
+.icon-actions i.bi.bi-trash3 {
+    color: #FF4B4B;
+    font-size: 18px;
+}
+
+.icon-actions i.bi.bi-pen-fill {
+    color: #4e7fff;
+    font-size: 18px;
+    margin-right: 11px;
+}
+
+td.icon-actions {
+    vertical-align: middle;
+}
+.mui-icons.delet-icon {
+    color: #FF4B4B;
+}
+.mui-icons.edit-icon {
+    color: #4E7FFF;
+    margin-right: 5px;
+}
