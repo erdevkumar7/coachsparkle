@@ -1519,6 +1519,20 @@ footer.coach-footer-section .coach-footer-three {
   margin-right: 5px;
 }
 
+.coach-footer-inner .mui-icons {
+  color: #000000;
+  font-size: 21px;
+  padding-right: 8px;
+}
+
+footer.coach-footer-section .coach-footer-three ul.list-unstyled .mui-icons {
+  color: #000000;
+  font-size: 25px;
+  padding-right: 8px;
+}
+footer.coach-footer-section .new-add-footer .mui-icons {
+  font-size: 21px !important;
+}
 
 /*Mobile-view-css*/
 

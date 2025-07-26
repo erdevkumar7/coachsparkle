@@ -11,6 +11,7 @@ import Image from 'next/image';
 import EastIcon from '@mui/icons-material/East';
 import CheckIcon from '@mui/icons-material/Check';
 
+
 export default function Home() {
 
   return (
