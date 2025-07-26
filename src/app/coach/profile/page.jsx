@@ -5,19 +5,15 @@ import { getUserProfileData } from '@/app/api/user';
 import { getAgeGroup, getAllCoachServices, getAllContries, getAllLanguages, getCoachType, getDeliveryMode } from '@/app/api/guest';
 
 export default async function CoachProfile() {
-    const { data: user, error, removeToken } = await getUserProfileData();
-    //    if (!user) {
-    //      return redirect('/login');
-    //    } else if (user.user_type == 2) {
-    //      return redirect('/user/dashboard');
-    //    }
-
-    const countries = await getAllContries();
-    const deliveryMode = await getDeliveryMode();
-    const coachTypes = await getCoachType();
-    const ageGroup = await getAgeGroup();
-    const allLanguages = await getAllLanguages();
-    const getAllServices = await getAllCoachServices();
+    const { data: user, error, removeToken } = await getUserProfileData();  
+    const [countries, deliveryMode, coachTypes, ageGroup, allLanguages, getAllServices] = await Promise.all([
+        getAllContries(),
+        getDeliveryMode(),
+        getCoachType(),
+        getAgeGroup(),
+        getAllLanguages(),
+        getAllCoachServices(),
+    ])
 
     // console.log('getAllCoachServices', getAllServices)
     return (
@@ -40,12 +36,7 @@ export default async function CoachProfile() {
                     <h4>Public Profile</h4>
                 </div>
 
-                <div className="profile-form-add">
-                        {/* <UserImageUploader
-                            image={user?.profile_image}
-                            user_type={user?.user_type || 3}
-                        /> */}
-
+                <div className="profile-form-add">       
                         <CoachUpdateForm
                             user={user}
                             countries={countries}
@@ -55,7 +46,6 @@ export default async function CoachProfile() {
                             allLanguages={allLanguages}
                             getAllServices={getAllServices.data}
                         />
-
                 </div>
             </div>
         </div>

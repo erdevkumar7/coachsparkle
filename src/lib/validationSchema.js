@@ -40,3 +40,14 @@ export const registerSchema = yup.object().shape({
     country_id: yup.string().required('Please select your country'),
     terms: yup.bool().oneOf([true], 'You must agree to the terms'),
 });
+
+export const coachSchema = yup.object().shape({
+  first_name: yup.string().required('First name is required'),
+  last_name: yup.string().required('Last name is required'),
+  email: yup.string().email().required('Email is required'),
+  gender: yup.string().required('Gender is required'),
+  country_id: yup.string().required('Country is required'),
+  state_id: yup.string().required('State is required'),
+  city_id: yup.string().required('City is required'),
+  // Add other fields as needed
+});

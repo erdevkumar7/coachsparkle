@@ -132,7 +132,7 @@ export default function BookingPackage({ pkg, allPackages }) {
                     </span>
                     <ul>
                       {pkg?.title && <li>{pkg?.title}</li>}
-                      <li>{pkg?.description}</li>
+                      {pkg?.description && <li>{pkg?.description}</li>}
                     </ul>
                   </div>
 
@@ -141,8 +141,8 @@ export default function BookingPackage({ pkg, allPackages }) {
 
                     <ul>
                       <li>{pkg?.session_count ? pkg?.session_count : 1}  sessions ({pkg?.session_duration ? pkg?.session_duration : 1} minutes each)</li>
-                      <li>{pkg?.session_format?.name}</li>
-                      <li>{pkg?.session_format?.description} </li>
+                      {pkg?.session_format?.name && <li>{pkg?.session_format?.name}</li>}
+                      {pkg?.session_format?.description && <li>{pkg?.session_format?.description} </li>}
                     </ul>
                   </div>
 
@@ -151,7 +151,7 @@ export default function BookingPackage({ pkg, allPackages }) {
 
                     <ul>
                       <li>{pkg?.session_format?.name} coaching with {pkg?.user?.first_name}.</li>
-                      <li>Session with {pkg?.coaching_category?.category_name}.</li>
+                      {pkg?.coaching_category?.category_name && <li>Session with {pkg?.coaching_category?.category_name}.</li>}
                       <li>{pkg?.price_model?.description}</li>
                     </ul>
                   </div>
@@ -159,11 +159,11 @@ export default function BookingPackage({ pkg, allPackages }) {
                   <div className="content">
                     <h6>Who Should Book This:</h6>
 
-                    <ul>
+                    {pkg?.age_group?.group_name && <ul>
                       <li>
                         {pkg?.age_group?.group_name}
                       </li>
-                    </ul>
+                    </ul>}
                   </div>
 
                   <div className="content">
@@ -185,8 +185,8 @@ export default function BookingPackage({ pkg, allPackages }) {
                     <h6>Cancellation & Rescheduling Policy:</h6>
 
                     <ul>
-                      <li> {pkg?.cancellation_policy}</li>
-                      <li> {pkg?.rescheduling_policy}</li>
+                      {pkg?.cancellation_policy && <li> {pkg?.cancellation_policy}</li>}
+                      {pkg?.rescheduling_policy && <li> {pkg?.rescheduling_policy}</li>}
                     </ul>
                   </div>
 
