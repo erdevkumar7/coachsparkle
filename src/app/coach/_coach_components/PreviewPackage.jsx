@@ -4,6 +4,8 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { formatBookingAvailability } from "@/lib/commonFunction";
+import Image from 'next/image';
+
 
 export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceModel, allSessionFormat }) {
     // console.log('allSessionFormat', allSessionFormat)
@@ -16,11 +18,10 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
 
     return (
         <div className="session-card">
-            <img
-                src={pkg?.media_file ? URL.createObjectURL(pkg?.media_file) : '/coachsparkle/images/service-package1.png'}
-                alt="Package-Image"
-                className="top-image"
-            />
+            
+            <Image src={pkg?.media_file ? URL.createObjectURL(pkg?.media_file) : '/coachsparkle/images/service-package1.png'} alt="Team Member" className="img-fluid" width={1000} height={226} />
+
+    
             <div className="session-preview-content">
                 <h2>{pkg?.title || "Confidence Jumpstart Session"}</h2>
                 <div className="icons-row">
@@ -56,11 +57,11 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
                         className="bi bi-fire"
                         style={{ transform: "scaleX(-1)" }}
                     ></i>
-                    {pkg?.booking_slots ? `Only ${pkg?.booking_slots} slots left!` : 'Only 1 slots left!'}
+                    <p className="best-text">{pkg?.booking_slots ? `Only ${pkg?.booking_slots} slots left!` : 'Only 1 slots left!'}</p>
                 </div>
                 <div className="mt-3">
-                    Best for first timers and those preparing for key life or
-                    career transition
+                   <p className="best-text-one">Best for first timers and those preparing for key life or
+                    career transition</p>
                 </div>
             </div>
         </div>

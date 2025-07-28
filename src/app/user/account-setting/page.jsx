@@ -14,6 +14,12 @@ import PublicOffIcon from "@mui/icons-material/PublicOff";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import CookieIcon from "@mui/icons-material/Cookie";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { userAccountSettingSchema } from "@/lib/validationSchema";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 export default function Accountsetting() {
   const router = useRouter();
@@ -25,24 +31,36 @@ export default function Accountsetting() {
   const [announcementEnabled, setAnnouncementEnabled] = useState(true);
   const [blogEnabled, setBlogEnabled] = useState(true);
   const [billingEnabled, setBillingEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userAccountSettingSchema),
+    mode: "onBlur",
+  });
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    const token = Cookies.get("token");
     if (!token) {
-      router.push('/login');
+      router.push("/login");
       return;
     }
     const fetchUser = async () => {
       const tokenData = await HandleValidateToken(token);
       if (!tokenData) {
-        Cookies.remove('token');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        router.push('/login');
+        Cookies.remove("token");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        router.push("/login");
         return;
       }
 
-      setUser(tokenData.data)
+      setUser(tokenData.data);
     };
 
     fetchUser();
@@ -66,17 +84,24 @@ export default function Accountsetting() {
                 <input
                   required
                   type="text"
-                  name="first_name"
                   placeholder="Emma"
+                  {...register("first_name")}
+                  disabled={loading}
                 />
+                {errors.first_name && (
+                  <div className="invalid-feedback d-block">
+                    {errors.first_name.message}
+                  </div>
+                )}
               </div>
               <div className="account-form-group">
                 <label>Last Name</label>
                 <input
                   required
                   type="text"
-                  name="last_name"
                   placeholder="Rose"
+                  {...register("last_name")}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -86,19 +111,54 @@ export default function Accountsetting() {
                 <label>Email</label>
                 <input
                   type="email"
-                  name="email"
                   placeholder="Your registered email to create an account"
+                  {...register("email")}
+                  disabled={loading}
                 />
+                {errors.email && (
+                  <div className="invalid-feedback d-block">
+                    {errors.email.message}
+                  </div>
+                )}
               </div>
               <div className="account-form-group">
                 <label>Language Setting</label>
-                <select name="language">
+                <select
+                  name="language"
+                  {...register("language")}
+                  disabled={loading}
+                >
                   <option>English</option>
                 </select>
+                {errors.email && (
+                  <div className="invalid-feedback d-block">
+                    {errors.email.message}
+                  </div>
+                )}
               </div>
-              <div className="account-form-group">
+              <div className="account-form-group phone-input-css">
                 <label>Phone Number</label>
-                <PhoneInput country={"us"} />
+                <Controller
+                  name="mobile"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      country={"us"}
+                      inputProps={{
+                        name: "mobile",
+                        disabled: loading,
+                      }}
+                      onChange={(value) => field.onChange("+" + value)}
+                    />
+                  )}
+                />
+                {errors.mobile && (
+                  <div className="invalid-feedback d-block">
+                    {errors.mobile.message}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -107,8 +167,9 @@ export default function Accountsetting() {
                 <label>Location</label>
                 <input
                   type="text"
-                  name="address"
                   placeholder="Enter your address"
+                  {...register("location")}
+                  disabled={loading}
                 />
               </div>
               <div className="account-form-group">
@@ -116,8 +177,9 @@ export default function Accountsetting() {
                 <input
                   required
                   type="text"
-                  name="last_name"
                   placeholder="Enter your zip code"
+                  {...register("zip_code")}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -126,13 +188,23 @@ export default function Accountsetting() {
                 Consent to Data Sharing and AI Matching
               </span>
               <div className="d-flex gap-2 pt-2">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  {...register("consent")}
+                  disabled={loading}
+                />
                 <label htmlFor="corporateCheck">
                   I agree to let Coach Sparkle match my services to help users
                   achieve their coaching goals.
                 </label>
               </div>
-              <button className="save-changes-btn">Save Changes</button>
+              <button className="save-changes-btn" disabled={loading}>
+                {loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  <>Save Changes</>
+                )}
+              </button>
             </div>
           </div>
         </form>
@@ -249,29 +321,64 @@ export default function Accountsetting() {
               <div className="d-flex gap-2 mb-2 pt-2 under-line-text">
                 <CookieIcon className="mui-icons" />
 
-                <span className="title" data-bs-toggle="modal" data-bs-target="#cookieModal" role="button">
+                <span
+                  className="title"
+                  data-bs-toggle="modal"
+                  data-bs-target="#cookieModal"
+                  role="button"
+                >
                   Manage Cookie Preferences
                 </span>
 
-
-                <div className="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+                <div
+                  className="modal fade"
+                  id="cookieModal"
+                  tabIndex="-1"
+                  aria-labelledby="cookieModalLabel"
+                  aria-hidden="true"
+                >
                   <div className="modal-dialog">
                     <div className="modal-content p-3">
                       <div className="modal-header border-0">
-                        <h5 className="modal-title fw-bold" id="cookieModalLabel">Manage Cookies</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5
+                          className="modal-title fw-bold"
+                          id="cookieModalLabel"
+                        >
+                          Manage Cookies
+                        </h5>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
                       <div className="modal-body">
-                        <p>CoachSparkle uses cookies to enhance your experience, personalize content, and analyze traffic. You can manage your preferences anytime.</p>
+                        <p>
+                          CoachSparkle uses cookies to enhance your experience,
+                          personalize content, and analyze traffic. You can
+                          manage your preferences anytime.
+                        </p>
 
                         <div className="border rounded p-3 one">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
-                              <strong>Essential Cookies</strong><br />
-                              <small>Necessary for login, security and session functionality</small>
+                              <strong>Essential Cookies</strong>
+                              <br />
+                              <small>
+                                Necessary for login, security and session
+                                functionality
+                              </small>
                             </div>
                             <div className="form-check form-switch m-0">
-                              <input className="form-check-input" type="checkbox" role="switch" id="essentialCookies" checked disabled />
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="essentialCookies"
+                                checked
+                                disabled
+                              />
                             </div>
                           </div>
                         </div>
@@ -279,11 +386,20 @@ export default function Accountsetting() {
                         <div className="border rounded p-3 two">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
-                              <strong>Performance Cookies</strong><br />
-                              <small>Help us to improve the platform through usage analytics.</small>
+                              <strong>Performance Cookies</strong>
+                              <br />
+                              <small>
+                                Help us to improve the platform through usage
+                                analytics.
+                              </small>
                             </div>
                             <div className="form-check form-switch m-0">
-                              <input className="form-check-input" type="checkbox" role="switch" id="performanceCookies" />
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="performanceCookies"
+                              />
                             </div>
                           </div>
                         </div>
@@ -291,11 +407,19 @@ export default function Accountsetting() {
                         <div className="border rounded p-3 three">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
-                              <strong>Functional Cookies</strong><br />
-                              <small>Remember preferences, such as language.</small>
+                              <strong>Functional Cookies</strong>
+                              <br />
+                              <small>
+                                Remember preferences, such as language.
+                              </small>
                             </div>
                             <div className="form-check form-switch m-0">
-                              <input className="form-check-input" type="checkbox" role="switch" id="functionalCookies" />
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="functionalCookies"
+                              />
                             </div>
                           </div>
                         </div>
@@ -303,25 +427,41 @@ export default function Accountsetting() {
                         <div className="border rounded p-3 four">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
-                              <strong>Marketing Cookies</strong><br />
+                              <strong>Marketing Cookies</strong>
+                              <br />
                               <small>Used to personalized advertising</small>
                             </div>
                             <div className="form-check form-switch m-0">
-                              <input className="form-check-input" type="checkbox" role="switch" id="marketingCookies" />
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="marketingCookies"
+                              />
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="modal-footer border-0 three-btn-add">
-                        <button type="button" className="btn btn-primary">Accept All Cookies</button>
-                        <button type="button" className="btn btn-outline-primary">Customize Settings</button>
-                        <button type="button" className="btn btn-outline-primary">Reject Cookies</button>
+                        <button type="button" className="btn btn-primary">
+                          Accept All Cookies
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary"
+                        >
+                          Customize Settings
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary"
+                        >
+                          Reject Cookies
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-
-
               </div>
               <div className="d-flex gap-2 under-line-text">
                 <PersonSearchIcon className="mui-icons" />
@@ -344,11 +484,12 @@ export default function Accountsetting() {
                 I understand and wish to proceed with account deletion.
               </label>
             </div>
-            <button className="delete-btn d-flex gap-2 align-items-center"><i className="bi bi-trash fs-5"></i>Delete Account</button>
+            <button className="delete-btn d-flex gap-2 align-items-center">
+              <i className="bi bi-trash fs-5"></i>Delete Account
+            </button>
           </div>
         </div>
       </div>
     </div>
-
   );
 }

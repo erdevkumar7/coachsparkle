@@ -1,6 +1,21 @@
 'use client';
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
+import AppsIcon from '@mui/icons-material/Apps';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
+import StarBorderPurple500OutlinedIcon from '@mui/icons-material/StarBorderPurple500Outlined';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+
+
 
 export default function UserSideBarComp({user}) {
     const router = useRouter();
@@ -16,8 +31,8 @@ export default function UserSideBarComp({user}) {
                         src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
                         alt="profile" />
                     <div>
-                        <h5 className="font-medium">
-                            {user?.first_name} {user?.last_name}<span className="text-green-500 text-sm"><i className="bi bi-check-circle-fill"></i></span>
+                        <h5 className="font-medium text-with-check-icons">
+                            {user?.first_name} {user?.last_name}<span className="text-green-500 text-sm"><CheckCircleIcon/></span>
                         </h5>
                         <p className="text-sm text-gray-500">User</p>
                     </div>
@@ -29,7 +44,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item" onClick={() => router.push('/user/dashboard')}>
                     <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-grid-3x3-gap-fill"></i>
+                        <AppsIcon/>
                             <span className="menu-title">Dashboard</span>
                         </div>
                     </a>
@@ -38,7 +53,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item explore-tab">
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-search"></i>
+                             <SearchOutlinedIcon/>
                             <span className="menu-title">Explore Coaches</span>
                         </div>
                     </a>
@@ -47,7 +62,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item" onClick={() => router.push('/user/coaching-activities')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-duffle"></i>
+                        <WorkOutlineIcon/>
                             <span className="menu-title">Coaching Activities</span>
                         </div>
                     </a>
@@ -56,7 +71,8 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item" onClick={() => router.push('/user/favourite-coach')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-heart"></i>
+                        <FavoriteBorderOutlinedIcon/>
+
                             <span className="menu-title">Favourite Coach</span>
                         </div>
                     </a>
@@ -65,16 +81,16 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item" onClick={() => router.push('/user/user-message')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-chat-dots"></i>
+                        <TextsmsOutlinedIcon/>
                             <span className="menu-title">Message</span>
                         </div>
                     </a>
                 </li>
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/booking')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-calendar2-week"></i>
+                           <CalendarMonthIcon/>
                             <span className="menu-title">Booking</span>
                         </div>
                     </a>
@@ -82,10 +98,10 @@ export default function UserSideBarComp({user}) {
 
 
 
-                <li className="nav-item">
+                <li className="nav-item" onClick={() => router.push('/user/review')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-star"></i>
+                        <StarBorderPurple500OutlinedIcon/>
                             <span className="menu-title">Reviews</span>
                         </div>
                     </a>
@@ -97,7 +113,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item profile-tab" onClick={() => router.push('/user/profile')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-person"></i>
+                        <PersonOutlineIcon/>
                             <span className="menu-title">Profile</span>
                         </div>
                     </a>
@@ -109,7 +125,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item" onClick={() => router.push('/user/account-setting')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-gear"></i>
+                        <SettingsOutlinedIcon/>
                             <span className="menu-title">Account Settings</span>
                         </div>
                     </a>
@@ -120,7 +136,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item" onClick={() => router.push('/user/support')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="bi bi-headset"></i>
+                        <HeadsetMicOutlinedIcon/>
                             <span className="menu-title">FAQs and Support</span>
                         </div>
                     </a>
@@ -130,7 +146,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item sign-out">
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                            <i className="fa fa-sign-out" aria-hidden="true"></i>
+                        <LogoutOutlinedIcon/>
                             <span className="menu-title">Sign Out</span>
                         </div>
                     </a>

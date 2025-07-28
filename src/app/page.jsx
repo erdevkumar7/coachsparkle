@@ -628,7 +628,7 @@ Coaches: Join free, list your profile, and get discovered. Ready to stand out? U
             <div className="pricing">
               <div className="col-md-4">
                 <div className="card">
-                  <h3>Free</h3>
+                  <h3>Basic Plan</h3>
                   <p>Get started with a basic profile to explore the platform and connect with your first few clients.</p>
                   <h2>$<span className="number-add">0</span></h2>
                   <div className="user-list-plan">
@@ -642,7 +642,7 @@ Coaches: Join free, list your profile, and get discovered. Ready to stand out? U
                       <li><i className="bi bi-check"></i>Text Message Only</li>
                       <li><i className="bi bi-check"></i>Standard Support, Limited Analytics</li>
                     </ul>
-                    <button>Signup</button>
+                    <button>Sign up</button>
                   </div>
                 </div>
               </div>
