@@ -2,6 +2,10 @@
 
 import React from "react";
 import "@/app/(guest)/_styles/coach-list.css";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
+
 export default function Pagination({
   currentPage,
   lastPage,
@@ -24,7 +28,7 @@ export default function Pagination({
             onClick={() => handleClick(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <i className="bi bi-chevron-left"></i> Back
+            <ChevronLeftIcon className="mui-icons back-icons-add"/> Back
           </button>
 
           {Array.from({ length: lastPage }, (_, i) => i + 1).map((page) => (
@@ -42,7 +46,7 @@ export default function Pagination({
             onClick={() => handleClick(currentPage + 1)}
             disabled={currentPage === lastPage}
           >
-            Next <i className="bi bi-chevron-right"></i>
+            Next <ChevronRightIcon className="mui-icons next-icons-add"/>
           </button>
         </div>
       </div>

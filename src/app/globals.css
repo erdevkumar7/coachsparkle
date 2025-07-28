@@ -19,11 +19,11 @@
 }
 
 .coach-top-navber-add ul.navbar-nav.list-show {
-  gap: 25px;
   justify-content: center;
-  display: flex;
   align-items: center;
+  gap: 5px;
   margin: auto;
+  display: flex;
 }
 
 .coach-top-navber-add a.Login-navbar {
@@ -184,11 +184,11 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .smarter-matching-inner p {
-  font-size: 20px;
-  font-family: roboto;
-  color: #000000;
-  padding-top: 18px;
+  color: #000;
   margin-bottom: 0;
+  padding-top: 18px;
+  font-family: roboto;
+  font-size: 18px;
 }
 
 .smarter-matching-inner .search-container {
@@ -198,13 +198,13 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .smarter-matching-inner input.form-control.search-input {
-	border: 1px solid #d7d7d7;
-	border-radius: 12px;
-	height: 68px;
-	width: 525px;
-	font-family: Roboto;
-	font-size: 17px;
-	padding-left: 20px;
+  border: 1px solid #d7d7d7;
+  border-radius: 12px;
+  width: 448px;
+  height: 64px;
+  padding-left: 20px;
+  font-family: Roboto;
+  font-size: 17px;
 }
 
 .smarter-matching-inner i.fas.fa-search.search-icon {
@@ -379,11 +379,11 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .dedicated-career-coach-left h1.mb-3 {
-  color: #000000;
-  font-weight: 600;
-  font-family: "Inter";
-  font-size: 40px;
+  color: #000;
   padding-right: 65px;
+  font-family: Inter;
+  font-size: 38px;
+  font-weight: 600;
 }
 
 .dedicated-career-coach-left p {
@@ -444,10 +444,10 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .coaching-approach-left h1.mb-3 {
-  color: #000000;
+  color: #000;
+  font-family: Inter;
+  font-size: 38px;
   font-weight: 600;
-  font-family: "Inter";
-  font-size: 40px;
 }
 
 .dedicated-career-coach-left a.learn-more-btn-add:hover {
@@ -1154,12 +1154,10 @@ p.span-txt {
 
 .choose-plan-you .card p {
   color: #a6a6a6;
-  font-size: 18px;
-  font-weight: 500;
-  font-family: "Inter";
-  width: 80%;
-  margin: auto;
-  margin-bottom: 15px;
+  width: 88%;
+  margin: auto auto 15px;
+  font-family: Inter;
+  font-weight: 400;
 }
 
 .choose-plan-you .card h2 {
@@ -1189,21 +1187,21 @@ p.span-txt {
 }
 
 .choose-plan-you .card button {
-  background: #fff;
-  font-family: "Inter";
-  border: none;
-  border-radius: 50px;
-  padding: 10px 25px;
-  font-weight: 600;
   cursor: pointer;
   color: #009bfa;
-  display: flex;
-  width: 86%;
+  background: #fff;
+  border: none;
+  border-radius: 50px;
   justify-content: center;
+  width: 86%;
   height: 50px;
-  margin: auto;
-  margin-bottom: 20px;
-  box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+  margin: auto auto 20px;
+  padding: 10px 25px;
+  font-family: Inter;
+  font-weight: 600;
+  display: flex;
+  box-shadow: 0 5px 15px #0000001a;
+  border: solid 1px #009BFA;
 }
 
 .choose-plan-you .featured {
@@ -1520,20 +1518,29 @@ footer.coach-footer-section .coach-footer-three {
 }
 
 .coach-footer-inner .mui-icons {
-  color: #000000;
-  font-size: 21px;
+  color: #000;
   padding-right: 8px;
+  font-size: 21px !important;
+  height: 21px !important;
+}
+.coach-footer-four .mui-icons {
+  font-size: 25px !important;
+  height: 25px !important;
 }
 
 footer.coach-footer-section .coach-footer-three ul.list-unstyled .mui-icons {
-  color: #000000;
-  font-size: 25px;
+  color: #000;
   padding-right: 8px;
+  font-size: 21px !important;
+  height: 21px !important;
 }
 footer.coach-footer-section .new-add-footer .mui-icons {
   font-size: 21px !important;
 }
-
+.privacy a {
+  text-decoration: underline !important;
+  color: #000000;
+}
 /*Mobile-view-css*/
 
 @media only screen and (max-width: 767px) {
@@ -2789,18 +2796,17 @@ select:focus-visible {
 
 
 /*Home Page Latest*/
-
 .ai-btn-find button {
-    height: 68px;
-    border-radius: 12px;
-    font-family: Roboto;
-    font-size: 16px;
-    margin-left: 10px;
-    background-color: #009BFA;
-    color: #ffffff;
-    border: 1px solid #009BFA;
-    padding-left: 15px;
-    padding-right: 15px;
+  color: #fff;
+  background-color: #009bfa;
+  border: 1px solid #009bfa;
+  border-radius: 12px;
+  height: 64px;
+  margin-left: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-family: Roboto;
+  font-size: 16px;
 }
 .smarter-matching-inner input.form-control.search-input::placeholder {
     color: #0000007d;
@@ -2813,13 +2819,14 @@ select:focus-visible {
     margin-top: 30px;
 }
 .switch-toggle {
-    position: relative;
-    background: #fff;
-    border-radius: 25px;
-    display: flex;
-    width: 250px;
-    cursor: pointer;
-    overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 25px;
+  width: 250px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 15px #0000001a;
 }
 .switch-toggle input {
     display: none;
@@ -2834,7 +2841,7 @@ select:focus-visible {
     transition: color 0.3s;
 }
 #monthly:checked ~ label[for="monthly"], #yearly:checked ~ label[for="yearly"] {
-    color: #fff;
+    color: #fff !important;
 }
 #yearly:checked ~ .slider {
     left: 50%;
@@ -2850,4 +2857,41 @@ select:focus-visible {
     left: 0;
     z-index: 0;
 }
+
+/* Move pagination to top-right */
+.people-love-living .swiper-pagination {
+  z-index: 10;
+  justify-content: flex-end;
+  gap: 6px;
+  width: auto;
+  padding: 20px 20px 0 0;
+  display: flex;
+  position: absolute;
+  /* top: -68px; */
+  top: 5px;
+  right: 0;
+}
+.people-love-living .swiper-wrapper {
+  margin-top: 60px;
+}
+.people-love-living .swiper {
+  margin-top: 35px;
+  margin-top: -11px;
+}
+
+.people-love-living span.swiper-pagination-bullet {
+  top: 0px;
+  margin-top: -22px !important;
+}
+
+
+.people-love-living .swiper-pagination-bullet-active {
+  background-color: #007bff;
+}
+
+.people-love-living .swiper-pagination-bullet {
+  opacity: 999;
+  background-color: #000000;
+}
+
 

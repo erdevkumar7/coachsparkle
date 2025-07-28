@@ -14,7 +14,7 @@ export default function ViewServicePackage({ pkg }) {
             pkg?.media_file
               ? pkg?.media_file
               : `/coachsparkle/images/package1.webp`
-          }
+          } 
           alt="Team Image"
           className="top-image"
         />
