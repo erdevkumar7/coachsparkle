@@ -42,14 +42,140 @@ export const registerSchema = yup.object().shape({
 });
 
 export const coachSchema = yup.object().shape({
-    first_name: yup.string().required('First name is required'),
-    last_name: yup.string().required('Last name is required'),
-    email: yup.string().email().required('Email is required'),
-    gender: yup.string().required('Gender is required'),
-    country_id: yup.string().required('Country is required'),
-    state_id: yup.string().required('State is required'),
-    city_id: yup.string().required('City is required'),
-    // Add other fields as needed
+    first_name: yup
+        .string()
+        .required('First name is required')
+        .min(2, 'First name least two characters')
+        .max(35, 'First name maximum 35 characters'),
+    last_name: yup
+        .string()
+        .required('Last name is required')
+        .min(2, 'Last name least two characters')
+        .max(35, 'Last name maximum 35 characters'),
+    email: yup
+        .string()
+        .email()
+        .required('Email is required'),
+    gender: yup
+        .string()
+        .required('Gender is required'),
+    country_id: yup
+        .string()
+        .required('Country is required'),
+    state_id: yup
+        .string()
+        .required('State is required'),
+    city_id: yup
+        .string()
+        .required('City is required'),
+    professional_title: yup
+        .string()
+        .required('Professional title is required')
+        .min(2, 'Professional title least two characters')
+        .max(150, 'Professional title maximum 150 characters'),
+    company_name: yup
+        .string()
+        .required('Company name is required')
+        .min(2, 'Company name least two characters')
+        .max(150, 'Company name maximum 150 characters'),
+
+    experience: yup
+        .number()
+        .typeError('Experience must be a number')
+        .required('Experience is required')
+        .min(1, 'Minimum experience is 1 year')
+        .max(100, 'Maximum experience is 100 years'),
+
+    delivery_mode: yup
+        .string()
+        .required('Delivery mode required'),
+
+    price_range: yup
+        .string()
+        .required('Price range required'),
+
+    age_group: yup
+        .string()
+        .required('Audience is required'),
+
+    language_names: yup
+        .array()
+        .of(yup.string())
+        .min(1, 'Please select at least one language')
+        .required('Language is required'),
+
+    free_trial_session: yup
+        .string()
+        .required('Free trial available is required'),
+
+    is_pro_bono: yup
+        .string()
+        .required('Pro-bono coach is required'),
+
+    price: yup
+        .number()
+        .typeError('price must be a number')
+        .required('price is required')
+        .min(1, 'Minimum price is 1')
+        .max(1000000, 'Maximum price is 1000000'),
+
+    detailed_bio: yup
+        .string()
+        .required('Introduction  is required')
+        .min(50, 'Introduction  must be at least 50 characters')
+        .max(1500, 'Introduction  cannot exceed 1500 characters'),
+
+    exp_and_achievement: yup
+        .string()
+        .required('Coaching experiences, expertise  is required')
+        .min(100, 'Coaching experiences, expertise  must be at least 100 characters')
+        .max(2000, 'Coaching experiences, expertise  cannot exceed 2000 characters'),
+
+    // service_keyword: yup
+    //     .array()
+    //     .of(yup.string())
+    //     .min(1, 'Please select at least one service keyword')
+    //     .required('service keyword is required'),
+
+    service_keyword: yup
+        .array()
+        .min(1, 'Please select at least one service keyword')
+        .test(
+            'max-keywords-by-plan',
+            'Only Pro Coaches can select more than 5 services',
+            function (value) {
+                const { options } = this; // use context
+                const isProUser = options?.context?.isProUser;
+                return isProUser || (value?.length <= 5);
+            }
+        )
+        .required('Please select services'),
+
+    linkdin_link: yup
+        .string()
+        .url("Enter a valid URL")
+        .max(255, 'Linkdin URL must be at most 255 characters'),
+
+    website_link: yup
+        .string()
+        .url("Enter a valid URL")
+        .max(255, 'Website URL must be at most 255 characters'),
+
+    youtube_link: yup
+        .string()
+        .url("Enter a valid URL")
+        .max(255, 'Youtube URL must be at most 255 characters'),
+
+    podcast_link: yup
+        .string()
+        .url("Enter a valid URL")
+        .max(255, 'Podcast URL must be at most 255 characters'),
+
+
+    blog_article: yup
+        .string()
+        .url("Enter a valid URL")
+        .max(255, 'Blog URL must be at most 255 characters'),
 });
 
 export const sendMessageSchema = yup.object().shape({
