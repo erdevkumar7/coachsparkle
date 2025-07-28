@@ -24,6 +24,11 @@ import BreadCrumb from "@/components/BreadCrumb";
 import Pagination from "@/components/Pagination";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import EastIcon from '@mui/icons-material/East';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+
 
 
 export default function CoachList() {
@@ -264,8 +269,8 @@ export default function CoachList() {
                           <h2>
                             {coach.first_name} {coach.last_name}
                           </h2>
-                          <span>
-                            <i className="bi bi-check-circle-fill"></i> Verified
+                          <span className="check-box-add-icons">
+                          <CheckCircleIcon className="mui-icons"/> Verified
                           </span>
                         </div>
                         <p className="reviews-text">
@@ -289,11 +294,11 @@ export default function CoachList() {
                           {coach.price ? `$${coach.price}/month` : "N/A"}
                         </p>
                         <button className="book">
-                          Book Now <i className="bi bi-arrow-right"></i>
+                          Book Now <EastIcon className="mui-icons fav-list-icons"/>
                         </button>
                         <Link href={`/coach-detail/${coach.user_id}`}>
                           <button className="profile">
-                            View Profile <i className="bi bi-arrow-right"></i>
+                            View Profile <EastIcon className="mui-icons fav-list-icons"/>
                           </button>
                         </Link>
                       </div>
@@ -309,7 +314,7 @@ export default function CoachList() {
                     </div>
                     <div className="fav-list">
                       <span>
-                        <i className="bi bi-heart"></i>
+                      <FavoriteBorderIcon className="mui-icons"/>
                       </span>
                     </div>
                   </div>

@@ -347,7 +347,7 @@ span.MuiButtonBase-root {
   background: none;
   color: #009bfa;
   border: 1px solid #009bfa;
-  padding: 8px 12px;
+  padding: 9px 12px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
@@ -539,7 +539,7 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
   line-height: 2.5;
 }
 .coach-profile-list-add span.verified-text {
-  color: #104e00;
+
   font-size: 14px;
   background-color: #e4f9e0;
   border-radius: 100px;
@@ -602,10 +602,10 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
 }
 
 .coach-profile-list-left .info-item {
-  display: flex;
   align-items: center;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
   font-size: 14px;
+  display: flex;
 }
 .coach-profile-list-left .tags {
   margin-top: 12px;
@@ -1307,6 +1307,40 @@ textarea {
   color: #009bfa;
 }
 
+.coach-banner-add .coach-card .fav-list-icons {
+  margin-left: 4px;
+  font-size: 18px;
+  margin-top: -2px;
+}
+
+span.check-box-add-icons .mui-icons {
+  color: #27C200;
+}
+.coach-banner-add .filter-section svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiSelect-icon.MuiSelect-iconOutlined.css-lohd6h-MuiSvgIcon-root-MuiSelect-icon {
+  width: .9em !important;
+  position: relative !important;
+}
+.coach-profile-list-add span.verified-text .mui-icons {
+  color: #27C200 !important;
+}
+span.avail-text .mui-icons {
+  color: #7EAAF8 !important;
+}
+.coach-profile-list-left .profile-card .mui-icons {
+  color: #000000;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-leftArrowIcon.css-1ckov0h-MuiSvgIcon-root {
+  color: #333333;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArrowIcon.css-1ckov0h-MuiSvgIcon-root {
+  color: #333333;
+}
+
+.MuiTabs-list.MuiTabs-flexContainer.css-hzcega-MuiTabs-list button {
+  border: none !important;
+}
+
+
 /*coach-profile-detail-css-desktop*/
 
 /*mobile view css*/
@@ -1397,7 +1431,7 @@ textarea {
     justify-content: center;
   }
   .coach-banner-add button.book {
-    padding: 10px 12px;
+    padding: 11px 12px;
     border-radius: 12px;
     margin-bottom: 5px;
     margin-top: 5px;
@@ -1691,7 +1725,7 @@ p.senior-engineer-text span {
 }
 span.avail-text {
   background: #cfe0fe;
-  color: #1c1c1e;
+  /* color: #1c1c1e; */
   border-radius: 100px;
   align-items: center;
   padding: 5px 5px 5px 5px;
@@ -1708,6 +1742,16 @@ span.avail-text i.bi.bi-check {
   position: absolute;
   top: 60px;
   right: 0;
+  cursor: pointer;
+  background-color: #009bfa26;
+  border-radius: 4px;
+  padding: 0 13px;
+  font-size: 21px;
+  line-height: 2.3;
+  position: absolute;
+  top: 59px;
+  right: 0;
+  color: #009bfa !important;
 }
 .coach-action-share-icon i {
   color: #009bfa;
@@ -1922,11 +1966,12 @@ button.ai-mtc {
   line-height: 18px;
 }
 .artcl-flex .item-cont1 button {
+  color: #fff;
   background: #009df6;
-  color: #ffffff;
   border: 1px solid #009df6;
   border-radius: 12px;
   padding: 8px 16px;
+  font-size: 14px;
 }
 
 .sim-coachs {
