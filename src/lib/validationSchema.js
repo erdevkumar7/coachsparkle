@@ -88,3 +88,46 @@ export const requestSchema = yup.object().shape({
   .required("Consent is required")
   .oneOf([1], "You must agree to share your request"),
 });
+
+
+export const userProfileSchema = yup.object().shape({
+  first_Name: yup.string().required("First name is required"),
+  last_Name: yup.string(),
+  display_name: yup.string().required("Display name is required"),
+  email: yup.string().email('Please provide valid email').required("Email is required"),
+  country_id: yup.string().required("Please select your country"),
+  professional_profile: yup.string(),
+  professional_title: yup.string(),
+  topics: yup.string(),
+  ageGroup: yup.string(),
+  goal1: yup.string(),
+  goal2: yup.string(),
+  goal3: yup.string(),
+  language: yup.string(),
+  mode: yup.string(),
+  timings: yup.string(),
+  bio: yup.string(),
+  coachAgreement: yup.bool(),
+});
+
+
+export const userAccountSettingSchema = yup.object().shape({
+    first_name: yup
+        .string()
+        .required("First name is required"),
+    last_name: yup.string(),
+    email: yup
+        .string()
+        .email('Please provide valid email')
+        .required("Email is required"),
+    language: yup
+        .string()
+        .required("Language is required"),
+mobile: yup
+    .string()
+    .required("Mobile number is required")
+    .matches(/^\+\d{10,15}$/, "Enter a valid mobile number with country code"),
+    location: yup.string(),
+    zip_code: yup.string(),
+    consent: yup.string(),
+})
