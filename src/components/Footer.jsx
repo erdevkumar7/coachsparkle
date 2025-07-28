@@ -4,6 +4,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '@mui/icons-material/X';
+import FacebookIcon from '@mui/icons-material/Facebook';
+
 
 export default function Footer() {
     return (
@@ -17,14 +19,14 @@ export default function Footer() {
                         </div>
 
                         <div className="col-md-2 coach-footer-two">
-                            <h5>Informational Links</h5>
+                            <h5>Information</h5>
                             <ul className="list-unstyled">
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">About Us</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Contact Us</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">FAQ</a></li>
-                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Terms of Services</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Terms of Use</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Privacy Policy</a></li>
-                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Cookie Policy</a></li>
+                                {/* <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Cookie Policy</a></li> */}
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Site Map</a></li>
                             </ul>
                         </div>
@@ -32,19 +34,19 @@ export default function Footer() {
                         <div className="col-md-2 coach-footer-three new-add-footer">
                             <h5>Platform</h5>
                             <ul className="list-unstyled">
-                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Browse Coaches</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Explore Coaches</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="/coachsparkle/send-coaching-request" className="text-decoration-none">Send Coaching Request</a></li>
-                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Get Match</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">AI Match</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">List As Coach</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">For Corporate</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Events</a></li>
                             </ul>
                         </div>
 
-                        <div className="col-md-2 coach-footer-three">
+                        <div className="col-md-2 coach-footer-four">
                             <h5>Social Media</h5>
                             <ul className="list-unstyled">
-                                <li><i className="fa fa-facebook" aria-hidden="true"></i> <a href="#" className="text-decoration-none">Facebook</a></li>
+                                <li><FacebookIcon className="mui-icons"/> <a href="#" className="text-decoration-none">Facebook</a></li>
                                 <li><InstagramIcon className="mui-icons"/> <a href="#" className="text-decoration-none">Instagram</a></li>
                                 <li><LinkedInIcon className="mui-icons"/> <a href="#" className="text-decoration-none">LinkedIn</a></li>
                                 <li><YouTubeIcon className="mui-icons"/><a href="#" className="text-decoration-none">YouTube</a></li>
@@ -61,9 +63,9 @@ export default function Footer() {
                                 </div>
                                 <button type="submit" className="btn btn-primary btn-sm">Sign Up</button>
 
-                                <label className="form-check-box">
+                                <label className="form-check-box privacy">
                                     <input type="checkbox" name="terms" required />
-                                    I have read and agree to the terms & conditions
+                                   <div>I have read and agree to the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a></div> .
                                 </label>
                             </form>
                         </div>

@@ -13,6 +13,16 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { notFound } from "next/navigation";
 import ActionButton from "@/components/reusable/ActionButton";
 import SendMessageButton from "../../_components/SendMessageButton";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ShareIcon from '@mui/icons-material/Share';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import TranslateIcon from '@mui/icons-material/Translate';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import Image from 'next/image';
+import LanguageIcon from '@mui/icons-material/Language';
+import AdjustIcon from '@mui/icons-material/Adjust';
+
+
 
 export default async function CoachDetail({ params }) {
   const { coach_id } = await params;
@@ -72,13 +82,13 @@ export default async function CoachDetail({ params }) {
                             {coach?.is_verified === 1 && (
                               <span className="verified-text">
                                 {" "}
-                                <i className="bi bi-check"></i>Verified
+                                <CheckCircleIcon className="mui-icons"/>Verified
                               </span>
                             )}
                             {coach?.is_corporate === 1 && (
                               <span className="avail-text">
                                 {" "}
-                                <i className="bi bi-check"></i>Available for
+                                <CheckCircleIcon className="mui-icons"/>Available for
                                 Corporate Work
                               </span>
                             )}
@@ -131,7 +141,7 @@ export default async function CoachDetail({ params }) {
                                 </div>
 
                                 <div className="info-item">
-                                  <i className="bi bi-translate"></i>
+                                  <TranslateIcon className="mui-icons"/>
                                   <span>
                                     {coach.language_names?.join(", ") ||
                                       "Not available"}
@@ -141,7 +151,7 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.delivery_mode && (
                                     <>
-                                      <i className="bi bi-globe"></i>
+                                       <LanguageIcon className="mui-icons"/>
                                       <span>{coach?.delivery_mode}</span>
                                     </>
                                   )}
@@ -151,7 +161,7 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.experience && (
                                     <>
-                                      <i className="bi bi-award"></i>
+                                       <EmojiEventsIcon className="mui-icons award-icons-add"/>
                                       <span>
                                         {coach?.experience}-years experiences
                                       </span>
@@ -162,14 +172,14 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.age_group && (
                                     <>
-                                      <i className="bi bi-crosshair"></i>
+                                      <AdjustIcon className="mui-icons"/>
                                       <span>For Ages {coach?.age_group}</span>
                                     </>
                                   )}
                                 </div>
 
                                 <div className="info-item">
-                                  <i className="bi bi-star"></i>
+                                 <StarBorderIcon className="mui-icons"/>
                                   {/* <span><b>5.0</b> (21 reviews)</span> */}
                                   <span>
                                     <b>No Rating </b>
@@ -184,7 +194,7 @@ export default async function CoachDetail({ params }) {
                         <FavoriteBorderIcon className="mui-icons" />
                       </div>
                       <div className="coach-action-share-icon">
-                        <i className="bi bi-share"></i>
+                       <ShareIcon className="mui-icons share-icons-add"/>
                       </div>
                       <div className="tags">
                         {coach?.service_names &&
@@ -216,11 +226,9 @@ export default async function CoachDetail({ params }) {
                     <h4>Published Articles</h4>
                     <div className="artcl-flex">
                       <div className="item-artcl">
-                        <img
-                          src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
-                          alt="Team Image"
-                          className="top-image"
-                        />
+                      <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}  alt="Team Image"
+                          className="top-image" width={1000} height={226} />
+
                         <div className="item-cont1">
                           <h4>
                             5 Strategies to Boost Self-Confidence in the
@@ -235,11 +243,9 @@ export default async function CoachDetail({ params }) {
                         </div>
                       </div>
                       <div className="item-artcl">
-                        <img
-                          src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
-                          alt="Team Image"
-                          className="top-image"
-                        />
+                      <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}  alt="Team Image"
+                          className="top-image" width={1000} height={226} />
+
                         <div className="item-cont1">
                           <h4>
                             5 Strategies to Boost Self-Confidence in the
@@ -254,11 +260,9 @@ export default async function CoachDetail({ params }) {
                         </div>
                       </div>
                       <div className="item-artcl">
-                        <img
-                          src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}
-                          alt="Team Image"
-                          className="top-image"
-                        />
+                      <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}  alt="Team Image"
+                          className="top-image" width={1000} height={226} />
+
                         <div className="item-cont1">
                           <h4>
                             5 Strategies to Boost Self-Confidence in the
@@ -284,6 +288,8 @@ export default async function CoachDetail({ params }) {
 
               <div className="col-md-4 coach-profile-list-right">
                 <div className="profile-card">
+                <Image src={`${FRONTEND_BASE_URL}/images//images/profile-video.webp`}  alt="Team Image"
+                          className="top-image" width={1000} height={226} />
                   <img
                     src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}
                     alt="Team Image"
