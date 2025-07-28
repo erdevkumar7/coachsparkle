@@ -1,3 +1,4 @@
+import axios from "axios";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -76,4 +77,16 @@ export const packageIdsByCoachId = async (coach_id) => {
     )
 
     return await res.json();
+}
+
+export const updateCoachData = async (form, getToken) => {
+     const res = await axios.post(`${apiUrl}/updateProfile`, form, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return res;
 }

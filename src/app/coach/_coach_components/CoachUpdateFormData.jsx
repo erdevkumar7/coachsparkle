@@ -1,8 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import axios from "axios";
 import {
   getCitiesOfaState,
   getStatesOfaCountry,
@@ -11,7 +10,11 @@ import {
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 import MultipleSelectChip from "@/components/MultipleSelectChip";
 import MultipleSelectCheckmarks from "@/components/MultipleSelectCheckmarks";
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { coachSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
+import { updateCoachData } from "@/app/api/coach";
 
 
 export default function CoachUpdateForm({
@@ -25,283 +28,195 @@ export default function CoachUpdateForm({
 }) {
   const router = useRouter();
   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+
   const [getToken, setToken] = useState();
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [coachSubTypes, setSubCoachTypes] = useState([]);
   const [certificates, setCertificates] = useState([]);
-  const [errors, setErrors] = useState({});
 
-  const validateForm = () => {
-    const newErrors = {};
+  // console.log('states', user)
 
-    if (!formData.first_name.trim()) newErrors.first_name = "First name is required.";
-    if (!formData.last_name.trim()) newErrors.last_name = "Last name is required.";
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email format is invalid.";
-    }
-    // if (!formData.country_id) newErrors.country_id = "Country is required.";
-    // if (!formData.state_id) newErrors.state_id = "State is required.";
-    // if (!formData.city_id) newErrors.city_id = "City is required.";
-    // if (!formData.coach_type) newErrors.coach_type = "Main category is required.";
-    // if (!formData.coach_subtype) newErrors.coach_subtype = "Subcategory is required.";
-    // if (!formData.professional_title.trim()) newErrors.professional_title = "Professional title is required.";
-    // if (!formData.company_name.trim()) newErrors.company_name = "Company name is required.";
-    // if (!formData.gender) newErrors.gender = "Gender is required.";
-    // if (!formData.experience) newErrors.experience = "Experience is required.";
-    // if (!formData.delivery_mode) newErrors.delivery_mode = "Delivery mode is required.";
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    getValues,
+    control,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      user_type: user?.user_type || 3,
+      first_name: user?.first_name || '',
+      last_name: user?.last_name || '',
+      email: user?.email || '',
+      gender: user?.gender || '',
+      country_id: user?.country_id || '',
+      state_id: user?.state_id || '',
+      city_id: user?.city_id || '',
+      coach_type: user?.coach_type || "",
+      coach_subtype: user?.coach_subtype || "",
+      professional_title: user?.professional_title || "",
+      company_name: user?.company_name || "",
+      experience: user?.experience || "",
+      delivery_mode: user?.delivery_mode || "",
+      price: user?.price || "",
+      price_range: user?.price_range || "",
+      age_group: user?.age_group || "",
+      language_names: user?.language_names?.map((lang) => lang.id) || [],
+      service_keyword: user?.service_keyword?.map((servc) => servc.id) || [],
 
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
-
-
-  const [formData, setFormData] = useState({
-    user_type: user?.user_type || 3,
-    first_name: user?.first_name || "",
-    gender: user?.gender || "",
-    last_name: user?.last_name || "",
-    email: user?.email || "",
-    country_id: user?.country_id || "",
-    state_id: user?.state_id || "",
-    city_id: user?.city_id || "",
-    coach_type: user?.coach_type || "",
-    coach_subtype: user?.coach_subtype || "",
-    professional_title: user?.professional_title || "",
-    company_name: user?.company_name || "",
-    experience: user?.experience || "",
-    delivery_mode: user?.delivery_mode || "",
-    price: user?.price || "",
-    price_range: user?.price_range || "",
-    age_group: user?.age_group || "",
-    language_names: user?.language_names?.map((lang) => lang.id) || [],
-    service_keyword: user?.service_keyword?.map((servc) => servc.id) || [],
-
-    service_names: user?.service_names || [],
-    detailed_bio: user?.detailed_bio || "",
-    exp_and_achievement: user?.exp_and_achievement || "",
-    is_corporate: user?.is_corporate || 0,
-    free_trial_session: user?.free_trial_session || 0,
-    is_pro_bono: user?.is_pro_bono || 0,
-    //SocialLink
-    linkdin_link: user?.linkdin_link,
-    website_link: user?.website_link,
-    youtube_link: user?.youtube_link,
-    podcast_link: user?.podcast_link,
-    blog_article: user?.blog_article,
-    video_link: user?.video_link,
+      service_names: user?.service_names || [],
+      detailed_bio: user?.detailed_bio || "",
+      exp_and_achievement: user?.exp_and_achievement || "",
+      is_corporate: user?.is_corporate || false,
+      free_trial_session: user?.free_trial_session || 0,
+      is_pro_bono: user?.is_pro_bono || 0,
+      //SocialLink
+      linkdin_link: user?.linkdin_link,
+      website_link: user?.website_link,
+      youtube_link: user?.youtube_link,
+      podcast_link: user?.podcast_link,
+      blog_article: user?.blog_article,
+      video_link: user?.video_link,
+    },
+    resolver: yupResolver(coachSchema),
+    context: { isProUser }, // pass here
   });
 
-  // console.log('allLanguages', allLanguages)
+
   useEffect(() => {
-    const token = Cookies.get('token');
-    if (!token) {
-      router.push("/login");
+    const authToken = Cookies.get('token');
+    if (!authToken) {
+      router.push('/login');
       return;
     }
-    setToken(token);
+    setToken(authToken);
   }, [])
 
-  // useEffect(() => {
-  //   const loadDefaults = async () => {
-  //     if (formData.country_id) {
-  //       const stateRes = await getStatesOfaCountry(formData.country_id);
-  //       setStates(stateRes || []);
-  //     }
-  //     if (formData.state_id) {
-  //       const cityRes = await getCitiesOfaState(formData.state_id);
-  //       setCities(cityRes || []);
-  //     }
-  //     if (formData.coach_type) {
-  //       const coachSubtypeRes = await getSubCoachType(formData.coach_type);
-  //       setSubCoachTypes(coachSubtypeRes || []);
-  //     }
-  //   };
-  //   loadDefaults();
-  // }, [formData.country_id, formData.state_id]);
+
+  const selectedCountry = watch("country_id");
+  const selectedState = watch("state_id");
+  const selectedCoachType = watch("coach_type");
+
 
   useEffect(() => {
-    const fetchStates = async () => {
-      if (formData.country_id) {
-        const stateRes = await getStatesOfaCountry(formData.country_id);
-        setStates(stateRes || []);
+    if (!selectedCountry) return;
+
+    getStatesOfaCountry(selectedCountry).then((res) => {
+      setStates(res);
+
+      if (user?.state_id) {
+        const match = res.find((s) => s.state_id === user.state_id);
+        if (match) {
+          reset({
+            ...getValues(),
+            state_id: match.state_id,
+          });
+        }
       }
-    };
-    fetchStates();
-  }, [formData.country_id]);
+    });
+  }, [selectedCountry]);
+
 
   useEffect(() => {
-    const fetchCities = async () => {
-      if (formData.state_id) {
-        const cityRes = await getCitiesOfaState(formData.state_id);
-        setCities(cityRes || []);
+    if (!selectedState) return;
+
+    getCitiesOfaState(selectedState).then((res) => {
+      setCities(res);
+
+      if (user?.city_id) {
+        const match = res.find((c) => c.city_id === user.city_id);
+        if (match) {
+          reset({
+            ...getValues(),
+            city_id: match.city_id,
+          });
+        }
       }
-    };
-    fetchCities();
-  }, [formData.state_id]);
+    });
+  }, [selectedState]);
 
   useEffect(() => {
-    const fetchCoachSubTypes = async () => {
-      if (formData.coach_type) {
-        const coachSubtypeRes = await getSubCoachType(formData.coach_type);
-        setSubCoachTypes(coachSubtypeRes || []);
+    if (!selectedCoachType) return;
+
+    getSubCoachType(selectedCoachType).then((res) => {
+      setSubCoachTypes(res);
+
+      if (user?.coach_subtype) {
+        const match = res.find((s) => s.id === user.coach_subtype);
+        // console.log('match',res, match, user.coach_subtype)
+        if (match) {
+          reset({
+            ...getValues(), // preserve other form values
+            coach_subtype: match.id, // set default subtype
+          });
+        }
       }
-    };
-    fetchCoachSubTypes();
-  }, [formData.coach_type]);
+    });
+  }, [selectedCoachType]);
 
 
-  const handleChange = async (e) => {
-    const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
 
-    if (name === "country_id") {
-      setFormData((prev) => ({
-        ...prev,
-        state_id: "",
-        city_id: "",
-      }));
-
-      const stateRes = await getStatesOfaCountry(value);
-      setStates(stateRes || []);
-      setCities([]); // reset cities
-    }
-
-    if (name === "state_id") {
-      setFormData((prev) => ({
-        ...prev,
-        city_id: "",
-      }));
-
-      const cityRes = await getCitiesOfaState(value);
-      setCities(cityRes || []);
-    }
-
-    if (name === "coach_type") {
-      setFormData((prev) => ({
-        ...prev,
-        coach_subtype: "",
-      }));
-      const subTypeRes = await getSubCoachType(value);
-      setSubCoachTypes(subTypeRes || []);
-    }
-
-  };
-
-  const handleChangeCheckbox = (e) => {
-    const { name, checked } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    const file = files[0];
-
-    // ✅ Optional: validation
-    if (name === "video_link") {
-      if (file.type !== "video/mp4") {
-        alert("Only MP4 files are allowed.");
-        return;
-      }
-      if (file.size > 100 * 1024 * 1024) {
-        alert("Video must be under 100MB.");
-        return;
-      }
-    }
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: file,
-    }));
-  };
-
-  const handleMultipleFiles = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-
-    // ✅ Only allow JPG and max 5 files
-    const validFiles = selectedFiles.filter(
-      (file) => file.type === "image/jpeg" || file.type === "image/jpg"
+  const onCertificatesChange = (e) => {
+    const selected = Array.from(e.target.files).filter(
+      file => file.type === 'image/jpeg' || file.type === 'image/jpg'
     );
-
-    if (validFiles.length > 5) {
-      alert("You can upload a maximum of 5 certifications.");
-      return;
-    }
-    console.log('validFiles', validFiles)
-    setCertificates(validFiles);
+    if (selected.length > 5) return alert('Max 5 files');
+    setCertificates(selected);
   };
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const isValid = validateForm();
-    if (!isValid) {
-      return; // don't submit
-    }
-
-    const clickedButton = e.nativeEvent.submitter?.value || 'draft'; // fallback to 'draft'
+  const onSubmit = async (data, e) => {
+    const clickedButton = e.nativeEvent.submitter?.value || 'draft';
     const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
+    console.log('data', data)
+    const form = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((v) => form.append(`${key}[]`, v));
+      } else {
+        form.append(key, typeof value === 'boolean' ? (value ? 1 : 0) : value);
+      }
+    });
+
+    form.append('profile_status', profile_status);
+
+    // form.append('video_link', data.video_link);
+    // for (let file of data.upload_credentials || []) {
+    //   form.append('upload_credentials[]', file);
+    // }
+    if (data.upload_credentials && data.upload_credentials.length > 0) {
+      Array.from(data.upload_credentials).forEach((file, index) => {
+        form.append("upload_credentials[]", file); 
+      });
+    }
 
     try {
-      const form = new FormData();
-
-      Object.entries(formData).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((v) => form.append(`${key}[]`, v)); // For arrays like language_names[]
-        } else if (typeof value === 'boolean') {
-          form.append(key, value ? 1 : 0); // ✅ Convert true/false → 1/0
-        } else {
-          form.append(key, value); // Works for file and normal fields
-        }
-      });
-
-      form.append('profile_status', profile_status);
-
-      certificates.forEach((file, index) => {
-        form.append(`upload_credentials[]`, file);
-      });
-
-      const res = await axios.post(`${apiUrl}/updateProfile`, form, {
-        headers: {
-          Authorization: `Bearer ${getToken}`,
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
+      const res = await updateCoachData(form, getToken)
 
       if (res.data.success) {
         if (clickedButton === 'add_package') {
           router.push('/coach/service-packages');
         } else {
-          toast.success(profile_status === 'complete' ? ' Profile published!' : ' Draft saved!');
+          toast.success(profile_status === 'complete' ? 'Profile published!' : 'Draft saved!')
         }
       } else {
         toast.error('Update failed.');
       }
     } catch (err) {
       console.error(err);
-      toast.error('Error updating profile.');
+      toast.error('Something went wrong!');
     }
   };
 
   // console.log("service_names", getAllServices);
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="card">
           <UserImageUploader
             image={user?.profile_image}
@@ -312,44 +227,31 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>First Name*</label>
                 <input
-                  type="text"
-                  name="first_name"
-                  value={formData.first_name}
-                  onChange={handleChange}
+                  {...register('first_name')}
+                  placeholder="Emma"
                 />
-                {errors.first_name && <span className="error" style={{ color: 'red' }}>{errors.first_name}</span>}
+                {errors.first_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.first_name.message}</p>}
               </div>
               <div className="form-group">
                 <label>Last Name*</label>
                 <input
-                  type="text"
-                  name="last_name"
-                  value={formData.last_name}
-                  onChange={handleChange}
+                  {...register('last_name')}
+                  placeholder="Rose"
                 />
-                {errors.last_name && <span className="error" style={{ color: 'red' }}>{errors.last_name}</span>}
+                {errors.last_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.last_name.message}</p>}
               </div>
             </div>
 
             <div className="form-row two-cols">
               <div className="form-group">
                 <label>Email*</label>
-                <input
-                  type="text"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                {errors.email && <span className="error" style={{ color: 'red' }}>{errors.email}</span>}
+                <input {...register('email')} />
+                {errors.email && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.email.message}</p>}
               </div>
+
               <div className="form-group">
                 <label>Country</label>
-                <select
-                  required
-                  name="country_id"
-                  value={formData.country_id}
-                  onChange={handleChange}
-                >
+                <select {...register('country_id')} >
                   <option value="">Select Country</option>
                   {countries.map((c) => (
                     <option key={c.country_id} value={c.country_id}>
@@ -363,11 +265,7 @@ export default function CoachUpdateForm({
             <div className="form-row two-cols">
               <div className="form-group">
                 <label>State</label>
-                <select
-                  name="state_id"
-                  value={formData.state_id}
-                  onChange={handleChange}
-                >
+                <select {...register('state_id')}>
                   <option value="">Select State</option>
                   {states.map((s) => (
                     <option key={s.state_id} value={s.state_id}>
@@ -379,13 +277,8 @@ export default function CoachUpdateForm({
 
               <div className="form-group">
                 <label>City</label>
-                <select
-                  type="text"
-                  name="city_id"
-                  value={formData.city_id}
-                  onChange={handleChange}
-                >
-                  <option>Select City</option>
+                <select {...register('city_id')}>
+                  <option value="">Select City</option>
                   {cities.map((c) => (
                     <option key={c.city_id} value={c.city_id}>
                       {c.city_name}
@@ -398,12 +291,7 @@ export default function CoachUpdateForm({
             <div className="form-row three-cols">
               <div className="form-group">
                 <label>Main Coaching Category</label>
-                <select
-                  required
-                  name="coach_type"
-                  value={formData.coach_type}
-                  onChange={handleChange}
-                >
+                <select {...register('coach_type')} >
                   <option value="">Select</option>
                   {coachTypes.map((type) => (
                     <option key={type.id} value={type.id}>
@@ -414,12 +302,7 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group">
                 <label>Sub Coaching Category</label>
-                <select
-                  required
-                  name="coach_subtype"
-                  value={formData.coach_subtype}
-                  onChange={handleChange}
-                >
+                <select {...register('coach_subtype')}>
                   <option value="">Select</option>
                   {coachSubTypes.map((sub) => (
                     <option key={sub.id} value={sub.id}>
@@ -430,12 +313,7 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group">
                 <label>Gender*</label>
-                <select
-                  required
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                >
+                <select {...register('gender')}>
                   <option value="">Select</option>
                   <option value={1}>Male</option>
                   <option value={2}>Female</option>
@@ -447,44 +325,22 @@ export default function CoachUpdateForm({
             <div className="form-row four-cols">
               <div className="form-group">
                 <label>Professional Title</label>
-                <input
-                  required
-                  type="text"
-                  name="professional_title"
-                  value={formData.professional_title}
-                  onChange={handleChange}
-                />
+                <input {...register('professional_title')} />
+                {errors.professional_title && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.professional_title.message}</p>}
               </div>
               <div className="form-group">
                 <label>Company Name</label>
-                <input
-                  required
-                  type="text"
-                  name="company_name"
-                  value={formData.company_name}
-                  onChange={handleChange}
-                />
+                <input {...register('company_name')} />
+                {errors.company_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.company_name.message}</p>}
               </div>
               <div className="form-group">
                 <label htmlFor="experience">Years of Experience</label>
-                <input
-                  required
-                  type="number"
-                  min={0}
-                  max={100}
-                  name="experience"
-                  value={formData.experience}
-                  onChange={handleChange}
-                />
+                <input {...register('experience')} />
+                {errors.experience && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.experience.message}</p>}
               </div>
               <div className="form-group">
                 <label>Delivery Mode</label>
-                <select
-                  required
-                  name="delivery_mode"
-                  value={formData.delivery_mode}
-                  onChange={handleChange}
-                >
+                <select {...register('delivery_mode')} >
                   <option value="">Select</option>
                   {deliveryMode.map((m) => (
                     <option key={m.id} value={m.id}>
@@ -492,29 +348,20 @@ export default function CoachUpdateForm({
                     </option>
                   ))}
                 </select>
+                {errors.delivery_mode && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.delivery_mode.message}</p>}
               </div>
             </div>
 
             <div className="form-row three-cols">
               <div className="form-group">
                 <label>Price Range</label>
-                <input
-                  required
-                  type="text"
-                  name="price_range"
-                  value={formData.price_range}
-                  onChange={handleChange}
-                  placeholder="ex. 100-500"
-                />
+                <input {...register('price_range')} />
+                {errors.price_range && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.price_range.message}</p>}
               </div>
+
               <div className="form-group">
                 <label>Target Audience / Age Group</label>
-                <select
-                  required
-                  type="text"
-                  name="age_group"
-                  value={formData.age_group}
-                  onChange={handleChange}
+                <select {...register('age_group')}
                 >
                   <option value="">Select</option>
                   {ageGroup.map((g) => (
@@ -523,19 +370,22 @@ export default function CoachUpdateForm({
                     </option>
                   ))}
                 </select>
+                {errors.age_group && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.age_group.message}</p>}
               </div>
               <div className="form-group language-input-add">
                 <label>Language</label>
-                <MultipleSelectCheckmarks
-                  value={formData.language_names}
-                  onChange={(selectedIds) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      language_names: selectedIds,
-                    }))
-                  }
-                  options={allLanguages}
+                <Controller
+                  name="language_names"
+                  control={control}
+                  render={({ field }) => (
+                    <MultipleSelectCheckmarks
+                      value={field.value}
+                      onChange={field.onChange}
+                      options={allLanguages}
+                    />
+                  )}
                 />
+                {errors.language_names && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.language_names.message}</p>}
               </div>
 
 
@@ -544,36 +394,31 @@ export default function CoachUpdateForm({
               <div className="form-group">
                 <label>Free Trial Available</label>
                 <select
-                  name="free_trial_session"
-                  value={formData.free_trial_session}
-                  onChange={handleChange}
+                  {...register('free_trial_session')}
                 >
                   <option value="">Select</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
+                {errors.free_trial_session && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.free_trial_session.message}</p>}
               </div>
               <div className="form-group">
                 <label>Is Pro Bono Coach</label>
                 <select
-                  name="is_pro_bono"
-                  value={formData.is_pro_bono}
-                  onChange={handleChange}
+                  {...register('is_pro_bono')}
                 >
                   <option value="">Select</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
+                {errors.is_pro_bono && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.is_pro_bono.message}</p>}
               </div>
               <div className="form-group">
                 <label>Average Charge/Hour</label>
                 <input
-                  required
-                  type="number"
-                  name="price"
-                  value={formData.price}
-                  onChange={handleChange}
+                  {...register('price')}
                 />
+                {errors.price && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.price.message}</p>}
               </div>
             </div>
             <div className="form-group mb-4">
@@ -584,10 +429,8 @@ export default function CoachUpdateForm({
               <textarea
                 required
                 className="bio-textarea"
-                name="detailed_bio"
+                {...register('detailed_bio')}
                 rows="10"
-                value={formData.detailed_bio}
-                onChange={handleChange}
                 placeholder={`Hi, I’m Alex — a certified mindset and performance coach with a passion for helping individuals break through self-doubt and reach their goals. I bring 8 years of experience coaching professionals across tech, education, and creative industries.
 
                               Suggested pointers to include:
@@ -596,7 +439,7 @@ export default function CoachUpdateForm({
                               • Certifications or notable background
                               • The types of clients you support`}
               />
-
+              {errors.detailed_bio && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.detailed_bio.message}</p>}
 
             </div>
 
@@ -608,10 +451,8 @@ export default function CoachUpdateForm({
               <textarea
                 required
                 className="bio-textarea"
-                name="exp_and_achievement"
+                {...register('exp_and_achievement')}
                 rows="10"
-                value={formData.exp_and_achievement}
-                onChange={handleChange}
                 placeholder={`E.g., I have 5+ years of experience coaching professionals in career transitions, confidence building, and leadership communication. My clients include young executives, startup founders, and mid-career changers.
 
                   Highlight:
@@ -621,17 +462,15 @@ export default function CoachUpdateForm({
                  • Key achievements or transformation stories`}
               />
             </div>
-
+            {errors.exp_and_achievement && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.exp_and_achievement.message}</p>}
             <div className="form-checkbox">
               {isProUser ? (
                 <>
                   <input
                     className="form-checkbox-input"
                     type="checkbox"
-                    name="is_corporate"
                     id="corporateCheck"
-                    checked={formData.is_corporate}
-                    onChange={handleChangeCheckbox}
+                    {...register("is_corporate")}
                   />
                   <label
                     className="form-checkbox-label"
@@ -675,16 +514,18 @@ export default function CoachUpdateForm({
                   Add service keywords
                 </label>
                 <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
-                  <MultipleSelectChip
-                    value={formData.service_keyword}
-                    onChange={(selectedIds) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        service_keyword: selectedIds, // Store IDs in state
-                      }))
-                    }
-                    options={getAllServices}
+                  <Controller
+                    name="service_keyword"
+                    control={control}
+                    render={({ field }) => (
+                      <MultipleSelectChip
+                        value={field.value}
+                        onChange={field.onChange}
+                        options={getAllServices}
+                      />
+                    )}
                   />
+                  {errors.service_keyword && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_keyword.message}</p>}
                 </div>
 
                 <div className="d-flex flex-wrap gap-2">
@@ -728,20 +569,28 @@ export default function CoachUpdateForm({
                 </div>}
 
                 <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
-                  <MultipleSelectChip
-                    value={formData.service_keyword}
-                    onChange={(selectedIds) => {
-                      if (!isProUser && selectedIds.length > 5) {
-                        alert("Only Pro Coaches can select more than 5 services.");
-                        return;
-                      }
-                      setFormData((prev) => ({
-                        ...prev,
-                        service_keyword: selectedIds,
-                      }));
-                    }}
-                    options={getAllServices}
+                  <Controller
+                    name="service_keyword"
+                    control={control}
+                    render={({ field }) => (
+                      <MultipleSelectChip
+                        value={field.value}
+                        // onChange={(selectedIds) => {
+                        //   if (!isProUser && selectedIds.length > 5) {
+                        //     alert("Only Pro Coaches can select more than 5 services.");
+                        //     return;
+                        //   }
+                        //   field.onChange(selectedIds);
+                        // }}
+                        onChange={(selectedIds) => {
+                          if (!isProUser && selectedIds.length > 5) return;
+                          field.onChange(selectedIds);
+                        }}
+                        options={getAllServices}
+                      />
+                    )}
                   />
+                  {errors.service_keyword && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_keyword.message}</p>}
                 </div>
 
                 <div className="info-box">
@@ -766,11 +615,10 @@ export default function CoachUpdateForm({
               <label>LinkedIn</label>
               <input
                 type="text"
-                name="linkdin_link"
                 placeholder="https://linkedin.com/"
-                value={formData.linkdin_link}
-                onChange={handleChange}
+                {...register("linkdin_link")}
               />
+              {errors.linkdin_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.linkdin_link.message}</p>}
             </div>
 
             <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
@@ -779,13 +627,13 @@ export default function CoachUpdateForm({
                 {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
               </label>
               <input
-                disabled={!isProUser}
                 type="text"
-                name="website_link"
                 placeholder="https://www.websites.com/"
-                value={isProUser ? formData.website_link : ''}
-                onChange={handleChange}
+                disabled={!isProUser}
+                {...register("website_link")}
               />
+              {errors.website_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.website_link.message}</p>}
+
             </div>
             <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
               <label>
@@ -793,13 +641,12 @@ export default function CoachUpdateForm({
                 {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
               </label>
               <input
-                disabled={!isProUser}
                 type="text"
-                name="youtube_link"
                 placeholder="https://www.youtube.com/"
-                value={isProUser ? formData.youtube_link : ''}
-                onChange={handleChange}
+                disabled={!isProUser}
+                {...register("youtube_link")}
               />
+              {errors.youtube_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.youtube_link.message}</p>}
             </div>
 
           </div>
@@ -809,23 +656,23 @@ export default function CoachUpdateForm({
               <label>Podcast</label>
               {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
               <input
-                disabled={!isProUser}
                 type="text"
-                name="podcast_link"
-                value={formData.podcast_link}
-                onChange={handleChange}
+                placeholder="https://www.youtube.com/"
+                disabled={!isProUser}
+                {...register("podcast_link")}
               />
+              {errors.podcast_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.podcast_link.message}</p>}
             </div>
             <div className={`form-group ${!isProUser ? 'disable-input' : ""}`}>
               <label>Blog/Published Articles</label>
               {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
               <input
-                disabled={!isProUser}
                 type="text"
-                name="blog_article"
-                value={formData.blog_article}
-                onChange={handleChange}
+                placeholder="https://www.youtube.com/"
+                disabled={!isProUser}
+                {...register("blog_article")}
               />
+              {errors.blog_article && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.blog_article.message}</p>}
             </div>
           </div>
         </div>
@@ -843,50 +690,91 @@ export default function CoachUpdateForm({
                 Showcase your personality, approach and services in a short video to build trust with potential clients
               </small>
 
-              <div className="custom-file-input-wrapper">
-                <input
-                  className="custom-file-hidden"
-                  type="file"
-                  id="video-upload"
-                  name="video_link"
-                  accept="video/mp4"
-                  onChange={handleFileChange}
-                />
-                <label htmlFor="video-upload" className="custom-file-btn">
-                  Choose file
-                </label>
-                <span className="custom-file-placeholder">
-                  {formData.video_link ? formData.video_link.name : "No file chosen"}
-                </span>
-              </div>
+              <Controller
+                name="video_link"
+                control={control}
+                rules={{
+                  validate: (file) => {
+                    if (!file) return true; // optional
+                    if (file.type !== "video/mp4") return "Only MP4 files are allowed.";
+                    if (file.size > 100 * 1024 * 1024) return "Video must be under 100MB.";
+                    return true;
+                  },
+                }}
+                render={({ field }) => (
+                  <div className="custom-file-input-wrapper">
+                    <input
+                      className="custom-file-hidden"
+                      type="file"
+                      id="video-upload"
+                      accept="video/mp4"
+                      onChange={(e) => field.onChange(e.target.files[0])}
+                    />
+                    <label htmlFor="video-upload" className="custom-file-btn">
+                      Choose file
+                    </label>
+                    <span className="custom-file-placeholder">
+                      {field.value?.name || "No file chosen"}
+                    </span>
+                  </div>
+                )}
+              />
+              {errors.video_link && (
+                <p className="text-danger">{errors.video_link.message}</p>
+              )}
             </div>
+
             <div>
               <label className="form-label fw-semibold d-block">
                 Upload Credentials / Certifications
-                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>}
+                {!isProUser && (
+                  <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>
+                )}
                 <span className="text-muted ms-2 small media-size">
                   (Upload up to 5 Certifications JPG)
                 </span>
               </label>
 
-              <div className="custom-file-input-wrapper">
-
-                <input
-                  disabled={!isProUser}
-                  name="upload_credentials"
-                  type="file"
-                  id="cert-upload"
-                  accept=".jpg,.jpeg"
-                  className="custom-file-hidden"
-                  multiple                     // ✅ Allow multiple
-                  onChange={handleMultipleFiles}
-                />
-                <label htmlFor="cert-upload" className="custom-file-btn">
-                  Choose file
-                </label>
-                <span className="custom-file-placeholder"> {certificates.length > 0 ? `${certificates.length} files selected` : 'No file chosen'}</span>
-              </div>
+              <Controller
+                name="upload_credentials"
+                control={control}
+                rules={{
+                  validate: (files) => {
+                    if (!files) return true;
+                    if (files.length > 5) return "You can upload a maximum of 5 files.";
+                    const invalid = Array.from(files).some(
+                      (file) => !["image/jpeg", "image/jpg"].includes(file.type)
+                    );
+                    return invalid ? "Only JPG/JPEG files are allowed." : true;
+                  },
+                }}
+                render={({ field }) => (
+                  <div className="custom-file-input-wrapper">
+                    <input
+                      type="file"
+                      id="cert-upload"
+                      className="custom-file-hidden"
+                      multiple
+                      disabled={!isProUser}
+                      accept=".jpg,.jpeg"
+                      onChange={(e) => field.onChange(e.target.files)}
+                    />
+                    <label htmlFor="cert-upload" className="custom-file-btn">
+                      Choose file
+                    </label>
+                    <span className="custom-file-placeholder">
+                      {field.value?.length > 0
+                        ? `${field.value.length} files selected`
+                        : "No file chosen"}
+                    </span>
+                  </div>
+                )}
+              />
+              {errors.upload_credentials && (
+                <p className="text-danger">{errors.upload_credentials.message}</p>
+              )}
             </div>
+
           </div>
         </div>
 
