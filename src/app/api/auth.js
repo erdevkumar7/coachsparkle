@@ -40,7 +40,7 @@ export const HandleValidateToken = async (givenToken) => {
     if (!givenToken) return null;
 
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getuserprofile`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validateToken`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${givenToken}`,

@@ -1,11 +1,31 @@
 'use client';
+import { HandleValidateToken } from '@/app/api/auth';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function SelectRole() {
     const router = useRouter();
     const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (token) {
+            const fetchUser = async () => {
+                const tokenData = await HandleValidateToken(token);
+                if (tokenData) {
+                    if (tokenData.data.user_type == 2) {
+                        router.push('/user/dashboard');
+                    } else if (tokenData.data.user_type == 3) {
+                        router.push('/coach/dashboard');
+                    }
+                }
+            };
+
+            fetchUser();
+        }
+    }, []);
 
 
     const handleRoleChange = (e) => {

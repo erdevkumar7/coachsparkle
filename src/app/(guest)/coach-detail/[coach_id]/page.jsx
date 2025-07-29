@@ -288,13 +288,9 @@ export default async function CoachDetail({ params }) {
 
               <div className="col-md-4 coach-profile-list-right">
                 <div className="profile-card">
-                <Image src={`${FRONTEND_BASE_URL}/images//images/profile-video.webp`}  alt="Team Image"
+                <Image src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}  alt="Team Image"
                           className="top-image" width={1000} height={226} />
-                  <img
-                    src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}
-                    alt="Team Image"
-                    className="top-image"
-                  />
+
 
                   <div className="profile-message">
                     <p className="price">

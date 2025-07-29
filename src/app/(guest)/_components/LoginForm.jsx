@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { HandleLogin } from '@/app/api/auth';
+import { HandleLogin, HandleValidateToken } from '@/app/api/auth';
 import Cookies from 'js-cookie';
 import { CircularProgress } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -27,9 +27,20 @@ export default function LoginForm() {
     });
 
     useEffect(() => {
-        const isRegistered = searchParams.get('registered');
-        if (isRegistered === '1') {
-            toast.success('Registration successful!');
+        const token = Cookies.get('token');
+        if (token) {
+            const fetchUser = async () => {
+                const tokenData = await HandleValidateToken(token);
+                if (tokenData) {             
+                    if (tokenData.data.user_type == 2) {
+                        router.push('/user/dashboard');
+                    } else if (tokenData.data.user_type == 3) {
+                        router.push('/coach/dashboard');
+                    }
+                }
+            };
+
+            fetchUser();
         }
         const storedRole = sessionStorage.getItem('role');
         if (storedRole) {
