@@ -1,13 +1,14 @@
 'use client';
 import Link from "next/link";
 import { useEffect, useState, Suspense } from 'react';
-import { HandleRegister } from "@/app/api/auth";
+import { HandleRegister, HandleValidateToken } from "@/app/api/auth";
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from "@/lib/validationSchema";
 import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
 
 export default function Register() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -34,6 +35,22 @@ export default function Register() {
     });
 
     useEffect(() => {
+        const token = Cookies.get('token');
+        if (token) {
+            const fetchUser = async () => {
+                const tokenData = await HandleValidateToken(token);
+                if (tokenData) {
+                    if (tokenData.data.user_type == 2) {
+                        router.push('/user/dashboard');
+                    } else if (tokenData.data.user_type == 3) {
+                        router.push('/coach/dashboard');
+                    }
+                }
+            };
+
+            fetchUser();
+        }
+
         const fetchCountries = async () => {
             try {
                 const response = await axios.post(`${apiUrl}/getCountries`);
@@ -70,9 +87,9 @@ export default function Register() {
         const res = await HandleRegister(finalData);
 
         if (res.success) {
-            // toast.success("Registration successful!");
-            // router.push('/login');
-            router.push('/login?registered=1');
+            toast.success("Registration successful!");
+            router.push('/login');
+            // router.push('/login?registered=1');
         } else {
             setGeneralError(res.message);
             if (res.errors) {
