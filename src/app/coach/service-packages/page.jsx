@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import "../_styles/coach_packages.css";
 import CoachServicePackageForm from "../_coach_components/CoachServicePackage";
-
 import Cookies from "js-cookie";
 import { CircularProgress } from "@mui/material";
 import { allPackagesOfaCoach } from "@/app/api/coach";

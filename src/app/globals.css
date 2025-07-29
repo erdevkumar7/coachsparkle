@@ -449,10 +449,10 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   font-size: 38px;
   font-weight: 600;
 }
-
+/*
 .dedicated-career-coach-left a.learn-more-btn-add:hover {
   background-color: #1489d1;
-}
+} */
 
 .coaching-approach-left .informative-text img {
   background-color: #009bfa;
@@ -510,7 +510,7 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .explore-coaches {
-  background-image: url("/coachsparkle/images/explore-bg-img.png");
+  background-image: url("/coachsparkle/images/explore-bg-img.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -581,11 +581,11 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   color: #1f2a44;
   font-size: 20px;
 }
-
+/*
 .explore-coaches-inner-content a.view-all-add-btn:hover {
   background-color: #009bfa;
   color: #fff;
-}
+} */
 
 .explore-coaches-inner-content a.view-all-add-btn:hover i {
   color: #fff;
@@ -645,9 +645,10 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   font-weight: 600;
 }
 
-.view-all-coaches-list .view-all-btn a:hover {
+/* .view-all-coaches-list .view-all-btn a:hover {
   background-color: #1489d1;
-}
+} */
+
 
 .view-all-coaches-list .view-all-btn i.bi.bi-arrow-right {
   font-size: 20px;
@@ -1541,6 +1542,7 @@ footer.coach-footer-section .new-add-footer .mui-icons {
   text-decoration: underline !important;
   color: #000000;
 }
+
 /*Mobile-view-css*/
 
 @media only screen and (max-width: 767px) {

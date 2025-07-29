@@ -191,7 +191,7 @@ export default function CoachUpdateForm({
     // }
     if (data.upload_credentials && data.upload_credentials.length > 0) {
       Array.from(data.upload_credentials).forEach((file, index) => {
-        form.append("upload_credentials[]", file); 
+        form.append("upload_credentials[]", file);
       });
     }
 
@@ -779,7 +779,7 @@ export default function CoachUpdateForm({
         </div>
 
         <div className="save-btn gap-3 align-items-center">
-          <span className="fw-bold">1/2</span>
+          <span className="fw-bold second-list-show"><span className="number-color">1</span>/2</span>
           <button
             type="submit"
             value="draft"

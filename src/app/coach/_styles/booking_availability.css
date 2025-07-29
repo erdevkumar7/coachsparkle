@@ -1,16 +1,16 @@
 .range-picker-field .MuiOutlinedInput-root {
   border-radius: 16px !important;
-  background-color: #fff;
-  font-size: 14px;
+  background-color: #fff !important;
+  font-size: 14px !important;
   height: 48px !important;
-  padding: 0;
+  padding: 0 !important;
 }
 
 .range-picker-field .MuiOutlinedInput-notchedOutline {
   border-color: #d1d5db !important;
-  border-width: 1px;
-  border: none;
-  border-radius: 50px;
+  border-width: 1px !important;
+  border: none !important;
+  border-radius: 50px !important;
 }
 
 .range-picker-field:hover .MuiOutlinedInput-notchedOutline {
@@ -18,8 +18,8 @@
 }
 
 .range-picker-field .MuiInputBase-input {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 input#«r0» {
-    height: 32px;
+    height: 32px !important;
 }

@@ -290,7 +290,7 @@ export default function Home() {
               <div className="professional-top">
                 <a href="#" className="view-all-add-btn text-right">VIEW ALL <EastIcon className="mui-icons"/></a>
                 <div className="professional-cards">
-                  <div className="card"> 
+                  <div className="card">
                     <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Career & Professional" className="img-fluid" />
                     <h5>Career & Professional Coaches</h5>
                     <ul>
@@ -356,7 +356,7 @@ export default function Home() {
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                
+
               <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 {/* <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" /> */}
                 <div className="card-body">
