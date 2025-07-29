@@ -620,7 +620,7 @@ Coaches: Join free, list your profile, and get discovered. Ready to stand out? U
                 <div className="switch-toggle">
                     <input type="radio" name="plan" id="monthly" ></input>
                     <input type="radio" name="plan" id="yearly"></input>
-                    <label htmlFor="monthly">Monthly</label>
+                    <label htmlFor="monthly" className="monthly-text">Monthly</label>
                     <label htmlFor="yearly">Yearly</label>
                     <div className="slider"></div>
                 </div>

@@ -50,7 +50,7 @@ div#loginModal .modal-dialog.modal-dialog-centered.modal-lg {
   gap: 10px;
   padding-left: 0px;
   padding-right: 0px;
-  padding-top: 50px;
+  padding-top: 30px;
   padding-bottom: 60px;
 }
 button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today.css-qct7wd-MuiButtonBase-root-MuiPickersDay-root {
@@ -492,6 +492,14 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
   padding-right: 10px;
   padding-bottom: 20px;
   padding-top: 10px;
+}
+.paginaetd-icons .pagination {
+  justify-content: left !important;
+}
+.mui-icons.east-icons-add {
+  margin-top: -2px;
+  margin-left: 4px;
+  font-size: 18px;
 }
 
 .pagination-content-inner .pagination {
@@ -2063,3 +2071,31 @@ button.ai-mtc {
   max-height: auto;
   padding-right: 15px;
 }
+
+
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: right;
+}
+.sort-container span.sort-by-text {
+  width: 90px;
+  color: #696974;
+  font-size: 15px;
+}
+.sort-container select.option-tab {
+  width: 35%;
+  cursor: pointer;
+  color: #696974;
+  font-size: 15px;
+}
+
+.sort-container select.best-tab {
+  cursor: pointer;
+  width: 60%;
+  color: #696974;
+  font-size: 15px;
+}
+

@@ -106,7 +106,24 @@ export default function CoachList() {
           </div>
         </div>
         <BreadCrumb items={breadcrumbItems} />
+
+        <div className="container">
+          <div className="sort-container">
+            <div className="sorting-data d-flex align-items-center gap-2">
+              <span className="sort-by-text">Sort By:</span>
+              <select className="best-tab">
+                <option>Best Match</option>
+              </select>
+              <select className="option-tab">
+                <option>25</option>
+                <option>50</option>
+              </select>
+
+            </div>
+          </div>
+        </div>
         <div className="container list-start">
+
           <aside className="sidebar">
             <input
               type="text"
@@ -124,11 +141,11 @@ export default function CoachList() {
                                 <div id="slider-range" className="range-bar"></div>
                             </div> */}
               <div className="range_sld">
-              <div className="price-range-box">
-                <span className="price">$ 0</span>
-                <span className="separator">-</span>
-                <span className="price">$ 2000</span>
-              </div>
+                <div className="price-range-box">
+                  <span className="price">$ 0</span>
+                  <span className="separator">-</span>
+                  <span className="price">$ 2000</span>
+                </div>
 
                 <RangeSlider />
               </div>
@@ -245,15 +262,22 @@ export default function CoachList() {
             </div>
           </aside>
 
+
+
           {loading ? (
             <main className="main-content">
               <p>Loading...</p>
             </main>
           ) : coaches.length > 0 ? (
             <main className="main-content">
+
+
+
+
+
               {coaches.map((coach, index) => (
                 <div className="coach-card" key={index}>
-                  
+
                   <img
                     src={
                       coach.profile_image
@@ -270,12 +294,12 @@ export default function CoachList() {
                             {coach.first_name} {coach.last_name}
                           </h2>
                           <span className="check-box-add-icons">
-                          <CheckCircleIcon className="mui-icons"/> Verified
+                            <CheckCircleIcon className="mui-icons" /> Verified
                           </span>
                         </div>
                         <p className="reviews-text">
-                        <StarOutlineIcon className="mui-icons"/>
-        
+                          <StarOutlineIcon className="mui-icons" />
+
                           <span>5.0</span> (21 reviews)
                         </p>
                         <p className="senior-engineer-text">
@@ -294,11 +318,11 @@ export default function CoachList() {
                           {coach.price ? `$${coach.price}/month` : "N/A"}
                         </p>
                         <button className="book">
-                          Book Now <EastIcon className="mui-icons fav-list-icons"/>
+                          Book Now <EastIcon className="mui-icons fav-list-icons" />
                         </button>
                         <Link href={`/coach-detail/${coach.user_id}`}>
                           <button className="profile">
-                            View Profile <EastIcon className="mui-icons fav-list-icons"/>
+                            View Profile <EastIcon className="mui-icons fav-list-icons" />
                           </button>
                         </Link>
                       </div>
@@ -314,7 +338,7 @@ export default function CoachList() {
                     </div>
                     <div className="fav-list">
                       <span>
-                      <FavoriteBorderIcon className="mui-icons"/>
+                        <FavoriteBorderIcon className="mui-icons" />
                       </span>
                     </div>
                   </div>
@@ -323,14 +347,16 @@ export default function CoachList() {
 
               <div className="info1">
                 <p>Couldn't find what you are looking for?</p>
-                <button className="ai-mtc">Try AI Match</button>
+                <button className="ai-mtc">Try AI Match <EastIcon className="mui-icons east-icons-add" /></button>
               </div>
 
-              <Pagination
-                currentPage={currentPage}
-                lastPage={pagination.last_page}
-                onPageChange={handlePageChange}
-              />
+              <div className="paginaetd-icons">
+                <Pagination
+                  currentPage={currentPage}
+                  lastPage={pagination.last_page}
+                  onPageChange={handlePageChange}
+                />
+              </div>
             </main>
           ) : (
             <main className="main-content">

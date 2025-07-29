@@ -48,11 +48,12 @@
     width: 48%;
 }
 .current-sub-plan .badge-active {
-    color: #50C878;
-    background-color: #DFF5FD;
+    color: #50c878;
+    background-color: #dff5fd;
     border-radius: 8px;
     padding: 5px 15px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 500;
 }
 .current-sub-plan .badge-monthly {
     background-color: #e0f2fe;
@@ -104,13 +105,12 @@
     font-weight: 600;
     color: #000000;
 }
-
 .current-sub-plan .subscription-card button.btn.btn-primary.btn-sm {
-    background: #009BFA;
+    background: #009bfa;
     border: none;
-    width: 40%;
-    padding: 13px 0;
     border-radius: 11px;
+    width: 30%;
+    padding: 13px 0;
     font-family: inter;
 }
 
@@ -188,7 +188,8 @@
     padding-left: 0;
     font-size: 15px;
     display: flex;
-}  
+    margin-right: 0px !important;
+} 
 .payment-method-part {
     padding-top: 30px;
 }

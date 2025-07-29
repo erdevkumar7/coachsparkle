@@ -290,7 +290,7 @@ export default async function CoachDetail({ params }) {
                 <div className="profile-card">
                 <Image src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}  alt="Team Image"
                           className="top-image" width={1000} height={226} />
-
+                  
 
                   <div className="profile-message">
                     <p className="price">

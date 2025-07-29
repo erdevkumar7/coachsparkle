@@ -6,6 +6,7 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 import { useUser } from "@/context/UserContext";
+import Image from 'next/image';
 
 export default function CoachHeader() {
   const { user } = useUser();
@@ -42,17 +43,13 @@ export default function CoachHeader() {
             />
             <div className="d-none d-lg-block">
               {collapsed ? (
-                <img
-                  src={`${FRONTEND_BASE_URL}/images/favicon.png`}
-                  alt="collapsed logo"
-                  className="navbar-brand-img"
-                />
+                <Image src={`${FRONTEND_BASE_URL}/images/favicon.png`} alt="Logo" className="img-fluid" width={1000} height={226} />
+
               ) : (
-                <img
-                  src={`${FRONTEND_BASE_URL}/images/logo.png`}
-                  alt="full logo"
-                  className="navbar-brand-img"
-                />
+
+                <Image src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="full logo"
+                className="navbar-brand-img" width={1000} height={226} />
+
               )}
             </div>
           </a>
