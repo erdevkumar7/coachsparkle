@@ -16,7 +16,10 @@ import CookieIcon from "@mui/icons-material/Cookie";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userAccountSettingSchema } from "@/lib/validationSchema";
+import {
+  userAccountSettingSchema,
+  passwordSchema,
+} from "@/lib/validationSchema";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { Controller } from "react-hook-form";
@@ -33,14 +36,13 @@ export default function Accountsetting() {
   const [billingEnabled, setBillingEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const accountForm = useForm({
     resolver: yupResolver(userAccountSettingSchema),
+    mode: "onBlur",
+  });
+
+  const passwordForm = useForm({
+    resolver: yupResolver(passwordSchema),
     mode: "onBlur",
   });
 
@@ -66,6 +68,39 @@ export default function Accountsetting() {
     fetchUser();
   }, []);
 
+  const onAccountSave = async (data) => {
+  try {
+    setLoading(true);
+
+    console.log("Account settings submitted:", data);
+
+    toast.success("Account settings updated!");
+
+  } catch (error) {
+    console.error("Account settings update failed:", error);
+    toast.error("Failed to update settings. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+const onPasswordSave = async (data) => {
+  try {
+    setLoading(true);
+
+    console.log("Password form submitted:", data);
+
+    toast.success("Password updated successfully!");
+  } catch (error) {
+    console.error("Failed to update password", error);
+    toast.error("Error updating password. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
   return (
     <div className="main-panel account-section">
       <div className="account-setting">
@@ -76,31 +111,32 @@ export default function Accountsetting() {
             alt="coachsparkle"
           />
         </div>
-        <form className="account-setting-form">
+        <form
+          className="account-setting-form"
+          onSubmit={accountForm.handleSubmit(onAccountSave)}
+        >
           <div className="account-form">
             <div className="account-form-row account-two-cols">
               <div className="account-form-group">
                 <label>First Name</label>
                 <input
-                  required
                   type="text"
                   placeholder="Emma"
-                  {...register("first_name")}
+                  {...accountForm.register("first_name")}
                   disabled={loading}
                 />
-                {errors.first_name && (
+                {accountForm.formState.errors.first_name && (
                   <div className="invalid-feedback d-block">
-                    {errors.first_name.message}
+                    {accountForm.formState.errors.first_name.message}
                   </div>
                 )}
               </div>
               <div className="account-form-group">
                 <label>Last Name</label>
                 <input
-                  required
                   type="text"
                   placeholder="Rose"
-                  {...register("last_name")}
+                  {...accountForm.register("last_name")}
                   disabled={loading}
                 />
               </div>
@@ -112,12 +148,12 @@ export default function Accountsetting() {
                 <input
                   type="email"
                   placeholder="Your registered email to create an account"
-                  {...register("email")}
+                  {...accountForm.register("email")}
                   disabled={loading}
                 />
-                {errors.email && (
+                {accountForm.formState.errors.email && (
                   <div className="invalid-feedback d-block">
-                    {errors.email.message}
+                    {accountForm.formState.errors.email.message}
                   </div>
                 )}
               </div>
@@ -125,14 +161,14 @@ export default function Accountsetting() {
                 <label>Language Setting</label>
                 <select
                   name="language"
-                  {...register("language")}
+                  {...accountForm.register("language")}
                   disabled={loading}
                 >
                   <option>English</option>
                 </select>
-                {errors.email && (
+                {accountForm.formState.errors.language && (
                   <div className="invalid-feedback d-block">
-                    {errors.email.message}
+                    {accountForm.formState.errors.language.message}
                   </div>
                 )}
               </div>
@@ -140,7 +176,8 @@ export default function Accountsetting() {
                 <label>Phone Number</label>
                 <Controller
                   name="mobile"
-                  control={control}
+control={accountForm.control}
+
                   rules={{ required: true }}
                   render={({ field }) => (
                     <PhoneInput
@@ -154,9 +191,9 @@ export default function Accountsetting() {
                     />
                   )}
                 />
-                {errors.mobile && (
+                {accountForm.formState.errors.mobile && (
                   <div className="invalid-feedback d-block">
-                    {errors.mobile.message}
+                    {accountForm.formState.errors.mobile.message}
                   </div>
                 )}
               </div>
@@ -168,17 +205,16 @@ export default function Accountsetting() {
                 <input
                   type="text"
                   placeholder="Enter your address"
-                  {...register("location")}
+                  {...accountForm.register("location")}
                   disabled={loading}
                 />
               </div>
               <div className="account-form-group">
                 <label>Zip code</label>
                 <input
-                  required
                   type="text"
                   placeholder="Enter your zip code"
-                  {...register("zip_code")}
+                  {...accountForm.register("zip_code")}
                   disabled={loading}
                 />
               </div>
@@ -190,7 +226,7 @@ export default function Accountsetting() {
               <div className="d-flex gap-2 pt-2">
                 <input
                   type="checkbox"
-                  {...register("consent")}
+                  {...accountForm.register("consent")}
                   disabled={loading}
                 />
                 <label htmlFor="corporateCheck">
@@ -211,22 +247,34 @@ export default function Accountsetting() {
 
         <div className="password-section mt-5">
           <h3 className="quick-text">Change Password</h3>
-          <form className="account-setting-form mt-4">
+          <form
+            className="account-setting-form mt-4"
+            onSubmit={passwordForm.handleSubmit(onPasswordSave)}
+          >
             <div className="account-form">
               <div className="account-form-row account-three-cols">
                 <div className="account-form-group">
                   <PasswordField
                     label="Current Password"
                     name="current_password"
+                    register={passwordForm.register}
+                    error={passwordForm.formState.errors.current_password}
                   />
                 </div>
                 <div className="account-form-group">
-                  <PasswordField label="New Password" name="new_password" />
+                  <PasswordField
+                    label="New Password"
+                    name="new_password"
+                    register={passwordForm.register}
+                    error={passwordForm.formState.errors.new_password}
+                  />
                 </div>
                 <div className="account-form-group">
                   <PasswordField
                     label="Confirm Password"
                     name="confirm_password"
+                    register={passwordForm.register}
+                    error={passwordForm.formState.errors.confirm_password}
                   />
                 </div>
               </div>

@@ -1,16 +1,20 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Box, Popover, TextField, Typography } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs from 'dayjs';
-import '../_styles/booking_availability.css';
+import * as React from "react";
+import { Box, Popover, TextField } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs from "dayjs";
+import "../_styles/booking_availability.css";
 
-export default function DateTimeRangeSelector() {
+export default function DateTimeRangeSelector({
+  formData,
+  setFormData,
+  isProUser,
+}) {
   const [startDateTime, setStartDateTime] = React.useState(dayjs());
-  const [endDateTime, setEndDateTime] = React.useState(dayjs().add(1, 'hour'));
+  const [endDateTime, setEndDateTime] = React.useState(dayjs().add(1, "hour"));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -18,14 +22,24 @@ export default function DateTimeRangeSelector() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+const handleClose = () => {
+  setAnchorEl(null);
+
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    booking_availability_start: startDateTime.format("YYYY-MM-DD HH:mm"),
+    booking_availability_end: endDateTime.format("YYYY-MM-DD HH:mm"),
+  }));
+  console.log("Selected Start:", startDateTime.format("YYYY-MM-DD HH:mm"));
+console.log("Selected End:", endDateTime.format("YYYY-MM-DD HH:mm"));
+
+};
+
 
   const open = Boolean(anchorEl);
 
   const formatRange = (start, end) => {
-    return `${start.format('MMM D, h:mm A')} - ${end.format('MMM D, h:mm A')}`;
+    return `${start.format("MMM D, h:mm A")} - ${end.format("MMM D, h:mm A")}`;
   };
 
   return (
@@ -43,8 +57,8 @@ export default function DateTimeRangeSelector() {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
         PaperProps={{ sx: { p: 2, width: 400 } }}
       >
@@ -55,18 +69,24 @@ export default function DateTimeRangeSelector() {
             onChange={(newValue) => {
               setStartDateTime(newValue);
               if (newValue && newValue.isAfter(endDateTime)) {
-                setEndDateTime(newValue.add(1, 'hour'));
+                setEndDateTime(newValue.add(1, "hour"));
               }
             }}
+            minDateTime={dayjs()}
+            disabled={!isProUser}
           />
           <DateTimePicker
             label="End Date & Time"
             minDateTime={startDateTime}
             value={endDateTime}
             onChange={(newValue) => setEndDateTime(newValue)}
+            disabled={!isProUser}
           />
           <Box textAlign="right">
-            <button className="btn btn-primary btn-sm rounded-pill px-4" onClick={handleClose}>
+            <button
+              className="btn btn-primary btn-sm rounded-pill px-4"
+              onClick={handleClose}
+            >
               Done
             </button>
           </Box>
@@ -75,12 +95,6 @@ export default function DateTimeRangeSelector() {
     </LocalizationProvider>
   );
 }
-
-
-
-
-
-
 
 
 

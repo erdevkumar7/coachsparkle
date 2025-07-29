@@ -11,8 +11,9 @@ export default function SwiperOne() {
             spaceBetween={20}
             slidesPerView={3}
             loop={true}
+            grabCursor={true}
             autoplay={{
-                delay: 1000, 
+                delay: 1500,
                 disableOnInteraction: false, // keep autoplay running after user interaction
             }}
             pagination={{
@@ -49,7 +50,7 @@ export default function SwiperOne() {
                 </div>
             </SwiperSlide>
             <SwiperSlide>
-                <div className="card-content">
+                <div className="card-content slider-hover">
                     <h2 className="name">Good Job</h2>
                     <h5 className="description">“Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae”</h5>
                     <img src="/coachsparkle/images/star-symbol.png" />

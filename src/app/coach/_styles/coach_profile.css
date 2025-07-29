@@ -207,6 +207,10 @@ button.save-btn-add {
   margin-top: 30px;
 }
 
+.save-btn span.number-color {
+    color: #009df6;
+}
+
 
 .bio-section {
   max-width: 1000px;

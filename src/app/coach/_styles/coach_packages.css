@@ -479,24 +479,55 @@ p.best-text-one {
 .action-button .save-btn-add:hover {
     background-color: #009BFA !important;
 }
-
 .action-button .save-btn {
-    display: flex !important;
-    justify-content: center !important;
-    float: right;
-    padding: 12px 20px;
-    max-width: 100%;
+    /* float: right; */
     white-space: normal;
     text-align: center;
+    width: 100%;
+    padding: 12px 20px 11rem;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
 }
 .disabled-bg {
   background-color: #E7E8E9 !important;
   color: #696974 !important;
 }
+.two-number-add-list {
+    display: flex;
+    width: 48%;
+    justify-content: flex-end;
+}
+
+.action-button span.number-color {
+    color: #009df6;
+}
+
 
 @media (max-width: 800px) {
     .session-wrapper {
         flex-direction: column;
         align-items: center;
     }
+}
+
+.upgrade-banner .upgrade-banner-text{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.upgrade-banner .upgrade-btn{
+    background-color: #009BFA;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.upgrade-banner .upgrade-btn:hover{
+    background-color: #009BFA;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
 }
