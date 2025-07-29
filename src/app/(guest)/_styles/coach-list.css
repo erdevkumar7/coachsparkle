@@ -222,13 +222,24 @@ span.MuiButtonBase-root {
   gap: 30px;
 }
 .coach-banner-add .coach-card {
-  display: flex;
-  background: white;
+  background: #fff;
+  border-radius: 12px;
+  gap: 20px;
   padding: 25px;
+  display: flex;
+  position: relative;
+  box-shadow: 0 5px 20px #0000002b;
+  border: solid 1px #D7D7D7;
+}
+.coach-profile-list-left .coach-card {
+  border: none;
+}
+
+.coach-profile-list-left {
+  padding-left: 0;
+  border: 1px solid #d7d7d7;
   border-radius: 12px;
   box-shadow: 0 5px 20px #0000002b;
-  gap: 20px;
-  position: relative;
 }
 
 .coach-banner-add .coach-card img {
