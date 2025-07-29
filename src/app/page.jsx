@@ -10,13 +10,19 @@ import SwiperOne from "@/components/SwiperOne";
 import Image from 'next/image';
 import EastIcon from '@mui/icons-material/East';
 import CheckIcon from '@mui/icons-material/Check';
+import { HandleValidateTokenOnServer } from "./api/user";
 
 
-export default function Home() {
+export default async function Home() {
+  const tokenData = await HandleValidateTokenOnServer();
+  let user;
+  if (tokenData) {
+    user = tokenData?.data
+  }
 
   return (
     <>
-      <Header />
+      <Header user={user}/>
       <div className="smarter-matching py-5">
         <div className="container">
           <div className="row smarter-matching-inner align-items-center">
@@ -62,7 +68,7 @@ export default function Home() {
               <marquee direction="up" height="628px" id="coachMarquee">
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -79,7 +85,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -96,7 +102,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -113,7 +119,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -130,7 +136,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -147,7 +153,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -164,7 +170,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -181,7 +187,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -198,7 +204,7 @@ export default function Home() {
 
                 <div className="card p-2 d-flex flex-row align-items-center">
                   <div className="coach-img-left-side me-3">
-                  <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
 
                   </div>
 
@@ -238,12 +244,12 @@ export default function Home() {
                 Coach Sparkle uses smart AI to understand your coaching goals, preferences, and availability — then instantly matches you with coaches who align with your needs. Whether you’re looking to build confidence, grow your career, or improve a skill, our AI cuts through the noise to connect you with the right coach — saving you time and ensuring a better fit from the start. You can also use CoachSparkle to find the right coach for your child, a loved one, or even aging parents — because growth and support matter at every stage of life.
               </p>
 
-              <a href="#" className="learn-more-btn-add">Try Know <EastIcon className="mui-icons"/></a>
+              <a href="#" className="learn-more-btn-add">Try Know <EastIcon className="mui-icons" /></a>
             </div>
 
 
             <div className="col-md-6 dedicated-career-coach-right">
-            <Image src={`${FRONTEND_BASE_URL}/images/career-coach-img.webp`} className="card-img-top" alt="career-coach" width={1000} height={226} />
+              <Image src={`${FRONTEND_BASE_URL}/images/career-coach-img.webp`} className="card-img-top" alt="career-coach" width={1000} height={226} />
 
             </div>
           </div>
@@ -251,7 +257,7 @@ export default function Home() {
           <div className="row coaching-approach-inner">
 
             <div className="col-md-6 coaching-approach-right">
-            <Image src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.webp`} className="card-img-top" alt="coaching approach" width={1000} height={226} />
+              <Image src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.webp`} className="card-img-top" alt="coaching approach" width={1000} height={226} />
 
             </div>
 
@@ -288,51 +294,51 @@ export default function Home() {
                 </p>
               </div>
               <div className="professional-top">
-                <a href="#" className="view-all-add-btn text-right">VIEW ALL <EastIcon className="mui-icons"/></a>
+                <a href="#" className="view-all-add-btn text-right">VIEW ALL <EastIcon className="mui-icons" /></a>
                 <div className="professional-cards">
-                  <div className="card"> 
+                  <div className="card">
                     <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Career & Professional" className="img-fluid" />
                     <h5>Career & Professional Coaches</h5>
                     <ul>
-                      <li><CheckIcon className="mui-icons"/>Career Coach</li>
-                      <li><CheckIcon className="mui-icons"/>Executive Coach</li>
-                      <li><CheckIcon className="mui-icons"/>Business Coach</li>
+                      <li><CheckIcon className="mui-icons" />Career Coach</li>
+                      <li><CheckIcon className="mui-icons" />Executive Coach</li>
+                      <li><CheckIcon className="mui-icons" />Business Coach</li>
                     </ul>
                   </div>
 
                   <div className="card">
-                  <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Personal Development" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Personal Development" width={1000} height={226} />
 
                     <h5>Personal Development & Life Coaches</h5>
                     <ul>
-                      <li><CheckIcon className="mui-icons"/>Life Coach</li>
-                      <li><CheckIcon className="mui-icons"/>Confidence Coach</li>
-                      <li><CheckIcon className="mui-icons"/>Mindset Coach</li>
+                      <li><CheckIcon className="mui-icons" />Life Coach</li>
+                      <li><CheckIcon className="mui-icons" />Confidence Coach</li>
+                      <li><CheckIcon className="mui-icons" />Mindset Coach</li>
                     </ul>
                   </div>
 
                   <div className="card">
-                  <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Wellness & Health" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Wellness & Health" width={1000} height={226} />
 
                     <h5>
                       Wellness & Health <br />
                       Coaches
                     </h5>
                     <ul>
-                      <li><CheckIcon className="mui-icons"/>Health Coach</li>
-                      <li><CheckIcon className="mui-icons"/>Fitness Coach</li>
-                      <li><CheckIcon className="mui-icons"/>Nutrition Coach</li>
+                      <li><CheckIcon className="mui-icons" />Health Coach</li>
+                      <li><CheckIcon className="mui-icons" />Fitness Coach</li>
+                      <li><CheckIcon className="mui-icons" />Nutrition Coach</li>
                     </ul>
                   </div>
 
                   <div className="card">
-                  <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Family & Youth" width={1000} height={226} />
+                    <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Family & Youth" width={1000} height={226} />
 
                     <h5>Family, Relationship & Youth Coaches</h5>
                     <ul>
-                      <li><CheckIcon className="mui-icons"/>Academic Coach</li>
-                      <li><CheckIcon className="mui-icons"/>Learning Specialist</li>
-                      <li><CheckIcon className="mui-icons"/>Language Coach</li>
+                      <li><CheckIcon className="mui-icons" />Academic Coach</li>
+                      <li><CheckIcon className="mui-icons" />Learning Specialist</li>
+                      <li><CheckIcon className="mui-icons" />Language Coach</li>
                     </ul>
                   </div>
                 </div>
@@ -350,14 +356,14 @@ export default function Home() {
               <h1>Featured Coaches</h1>
             </div>
             <div className="view-all-btn">
-              <a href="#">View All Coaches <EastIcon className="mui-icons"/></a>
+              <a href="#">View All Coaches <EastIcon className="mui-icons" /></a>
             </div>
           </div>
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-                
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 {/* <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" /> */}
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
@@ -375,7 +381,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -390,7 +396,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
 
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
@@ -405,7 +411,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -422,7 +428,7 @@ export default function Home() {
           <div className="row view-all-coaches-view">
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -439,7 +445,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
                   <p className="card-text">Staff Software Engineer at eBay</p>
@@ -455,7 +461,7 @@ export default function Home() {
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
 
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
 
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
@@ -470,7 +476,7 @@ export default function Home() {
 
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
               <div className="card h-100">
-              <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
+                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
 
                 <div className="card-body">
                   <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
@@ -563,7 +569,7 @@ export default function Home() {
             <div className="latest-articles-cards-content">
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/articles-img-one.webp`} alt="Coach Image" width={1000} height={226} />
+                  <Image src={`${FRONTEND_BASE_URL}/images/articles-img-one.webp`} alt="Coach Image" width={1000} height={226} />
 
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
@@ -576,7 +582,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/articles-img-two.webp`} alt="latest articles" width={1000} height={226} />
+                  <Image src={`${FRONTEND_BASE_URL}/images/articles-img-two.webp`} alt="latest articles" width={1000} height={226} />
 
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
@@ -589,7 +595,7 @@ export default function Home() {
 
               <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
                 <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/articles-img-three.webp`} alt="latest articles" width={1000} height={226} />
+                  <Image src={`${FRONTEND_BASE_URL}/images/articles-img-three.webp`} alt="latest articles" width={1000} height={226} />
 
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Article Heading</h5>
@@ -613,18 +619,18 @@ export default function Home() {
           </h1>
           <p className="text-center">Whether you’re searching for your next coach or listing your expertise,
             Coach Sparkle is always free to use.</p>
-            <p className="text-center span-txt">Users: Browse, match, and message coaches - 100% free<br />
-Coaches: Join free, list your profile, and get discovered. Ready to stand out? Upgrade to Pro Coach Plan for advance tools and top placement</p>
+          <p className="text-center span-txt">Users: Browse, match, and message coaches - 100% free<br />
+            Coaches: Join free, list your profile, and get discovered. Ready to stand out? Upgrade to Pro Coach Plan for advance tools and top placement</p>
           <div className="row">
-              <div className="toggle-container">
-                <div className="switch-toggle">
-                    <input type="radio" name="plan" id="monthly" ></input>
-                    <input type="radio" name="plan" id="yearly"></input>
-                    <label htmlFor="monthly">Monthly</label>
-                    <label htmlFor="yearly">Yearly</label>
-                    <div className="slider"></div>
-                </div>
+            <div className="toggle-container">
+              <div className="switch-toggle">
+                <input type="radio" name="plan" id="monthly" ></input>
+                <input type="radio" name="plan" id="yearly"></input>
+                <label htmlFor="monthly">Monthly</label>
+                <label htmlFor="yearly">Yearly</label>
+                <div className="slider"></div>
               </div>
+            </div>
             <div className="pricing">
               <div className="col-md-4">
                 <div className="card">

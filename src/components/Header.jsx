@@ -8,44 +8,17 @@ import Cookies from 'js-cookie';
 import { HandleAuthLogout, HandleValidateToken } from '@/app/api/auth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-export default function Header() {
+export default function Header({ user }) {
     const router = useRouter();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const token = Cookies.get('token');
-        if (token) {
-            const fetchUser = async () => {
-                const tokenData = await HandleValidateToken(token);
-
-                if (!tokenData) {
-                    setIsLoggedIn(false);
-                    Cookies.remove('token');
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    console.log("Failed to get user data.");
-                } else {
-                    setIsLoggedIn(true);
-                    if (tokenData.data.user_type == 2) {
-                        router.push('/user/dashboard');
-                    } else if (tokenData.data.user_type == 3) {
-                        router.push('/coach/dashboard');
-                    }
-                }
-            };
-
-            fetchUser();
-        }
-    }, []);
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
         // HandleAuthLogout()
         Cookies.remove('token');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         router.push('/login');
     };
+
 
 
     return (
@@ -94,18 +67,64 @@ export default function Header() {
 
                     <div className="register-login">
                         <div className="register-content">
-                            {isLoggedIn ? (
-                                <button onClick={handleLogout} style={{
-                                    display: 'inline-block',
-                                    padding: '6px 16px',
-                                    backgroundColor: '#007bff',
-                                    color: 'white',
-                                    borderRadius: '4px',
-                                    textDecoration: 'none',
-                                    textAlign: 'center',
-                                    marginLeft: '10px',
-                                    border: 'white'
-                                }}>Logout</button>
+                            {user ? (
+                                // <button onClick={handleLogout} style={{
+                                //     display: 'inline-block',
+                                //     padding: '6px 16px',
+                                //     backgroundColor: '#007bff',
+                                //     color: 'white',
+                                //     borderRadius: '4px',
+                                //     textDecoration: 'none',
+                                //     textAlign: 'center',
+                                //     marginLeft: '10px',
+                                //     border: 'white'
+                                // }}>Logout</button>
+
+
+
+                                <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end logout-add-head">
+                                    <ul className="navbar-nav navbar-nav-right">
+                                        <li className="nav-item nav-profile dropdown">
+                                            <a
+                                                className="nav-link dropdown-toggle"
+                                                href="#"
+                                                data-bs-toggle="dropdown"
+                                                id="profileDropdown"
+                                            >
+                                                <img
+                                                    src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                                                    alt="profile"
+                                                    style={{ borderRadius: '100%', width: '40px', height: '40px' }} />
+                                                <p className="top-name-add">{user?.first_name} <i className="bi bi-chevron-down"></i></p>
+                                            </a>
+
+                                            <div
+                                                className="dropdown-menu dropdown-menu-right navbar-dropdown"
+                                                aria-labelledby="profileDropdown"
+                                            >
+                                                <a className="dropdown-item">
+                                                    <i className="bi bi-gear mx-0"></i>&nbsp; Settings{" "}
+                                                </a>
+                                                {user?.user_type == 2 && <Link className="dropdown-item" href={'/user/profile'}>
+                                                    <i className="bi bi-person-circle mx-0"></i>&nbsp; Profile{" "}
+                                                </Link>}
+                                                {user?.user_type == 3 && <Link className="dropdown-item" href={'/coach/dashboard'}>
+                                                    <i className="bi bi-person-circle mx-0"></i>&nbsp; Dashboard{" "}
+                                                </Link>}
+                                                <a className="dropdown-item" onClick={handleLogout}>
+                                                    <i className="bi bi-power text-primary"></i>&nbsp;Logout{" "}
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <button
+                                        className="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                                        type="button"
+                                        data-bs-toggle="offcanvas"
+                                    >
+                                        <i className="bi bi-list fs-2"></i>
+                                    </button>
+                                </div>
                             ) : (
                                 <>
                                     <Link href="/login" className="Login-navbar">Login</Link>
