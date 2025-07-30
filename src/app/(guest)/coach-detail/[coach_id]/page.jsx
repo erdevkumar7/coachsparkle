@@ -9,7 +9,7 @@ import ViewServicePackage from "@/app/coach/_coach_components/ViewServicePackage
 import LoginForm from "@/components/LoginForm";
 import BreadCrumb from "@/components/BreadCrumb";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavIcon from '../../_components/coach-detail/FavIcon';
 import { notFound } from "next/navigation";
 import ActionButton from "@/components/reusable/ActionButton";
 import SendMessageButton from "../../_components/SendMessageButton";
@@ -45,6 +45,7 @@ export default async function CoachDetail({ params }) {
   }
 
   console.log('fistPackageID', coach)
+  console.log("Favourite", coach?.is_fevorite)
 
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
@@ -191,7 +192,7 @@ export default async function CoachDetail({ params }) {
                         </div>
                       </div>
                       <div className="coach-action-profile-icon">
-                        <FavoriteBorderIcon className="mui-icons" />
+                        <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite}/>
                       </div>
                       <div className="coach-action-share-icon">
                        <ShareIcon className="mui-icons share-icons-add"/>
@@ -290,7 +291,7 @@ export default async function CoachDetail({ params }) {
                 <div className="profile-card">
                 <Image src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}  alt="Team Image"
                           className="top-image" width={1000} height={226} />
-                  
+
 
                   <div className="profile-message">
                     <p className="price">

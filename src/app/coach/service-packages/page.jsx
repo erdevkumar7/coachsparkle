@@ -56,7 +56,7 @@ export default function CoachServicePackages() {
                     packages
                       .slice(0, 3)
                       .map((pkg, index) => (
-                        <ViewServicePackage key={index} pkg={pkg} />
+                        <ViewServicePackage key={index} pkg={pkg} allPackageIds={packages.map((p) => p.id)} />
 
                       ))}
                 </div>
