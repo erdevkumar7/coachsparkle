@@ -97,7 +97,7 @@ export default function AccountSettings() {
               <span className="d-block">
                 Consent to Data Sharing and AI Matching
               </span>
-              <div className="d-flex gap-2">
+              <div className="d-flex gap-2 pt-2">
                 <input type="checkbox" />
                 <label htmlFor="corporateCheck">
                   I agree to let Coach Sparkle match my services to help users
@@ -194,7 +194,7 @@ export default function AccountSettings() {
           <div className="privacy-section mt-5">
             <h3 className="quick-text">Data & Privacy Control</h3>
             <div className="mt-4">
-              <div className="d-flex gap-2 mb-2">
+              <div className="d-flex gap-2 mb-2 pt-2">
                 <PublicOffIcon className="mui-icons" />
                 <span className="title">Profile Visibility</span>
                 <input type="checkbox" />
@@ -202,7 +202,7 @@ export default function AccountSettings() {
                 <input type="checkbox" />
                 <label htmlFor="private">Private</label>
               </div>
-              <div className="d-flex gap-2 mb-2">
+              <div className="d-flex gap-2 mb-2 pt-2">
                 <PodcastsIcon className="mui-icons" />
                 <span className="title">Communication Preference</span>
                 <input type="checkbox" />
@@ -212,17 +212,17 @@ export default function AccountSettings() {
                 <input type="checkbox" />
                 <label htmlFor="push-toggles">Push Toggles</label>
               </div>
-              <div className="d-flex gap-2 mb-2">
+              <div className="d-flex gap-2 mb-2 pt-2">
                 <i className="bi bi-openai mui-icons"></i>
                 <span className="title">Allow AI Matching</span>
                 <input type="checkbox" />
                 <label htmlFor="agree">I agree to AI Personalization</label>
               </div>
-              <div className="d-flex gap-2 mb-2">
+              <div className="d-flex gap-2 mb-2 pt-2">
                 <CookieIcon className="mui-icons" />
                 <span className="title">Manage Cookie Preferences</span>
               </div>
-              <div className="d-flex gap-2">
+              <div className="d-flex gap-2 mb-2 pt-2">
                 <PersonSearchIcon className="mui-icons" />
                 <span className="title">
                   View Terms of Use & Privacy Policy

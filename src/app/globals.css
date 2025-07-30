@@ -1053,11 +1053,11 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   font-weight: 500;
 }
 
-.latest-articles-explore a.articles-btn-add:hover {
+/* .latest-articles-explore a.articles-btn-add:hover {
   background-color: #1489d1;
   border: solid 2px #1489d1;
   color: #fff;
-}
+} */
 
 .latest-articles-cards-content a.read-more-btn {
   margin-top: 10px;
@@ -1313,10 +1313,10 @@ p.span-txt {
   margin-top: 8px;
 }
 
-.choose-plan-you .card button:hover {
+/* .choose-plan-you .card button:hover {
   background-color: #009bfa;
   color: #fff;
-}
+} */
 
 .choose-plan-you .featured h3 {
   color: #fff !important;
@@ -2900,7 +2900,7 @@ select:focus-visible {
 
 /* Move pagination to top-right */
 .people-love-living .swiper-pagination {
-  z-index: 10;
+  z-index: 0;
   justify-content: flex-end;
   gap: 6px;
   width: auto;
@@ -2918,7 +2918,15 @@ select:focus-visible {
   margin-top: 35px;
   margin-top: -11px;
 }
-
+.people-love-living .swiper-slide:hover {
+  background-color: #009BFA !important;
+  color: #fff !important;
+  z-index: 999 !important;
+  user-select: all !important;
+}
+.people-love-living .swiper-slide:hover a {
+  color: #fff !important;
+}
 .people-love-living span.swiper-pagination-bullet {
   top: 0px;
   margin-top: -22px !important;

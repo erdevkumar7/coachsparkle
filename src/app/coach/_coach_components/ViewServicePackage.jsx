@@ -12,6 +12,7 @@ export default function ViewServicePackage({ pkg }) {
         <img
           src={
             pkg?.media_file
+            
               ? pkg?.media_file
               : `/coachsparkle/images/package1.webp`
           } 

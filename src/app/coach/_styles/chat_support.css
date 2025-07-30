@@ -68,7 +68,11 @@
     color: #000;
     border-top-left-radius: 0;
   }
-
+  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-icons.support-icon.css-1umw9bq-MuiSvgIcon-root {
+    width: 60px;
+    height: 60px;
+    padding: 13px;
+}
   .chat-support .user .bubble {
     color: #fff;
     background-color: #2196f3;

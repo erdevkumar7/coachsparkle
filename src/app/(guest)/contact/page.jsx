@@ -1,5 +1,9 @@
 import '../_styles/about_us.css';
 import '../_styles/contact.css';
+import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+
 
 export default function Contact() {
     return (
@@ -20,16 +24,16 @@ export default function Contact() {
                             Contact Information
                         </h3>
                         <p>
-                            <strong><i className="bi bi-envelope"></i> Email:</strong><br />
+                            <strong> <MailOutlineOutlinedIcon className='mui-icons'/> Email:</strong><br />
                             contact@coachsparkle.com
                         </p>
                         <p>
-                            <strong><i className="bi bi-map"></i> Address:</strong><br />
+                            <strong> <MapOutlinedIcon className='mui-icons'/> Address:</strong><br />
                             61 Upper Paya Lebar Road<br />
                             Singapore 534816
                         </p>
                         <p>
-                            <strong><i className="bi bi-clock"></i> Business Hours:</strong><br />
+                            <strong> <AccessTimeOutlinedIcon className='mui-icons'/> Business Hours:</strong><br />
                             Mon - Fri<br />
                             9:00 AM - 6:00 PM (GMT +8)
                         </p>

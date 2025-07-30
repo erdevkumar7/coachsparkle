@@ -2,13 +2,23 @@
 
 import { useState } from 'react';
 import ChatSupport from './ChatSupport';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 
 export default function ChatSupportWrapper() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <i
+    <SmsOutlinedIcon className='mui-icons support-icon' onClick={() => setIsOpen(!isOpen)}
+        style={{
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          fontSize: '24px',
+          cursor: 'pointer',
+          zIndex: 1000,
+        }} />
+      {/* <i
         className="bi bi-chat-dots support-icon"
         onClick={() => setIsOpen(!isOpen)}
         style={{
@@ -19,7 +29,7 @@ export default function ChatSupportWrapper() {
           cursor: 'pointer',
           zIndex: 1000,
         }}
-      ></i>
+      ></i> */}
 
       {isOpen && (
         <div

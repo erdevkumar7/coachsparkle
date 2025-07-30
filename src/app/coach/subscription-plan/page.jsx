@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import "../_styles/subscription_plan.css";
+import Image from 'next/image';
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 import ToggleSwitch from "@/components/ToggleSwitch";
 
 export default function SubscriptionPlan() {
@@ -18,7 +20,10 @@ export default function SubscriptionPlan() {
                             <button className="btn btn-learn mt-2">Learn More</button>
                         </div>
                         <div className="col-md-5 pro-plan-right-side-img">
-                            <img src="/coachsparkle/images/pro-plan-img.webp" alt="Coaches" className="coach-image" />
+
+                        <Image src={`${FRONTEND_BASE_URL}/images/pro-plan-img.webp`} alt="Image 1" className="img-fluid" width={1000} height={226} />
+
+                            {/* <img src="/coachsparkle/images/pro-plan-img.webp" alt="Coaches" className="coach-image" /> */}
                         </div>
                     </div>
 
@@ -44,7 +49,7 @@ export default function SubscriptionPlan() {
                             </div>
                             <div className="subscription-title">Pro Coach Plan</div>
                             <div className="subscription-price">$25/month</div>
-                            <div className="next--payment-text mb-3">Next Payment: Aug 30, 2025</div>
+                            <div className="next--payment-text mb-3 pt-1">Next Payment: Aug 30, 2025</div>
 
                             <h5>You're enjoying:</h5>
                             <ul className="benefit-list ps-0">
@@ -52,7 +57,7 @@ export default function SubscriptionPlan() {
                                 <li><i className="bi bi-check-circle-fill"></i> Real-time coaching requests</li>
                                 <li><i className="bi bi-check-circle-fill"></i> Smart calendar sync & insights</li>
                                 <li><i className="bi bi-check-circle-fill"></i> Full analytics dashboard</li>
-                                <li><img src="/coachsparkle/images/pro-clients-icons.png" /> Staying on pro helps you attract more clients and grow faster.</li>
+                                <li className="staying-add"><img src="/coachsparkle/images/pro-clients-icons.png" /> Staying on pro helps you attract more clients and grow faster.</li>
                             </ul>
 
                             <div className="d-flex align-items-center mt-3 auto-renew-add">
