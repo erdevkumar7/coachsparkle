@@ -110,9 +110,17 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
   object-fit: cover;
   object-position: top;
   border-radius: 20px 20px 0 0;
-  width: 258px;
+  width: auto;
   height: 200px;
 }
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+
 /* .swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden .swiper-wrapper {
   margin-top: 10px;
   gap: 25px;
@@ -408,7 +416,7 @@ span.MuiButtonBase-root {
   font-size: 14px;
 }
 
-.css-1asissc-MuiSlider-valueLabel { 
+.css-1asissc-MuiSlider-valueLabel {
   background-color: #009BFA !important;
 }
 
@@ -740,6 +748,7 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
   font-family: "Roboto";
   line-height: 18px;
 }
+
 
 .about-section.package_short .session-card img {
   width: 100% !important;
@@ -1211,7 +1220,7 @@ textarea {
   color: #009df6;
   font-size: 15px !important;
 }
-/* 
+/*
 .swiper-wrapper {
   gap: 5px !important;
 } */
@@ -1331,6 +1340,8 @@ textarea {
   font-size: 18px;
   margin-top: -2px;
 }
+
+
 
 span.check-box-add-icons .mui-icons {
   color: #27C200;

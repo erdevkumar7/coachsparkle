@@ -21,13 +21,13 @@ export default function SimilarCoaches({ similarCoachData = [] }) {
     <Swiper
       spaceBetween={20}
       slidesPerView={slidesPerView}
-      loop={enableLoop}
-      autoplay={{
-        delay: 5000,
-        disableOnInteraction: false,
-      }}
-      navigation={coachCount > 1} // Hide arrows if only 1
-      modules={[Autoplay, Navigation]}
+      // loop={enableLoop}
+      // autoplay={{
+      //   delay: 5000,
+      //   disableOnInteraction: false,
+      // }}
+      navigation={coachCount > 1}
+      modules={[Navigation]}
       breakpoints={{
         320: {
           slidesPerView: coachCount < 2 ? coachCount : 2,
