@@ -622,16 +622,6 @@ export default async function Home() {
           <p className="text-center span-txt">Users: Browse, match, and message coaches - 100% free<br />
             Coaches: Join free, list your profile, and get discovered. Ready to stand out? Upgrade to Pro Coach Plan for advance tools and top placement</p>
           <div className="row">
-<<<<<<< HEAD
-              <div className="toggle-container">
-                <div className="switch-toggle">
-                    <input type="radio" name="plan" id="monthly" ></input>
-                    <input type="radio" name="plan" id="yearly"></input>
-                    <label htmlFor="monthly" className="monthly-text">Monthly</label>
-                    <label htmlFor="yearly">Yearly</label>
-                    <div className="slider"></div>
-                </div>
-=======
             <div className="toggle-container">
               <div className="switch-toggle">
                 <input type="radio" name="plan" id="monthly" ></input>
@@ -639,7 +629,6 @@ export default async function Home() {
                 <label htmlFor="monthly">Monthly</label>
                 <label htmlFor="yearly">Yearly</label>
                 <div className="slider"></div>
->>>>>>> cac6dac10db532cf6a2962da72bde64623386820
               </div>
             </div>
             <div className="pricing">
