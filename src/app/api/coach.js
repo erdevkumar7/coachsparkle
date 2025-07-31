@@ -3,13 +3,13 @@ import axios from "axios";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 
-export const getCoachById = async (id) => {
+export const getCoachById = async (id, user_id) => {  
     const res = await fetch(
         `${apiUrl}/coachDetails?id=${id}`,
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id }),
+            body: JSON.stringify({ id, user_id }),
             cache: "no-store", // prevent caching if dynamic
         }
     );
