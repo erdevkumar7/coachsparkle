@@ -1,17 +1,31 @@
 "use client";
-import UserImageUploader from "@/app/user/_user_components/ImageUploader";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import "../_styles/coach_account_section.css";
+import Cookies from "js-cookie";
+import { HandleValidateToken } from "@/app/api/auth";
+import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import PasswordField from "@/components/PasswordField";
 import ToggleSwitch from "@/components/ToggleSwitch";
-import { useState } from "react";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import CookieIcon from "@mui/icons-material/Cookie";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  userAccountSettingSchema,
+  passwordSchema,
+} from "@/lib/validationSchema";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+import { Controller } from "react-hook-form";
 
-export default function AccountSettings() {
+export default function Accountsetting() {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
   const [newCoachEnabled, setNewCoachEnabled] = useState(true);
   const [msgEnabled, setMsgEnabled] = useState(true);
   const [bookingEnabled, setBookingEnabled] = useState(true);
@@ -19,6 +33,72 @@ export default function AccountSettings() {
   const [announcementEnabled, setAnnouncementEnabled] = useState(true);
   const [blogEnabled, setBlogEnabled] = useState(true);
   const [billingEnabled, setBillingEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const accountForm = useForm({
+    resolver: yupResolver(userAccountSettingSchema),
+    mode: "onBlur",
+  });
+
+  const passwordForm = useForm({
+    resolver: yupResolver(passwordSchema),
+    mode: "onBlur",
+  });
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+    const fetchUser = async () => {
+      const tokenData = await HandleValidateToken(token);
+      if (!tokenData) {
+        Cookies.remove("token");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        router.push("/login");
+        return;
+      }
+
+      setUser(tokenData.data);
+    };
+
+    fetchUser();
+  }, []);
+
+  const onAccountSave = async (data) => {
+  try {
+    setLoading(true);
+
+    console.log("Account settings submitted:", data);
+
+    toast.success("Account settings updated!");
+
+  } catch (error) {
+    console.error("Account settings update failed:", error);
+    toast.error("Failed to update settings. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+const onPasswordSave = async (data) => {
+  try {
+    setLoading(true);
+
+    console.log("Password form submitted:", data);
+
+    toast.success("Password updated successfully!");
+  } catch (error) {
+    console.error("Failed to update password", error);
+    toast.error("Error updating password. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   return (
     <div className="main-panel account-section">
@@ -30,25 +110,33 @@ export default function AccountSettings() {
             alt="coachsparkle"
           />
         </div>
-        <form className="account-setting-form">
+        <form
+          className="account-setting-form"
+          onSubmit={accountForm.handleSubmit(onAccountSave)}
+        >
           <div className="account-form">
             <div className="account-form-row account-two-cols">
               <div className="account-form-group">
-                <label>First Name*</label>
+                <label>First Name</label>
                 <input
-                  required
                   type="text"
-                  name="first_name"
                   placeholder="Emma"
+                  {...accountForm.register("first_name")}
+                  disabled={loading}
                 />
+                {accountForm.formState.errors.first_name && (
+                  <div className="invalid-feedback d-block">
+                    {accountForm.formState.errors.first_name.message}
+                  </div>
+                )}
               </div>
               <div className="account-form-group">
-                <label>Last Name*</label>
+                <label>Last Name</label>
                 <input
-                  required
                   type="text"
-                  name="last_name"
                   placeholder="Rose"
+                  {...accountForm.register("last_name")}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -58,19 +146,55 @@ export default function AccountSettings() {
                 <label>Email</label>
                 <input
                   type="email"
-                  name="email"
                   placeholder="Enter your email"
+                  {...accountForm.register("email")}
+                  disabled={loading}
                 />
+                {accountForm.formState.errors.email && (
+                  <div className="invalid-feedback d-block">
+                    {accountForm.formState.errors.email.message}
+                  </div>
+                )}
               </div>
               <div className="account-form-group">
                 <label>Language Setting</label>
-                <select name="language">
+                <select
+                  name="language"
+                  {...accountForm.register("language")}
+                  disabled={loading}
+                >
                   <option>English</option>
                 </select>
+                {accountForm.formState.errors.language && (
+                  <div className="invalid-feedback d-block">
+                    {accountForm.formState.errors.language.message}
+                  </div>
+                )}
               </div>
-              <div className="account-form-group">
+              <div className="account-form-group phone-input-css">
                 <label>Phone Number</label>
-                <PhoneInput country={"us"} />
+                <Controller
+                  name="mobile"
+control={accountForm.control}
+
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      country={"us"}
+                      inputProps={{
+                        name: "mobile",
+                        disabled: loading,
+                      }}
+                      onChange={(value) => field.onChange("+" + value)}
+                    />
+                  )}
+                />
+                {accountForm.formState.errors.mobile && (
+                  <div className="invalid-feedback d-block">
+                    {accountForm.formState.errors.mobile.message}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -79,17 +203,18 @@ export default function AccountSettings() {
                 <label>Location</label>
                 <input
                   type="text"
-                  name="address"
                   placeholder="Enter your address"
+                  {...accountForm.register("location")}
+                  disabled={loading}
                 />
               </div>
               <div className="account-form-group">
                 <label>Zip code</label>
                 <input
-                  required
                   type="text"
-                  name="last_name"
                   placeholder="Enter your zip code"
+                  {...accountForm.register("zip_code")}
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -98,35 +223,57 @@ export default function AccountSettings() {
                 Consent to Data Sharing and AI Matching
               </span>
               <div className="d-flex gap-2 pt-2">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  {...accountForm.register("consent")}
+                  disabled={loading}
+                />
                 <label htmlFor="corporateCheck">
                   I agree to let Coach Sparkle match my services to help users
                   achieve their coaching goals.
                 </label>
               </div>
-              <button className="save-changes-btn">Save Changes</button>
+              <button className="save-changes-btn" disabled={loading}>
+                {loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  <>Save Changes</>
+                )}
+              </button>
             </div>
           </div>
         </form>
 
         <div className="password-section mt-5">
           <h3 className="quick-text">Change Password</h3>
-          <form className="account-setting-form mt-4">
+          <form
+            className="account-setting-form mt-4"
+            onSubmit={passwordForm.handleSubmit(onPasswordSave)}
+          >
             <div className="account-form">
               <div className="account-form-row account-three-cols">
                 <div className="account-form-group">
                   <PasswordField
                     label="Current Password"
                     name="current_password"
+                    register={passwordForm.register}
+                    error={passwordForm.formState.errors.current_password}
                   />
                 </div>
                 <div className="account-form-group">
-                  <PasswordField label="New Password" name="new_password" />
+                  <PasswordField
+                    label="New Password"
+                    name="new_password"
+                    register={passwordForm.register}
+                    error={passwordForm.formState.errors.new_password}
+                  />
                 </div>
                 <div className="account-form-group">
                   <PasswordField
                     label="Confirm Password"
                     name="confirm_password"
+                    register={passwordForm.register}
+                    error={passwordForm.formState.errors.confirm_password}
                   />
                 </div>
               </div>
@@ -218,11 +365,152 @@ export default function AccountSettings() {
                 <input type="checkbox" />
                 <label htmlFor="agree">I agree to AI Personalization</label>
               </div>
-              <div className="d-flex gap-2 mb-2 pt-2">
+              <div className="d-flex gap-2 mb-2 pt-2 under-line-text">
                 <CookieIcon className="mui-icons" />
-                <span className="title">Manage Cookie Preferences</span>
+
+                <span
+                  className="title"
+                  data-bs-toggle="modal"
+                  data-bs-target="#cookieModal"
+                  role="button"
+                >
+                  Manage Cookie Preferences
+                </span>
+
+                <div
+                  className="modal fade"
+                  id="cookieModal"
+                  tabIndex="-1"
+                  aria-labelledby="cookieModalLabel"
+                  aria-hidden="true"
+                >
+                  <div className="modal-dialog">
+                    <div className="modal-content p-3">
+                      <div className="modal-header border-0">
+                        <h5
+                          className="modal-title fw-bold"
+                          id="cookieModalLabel"
+                        >
+                          Manage Cookies
+                        </h5>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div className="modal-body">
+                        <p>
+                          CoachSparkle uses cookies to enhance your experience,
+                          personalize content, and analyze traffic. You can
+                          manage your preferences anytime.
+                        </p>
+
+                        <div className="border rounded p-3 one">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              <strong>Essential Cookies</strong>
+                              <br />
+                              <small>
+                                Necessary for login, security and session
+                                functionality
+                              </small>
+                            </div>
+                            <div className="form-check form-switch m-0">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="essentialCookies"
+                                checked
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="border rounded p-3 two">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              <strong>Performance Cookies</strong>
+                              <br />
+                              <small>
+                                Help us to improve the platform through usage
+                                analytics.
+                              </small>
+                            </div>
+                            <div className="form-check form-switch m-0">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="performanceCookies"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="border rounded p-3 three">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              <strong>Functional Cookies</strong>
+                              <br />
+                              <small>
+                                Remember preferences, such as language.
+                              </small>
+                            </div>
+                            <div className="form-check form-switch m-0">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="functionalCookies"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="border rounded p-3 four">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              <strong>Marketing Cookies</strong>
+                              <br />
+                              <small>Used to personalized advertising</small>
+                            </div>
+                            <div className="form-check form-switch m-0">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="marketingCookies"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="modal-footer border-0 three-btn-add">
+                        <button type="button" className="btn btn-primary">
+                          Accept All Cookies
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary"
+                        >
+                          Customize Settings
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary"
+                        >
+                          Reject Cookies
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="d-flex gap-2 mb-2 pt-2">
+              <div className="d-flex gap-2 under-line-text">
                 <PersonSearchIcon className="mui-icons" />
                 <span className="title">
                   View Terms of Use & Privacy Policy
@@ -243,7 +531,9 @@ export default function AccountSettings() {
                 I understand and wish to proceed with account deletion.
               </label>
             </div>
-            <button className="delete-btn d-flex gap-2 align-items-center"><i className="bi bi-trash fs-5"></i>Delete Account</button>
+            <button className="delete-btn d-flex gap-2 align-items-center">
+              <i className="bi bi-trash fs-5"></i>Delete Account
+            </button>
           </div>
         </div>
       </div>

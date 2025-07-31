@@ -1,5 +1,6 @@
 import "./user.main.css"
-import UserHeader from './_user_components/UserHeader';
+// import UserHeader from './_user_components/UserHeader';
+import Header from "@/components/Header.jsx"
 import { getUserProfileData } from "@/app/api/user";
 import { redirect } from 'next/navigation';
 import UserSideBarComp from "./_user_components/UserSideBar";
@@ -15,7 +16,8 @@ export default async function UserLayout({ children }) {
 
   return (
     <>
-      <UserHeader user={user} error={error} removeToken={removeToken} />
+    <Header user={user} error={error} removeToken={removeToken}/>
+      {/* <UserHeader user={user} error={error} removeToken={removeToken} /> */}
 
       <div className="container user-wrapper user-page-add">
         <UserSideBarComp user={user} />
