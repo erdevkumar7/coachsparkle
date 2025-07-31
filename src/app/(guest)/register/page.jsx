@@ -32,7 +32,7 @@ const style = {
 export default function Register() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const router = useRouter();
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
