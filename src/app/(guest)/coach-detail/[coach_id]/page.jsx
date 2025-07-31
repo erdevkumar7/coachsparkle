@@ -21,14 +21,21 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import Image from 'next/image';
 import LanguageIcon from '@mui/icons-material/Language';
 import AdjustIcon from '@mui/icons-material/Adjust';
+import { HandleValidateTokenOnServer } from "@/app/api/user";
 
 
 
 export default async function CoachDetail({ params }) {
   const { coach_id } = await params;
+   const tokenData = await HandleValidateTokenOnServer();
+  
+   let fav_user_id;
+    if (tokenData) {
+      fav_user_id = tokenData.data.id
+    }
 
   const [coach, allPackageIdRes] = await Promise.all([
-    getCoachById(coach_id),
+    getCoachById(coach_id, fav_user_id),
     packageIdsByCoachId(coach_id),
   ])
 

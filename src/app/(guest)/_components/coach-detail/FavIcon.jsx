@@ -13,11 +13,9 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const token = Cookies.get("token");
   const [isFavorited, setIsFavorited] = useState(initiallyFavorited);
-  const [loading, setLoading] = useState(false);
 
   const validateUser = async () => {
     if (!token) {
-      console.warn("No token found. Redirecting to login.");
       toast.error("Login first");
       router.push(`/login?redirect=/coach-detail/${coachId}`);
       return false;
@@ -25,7 +23,6 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
 
     const tokenData = await HandleValidateToken(token);
     if (!tokenData) {
-      console.warn("Invalid token. Clearing cookies and redirecting.");
       Cookies.remove("token");
       localStorage.removeItem("token");
       localStorage.removeItem("user");
@@ -33,7 +30,6 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
       return false;
     }
 
-    console.log("Token is valid.");
     return true;
   };
 
@@ -41,7 +37,7 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
     const isValid = await validateUser();
     if (!isValid) return;
 
-    setLoading(true);
+
 
     try {
       const response = await axios.post(
@@ -61,9 +57,7 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
     } catch (error) {
       console.error("Favorite API error:", error);
       toast.error("Something went wrong.");
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return (
