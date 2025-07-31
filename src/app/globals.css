@@ -51,7 +51,7 @@
 .container {
   max-width: 1240px;
 }
-.coach-top-navber-add div#navbarTogglerDemo01 {
+/* .coach-top-navber-add div#navbarTogglerDemo01 {
   justify-content: space-between;
   padding-right: 0px;
 }
@@ -69,7 +69,7 @@
   font-weight: 700;
   font-size: 15px;
   font-family: "Inter";
-}
+} */
 
 /* .coach-top-navber-add .dropdown-toggle::after {
   content: "\f107";
@@ -81,10 +81,10 @@
   border-bottom: 0;
   border-left: 0;
 } */
-.coach-top-navber-add div#navbarTogglerDemo01 .mui-icons {
+/* .coach-top-navber-add div#navbarTogglerDemo01 .mui-icons {
   width: 22px !important;
   height: 22px !important;
-}
+} */
 
 .dropdown-toggle:after {
   vertical-align: .255em;
@@ -97,7 +97,7 @@
 }
 
 
-.coach-top-navber-add a.navbar-brand {
+/* .coach-top-navber-add a.navbar-brand {
   font-weight: 700;
   font-size: 25px;
   padding-left: 50px;
@@ -154,7 +154,7 @@
   font-weight: 600;
   color: #000000;
   font-size: 16px;
-}
+} */
 
 .navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
     color: var(--bs-navbar-active-color);
@@ -162,7 +162,7 @@
     border: none;
 }
 
-.coach-top-navber-add a.sign-up-navbar {
+/* .coach-top-navber-add a.sign-up-navbar {
   background-color: #009bfa;
   padding: 12px 25px;
   border-radius: 10px;
@@ -197,7 +197,7 @@
 
 .coach-top-navber-add .register-content i.fas.fa-user {
   padding-right: 5px;
-}
+} */
 .coach-profile-list-inner .mui-icons {
 
   width: 20px !important;
@@ -361,11 +361,11 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   border-radius: 8px;
   padding: 4px 15px;
 }
-
+/*
 .coach-top-navber-add a.Login-navbar:hover {
   background: none !important;
   color: #009bfa !important;
-}
+} */
 
 .coach-software-name a.me-2:hover {
   background-color: #1489d1;
@@ -1659,7 +1659,7 @@ footer.coach-footer-section .new-add-footer .mui-icons {
     max-width: 100%;
   }
 
-  .coach-top-navber-add .container {
+  /* .coach-top-navber-add .container {
     padding: 0 20px;
   }
 
@@ -1690,7 +1690,7 @@ footer.coach-footer-section .new-add-footer .mui-icons {
   .coach-top-navber-add button.navbar-toggler:focus {
     outline: none !important;
     box-shadow: none;
-  }
+  } */
 
   .smarter-matching-inner input.form-control.search-input {
     height: 52px;
