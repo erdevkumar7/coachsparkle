@@ -2580,8 +2580,10 @@ select:focus-visible {
   color: #000000;
 }
 .login-right-side .login-container .login-btn .mui-icons {
-  font-size: 20px;
   margin-left: 8px;
+  font-size: 20px;
+  height: 20px !important;
+  color: #fff !important;
 }
 .login-right-side .login-container .login-form {
   display: flex;

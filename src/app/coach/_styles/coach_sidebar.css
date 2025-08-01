@@ -1,17 +1,20 @@
 .sidebar .nav .nav-item .nav-link .menu-title {
     color: inherit;
     vertical-align: middle;
-    font-size: 16px;
-    line-height: 2.9;
+    font-size: 16px !important;
+    line-height: auto !important;
     display: inline-block;
     margin-top: -3px;
 }
 .sidebar.collapsed {
     width: 53px !important;
 }
+nav#sidebar a.nav-link {
+    padding: 14px !important;
+}
 .text-with-check-icons svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
-    color: #27C200;
-    font-size: 20px;
+    color: #27C200 !important;
+    font-size: 20px !important;
 }
 .flex.items-center.mt-4.side-top-bar {
     margin-top: 30px !important;
