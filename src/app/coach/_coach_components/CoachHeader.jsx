@@ -7,6 +7,13 @@ import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 import { useUser } from "@/context/UserContext";
 import Image from 'next/image';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+
+
 
 export default function CoachHeader() {
   const { user } = useUser();
@@ -78,7 +85,7 @@ export default function CoachHeader() {
                 href="#"
                 data-bs-toggle="dropdown"
               >
-                <i className="bi bi-bell"></i>
+                <NotificationsNoneOutlinedIcon/>
                 <span className="count"></span>
               </a>
               <div
@@ -107,7 +114,7 @@ export default function CoachHeader() {
                 <a className="dropdown-item preview-item">
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-warning">
-                      <i className="bi bi-gear mx-0"></i>
+                    <SettingsOutlinedIcon/>
                     </div>
                   </div>
                   <div className="preview-item-content">
@@ -147,7 +154,7 @@ export default function CoachHeader() {
                 href="#"
                 data-bs-toggle="dropdown"
               >
-                <i className="bi bi-envelope"></i>
+                <MailOutlineOutlinedIcon/>
                 <span className="count"></span>
               </a>
             </li>
@@ -161,7 +168,7 @@ export default function CoachHeader() {
                 id="profileDropdown"
               >
                  <img alt="profile"  src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}/>
-                <p className="top-name-add">{user?.first_name} <i className="bi bi-chevron-down"></i></p>
+                <p className="top-name-add">{user?.first_name} <KeyboardArrowDownOutlinedIcon/></p>
               </a>
 
               {/* <button onClick={handleLogout} style={{
@@ -180,10 +187,11 @@ export default function CoachHeader() {
                 aria-labelledby="profileDropdown"
               >
                 <a className="dropdown-item">
-                  <i className="bi bi-gear mx-0"></i>&nbsp; Settings{" "}
+                <SettingsOutlinedIcon/>&nbsp; Settings{" "}
                 </a>
                 <a className="dropdown-item" onClick={handleLogout}>
-                  <i className="bi bi-power text-primary"></i>&nbsp;Logout{" "}
+                <PowerSettingsNewOutlinedIcon className="mui-icons power-logout"/>
+              &nbsp;Logout{" "}
                 </a>
               </div>
             </li>

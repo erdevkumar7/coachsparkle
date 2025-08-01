@@ -9,6 +9,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '@/lib/validationSchema';
 import { toast } from 'react-toastify';
+import EastIcon from '@mui/icons-material/East';
+
 
 export default function LoginForm() {
     const searchParams = useSearchParams();
@@ -168,7 +170,7 @@ export default function LoginForm() {
                                     ) : (
                                         <>
                                             Log in
-                                            <i className="bi bi-arrow-right"></i>
+                                            <EastIcon className='mui-icons'/>
                                         </>
                                     )}
                                 </button>

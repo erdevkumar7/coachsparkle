@@ -28,9 +28,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import EastIcon from '@mui/icons-material/East';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-
-
-
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [coaches, setCoaches] = useState([]);

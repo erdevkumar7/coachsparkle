@@ -10,6 +10,8 @@ import { HandleAuthLogout, HandleValidateToken } from "@/app/api/auth";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+
 
 export default function Header({ user }) {
   const router = useRouter();
@@ -223,7 +225,7 @@ export default function Header({ user }) {
                         />
                         <p className="top-name-add">
                           {user?.first_name}{" "}
-                          <i className="bi bi-chevron-down"></i>
+                          <KeyboardArrowDownOutlinedIcon/>
                         </p>
                       </a>
 
