@@ -67,10 +67,9 @@ export default function favourite() {
           {favouriteCoaches.length > 0 ? (
             favouriteCoaches.map((item, index) => {
               const coach = item.coach;
-              const fullName =
-                coach.display_name || `${coach.first_name} ${coach.last_name}`;
+              const fullName =`${coach.first_name} ${coach.last_name}`;
               const imageUrl = coach.profile_image
-                ? `/coachsparkle/uploads/profile/${coach.profile_image}`
+                ? `${coach.profile_image}`
                 : "/coachsparkle/assets/images/professional-img.png";
 
               return (
