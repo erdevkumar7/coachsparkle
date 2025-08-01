@@ -18,10 +18,12 @@ export default async function UserLayout({ children }) {
     <>
     <Header user={user} error={error} removeToken={removeToken}/>
       {/* <UserHeader user={user} error={error} removeToken={removeToken} /> */}
-
-      <div className="container user-wrapper user-page-add">
+ 
+      <div className="top-user-section-add">
+       <div className="container user-wrapper user-page-add">
         <UserSideBarComp user={user} />
         {children}
+      </div>
       </div>
     </>
   );

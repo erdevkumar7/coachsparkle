@@ -121,6 +121,11 @@
 .preview-item-content {
   padding-left: 15px;
 }
+.at-glance-add svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
+  color: #27c200;
+  font-size: 20px;
+}
+
 .user-wrapper {
     -webkit-flex-direction: row;
     flex-direction: row;
@@ -130,8 +135,11 @@
     display: -webkit-flex;
     display: flex;
 }
-.user-wrapper {
+/* .user-wrapper {
   padding-top: 150px !important;
+} */
+.top-user-section-add {
+  margin-top: 60px;
 }
 
 

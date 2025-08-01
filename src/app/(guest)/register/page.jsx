@@ -14,6 +14,12 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Image from 'next/image';
+import { FRONTEND_BASE_URL } from "@/utiles/config";
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+
+
 
 
 const style = {
@@ -32,7 +38,7 @@ const style = {
 export default function Register() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const router = useRouter();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -171,8 +177,15 @@ export default function Register() {
                                             type={showPassword ? "text" : "password"}
                                             {...register("password")}
                                         />
-                                        <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
-                                            onClick={togglePassword} id="togglePassword" style={{ cursor: 'pointer' }}></i>
+                                           {showPassword ? (
+                                            <VisibilityOffOutlinedIcon onClick={togglePassword} style={{ cursor: 'pointer' }} />
+                                            ) : (
+                                            <RemoveRedEyeOutlinedIcon onClick={togglePassword} style={{ cursor: 'pointer' }} />
+                                            )}
+
+
+                                        {/* <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                            onClick={togglePassword} id="togglePassword" style={{ cursor: 'pointer' }}></i> */}
                                     </div>
                                     {errors.password && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.password.message}</p>}
                                 </div>
@@ -217,14 +230,14 @@ export default function Register() {
             </div>
 
             {/* Mui modal for EmailMeassage       */}
-            <Modal
+            <Modal className="verify-email-add"
                 open={open}
                 onClose={(_, reason) => {
                     if (reason !== 'backdropClick') handleClose(); // prevent closing on outside click
                 }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-            >
+                >
                 <Box sx={style}>
                     <IconButton
                         onClick={handleClose}
@@ -239,10 +252,12 @@ export default function Register() {
                     </IconButton>
 
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
+                    <Image src={`${FRONTEND_BASE_URL}/images/verify-img.png`} alt="Image 1" className="img-fluid" width={1000} height={226} />
+
+                        <h4>Please verify your email</h4>
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                        <p>Your registration has been successful. <br/> Verification email sent to your registered email id</p>
                     </Typography>
                 </Box>
             </Modal>
