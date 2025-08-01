@@ -5,6 +5,7 @@ import { Box, Popover, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import "../_styles/booking_availability.css";
 
@@ -14,7 +15,7 @@ export default function DateTimeRangeSelector({
   isProUser,
 }) {
   const [startDateTime, setStartDateTime] = React.useState(dayjs());
-  const [endDateTime, setEndDateTime] = React.useState(dayjs().add(1, "hour"));
+  const [endDate, setEndDate] = React.useState(dayjs().add(1, "hour"));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -28,10 +29,10 @@ const handleClose = () => {
   setFormData((prevFormData) => ({
     ...prevFormData,
     booking_availability_start: startDateTime.format("YYYY-MM-DD HH:mm"),
-    booking_availability_end: endDateTime.format("YYYY-MM-DD HH:mm"),
+    booking_availability_end: endDate.format("YYYY-MM-DD"),
   }));
   console.log("Selected Start:", startDateTime.format("YYYY-MM-DD HH:mm"));
-console.log("Selected End:", endDateTime.format("YYYY-MM-DD HH:mm"));
+console.log("Selected End:", endDate.format("YYYY-MM-DD"));
 
 };
 
@@ -39,7 +40,7 @@ console.log("Selected End:", endDateTime.format("YYYY-MM-DD HH:mm"));
   const open = Boolean(anchorEl);
 
   const formatRange = (start, end) => {
-    return `${start.format("MMM D, h:mm A")} - ${end.format("MMM D, h:mm A")}`;
+    return `${start.format("MMM D, h:mm A")} - ${end.format("MMM D")}`;
   };
 
   return (
@@ -47,7 +48,7 @@ console.log("Selected End:", endDateTime.format("YYYY-MM-DD HH:mm"));
       <TextField
         fullWidth
         className="range-picker-field"
-        value={formatRange(startDateTime, endDateTime)}
+        value={formatRange(startDateTime, endDate)}
         onClick={handleOpen}
         readOnly
       />
@@ -68,18 +69,18 @@ console.log("Selected End:", endDateTime.format("YYYY-MM-DD HH:mm"));
             value={startDateTime}
             onChange={(newValue) => {
               setStartDateTime(newValue);
-              if (newValue && newValue.isAfter(endDateTime)) {
-                setEndDateTime(newValue.add(1, "hour"));
+              if (newValue && newValue.isAfter(endDate)) {
+                setEndDate(newValue.add(1, "hour"));
               }
             }}
             minDateTime={dayjs()}
             disabled={!isProUser}
           />
-          <DateTimePicker
-            label="End Date & Time"
-            minDateTime={startDateTime}
-            value={endDateTime}
-            onChange={(newValue) => setEndDateTime(newValue)}
+          <DatePicker
+            label="End Date"
+            minDate={startDateTime.startOf("day")}
+            value={endDate}
+            onChange={(newValue) => setEndDate(newValue)}
             disabled={!isProUser}
           />
           <Box textAlign="right">

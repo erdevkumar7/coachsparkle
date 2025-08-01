@@ -24,9 +24,10 @@ import BreadCrumb from "@/components/BreadCrumb";
 import Pagination from "@/components/Pagination";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import EastIcon from '@mui/icons-material/East';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import FavIcon from '../../_components/coach-detail/FavIcon';
+
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -35,15 +36,15 @@ export default function CoachList() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
   ];
 
+
+
   useEffect(() => {
     getAllCoaches(currentPage);
   }, [currentPage]);
-
   const getAllCoaches = async (page = 1) => {
     setLoading(true);
     try {
@@ -54,7 +55,7 @@ export default function CoachList() {
         method: "POST",
         url: `${apiUrl}/coachlist?page=${page}`,
       });
-
+console.log("coach:", response.data.data)
       setCoaches(response.data.data);
       setPagination(response.data.pagination);
     } catch (error) {
@@ -335,7 +336,8 @@ export default function CoachList() {
                     </div>
                     <div className="fav-list">
                       <span>
-                        <FavoriteBorderIcon className="mui-icons" />
+                        {/* <FavoriteBorderIcon className="mui-icons" /> */}
+                        <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite}/>
                       </span>
                     </div>
                   </div>

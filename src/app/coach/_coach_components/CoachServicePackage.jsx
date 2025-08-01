@@ -393,17 +393,37 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       {" "}
                       Duration per session
                     </label>
-                    <input
+                    {/* <select
                       required
-                      type="number"
-                      min={1}
-                      max={180}
-                      name="session_duration"
-                      onChange={handleChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      id="session_duration"
+                      name="session_duration"
+                      value={formData.session_duration}
+                      onChange={handleChange}
+                    >
+                      <option value="">Select</option>
+                      <option value="05">05 Min</option>
+                      <option value="10">10 Min</option>
+                      <option value="15">15 Min</option>
+                      <option value="20">20 Min</option>
+                      <option value="25">25 Min</option>
+                      <option value="30">30 Min</option>
+                      <option value="35">35 Min</option>
+                      <option value="40">40 Min</option>
+                      <option value="45">45 Min</option>
+                      <option value="50">50 Min</option>
+                      <option value="55">55 Min</option>
+                      <option value="60">60 Min</option>
+                      </select> */}
+                      <input
+                        required
+                        type="time"
+                        name="session_duration"
+                        onChange={handleChange}
+                        disabled={!isProUser}
+                        className={`form-control ${
+                          !isProUser ? "disabled-bg" : ""
+                        }`}
                     />
                   </div>
 

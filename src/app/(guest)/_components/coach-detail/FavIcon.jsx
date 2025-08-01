@@ -37,8 +37,6 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
     const isValid = await validateUser();
     if (!isValid) return;
 
-
-
     try {
       const response = await axios.post(
         `${apiUrl}/addRemoveCoachFavorite`,
@@ -57,7 +55,7 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
     } catch (error) {
       console.error("Favorite API error:", error);
       toast.error("Something went wrong.");
-    } 
+    }
   };
 
   return (
