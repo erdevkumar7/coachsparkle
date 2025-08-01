@@ -41,7 +41,6 @@ export default function CoachList() {
   ];
 
 
-
   useEffect(() => {
     getAllCoaches(currentPage);
   }, [currentPage]);

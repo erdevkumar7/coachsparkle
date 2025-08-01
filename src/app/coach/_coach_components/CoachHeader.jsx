@@ -12,6 +12,7 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+import { toast } from "react-toastify";
 
 
 
@@ -34,6 +35,7 @@ export default function CoachHeader() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     router.push('/login');
+    toast.success("Logout Successful!")
   };
 
   return (
