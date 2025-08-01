@@ -11,6 +11,11 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+
+
 
 
 export default function Header({ user }) {
@@ -161,7 +166,8 @@ export default function Header({ user }) {
                         <a className="dropdown-item preview-item">
                           <div className="preview-thumbnail">
                             <div className="preview-icon bg-warning">
-                              <i className="bi bi-gear mx-0"></i>
+                             <SettingsOutlinedIcon className="mui-icons"/>
+                              
                             </div>
                           </div>
                           <div className="preview-item-content">
@@ -234,14 +240,14 @@ export default function Header({ user }) {
                         aria-labelledby="profileDropdown"
                       >
                         <a className="dropdown-item">
-                          <i className="bi bi-gear mx-0"></i>&nbsp; Settings{" "}
+                         <SettingsOutlinedIcon/> &nbsp; Settings{" "}
                         </a>
                         {user?.user_type == 2 && (
                           <Link
                             className="dropdown-item"
                             href={"/user/profile"}
                           >
-                            <i className="bi bi-person-circle mx-0"></i>&nbsp;
+                            <AccountCircleOutlinedIcon/>&nbsp;
                             Profile{" "}
                           </Link>
                         )}
@@ -255,7 +261,7 @@ export default function Header({ user }) {
                           </Link>
                         )}
                         <a className="dropdown-item" onClick={handleLogout}>
-                          <i className="bi bi-power text-primary"></i>
+                          <PowerSettingsNewOutlinedIcon className="mui-icons power-icons"/>
                           &nbsp;Logout{" "}
                         </a>
                       </div>

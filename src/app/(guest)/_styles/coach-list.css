@@ -110,9 +110,9 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
   object-fit: cover;
   object-position: top;
   border-radius: 20px 20px 0 0;
-  width: auto;
+  width: 236px;
   height: 200px;
-}
+} 
 
 .card-img-top {
   width: 100%;
@@ -1209,7 +1209,7 @@ textarea {
 }
 .coach-profile-list-left .coaches-view-cards .card-body {
   border: 1px solid #e7e7e7;
-  width: 236px;
+  width: 215px;
   height: 200px;
   padding: 10px 10px 20px;
   box-shadow: 0 2px 15px #0000001a;

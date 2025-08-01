@@ -38,9 +38,12 @@ const style = {
 export default function Register() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const router = useRouter();
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false);
+        router.push('/login');
+    }
 
     const [userType, setUserType] = useState(null);
     const [countries, setCountries] = useState([]);
@@ -117,7 +120,8 @@ export default function Register() {
 
         if (res.success) {
             toast.success("Registration successful!");
-            router.push('/login');
+            setOpen(true);
+            // router.push('/login');
             // router.push('/login?registered=1');
         } else {
             setGeneralError(res.message);
@@ -253,8 +257,10 @@ export default function Register() {
 
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                     <Image src={`${FRONTEND_BASE_URL}/images/verify-img.png`} alt="Image 1" className="img-fluid" width={1000} height={226} />
-
-                        <h4>Please verify your email</h4>
+                    <Typography variant="h4" component="h4">
+                      Please verify your email
+                   </Typography>
+                        
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         <p>Your registration has been successful. <br/> Verification email sent to your registered email id</p>
