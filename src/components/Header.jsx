@@ -17,8 +17,6 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 
 
-
-
 export default function Header({ user }) {
   const router = useRouter();
 
