@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from 'js-cookie';
 import { HandleAuthLogout, HandleValidateToken } from "@/app/api/auth";
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 
 export default function UserHeader({ user, error, removeToken }) {
   const router = useRouter()

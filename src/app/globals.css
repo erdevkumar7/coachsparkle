@@ -20,14 +20,33 @@
     align-items: center;
     gap: 10px;
 }
-
-.logout-add-head p.top-name-add {
-    color: #000;
-    margin-bottom: 0;
-    font-weight: 500;
-    font-size: 15px;
+.verify-email-add .MuiBox-root.css-15gzur4 {
+  border: none;
+  width: 45%;
+  text-align: center;
+  border-radius: 18px;
+  padding: 40px;
+}
+.verify-email-add img.img-fluid {
+  width: 25%;
+}
+.verify-email-add h4 {
+  padding-top: 15px;
+  font-size: 21px;
 }
 
+.password-add svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
+  margin-top: 11px;
+  margin-left: -35px;
+  font-size: 22px !important;
+  height: 22px !important;
+}
+.logout-add-head p.top-name-add {
+  margin-bottom: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a !important;
+}
 .logout-add-head p.top-name-add {
     color: #000 !important;
     margin-bottom: 0;
@@ -2560,7 +2579,10 @@ select:focus-visible {
   border-bottom: 2px solid #00aaff;
   color: #000000;
 }
-
+.login-right-side .login-container .login-btn .mui-icons {
+  font-size: 20px;
+  margin-left: 8px;
+}
 .login-right-side .login-container .login-form {
   display: flex;
   flex-direction: column;

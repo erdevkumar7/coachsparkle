@@ -1028,10 +1028,10 @@ li.nav-item.nav-profile.dropdown a#profileDropdown {
   gap: 10px;
 }
 p.top-name-add {
-  margin-bottom: 0px;
   color: #1A1A1A;
-  font-weight: 500;
+  margin-bottom: 0;
   font-size: 15px;
+  font-weight: 500;
 }
 
  nav#sidebar i {
@@ -1933,6 +1933,16 @@ td.edit-add-btn button {
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link {
   color: inherit;
   font-size: 1rem;
+}
+.dropdown-menu.dropdown-menu-right.navbar-dropdown.show a.dropdown-item svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
+  font-size: 20px;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-icons.power-logout.css-1umw9bq-MuiSvgIcon-root {
+  color: #009bfa;
+}
+
+a#notificationDropdown {
+  color: #1A1A1A;
 }
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-search {
   margin-left: 2rem;

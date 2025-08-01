@@ -14,7 +14,9 @@
   margin: auto;
   display: flex;
 }
-
+a#notificationDropdown {
+  color: #1A1A1A;
+}
 .coach-top-navber-add a.Login-navbar {
   color: #000000 !important;
   font-weight: 700;

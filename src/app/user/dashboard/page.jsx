@@ -5,6 +5,9 @@ import "../_styles/dashboard.css";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+
 
 export default function UserDashboard() {
     const router = useRouter();
@@ -58,7 +61,7 @@ export default function UserDashboard() {
                             <h5 className="font-medium">
                                 {user?.first_name} {user?.last_name}{" "}
                                 <span className="text-green-500 text-sm">
-                                    <i className="bi bi-check-circle-fill"></i>
+                                <CheckCircleIcon/>
                                 </span>
                             </h5>
                             <p className="text-sm text-gray-500">User</p>

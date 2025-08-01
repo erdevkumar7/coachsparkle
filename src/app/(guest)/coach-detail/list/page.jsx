@@ -26,9 +26,12 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import EastIcon from '@mui/icons-material/East';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+<<<<<<< HEAD
 import FavIcon from '../../_components/coach-detail/FavIcon';
 
 
+=======
+>>>>>>> b30b3dbdb82844309780460598844b0d9f17cf5a
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
