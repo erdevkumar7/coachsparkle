@@ -4,33 +4,32 @@ import Calendar from "@/components/Calendar";
 import { useRouter } from "next/navigation";
 
 const mockSlots = {
-  "2025-07-20": [
+  "2025-08-04": ["3:00pm", "4:00pm"],
+  "2025-08-05": [
     "09:00am",
     "09:30am",
     "10:00am",
     "10:30am",
     "11:00am",
-    "11:30am",
-    "12:00pm",
-    "12:30pm",
-    "1:00pm",
-    "1:30pm",
-    "2:00pm",
-    "2:30pm",
   ],
-  "2025-07-21": ["09:00am", "10:00am", "11:00am"],
-  "2025-07-26": ["1:00pm", "2:00pm"],
-  "2025-08-02": ["3:00pm", "4:00pm"],
+  "2025-08-06": ["1:00pm", "2:00pm"],
+  "2025-08-08": ["09:00am", "10:00am", "11:00am"],
   "2026-01-02": ["12:00pm", "12:30pm"],
+
 };
 
-export default function Booking() {
+// const mockSlots = {
+//   "" : []
+// }
+
+export default function Booking({ coach_id, package_id, packageData }) {
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(null);
   const [timeSlots, setTimeSlots] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const router = useRouter();
-
+  console.log('packageData', packageData)
 
   useEffect(() => {
     const key = selectedDate.toLocaleDateString("en-CA");
@@ -64,38 +63,41 @@ export default function Booking() {
             />
           </div>
 
-          <div className="fw-semibold mb-2 title">Sarah Lee</div>
+          <div className="fw-semibold mb-2 title">
+            {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
+          </div>
           <div className="fw-bold mb-1 package-name">
-            Confidence Jumpstart Session
+            {packageData?.coach_profile?.session_title}
           </div>
           <div className="small text-muted package-desc">
-            A one-time deep-dive session to assess your confidence blocks, set
-            clear goals, and walk away with a custom action plan.
+            {packageData?.coach_profile?.short_description}
           </div>
 
           <div className="session-info">
             <ul className="list-unstyled small text-muted">
               <li className="d-flex align-items-start">
                 <i className="bi bi-receipt me-2 pkg-icons"></i>
-                <span>$290 / Package</span>
+                <span>{packageData?.coach_profile?.session_price}</span>
               </li>
-              <li className="d-flex align-items-start">
-                <i className="bi bi-people me-2 pkg-icons"></i>
-                <span>4 Sessions</span>
-              </li>
-              <li className="d-flex align-items-start">
+              {packageData?.coach_profile?.session_count &&
+                <li className="d-flex align-items-start">
+                  <i className="bi bi-people me-2 pkg-icons"></i>
+                  <span>{packageData?.coach_profile?.session_count} Session</span>
+                </li>}
+
+              {packageData?.coach_profile?.session_duration && <li className="d-flex align-items-start">
                 <i className="bi bi-clock me-2 pkg-icons"></i>
-                <span>60 min / Session</span>
-              </li>
+                <span>{packageData?.coach_profile?.session_duration} min / Session</span>
+              </li>}
+
               <li className="d-flex align-items-start">
                 <i className="bi bi-camera-video me-2 pkg-icons"></i>
                 <span>Zoom</span>
               </li>
+
               <li className="d-flex align-items-start">
                 <i className="bi bi-x-circle me-2 pkg-icons"></i>
-                <span>
-                  Flexible - Full refund if canceled ≥ 24 hours before session
-                </span>
+                <span> Flexible - Full refund if canceled ≥ 24 hours before session</span>
               </li>
               <li className="d-flex align-items-start">
                 <i className="bi bi-calendar-check me-2 pkg-icons"></i>
@@ -149,7 +151,7 @@ export default function Booking() {
                                   <div className="modal-header text-white flex-column align-items-start">
                                     <div className="d-flex align-items-center mb-2">
                                       <h5 className="modal-title mb-0">
-                                      <span className="me-2 fs-4">✅</span>
+                                        <span className="me-2 fs-4">✅</span>
                                         Booking Confirmed Breakthrough Package with Sarah Lee
                                       </h5>
                                     </div>
