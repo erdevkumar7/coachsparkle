@@ -340,30 +340,39 @@ export default function UserDashboard() {
 
                             <div className="coach-card">
                                 <h3 className="card-title">Your Favourite Coach</h3>
-<div className="coach-list">
-  {favoriteCoaches.length > 0 ? (
-    favoriteCoaches.map((coach) => (
-      <div className="coach-item" key={coach.id}>
-        <img
-          src={
-            coach.profile_image
-              ? `/coachsparkle/uploads/profile/${coach.profile_image}`
-              : "/coachsparkle/assets/images/professional-img.png"
-          }
-          alt="Coach Image"
-          className="coach-img"
-          onError={(e) => {
-            e.target.src = "/coachsparkle/assets/images/professional-img.png";
-          }}
-        />
-        <span className="coach-name">{coach.name}</span>
-        <button className="btn-book">Book Now</button>
-      </div>
-    ))
-  ) : (
-    <p>No favorite coaches found.</p>
-  )}
-</div>
+                                <div className="coach-list">
+                                {favoriteCoaches.length > 0 ? (
+                                    favoriteCoaches.map((item) => {
+                                    const coach = item.coach;
+                                    return (
+                                        <div className="coach-item" key={coach?.id}>
+                                        <img
+                                            src={coach?.profile_image || "/coachsparkle/assets/images/professional-img.png"}
+                                            alt="Coach"
+                                            className="coach-img"
+                                            onError={(e) => {
+                                            e.target.src = "/coachsparkle/assets/images/professional-img.png";
+                                            }}
+                                        />
+                                        <span className="coach-name">
+                                            {coach?.first_name} {coach?.last_name}
+                                            <p className="coach-desc-title">
+                                                {coach?.professional_title} at{" "}
+                                                <b>{coach.company_name || "Unknown Company"}</b>.
+                                            </p>
+                                            <i className="bi bi-star-fill"></i>
+                            {coach.reviews.rating || "5.0"}
+                                        </span>
+
+                                        <button className="btn-book">Book Now</button>
+                                        </div>
+                                    );
+                                    })
+                                ) : (
+                                    <p>No favorite coaches found.</p>
+                                )}
+                                </div>
+
 
                                     {/* <div className="coach-item">
                                         <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />

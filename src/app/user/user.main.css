@@ -2060,6 +2060,12 @@ h3.font-weight-bold.quick-text-add {
   font-size: 13px;
   color: gray;
 }
+
+.coach-card p.coach-desc-title {
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
 .profile-view-cards p.views-text {
   font-size: 16px;
 }

@@ -614,7 +614,7 @@ export default async function Home() {
       <div className="choose-plan-you">
         <div className="container">
           <h1 className="text-center">
-            Freee for Everyone <br />
+            Free for Everyone <br />
             Premium for Coaches Who Want More
           </h1>
           <p className="text-center">Whether you’re searching for your next coach or listing your expertise,
