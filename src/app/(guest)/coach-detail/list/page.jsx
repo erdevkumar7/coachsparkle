@@ -22,12 +22,12 @@ import HalfRating from "../../_components/CoachRatings";
 import CoachAvail from "../../_components/CoachSideCalendar";
 import BreadCrumb from "@/components/BreadCrumb";
 import Pagination from "@/components/Pagination";
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import EastIcon from '@mui/icons-material/East';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import FavIcon from '../../_components/coach-detail/FavIcon';
-
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import EastIcon from "@mui/icons-material/East";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import FavIcon from "../../_components/coach-detail/FavIcon";
+import Cookies from "js-cookie";
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -40,21 +40,33 @@ export default function CoachList() {
     { label: "Explore Coaches", href: "/coach-detail/list" },
   ];
 
-
   useEffect(() => {
     getAllCoaches(currentPage);
   }, [currentPage]);
   const getAllCoaches = async (page = 1) => {
     setLoading(true);
     try {
-      const response = await axios({
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        url: `${apiUrl}/coachlist?page=${page}`,
-      });
-console.log("coach:", response.data.data)
+      const token = Cookies.get("token");
+      let userId = null;
+
+      if (token) {
+        const user = localStorage.getItem("user");
+        if (user) {
+          const parsedUser = JSON.parse(user);
+          userId = parsedUser.id;
+        }
+      }
+
+      const response = await axios.post(
+        `${apiUrl}/coachlist?page=${page}`,
+        userId ? { user_id: userId } : {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("coach:", response.data.data);
       setCoaches(response.data.data);
       setPagination(response.data.pagination);
     } catch (error) {
@@ -115,12 +127,10 @@ console.log("coach:", response.data.data)
                 <option>25</option>
                 <option>50</option>
               </select>
-
             </div>
           </div>
         </div>
         <div className="container list-start">
-
           <aside className="sidebar">
             <input
               type="text"
@@ -259,22 +269,14 @@ console.log("coach:", response.data.data)
             </div>
           </aside>
 
-
-
           {loading ? (
             <main className="main-content">
               <p>Loading...</p>
             </main>
           ) : coaches.length > 0 ? (
             <main className="main-content">
-
-
-
-
-
               {coaches.map((coach, index) => (
                 <div className="coach-card" key={index}>
-
                   <img
                     src={
                       coach.profile_image
@@ -296,7 +298,6 @@ console.log("coach:", response.data.data)
                         </div>
                         <p className="reviews-text">
                           <StarOutlineIcon className="mui-icons" />
-
                           <span>5.0</span> (21 reviews)
                         </p>
                         <p className="senior-engineer-text">
@@ -315,11 +316,13 @@ console.log("coach:", response.data.data)
                           {coach.price ? `$${coach.price}/month` : "N/A"}
                         </p>
                         <button className="book">
-                          Book Now <EastIcon className="mui-icons fav-list-icons" />
+                          Book Now{" "}
+                          <EastIcon className="mui-icons fav-list-icons" />
                         </button>
                         <Link href={`/coach-detail/${coach.user_id}`}>
                           <button className="profile">
-                            View Profile <EastIcon className="mui-icons fav-list-icons" />
+                            View Profile{" "}
+                            <EastIcon className="mui-icons fav-list-icons" />
                           </button>
                         </Link>
                       </div>
@@ -336,7 +339,10 @@ console.log("coach:", response.data.data)
                     <div className="fav-list">
                       <span>
                         {/* <FavoriteBorderIcon className="mui-icons" /> */}
-                        <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite}/>
+                        <FavIcon
+                          coachId={coach.user_id}
+                          initiallyFavorited={coach?.is_fevorite}
+                        />
                       </span>
                     </div>
                   </div>
@@ -345,7 +351,9 @@ console.log("coach:", response.data.data)
 
               <div className="info1">
                 <p>Couldn't find what you are looking for?</p>
-                <button className="ai-mtc">Try AI Match <EastIcon className="mui-icons east-icons-add" /></button>
+                <button className="ai-mtc">
+                  Try AI Match <EastIcon className="mui-icons east-icons-add" />
+                </button>
               </div>
 
               <div className="paginaetd-icons">
