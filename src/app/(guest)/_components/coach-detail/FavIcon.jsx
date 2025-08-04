@@ -7,9 +7,11 @@ import { HandleValidateToken } from "@/app/api/auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { usePathname } from "next/navigation";
 
-export default function FavIcon({ coachId, initiallyFavorited}) {
+export default function FavIcon({ coachId, initiallyFavorited }) {
   const router = useRouter();
+  const pathname = usePathname();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const token = Cookies.get("token");
   const [isFavorited, setIsFavorited] = useState(initiallyFavorited);
@@ -17,7 +19,7 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
   const validateUser = async () => {
     if (!token) {
       toast.error("Login first");
-      router.push(`/login?redirect=/coach-detail/${coachId}`);
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
       return false;
     }
 
@@ -61,7 +63,7 @@ export default function FavIcon({ coachId, initiallyFavorited}) {
   return (
     <span onClick={handleClick} style={{ cursor: "pointer" }}>
       {isFavorited ? (
-        <FavoriteIcon className="mui-icons text-danger" />
+        <FavoriteIcon className="mui-icons" style={{ color: "white" }} />
       ) : (
         <FavoriteBorderIcon className="mui-icons" />
       )}

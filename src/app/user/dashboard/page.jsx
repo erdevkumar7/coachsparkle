@@ -12,6 +12,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 export default function UserDashboard() {
     const router = useRouter();
     const [user, setUser] = useState(null);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const [favoriteCoaches, setFavoriteCoaches] = useState([]);
 
     useEffect(() => {
         const token = Cookies.get('token');
@@ -32,8 +34,52 @@ export default function UserDashboard() {
             setUser(tokenData.data)
         };
 
-        fetchUser();
-    }, []);
+ const fetchAllFavorites = async () => {
+      const token = Cookies.get("token");
+      const perPage = 4;
+      let pageNum = 1;
+      let allFavorites = [];
+      let hasMore = true;
+
+      try {
+        while (hasMore) {
+          const response = await fetch(
+            `${apiUrl}/coachFavoriteList?page=${pageNum}&per_page=${perPage}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const result = await response.json();
+          console.log("fav:", response);
+
+          if (result?.data?.length > 0) {
+            allFavorites = [...allFavorites, ...result.data];
+            pageNum++;
+          } else {
+            hasMore = false;
+          }
+        }
+
+        // Sort by newest first
+        const sorted = allFavorites.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+
+        // Take latest 3
+        setFavoriteCoaches(sorted.slice(0, 3));
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+
+    fetchAllFavorites();
+    fetchUser();
+  }, []);
 
     return (
         <div className="main-panel">
@@ -294,23 +340,36 @@ export default function UserDashboard() {
 
                             <div className="coach-card">
                                 <h3 className="card-title">Your Favourite Coach</h3>
-                                <div className="coach-list">
-                                    <div className="coach-item">
-                                        <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                        <span className="coach-name">Tracy McCoy</span>
-                                        <button className="btn-book">Book Now</button>
-                                    </div>
-                                    <div className="coach-item">
-                                        <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                        <span className="coach-name">Jim Saw</span>
-                                        <button className="btn-book">Book Now</button>
-                                    </div>
-                                    <div className="coach-item">
+<div className="coach-list">
+  {favoriteCoaches.length > 0 ? (
+    favoriteCoaches.map((coach) => (
+      <div className="coach-item" key={coach.id}>
+        <img
+          src={
+            coach.profile_image
+              ? `/coachsparkle/uploads/profile/${coach.profile_image}`
+              : "/coachsparkle/assets/images/professional-img.png"
+          }
+          alt="Coach Image"
+          className="coach-img"
+          onError={(e) => {
+            e.target.src = "/coachsparkle/assets/images/professional-img.png";
+          }}
+        />
+        <span className="coach-name">{coach.name}</span>
+        <button className="btn-book">Book Now</button>
+      </div>
+    ))
+  ) : (
+    <p>No favorite coaches found.</p>
+  )}
+</div>
+
+                                    {/* <div className="coach-item">
                                         <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                         <span className="coach-name">Jammy Vardy</span>
                                         <button className="btn-book">Book Now</button>
-                                    </div>
-                                </div>
+                                    </div> */}
                             </div>
                         </div>
 

@@ -11,11 +11,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import { toast } from "react-toastify";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
-
-
 
 
 export default function Header({ user }) {
@@ -27,6 +26,7 @@ export default function Header({ user }) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     router.push("/login");
+    toast.success("Logout Successful!")
   };
 
   return (
@@ -167,7 +167,7 @@ export default function Header({ user }) {
                           <div className="preview-thumbnail">
                             <div className="preview-icon bg-warning">
                              <SettingsOutlinedIcon className="mui-icons"/>
-                              
+
                             </div>
                           </div>
                           <div className="preview-item-content">

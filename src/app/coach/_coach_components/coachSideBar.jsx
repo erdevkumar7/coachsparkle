@@ -16,12 +16,23 @@ import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
+import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
 
 
 
 export default function CoachSideBarComp() {
     const { user } = useUser();
     const router = useRouter();
+
+          const handleSignout = () => {
+            // HandleAuthLogout()
+            Cookies.remove("token");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            router.push("/login");
+            toast.success("Signout Successful!")
+          };
 
     return (
         <nav className="sidebar sidebar-offcanvas add-sdbar" id="sidebar">
@@ -148,7 +159,7 @@ export default function CoachSideBarComp() {
                 </li>
 
 
-                <li className="nav-item sign-out">
+                <li className="nav-item sign-out" onClick={handleSignout}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div
                         >

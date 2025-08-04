@@ -1,6 +1,7 @@
 'use client';
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import AppsIcon from '@mui/icons-material/Apps';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
@@ -13,6 +14,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { toast } from "react-toastify";
 
 
 
@@ -20,6 +22,14 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 export default function UserSideBarComp({user}) {
     const router = useRouter();
 
+      const handleSignout = () => {
+        // HandleAuthLogout()
+        Cookies.remove("token");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        router.push("/login");
+        toast.success("Signout Successful!")
+      };
 
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
@@ -143,7 +153,7 @@ export default function UserSideBarComp({user}) {
                 </li>
 
 
-                <li className="nav-item sign-out">
+                <li className="nav-item sign-out" onClick={handleSignout}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                         <LogoutOutlinedIcon/>
