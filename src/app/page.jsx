@@ -11,6 +11,8 @@ import Image from 'next/image';
 import EastIcon from '@mui/icons-material/East';
 import CheckIcon from '@mui/icons-material/Check';
 import { HandleValidateTokenOnServer } from "./api/user";
+import Link from "next/link";
+import { getLatestMasterBlogs } from "./api/guest";
 
 
 export default async function Home() {
@@ -19,6 +21,8 @@ export default async function Home() {
   if (tokenData) {
     user = tokenData?.data
   }
+
+  const blogs = await getLatestMasterBlogs();
 
   return (
     <>
@@ -562,51 +566,35 @@ export default async function Home() {
         <div className="container">
           <h1>Latest Articles</h1>
           <p>Read Articles Contributed by Featured Coaches</p>
-          <div className="row latest-articles-inner">
-            <div className="articles-btn-top">
-              <a href="#" className="articles-btn-add">All articles</a>
-            </div>
-            <div className="latest-articles-cards-content">
-              <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
-                <div className="card h-100">
-                  <Image src={`${FRONTEND_BASE_URL}/images/articles-img-one.webp`} alt="Coach Image" width={1000} height={226} />
-
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">Article Heading</h5>
-                    <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
-                    <p className="card-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem...</p>
-                    <a href="#" className="read-more-btn">Read More..</a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
-                <div className="card h-100">
-                  <Image src={`${FRONTEND_BASE_URL}/images/articles-img-two.webp`} alt="latest articles" width={1000} height={226} />
-
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">Article Heading</h5>
-                    <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
-                    <p className="card-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem...</p>
-                    <a href="#" className="read-more-btn">Read More..</a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-12 col-sm-6 col-md-4 latest-articles-cards">
-                <div className="card h-100">
-                  <Image src={`${FRONTEND_BASE_URL}/images/articles-img-three.webp`} alt="latest articles" width={1000} height={226} />
-
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">Article Heading</h5>
-                    <h6><i className="bi bi-calendar"></i> Apr 30, 2025</h6>
-                    <p className="card-text">Sed ut perspiciatis unde omnis iste natus error sit voluptatem...</p>
-                    <a href="#" className="read-more-btn">Read More..</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div className="row latest-articles-inner">
+  <div className="articles-btn-top">
+    <Link href="/articles" className="articles-btn-add">All articles</Link>
+  </div>
+  <div className="latest-articles-cards-content row">
+    {blogs.map((blog) => (
+      <div className="col-12 col-sm-6 col-md-4 latest-articles-cards" key={blog.id}>
+        <div className="card h-100">
+          <Image
+            src={blog.blog_image}
+            alt={blog.blog_name}
+            width={1000}
+            height={226}
+            className="card-img-top"
+          />
+          <div className="card-body d-flex flex-column">
+            <h5 className="card-title">{blog.blog_name}</h5>
+            <h6><i className="bi bi-calendar"></i> {new Date(blog.created_at).toLocaleDateString()}</h6>
+            <p className="card-text">
+              {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 80)}...
+            </p>
+            <Link href={`/coachsparkle/articles/${blog.id}`} className="read-more-btn">Read More..</Link>
           </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
         </div>
       </div>
 
