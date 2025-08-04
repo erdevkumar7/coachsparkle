@@ -55,8 +55,6 @@ export default function UserDashboard() {
           );
 
           const result = await response.json();
-          console.log("fav:", response);
-
           if (result?.data?.length > 0) {
             allFavorites = [...allFavorites, ...result.data];
             pageNum++;
@@ -65,12 +63,10 @@ export default function UserDashboard() {
           }
         }
 
-        // Sort by newest first
         const sorted = allFavorites.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
 
-        // Take latest 3
         setFavoriteCoaches(sorted.slice(0, 3));
       } catch (error) {
         console.error("Error fetching favorites:", error);
@@ -361,7 +357,7 @@ export default function UserDashboard() {
                                                 <b>{coach.company_name || "Unknown Company"}</b>.
                                             </p>
                                             <i className="bi bi-star-fill"></i>
-                            {coach.reviews.rating || "5.0"}
+                                            {coach.reviews.rating || "5.0"}
                                         </span>
 
                                         <button className="btn-book">Book Now</button>
@@ -372,8 +368,6 @@ export default function UserDashboard() {
                                     <p>No favorite coaches found.</p>
                                 )}
                                 </div>
-
-
                                     {/* <div className="coach-item">
                                         <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
                                         <span className="coach-name">Jammy Vardy</span>

@@ -122,3 +122,18 @@ export const getAllCoachServices = async () => {
     });
     return await res.json();
 }
+
+export const getLatestMasterBlogs = async () => {
+  const res = await fetch(`${apiUrl}/getmasterblogs`, {
+    method: 'POST',
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  const json = await res.json();
+  if (json?.success && Array.isArray(json.data)) {
+    return json.data.slice(0, 3);
+  }
+  return [];
+};
