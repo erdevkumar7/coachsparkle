@@ -9,7 +9,7 @@ export default function ChatSupportWrapper() {
 
   return (
     <>
-    <SmsOutlinedIcon className='mui-icons support-icon' onClick={() => setIsOpen(!isOpen)}
+    <SmsOutlinedIcon className='mui-icons support-icon-coach' onClick={() => setIsOpen(!isOpen)}
         style={{
           position: 'fixed',
           bottom: 20,

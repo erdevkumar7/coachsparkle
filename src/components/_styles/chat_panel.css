@@ -2,9 +2,12 @@
     font-size: 36px;
     font-weight: 500;
     margin-left: 30px;
-    margin-top: 30px;
+    margin-top: 0px;
     margin-bottom: 30px;
 }
+/* h3.message-board-text {
+    margin-top: 0px;
+} */
 
 .chat-message-start nav{
     flex-wrap: wrap !important;

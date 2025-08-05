@@ -196,11 +196,23 @@ h3.font-weight-bold.quick-text-add.my-changes {
 .upload-btn {
     color: #009bfa;
     cursor: pointer;
-    border: 0;
+    border: 1px solid #009bfa;
     border-radius: 10px;
     align-items: center;
     gap: 6px;
-    padding: 10px 0px;
+    padding: 10px 18px;
     font-size: 14px;
     display: inline-flex;
 }
+
+/* .user-upload-pic .upload-btn {
+    padding: 10px 18px;
+    font-size: 14px;
+    border: 1px solid #009bfa;
+    color: #009BFA;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+} */
