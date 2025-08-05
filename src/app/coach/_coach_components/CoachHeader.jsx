@@ -34,6 +34,7 @@ export default function CoachHeader() {
     Cookies.remove('token');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    window.location.reload();
     router.push('/login');
     toast.success("Logout Successful!")
   };

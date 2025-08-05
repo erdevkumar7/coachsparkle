@@ -6,6 +6,8 @@ import {
   getAllContries,
   getAllLanguages,
   getAllCoachingCategory,
+  getcoachExperienceLevel,
+  getMasterBudgetRange,
 } from "@/app/api/guest";
 import { useRouter } from "next/navigation";
 import "../_styles/coach_request_form.css";
@@ -22,6 +24,8 @@ export default function SendCoachingRequest() {
   const [countries, setCountries] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [coachingCategory, setCoachingCategory] = useState([]);
+  const [experienceLevel, setExperienceLevel] = useState([]);
+  const [budgetRange, setBudgetRange] = useState([]);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -42,7 +46,7 @@ if (!token) {
 
     const fetchData = async () => {
       try {
-        const [coachTypeRes, ageGroupRes, deliveryModeRes, countriesRes, languagesRes, coachingCategoryRes] =
+        const [coachTypeRes, ageGroupRes, deliveryModeRes, countriesRes, languagesRes, coachingCategoryRes, experienceLevelRes, budgetRangeRes] =
           await Promise.all([
             getCoachType(),
             getAgeGroup(),
@@ -50,6 +54,8 @@ if (!token) {
             getAllContries(),
             getAllLanguages(),
             getAllCoachingCategory(),
+            getcoachExperienceLevel(),
+            getMasterBudgetRange(),
           ]);
         setCoachType(coachTypeRes);
         setAgeGroup(ageGroupRes);
@@ -57,6 +63,8 @@ if (!token) {
         setCountries(countriesRes);
         setLanguages(languagesRes);
         setCoachingCategory(coachingCategoryRes);
+        setExperienceLevel(experienceLevelRes.data || []);
+        setBudgetRange(budgetRangeRes.data || []);
       } catch (err) {
         console.error("Error fetching data:", err);
       }
@@ -77,6 +85,8 @@ if (!token) {
       countries={countries}
       languages={languages}
       coachingCategory={coachingCategory}
+      experienceLevel={experienceLevel}
+      budgetRange={budgetRange}
       />
     </>
   );

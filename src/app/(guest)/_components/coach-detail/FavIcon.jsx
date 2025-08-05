@@ -63,9 +63,9 @@ export default function FavIcon({ coachId, initiallyFavorited }) {
   return (
     <span onClick={handleClick} style={{ cursor: "pointer" }}>
       {isFavorited ? (
-        <FavoriteIcon className="mui-icons" style={{ color: "white" }} />
+        <FavoriteIcon className="mui-iconss" style={{ color: "white" }} />
       ) : (
-        <FavoriteBorderIcon className="mui-icons" />
+        <FavoriteBorderIcon className="mui-iconss" />
       )}
     </span>
   );

@@ -22,13 +22,16 @@ import Image from 'next/image';
 import LanguageIcon from '@mui/icons-material/Language';
 import AdjustIcon from '@mui/icons-material/Adjust';
 import { HandleValidateTokenOnServer } from "@/app/api/user";
+import Link from "next/link";
+import { getLatestMasterBlogs } from "../../../api/guest";
 
 
 
 export default async function CoachDetail({ params }) {
+
   const { coach_id } = await params;
    const tokenData = await HandleValidateTokenOnServer();
-  
+  const blogs = await getLatestMasterBlogs();
    let fav_user_id;
     if (tokenData) {
       fav_user_id = tokenData.data.id
@@ -202,7 +205,7 @@ export default async function CoachDetail({ params }) {
                         <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite}/>
                       </div>
                       <div className="coach-action-share-icon">
-                       <ShareIcon className="mui-icons share-icons-add"/>
+                       <ShareIcon className="mui-iconss share-icons-add"/>
                       </div>
                       <div className="tags">
                         {coach?.service_names &&
@@ -233,58 +236,25 @@ export default async function CoachDetail({ params }) {
                   <div className="about-section publs_artcl">
                     <h4>Published Articles</h4>
                     <div className="artcl-flex">
-                      <div className="item-artcl">
-                      <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}  alt="Team Image"
+                    {blogs.map((blog) => (
+                      <div className="item-artcl" key={blog.id}>
+                      <Image src={blog.blog_image} alt={blog.blog_name}
                           className="top-image" width={1000} height={226} />
 
                         <div className="item-cont1">
                           <h4>
-                            5 Strategies to Boost Self-Confidence in the
-                            Workplace
+                            {blog.blog_name}
                           </h4>
                           <p>
-                            Discover practical techniques enhance your
-                            confidence at work and navigate professional
-                            challenges with assurance.
+                            {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 200)}...
                           </p>
-                          <button>Read Article</button>
+                           {/* <Link href={`/coachsparkle/articles/${blog.id}`}><button>Read Article</button></Link> */}
+                           <Link href={`#`}><button>Read Article</button></Link>
                         </div>
                       </div>
-                      <div className="item-artcl">
-                      <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}  alt="Team Image"
-                          className="top-image" width={1000} height={226} />
+                    ))}
+                      </div>
 
-                        <div className="item-cont1">
-                          <h4>
-                            5 Strategies to Boost Self-Confidence in the
-                            Workplace
-                          </h4>
-                          <p>
-                            Discover practical techniques enhance your
-                            confidence at work and navigate professional
-                            challenges with assurance.
-                          </p>
-                          <button>Read Article</button>
-                        </div>
-                      </div>
-                      <div className="item-artcl">
-                      <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`}  alt="Team Image"
-                          className="top-image" width={1000} height={226} />
-
-                        <div className="item-cont1">
-                          <h4>
-                            5 Strategies to Boost Self-Confidence in the
-                            Workplace
-                          </h4>
-                          <p>
-                            Discover practical techniques enhance your
-                            confidence at work and navigate professional
-                            challenges with assurance.
-                          </p>
-                          <button>Read Article</button>
-                        </div>
-                      </div>
-                    </div>
                   </div>
 
                   {similarCoachData.data?.length > 0 && <div className="about-section sim-coachs">

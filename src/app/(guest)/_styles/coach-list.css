@@ -2011,7 +2011,7 @@ button.ai-mtc {
   height: 120px;
   margin-bottom: 15px;
   border-radius: 10px;
-  object-fit: cover;
+  object-fit: fill;
 }
 .artcl-flex .item-cont1 h4 {
   font-size: 16px;
@@ -2136,3 +2136,10 @@ button.ai-mtc {
   font-size: 15px;
 }
 
+.coach-profile-list-inner .mui-iconss {
+    width: 20px !important;
+    height: 46px !important;
+    justify-content: center;
+    display: flex
+;
+}
