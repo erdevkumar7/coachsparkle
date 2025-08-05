@@ -315,7 +315,8 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   max-width: 780px;
 }
 .latest-articles-cards img {
-  width: 100%;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
 }
 .row.counters-inner-content .four.col-md-4 {
   width: 29.3333%;
