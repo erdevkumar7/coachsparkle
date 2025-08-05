@@ -579,7 +579,6 @@ export default async function Home() {
             alt={blog.blog_name}
             width={1000}
             height={226}
-            className="card-img-top"
           />
           <div className="card-body d-flex flex-column">
             <h5 className="card-title">{blog.blog_name}</h5>
