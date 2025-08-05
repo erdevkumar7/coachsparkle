@@ -34,7 +34,6 @@
     display: flex;
     padding: 8px 0px;
 }
-
 .faq-support-add button.btn.btn-primary {
     color: #fff;
     cursor: pointer;
@@ -43,7 +42,7 @@
     border-radius: 12px;
     align-items: center;
     gap: 6px;
-    padding: 12px 28px;
+    padding: 8px 28px;
     font-size: 15px;
     display: flex;
 }
@@ -79,7 +78,7 @@
     border: 1px solid #009bfa;
     border-radius: 50px;
     align-items: center;
-    height: 48px;
+    height: 45px;
     padding: 6px 35px;
     font-size: 14px;
     font-weight: 500;

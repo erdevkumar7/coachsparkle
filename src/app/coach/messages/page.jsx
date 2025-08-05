@@ -163,7 +163,7 @@ ${(
 
   return (
     <div className="main-panel">
-      <h3>Message Board</h3>
+      <h3 className="message-board-text">Message Board</h3>
       <div className="content-panel">
         <ChatPanel
           tabs={tabs}

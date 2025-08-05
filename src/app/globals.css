@@ -2957,7 +2957,6 @@ select:focus-visible {
   margin-top: -22px !important;
 }
 
-
 .people-love-living .swiper-pagination-bullet-active {
   background-color: #007bff;
 }
@@ -2966,5 +2965,19 @@ select:focus-visible {
   opacity: 999;
   background-color: #000000;
 }
+
+.dedicated-career-coach-left a.learn-more-btn-add .mui-icons {
+  font-size: 20px;
+}
+
+.view-all-btn .mui-icons {
+  font-size: 20px;
+}
+
+.user-list-plan.pro-coach-plan-add i.bi.bi-check {
+  padding: 2px;
+}
+
+
 
 

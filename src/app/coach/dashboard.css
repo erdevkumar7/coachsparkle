@@ -449,8 +449,8 @@ p.coach-name-text {
   height: 45px;
   padding: 12px 10px;
   font-family: Inter;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 14px !important;
+  font-weight: 600 !important;
   width: 55%;
 }
 
@@ -506,14 +506,18 @@ i.bi.bi-star-fill {
   border: none;
   border-radius: 12px;
   width: 30%;
+  height: 45px;
   margin-top: 30px;
   margin-bottom: 10px;
   padding: 12px 0;
+  font-family: Inter;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Inter';
-  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .details-add-btn {
   display: flex;
   justify-content: right;
@@ -630,23 +634,27 @@ i.bi.bi-eye {
   text-align: right;
 }
 .rating-reviews .view-all button {
-  font-weight: bold;
   color: #fff;
   cursor: pointer;
   background: #009bfa;
   border: none;
   border-radius: 12px;
   width: 25%;
+  height: 45px;
   margin-top: 30px;
   margin-bottom: 10px;
   padding: 12px 0;
   font-size: 14px;
-  height: 45px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
 }
 i.bi.bi-arrow-right {
   margin-left: 5px;
+  font-size: 20px;
 }
-
 .reviews-right-side .session-card {
   padding: 16px;
 }
@@ -713,7 +721,11 @@ i.bi.bi-arrow-right {
   margin-bottom: 10px;
   padding: 12px 0;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
 }
 .rating-reviews {
   gap: 30px;
@@ -845,8 +857,9 @@ td.sed-tab p {
 
 .services-performances .footer-btn {
   text-align: right;
+  display: flex;
+  justify-content: right;
 }
-
 .services-performances .manage-btn {
   color: #fff;
   cursor: pointer;
@@ -859,9 +872,11 @@ td.sed-tab p {
   margin-bottom: 10px;
   padding: 12px 0;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 tbody.growth-package td {
   font-family: Inter;
   font-size: 15px;
@@ -2885,7 +2900,7 @@ ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
   flex-grow: 1;
 }
 .coach-wrap {
-  padding-top: 15px;
+  padding-top: 0px;
   padding-right: 0px;
 }
 

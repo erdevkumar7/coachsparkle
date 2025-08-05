@@ -650,7 +650,7 @@ export default async function Home() {
                   <p>Maximize your reach and revenue with advanced tools, full visibility and priority matching</p>
                   <h2>$<span className="number-add">190</span></h2>
                   {/* <span className="save">Save <span> $50 </span> a year</span> */}
-                  <div className="user-list-plan">
+                  <div className="user-list-plan pro-coach-plan-add">
                     <ul>
                       <li><i className="bi bi-check"></i>Featured Listing In Unlimited Categories With Priority</li>
                       <li><i className="bi bi-check"></i>3000 Character, Intro Video & Media Gallery</li>
