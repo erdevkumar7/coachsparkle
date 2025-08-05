@@ -148,11 +148,21 @@
   min-height: 100vh;
   padding-top: 0;
 }
-
-
+.inner-card-add .new-add-comeing p.font-medium {
+  font-size: 14px !important;
+  margin-bottom: 0px !important;
+}
+.boder-line-add .inner-card-add .bg-gray-100.rounded-xl.p-4.text-center {
+  padding: 8px !important;
+}
 .max-w-5xl.mx-auto.px-4.at-glance-add .grid.grid-cols-2.sm\:grid-cols-3.md\:grid-cols-5.gap-3.inner-card-add {
     gap: 5px !important;
 }
+
+.inner-card-add .bg-gray-100.rounded-xl.p-4.text-center {
+  align-items: flex-start !important;
+}
+
 .goals-progress .left-column button.msg-btn {
     color: #009bfa;
     cursor: pointer;
@@ -165,6 +175,10 @@
     font-size: 14px;
     width: 25%;
 }
+.inner-card-add img {
+  width: 50px;
+}
+
 
 
 .user-update-btn {
@@ -173,9 +187,10 @@
   background: #009bfa;
   border: none;
   border-radius: 12px;
-  padding: 12px 15px;
+  padding: 8px 15px;
   font-size: 14px;
-
+  display: flex;
+  align-items: center;
 }
 .goals-progress .right-column button.btn.view {
   color: #fff;

@@ -40,11 +40,11 @@
     object-fit: cover !important;
     border: 2px solid #e5e7eb !important;
     border-radius: 50% !important;
-    width: 72px !important;
-    height: 72px !important;
+    width: 55px !important;
+    height: 55px !important;
 }
 
-.upload-btn label {
+.upload-btn {
     color: #009bfa !important;
     cursor: pointer !important;
     border: 1px solid #009bfa !important;

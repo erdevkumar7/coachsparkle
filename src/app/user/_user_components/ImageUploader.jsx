@@ -40,7 +40,7 @@ export default function UserImageUploader ({ image, user_type }) {
 
     return (
 
-        <div className="upload-photo-add">
+        <div className="upload-photo-add user-upload-pic">
             <img 
             src={preview || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
              alt="profile" />
