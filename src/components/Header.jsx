@@ -6,7 +6,6 @@ import "./_styles/header.css";
 import Link from "next/link";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
-import { HandleAuthLogout, HandleValidateToken } from "@/app/api/auth";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
@@ -18,13 +17,22 @@ import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOu
 
 
 export default function Header({ user }) {
+
+  const [hasMounted, setHasMounted] = useState(false);
   const router = useRouter();
+
+    useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) return null;
 
   const handleLogout = () => {
     // HandleAuthLogout()
     Cookies.remove("token");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+     window.location.reload();
     router.push("/login");
     toast.success("Logout Successful!")
   };

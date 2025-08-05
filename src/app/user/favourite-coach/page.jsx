@@ -67,31 +67,30 @@ export default function favourite() {
   };
 
   const handleRemoveFavourite = async (coachId) => {
-  try {
-    const resp = await fetch(`${apiUrl}/addRemoveCoachFavorite`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ coach_id: coachId }),
-    });
+    try {
+      const resp = await fetch(`${apiUrl}/addRemoveCoachFavorite`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ coach_id: coachId }),
+      });
 
-    const data = await resp.json();
+      const data = await resp.json();
 
-    if (!data.status) {
-      toast.error(data.message || "Could not remove coach");
-      return;
+      if (!data.status) {
+        toast.error(data.message || "Could not remove coach");
+        return;
+      }
+
+      toast.success("Coach removed from favourites");
+      fetchUserFavourites(currentPage);
+    } catch (error) {
+      console.error("Remove error:", error);
+      toast.error("Something went wrong");
     }
-
-    toast.success("Coach removed from favourites");
-    fetchUserFavourites(currentPage);
-  } catch (error) {
-    console.error("Remove error:", error);
-    toast.error("Something went wrong");
-  }
-};
-
+  };
 
   return (
     <div className="main-panel">
@@ -106,6 +105,8 @@ export default function favourite() {
               const imageUrl = coach.profile_image
                 ? `${coach.profile_image}`
                 : "/coachsparkle/assets/images/professional-img.png";
+              const typeName =
+                item?.coach_subtype_usershow?.coach_subtypeid?.coach_type_show?.type_name;
 
               return (
                 <div className="col-md-6 favourite-card" key={index}>
@@ -154,7 +155,7 @@ export default function favourite() {
                             <b>{coach.company_name || "Unknown Company"}</b>.
                           </p>
                           <p className="confidence-add-text">
-                            Experienced In {coach.coach_type}
+                            Experienced In {typeName}
                           </p>
                           <div className="star-add-pointer">
                             <i className="bi bi-star-fill"></i>

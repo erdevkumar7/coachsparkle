@@ -582,11 +582,16 @@ export default async function Home() {
           />
           <div className="card-body d-flex flex-column">
             <h5 className="card-title">{blog.blog_name}</h5>
-            <h6><i className="bi bi-calendar"></i> {new Date(blog.created_at).toLocaleDateString()}</h6>
+            <h6><i className="bi bi-calendar"></i> {new Date(blog.created_at).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  })}</h6>
             <p className="card-text">
               {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 80)}...
             </p>
-            <Link href={`/coachsparkle/articles/${blog.id}`} className="read-more-btn">Read More..</Link>
+            <Link href={`#`} className="read-more-btn">Read More..</Link>
+            {/* <Link href={`/coachsparkle/articles/${blog.id}`} className="read-more-btn">Read More..</Link> */}
           </div>
         </div>
       </div>

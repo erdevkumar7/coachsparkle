@@ -17,6 +17,8 @@ export default function RequestForm({
   countries,
   languages,
   coachingCategory,
+  experienceLevel,
+  budgetRange
 }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(false);
@@ -322,7 +324,7 @@ export default function RequestForm({
                     </option>
                     {ageGroup.map((item, index) => (
                       <option key={item.id} value={item.id}>
-                        {item.group_name}
+                        {item.group_name} {item.age_range ? `(${item.age_range})` : ""}
                       </option>
                     ))}
                   </select>
@@ -358,12 +360,21 @@ export default function RequestForm({
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Budget Range</label>
-                  <input
-                    type="text"
-                    className="form-input"
+                  <select
+                    className="form-selectbox"
                     {...register("budget_range")}
                     disabled={loading}
-                  />
+                  >
+                    <option value="" disabled>
+                      Select budget range
+                    </option>
+                    {budgetRange.map((budget) => (
+                      <option key={budget.id} value={budget.id}>
+                        {budget.budget_range}
+                      </option>
+                    ))}
+
+                    </select>
                   {errors.budget_range && (
                     <p className="text-danger">{errors.budget_range.message}</p>
                   )}
@@ -403,12 +414,20 @@ export default function RequestForm({
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">Coach Experience Level*</label>
-                  <input
-                    type="text"
-                    className="form-input"
+                  <select
+                    className="form-selectbox"
                     {...register("coach_experience_level")}
                     disabled={loading}
-                  />
+                  >
+                    <option value="" disabled>
+                      Select experience level
+                    </option>
+                    {experienceLevel.map((exp) => (
+                      <option key={exp.id} value={exp.id}>
+                        {exp.experience_level}
+                      </option>
+                    ))}
+                  </select>
                   {errors.coach_experience_level && (
                     <p className="text-danger">
                       {errors.coach_experience_level.message}

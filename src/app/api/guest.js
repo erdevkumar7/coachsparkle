@@ -123,6 +123,26 @@ export const getAllCoachServices = async () => {
     return await res.json();
 }
 
+export const getcoachExperienceLevel = async () => {
+    const res = await fetch(`${apiUrl}/coachExperienceLevel`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await res.json();
+}
+
+export const getMasterBudgetRange = async () => {
+    const res = await fetch(`${apiUrl}/getMasterBudgetRange`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await res.json();
+}
+
 export const getLatestMasterBlogs = async () => {
   const res = await fetch(`${apiUrl}/getmasterblogs`, {
     method: 'POST',
@@ -134,6 +154,21 @@ export const getLatestMasterBlogs = async () => {
   const json = await res.json();
   if (json?.success && Array.isArray(json.data)) {
     return json.data.slice(0, 3);
+  }
+  return [];
+};
+
+export const getMasterBlogs = async () => {
+  const res = await fetch(`${apiUrl}/getmasterblogs`, {
+    method: 'POST',
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  const json = await res.json();
+  if (json?.success && Array.isArray(json.data)) {
+    return json.data;
   }
   return [];
 };
