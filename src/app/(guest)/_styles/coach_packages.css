@@ -473,3 +473,18 @@
   height: 25px !important;
 color: #212529bf;
 }
+
+
+.calendar-day-custom.multi-selected {
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 500;
+}
+
+.calendar-day-custom.selected {
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 600;
+}

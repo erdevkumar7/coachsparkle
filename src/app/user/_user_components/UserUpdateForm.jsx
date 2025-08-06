@@ -9,7 +9,7 @@ import { userProfileSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
-export default function UserUpdateFormData({ user, countries, deliveryMode }) {
+export default function UserUpdateFormData({ user, countries, deliveryMode, ageGroup }) {
   const router = useRouter();
   const [getToken, setToken] = useState();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -209,11 +209,12 @@ const onSubmit = async (data) => {
           <div className="form-group">
             <label htmlFor="ageGroup">Age Group (Learner’s Demographic)</label>
             <select id="ageGroup" {...register("ageGroup")} disabled={loading}>
-              <option value="">Select</option>
-              <option value="children">Children</option>
-              <option value="teens">Teens</option>
-              <option value="adults">Adults</option>
-              <option value="seniors">Seniors</option>
+              <option value="">Select Age Group</option>
+              {ageGroup.map((age) => (
+                <option key={age.id} value={age.id}>
+                  {age.group_name} {age.age_range ? `(${age.age_range})` : ""}
+                </option>
+              ))}
             </select>
           </div>
 

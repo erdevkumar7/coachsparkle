@@ -3,7 +3,7 @@ import axios from "axios";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 
-export const getCoachById = async (id, user_id) => {  
+export const getCoachById = async (id, user_id) => {
     const res = await fetch(
         `${apiUrl}/coachDetails?id=${id}`,
         {
@@ -49,7 +49,7 @@ export const similarCoaches = async (coach_id) => {
 
 export const packageByPackageId = async (coach_id, package_id) => {
     if (!package_id || !coach_id) return null;
-   
+
     const res = await fetch(`${apiUrl}/getServicePackageById/${coach_id}/${package_id}`,
         {
             method: "POST",
@@ -65,7 +65,7 @@ export const packageByPackageId = async (coach_id, package_id) => {
 
 export const packageIdsByCoachId = async (coach_id) => {
     if (!coach_id) return null;
-   
+
     const res = await fetch(`${apiUrl}/get_AarrayOfServicePackageIds_ByCoachId/${coach_id}`,
         {
             method: "POST",
@@ -86,7 +86,7 @@ export const updateCoachData = async (form, getToken) => {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
         },
-      });
+    });
 
       return res;
 }
