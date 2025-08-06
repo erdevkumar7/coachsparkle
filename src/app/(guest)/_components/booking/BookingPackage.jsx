@@ -65,7 +65,11 @@ export default function BookingPackage({ pkg, allPackages }) {
       {showBooking ? (
         <>
           <div>
-            <Booking />
+            <Booking
+  coach_id={pkg.coach_id}
+  package_id={pkg.id}
+  packageData={pkg}
+/>
           </div>
         </>
       ) : (

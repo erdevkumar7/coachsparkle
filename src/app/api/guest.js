@@ -143,6 +143,16 @@ export const getMasterBudgetRange = async () => {
     return await res.json();
 }
 
+export const getCommunicationChannels = async () => {
+    const res = await fetch(`${apiUrl}/communicationChannels`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await res.json();
+}
+
 export const getLatestMasterBlogs = async () => {
   const res = await fetch(`${apiUrl}/getmasterblogs`, {
     method: 'POST',
@@ -171,4 +181,19 @@ export const getMasterBlogs = async () => {
     return json.data;
   }
   return [];
+};
+
+export const fetchAvailability = async (packageId) => {
+    const res = await fetch(`${apiUrl}/date_time_avalibility`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({package_id: packageId}),
+    });
+
+    const data = await res.json();
+    if(!data.success) throw new Error(data.message || "Failed to fetch");
+
+    return data.data;
 };

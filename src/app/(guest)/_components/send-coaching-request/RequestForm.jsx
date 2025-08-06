@@ -18,7 +18,8 @@ export default function RequestForm({
   languages,
   coachingCategory,
   experienceLevel,
-  budgetRange
+  budgetRange,
+  communicationChannels
 }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(false);
@@ -297,7 +298,11 @@ export default function RequestForm({
                   <option value="" disabled>
                     Select communication channel
                   </option>
-                  <option value={1}>Video Call</option>
+                    {communicationChannels.map((communication) => (
+                      <option key={communication.id} value={communication.id}>
+                        {communication.category_name}
+                      </option>
+                    ))}
                 </select>
                 {errors.preferred_communication_channel && (
                   <p className="text-danger">
@@ -322,7 +327,7 @@ export default function RequestForm({
                     <option value="" disabled>
                       Select age
                     </option>
-                    {ageGroup.map((item, index) => (
+                    {ageGroup.map((item) => (
                       <option key={item.id} value={item.id}>
                         {item.group_name} {item.age_range ? `(${item.age_range})` : ""}
                       </option>
