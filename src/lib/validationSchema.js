@@ -217,23 +217,27 @@ export const requestSchema = yup.object().shape({
 
 
 export const userProfileSchema = yup.object().shape({
-  first_Name: yup.string().required("First name is required"),
-  last_Name: yup.string(),
+  first_name: yup.string().required("First name is required"),
+  last_name: yup.string(),
   display_name: yup.string().required("Display name is required"),
   email: yup.string().email('Please provide valid email').required("Email is required"),
   country_id: yup.string().required("Please select your country"),
-  professional_profile: yup.string(),
   professional_title: yup.string(),
-  topics: yup.string(),
-  ageGroup: yup.string(),
-  goal1: yup.string(),
-  goal2: yup.string(),
-  goal3: yup.string(),
-  language: yup.string(),
-  mode: yup.string(),
-  timings: yup.string(),
-  bio: yup.string(),
-  coachAgreement: yup.bool(),
+  professional_title: yup.string(),
+  prefer_coaching_topic: yup.string(),
+  age_group: yup.string(),
+  coaching_goal_1: yup.string(),
+  coaching_goal_2: yup.string(),
+  coaching_goal_3: yup.string(),
+  language_names: yup
+  .array()
+  .of(yup.number().required())
+  .min(1, "At least one language must be selected")
+  .required("Language is required"),
+  prefer_mode: yup.string(),
+  prefer_coaching_time: yup.string(),
+  short_bio: yup.string(),
+  coach_agreement: yup.bool(),
 });
 
 

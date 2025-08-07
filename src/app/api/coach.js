@@ -10,7 +10,7 @@ export const getCoachById = async (id, user_id) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id, user_id }),
-            cache: "no-store", // prevent caching if dynamic
+            cache: "no-store",
         }
     );
     const result = await res.json();

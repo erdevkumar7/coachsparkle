@@ -2,7 +2,7 @@ import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import UserUpdateFormData from "../_user_components/UserUpdateForm";
 import { getUserProfileData } from "@/app/api/user";
-import { getAllContries, getDeliveryMode, getAgeGroup } from "@/app/api/guest";
+import { getAllContries, getDeliveryMode, getAgeGroup, getAllLanguages } from "@/app/api/guest";
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {
@@ -16,6 +16,7 @@ export default async function Profile() {
     const countries = await getAllContries();
     const deliveryMode = await getDeliveryMode();
     const ageGroup = await getAgeGroup();
+    const languages = await getAllLanguages();
 
 
     return (
@@ -47,6 +48,7 @@ export default async function Profile() {
                             countries={countries}
                             deliveryMode={deliveryMode}
                             ageGroup={ageGroup}
+                            languages={languages}
                         />
                     </div>
                 </div>

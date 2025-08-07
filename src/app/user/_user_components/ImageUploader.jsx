@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
+import { toast } from "react-toastify";
 
 export default function UserImageUploader ({ image, user_type }) {
     const [preview, setPreview] = useState(image);
@@ -27,21 +28,21 @@ export default function UserImageUploader ({ image, user_type }) {
 
             const result = await response.json();
             if (result.success) {
-                alert("Profile image updated successfully!");
+                toast.success("Profile image updated successfully!");
                 setPreview(result.profile_image); // update the preview without reloading
             } else {
-                alert(result.message || "Failed to upload image.");
+                toast.error(result.message || "Failed to upload image.");
             }
         } catch (error) {
             console.error("Upload error:", error);
-            alert("Something went wrong.");
+            toast.error("Something went wrong.");
         }
     };
 
     return (
 
         <div className="upload-photo-add user-upload-pic">
-            <img 
+            <img
             src={preview || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
              alt="profile" />
             <div className="upload-btn">

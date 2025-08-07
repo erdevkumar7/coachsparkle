@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -9,16 +9,19 @@ import { userProfileSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
-export default function UserUpdateFormData({ user, countries, deliveryMode, ageGroup }) {
+export default function UserUpdateFormData({ user, countries, deliveryMode, ageGroup, languages }) {
   const router = useRouter();
   const [getToken, setToken] = useState();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(false);
+    const dropdownRef = useRef(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(userProfileSchema),
@@ -29,30 +32,34 @@ export default function UserUpdateFormData({ user, countries, deliveryMode, ageG
     getUserData();
 
     if (user) {
-      reset({
-        first_Name: user.first_name || "",
-        last_Name: user.last_name || "",
-        display_name: user.display_name || "",
-        email: user.email || "",
-        professional_profile: user.professional_profile || "",
-        professional_title: user.professional_title || "",
-        country_id: user.country_id || "",
-        topics: user.topics || "",
-        ageGroup: user.ageGroup || "",
-        goal1: user.goal1 || "",
-        goal2: user.goal2 || "",
-        goal3: user.goal3 || "",
-        language: user.language || "",
-        mode: user.mode || "",
-        timings: user.timings || "",
-        bio: user.bio || "",
-        coachAgreement: user.coachAgreement || false,
-      });
+reset({
+  first_name: user.first_name || "",
+  last_name: user.last_name || "",
+  display_name: user.display_name || "",
+  email: user.email || "",
+  professional_profile: user.professional_profile || "",
+  professional_title: user.professional_title || "",
+  country_id: user.country_id || "",
+  prefer_coaching_topic: user.coaching_topics || "",
+  age_group: user.userProfessional?.age_group || "",
+  coaching_goal_1: user.coaching_goal_1 || "",
+  coaching_goal_2: user.coaching_goal_2 || "",
+  coaching_goal_3: user.coaching_goal_3 || "",
+  language_names: user.language_ids || [],
+  prefer_mode: user.userProfessional?.delivery_mode || "",
+  prefer_coaching_time: user.coaching_time || "",
+  short_bio: user.short_bio || "",
+  coach_agreement: user.coach_agreement || false,
+});
     }
   }, [user]);
 
+  useEffect(() => {
+  console.log("Form errors", errors);
+}, [errors]);
+
+
   const getUserData = async () => {
-    //    const token = localStorage.getItem("token");
     const token = Cookies.get("token");
     if (!token) {
       router.push("/login");
@@ -61,32 +68,65 @@ export default function UserUpdateFormData({ user, countries, deliveryMode, ageG
     setToken(token);
   };
 
+    const toggleDropdown = () => {
+    dropdownRef.current.classList.toggle("show");
+  };
+
+const handleLanguageSelect = (id) => {
+  const current = watch("language_names") || [];
+  if (!current.includes(id)) {
+    setValue("language_names", [...current, id], { shouldValidate: true });
+  }
+};
+
+const removeLanguage = (id) => {
+  const current = watch("language_names") || [];
+  setValue("language_names", current.filter((l) => l !== id), { shouldValidate: true });
+};
+
+
+
+    useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      dropdownRef.current.classList.remove("show");
+    }
+  };
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
 const onSubmit = async (data) => {
   console.log("Submitting", data);
 
-  const formData = {
-    first_name: data.first_Name,
-    last_name: data.last_Name,
-    display_name: data.display_name,
-    email: data.email,
-    country_id: data.country_id,
-    professional_profile: data.professional_profile,
-    professional_title: data.professional_title,
-    topics: data.topics,
-    age_group: data.ageGroup,
-    goal1: data.goal1,
-    goal2: data.goal2,
-    goal3: data.goal3,
-    language: data.language,
-    mode: data.mode,
-    timings: data.timings,
-    bio: data.bio,
-    coach_agreement: data.coachAgreement,
-  };
+const formData = {
+  first_name: data.first_name,
+  last_name: data.last_name,
+  display_name: data.display_name,
+  email: data.email,
+  country_id: data.country_id,
+  short_bio: data.short_bio,
+  professional_profile: data.professional_profile,
+  professional_title: data.professional_title,
+  prefer_coaching_topic: data.prefer_coaching_topic,
+  age_group: data.age_group,
+  coaching_goal_1: data.coaching_goal_1,
+  coaching_goal_2: data.coaching_goal_2,
+  coaching_goal_3: data.coaching_goal_3,
+  language_names: data.language_names,
+  prefer_mode: data.prefer_mode,
+  prefer_coaching_time: data.prefer_coaching_time,
+  coach_agreement: data.coach_agreement,
+};
+
+
 
   try {
     setLoading(true);
-    const response = await axios.post(`${apiUrl}/updateProfile`, formData, {
+    const response = await axios.post(`${apiUrl}/updateUserProfile`, formData, {
       headers: {
         Authorization: `Bearer ${getToken}`,
         "Content-Type": "application/json",
@@ -113,13 +153,13 @@ const onSubmit = async (data) => {
             <label htmlFor="firstName">First Name*</label>
             <input
               type="text"
-              id="firstName"
-              {...register("first_Name")}
+              id="first_name"
+              {...register("first_name")}
               disabled={loading}
             />
-            {errors.first_Name && (
+            {errors.first_name && (
               <div className="invalid-feedback d-block">
-                {errors.first_Name.message}
+                {errors.first_name.message}
               </div>
             )}
           </div>
@@ -128,8 +168,8 @@ const onSubmit = async (data) => {
             <label htmlFor="lastName">Last Name</label>
             <input
               type="text"
-              id="lastName"
-              {...register("last_Name")}
+              id="last_name"
+              {...register("last_name")}
               disabled={loading}
             />
           </div>
@@ -197,18 +237,18 @@ const onSubmit = async (data) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="topics">Preferred Coaching Topics</label>
+            <label htmlFor="prefer_coaching_topic">Preferred Coaching Topics</label>
             <textarea
-              id="topics"
+              id="prefer_coaching_topic"
               rows="3"
-              {...register("topics")}
+              {...register("prefer_coaching_topic")}
               disabled={loading}
             ></textarea>
           </div>
 
           <div className="form-group">
-            <label htmlFor="ageGroup">Age Group (Learner’s Demographic)</label>
-            <select id="ageGroup" {...register("ageGroup")} disabled={loading}>
+            <label htmlFor="age_group">Age Group (Learner’s Demographic)</label>
+            <select id="age_group" {...register("age_group")} disabled={loading}>
               <option value="">Select Age Group</option>
               {ageGroup.map((age) => (
                 <option key={age.id} value={age.id}>
@@ -238,46 +278,83 @@ const onSubmit = async (data) => {
         </p>
 
         <div className="form-group goal">
-          <label htmlFor="goal1">Goal #1</label>
-          <input type="text" {...register("goal1")} disabled={loading} />
+          <label htmlFor="coaching_goal_1">Goal #1</label>
+          <textarea id="coaching_goal_1" rows="3" {...register("coaching_goal_1")} disabled={loading} ></textarea>
         </div>
 
         <div className="form-group goal">
-          <label htmlFor="goal1">Goal #2</label>
-          <input type="text" {...register("goal2")} disabled={loading} />
+          <label htmlFor="coaching_goal_2">Goal #2</label>
+          <textarea id="coaching_goal_2" rows="3" {...register("coaching_goal_2")} disabled={loading} ></textarea>
         </div>
 
         <div className="form-group goal">
-          <label htmlFor="goal1">Goal #3</label>
-          <input type="text" {...register("goal3")} disabled={loading} />
+          <label htmlFor="coaching_goal_3">Goal #3</label>
+          <textarea id="coaching_goal_3" {...register("coaching_goal_3")} disabled={loading} ></textarea>
         </div>
 
         <div className="form-row preference-input">
-          <div className="form-group">
-            <label htmlFor="language">Language Preference</label>
-            <input
-              type="text"
-              id="language"
-              placeholder="e.g., English, Hindi"
-              {...register("language")}
-              disabled={loading}
-            />
-          </div>
+          <div className="form-group position-relative">
+            <label htmlFor="language_names">Language Preference</label>
+                              <div className="form-select-multi" onClick={toggleDropdown}>
+                    {languages.map((language) => (
+                      <span key={language.id} value={language.id}></span>
+                    ))}
+                    {(watch("language_names") || []).map((langId) => {
+                      const language = languages.find((l) => l.id === langId);
+                      return (
+                        <span className="pill-tag" key={langId}>
+                          {language?.language || "Unknown"}
+                          <button
+                            type="button"
+                            onClick={() => removeLanguage(langId)}
+                          >
+                            &times;
+                          </button>
+                        </span>
+                      );
+                    })}
+                    <span className="dropdown-icon">&#9662;</span>
+                  </div>
 
+                  <ul className="dropdown-menu w-100" ref={dropdownRef}>
+                    {languages.map((lang) => (
+                      <li key={lang.id}>
+                        <button
+                          className="dropdown-item"
+                          type="button"
+                          onClick={() => handleLanguageSelect(lang.id)}
+                          disabled={(
+                            watch("language_names") || []
+                          ).includes(lang.id)}
+                        >
+                          {lang.language}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+
+          </div>
+                          {errors.language_names && (
+                <div className="invalid-feedback d-block">
+                  {errors.language_names.message}
+                </div>
+              )}
           <div className="form-group">
             <label htmlFor="mode">Preferred Mode</label>
-            <select id="mode" {...register("mode")} disabled={loading}>
+            <select id="prefer_mode" {...register("prefer_mode")} disabled={loading}>
               <option value="">Select Mode</option>
-              <option value="online">Online</option>
-              <option value="in-person">In-Person</option>
-              <option value="hybrid">Hybrid</option>
+                            {deliveryMode.map((mode) => (
+                <option key={mode.id} value={mode.id}>
+                  {mode.mode_name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
 
         <div className="form-group">
-          <label htmlFor="timings">Preferred Coaching Timings</label>
-          <select id="timings" {...register("timings")} disabled={loading}>
+          <label htmlFor="prefer_coaching_time">Preferred Coaching Timings</label>
+          <select id="prefer_coaching_time" {...register("prefer_coaching_time")} disabled={loading}>
             <option value="">Select Timing</option>
             <option value="morning">Morning (8 AM - 12 PM)</option>
             <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
@@ -288,12 +365,12 @@ const onSubmit = async (data) => {
         </div>
 
         <div className="form-group full-width">
-          <label htmlFor="bio">Short Bio (Optional)</label>
+          <label htmlFor="short_bio">Short Bio (Optional)</label>
           <textarea
-            id="bio"
+            id="short_bio"
             rows="3"
             placeholder="Write a short bio..."
-            {...register("bio")}
+            {...register("short_bio")}
             disabled={loading}
           ></textarea>
         </div>
@@ -301,11 +378,11 @@ const onSubmit = async (data) => {
         <div className="form-group check-box">
           <input
             type="checkbox"
-            id="coachAgreement"
-            {...register("coachAgreement")}
+            id="coach_agreement"
+            {...register("coach_agreement")}
             disabled={loading}
           />
-          <label htmlFor="coachAgreement">
+          <label htmlFor="coach_agreement">
             I agree to let Coach Sparkle match me with relevant coaches
           </label>
         </div>
