@@ -4,6 +4,7 @@ import Calendar from "@/components/Calendar";
 import { useRouter } from "next/navigation";
 import { fetchAvailability } from "@/app/api/guest";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 // const mockSlots = {
 //   "2025-08-04": ["3:00pm", "4:00pm"],
 //   "2025-08-05": [
@@ -24,6 +25,7 @@ import { toast } from "react-toastify";
 // }
 
 export default function Booking({ coach_id, package_id }) {
+  const router = useRouter();
   const [packageData, setPackageData] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -31,7 +33,8 @@ export default function Booking({ coach_id, package_id }) {
   const [timeSlots, setTimeSlots] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [sessionDates, setSessionDates] = useState([]);
-  const router = useRouter();
+
+
   console.log("packageData", packageData);
 
   useEffect(() => {
@@ -62,7 +65,7 @@ export default function Booking({ coach_id, package_id }) {
 
   useEffect(() => {
     if (!selectedDate) return;
-      const key = selectedDate.toISOString().slice(0, 10);
+    const key = selectedDate.toISOString().slice(0, 10);
     setTimeSlots(availability[key] || []);
     setSelectedTime(null);
 
@@ -125,6 +128,66 @@ export default function Booking({ coach_id, package_id }) {
 
     setSelectedDate(date);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // console.log(e)
+    const token = Cookies.get("token");
+    if (!token) {
+      // router.push("/login?redirect=/send-coaching-request");
+      router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`)
+      return;
+    }
+
+    // You should derive these from state instead of hardcoding
+    // const payload = {
+    //   package_id: packageData?.coach_profile?.package_id,
+    //   coach_id: packageData?.coach_profile?.coach_id,
+    //   slot_time_start: "10:00",
+    //   slot_time_end: "10:30",
+    //   session_date_start: "2025-07-06",
+    //   session_date_end: "2025-07-11",
+    //   amount: "299.99",
+    // };
+
+    const payload = {
+      "package_id": 24,
+      "coach_id": 103,
+      "slot_time_start": "10:00",
+      "slot_time_end": "10:30",
+      "session_date_start": "2025-07-06",
+      "session_date_end": "2025-07-11",
+      "amount": "299.99"
+    }
+
+    try {
+
+        const response = await fetch("/addPackageRequest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+   
+
+      if (result.status) {
+        toast.success("Booking Confirmed!");
+        setShowConfirmation(true);
+      } else {
+        toast.error(result.message || "Something went wrong.");
+      }
+    } catch (err) {
+      console.error("Error submitting package:", err);
+      toast.error("Network or server error.");
+    }
+  }
+
+  // console.log('dddddd')
 
   return (
     <div className="booking-container mt-5 mb-5 p-0">
@@ -205,189 +268,191 @@ export default function Booking({ coach_id, package_id }) {
             />
           )}
         </div>
-
-        <div className="time-panel p-4">
-          <div className="inner-panel">
-            <div className="fw-semibold mb-3">
-              {sessionDates.length > 1 ? (
-                <>
-                  {sessionDates[0]?.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}{" "}
-                  –{" "}
-                  {sessionDates[sessionDates.length - 1]?.toLocaleDateString(
-                    "en-US",
-                    {
+        <form onSubmit={handleSubmit}>
+          <div className="time-panel p-4">
+            <div className="inner-panel">
+              <div className="fw-semibold mb-3">
+                {sessionDates.length > 1 ? (
+                  <>
+                    {sessionDates[0]?.toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
-                    }
-                  )}
-                </>
-              ) : (
-                selectedDate?.toLocaleDateString("en-US", {
-                  weekday: "long",
-                  month: "long",
-                  day: "numeric",
-                })
-              )}
-            </div>
+                    })}{" "}
+                    –{" "}
+                    {sessionDates[sessionDates.length - 1]?.toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )}
+                  </>
+                ) : (
+                  selectedDate?.toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                  })
+                )}
+              </div>
 
-            <div className="time-slot-scroll">
-              {timeSlots.length > 0 ? (
-                timeSlots.map((slot, idx) => (
-                  <div key={idx} className="mb-2">
-                    {selectedTime === slot ? (
-                      <div className="d-flex">
+              <div className="time-slot-scroll">
+                {timeSlots.length > 0 ? (
+                  timeSlots.map((slot, idx) => (
+                    <div key={idx} className="mb-2">
+                      {selectedTime === slot ? (
+                        <div className="d-flex">
+                          <button
+                            className="time-slot-btn selected flex-fill me-2"
+                            onClick={() => setSelectedTime(slot)}
+                          >
+                            {slot}
+                          </button>
+                          <button
+                            type="submit"
+                            className="btn btn-primary btn-sm confirm-btn flex-fill"
+                          // onClick={() => setShowConfirmation(true)}
+                          >
+                            Confirm
+                          </button>
+                          {showConfirmation && (
+                            <>
+                              <div className="modal d-block booking-confirm-modal">
+                                <div className="modal-dialog modal-lg modal-dialog-centered">
+                                  <div className="modal-content rounded-4 overflow-hidden">
+                                    <div className="modal-header text-white flex-column align-items-start">
+                                      <div className="d-flex align-items-center mb-2">
+                                        <h5 className="modal-title mb-0">
+                                          <span className="me-2 fs-4">✅</span>
+                                          Booking Confirmed Breakthrough Package
+                                          with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
+                                        </h5>
+                                      </div>
+                                    </div>
+
+                                    <div className="modal-body">
+                                      <p>
+                                        Hi Emma Rosen,
+                                        <br />
+                                        Thank you for booking the{" "}
+                                        <strong>
+                                          {packageData?.coach_profile?.session_title} ({packageData?.coach_profile?.session_count} Sessions)
+                                        </strong>{" "}
+                                        with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}. Your journey toward
+                                        clarity and growth begins now!
+                                      </p>
+
+                                      <h6 className="fw-bold mt-4">
+                                        Package Details:
+                                      </h6>
+                                      <ul className="list-unstyled small">
+                                        <li>
+                                          <strong>Coach:</strong> {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
+                                        </li>
+                                        <li>
+                                          <strong>Dates:</strong> 15/08/2025 -
+                                          10/09/2025 (to be confirmed)
+                                        </li>
+                                        <li>
+                                          <strong>Number of Sessions:</strong> {packageData?.coach_profile?.session_count}
+                                        </li>
+                                        <li>
+                                          <strong>Session Format:</strong> Online
+                                          video (Zoom)
+                                        </li>
+                                        <li>
+                                          <strong>Weekly Use:</strong> Use all 3
+                                          sessions within 6 weeks
+                                        </li>
+                                        <li>
+                                          <strong>Policy:</strong> One free
+                                          reschedule per session
+                                        </li>
+                                        <li>
+                                          <strong>Notes:</strong> Intake form +
+                                          session worksheet + voice note support
+                                        </li>
+                                      </ul>
+
+                                      <h6 className="fw-bold mt-4">
+                                        Zoom Meeting Link
+                                      </h6>
+                                      <p className="small">
+                                        Please join your sessions at the scheduled
+                                        time using the link below:
+                                        <br />
+                                        <a href="#" className="link">
+                                          Join Zoom Meeting
+                                        </a>
+                                        <br />
+                                        (The same link will remain for all
+                                        sessions unless otherwise updated by your
+                                        coach.)
+                                      </p>
+
+                                      <h6 className="fw-bold mt-4">
+                                        What’s Included
+                                      </h6>
+                                      <ul className="small">
+                                        <li>Personalized coaching worksheets</li>
+                                        <li>
+                                          Voice note support between sessions
+                                          (Mon–Fri)
+                                        </li>
+                                        <li>
+                                          One free reschedule per session (24-hour
+                                          notice required)
+                                        </li>
+                                      </ul>
+
+                                      <h6 className="fw-bold mt-4">Next Steps</h6>
+                                      <p className="small">
+                                        Sarah will be in touch shortly to schedule
+                                        your first session and share prep
+                                        materials. You can also message her
+                                        directly from your dashboard.
+                                      </p>
+                                    </div>
+
+                                    <div className="modal-footer justify-content-start gap-3">
+                                      <button
+                                        className="btn msg-btn"
+                                        onClick={() => {
+                                          setShowConfirmation(false);
+                                          router.push("/send-message");
+                                        }}
+                                      >
+                                        Message Sarah{" "}
+                                        <i className="bi bi-arrow-right"></i>
+                                      </button>
+                                      <button className="btn btn-primary">
+                                        View Bookings{" "}
+                                        <i className="bi bi-arrow-right"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      ) : (
                         <button
-                          className="time-slot-btn selected flex-fill me-2"
+                          className="time-slot-btn w-100"
                           onClick={() => setSelectedTime(slot)}
                         >
                           {slot}
                         </button>
-                        <button
-                          className="btn btn-primary btn-sm confirm-btn flex-fill"
-                          onClick={() => setShowConfirmation(true)}
-                        >
-                          Confirm
-                        </button>
-                        {showConfirmation && (
-                          <>
-                            <div className="modal d-block booking-confirm-modal">
-                              <div className="modal-dialog modal-lg modal-dialog-centered">
-                                <div className="modal-content rounded-4 overflow-hidden">
-                                  <div className="modal-header text-white flex-column align-items-start">
-                                    <div className="d-flex align-items-center mb-2">
-                                      <h5 className="modal-title mb-0">
-                                        <span className="me-2 fs-4">✅</span>
-                                        Booking Confirmed Breakthrough Package
-                                        with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
-                                      </h5>
-                                    </div>
-                                  </div>
-
-                                  <div className="modal-body">
-                                    <p>
-                                      Hi Emma Rosen,
-                                      <br />
-                                      Thank you for booking the{" "}
-                                      <strong>
-                                        {packageData?.coach_profile?.session_title} ({packageData?.coach_profile?.session_count} Sessions)
-                                      </strong>{" "}
-                                      with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}. Your journey toward
-                                      clarity and growth begins now!
-                                    </p>
-
-                                    <h6 className="fw-bold mt-4">
-                                      Package Details:
-                                    </h6>
-                                    <ul className="list-unstyled small">
-                                      <li>
-                                        <strong>Coach:</strong> {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
-                                      </li>
-                                      <li>
-                                        <strong>Dates:</strong> 15/08/2025 -
-                                        10/09/2025 (to be confirmed)
-                                      </li>
-                                      <li>
-                                        <strong>Number of Sessions:</strong> {packageData?.coach_profile?.session_count}
-                                      </li>
-                                      <li>
-                                        <strong>Session Format:</strong> Online
-                                        video (Zoom)
-                                      </li>
-                                      <li>
-                                        <strong>Weekly Use:</strong> Use all 3
-                                        sessions within 6 weeks
-                                      </li>
-                                      <li>
-                                        <strong>Policy:</strong> One free
-                                        reschedule per session
-                                      </li>
-                                      <li>
-                                        <strong>Notes:</strong> Intake form +
-                                        session worksheet + voice note support
-                                      </li>
-                                    </ul>
-
-                                    <h6 className="fw-bold mt-4">
-                                      Zoom Meeting Link
-                                    </h6>
-                                    <p className="small">
-                                      Please join your sessions at the scheduled
-                                      time using the link below:
-                                      <br />
-                                      <a href="#" className="link">
-                                        Join Zoom Meeting
-                                      </a>
-                                      <br />
-                                      (The same link will remain for all
-                                      sessions unless otherwise updated by your
-                                      coach.)
-                                    </p>
-
-                                    <h6 className="fw-bold mt-4">
-                                      What’s Included
-                                    </h6>
-                                    <ul className="small">
-                                      <li>Personalized coaching worksheets</li>
-                                      <li>
-                                        Voice note support between sessions
-                                        (Mon–Fri)
-                                      </li>
-                                      <li>
-                                        One free reschedule per session (24-hour
-                                        notice required)
-                                      </li>
-                                    </ul>
-
-                                    <h6 className="fw-bold mt-4">Next Steps</h6>
-                                    <p className="small">
-                                      Sarah will be in touch shortly to schedule
-                                      your first session and share prep
-                                      materials. You can also message her
-                                      directly from your dashboard.
-                                    </p>
-                                  </div>
-
-                                  <div className="modal-footer justify-content-start gap-3">
-                                    <button
-                                      className="btn msg-btn"
-                                      onClick={() => {
-                                        setShowConfirmation(false);
-                                        router.push("/send-message");
-                                      }}
-                                    >
-                                      Message Sarah{" "}
-                                      <i className="bi bi-arrow-right"></i>
-                                    </button>
-                                    <button className="btn btn-primary">
-                                      View Bookings{" "}
-                                      <i className="bi bi-arrow-right"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    ) : (
-                      <button
-                        className="time-slot-btn w-100"
-                        onClick={() => setSelectedTime(slot)}
-                      >
-                        {slot}
-                      </button>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div className="text-muted small">No slots available</div>
-              )}
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-muted small">No slots available</div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
