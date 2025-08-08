@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { fetchAvailability } from "@/app/api/guest";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { PackageBookingSubmit } from "@/app/api/packages";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 // const mockSlots = {
 //   "2025-08-04": ["3:00pm", "4:00pm"],
 //   "2025-08-05": [
@@ -129,51 +131,57 @@ export default function Booking({ coach_id, package_id }) {
     setSelectedDate(date);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // console.log(e)
+  const handleBookingSubmit = async () => {
     const token = Cookies.get("token");
     if (!token) {
-      // router.push("/login?redirect=/send-coaching-request");
       router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`)
+      sessionStorage.setItem('role', 2);
       return;
     }
 
-    // You should derive these from state instead of hardcoding
-    // const payload = {
-    //   package_id: packageData?.coach_profile?.package_id,
-    //   coach_id: packageData?.coach_profile?.coach_id,
-    //   slot_time_start: "10:00",
-    //   slot_time_end: "10:30",
-    //   session_date_start: "2025-07-06",
-    //   session_date_end: "2025-07-11",
-    //   amount: "299.99",
-    // };
+    // function calculateSlotEnd(startTime, durationMinutes) {
+    //   const [hours, minutes] = startTime.split(":").map(Number);
+    //   const date = new Date();
+    //   date.setHours(hours, minutes + durationMinutes);
+
+    //   // Format as HH:mm
+    //   const endHours = date.getHours().toString().padStart(2, "0");
+    //   const endMinutes = date.getMinutes().toString().padStart(2, "0");
+
+    //   return `${endHours}:${endMinutes}`;
+    // }
+
+    function calculateSlotEnd(startTime, durationMinutes) {
+      const [hours, minutes] = startTime.split(":").map(Number);
+      const date = new Date();
+      date.setHours(hours);
+      date.setMinutes(minutes);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+
+      date.setMinutes(date.getMinutes() + durationMinutes); // Add duration
+
+      const endHours = String(date.getHours()).padStart(2, "0");
+      const endMinutes = String(date.getMinutes()).padStart(2, "0");
+
+      return `${endHours}:${endMinutes}`;
+    }
+
+    const slot_time_end = calculateSlotEnd(selectedTime, packageData?.coach_profile?.session_duration);
 
     const payload = {
-      "package_id": 24,
-      "coach_id": 103,
-      "slot_time_start": "10:00",
-      "slot_time_end": "10:30",
-      "session_date_start": "2025-07-06",
+      "package_id": packageData?.coach_profile?.package_id,
+      "coach_id": packageData?.coach_profile?.coach_id,
+      "slot_time_start": selectedTime,
+      "slot_time_end": slot_time_end,
+      "session_date_start": new Date(selectedDate).toISOString().split('T')[0],
       "session_date_end": "2025-07-11",
-      "amount": "299.99"
+      "amount": packageData?.coach_profile?.session_price
     }
 
     try {
-
-        const response = await fetch("/addPackageRequest", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-   
+      const response = await PackageBookingSubmit(payload, token)
+      const result = response.data;
 
       if (result.status) {
         toast.success("Booking Confirmed!");
@@ -196,7 +204,8 @@ export default function Booking({ coach_id, package_id }) {
           <div className="position-relative mb-3">
             <div className="top-divider-line"></div>
             <img
-              src="/coachsparkle/images/coach-list-img-one.png"
+              // src="/coachsparkle/images/coach-list-img-one.png"
+              src={packageData?.coach_profile?.profile_image ? packageData?.coach_profile?.profile_image : `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
               alt="Coach"
               className="rounded-circle top-0 translate-middle-x profile-img"
             />
@@ -215,10 +224,10 @@ export default function Booking({ coach_id, package_id }) {
 
           <div className="session-info">
             <ul className="list-unstyled small text-muted">
-              <li className="d-flex align-items-start">
+              {packageData?.coach_profile?.session_price && <li className="d-flex align-items-start">
                 <i className="bi bi-receipt me-2 pkg-icons"></i>
-                <span>{packageData?.coach_profile?.session_price}</span>
-              </li>
+                <span>{packageData?.coach_profile?.session_price} {packageData?.coach_profile?.price_model} {packageData?.coach_profile?.currency}</span>
+              </li>}
               {packageData?.coach_profile?.session_count && (
                 <li className="d-flex align-items-start">
                   <i className="bi bi-people me-2 pkg-icons"></i>
@@ -242,13 +251,13 @@ export default function Booking({ coach_id, package_id }) {
                 <span>Zoom</span>
               </li>
 
-              <li className="d-flex align-items-start">
+              {packageData?.coach_profile?.cancellation_policy && <li className="d-flex align-items-start">
                 <i className="bi bi-x-circle me-2 pkg-icons"></i>
                 <span>
                   {" "}
-                  Flexible - Full refund if canceled ≥ 24 hours before session
+                  {packageData?.coach_profile?.cancellation_policy}
                 </span>
-              </li>
+              </li>}
               <li className="d-flex align-items-start">
                 <i className="bi bi-calendar-check me-2 pkg-icons"></i>
                 <span>Use within 6 weeks from first session</span>
@@ -268,191 +277,189 @@ export default function Booking({ coach_id, package_id }) {
             />
           )}
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="time-panel p-4">
-            <div className="inner-panel">
-              <div className="fw-semibold mb-3">
-                {sessionDates.length > 1 ? (
-                  <>
-                    {sessionDates[0]?.toLocaleDateString("en-US", {
+
+        <div className="time-panel p-4">
+          <div className="inner-panel">
+            <div className="fw-semibold mb-3">
+              {sessionDates.length > 1 ? (
+                <>
+                  {sessionDates[0]?.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}{" "}
+                  –{" "}
+                  {sessionDates[sessionDates.length - 1]?.toLocaleDateString(
+                    "en-US",
+                    {
                       month: "short",
                       day: "numeric",
-                    })}{" "}
-                    –{" "}
-                    {sessionDates[sessionDates.length - 1]?.toLocaleDateString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )}
-                  </>
-                ) : (
-                  selectedDate?.toLocaleDateString("en-US", {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                  })
-                )}
-              </div>
+                    }
+                  )}
+                </>
+              ) : (
+                selectedDate?.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                })
+              )}
+            </div>
 
-              <div className="time-slot-scroll">
-                {timeSlots.length > 0 ? (
-                  timeSlots.map((slot, idx) => (
-                    <div key={idx} className="mb-2">
-                      {selectedTime === slot ? (
-                        <div className="d-flex">
-                          <button
-                            className="time-slot-btn selected flex-fill me-2"
-                            onClick={() => setSelectedTime(slot)}
-                          >
-                            {slot}
-                          </button>
-                          <button
-                            type="submit"
-                            className="btn btn-primary btn-sm confirm-btn flex-fill"
-                          // onClick={() => setShowConfirmation(true)}
-                          >
-                            Confirm
-                          </button>
-                          {showConfirmation && (
-                            <>
-                              <div className="modal d-block booking-confirm-modal">
-                                <div className="modal-dialog modal-lg modal-dialog-centered">
-                                  <div className="modal-content rounded-4 overflow-hidden">
-                                    <div className="modal-header text-white flex-column align-items-start">
-                                      <div className="d-flex align-items-center mb-2">
-                                        <h5 className="modal-title mb-0">
-                                          <span className="me-2 fs-4">✅</span>
-                                          Booking Confirmed Breakthrough Package
-                                          with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
-                                        </h5>
-                                      </div>
-                                    </div>
-
-                                    <div className="modal-body">
-                                      <p>
-                                        Hi Emma Rosen,
-                                        <br />
-                                        Thank you for booking the{" "}
-                                        <strong>
-                                          {packageData?.coach_profile?.session_title} ({packageData?.coach_profile?.session_count} Sessions)
-                                        </strong>{" "}
-                                        with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}. Your journey toward
-                                        clarity and growth begins now!
-                                      </p>
-
-                                      <h6 className="fw-bold mt-4">
-                                        Package Details:
-                                      </h6>
-                                      <ul className="list-unstyled small">
-                                        <li>
-                                          <strong>Coach:</strong> {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
-                                        </li>
-                                        <li>
-                                          <strong>Dates:</strong> 15/08/2025 -
-                                          10/09/2025 (to be confirmed)
-                                        </li>
-                                        <li>
-                                          <strong>Number of Sessions:</strong> {packageData?.coach_profile?.session_count}
-                                        </li>
-                                        <li>
-                                          <strong>Session Format:</strong> Online
-                                          video (Zoom)
-                                        </li>
-                                        <li>
-                                          <strong>Weekly Use:</strong> Use all 3
-                                          sessions within 6 weeks
-                                        </li>
-                                        <li>
-                                          <strong>Policy:</strong> One free
-                                          reschedule per session
-                                        </li>
-                                        <li>
-                                          <strong>Notes:</strong> Intake form +
-                                          session worksheet + voice note support
-                                        </li>
-                                      </ul>
-
-                                      <h6 className="fw-bold mt-4">
-                                        Zoom Meeting Link
-                                      </h6>
-                                      <p className="small">
-                                        Please join your sessions at the scheduled
-                                        time using the link below:
-                                        <br />
-                                        <a href="#" className="link">
-                                          Join Zoom Meeting
-                                        </a>
-                                        <br />
-                                        (The same link will remain for all
-                                        sessions unless otherwise updated by your
-                                        coach.)
-                                      </p>
-
-                                      <h6 className="fw-bold mt-4">
-                                        What’s Included
-                                      </h6>
-                                      <ul className="small">
-                                        <li>Personalized coaching worksheets</li>
-                                        <li>
-                                          Voice note support between sessions
-                                          (Mon–Fri)
-                                        </li>
-                                        <li>
-                                          One free reschedule per session (24-hour
-                                          notice required)
-                                        </li>
-                                      </ul>
-
-                                      <h6 className="fw-bold mt-4">Next Steps</h6>
-                                      <p className="small">
-                                        Sarah will be in touch shortly to schedule
-                                        your first session and share prep
-                                        materials. You can also message her
-                                        directly from your dashboard.
-                                      </p>
-                                    </div>
-
-                                    <div className="modal-footer justify-content-start gap-3">
-                                      <button
-                                        className="btn msg-btn"
-                                        onClick={() => {
-                                          setShowConfirmation(false);
-                                          router.push("/send-message");
-                                        }}
-                                      >
-                                        Message Sarah{" "}
-                                        <i className="bi bi-arrow-right"></i>
-                                      </button>
-                                      <button className="btn btn-primary">
-                                        View Bookings{" "}
-                                        <i className="bi bi-arrow-right"></i>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      ) : (
+            <div className="time-slot-scroll">
+              {timeSlots.length > 0 ? (
+                timeSlots.map((slot, idx) => (
+                  <div key={idx} className="mb-2">
+                    {selectedTime === slot ? (
+                      <div className="d-flex">
                         <button
-                          className="time-slot-btn w-100"
+                          className="time-slot-btn selected flex-fill me-2"
                           onClick={() => setSelectedTime(slot)}
                         >
                           {slot}
                         </button>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-muted small">No slots available</div>
-                )}
-              </div>
+                        <button
+                          className="btn btn-primary btn-sm confirm-btn flex-fill"
+                          onClick={handleBookingSubmit}
+                        >
+                          Confirm
+                        </button>
+                        {showConfirmation && (
+                          <>
+                            <div className="modal d-block booking-confirm-modal">
+                              <div className="modal-dialog modal-lg modal-dialog-centered">
+                                <div className="modal-content rounded-4 overflow-hidden">
+                                  <div className="modal-header text-white flex-column align-items-start">
+                                    <div className="d-flex align-items-center mb-2">
+                                      <h5 className="modal-title mb-0">
+                                        <span className="me-2 fs-4">✅</span>
+                                        Booking Confirmed Breakthrough Package
+                                        with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
+                                      </h5>
+                                    </div>
+                                  </div>
+
+                                  <div className="modal-body">
+                                    <p>
+                                      Hi Emma Rosen,
+                                      <br />
+                                      Thank you for booking the{" "}
+                                      <strong>
+                                        {packageData?.coach_profile?.session_title} ({packageData?.coach_profile?.session_count} Sessions)
+                                      </strong>{" "}
+                                      with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}. Your journey toward
+                                      clarity and growth begins now!
+                                    </p>
+
+                                    <h6 className="fw-bold mt-4">
+                                      Package Details:
+                                    </h6>
+                                    <ul className="list-unstyled small">
+                                      <li>
+                                        <strong>Coach:</strong> {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
+                                      </li>
+                                      <li>
+                                        <strong>Dates:</strong> 15/08/2025 -
+                                        10/09/2025 (to be confirmed)
+                                      </li>
+                                      <li>
+                                        <strong>Number of Sessions:</strong> {packageData?.coach_profile?.session_count}
+                                      </li>
+                                      <li>
+                                        <strong>Session Format:</strong> Online
+                                        video (Zoom)
+                                      </li>
+                                      <li>
+                                        <strong>Weekly Use:</strong> Use all 3
+                                        sessions within 6 weeks
+                                      </li>
+                                      <li>
+                                        <strong>Policy:</strong> One free
+                                        reschedule per session
+                                      </li>
+                                      <li>
+                                        <strong>Notes:</strong> Intake form +
+                                        session worksheet + voice note support
+                                      </li>
+                                    </ul>
+
+                                    <h6 className="fw-bold mt-4">
+                                      Zoom Meeting Link
+                                    </h6>
+                                    <p className="small">
+                                      Please join your sessions at the scheduled
+                                      time using the link below:
+                                      <br />
+                                      <a href="#" className="link">
+                                        Join Zoom Meeting
+                                      </a>
+                                      <br />
+                                      (The same link will remain for all
+                                      sessions unless otherwise updated by your
+                                      coach.)
+                                    </p>
+
+                                    <h6 className="fw-bold mt-4">
+                                      What’s Included
+                                    </h6>
+                                    <ul className="small">
+                                      <li>Personalized coaching worksheets</li>
+                                      <li>
+                                        Voice note support between sessions
+                                        (Mon–Fri)
+                                      </li>
+                                      <li>
+                                        One free reschedule per session (24-hour
+                                        notice required)
+                                      </li>
+                                    </ul>
+
+                                    <h6 className="fw-bold mt-4">Next Steps</h6>
+                                    <p className="small">
+                                      Sarah will be in touch shortly to schedule
+                                      your first session and share prep
+                                      materials. You can also message her
+                                      directly from your dashboard.
+                                    </p>
+                                  </div>
+
+                                  <div className="modal-footer justify-content-start gap-3">
+                                    <button
+                                      className="btn msg-btn"
+                                      onClick={() => {
+                                        setShowConfirmation(false);
+                                        router.push("/send-message");
+                                      }}
+                                    >
+                                      Message Sarah{" "}
+                                      <i className="bi bi-arrow-right"></i>
+                                    </button>
+                                    <button className="btn btn-primary">
+                                      View Bookings{" "}
+                                      <i className="bi bi-arrow-right"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <button
+                        className="time-slot-btn w-100"
+                        onClick={() => setSelectedTime(slot)}
+                      >
+                        {slot}
+                      </button>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div className="text-muted small">No slots available</div>
+              )}
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
