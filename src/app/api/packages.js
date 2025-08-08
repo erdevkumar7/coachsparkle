@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 
@@ -28,3 +30,14 @@ export async function dateTimeAvalibility(packageId) {
   }
 }
 
+
+export const PackageBookingSubmit = async (packageData, getToken) => {
+  const res = await axios.post(`${apiUrl}/addPackageRequest`, packageData, {
+    headers: {
+      Authorization: `Bearer ${getToken}`,
+      Accept: 'application/json',
+    },
+  });
+
+  return res;
+}
