@@ -2,20 +2,38 @@ import UserImageUploader from '@/app/user/_user_components/ImageUploader';
 import CoachUpdateForm from '../_coach_components/CoachUpdateFormData';
 import '../_styles/coach_profile.css';
 import { getUserProfileData } from '@/app/api/user';
-import { getAgeGroup, getAllCoachServices, getAllContries, getAllLanguages, getCoachType, getDeliveryMode } from '@/app/api/guest';
+import { getAllMasters } from '@/app/api/guest';
+// import { getAgeGroup, getAllCoachServices, getAllContries, getAllLanguages, getCoachType, getDeliveryMode } from '@/app/api/guest';
 
 export default async function CoachProfile() {
-    const { data: user, error, removeToken } = await getUserProfileData();  
-    const [countries, deliveryMode, coachTypes, ageGroup, allLanguages, getAllServices] = await Promise.all([
-        getAllContries(),
-        getDeliveryMode(),
-        getCoachType(),
-        getAgeGroup(),
-        getAllLanguages(),
-        getAllCoachServices(),
-    ])
+    const { data: user, error, removeToken } = await getUserProfileData();
+    //     const [countries, deliveryMode, coachTypes, ageGroup, allLanguages, getAllServices] = await Promise.all([
+    //     getAllContries(),
+    //     getDeliveryMode(),
+    //     getCoachType(),
+    //     getAgeGroup(),
+    //     getAllLanguages(),
+    //     getAllCoachServices(),
+    // ])
 
-    // console.log('getAllCoachServices', getAllServices)
+    const allMasters = await getAllMasters();
+    let countries;
+    let deliveryMode;
+    let coachTypes;
+    let ageGroup;
+    let allLanguages;
+    let getAllServices;
+
+    if (allMasters) {
+        countries = allMasters.countries;
+        deliveryMode = allMasters.delivery_mode;
+        coachTypes = allMasters.coach_type;
+        ageGroup = allMasters.age_group;
+        allLanguages = allMasters.languages;
+        getAllServices = allMasters.services
+    }
+
+
     return (
         <div className="main-panel">
             <div className="content-wrapper coach-profile-add">
@@ -36,16 +54,16 @@ export default async function CoachProfile() {
                     <h4>Public Profile</h4>
                 </div>
 
-                <div className="profile-form-add">       
-                        <CoachUpdateForm
-                            user={user}
-                            countries={countries}
-                            deliveryMode={deliveryMode}
-                            coachTypes= {coachTypes}
-                            ageGroup={ageGroup}
-                            allLanguages={allLanguages}
-                            getAllServices={getAllServices.data}
-                        />
+                <div className="profile-form-add">
+                    <CoachUpdateForm
+                        user={user}
+                        countries={countries}
+                        deliveryMode={deliveryMode}
+                        coachTypes={coachTypes}
+                        ageGroup={ageGroup}
+                        allLanguages={allLanguages}
+                        getAllServices={getAllServices}
+                    />
                 </div>
             </div>
         </div>
