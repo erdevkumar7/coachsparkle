@@ -9,12 +9,18 @@ import { userProfileSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
-export default function UserUpdateFormData({ user, countries, deliveryMode, ageGroup, languages }) {
+export default function UserUpdateFormData({
+  user,
+  countries,
+  deliveryMode,
+  ageGroup,
+  languages,
+}) {
   const router = useRouter();
   const [getToken, setToken] = useState();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(false);
-    const dropdownRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const {
     register,
@@ -32,32 +38,28 @@ export default function UserUpdateFormData({ user, countries, deliveryMode, ageG
     getUserData();
 
     if (user) {
-reset({
-  first_name: user.first_name || "",
-  last_name: user.last_name || "",
-  display_name: user.display_name || "",
-  email: user.email || "",
-  professional_profile: user.professional_profile || "",
-  professional_title: user.professional_title || "",
-  country_id: user.country_id || "",
-  prefer_coaching_topic: user.coaching_topics || "",
-  age_group: user.userProfessional?.age_group || "",
-  coaching_goal_1: user.coaching_goal_1 || "",
-  coaching_goal_2: user.coaching_goal_2 || "",
-  coaching_goal_3: user.coaching_goal_3 || "",
-  language_names: user.language_ids || [],
-  prefer_mode: user.userProfessional?.delivery_mode || "",
-  prefer_coaching_time: user.coaching_time || "",
-  short_bio: user.short_bio || "",
-  coach_agreement: user.coach_agreement || false,
-});
+      reset({
+        first_name: user?.first_name || "",
+        last_name: user?.last_name || "",
+        display_name: user?.display_name || "",
+        email: user?.email || "",
+        professional_profile: user?.professional_profile || "",
+        your_profession: user?.professional_title || "",
+        country_id: user?.country_id || "",
+        prefer_coaching_topic: user?.coaching_topics || "",
+        age_group_user: user?.age_group_user || "",
+        coaching_goal_1: user?.coaching_goal_1 || "",
+        coaching_goal_2: user?.coaching_goal_2 || "",
+        coaching_goal_3: user?.coaching_goal_3 || "",
+        language_names: user?.language_names?.map((lang) => lang.id) || [],
+        prefer_mode: user?.prefer_mode || "",
+        prefer_coaching_time: user?.prefer_coaching_timing || "",
+        short_bio: user?.short_bio || "",
+        coach_agreement: user?.coach_agreement,
+      });
     }
   }, [user]);
-
-  useEffect(() => {
-  console.log("Form errors", errors);
-}, [errors]);
-
+  console.log("user:", user);
 
   const getUserData = async () => {
     const token = Cookies.get("token");
@@ -68,83 +70,58 @@ reset({
     setToken(token);
   };
 
-    const toggleDropdown = () => {
+  const toggleDropdown = () => {
     dropdownRef.current.classList.toggle("show");
   };
 
-const handleLanguageSelect = (id) => {
-  const current = watch("language_names") || [];
-  if (!current.includes(id)) {
-    setValue("language_names", [...current, id], { shouldValidate: true });
-  }
-};
-
-const removeLanguage = (id) => {
-  const current = watch("language_names") || [];
-  setValue("language_names", current.filter((l) => l !== id), { shouldValidate: true });
-};
-
-
-
-    useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      dropdownRef.current.classList.remove("show");
+  const handleLanguageSelect = (id) => {
+    const current = watch("language_names") || [];
+    if (!current.includes(id)) {
+      setValue("language_names", [...current, id], { shouldValidate: true });
     }
   };
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
+
+  const removeLanguage = (id) => {
+    const current = watch("language_names") || [];
+    setValue(
+      "language_names",
+      current.filter((l) => l !== id),
+      { shouldValidate: true }
+    );
   };
-}, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        dropdownRef.current.classList.remove("show");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
-const onSubmit = async (data) => {
-  console.log("Submitting", data);
+  const onSubmit = async (data) => {
+    console.log("Submitting", data);
 
-const formData = {
-  first_name: data.first_name,
-  last_name: data.last_name,
-  display_name: data.display_name,
-  email: data.email,
-  country_id: data.country_id,
-  short_bio: data.short_bio,
-  professional_profile: data.professional_profile,
-  professional_title: data.professional_title,
-  prefer_coaching_topic: data.prefer_coaching_topic,
-  age_group: data.age_group,
-  coaching_goal_1: data.coaching_goal_1,
-  coaching_goal_2: data.coaching_goal_2,
-  coaching_goal_3: data.coaching_goal_3,
-  language_names: data.language_names,
-  prefer_mode: data.prefer_mode,
-  prefer_coaching_time: data.prefer_coaching_time,
-  coach_agreement: data.coach_agreement,
-};
+    try {
+        setLoading(true);
+        const response = await axios.post(`${apiUrl}/updateUserProfile`, data, {
+            headers: {
+                Authorization: `Bearer ${getToken}`,
+                "Content-Type": "application/json",
+            },
+        });
+        toast.success("Profile updated successfully");
+        router.refresh();
+    } catch (error) {
+        toast.error("An error occurred. Please try again later.");
+    } finally {
+        setLoading(false);
+    }
+  };
 
-
-
-  try {
-    setLoading(true);
-    const response = await axios.post(`${apiUrl}/updateUserProfile`, formData, {
-      headers: {
-        Authorization: `Bearer ${getToken}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    toast.success("Profile updated successfully");
-    router.push("/user/dashboard");
-  } catch (error) {
-    console.error(error);
-    toast.error("An error occurred. Please try again later.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  // console.log('user', user.country_id)
   return (
     <div className="profile-form">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -172,12 +149,16 @@ const formData = {
               {...register("last_name")}
               disabled={loading}
             />
+                        {errors.last_name && (
+              <div className="invalid-feedback d-block">
+                {errors.last_name.message}
+              </div>
+            )}
           </div>
 
           <div className="form-group">
             <label htmlFor="display_name">Display Name*</label>
             <input
-              required
               type="text"
               id="display_name"
               {...register("display_name")}
@@ -206,7 +187,7 @@ const formData = {
               type="email"
               id="email"
               {...register("email")}
-              disabled={loading}
+              disabled
             />
             {errors.email && (
               <div className="invalid-feedback d-block">
@@ -229,15 +210,17 @@ const formData = {
                 </option>
               ))}
             </select>
-                          {errors.country_id && (
-                <div className="invalid-feedback d-block">
-                  {errors.country_id.message}
-                </div>
-              )}
+            {errors.country_id && (
+              <div className="invalid-feedback d-block">
+                {errors.country_id.message}
+              </div>
+            )}
           </div>
 
           <div className="form-group">
-            <label htmlFor="prefer_coaching_topic">Preferred Coaching Topics</label>
+            <label htmlFor="prefer_coaching_topic">
+              Preferred Coaching Topics
+            </label>
             <textarea
               id="prefer_coaching_topic"
               rows="3"
@@ -247,23 +230,29 @@ const formData = {
           </div>
 
           <div className="form-group">
-            <label htmlFor="age_group">Age Group (Learner’s Demographic)</label>
-            <select id="age_group" {...register("age_group")} disabled={loading}>
-              <option value="">Select Age Group</option>
-              {ageGroup.map((age) => (
-                <option key={age.id} value={age.id}>
-                  {age.group_name} {age.age_range ? `(${age.age_range})` : ""}
-                </option>
-              ))}
+            <label htmlFor="age_group_user">Age Group (Learner’s Demographic)</label>
+            <select {...register('age_group_user')} disabled={loading}
+                >
+                  <option value="">Select Age Group</option>
+                  {ageGroup.map((g) => (
+                    <option key={g.id} value={g.id}>
+                      {g.group_name} {g.age_range ? `(${g.age_range})` : ""}
+                    </option>
+                  ))}
             </select>
+                        {errors.age_group_user && (
+              <div className="invalid-feedback d-block">
+                {errors.age_group_user.message}
+              </div>
+            )}
           </div>
 
           <div className="form-group">
-            <label htmlFor="professional_title">Your Profession</label>
+            <label htmlFor="yourProfession">Your Profession</label>
             <input
               type="text"
-              id="professional_title"
-              {...register("professional_title")}
+              id="your_profession"
+              {...register("your_profession")}
               disabled={loading}
             />
           </div>
@@ -279,71 +268,86 @@ const formData = {
 
         <div className="form-group goal">
           <label htmlFor="coaching_goal_1">Goal #1</label>
-          <textarea id="coaching_goal_1" rows="3" {...register("coaching_goal_1")} disabled={loading} ></textarea>
+          <textarea
+            id="coaching_goal_1"
+            rows="3"
+            {...register("coaching_goal_1")}
+            disabled={loading}
+          ></textarea>
         </div>
 
         <div className="form-group goal">
           <label htmlFor="coaching_goal_2">Goal #2</label>
-          <textarea id="coaching_goal_2" rows="3" {...register("coaching_goal_2")} disabled={loading} ></textarea>
+          <textarea
+            id="coaching_goal_2"
+            rows="3"
+            {...register("coaching_goal_2")}
+            disabled={loading}
+          ></textarea>
         </div>
 
         <div className="form-group goal">
           <label htmlFor="coaching_goal_3">Goal #3</label>
-          <textarea id="coaching_goal_3" {...register("coaching_goal_3")} disabled={loading} ></textarea>
+          <textarea
+            id="coaching_goal_3"
+            {...register("coaching_goal_3")}
+            disabled={loading}
+          ></textarea>
         </div>
 
         <div className="form-row preference-input">
           <div className="form-group position-relative">
             <label htmlFor="language_names">Language Preference</label>
-                              <div className="form-select-multi" onClick={toggleDropdown}>
-                    {languages.map((language) => (
-                      <span key={language.id} value={language.id}></span>
-                    ))}
-                    {(watch("language_names") || []).map((langId) => {
-                      const language = languages.find((l) => l.id === langId);
-                      return (
-                        <span className="pill-tag" key={langId}>
-                          {language?.language || "Unknown"}
-                          <button
-                            type="button"
-                            onClick={() => removeLanguage(langId)}
-                          >
-                            &times;
-                          </button>
-                        </span>
-                      );
-                    })}
-                    <span className="dropdown-icon">&#9662;</span>
-                  </div>
+            <div className="form-select-multi" onClick={toggleDropdown}>
+              {languages.map((language) => (
+                <span key={language.id} value={language.id}></span>
+              ))}
+              {(watch("language_names") || []).map((langId) => {
+                const language = languages.find((l) => l.id === langId);
+                return (
+                  <span className="pill-tag" key={langId}>
+                    {language?.language || "Unknown"}
+                    <button
+                      type="button"
+                      onClick={() => removeLanguage(langId)}
+                    >
+                      &times;
+                    </button>
+                  </span>
+                );
+              })}
+              <span className="dropdown-icon">&#9662;</span>
+            </div>
 
-                  <ul className="dropdown-menu w-100" ref={dropdownRef}>
-                    {languages.map((lang) => (
-                      <li key={lang.id}>
-                        <button
-                          className="dropdown-item"
-                          type="button"
-                          onClick={() => handleLanguageSelect(lang.id)}
-                          disabled={(
-                            watch("language_names") || []
-                          ).includes(lang.id)}
-                        >
-                          {lang.language}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-
+            <ul className="dropdown-menu w-100" ref={dropdownRef}>
+              {languages.map((lang) => (
+                <li key={lang.id}>
+                  <button
+                    className="dropdown-item"
+                    type="button"
+                    onClick={() => handleLanguageSelect(lang.id)}
+                    disabled={(watch("language_names") || []).includes(lang.id)}
+                  >
+                    {lang.language}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
-                          {errors.language_names && (
-                <div className="invalid-feedback d-block">
-                  {errors.language_names.message}
-                </div>
-              )}
+          {errors.language_names && (
+            <div className="invalid-feedback d-block">
+              {errors.language_names.message}
+            </div>
+          )}
           <div className="form-group">
             <label htmlFor="mode">Preferred Mode</label>
-            <select id="prefer_mode" {...register("prefer_mode")} disabled={loading}>
+            <select
+              id="prefer_mode"
+              {...register("prefer_mode")}
+              disabled={loading}
+            >
               <option value="">Select Mode</option>
-                            {deliveryMode.map((mode) => (
+              {deliveryMode.map((mode) => (
                 <option key={mode.id} value={mode.id}>
                   {mode.mode_name}
                 </option>
@@ -353,8 +357,14 @@ const formData = {
         </div>
 
         <div className="form-group">
-          <label htmlFor="prefer_coaching_time">Preferred Coaching Timings</label>
-          <select id="prefer_coaching_time" {...register("prefer_coaching_time")} disabled={loading}>
+          <label htmlFor="prefer_coaching_time">
+            Preferred Coaching Timings
+          </label>
+          <select
+            id="prefer_coaching_time"
+            {...register("prefer_coaching_time")}
+            disabled={loading}
+          >
             <option value="">Select Timing</option>
             <option value="morning">Morning (8 AM - 12 PM)</option>
             <option value="afternoon">Afternoon (12 PM - 4 PM)</option>

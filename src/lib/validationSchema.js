@@ -218,14 +218,14 @@ export const requestSchema = yup.object().shape({
 
 export const userProfileSchema = yup.object().shape({
   first_name: yup.string().required("First name is required"),
-  last_name: yup.string(),
+  last_name: yup.string().required("Last name is required"),
   display_name: yup.string().required("Display name is required"),
   email: yup.string().email('Please provide valid email').required("Email is required"),
   country_id: yup.string().required("Please select your country"),
-  professional_title: yup.string(),
-  professional_title: yup.string(),
+  professional_profile: yup.string(),
+  your_profession: yup.string(),
   prefer_coaching_topic: yup.string(),
-  age_group: yup.string(),
+  age_group_user: yup.string().required("Age group is required"),
   coaching_goal_1: yup.string(),
   coaching_goal_2: yup.string(),
   coaching_goal_3: yup.string(),
