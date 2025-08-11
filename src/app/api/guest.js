@@ -1,5 +1,22 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+export const getAllMasters = async () => {
+    const masterRes = await fetch(`${apiUrl}/getallmastercategories`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+
+    const masterData = await masterRes.json();
+    // console.log('masterData', masterData)
+    if (masterData) {
+        return masterData;
+    } else {
+        return null;
+    }
+}
+
 export const getAllContries = async () => {
     const countryRes = await fetch(`${apiUrl}/getCountries`, {
         method: 'POST',
@@ -104,7 +121,7 @@ export const sessionFormats = async () => {
 }
 
 export const getAllPriceModels = async () => {
-     const res = await fetch(`${apiUrl}/priceModels`, {
+    const res = await fetch(`${apiUrl}/priceModels`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -114,7 +131,7 @@ export const getAllPriceModels = async () => {
 }
 
 export const getAllCoachServices = async () => {
-     const res = await fetch(`${apiUrl}/getAllCoachServices`, {
+    const res = await fetch(`${apiUrl}/getAllCoachServices`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -154,33 +171,33 @@ export const getCommunicationChannels = async () => {
 }
 
 export const getLatestMasterBlogs = async () => {
-  const res = await fetch(`${apiUrl}/getmasterblogs`, {
-    method: 'POST',
-    headers: {
-      Accept: "application/json",
-    },
-  });
+    const res = await fetch(`${apiUrl}/getmasterblogs`, {
+        method: 'POST',
+        headers: {
+            Accept: "application/json",
+        },
+    });
 
-  const json = await res.json();
-  if (json?.success && Array.isArray(json.data)) {
-    return json.data.slice(0, 3);
-  }
-  return [];
+    const json = await res.json();
+    if (json?.success && Array.isArray(json.data)) {
+        return json.data.slice(0, 3);
+    }
+    return [];
 };
 
 export const getMasterBlogs = async () => {
-  const res = await fetch(`${apiUrl}/getmasterblogs`, {
-    method: 'POST',
-    headers: {
-      Accept: "application/json",
-    },
-  });
+    const res = await fetch(`${apiUrl}/getmasterblogs`, {
+        method: 'POST',
+        headers: {
+            Accept: "application/json",
+        },
+    });
 
-  const json = await res.json();
-  if (json?.success && Array.isArray(json.data)) {
-    return json.data;
-  }
-  return [];
+    const json = await res.json();
+    if (json?.success && Array.isArray(json.data)) {
+        return json.data;
+    }
+    return [];
 };
 
 export const fetchAvailability = async (packageId) => {
@@ -189,11 +206,11 @@ export const fetchAvailability = async (packageId) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({package_id: packageId}),
+        body: JSON.stringify({ package_id: packageId }),
     });
 
     const data = await res.json();
-    if(!data.success) throw new Error(data.message || "Failed to fetch");
+    if (!data.success) throw new Error(data.message || "Failed to fetch");
 
     return data.data;
 };

@@ -57,7 +57,7 @@ export default function CoachUpdateForm({
       state_id: user?.state_id || '',
       city_id: user?.city_id || '',
       coach_type: user?.coach_type || "",
-      coach_subtype: user?.coach_subtype || "",
+      coach_sub_type: user?.coach_subtype?.map((sub) => sub.id) || [],
       professional_title: user?.professional_title || "",
       company_name: user?.company_name || "",
       experience: user?.experience || "",
@@ -86,7 +86,7 @@ export default function CoachUpdateForm({
     context: { isProUser }, // pass here
   });
 
-
+  // console.log('coach_subtype', user?.coach_subtype)
   useEffect(() => {
     const authToken = Cookies.get('token');
     if (!authToken) {
@@ -302,14 +302,54 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group">
                 <label>Sub Coaching Category</label>
-                <select {...register('coach_subtype')}>
+                {/* <select {...register('coach_sub_type')}>
                   <option value="">Select</option>
                   {coachSubTypes.map((sub) => (
                     <option key={sub.id} value={sub.id}>
                       {sub.subtype_name}
                     </option>
                   ))}
-                </select>
+                </select> */}
+
+                <Controller
+                  name="coach_sub_type"
+                  control={control}
+                  render={({ field }) => (
+                    <select
+                      multiple
+                      value={field.value || []} // ensure it's always an array
+                      onChange={(e) => {
+                        const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
+                        field.onChange(selectedValues);
+                      }}
+                    >
+                      {coachSubTypes.map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.subtype_name}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                />
+
+                {/* <Controller
+                  name="coach_sub_type"
+                  control={control}
+                  render={({ field }) => (
+                    <MultipleSelectChip
+                      value={field.value || []} // make sure it's always an array
+                      onChange={(selectedIds) => {
+                        field.onChange(selectedIds);
+                      }}
+                      options={coachSubTypes.map(sub => ({
+                        id: sub.id,
+                        label: sub.subtype_name
+                      }))}
+                    />
+                  )}
+                /> */}
+
+
               </div>
               <div className="form-group">
                 <label>Gender*</label>
