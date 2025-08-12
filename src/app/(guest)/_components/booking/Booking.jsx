@@ -22,9 +22,6 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 // };
 
-// const mockSlots = {
-//   "" : []
-// }
 
 export default function Booking({ coach_id, package_id }) {
   const router = useRouter();
@@ -37,33 +34,36 @@ export default function Booking({ coach_id, package_id }) {
   const [sessionDates, setSessionDates] = useState([]);
 
 
-  console.log("packageData", packageData);
+  console.log("sessionDates", sessionDates);
 
   useEffect(() => {
     if (!package_id) return;
 
     fetchAvailability(package_id)
       .then((data) => {
-        const result = {};
-        const dates = data.avalibility_date?.date || [];
-        const times = data.avalibility_time?.time || [];
+        // Transform API array into an object like { "2025-08-04": ["09:00", "09:30"], ... }
+        const availabilityMap = {};
+        if (Array.isArray(data.availability)) {
+          data.availability.forEach((item) => {
+            availabilityMap[item.date] = item.available_times;
+          });
+        }
 
-        // Assign same time slots to all available dates
-        dates.forEach((date) => {
-          result[date] = [...times]; // Clone to avoid mutation
-        });
-
-        setAvailability(result);
+        setAvailability(availabilityMap);
         setPackageData(data);
 
-        if (dates.length > 0) {
-          setSelectedDate(new Date(dates[0]));
+        // If there are available dates, set the first one as selected
+        const availableDates = Object.keys(availabilityMap);
+        if (availableDates.length > 0) {
+          setSelectedDate(new Date(availableDates[0]));
         }
       })
       .catch((err) => {
         console.error("Error fetching availability:", err);
+        toast.error("Failed to load availability");
       });
   }, [package_id]);
+
 
   useEffect(() => {
     if (!selectedDate) return;
@@ -169,13 +169,21 @@ export default function Booking({ coach_id, package_id }) {
 
     const slot_time_end = calculateSlotEnd(selectedTime, packageData?.coach_profile?.session_duration);
 
+    const session_date_start = sessionDates.length
+      ? sessionDates[0].toISOString().split('T')[0]
+      : new Date(selectedDate).toISOString().split('T')[0];
+
+    const session_date_end = sessionDates.length
+      ? sessionDates[sessionDates.length - 1].toISOString().split('T')[0]
+      : new Date(selectedDate).toISOString().split('T')[0];
+
     const payload = {
       "package_id": packageData?.coach_profile?.package_id,
       "coach_id": packageData?.coach_profile?.coach_id,
       "slot_time_start": selectedTime,
       "slot_time_end": slot_time_end,
-      "session_date_start": new Date(selectedDate).toISOString().split('T')[0],
-      "session_date_end": "2025-07-11",
+      session_date_start,
+      session_date_end,
       "amount": packageData?.coach_profile?.session_price
     }
 

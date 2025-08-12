@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import { CircularProgress } from "@mui/material";
 
 
 
@@ -49,6 +50,7 @@ export default function Register() {
     const [countries, setCountries] = useState([]);
     const [generalError, setGeneralError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const togglePassword = () => {
         setShowPassword((prev) => !prev);
@@ -110,6 +112,7 @@ export default function Register() {
 
 
     const onSubmit = async (data) => {
+        setLoading(true);
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Calcutta';
 
         const finalData = {
@@ -121,6 +124,7 @@ export default function Register() {
         if (res.success) {
             toast.success("Registration successful!");
             setOpen(true);
+            setLoading(false);
             // router.push('/login');
             // router.push('/login?registered=1');
         } else {
@@ -130,6 +134,7 @@ export default function Register() {
                     setError(field, { message: msgs[0] });
                 });
             }
+            setLoading(false);
         }
     };
 
@@ -181,11 +186,11 @@ export default function Register() {
                                             type={showPassword ? "text" : "password"}
                                             {...register("password")}
                                         />
-                                           {showPassword ? (
+                                        {showPassword ? (
                                             <VisibilityOffOutlinedIcon onClick={togglePassword} style={{ cursor: 'pointer' }} />
-                                            ) : (
+                                        ) : (
                                             <RemoveRedEyeOutlinedIcon onClick={togglePassword} style={{ cursor: 'pointer' }} />
-                                            )}
+                                        )}
 
 
                                         {/* <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
@@ -220,12 +225,15 @@ export default function Register() {
                                 {/* Hidden field - included in formData */}
                                 {/* <input type="hidden" name="user_type" value="user" /> */}
 
-                                <button type="submit" className="create-btn-aad">{userType === 2
-                                    ? 'Sign up as a User'
-                                    : userType === 3
-                                        ? 'Sign up as a Coach'
-                                        : 'Sign Up'}</button>
+                                <button type="submit" className="create-btn-aad" disabled={loading}>
+                                    {loading ? <CircularProgress size={20} color="inherit" /> :
+                                        userType === 2
+                                            ? 'Sign up as a User'
+                                            : userType === 3
+                                                ? 'Sign up as a Coach'
+                                                : 'Sign Up'}
 
+                                </button>
                                 <div className="login-link">Already have an account? <Link href="/login">Log in</Link></div>
                             </form>
                         </div>
@@ -241,7 +249,7 @@ export default function Register() {
                 }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                >
+            >
                 <Box sx={style}>
                     <IconButton
                         onClick={handleClose}
@@ -256,14 +264,14 @@ export default function Register() {
                     </IconButton>
 
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                    <Image src={`${FRONTEND_BASE_URL}/images/verify-img.png`} alt="Image 1" className="img-fluid" width={1000} height={226} />
-                    <Typography variant="h4" component="h4">
-                      Please verify your email
-                   </Typography>
-                        
+                        <Image src={`${FRONTEND_BASE_URL}/images/verify-img.png`} alt="Image 1" className="img-fluid" width={1000} height={226} />
+                        <Typography variant="h4" component="h4">
+                            Please verify your email
+                        </Typography>
+
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        <p>Your registration has been successful. <br/> Verification email sent to your registered email id</p>
+                        <p>Your registration has been successful. <br /> Verification email sent to your registered email id</p>
                     </Typography>
                 </Box>
             </Modal>
