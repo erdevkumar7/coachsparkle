@@ -18,53 +18,56 @@ const MenuProps = {
     },
 };
 
-const names = [
-    'English',
-    'German',
-    'Arabic',
-    'Hindi',
-    'French',
-    'Spanish',
-    'Italian',
-];
+// const names = [
+//     'English',
+//     'German',
+//     'Arabic',
+//     'Hindi',
+//     'French',
+//     'Spanish',
+//     'Italian',
+// ];
 
-export default function CoachLanguages() {
+export default function CoachLanguages({allLanguages, onChange}) {
     const [personName, setPersonName] = React.useState([]);
 
     const handleChange = (event) => {
         const {
             target: { value },
         } = event;
-        setPersonName(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
+
+         const selected = typeof value === 'string' ? value.split(',') : value;
+         setPersonName(selected);
+
+         const selectedIds = allLanguages.filter(lang => selected.includes(lang.language)).map(lang => lang.id);
+
+         onChange(selectedIds);
     };
 
     return (
         <div>
             <FormControl sx={{ m: 1, width: 300 }}>
-                
+
                 <Select
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
                     value={personName}
                     onChange={handleChange}
-                    
+
                     renderValue={(selected) => {
-                        if (selected.length === 0) {
-                            return <span>Enter your languages</span>; // 👈 Placeholder here
+                                                if (selected.length === 0) {
+                            return <span>Enter your languages</span>;
                         }
                         return selected.join(', ');
                     }}
                     MenuProps={MenuProps}
-                    displayEmpty // 👈 This makes placeholder visible
+                    displayEmpty
                 >
-                    {names.map((name) => (
-                        <MenuItem key={name} value={name}>
-                            <Checkbox checked={personName.includes(name)} />
-                            <ListItemText primary={name} />
+                    {allLanguages.map((lang) => (
+                        <MenuItem key={lang.id} value={lang.language}>
+                            <Checkbox checked={personName.includes(lang.language)} />
+                            <ListItemText primary={lang.language} />
                         </MenuItem>
                     ))}
                 </Select>
