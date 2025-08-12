@@ -356,7 +356,7 @@ export default async function Home() {
       <div className="view-all-coaches-list">
         <div className="container">
           <div className="search-container">
-            <div className="search-input">
+            <div>
               <h1>Featured Coaches</h1>
             </div>
             <div className="view-all-btn">

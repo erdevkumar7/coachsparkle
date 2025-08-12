@@ -33,7 +33,7 @@ export default function LoginForm() {
         if (token) {
             const fetchUser = async () => {
                 const tokenData = await HandleValidateToken(token);
-                if (tokenData) {             
+                if (tokenData) {
                     if (tokenData.data.user_type == 2) {
                         router.push('/user/dashboard');
                     } else if (tokenData.data.user_type == 3) {

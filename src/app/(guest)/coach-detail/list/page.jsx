@@ -28,6 +28,8 @@ import EastIcon from "@mui/icons-material/East";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import FavIcon from "../../_components/coach-detail/FavIcon";
 import Cookies from "js-cookie";
+import { getAllMasters } from '@/app/api/guest';
+import CoachDetailCalendar from "@/app/(guest)/_components/CoachDetailCalendar";
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -35,49 +37,105 @@ export default function CoachList() {
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [countries, setCountries] = useState([]);
+  const [deliveryMode, setDeliveryMode] = useState([]);
+  const [coachTypes, setCoachTypes] = useState([]);
+  const [allLanguages, setAllLanguages] = useState([]);
+  const [services, setServices] = useState([]);
+const [filters, setFilters] = useState({
+  search_for: "",
+  delivery_mode: null,
+  free_trial_session: null,
+  is_corporate: null,
+  countries: [],
+  services: [],
+  coaching_sub_categories: [],
+  languages: [],
+  average_rating: null,
+  price: null,
+  availability_start: null,
+  availability_end: null,
+});
+
+
+const updateFilter = (key, value) => {
+  setFilters(prev => ({
+    ...prev,
+    [key]: value
+  }));
+};
+
 
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
   ];
 
-  useEffect(() => {
-    getAllCoaches(currentPage);
-  }, [currentPage]);
-  const getAllCoaches = async (page = 1) => {
-    setLoading(true);
+useEffect(() => {
+  const fetchMastersAndCoaches = async () => {
     try {
-      const token = Cookies.get("token");
-      let userId = null;
-
-      if (token) {
-        const user = localStorage.getItem("user");
-        if (user) {
-          const parsedUser = JSON.parse(user);
-          userId = parsedUser.id;
-        }
+      const allMasters = await getAllMasters();
+      if (allMasters) {
+        setCountries(allMasters.countries || []);
+        setDeliveryMode(allMasters.delivery_mode || []);
+        setCoachTypes(allMasters.coach_type || []);
+        setAllLanguages(allMasters.languages || []);
+        setServices(allMasters.services || []);
       }
-
-      const response = await axios.post(
-        `${apiUrl}/coachlist?page=${page}`,
-        userId ? { user_id: userId } : {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("coach:", response.data.data);
-      setCoaches(response.data.data);
-      setPagination(response.data.pagination);
-    } catch (error) {
-      console.error("Error fetching coaches:", error);
-    } finally {
-      setLoading(false);
+      getAllCoaches(1);
+    } catch (err) {
+      console.error("Failed to fetch masters:", err);
     }
   };
 
+  fetchMastersAndCoaches();
+}, []);
+
+useEffect(() => {
+  getAllCoaches(currentPage);
+}, [currentPage, filters]);
+
+const getAllCoaches = async (page = 1) => {
+  setLoading(true);
+  try {
+    const token = Cookies.get("token");
+    let userId = null;
+
+    if (token) {
+      const user = localStorage.getItem("user");
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        userId = parsedUser.id;
+      }
+    }
+
+    const activeFilters = Object.fromEntries(
+      Object.entries(filters).filter(([key, val]) => {
+        if (Array.isArray(val)) return val.length > 0;
+        return val !== null && val !== "" && val !== undefined;
+      })
+    );
+
+    if (userId) activeFilters.user_id = userId;
+
+    const response = await axios.post(
+      `${apiUrl}/coachlist?page=${page}`,
+      activeFilters,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    setCoaches(response.data.data);
+    setPagination(response.data.pagination);
+  } catch (error) {
+    console.error("Error fetching coaches:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
   const handlePageChange = (page) => {
-    // console.log(page, 'pageee')
+
     if (
       page !== pagination.current_page &&
       page >= 1 &&
@@ -135,6 +193,8 @@ export default function CoachList() {
             <input
               type="text"
               placeholder="Search for any skill, title or company"
+              value={filters.search_for}
+              onChange={(e) => updateFilter("search_for", e.target.value)}
             />
             <p className="results">1000+ coaches found</p>
 
@@ -173,7 +233,7 @@ export default function CoachList() {
                                 <a href="#">Show more services</a>
                             </div> */}
 
-              <MultipleSelect />
+              <MultipleSelect countries={countries} value={filters.countries} onChange={(selected) => updateFilter("countries", selected)}/>
             </div>
 
             <div className="filter-section">
@@ -199,7 +259,7 @@ export default function CoachList() {
                                 <label><input type="checkbox" /> Hybrid</label>
                             </div> */}
 
-              <CoachServices />
+              <CoachServices services={services} value={filters.services} onChange={(selected) => updateFilter("services", selected)} />
             </div>
 
             <div className="filter-section">
@@ -214,7 +274,8 @@ export default function CoachList() {
                                 <label><input type="checkbox" /> Conversational </label>
                             </div> */}
 
-              <CoachDeliveryMode />
+              <CoachDeliveryMode deliveryMode={deliveryMode} value={filters.delivery_mode}
+  onChange={(val) => updateFilter("delivery_mode", val)} />
             </div>
 
             <div className="filter-section">
@@ -255,12 +316,16 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Languages</h4>
-              <CoachLanguages />
+              <CoachLanguages
+  allLanguages={allLanguages}
+  value={filters.languages}
+  onChange={(selected) => updateFilter("languages", selected)}
+/>
             </div>
 
             <div className="filter-section">
               <h4>Availability</h4>
-              {/* <CoachAvail /> */}
+              <CoachDetailCalendar className="coach-list-calendar"/>
             </div>
 
             <div className="filter-section rating-star">

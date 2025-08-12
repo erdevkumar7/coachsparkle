@@ -205,7 +205,7 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  margin-right: 8px;
+  margin-right: -1px;
 }
 
 .coach-banner-add .filter-section label {
@@ -2140,6 +2140,5 @@ button.ai-mtc {
     width: 20px !important;
     height: 46px !important;
     justify-content: center;
-    display: flex
-;
+    display: flex;
 }
