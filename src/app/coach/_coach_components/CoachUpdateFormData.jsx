@@ -15,6 +15,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { coachSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
 import { updateCoachData } from "@/app/api/coach";
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  Chip,
+  Box
+} from "@mui/material";
 
 
 export default function CoachUpdateForm({
@@ -57,7 +64,7 @@ export default function CoachUpdateForm({
       state_id: user?.state_id || '',
       city_id: user?.city_id || '',
       coach_type: user?.coach_type || "",
-      coach_sub_type: user?.coach_subtype?.map((sub) => sub.id) || [],
+      coach_subtype: user?.coach_subtype?.map((sub) => sub.id) || [],
       professional_title: user?.professional_title || "",
       company_name: user?.company_name || "",
       experience: user?.experience || "",
@@ -86,7 +93,7 @@ export default function CoachUpdateForm({
     context: { isProUser }, // pass here
   });
 
-  // console.log('coach_subtype', user?.coach_subtype)
+  // console.log('coach_subtype', user)
   useEffect(() => {
     const authToken = Cookies.get('token');
     if (!authToken) {
@@ -129,6 +136,7 @@ export default function CoachUpdateForm({
 
       if (user?.city_id) {
         const match = res.find((c) => c.city_id === user.city_id);
+        // console.log('city_id_match', user)
         if (match) {
           reset({
             ...getValues(),
@@ -139,24 +147,49 @@ export default function CoachUpdateForm({
     });
   }, [selectedState]);
 
+  // useEffect(() => {
+  //   if (!selectedCoachType) return;
+
+  //   getSubCoachType(selectedCoachType).then((res) => {
+  //     setSubCoachTypes(res);
+
+  //     if (user?.coach_subtype) {
+  //       const match = res.find((s) => s.id === user.coach_subtype);
+  //       // console.log('coach_subtype_match', match);
+
+  //       if (match) {
+  //         reset({
+  //           ...getValues(), // preserve other form values
+  //           coach_subtype: match.id, // set default subtype
+  //         });
+  //       }
+  //     }
+  //   });
+  // }, [selectedCoachType]);
+
   useEffect(() => {
     if (!selectedCoachType) return;
 
     getSubCoachType(selectedCoachType).then((res) => {
       setSubCoachTypes(res);
 
-      if (user?.coach_subtype) {
-        const match = res.find((s) => s.id === user.coach_subtype);
-        // console.log('match',res, match, user.coach_subtype)
-        if (match) {
+      if (Array.isArray(user?.coach_subtype)) {
+        const userSubtypeIds = user.coach_subtype.map(sub => sub.id); // extract ids
+
+        const matchedIds = res
+          .filter(s => userSubtypeIds.includes(s.id)) // find matching subtypes
+          .map(s => s.id); // we only need their ids for the form
+        // console.log('coach_subtype_match', matchedIds);
+        if (matchedIds.length > 0) {
           reset({
             ...getValues(), // preserve other form values
-            coach_subtype: match.id, // set default subtype
+            coach_subtype: matchedIds, // set multiple ids as default
           });
         }
       }
     });
   }, [selectedCoachType]);
+
 
 
 
@@ -213,7 +246,7 @@ export default function CoachUpdateForm({
     }
   };
 
-  // console.log("service_names", getAllServices);
+  // console.log("coachSubTypes", coachSubTypes);
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -302,7 +335,7 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group">
                 <label>Sub Coaching Category</label>
-                {/* <select {...register('coach_sub_type')}>
+                {/* <select {...register('coach_subtype')}>
                   <option value="">Select</option>
                   {coachSubTypes.map((sub) => (
                     <option key={sub.id} value={sub.id}>
@@ -311,8 +344,8 @@ export default function CoachUpdateForm({
                   ))}
                 </select> */}
 
-                <Controller
-                  name="coach_sub_type"
+                {/* <Controller
+                  name="coach_subtype"
                   control={control}
                   render={({ field }) => (
                     <select
@@ -330,24 +363,47 @@ export default function CoachUpdateForm({
                       ))}
                     </select>
                   )}
-                />
+                /> */}              
 
-                {/* <Controller
-                  name="coach_sub_type"
+                <Controller
+                  name="coach_subtype"
                   control={control}
                   render={({ field }) => (
-                    <MultipleSelectChip
-                      value={field.value || []} // make sure it's always an array
-                      onChange={(selectedIds) => {
-                        field.onChange(selectedIds);
-                      }}
-                      options={coachSubTypes.map(sub => ({
-                        id: sub.id,
-                        label: sub.subtype_name
-                      }))}
-                    />
+                    <FormControl fullWidth>
+                      <Select
+                        {...field}
+                        multiple
+                        value={field.value || []} // ensure array
+                        onChange={(e) => {
+                          field.onChange(e.target.value); // array of ids
+                        }}
+                        displayEmpty
+                        renderValue={(selected) => {
+                          if (!selected || selected.length === 0) {
+                            return <em>Select coach subtype</em>; // fallback text
+                          }
+                          return (
+                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                              {selected.map((id) => {
+                                const subtype = coachSubTypes.find((s) => s.id === id);
+                                return subtype ? (
+                                  <Chip key={id} label={subtype.subtype_name} />
+                                ) : null;
+                              })}
+                            </Box>
+                          );
+                        }}
+                      >
+                        {coachSubTypes.map((sub) => (
+                          <MenuItem key={sub.id} value={sub.id}>
+                            {sub.subtype_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   )}
-                /> */}
+                />
+
 
 
               </div>
