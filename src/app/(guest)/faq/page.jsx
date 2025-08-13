@@ -59,10 +59,22 @@ export default function Faq() {
             {faqData.map((category, catIndex) => (
               <div key={category.id} className="accordion-text-top">
                 <h4>
-                  <img src="/coachsparkle/images/accordion-icon-one.png" alt="accordion-icon" />{" "}
+                  <img
+                    src={`/coachsparkle/images/accordion-icon-${
+                      category.id === 1
+                        ? "one"
+                        : category.id === 2
+                        ? "two"
+                        : category.id === 3
+                        ? "three"
+                        : category.id === 4
+                        ? "four"
+                        : "default"
+                    }.png`}
+                    alt="accordion-icon"
+                  />{" "}
                   {category.name}
                 </h4>
-
                 {category.faqs.map((faq, faqIndex) => {
                   const headingId = `heading-${category.id}-${faq.id}`;
                   const collapseId = `collapse-${category.id}-${faq.id}`;
