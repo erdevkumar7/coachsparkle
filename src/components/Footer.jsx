@@ -34,7 +34,7 @@ export default function Footer() {
                         <div className="col-md-2 coach-footer-three new-add-footer">
                             <h5>Platform</h5>
                             <ul className="list-unstyled">
-                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="/coach-detail/list" className="text-decoration-none">Explore Coaches</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href={`${FRONTEND_BASE_URL}/coach-detail/list`} className="text-decoration-none">Explore Coaches</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="/coachsparkle/send-coaching-request" className="text-decoration-none">Send Coaching Request</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">AI Match</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">List As Coach</a></li>
