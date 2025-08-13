@@ -215,7 +215,6 @@ export const fetchAvailability = async (packageId) => {
     return data.data;
 };
 
-
 export const getMasterFaq = async () => {
     try {
         const res = await fetch(`${apiUrl}/getfaqs`, {
@@ -227,10 +226,10 @@ export const getMasterFaq = async () => {
         });
 
         const json = await res.json();
-        console.log("Full API response:", json); // 🔍 Check what’s actually coming
+        console.log("Full API response:", json);
 
-        if (json?.success && Array.isArray(json.data)) {
-            return json.data;
+        if (Array.isArray(json)) {
+            return json; // ✅ Directly return array
         }
         return [];
     } catch (error) {
