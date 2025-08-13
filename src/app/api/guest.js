@@ -216,13 +216,24 @@ export const fetchAvailability = async (packageId) => {
 };
 
 export const getMasterFaq = async () => {
-    const res = await fetch(`${apiUrl}/getfaqs`, {
-        headers: {
-            Accept: "application/json",
-        },
-    });
+    try {
+        const res = await fetch(`${apiUrl}/getfaqs`, {
+            method: 'GET', 
+            headers: {
+                Accept: "application/json",
+            },
+            cache: 'no-store',
+        });
 
-    const json = await res.json();
-    return json?.success && Array.isArray(json.data) ? json.data : [];
+        const json = await res.json();
+        if (json?.success && Array.isArray(json.data)) {
+            return json.data;
+        }
+        return [];
+    } catch (error) {
+        console.error("Error fetching FAQs:", error);
+        return [];
+    }
 };
+
 
