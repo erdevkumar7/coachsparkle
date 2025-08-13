@@ -13,6 +13,7 @@ export default function Faq() {
     const fetchFaq = async () => {
       try {
         const data = await getMasterFaq();
+        console.log(data);
         setFaqData(data);
       } catch (error) {
         console.error("Error fetching FAQ:", error);
