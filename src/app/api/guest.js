@@ -214,3 +214,18 @@ export const fetchAvailability = async (packageId) => {
 
     return data.data;
 };
+
+export const getMasterFaq = async () => {
+    const res = await fetch(`${apiUrl}/getfaqs`, {
+        method: 'POST',
+        headers: {
+            Accept: "application/json",
+        },
+    });
+
+    const json = await res.json();
+    if (json?.success && Array.isArray(json.data)) {
+        return json.data;
+    }
+    return [];
+};
