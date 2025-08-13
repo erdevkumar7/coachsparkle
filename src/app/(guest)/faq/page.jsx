@@ -59,12 +59,7 @@ export default function Faq() {
             {faqData.map((category, catIndex) => (
               <div key={category.id} className="accordion-text-top">
                 <h4>
-                  <img
-                    src={`/coachsparkle/images/accordion-icon-${
-                      catIndex + 1
-                    }.png`}
-                    alt="accordion-icon"
-                  />{" "}
+                  <img src="/coachsparkle/images/accordion-icon-one.png" alt="accordion-icon" />{" "}
                   {category.name}
                 </h4>
 
