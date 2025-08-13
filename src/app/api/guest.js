@@ -215,10 +215,11 @@ export const fetchAvailability = async (packageId) => {
     return data.data;
 };
 
+
 export const getMasterFaq = async () => {
     try {
         const res = await fetch(`${apiUrl}/getfaqs`, {
-            method: 'GET', 
+            method: 'GET',
             headers: {
                 Accept: "application/json",
             },
@@ -226,6 +227,8 @@ export const getMasterFaq = async () => {
         });
 
         const json = await res.json();
+        console.log("Full API response:", json); // 🔍 Check what’s actually coming
+
         if (json?.success && Array.isArray(json.data)) {
             return json.data;
         }
@@ -235,5 +238,6 @@ export const getMasterFaq = async () => {
         return [];
     }
 };
+
 
 
