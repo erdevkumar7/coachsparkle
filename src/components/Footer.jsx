@@ -21,7 +21,7 @@ export default function Footer() {
                         <div className="col-md-2 coach-footer-two">
                             <h5>Information</h5>
                             <ul className="list-unstyled">
-                                <li><ArrowForwardIosIcon className="mui-icons"/><a href="/about-us" className="text-decoration-none">About Us</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons"/><a href={`${FRONTEND_BASE_URL}/about-us`} className="text-decoration-none">About Us</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="/contact" className="text-decoration-none">Contact Us</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="/faq" className="text-decoration-none">FAQ</a></li>
                                 <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Terms of Use</a></li>
