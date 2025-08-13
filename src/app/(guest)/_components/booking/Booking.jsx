@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { PackageBookingSubmit } from "@/app/api/packages";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
+import Link from "next/link";
 // const mockSlots = {
 //   "2025-08-04": ["3:00pm", "4:00pm"],
 //   "2025-08-05": [
@@ -31,10 +32,12 @@ export default function Booking({ coach_id, package_id }) {
   const [availability, setAvailability] = useState({});
   const [timeSlots, setTimeSlots] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmedBookingData, setConfirmedBookingData] = useState(null);
+
   const [sessionDates, setSessionDates] = useState([]);
 
 
-  console.log("sessionDates", sessionDates);
+  console.log("packageData", packageData);
 
   useEffect(() => {
     if (!package_id) return;
@@ -193,6 +196,9 @@ export default function Booking({ coach_id, package_id }) {
 
       if (result.status) {
         toast.success("Booking Confirmed!");
+        setConfirmedBookingData({
+          booking: result.data // however you store the logged-in user
+        });
         setShowConfirmation(true);
       } else {
         toast.error(result.message || "Something went wrong.");
@@ -340,15 +346,14 @@ export default function Booking({ coach_id, package_id }) {
                                     <div className="d-flex align-items-center mb-2">
                                       <h5 className="modal-title mb-0">
                                         <span className="me-2 fs-4">✅</span>
-                                        Booking Confirmed Breakthrough Package
-                                        with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
+                                        Booking Confirmed {packageData?.coach_profile?.session_title} with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
                                       </h5>
                                     </div>
                                   </div>
 
                                   <div className="modal-body">
                                     <p>
-                                      Hi Emma Rosen,
+                                      Hi {confirmedBookingData?.booking?.user_details?.first_name} {confirmedBookingData?.booking?.user_details?.last_name},
                                       <br />
                                       Thank you for booking the{" "}
                                       <strong>
@@ -366,67 +371,60 @@ export default function Booking({ coach_id, package_id }) {
                                         <strong>Coach:</strong> {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
                                       </li>
                                       <li>
-                                        <strong>Dates:</strong> 15/08/2025 -
-                                        10/09/2025 (to be confirmed)
+                                        <strong>Dates:</strong> {confirmedBookingData?.booking?.session_date_start} to {confirmedBookingData?.booking?.session_date_end}(to be confirmed)
+
                                       </li>
                                       <li>
                                         <strong>Number of Sessions:</strong> {packageData?.coach_profile?.session_count}
                                       </li>
                                       <li>
-                                        <strong>Session Format:</strong> Online
-                                        video (Zoom)
+                                        <strong>Session Format:</strong> {packageData?.coach_profile?.delivery_mode}
                                       </li>
-                                      <li>
+                                      {/* <li>
                                         <strong>Weekly Use:</strong> Use all 3
                                         sessions within 6 weeks
-                                      </li>
+                                      </li> */}
                                       <li>
-                                        <strong>Policy:</strong> One free
-                                        reschedule per session
+                                        <strong>Policy:</strong> {packageData?.coach_profile?.cancellation_policy}
                                       </li>
-                                      <li>
+                                      {/* <li>
                                         <strong>Notes:</strong> Intake form +
                                         session worksheet + voice note support
-                                      </li>
+                                      </li> */}
                                     </ul>
 
-                                    <h6 className="fw-bold mt-4">
-                                      Zoom Meeting Link
-                                    </h6>
-                                    <p className="small">
-                                      Please join your sessions at the scheduled
-                                      time using the link below:
-                                      <br />
-                                      <a href="#" className="link">
-                                        Join Zoom Meeting
-                                      </a>
-                                      <br />
-                                      (The same link will remain for all
-                                      sessions unless otherwise updated by your
-                                      coach.)
-                                    </p>
+                                    {packageData?.coach_profile?.delivery_mode_detail &&
+                                      <>
+                                        <h6 className="fw-bold mt-4">
+                                          Zoom Meeting/Video Link
+                                        </h6>
+                                        <p className="small">
+                                          Please join your sessions at the scheduled
+                                          time using the link below:
+                                          <br />
+                                          <Link href={packageData?.coach_profile?.delivery_mode_detail} className="link" target="blank">
+                                            Join Zoom/Video Meeting
+                                          </Link>
+                                          <br />
+                                          (The same link will remain for all
+                                          sessions unless otherwise updated by your
+                                          coach.)
+                                        </p>
+                                      </>}
 
                                     <h6 className="fw-bold mt-4">
                                       What’s Included
                                     </h6>
                                     <ul className="small">
-                                      <li>Personalized coaching worksheets</li>
-                                      <li>
-                                        Voice note support between sessions
-                                        (Mon–Fri)
-                                      </li>
-                                      <li>
-                                        One free reschedule per session (24-hour
-                                        notice required)
-                                      </li>
+                                      {packageData?.coach_profile?.price_model &&
+                                        <li>{packageData?.coach_profile?.price_model}</li>}
+                                      {packageData?.coach_profile?.rescheduling_policy &&
+                                        <li>{packageData?.coach_profile?.rescheduling_policy}</li>}
                                     </ul>
 
-                                    <h6 className="fw-bold mt-4">Next Steps</h6>
+                                    <h6 className="fw-bold mt-4">About Package</h6>
                                     <p className="small">
-                                      Sarah will be in touch shortly to schedule
-                                      your first session and share prep
-                                      materials. You can also message her
-                                      directly from your dashboard.
+                                      {packageData?.coach_profile?.short_description}
                                     </p>
                                   </div>
 
@@ -441,8 +439,16 @@ export default function Booking({ coach_id, package_id }) {
                                       Message Sarah{" "}
                                       <i className="bi bi-arrow-right"></i>
                                     </button>
-                                    <button className="btn btn-primary">
+                                    {/* <button className="btn btn-primary">
                                       View Bookings{" "}
+                                      <i className="bi bi-arrow-right"></i>
+                                    </button> */}
+                                    <button
+                                      className="btn btn-primary"
+                                      onClick={() => {
+                                        setShowConfirmation(false);
+                                      }}>
+                                      Close{" "}
                                       <i className="bi bi-arrow-right"></i>
                                     </button>
                                   </div>

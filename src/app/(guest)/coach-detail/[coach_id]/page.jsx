@@ -24,7 +24,7 @@ import AdjustIcon from '@mui/icons-material/Adjust';
 import { HandleValidateTokenOnServer } from "@/app/api/user";
 import Link from "next/link";
 import { getLatestMasterBlogs } from "../../../api/guest";
-
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 
 export default async function CoachDetail({ params }) {
@@ -279,7 +279,9 @@ export default async function CoachDetail({ params }) {
                     <div className="trial-offer">
                       <span>
                         {" "}
-                        <i className="bi bi-patch-check"></i>Free trial
+                        <i className="bi bi-patch-check"></i>
+                        {/* <VerifiedIcon /> */}
+                        Free trial
                       </span>
                       <div className="yes-no-add">
                         <label>
