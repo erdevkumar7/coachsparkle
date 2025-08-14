@@ -24,7 +24,7 @@ import AdjustIcon from '@mui/icons-material/Adjust';
 import { HandleValidateTokenOnServer } from "@/app/api/user";
 import Link from "next/link";
 import { getLatestMasterBlogs } from "../../../api/guest";
-
+import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 
 
 export default async function CoachDetail({ params }) {
@@ -246,7 +246,7 @@ export default async function CoachDetail({ params }) {
                             {blog.blog_name}
                           </h4>
                           <p>
-                            {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 200)}...
+                            {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 100)}...
                           </p>
                            {/* <Link href={`/coachsparkle/articles/${blog.id}`}><button>Read Article</button></Link> */}
                            <Link href={`#`}><button>Read Article</button></Link>
@@ -279,7 +279,7 @@ export default async function CoachDetail({ params }) {
                     <div className="trial-offer">
                       <span>
                         {" "}
-                        <i className="bi bi-patch-check"></i>Free trial
+                        <VerifiedOutlinedIcon/>Free trial
                       </span>
                       <div className="yes-no-add">
                         <label>
