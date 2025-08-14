@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "react-phone-input-2/lib/style.css";
 
 import BootstrapClient from "@/components/BootstrapClient";
 import { Inter, Roboto } from "next/font/google";
