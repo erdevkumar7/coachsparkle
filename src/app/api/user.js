@@ -94,3 +94,19 @@ export const HandleValidateTokenOnServer = async () => {
     }
 }
 
+// app/api/auth.js
+export async function HandleValidateTokenServer(token) {
+  try {
+    const res = await fetch(`${process.env.API_URL}/validate-token`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token}` },
+      cache: "no-store" // ensure fresh validation
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+
