@@ -1,5 +1,5 @@
 "use client";
-
+import Cookies from "js-cookie";
 import { useState } from "react";
 import axios from "axios";
 import '../_styles/about_us.css';
@@ -9,6 +9,8 @@ import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 
 export default function Contact() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const token = Cookies.get("token");
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -60,7 +62,8 @@ export default function Contact() {
         }
         setLoading(true);
         try {
-            const res = await axios.post("http://your-domain.com/api/contact-message", formData);
+            //const res = await axios.post("http://your-domain.com/api/contact-message", formData);
+            const res = await axios.post(`${apiUrl}/contact-message`, formData);
             setSuccessMessage(res.data.message || "Message sent successfully!");
             setFormData({
                 first_name: "",
