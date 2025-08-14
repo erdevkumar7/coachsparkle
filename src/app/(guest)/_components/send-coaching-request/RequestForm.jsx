@@ -9,6 +9,12 @@ import { requestSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { ToastContainer } from "react-toastify";
+import "../../_styles/coach_request_form.css";
+import Select from "react-select";
+import BookingPreferCaledar from "./BookingPreferCalendar";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 export default function RequestForm({
   coachType,
@@ -53,7 +59,7 @@ export default function RequestForm({
     const { name, value, type, checked } = e.target;
     setValue(name, type === "checkbox" ? (checked ? 1 : 0) : value);
 
-    if (name === "looking_for") {
+    if (name === "coach_type") {
       setCoachId(value);
       const subTypeRes = await getSubCoachType(value);
       setSubCoachTypes(subTypeRes || []);
@@ -146,7 +152,7 @@ export default function RequestForm({
                 <label className="form-label">I am looking for*</label>
                 <select
                   className="form-selectbox"
-                  {...register("looking_for")}
+                  {...register("coach_type")}
                   onChange={handleChange}
                   disabled={loading}
                 >
@@ -159,15 +165,15 @@ export default function RequestForm({
                     </option>
                   ))}
                 </select>
-                {errors.looking_for && (
-                  <p className="text-danger">{errors.looking_for.message}</p>
+                {errors.coach_type && (
+                  <p className="text-danger">{errors.coach_type.message}</p>
                 )}
               </div>
               <div className="col-md-6">
                 <label className="form-label">Coaching Category*</label>
-                <select
+                {/* <select
                   className="form-selectbox"
-                  {...register("coaching_category")}
+                  {...register("coach_subtype")}
                   disabled={loading}
                 >
                   <option value="" disabled>
@@ -178,10 +184,38 @@ export default function RequestForm({
                       {item.subtype_name}
                     </option>
                   ))}
-                </select>
-                {errors.coaching_category && (
+                </select> */}
+
+                <Controller
+                  name="coach_subtype"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      isMulti
+                      options={coachSubTypes.map(item => ({
+                        value: item.id,
+                        label: item.subtype_name
+                      }))}
+                      className="basic-multi-select form-selectbox"
+                      classNamePrefix="select"
+                      value={
+                        coachSubTypes
+                          .filter(item => field.value?.includes(item.id))
+                          .map(item => ({
+                            value: item.id,
+                            label: item.subtype_name
+                          }))
+                      }
+                      onChange={(selected) => field.onChange(selected.map(opt => opt.value))}
+                    />
+                  )}
+                />
+
+
+                {errors.coach_subtype && (
                   <p className="text-danger">
-                    {errors.coaching_category.message}
+                    {errors.coach_subtype.message}
                   </p>
                 )}
               </div>
@@ -298,11 +332,11 @@ export default function RequestForm({
                   <option value="" disabled>
                     Select communication channel
                   </option>
-                    {communicationChannels.map((communication) => (
-                      <option key={communication.id} value={communication.id}>
-                        {communication.category_name}
-                      </option>
-                    ))}
+                  {communicationChannels.map((communication) => (
+                    <option key={communication.id} value={communication.id}>
+                      {communication.category_name}
+                    </option>
+                  ))}
                 </select>
                 {errors.preferred_communication_channel && (
                   <p className="text-danger">
@@ -379,13 +413,14 @@ export default function RequestForm({
                       </option>
                     ))}
 
-                    </select>
+                  </select>
                   {errors.budget_range && (
                     <p className="text-danger">{errors.budget_range.message}</p>
                   )}
                 </div>
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                   <label className="form-label">Preferred Schedule</label>
+                  <BookingPreferCaledar />
                   <input
                     type="text"
                     className="form-input"
@@ -398,7 +433,35 @@ export default function RequestForm({
                       {errors.preferred_schedule.message}
                     </p>
                   )}
+                </div> */}
+
+                <div className="col-md-6">
+                  <label className="form-label">Preferred Schedule</label>
+
+                  <Controller
+                    name="preferred_schedule"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        selected={field.value ? new Date(field.value) : null}
+                        onChange={(date) => {
+                          field.onChange(date ? format(date, "yyyy-MM-dd") : "");
+                        }}
+                        dateFormat="yyyy-MM-dd"
+                        minDate={new Date()}
+                        className="form-input"
+                        disabled={loading}
+                      />
+                    )}
+                  />
+
+                  {errors.preferred_schedule && (
+                    <p className="text-danger">
+                      {errors.preferred_schedule.message}
+                    </p>
+                  )}
                 </div>
+
                 <div className="col-md-6">
                   <label className="form-label">Coach Gender</label>
                   <select
@@ -484,7 +547,7 @@ export default function RequestForm({
                     </option>
                     <option value={1}>Immediately</option>
                     <option value={2}>Within a week</option>
-                    <option value={3}>Flexible</option>
+                    <option value={4}>Flexible</option>
                   </select>
                   {errors.preferred_start_date_urgency && (
                     <p className="text-danger">

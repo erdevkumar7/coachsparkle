@@ -279,7 +279,7 @@ export default async function CoachDetail({ params }) {
                     <div className="trial-offer">
                       <span>
                         {" "}
-                        <VerifiedOutlinedIcon/>Free trial
+                        <i className="bi bi-patch-check"></i>Free trial
                       </span>
                       <div className="yes-no-add">
                         <label>

@@ -36,6 +36,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
     coaching_category: "",
     description: "",
     focus: "",
+    delivery_mode_detail: "",
     age_group: "",
     session_count: "",
     session_duration: "",
@@ -204,9 +205,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     value={formData.title}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""
+                      }`}
                   />
                 </div>
                 <div className="form-group">
@@ -222,9 +222,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     onChange={handleChange}
                     value={formData.short_description}
                     disabled={!isProUser}
-                    className={`form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""
+                      }`}
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -235,9 +234,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     value={formData.coaching_category}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""
+                      }`}
                   >
                     <option value="">Select Category</option>
                     {categories.map((cat) => (
@@ -296,9 +294,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     onChange={handleChange}
                     value={formData.description}
                     disabled={!isProUser}
-                    className={`form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""
+                      }`}
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -312,9 +309,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     onChange={handleChange}
                     placeholder="e.g., Confidence, Goal clarity, Custom action plan"
                     disabled={!isProUser}
-                    className={`form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""
+                      }`}
                   />
                 </div>
                 <div className="form-group">
@@ -325,9 +321,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     value={formData.age_group}
                     onChange={handleChange}
                     disabled={!isProUser}
-                    className={`form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""
+                      }`}
                     placeholder="e.g., Best for first-timers and those preparing for key life or career transitions."
                   >
                     <option value="">Select </option>
@@ -363,12 +358,14 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                 </div>
                 <div className="form-group">
                   <textarea
+                    name="delivery_mode_detail"
+                    value={formData.delivery_mode_detail}
+                    onChange={handleChange}
                     rows={3}
                     placeholder="Enter details of delivery mode such as  Zoom, Google Meet or venue"
                     disabled={!isProUser}
-                    className={`delivery-textarea form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    }`}
+                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : ""
+                      }`}
                   />
                 </div>
                 <div className="coach-session-count gap-2">
@@ -382,9 +379,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       placeholder="4"
                       onChange={handleChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     />
                   </div>
 
@@ -415,14 +411,13 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       <option value="55">55 Min</option>
                       <option value="60">60 Min</option>
                       </select> */}
-                      <input
-                        required
-                        type="time"
-                        name="session_duration"
-                        onChange={handleChange}
-                        disabled={!isProUser}
-                        className={`form-control ${
-                          !isProUser ? "disabled-bg" : ""
+                    <input
+                      required
+                      type="time"
+                      name="session_duration"
+                      onChange={handleChange}
+                      disabled={!isProUser}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
                         }`}
                     />
                   </div>
@@ -577,9 +572,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       value={formData.price}
                       onChange={handleChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     />
                   </div>
 
@@ -591,9 +585,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       value={formData.currency}
                       onChange={handleChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     >
                       <option value="SGD">USD</option>
                     </select>
@@ -712,9 +705,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       value={formData.price_model}
                       onChange={handleChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     >
                       <option value="">Select </option>
                       {getPriceModels.map((mdl) => (
@@ -740,9 +732,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       value={formData.booking_slots}
                       onChange={handleChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     />
                   </div>
 
@@ -781,9 +772,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       onChange={handleChange}
                       placeholder="Use within 6 weeks from first session "
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     />
                   </div>
 
@@ -797,9 +787,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       value={formData.cancellation_policy}
                       onChange={handleChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     >
                       <option>
                         Flexible – Full refund if canceled ≥24 hours before
@@ -834,9 +823,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       onChange={handleChange}
                       placeholder="One free reschedule allowed per session"
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     />
                   </div>
                 </div>
@@ -857,9 +845,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       accept="image/*"
                       onChange={handleFileChange}
                       disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""
+                        }`}
                     />
                   </div>
                 </div>
@@ -877,16 +864,16 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
             </div>
             {!isProUser ? (
               <div className="upgrade-banner d-flex align-items-center justify-content-center gap-3 mt-5 p-3 bg-white">
-              <div className="d-flex align-items-center">
-                <span className="upgrade-banner-text">
-                  🚀 Ready to Stand out? <strong>Upgrade now</strong>
-                </span>
+                <div className="d-flex align-items-center">
+                  <span className="upgrade-banner-text">
+                    🚀 Ready to Stand out? <strong>Upgrade now</strong>
+                  </span>
+                </div>
+                <button type="submit" className="btn upgrade-btn px-4 py-2" >
+                  Unlock Pro Features
+                </button>
               </div>
-              <button type="submit" className="btn upgrade-btn px-4 py-2" >
-                Unlock Pro Features
-              </button>
-            </div>
-            ) : null }
+            ) : null}
           </div>
         </div>
 

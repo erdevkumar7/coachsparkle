@@ -193,8 +193,8 @@ export const sendMessageSchema = yup.object().shape({
 
 
 export const requestSchema = yup.object().shape({
-    looking_for: yup.string().required("Category is required"),
-    coaching_category: yup.string().required("Subcategory is required"),
+    coach_type: yup.string().required("Category is required"),
+    coach_subtype: yup.array().min(1, "Subcategory is required"),
     preferred_mode_of_delivery: yup.string().required("Delivery mode is required"),
     location: yup.string().required("Location is required"),
     coaching_goal: yup.string().required("Coaching goal is required"),
@@ -209,35 +209,35 @@ export const requestSchema = yup.object().shape({
     only_certified_coach: yup.string().required("Select if only certified"),
     preferred_start_date_urgency: yup.string().required("Start urgency is required"),
     special_requirements: yup.string().required("Special requirements are required"),
-    share_with_coaches: yup
-  .number()
-  .required("Consent is required")
-  .oneOf([1], "You must agree to share your request"),
+    // share_with_coaches: yup
+    //     .number()
+    //     .required("Consent is required")
+    //     .oneOf([1], "You must agree to share your request"),
 });
 
 
 export const userProfileSchema = yup.object().shape({
-  first_name: yup.string().required("First name is required"),
-  last_name: yup.string().required("Last name is required"),
-  display_name: yup.string().required("Display name is required"),
-  email: yup.string().email('Please provide valid email').required("Email is required"),
-  country_id: yup.string().required("Please select your country"),
-  professional_profile: yup.string(),
-  your_profession: yup.string(),
-  prefer_coaching_topic: yup.string(),
-  age_group_user: yup.string().required("Age group is required"),
-  coaching_goal_1: yup.string(),
-  coaching_goal_2: yup.string(),
-  coaching_goal_3: yup.string(),
-  language_names: yup
-  .array()
-  .of(yup.number().required())
-  .min(1, "At least one language must be selected")
-  .required("Language is required"),
-  prefer_mode: yup.string(),
-  prefer_coaching_time: yup.string(),
-  short_bio: yup.string(),
-  coach_agreement: yup.bool(),
+    first_name: yup.string().required("First name is required"),
+    last_name: yup.string().required("Last name is required"),
+    display_name: yup.string().required("Display name is required"),
+    email: yup.string().email('Please provide valid email').required("Email is required"),
+    country_id: yup.string().required("Please select your country"),
+    professional_profile: yup.string(),
+    your_profession: yup.string(),
+    prefer_coaching_topic: yup.string(),
+    age_group_user: yup.string().required("Age group is required"),
+    coaching_goal_1: yup.string(),
+    coaching_goal_2: yup.string(),
+    coaching_goal_3: yup.string(),
+    language_names: yup
+        .array()
+        .of(yup.number().required())
+        .min(1, "At least one language must be selected")
+        .required("Language is required"),
+    prefer_mode: yup.string(),
+    prefer_coaching_time: yup.string(),
+    short_bio: yup.string(),
+    coach_agreement: yup.bool(),
 });
 
 
@@ -253,10 +253,10 @@ export const userAccountSettingSchema = yup.object().shape({
     language: yup
         .string()
         .required("Language is required"),
-mobile: yup
-    .string()
-    .required("Mobile number is required")
-    .matches(/^\+\d{10,15}$/, "Enter a valid mobile number with country code"),
+    mobile: yup
+        .string()
+        .required("Mobile number is required")
+        .matches(/^\+\d{10,15}$/, "Enter a valid mobile number with country code"),
     location: yup.string(),
     zip_code: yup.string(),
     consent: yup.string(),
@@ -271,9 +271,9 @@ export const passwordSchema = yup.object().shape({
         .string()
         .required("New password is required"),
 
-confirm_password: yup
-  .string()
-  .required("Please confirm your password")
-  .oneOf([yup.ref("new_password"), null], "Passwords must match"),
+    confirm_password: yup
+        .string()
+        .required("Please confirm your password")
+        .oneOf([yup.ref("new_password"), null], "Passwords must match"),
 
 })

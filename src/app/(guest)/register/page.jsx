@@ -73,6 +73,11 @@ export default function Register() {
         if (token) {
             const fetchUser = async () => {
                 const tokenData = await HandleValidateToken(token);
+
+                if (!tokenData) {
+                    Cookies.remove('token')
+                }
+                
                 if (tokenData) {
                     if (tokenData.data.user_type == 2) {
                         router.push('/user/dashboard');

@@ -29,10 +29,23 @@ export default function LoginForm() {
     });
 
     useEffect(() => {
+        const role = searchParams.get("role");
+        if (role) {
+            sessionStorage.setItem("role", role);
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
         const token = Cookies.get('token');
         if (token) {
             const fetchUser = async () => {
                 const tokenData = await HandleValidateToken(token);
+                // console.log('tokenData', tokenData)
+
+                if (!tokenData) {
+                    Cookies.remove('token')
+                }
+
                 if (tokenData) {
                     if (tokenData.data.user_type == 2) {
                         router.push('/user/dashboard');
@@ -170,7 +183,7 @@ export default function LoginForm() {
                                     ) : (
                                         <>
                                             Log in
-                                            <EastIcon className='mui-icons'/>
+                                            <EastIcon className='mui-icons' />
                                         </>
                                     )}
                                 </button>
