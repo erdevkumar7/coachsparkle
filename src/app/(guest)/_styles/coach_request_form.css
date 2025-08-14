@@ -170,3 +170,30 @@ textarea.form-textarea:focus {
     font-size: 14px;
     font-weight: 600;
 }
+
+
+.range-picker-field .MuiOutlinedInput-root {
+  border-radius: 16px !important;
+  background-color: #fff;
+  font-size: 14px;
+  height: 48px !important;
+  padding: 0;
+}
+
+.range-picker-field .MuiOutlinedInput-notchedOutline {
+  border-color: #d1d5db !important;
+  border-width: 1px;
+  border: none;
+  border-radius: 50px;
+}
+
+.range-picker-field:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #999 !important;
+}
+
+.range-picker-field .MuiInputBase-input {
+  cursor: pointer;
+}
+input#«r1» {
+    height: 32px !important;
+}
