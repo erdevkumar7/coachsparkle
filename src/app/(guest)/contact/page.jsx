@@ -24,12 +24,11 @@ export default function Contact() {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        setErrors({ ...errors, [e.target.name]: "" }); // Clear error on change
+        setErrors({ ...errors, [e.target.name]: "" });
     };
 
     const validateForm = () => {
         const newErrors = {};
-
         if (!formData.first_name.trim()) {
             newErrors.first_name = "First name is required";
         }
@@ -48,7 +47,6 @@ export default function Contact() {
         if (formData.message.trim().length < 10) {
             newErrors.message = "Message should be at least 10 characters";
         }
-
         return newErrors;
     };
 
@@ -60,7 +58,6 @@ export default function Contact() {
             setErrors(validationErrors);
             return;
         }
-
         setLoading(true);
         try {
             const res = await axios.post("http://your-domain.com/api/contact-message", formData);
@@ -95,7 +92,6 @@ export default function Contact() {
             <div className="contact-information">
                 <div className="container contact-container">
                     <div className="row contact-info">
-                        {/* Info Section */}
                         <h3>
                             <img src="/coachsparkle/images/contact-icon.png" alt="contact-icon" /> Contact Information
                         </h3>
@@ -103,7 +99,6 @@ export default function Contact() {
                         <p><strong><MapOutlinedIcon className='mui-icons'/> Address:</strong><br /> 61 Upper Paya Lebar Road<br /> Singapore 534816</p>
                         <p><strong><AccessTimeOutlinedIcon className='mui-icons'/> Business Hours:</strong><br /> Mon - Fri<br /> 9:00 AM - 6:00 PM (GMT +8)</p>
 
-                        {/* Form Section */}
                         <h3 className="sena-msg-add">
                             <img src="/coachsparkle/images/send-icon.png" alt="send-img" /> Send Us A Message
                         </h3>
@@ -115,12 +110,26 @@ export default function Contact() {
                             <div className="form-row">
                                 <div>
                                     <label>First name:</label>
-                                    <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} placeholder="Enter your first name" />
+                                    <input
+                                        type="text"
+                                        name="first_name"
+                                        className={errors.first_name ? "input-error" : ""}
+                                        value={formData.first_name}
+                                        onChange={handleChange}
+                                        placeholder="Enter your first name"
+                                    />
                                     {errors.first_name && <span className="error-text">{errors.first_name}</span>}
                                 </div>
                                 <div>
                                     <label>Last name:</label>
-                                    <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} placeholder="Enter your last name" />
+                                    <input
+                                        type="text"
+                                        name="last_name"
+                                        className={errors.last_name ? "input-error" : ""}
+                                        value={formData.last_name}
+                                        onChange={handleChange}
+                                        placeholder="Enter your last name"
+                                    />
                                     {errors.last_name && <span className="error-text">{errors.last_name}</span>}
                                 </div>
                             </div>
@@ -128,7 +137,14 @@ export default function Contact() {
                             <div className="form-row">
                                 <div>
                                     <label>Email:</label>
-                                    <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter your email" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        className={errors.email ? "input-error" : ""}
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Enter your email"
+                                    />
                                     {errors.email && <span className="error-text">{errors.email}</span>}
                                 </div>
                                 <div>
@@ -140,7 +156,14 @@ export default function Contact() {
                                             <option value="+44">GB +44</option>
                                             <option value="+61">AU +61</option>
                                         </select>
-                                        <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} placeholder="Phone number" />
+                                        <input
+                                            type="text"
+                                            name="phone_number"
+                                            className={errors.phone_number ? "input-error" : ""}
+                                            value={formData.phone_number}
+                                            onChange={handleChange}
+                                            placeholder="Phone number"
+                                        />
                                     </div>
                                     {errors.phone_number && <span className="error-text">{errors.phone_number}</span>}
                                 </div>
@@ -149,7 +172,12 @@ export default function Contact() {
                             <div className="form-row subject-input">
                                 <div>
                                     <label>Subject:</label>
-                                    <select name="subject" value={formData.subject} onChange={handleChange}>
+                                    <select
+                                        name="subject"
+                                        className={errors.subject ? "input-error" : ""}
+                                        value={formData.subject}
+                                        onChange={handleChange}
+                                    >
                                         <option value="General">General</option>
                                         <option value="Support">Support</option>
                                         <option value="Sales">Sales</option>
@@ -161,7 +189,13 @@ export default function Contact() {
                             <div className="form-row message-input">
                                 <div>
                                     <label>Message:</label>
-                                    <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Enter your message here"></textarea>
+                                    <textarea
+                                        name="message"
+                                        className={errors.message ? "input-error" : ""}
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        placeholder="Enter your message here"
+                                    ></textarea>
                                     {errors.message && <span className="error-text">{errors.message}</span>}
                                 </div>
                             </div>
@@ -172,7 +206,6 @@ export default function Contact() {
                         </form>
                     </div>
 
-                    {/* Map */}
                     <div className="contact-map">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19898.641312903014!2d-0.134348!3d51.507268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1234567890abcdef!2sLondon%20Eye!5e0!3m2!1sen!2suk!4v1662123456789"
