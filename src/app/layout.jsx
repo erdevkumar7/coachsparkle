@@ -1,11 +1,12 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "react-phone-input-2/lib/style.css";
 
 import BootstrapClient from "@/components/BootstrapClient";
 import { Inter, Roboto } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import "react-phone-input-2/lib/style.css";
 
 const inter = Inter({
   subsets: ["latin"],
