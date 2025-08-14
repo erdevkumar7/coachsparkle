@@ -29,6 +29,13 @@ export default function LoginForm() {
     });
 
     useEffect(() => {
+        const role = searchParams.get("role");
+        if (role) {
+            sessionStorage.setItem("role", role);
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
         const token = Cookies.get('token');
         if (token) {
             const fetchUser = async () => {
