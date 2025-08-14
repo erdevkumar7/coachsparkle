@@ -75,14 +75,20 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
   color: #fff;
   border: none;
 }
-.css-5wchs2-MuiDateCalendar-root {
+.coach-banner-add .filter-section .css-5wchs2-MuiDateCalendar-root {
   overflow: hidden;
   width: 100% !important;
 }
-
+.MuiDateCalendar-root.css-w6tl5u {
+  width: 100% !important;
+}
 .MuiDayCalendar-header.css-1rl1vrc-MuiDayCalendar-header {
   width: 100% !important;
   justify-content: space-around !important;
+}
+
+.trial-offer svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
+  margin-right: 5px;
 }
 
 .MuiDayCalendar-weekContainer.css-1pv2de5-MuiDayCalendar-weekContainer {
@@ -748,7 +754,7 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
   overflow: hidden;
 }
 .coach-profile-list-left .about-section {
-  margin-top: 30px;
+  margin-top: 0px;
   padding-top: 30px;
   padding-bottom: 10px;
 }
@@ -2018,6 +2024,7 @@ button.ai-mtc {
   line-height: 20px;
 }
 .artcl-flex .item-cont1 p {
+  height: 80px;
   font-size: 14px;
   line-height: 18px;
 }
