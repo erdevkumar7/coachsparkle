@@ -135,6 +135,23 @@ form.contact-form-add button.send-message-btn-add {
     background: #fff;
 }
 
+.error-text {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+  display: block;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.input-error {
+  border: 1px solid red !important;
+  outline: none;
+}
 
 
 
