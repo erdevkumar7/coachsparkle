@@ -28,7 +28,7 @@ import EastIcon from "@mui/icons-material/East";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import FavIcon from "../../_components/coach-detail/FavIcon";
 import Cookies from "js-cookie";
-import { getAllMasters } from '@/app/api/guest';
+import { getAllMasters } from "@/app/api/guest";
 import CoachDetailCalendar from "@/app/(guest)/_components/CoachDetailCalendar";
 
 export default function CoachList() {
@@ -42,100 +42,95 @@ export default function CoachList() {
   const [coachTypes, setCoachTypes] = useState([]);
   const [allLanguages, setAllLanguages] = useState([]);
   const [services, setServices] = useState([]);
-const [filters, setFilters] = useState({
-  search_for: "",
-  delivery_mode: null,
-  free_trial_session: null,
-  is_corporate: null,
-  countries: [],
-  services: [],
-  coaching_sub_categories: [],
-  languages: [],
-  average_rating: null,
-  price: null,
-  availability_start: null,
-  availability_end: null,
-});
+  const [filters, setFilters] = useState({
+    search_for: "",
+    delivery_mode: null,
+    free_trial_session: null,
+    is_corporate: null,
+    countries: [],
+    services: [],
+    coaching_sub_categories: [],
+    languages: [],
+    average_rating: null,
+    price: null,
+    availability_start: null,
+    availability_end: null,
+  });
 
-
-const updateFilter = (key, value) => {
-  setFilters(prev => ({
-    ...prev,
-    [key]: value
-  }));
-};
-
+  const updateFilter = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
   ];
 
-useEffect(() => {
-  const fetchMastersAndCoaches = async () => {
-    try {
-      const allMasters = await getAllMasters();
-      if (allMasters) {
-        setCountries(allMasters.countries || []);
-        setDeliveryMode(allMasters.delivery_mode || []);
-        setCoachTypes(allMasters.coach_type || []);
-        setAllLanguages(allMasters.languages || []);
-        setServices(allMasters.services || []);
+  useEffect(() => {
+    const fetchMastersAndCoaches = async () => {
+      try {
+        const allMasters = await getAllMasters();
+        if (allMasters) {
+          setCountries(allMasters.countries || []);
+          setDeliveryMode(allMasters.delivery_mode || []);
+          setCoachTypes(allMasters.coach_type || []);
+          setAllLanguages(allMasters.languages || []);
+          setServices(allMasters.services || []);
+        }
+        getAllCoaches(1);
+      } catch (err) {
+        console.error("Failed to fetch masters:", err);
       }
-      getAllCoaches(1);
-    } catch (err) {
-      console.error("Failed to fetch masters:", err);
+    };
+
+    fetchMastersAndCoaches();
+  }, []);
+
+  useEffect(() => {
+    getAllCoaches(currentPage);
+  }, [currentPage, filters]);
+
+  const getAllCoaches = async (page = 1) => {
+    setLoading(true);
+    try {
+      const token = Cookies.get("token");
+      let userId = null;
+
+      if (token) {
+        const user = localStorage.getItem("user");
+        if (user) {
+          const parsedUser = JSON.parse(user);
+          userId = parsedUser.id;
+        }
+      }
+
+      const activeFilters = Object.fromEntries(
+        Object.entries(filters).filter(([key, val]) => {
+          if (Array.isArray(val)) return val.length > 0;
+          return val !== null && val !== "" && val !== undefined;
+        })
+      );
+
+      if (userId) activeFilters.user_id = userId;
+
+      const response = await axios.post(
+        `${apiUrl}/coachlist?page=${page}`,
+        activeFilters,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      setCoaches(response.data.data);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Error fetching coaches:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  fetchMastersAndCoaches();
-}, []);
-
-useEffect(() => {
-  getAllCoaches(currentPage);
-}, [currentPage, filters]);
-
-const getAllCoaches = async (page = 1) => {
-  setLoading(true);
-  try {
-    const token = Cookies.get("token");
-    let userId = null;
-
-    if (token) {
-      const user = localStorage.getItem("user");
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        userId = parsedUser.id;
-      }
-    }
-
-    const activeFilters = Object.fromEntries(
-      Object.entries(filters).filter(([key, val]) => {
-        if (Array.isArray(val)) return val.length > 0;
-        return val !== null && val !== "" && val !== undefined;
-      })
-    );
-
-    if (userId) activeFilters.user_id = userId;
-
-    const response = await axios.post(
-      `${apiUrl}/coachlist?page=${page}`,
-      activeFilters,
-      { headers: { "Content-Type": "application/json" } }
-    );
-
-    setCoaches(response.data.data);
-    setPagination(response.data.pagination);
-  } catch (error) {
-    console.error("Error fetching coaches:", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-
   const handlePageChange = (page) => {
-
     if (
       page !== pagination.current_page &&
       page >= 1 &&
@@ -209,12 +204,19 @@ const getAllCoaches = async (page = 1) => {
                             </div> */}
               <div className="range_sld">
                 <div className="price-range-box">
-                  <span className="price">$ 0</span>
+                  <span className="price">
+                    ${filters.price ? filters.price[0] : 0}
+                  </span>
                   <span className="separator">-</span>
-                  <span className="price">$ 2000</span>
+                  <span className="price">
+                    ${filters.price ? filters.price[1] : 2000}
+                  </span>
                 </div>
 
-                <RangeSlider />
+                <RangeSlider
+                  value={filters.price || [0, 2000]}
+                  onChange={(val) => updateFilter("price", val)}
+                />
               </div>
 
               <p className="usd-text">All prices in USD</p>
@@ -233,7 +235,11 @@ const getAllCoaches = async (page = 1) => {
                                 <a href="#">Show more services</a>
                             </div> */}
 
-              <MultipleSelect countries={countries} value={filters.countries} onChange={(selected) => updateFilter("countries", selected)}/>
+              <MultipleSelect
+                countries={countries}
+                value={filters.countries}
+                onChange={(selected) => updateFilter("countries", selected)}
+              />
             </div>
 
             <div className="filter-section">
@@ -259,7 +265,11 @@ const getAllCoaches = async (page = 1) => {
                                 <label><input type="checkbox" /> Hybrid</label>
                             </div> */}
 
-              <CoachServices services={services} value={filters.services} onChange={(selected) => updateFilter("services", selected)} />
+              <CoachServices
+                services={services}
+                value={filters.services}
+                onChange={(selected) => updateFilter("services", selected)}
+              />
             </div>
 
             <div className="filter-section">
@@ -274,8 +284,11 @@ const getAllCoaches = async (page = 1) => {
                                 <label><input type="checkbox" /> Conversational </label>
                             </div> */}
 
-              <CoachDeliveryMode deliveryMode={deliveryMode} value={filters.delivery_mode}
-  onChange={(val) => updateFilter("delivery_mode", val)} />
+              <CoachDeliveryMode
+                deliveryMode={deliveryMode}
+                value={filters.delivery_mode}
+                onChange={(val) => updateFilter("delivery_mode", val)}
+              />
             </div>
 
             <div className="filter-section">
@@ -291,7 +304,10 @@ const getAllCoaches = async (page = 1) => {
                                 <a href="#">Show more languages</a>
                             </div> */}
 
-              <CoachTrials />
+              <CoachTrials
+                value={filters.free_trial_session}
+                onChange={(val) => updateFilter("free_trial_session", val)}
+              />
             </div>
 
             <div className="filter-section rating-add">
@@ -311,21 +327,24 @@ const getAllCoaches = async (page = 1) => {
                                 </label>
                             </div> */}
 
-              <CoachCorporateWork />
+              <CoachCorporateWork
+                value={filters.corporate_work}
+                onChange={(val) => updateFilter("corporate_work", val)}
+              />
             </div>
 
             <div className="filter-section">
               <h4>Languages</h4>
               <CoachLanguages
-  allLanguages={allLanguages}
-  value={filters.languages}
-  onChange={(selected) => updateFilter("languages", selected)}
-/>
+                allLanguages={allLanguages}
+                value={filters.languages}
+                onChange={(selected) => updateFilter("languages", selected)}
+              />
             </div>
 
             <div className="filter-section">
               <h4>Availability</h4>
-              <CoachDetailCalendar className="coach-list-calendar"/>
+              <CoachDetailCalendar className="coach-list-calendar" />
             </div>
 
             <div className="filter-section rating-star">

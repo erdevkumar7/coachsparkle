@@ -3,14 +3,22 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 
-export default function CoachCorporateWork() {
+export default function CoachCorporateWork({ value, onChange }) {
   return (
     <FormControl>
       <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        name="radio-buttons-group"
+        aria-labelledby="corporate-work"
+        name="corporate-work"
+        value={value ?? ""}
+        onChange={(e) => {
+          const selected = e.target.value;
+          if (selected === "yes") {
+            onChange(1);
+          } else if (selected === "no") {
+            onChange(null);
+          }
+        }}
       >
         <FormControlLabel value="yes" control={<Radio />} label="Yes" />
         <FormControlLabel value="no" control={<Radio />} label="No" />
