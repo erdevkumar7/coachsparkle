@@ -18,21 +18,21 @@ import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOu
 
 export default function Header({ user }) {
 
-  const [hasMounted, setHasMounted] = useState(false);
+  // const [hasMounted, setHasMounted] = useState(false);
   const router = useRouter();
 
-    useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  //   useEffect(() => {
+  //   setHasMounted(true);
+  // }, []);
 
-  if (!hasMounted) return null;
+  // if (!hasMounted) return null;
 
   const handleLogout = () => {
     // HandleAuthLogout()
     Cookies.remove("token");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-     window.location.reload();
+    //  window.location.reload();
     router.push("/login");
     toast.success("Logout Successful!")
   };

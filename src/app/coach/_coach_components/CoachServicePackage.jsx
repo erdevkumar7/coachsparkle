@@ -124,7 +124,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
     e.preventDefault();
 
     const clickedButton = e.nativeEvent.submitter?.value || "draft";
-    const package_status = clickedButton === "publish" ? 1 : 2;
+    const package_status = clickedButton === "publish" ? 1 : 2;    
 
     try {
       const token = Cookies.get("token");
@@ -137,6 +137,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       form.append("delivery_mode", selectedDeliveryMode);
       form.append("package_status", package_status);
 
+      // console.log('form', form)
+ 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
         {
@@ -376,7 +378,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       type="number"
                       min={1}
                       name="session_count"
-                      placeholder="4"
+                      placeholder="1"
                       onChange={handleChange}
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
@@ -389,7 +391,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       {" "}
                       Duration per session
                     </label>
-                    {/* <select
+                    <select
                       required
                       disabled={!isProUser}
                       id="session_duration"
@@ -398,20 +400,14 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       onChange={handleChange}
                     >
                       <option value="">Select</option>
-                      <option value="05">05 Min</option>
-                      <option value="10">10 Min</option>
                       <option value="15">15 Min</option>
-                      <option value="20">20 Min</option>
-                      <option value="25">25 Min</option>
                       <option value="30">30 Min</option>
-                      <option value="35">35 Min</option>
-                      <option value="40">40 Min</option>
                       <option value="45">45 Min</option>
-                      <option value="50">50 Min</option>
-                      <option value="55">55 Min</option>
-                      <option value="60">60 Min</option>
-                      </select> */}
-                    <input
+                      <option value="60">1 Hour</option>
+                      <option value="90">1.5 Hour</option>
+                      <option value="120">2 Hour</option>
+                    </select>
+                    {/* <input
                       required
                       type="time"
                       name="session_duration"
@@ -419,7 +415,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""
                         }`}
-                    />
+                    /> */}
                   </div>
 
                   <div className="form-group col-md-4">

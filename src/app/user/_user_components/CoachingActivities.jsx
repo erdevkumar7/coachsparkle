@@ -6,7 +6,8 @@ import CoachingProgress from "./coaching_activities/CoachingProgress";
 import CompletedCoaching from "./coaching_activities/CompletedCoaching";
 import CanceledMissed from "./coaching_activities/CanceledMissed";
 
-export default function CoachingActivities({ coachingData }) {
+export default function CoachingActivities({ coachingData, pendingRequest }) {
+  console.log('pendingRequest', pendingRequest)
   const statusItems = [
     {
       icon: "/coachsparkle/assets/images/glance-img-one.png",
@@ -28,54 +29,7 @@ export default function CoachingActivities({ coachingData }) {
       title: "Canceled / Missed",
       count: 2,
     },
-  ];
-
-  const pendingRequest = [
-    {
-      title: "Coaching Request sent",
-      statusText: "Awaiting response",
-      statusClass: "",
-      image: "/coachsparkle/assets/images/professional-img.png",
-      coachName: "Male / Female",
-      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
-      rating: "5.0",
-      primaryAction: "View Request",
-      secondaryAction: "Message",
-    },
-    {
-      title: "Pending Free Trial",
-      statusText: "Accepted",
-      statusClass: "accepted",
-      image: "/coachsparkle/assets/images/professional-img.png",
-      coachName: "Jane Lee",
-      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
-      rating: "5.0",
-      primaryAction: "Book Free Trial",
-      secondaryAction: "Message",
-    },
-    {
-      title: "Coach Matched",
-      statusText: "AI Matched",
-      statusClass: "ai-matched",
-      image: "/coachsparkle/assets/images/professional-img.png",
-      coachName: "Steven Tan",
-      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
-      rating: "5.0",
-      primaryAction: "View Profile",
-      secondaryAction: "Message",
-    },
-    {
-      title: "coaching request received, Coach responded",
-      statusText: "Matched",
-      statusClass: "matched",
-      image: "/coachsparkle/assets/images/professional-img.png",
-      coachName: "Amy snicks",
-      description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
-      rating: "5.0",
-      primaryAction: "View Profile",
-      secondaryAction: "Message",
-    },
-  ];
+  ]; 
 
   const coachingProgress = [
     {
@@ -173,20 +127,9 @@ export default function CoachingActivities({ coachingData }) {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1);
 
-  const ITEMS_PER_PAGE = 3;
-  const paginatedRequests = pendingRequest.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
 
-  useEffect(() => {
-    setLastPage(Math.ceil(pendingRequest.length / ITEMS_PER_PAGE));
-  }, [pendingRequest]);
-
-  console.log(coachingData);
+  // console.log(coachingData);
   return (
     <div className="content-wrapper favourite-user-warp">
       <div className="d-flex justify-content-between gap-4">
@@ -201,12 +144,7 @@ export default function CoachingActivities({ coachingData }) {
       </div>
 
       <PendingRequest
-        title="Pending Coaching"
-        count={pendingRequest.length}
         pendingRequest={pendingRequest}
-        currentPage={currentPage}
-        lastPage={lastPage}
-        onPageChange={setCurrentPage}
       />
 
       <CoachingProgress

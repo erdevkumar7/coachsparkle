@@ -38,13 +38,50 @@ export const getUserProfileData = async () => {
     }
 };
 
+export const getUserPendingCoaching = async () => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
+
+    if (!token) {
+        return { error: 'No token provided', data: null };
+    }
+
+    try {
+        const response = await fetch(`${apiUrl}/getPendingCoaching`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json',
+            },
+            cache: 'no-store',
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('API error response:', errorText);
+            return { error: 'Failed to fetch user profile', data: null, removeToken: true };
+        }
+
+        const json = await response.json();
+
+        if (!json.success) {
+            return { error: json.message || 'Unknown error', data: null };
+        }
+
+        return { error: null, data: json.data };
+    } catch (err) {
+        console.error('Fetch error:', err);
+        return { error: 'Unexpected error', data: null };
+    }
+};
+
 export const cochingRequestsListsUserDashboard = async () => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
-    if(!token){
-        return { error: "No token", data: null};
+    if (!token) {
+        return { error: "No token", data: null };
     }
-    try{
+    try {
         const res = await fetch(`${apiUrl}/cochingRequestsListsUserDashboard`, {
             method: "GET",
             headers: {
@@ -54,13 +91,13 @@ export const cochingRequestsListsUserDashboard = async () => {
             cache: "no-store",
         });
         const json = await res.json();
-        if(!json.status){
-            return{ error: json.message || "Error", data: null};
+        if (!json.status) {
+            return { error: json.message || "Error", data: null };
         }
-        return{ error: null, data: json.data };
-    } catch(err) {
+        return { error: null, data: json.data };
+    } catch (err) {
         console.error("Request list fetch error:", err);
-        return{ error: "Unexpected error", data: null};
+        return { error: "Unexpected error", data: null };
     }
 }
 
@@ -96,17 +133,17 @@ export const HandleValidateTokenOnServer = async () => {
 
 // app/api/auth.js
 export async function HandleValidateTokenServer(token) {
-  try {
-    const res = await fetch(`${process.env.API_URL}/validate-token`, {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${token}` },
-      cache: "no-store" // ensure fresh validation
-    });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch {
-    return null;
-  }
+    try {
+        const res = await fetch(`${process.env.API_URL}/validate-token`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` },
+            cache: "no-store" // ensure fresh validation
+        });
+        if (!res.ok) return null;
+        return await res.json();
+    } catch {
+        return null;
+    }
 }
 
 
