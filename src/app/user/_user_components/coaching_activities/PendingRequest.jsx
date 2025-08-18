@@ -1,20 +1,75 @@
 import Pagination from "@/components/Pagination";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default function PendingRequest({
-  title,
-  count,
-  pendingRequest,
-  currentPage,
-  lastPage,
-  onPageChange,
-}) {
+export default function PendingRequest({ pendingRequest }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+
+  // const pendingRequest = [
+  //   {
+  //     title: "Coaching Request sent",
+  //     statusText: "Awaiting response",
+  //     statusClass: "",
+  //     image: "/coachsparkle/assets/images/professional-img.png",
+  //     coachName: "Male / Female",
+  //     description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+  //     rating: "5.0",
+  //     primaryAction: "View Request",
+  //     secondaryAction: "Message",
+  //   },
+  //   {
+  //     title: "Pending Free Trial",
+  //     statusText: "Accepted",
+  //     statusClass: "accepted",
+  //     image: "/coachsparkle/assets/images/professional-img.png",
+  //     coachName: "Jane Lee",
+  //     description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+  //     rating: "5.0",
+  //     primaryAction: "Book Free Trial",
+  //     secondaryAction: "Message",
+  //   },
+  //   {
+  //     title: "Coach Matched",
+  //     statusText: "AI Matched",
+  //     statusClass: "ai-matched",
+  //     image: "/coachsparkle/assets/images/professional-img.png",
+  //     coachName: "Steven Tan",
+  //     description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+  //     rating: "5.0",
+  //     primaryAction: "View Profile",
+  //     secondaryAction: "Message",
+  //   },
+  //   {
+  //     title: "coaching request received, Coach responded",
+  //     statusText: "Matched",
+  //     statusClass: "matched",
+  //     image: "/coachsparkle/assets/images/professional-img.png",
+  //     coachName: "Amy snicks",
+  //     description: "Life and Confidence Coach at <b>Comex Pte. Ltd</b>.",
+  //     rating: "5.0",
+  //     primaryAction: "View Profile",
+  //     secondaryAction: "Message",
+  //   },
+  // ];
+
+
+  const ITEMS_PER_PAGE = 3;
+  const paginatedRequests = pendingRequest.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setLastPage(Math.ceil(pendingRequest.length / ITEMS_PER_PAGE));
+  }, [pendingRequest]);
+
+
   return (
     <div className="coaching-status">
       <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
         <div>
           <h3>
-            {title} ({count})
+            Pending Coaching ({pendingRequest.length})
           </h3>
         </div>
         <div className="sorting-data d-flex align-items-center gap-2">
@@ -50,15 +105,20 @@ export default function PendingRequest({
                 <button
                   className={`border px-3 py-1 rounded-pill ${item.statusClass}`}
                 >
-                  {item.statusText}
+                  {/* {item.statusText} */}
+                  Awaiting response
                 </button>
               </div>
 
               <div className="respond-add">
-                <img src={item.image} alt="Coach Image" className="coach-img" />
+                <img src={item.profile_image} alt="Coach Image" className="coach-img" style={{width:'50px', height: '50px', borderRadius: '50%'}} />
                 <div>
-                  <p className="favourite-text-tittle">{item.coachName}</p>
-                  <p className="life-add-text">{item.description}</p>
+                  <p className="favourite-text-tittle">{item.first_name} {item.last_name}</p>
+                  <p className="life-add-text">
+                    {item.coaching_category}
+                    {item.company_name && <>at <b>{item.company_name}</b></>}
+
+                  </p>
                   <div className="star-add-pointer">
                     <i className="bi bi-star-fill"></i>
                     <p>{item.rating}</p>
@@ -68,10 +128,12 @@ export default function PendingRequest({
 
               <div className="d-flex gap-3 view-request">
                 <button className="btn btn-primary button-note">
-                  {item.primaryAction}
+                  {/* {item.primaryAction} */}
+                  View Request
                 </button>
                 <button className="btn btn-outline-secondary button-msg">
-                  {item.secondaryAction}
+                  {/* {item.secondaryAction} */}
+                  Message
                 </button>
               </div>
             </div>
@@ -80,7 +142,7 @@ export default function PendingRequest({
         <Pagination
           currentPage={currentPage}
           lastPage={lastPage}
-          onPageChange={onPageChange}
+          onPageChange={setCurrentPage}
         />
       </div>
     </div>

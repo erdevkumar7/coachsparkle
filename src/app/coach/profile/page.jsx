@@ -17,12 +17,15 @@ export default async function CoachProfile() {
     // ])
 
     const allMasters = await getAllMasters();
+    // console.log('alll', allMasters)
     let countries;
     let deliveryMode;
     let coachTypes;
     let ageGroup;
     let allLanguages;
     let getAllServices;
+    let price_range;
+    let experience;
 
     if (allMasters) {
         countries = allMasters.countries;
@@ -31,8 +34,10 @@ export default async function CoachProfile() {
         ageGroup = allMasters.age_group;
         allLanguages = allMasters.languages;
         getAllServices = allMasters.services
+        price_range = allMasters.budget_range_show
+        experience = allMasters.experience_level_show
     }
-
+    // console.log('experience', experience)
 
     return (
         <div className="main-panel">
@@ -63,6 +68,8 @@ export default async function CoachProfile() {
                         ageGroup={ageGroup}
                         allLanguages={allLanguages}
                         getAllServices={getAllServices}
+                        price_range={price_range}
+                        experience={experience}
                     />
                 </div>
             </div>

@@ -354,10 +354,10 @@ export default function UserDashboard() {
                                             {coach?.first_name} {coach?.last_name}
                                             <p className="coach-desc-title">
                                                 {coach?.professional_title} at{" "}
-                                                <b>{coach.company_name || "Unknown Company"}</b>.
+                                                <b>{coach?.company_name || "Unknown Company"}</b>.
                                             </p>
                                             <i className="bi bi-star-fill"></i>
-                                            {coach.reviews.rating || "5.0"}
+                                            {coach?.reviews.rating || "5.0"}
                                         </span>
 
                                         <button className="btn-book">Book Now</button>
