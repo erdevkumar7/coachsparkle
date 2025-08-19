@@ -6,9 +6,13 @@ import { cochingRequestsListsUserDashboard, getUserPendingCoaching } from '@/app
 export default async function Activities() {
 
   const coachingData = await cochingRequestsListsUserDashboard();
-   const response = await getUserPendingCoaching();
-  const pendingRequest = response?.data || [];
-  // console.log('pendingRequest', pendingRequest)
+  const response = await getUserPendingCoaching();
+  let pendingRequest;
+
+  if (response.data.success) {
+    pendingRequest = response.data
+  }
+  // console.log('ppppppppp', pendingRequest)
   return (
     <div className="main-panel">
       <CoachingActivities

@@ -1,7 +1,7 @@
 'use client';
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 import '../_styles/coach_sidebar.css';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useUser } from '@/context/UserContext';
 import AppsIcon from '@mui/icons-material/Apps';
@@ -18,21 +18,38 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
+import Link from 'next/link';
 
 
 
 export default function CoachSideBarComp() {
     const { user } = useUser();
     const router = useRouter();
+    const pathname = usePathname();
 
-          const handleSignout = () => {
-            // HandleAuthLogout()
-            Cookies.remove("token");
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.push("/login");
-            toast.success("Signout Successful!")
-          };
+    const handleSignout = () => {
+        // HandleAuthLogout()
+        Cookies.remove("token");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        router.push("/login");
+        toast.success("Signout Successful!")
+    };
+
+    const menuItems = [
+        { href: "/coach/dashboard", label: "Dashboard", icon: <AppsIcon /> },
+        { href: "/coach/profile", label: "Profile", icon: <PersonOutlineIcon /> },
+        { href: "/coach/service-packages", label: "Service Packages", icon: <ViewInArIcon /> },
+        { href: "/coach/coaching-activities", label: "Coaching Activities", icon: <WorkOutlineIcon /> },
+        { href: "/coach/booking", label: "Booking", icon: <CalendarMonthIcon /> },
+        { href: "/coach/messages", label: "Message + Coaching Requests", icon: <TextsmsOutlinedIcon /> },
+        { href: "/coach/review", label: "Reviews", icon: <StarBorderPurple500OutlinedIcon /> },
+        { href: "/coach/account-settings", label: "Account Settings", icon: <SettingsOutlinedIcon /> },
+        { href: "/coach/subscription-plan", label: "Subscription Plan", icon: <FavoriteBorderOutlinedIcon /> },
+        { href: "/coach/faq", label: "FAQs and Support", icon: <HeadsetMicOutlinedIcon /> },
+    ];
+
+    const isActive = (href) => pathname === href || pathname.startsWith(href + "/");
 
     return (
         <nav className="sidebar sidebar-offcanvas add-sdbar" id="sidebar">
@@ -47,7 +64,7 @@ export default function CoachSideBarComp() {
                             <p className="basic-add-value">Basic</p>
                         )}
                         <h5 className="font-medium text-with-check-icons">
-                            {user?.first_name} {user?.last_name} <span className="text-green-500 text-sm"><CheckCircleIcon/></span>
+                            {user?.first_name} {user?.last_name} <span className="text-green-500 text-sm"><CheckCircleIcon /></span>
                         </h5>
                         <p className="text-sm text-gray-500">Coach</p>
                     </div>
@@ -56,114 +73,38 @@ export default function CoachSideBarComp() {
 
 
             <ul className="nav">
-                <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
+                {/* <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
                     <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                          <AppsIcon/>
+                            <AppsIcon />
                             <span className="menu-title">Dashboard</span>
                         </div>
                     </a>
-                </li>
+                </li> */}
 
-
-                <li className="nav-item profile-tab" onClick={() => router.push('/coach/profile')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                            <PersonOutlineIcon/>
-                            <span className="menu-title">Profile</span>
-                        </div>
-                    </a>
-                </li>
-
-
-                <li className="nav-item" onClick={() => router.push('/coach/service-packages')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                           <ViewInArIcon/>
-                            <span className="menu-title">Service Packages</span>
-                        </div>
-                    </a>
-                </li>
-
-                <li className="nav-item" onClick={() => router.push('/coach/coaching-activities')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                          <WorkOutlineIcon/>
-                            <span className="menu-title">Coaching Activities</span>
-                        </div>
-                    </a>
-                </li>
-
-
-                <li className="nav-item" onClick={() => router.push('/coach/booking')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                            <CalendarMonthIcon/>
-                            <span className="menu-title">Booking</span>
-                        </div>
-                    </a>
-                </li>
-
-                <li className="nav-item" onClick={() => router.push('/coach/messages')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                              <TextsmsOutlinedIcon/>
-                            <span className="menu-title message-text">
-                                Message + Coaching <br /> Requests
-                            </span>
-
-                        </div>
-                    </a>
-                </li>
-
-
-
-                <li className="nav-item" onClick={() => router.push('/coach/review')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                             <StarBorderPurple500OutlinedIcon/>
-                            <span className="menu-title">Reviews</span>
-                        </div>
-                    </a>
-                </li>
-
-
-
-                <li className="nav-item account-settings-tab" onClick={() => router.push('/coach/account-settings')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                            <SettingsOutlinedIcon/>
-                            <span className="menu-title">Account Settings</span>
-                        </div>
-                    </a>
-                </li>
-
-                <li className="nav-item" onClick={() => router.push('/coach/subscription-plan')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                            <FavoriteBorderOutlinedIcon/>
-                            <span className="menu-title">Subscription Plan</span>
-                        </div>
-                    </a>
-                </li>
-
-
-
-                <li className="nav-item" onClick={() => router.push('/coach/faq')}>
-                    <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                            <HeadsetMicOutlinedIcon/>
-                            <span className="menu-title">FAQs and Support</span>
-                        </div>
-                    </a>
-                </li>
+                {menuItems.map((item, idx) => (
+                    <li
+                        key={idx}
+                        className={`nav-item ${isActive(item.href)
+                            ? "active user-nav-active"
+                            : ""
+                            }`}
+                    >
+                        <Link href={item.href} className="nav-link">
+                            <div>
+                                {item.icon}
+                                <span className="menu-title">{item.label}</span>
+                            </div>
+                        </Link>
+                    </li>
+                ))}
 
 
                 <li className="nav-item sign-out" onClick={handleSignout}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div
                         >
-                             <LogoutOutlinedIcon/>
+                            <LogoutOutlinedIcon />
                             <span className="menu-title">Sign Out</span>
                         </div>
                     </a>
