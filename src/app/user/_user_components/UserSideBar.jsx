@@ -1,6 +1,6 @@
 'use client';
 import { FRONTEND_BASE_URL } from "@/utiles/config";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import AppsIcon from '@mui/icons-material/Apps';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -19,17 +19,21 @@ import { toast } from "react-toastify";
 
 
 
-export default function UserSideBarComp({user}) {
+export default function UserSideBarComp({ user }) {
     const router = useRouter();
+    const pathname = usePathname();
 
-      const handleSignout = () => {
+    const handleSignout = () => {
         // HandleAuthLogout()
         Cookies.remove("token");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         router.push("/login");
         toast.success("Signout Successful!")
-      };
+    };
+
+    const isActive = (href) =>
+        pathname === href || pathname.startsWith(href + "/");
 
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
@@ -42,7 +46,7 @@ export default function UserSideBarComp({user}) {
                         alt="profile" />
                     <div>
                         <h5 className="font-medium text-with-check-icons">
-                            {user?.first_name} {user?.last_name}<span className="text-green-500 text-sm"><CheckCircleIcon/></span>
+                            {user?.first_name} {user?.last_name}<span className="text-green-500 text-sm"><CheckCircleIcon /></span>
                         </h5>
                         <p className="text-sm text-gray-500">User</p>
                     </div>
@@ -51,10 +55,10 @@ export default function UserSideBarComp({user}) {
 
 
             <ul className="nav">
-                <li className="nav-item" onClick={() => router.push('/user/dashboard')}>
+                <li className={`nav-item ${isActive("/user/dashboard") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/dashboard')}>
                     <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <AppsIcon/>
+                            <AppsIcon />
                             <span className="menu-title">Dashboard</span>
                         </div>
                     </a>
@@ -63,44 +67,44 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item explore-tab">
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                             <SearchOutlinedIcon/>
+                            <SearchOutlinedIcon />
                             <span className="menu-title">Explore Coaches</span>
                         </div>
                     </a>
                 </li>
 
-                <li className="nav-item" onClick={() => router.push('/user/coaching-activities')}>
+                <li className={`nav-item ${isActive("/user/coaching-activities") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/coaching-activities')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <WorkOutlineIcon/>
+                            <WorkOutlineIcon />
                             <span className="menu-title">Coaching Activities</span>
                         </div>
                     </a>
                 </li>
 
-                <li className="nav-item" onClick={() => router.push('/user/favourite-coach')}>
+                <li className={`nav-item ${isActive("/user/favourite-coach") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/favourite-coach')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <FavoriteBorderOutlinedIcon/>
+                            <FavoriteBorderOutlinedIcon />
 
                             <span className="menu-title">Favourite Coach</span>
                         </div>
                     </a>
                 </li>
 
-                <li className="nav-item" onClick={() => router.push('/user/user-message')}>
+                <li className={`nav-item ${isActive("/user/user-message") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/user-message')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <TextsmsOutlinedIcon/>
+                            <TextsmsOutlinedIcon />
                             <span className="menu-title">Message</span>
                         </div>
                     </a>
                 </li>
 
-                <li className="nav-item" onClick={() => router.push('/user/booking')}>
+                <li className={`nav-item ${isActive("/user/booking") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/booking')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                           <CalendarMonthIcon/>
+                            <CalendarMonthIcon />
                             <span className="menu-title">Booking</span>
                         </div>
                     </a>
@@ -108,10 +112,10 @@ export default function UserSideBarComp({user}) {
 
 
 
-                <li className="nav-item" onClick={() => router.push('/user/review')}>
+                <li className={`nav-item ${isActive("/user/review") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/review')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <StarBorderPurple500OutlinedIcon/>
+                            <StarBorderPurple500OutlinedIcon />
                             <span className="menu-title">Reviews</span>
                         </div>
                     </a>
@@ -123,7 +127,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item profile-tab" onClick={() => router.push('/user/profile')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <PersonOutlineIcon/>
+                            <PersonOutlineIcon />
                             <span className="menu-title">Profile</span>
                         </div>
                     </a>
@@ -132,10 +136,10 @@ export default function UserSideBarComp({user}) {
 
 
 
-                <li className="nav-item" onClick={() => router.push('/user/account-setting')}>
+                <li className={`nav-item ${isActive("/user/account-setting") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/account-setting')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <SettingsOutlinedIcon/>
+                            <SettingsOutlinedIcon />
                             <span className="menu-title">Account Settings</span>
                         </div>
                     </a>
@@ -143,10 +147,10 @@ export default function UserSideBarComp({user}) {
 
 
 
-                <li className="nav-item" onClick={() => router.push('/user/support')}>
+                <li className={`nav-item ${isActive("/user/support") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/support')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <HeadsetMicOutlinedIcon/>
+                            <HeadsetMicOutlinedIcon />
                             <span className="menu-title">FAQs and Support</span>
                         </div>
                     </a>
@@ -156,7 +160,7 @@ export default function UserSideBarComp({user}) {
                 <li className="nav-item sign-out" onClick={handleSignout}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
-                        <LogoutOutlinedIcon/>
+                            <LogoutOutlinedIcon />
                             <span className="menu-title">Sign Out</span>
                         </div>
                     </a>

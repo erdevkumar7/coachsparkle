@@ -1,7 +1,8 @@
 import Pagination from "@/components/Pagination";
 import React, { useEffect, useState } from "react";
 
-export default function PendingRequest({ pendingRequest }) {
+export default function PendingRequest({ request }) {
+  const pendingRequest = request.data;
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 

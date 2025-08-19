@@ -7,7 +7,7 @@ import CompletedCoaching from "./coaching_activities/CompletedCoaching";
 import CanceledMissed from "./coaching_activities/CanceledMissed";
 
 export default function CoachingActivities({ coachingData, pendingRequest }) {
-  console.log('pendingRequest', pendingRequest)
+  // console.log('pendingRequest', pendingRequest)
   const statusItems = [
     {
       icon: "/coachsparkle/assets/images/glance-img-one.png",
@@ -144,7 +144,7 @@ export default function CoachingActivities({ coachingData, pendingRequest }) {
       </div>
 
       <PendingRequest
-        pendingRequest={pendingRequest}
+        request={pendingRequest}
       />
 
       <CoachingProgress
