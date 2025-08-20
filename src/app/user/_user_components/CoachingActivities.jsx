@@ -1,12 +1,10 @@
-"use client";
-import { useEffect, useState } from "react";
 import StatusItem from "./coaching_activities/StatusItem";
 import PendingRequest from "./coaching_activities/PendingRequest";
 import CoachingProgress from "./coaching_activities/CoachingProgress";
 import CompletedCoaching from "./coaching_activities/CompletedCoaching";
 import CanceledMissed from "./coaching_activities/CanceledMissed";
 
-export default function CoachingActivities({ coachingData, pendingRequest }) {
+export default function CoachingActivities({ pendingRequest }) {
   // console.log('pendingRequest', pendingRequest)
   const statusItems = [
     {
