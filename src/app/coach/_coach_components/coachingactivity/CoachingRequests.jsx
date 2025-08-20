@@ -6,7 +6,8 @@ import { useState } from "react";
 
 export default function CoachingRequests({ pendingRequest }) {
   const [showModal, setShowModal] = useState(false);
-  // console.log('pendingRequest', pendingRequest)
+  const getRequests = pendingRequest.data
+  // console.log('request', getRequests)
 
   const handleViewRequest = () => {
     setShowModal(true);
@@ -38,7 +39,7 @@ export default function CoachingRequests({ pendingRequest }) {
           </div>
           <div className="d-flex justify-content-between flex-wrap py-4 px-4">
             <div className="row gap-4">
-              {pendingRequest.map((rqst, indx) => (
+              {getRequests.map((rqst, indx) => (
                 <div key={indx} className="col-md-4 coaching-content p-3">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <h4 className="mb-0">Coaching request received</h4>

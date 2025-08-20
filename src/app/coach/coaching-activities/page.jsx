@@ -11,7 +11,7 @@ export default async function CoachingActivitiesPage() {
     const response = await getUserPendingCoaching();
     const pendingRequest = response?.data || [];
 
-      console.log('pendingRequest', pendingRequest)
+    // console.log('pendingRequestaaa', pendingRequest)
 
     const requests = [
         {
