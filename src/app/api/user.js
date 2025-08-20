@@ -90,7 +90,7 @@ export const getUserPendingCoaching = async (page = 1) => {
                 Authorization: `Bearer ${token}`,
                 Accept: 'application/json',
             },
-            // cache: 'no-store',
+            cache: 'no-store',
         });
 
         if (!response.ok) {
