@@ -9,12 +9,34 @@ import CompletedCoaching from "../_user_components/coaching_activities/Completed
 import CanceledMissed from "../_user_components/coaching_activities/CanceledMissed";
 
 export default async function Activities() {
-    const cookieStore = await cookies();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  // const coachingData = await cochingRequestsListsUserDashboard();
-  const response = await getUserPendingCoaching(1);
-  const pendingRequest = response?.data || [];
-  // console.log('ppppppppp', coachingData)
+  // Fetch pending requests
+  const pendingResponse = await getUserPendingCoaching(1);
+  const pendingRequest = pendingResponse?.data || [];
+
+   // Fetch coaching progress
+  let coachingProgress = null;
+     try {
+        const response = await fetch(`${apiUrl}/getCoachingPackages`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json',
+            },
+            cache: 'no-store',
+        });
+
+        const json = await response.json();
+
+        if (!json.success) {
+           console.log( json.message) ;
+        }
+        coachingProgress = json;
+    } catch (err) {
+        console.error('Fetch error:', err);
+    }
 
   const statusItems = [
     {
@@ -39,41 +61,7 @@ export default async function Activities() {
     },
   ];
 
-  const coachingProgress = [
-    {
-      title: "Session Booked",
-      sessionLeft: "1 Session left",
-      status: "Confirmed",
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Breakthrough Package With User Display Name",
-      time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
-      platformIcon: "/coachsparkle/images/zoom.png",
-      primaryAction: "View Session",
-      secondaryAction: "Message",
-    },
-    {
-      title: "Session Rescheduled",
-      sessionLeft: "1 Session left",
-      status: "In Progress",
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Custom Package With User Display Name",
-      time: "Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)",
-      platformIcon: "/coachsparkle/images/teams.png",
-      primaryAction: "View Session",
-      secondaryAction: "Message",
-    },
-    {
-      title: "Session In Progress",
-      sessionLeft: "2 Sessions left",
-      status: "In Progress",
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Confidence Jump Start PackageWith User Display Name",
-      time: "Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)",
-      platformIcon: "/coachsparkle/images/people.png",
-      primaryAction: "Manage Session",
-      secondaryAction: "Message",
-    },
-  ];
+//  console.log('ppppppppp', coachingProgress)
 
   const completed = [
     {
@@ -150,12 +138,14 @@ export default async function Activities() {
           ))}
         </div>
 
-        <PendingRequest initialRequest={pendingRequest} token={token}/>
+        <PendingRequest
+          initialRequest={pendingRequest}
+          token={token}
+        />
 
         <CoachingProgress
-          title="Coaching In Progress"
-          count={coachingProgress.length}
-          progress={coachingProgress}
+          initialProgress={coachingProgress}
+          token={token}
         />
 
         <CompletedCoaching
