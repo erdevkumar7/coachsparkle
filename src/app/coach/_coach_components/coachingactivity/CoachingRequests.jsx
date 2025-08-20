@@ -1,13 +1,27 @@
 'use client';
+import { getUserPendingCoachingClient } from "@/app/api/user-client";
+import Pagination from "@/components/Pagination";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function CoachingRequests({ pendingRequest }) {
+export default function CoachingRequests({ initialRequest, token }) {
+  const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
+  const [currentPage, setCurrentPage] = useState(initialRequest.pagination.current_page);
+  const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
   const [showModal, setShowModal] = useState(false);
-  const getRequests = pendingRequest.data
-  // console.log('request', getRequests)
+
+  // console.log('token', token)
+
+  const fetchPageData = async (page) => {
+    const res = await getUserPendingCoachingClient(page, token);
+    if (res?.data) {
+      setPendingRequest(res.data.data);
+      setCurrentPage(res.data.pagination.current_page);
+      setLastPage(res.data.pagination.last_page);
+    }
+  };
 
   const handleViewRequest = () => {
     setShowModal(true);
@@ -24,7 +38,7 @@ export default function CoachingRequests({ pendingRequest }) {
         <div className="coaching-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
-              <h3>Coaching Requests (04)</h3>
+              <h3>Coaching Requests ({initialRequest.request_count})</h3>
             </div>
             <div className="sorting-data d-flex align-items-center gap-2">
               <span>Sort By:</span>
@@ -39,7 +53,7 @@ export default function CoachingRequests({ pendingRequest }) {
           </div>
           <div className="d-flex justify-content-between flex-wrap py-4 px-4">
             <div className="row gap-4">
-              {getRequests.map((rqst, indx) => (
+              {pendingRequest.map((rqst, indx) => (
                 <div key={indx} className="col-md-4 coaching-content p-3">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <h4 className="mb-0">Coaching request received</h4>
@@ -77,6 +91,11 @@ export default function CoachingRequests({ pendingRequest }) {
                     <button className="btn btn-outline-secondary button-msg">Message</button>
                   </div>
                 </div>))}
+              <Pagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                onPageChange={fetchPageData}
+              />
             </div>
           </div>
         </div>
