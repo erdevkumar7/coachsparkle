@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import CoachingRequests from "../_coach_components/coachingactivity/CoachingRequests";
 import StatusBar from "../_coach_components/coachingactivity/StatusBar";
 import "../_styles/coach_coaching_activities.css";
@@ -8,6 +9,8 @@ import CompletedCoaching from "../_coach_components/coachingactivity/CompletedCo
 import CanceledMissed from "../_coach_components/coachingactivity/CanceledMissed";
 
 export default async function CoachingActivitiesPage() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
     const response = await getUserPendingCoaching();
     const pendingRequest = response?.data || [];
 
@@ -126,7 +129,7 @@ export default async function CoachingActivitiesPage() {
                     ))}
                 </div>
 
-                <CoachingRequests pendingRequest={pendingRequest} />
+                <CoachingRequests initialRequest={pendingRequest} token={token} />
 
 
                 <div className="mt-5">
