@@ -1,25 +1,25 @@
 "use client";
-import { getUserPendingCoachingClient } from "@/app/api/user-client";
+import { getUserProgressCoachingClient } from "@/app/api/user-client";
 import Pagination from "@/components/Pagination";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import React, { useState } from "react";
 
 export default function CoachingProgress({ initialProgress, token }) {
   const [getCoahcingProgress, setCoahcingProgress] = useState(initialProgress.data);
-  // const [currentPage, setCurrentPage] = useState(initialProgress.pagination.current_page);
-  // const [lastPage, setLastPage] = useState(initialProgress.pagination.last_page);
+  const [currentPage, setCurrentPage] = useState(initialProgress.pagination.current_page);
+  const [lastPage, setLastPage] = useState(initialProgress.pagination.last_page);
 
 
-  // const fetchPageData = async (page) => {
-  //   const res = await getUserPendingCoachingClient(page, token);
-  //   if (res?.data) {
-  //     setCoahcingProgress(res.data.data);
-  //     setCurrentPage(res.data.pagination.current_page);
-  //     setLastPage(res.data.pagination.last_page);
-  //   }
-  // };
+  const fetchPageData = async (page) => {
+    const res = await getUserProgressCoachingClient(page, token);
+    if (res?.data) {
+      setCoahcingProgress(res.data.data);
+      setCurrentPage(res.data.pagination.current_page);
+      setLastPage(res.data.pagination.last_page);
+    }
+  };
 
-  console.log('initialProgress', getCoahcingProgress)
+  console.log('getCoahcingProgress', getCoahcingProgress)
 
   // const coachingProgress = [
   //   {
@@ -36,22 +36,6 @@ export default function CoachingProgress({ initialProgress, token }) {
   // ];
 
 
-  //   {
-  //     "id": 103,
-  //     "booking_id": 58,
-  //     "first_name": "Smith",
-  //     "last_name": "Coach",
-  //     "user_type": 3,
-  //     "display_name": null,
-  //     "profile_image": "https://coachsparkle-backend.votivereact.in/public/uploads/profile_image/pro1753167493.jpg",
-  //     "session_date_start": "2025-08-15",
-  //     "slot_time_start": "10:00",
-  //     "session_date_end": "2025-08-22",
-  //     "slot_time_end": "10:30",
-  //     "country": "Singapore",
-  //     "status": "in-progress",
-  //     "session_left": 2
-  // }
   return (
     <div className="mt-5">
       <div className="coaching-progress-status">
@@ -121,11 +105,11 @@ export default function CoachingProgress({ initialProgress, token }) {
               </div>
             ))}
           </div>
-          {/* <Pagination
+          <Pagination
             currentPage={currentPage}
             lastPage={lastPage}
             onPageChange={fetchPageData}
-          /> */}
+          />
         </div>
       </div>
     </div>

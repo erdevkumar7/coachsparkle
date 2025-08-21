@@ -11,32 +11,30 @@ import CanceledMissed from "../_user_components/coaching_activities/CanceledMiss
 export default async function Activities() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  // Fetch pending requests
-  const pendingResponse = await getUserPendingCoaching(1);
-  const pendingRequest = pendingResponse?.data || [];
+  const token = cookieStore.get("token")?.value; 
 
-   // Fetch coaching progress
-  let coachingProgress = null;
-     try {
-        const response = await fetch(`${apiUrl}/getCoachingPackages`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json',
-            },
-            cache: 'no-store',
-        });
+  const [pendingRes, progressRes] = await Promise.all([
+    fetch(`${apiUrl}/getPendingCoaching`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+    }),
 
-        const json = await response.json();
-
-        if (!json.success) {
-           console.log( json.message) ;
-        }
-        coachingProgress = json;
-    } catch (err) {
-        console.error('Fetch error:', err);
-    }
+    fetch(`${apiUrl}/getCoachingPackages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+    })
+  ])
+  const pendingRequest = await pendingRes.json();
+  const coachingProgress = await progressRes.json();
+  // console.log('pendingResData', pendingResData, pendingRequest)
 
   const statusItems = [
     {
@@ -61,7 +59,6 @@ export default async function Activities() {
     },
   ];
 
-//  console.log('ppppppppp', coachingProgress)
 
   const completed = [
     {

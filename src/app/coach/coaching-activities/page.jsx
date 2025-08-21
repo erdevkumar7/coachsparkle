@@ -9,12 +9,33 @@ import CompletedCoaching from "../_coach_components/coachingactivity/CompletedCo
 import CanceledMissed from "../_coach_components/coachingactivity/CanceledMissed";
 
 export default async function CoachingActivitiesPage() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
-    const response = await getUserPendingCoaching();
-    const pendingRequest = response?.data || [];
+    // const response = await getUserPendingCoaching();
+    // const pendingRequest = response?.data || [];
 
-    // console.log('pendingRequestaaa', pendingRequest)
+    const [pendingRes, progressRes] = await Promise.all([
+        fetch(`${apiUrl}/getPendingCoaching`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json',
+            },
+            cache: 'no-store',
+        }),
+
+        fetch(`${apiUrl}/getCoachingPackages`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json',
+            },
+            cache: 'no-store',
+        })
+    ])
+    const pendingRequest = await pendingRes.json();
+    const coachingProgress = await progressRes.json();
 
     const requests = [
         {
@@ -37,40 +58,7 @@ export default async function CoachingActivitiesPage() {
             title: "Canceled / Missed",
             count: "02",
         },
-    ];
-
-    const inprogress = [
-        {
-            image: "/coachsparkle/assets/images/coaching-img.png",
-            heading: "Session Booked",
-            sessions: "1 Session left",
-            status: "Active",
-            name: "Breakthrough Package With User Display Name",
-            time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
-            app: "/coachsparkle/images/zoom.png",
-            buttonNote: "View Session",
-        },
-        {
-            image: "/coachsparkle/assets/images/coaching-img.png",
-            heading: "Session Rescheduled",
-            sessions: "1 Session left",
-            status: "In Progress",
-            name: "Custom Package With User Display Name",
-            time: "Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)",
-            app: "/coachsparkle/images/teams.png",
-            buttonNote: "View Session",
-        },
-        {
-            image: "/coachsparkle/assets/images/coaching-img.png",
-            heading: "Session In Progress",
-            sessions: "2 Sessions left",
-            status: "In Progress",
-            name: "Confidence Jump Start PackageWith User Display Name",
-            time: "Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)",
-            app: "/coachsparkle/images/people.png",
-            buttonNote: "Manage Session",
-        },
-    ];
+    ]; 
 
     const completed = [
         {
@@ -129,38 +117,15 @@ export default async function CoachingActivitiesPage() {
                     ))}
                 </div>
 
-                <CoachingRequests initialRequest={pendingRequest} token={token} />
+                <CoachingRequests
+                    initialRequest={pendingRequest}
+                    token={token}
+                />
 
-
-                <div className="mt-5">
-                    <div className="coaching-progress-status">
-                        <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
-                            <div>
-                                <h3>Coaching In Progress (03)</h3>
-                            </div>
-                            <div className="sorting-data d-flex align-items-center gap-2">
-                                <ExpandMoreOutlinedIcon />
-                            </div>
-                        </div>
-                        <div className="d-flex justify-content-between flex-wrap py-4 px-4">
-                            <div className="row gap-4">
-                                {inprogress.map((progress, index) => (
-                                    <CoachingProgress
-                                        key={index}
-                                        image={progress.image}
-                                        heading={progress.heading}
-                                        sessions={progress.sessions}
-                                        status={progress.status}
-                                        name={progress.name}
-                                        time={progress.time}
-                                        app={progress.app}
-                                        buttonNote={progress.buttonNote}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <CoachingProgress
+                    initialProgress={coachingProgress}
+                    token={token}
+                />            
 
                 <div className="mt-5">
                     <div className="completed-status">

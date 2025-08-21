@@ -38,42 +38,6 @@ export const getUserProfileData = async () => {
     }
 };
 
-// export const getUserPendingCoaching = async () => {
-//     const cookieStore = await cookies();
-//     const token = cookieStore.get('token')?.value;
-
-//     if (!token) {
-//         return { error: 'No token provided', data: null };
-//     }
-
-//     try {
-//         const response = await fetch(`${apiUrl}/getPendingCoaching`, {
-//             method: 'POST',
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//                 Accept: 'application/json',
-//             },
-//             cache: 'no-store',
-//         });
-
-//         if (!response.ok) {
-//             const errorText = await response.text();
-//             console.error('API error response:', errorText);
-//             return { error: 'Failed to fetch user profile', data: null, removeToken: true };
-//         }
-
-//         const json = await response.json();
-
-//         if (!json.success) {
-//             return { error: json.message || 'Unknown error', data: null };
-//         }
-//     //    console.log('json'. json)
-//         return { error: null, data: json };
-//     } catch (err) {
-//         console.error('Fetch error:', err);
-//         return { error: 'Unexpected error', data: null };
-//     }
-// };
 
 export const getUserPendingCoaching = async (page = 1) => {
     const cookieStore = await cookies();
@@ -111,8 +75,6 @@ export const getUserPendingCoaching = async (page = 1) => {
         return { error: 'Unexpected error', data: null };
     }
 };
-
-
 
 
 
