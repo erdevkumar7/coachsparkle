@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import "../_styles/dashboard.css";
 import "../_styles/coaching_activities.css";
-import { getUserPendingCoaching } from '@/app/api/user';
 import StatusItem from "../_user_components/coaching_activities/StatusItem";
 import PendingRequest from "../_user_components/coaching_activities/PendingRequest";
 import CoachingProgress from "../_user_components/coaching_activities/CoachingProgress";
@@ -11,9 +10,9 @@ import CanceledMissed from "../_user_components/coaching_activities/CanceledMiss
 export default async function Activities() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value; 
+  const token = cookieStore.get("token")?.value;
 
-  const [pendingRes, progressRes] = await Promise.all([
+  const [pendingRes, progressRes, completeRes] = await Promise.all([
     fetch(`${apiUrl}/getPendingCoaching`, {
       method: 'POST',
       headers: {
@@ -30,95 +29,46 @@ export default async function Activities() {
         Accept: 'application/json',
       },
       cache: 'no-store',
+    }),
+
+    fetch(`${apiUrl}/getPackagesCompleted`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
     })
   ])
   const pendingRequest = await pendingRes.json();
   const coachingProgress = await progressRes.json();
-  // console.log('pendingResData', pendingResData, pendingRequest)
+  const initialCompleted = await completeRes.json();
+  // console.log('initialCompleted', initialCompleted)
 
   const statusItems = [
     {
       icon: "/coachsparkle/assets/images/glance-img-one.png",
       title: "Pending Coaching",
-      count: 67,
+      count: pendingRequest.pagination.total < 10 ? `0${pendingRequest.pagination.total}` : pendingRequest.pagination.total,
     },
     {
       icon: "/coachsparkle/assets/images/glance-img-three.png",
       title: "In progress",
-      count: 2,
+      count: coachingProgress.pagination.total < 10 ? `0${coachingProgress.pagination.total}` : coachingProgress.pagination.total,
     },
     {
       icon: "/coachsparkle/assets/images/match-three.png",
       title: "Completed",
-      count: 1,
+      count: initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
     },
-    {
-      icon: "/coachsparkle/assets/images/match-four.png",
-      title: "Canceled / Missed",
-      count: 2,
-    },
+    // {
+    //   icon: "/coachsparkle/assets/images/match-four.png",
+    //   title: "Canceled / Missed",
+    //   count: 2,
+    // },
   ];
 
 
-  const completed = [
-    {
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Meditation PackageWith Jenny Sim",
-      time: "Completed Friday, July 9",
-      primaryAction: "Leave a Review",
-      secondaryAction: "Message",
-    },
-    {
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Cross-fit PackageWith Bruce Toh",
-      time: "Completed Friday, July 9",
-      primaryAction: "Leave a Review",
-      secondaryAction: "Message",
-    },
-    {
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Meditation PackageWith Jenny Sim",
-      time: "Completed Friday, July 9",
-      primaryAction: "Leave a Review",
-      secondaryAction: "Message",
-    },
-  ];
-
-  const canceledMissed = [
-    {
-      sessionTitle: "Session canceled",
-      sessionCount: "1 Session left",
-      status: "Canceled",
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Breakthrough PackageWith Adam Bell",
-      time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
-      platformIcon: "/coachsparkle/images/zoom.png",
-      primaryAction: "Reschedule Session",
-      secondaryAction: "Message",
-    },
-    {
-      sessionTitle: "Session Rescheduled",
-      sessionCount: "1 Session left",
-      status: "Missed",
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Custom Package With User Display Name",
-      time: "Tuesday, July 9, 3:00 PM - 4:00 PM (GMT+8)",
-      platformIcon: "/coachsparkle/images/teams.png",
-      primaryAction: "View Session",
-      secondaryAction: "Message",
-    },
-    {
-      sessionTitle: "Session In Progress",
-      sessionCount: "2 Sessions left",
-      status: "In Progress",
-      userImage: "/coachsparkle/assets/images/coaching-img.png",
-      packageTitle: "Confidence Jump Start PackageWith User Display Name",
-      time: "Thursday, July 11, 10:00 AM - 11:00 AM (GMT+8)",
-      platformIcon: "/coachsparkle/images/people.png",
-      primaryAction: "Manage Session",
-      secondaryAction: "Message",
-    },
-  ];
 
 
   return (
@@ -146,16 +96,15 @@ export default async function Activities() {
         />
 
         <CompletedCoaching
-          title="Completed Coaching"
-          count={completed.length}
-          completed={completed}
+          initialCompleted={initialCompleted}
+          token={token}
         />
 
-        <CanceledMissed
+        {/* <CanceledMissed
           title="Canceled / Missed"
           count={canceledMissed.length}
           canceledMissed={canceledMissed}
-        />
+        /> */}
       </div>
     </div>
   );
