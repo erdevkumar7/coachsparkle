@@ -1,21 +1,23 @@
 "use client";
+import { getUserProgressCoachingClient } from "@/app/api/user-client";
+import Pagination from "@/components/Pagination";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import { useState } from "react";
 export default function CoachingProgress({ initialProgress, token }) {
   const [getCoahcingProgress, setCoahcingProgress] = useState(initialProgress.data);
-  // const inprogress = [
-  //   {
-  //     image: "/coachsparkle/assets/images/coaching-img.png",
-  //     heading: "Session Booked",
-  //     sessions: "1 Session left",
-  //     status: "Active",
-  //     name: "Breakthrough Package With User Display Name",
-  //     time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
-  //     app: "/coachsparkle/images/zoom.png",
-  //     buttonNote: "View Session",
-  //   }
-  // ];
-  console.log('getCoahcingProgress', getCoahcingProgress)
+  const [currentPage, setCurrentPage] = useState(initialProgress.pagination.current_page);
+  const [lastPage, setLastPage] = useState(initialProgress.pagination.last_page);
+
+  const fetchPageData = async (page) => {
+    const res = await getUserProgressCoachingClient(page, token);
+    if (res?.data) {
+      setCoahcingProgress(res.data.data);
+      setCurrentPage(res.data.pagination.current_page);
+      setLastPage(res.data.pagination.last_page);
+    }
+  };
+ 
+  // console.log('getCoahcingProgress', getCoahcingProgress)
   return (
     <div className="mt-5">
       <div className="coaching-progress-status">
@@ -76,6 +78,11 @@ export default function CoachingProgress({ initialProgress, token }) {
               </div>
             ))}
           </div>
+          <Pagination
+            currentPage={currentPage}
+            lastPage={lastPage}
+            onPageChange={fetchPageData}
+          />
         </div>
       </div>
     </div>
