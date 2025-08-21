@@ -5,6 +5,8 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Link from "next/link";
 import { useState } from "react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 export default function CoachingRequests({ initialRequest, token }) {
   const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
@@ -12,7 +14,24 @@ export default function CoachingRequests({ initialRequest, token }) {
   const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
   const [showModal, setShowModal] = useState(false);
 
-  // console.log('token', token)
+  dayjs.extend(relativeTime);
+
+  function formatReceivedTime(createdAt) {
+    const now = dayjs();
+    const created = dayjs(createdAt);
+
+    const diffInHours = now.diff(created, "hour");
+    const diffInDays = now.diff(created, "day");
+
+    if (diffInDays > 2) {      
+      return created.format("DD MMM YYYY"); // If more than 2 days, show date
+    } else if (diffInHours >= 24) {
+      return created.fromNow(); // e.g., "2 days ago"
+    } else {
+      return created.fromNow(); // e.g., "2 hours ago"
+    }
+  }
+
 
   const fetchPageData = async (page) => {
     const res = await getUserPendingCoachingClient(page, token);
@@ -31,7 +50,7 @@ export default function CoachingRequests({ initialRequest, token }) {
     setShowModal(false);
   };
 
-
+  // console.log('pendingRequest', pendingRequest)
   return (
     <>
       <div className="mt-5">
@@ -56,7 +75,7 @@ export default function CoachingRequests({ initialRequest, token }) {
               {pendingRequest.map((rqst, indx) => (
                 <div key={indx} className="col-md-4 coaching-content p-3">
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h4 className="mb-0">Coaching request received</h4>
+                    <h4 className="mb-0">Request received</h4>
                     <MoreHorizOutlinedIcon sx={{ color: '#A9A9A9' }} />
                   </div>
 
@@ -81,8 +100,12 @@ export default function CoachingRequests({ initialRequest, token }) {
                     <div>
                       <span className="fw-semibold d-block name">{rqst.first_name} {rqst.last_name}</span>
                       <span className="d-block location">{rqst.country}</span>
-                      <span className="d-block time">Received 2 hours ago</span>
-                      <p className="mt-2 mb-0 note">Looking for help with career advice</p>
+                      <span className="d-block time">
+                         {/* Received 2 hours ago */}
+                        Received {formatReceivedTime(rqst.created_at)}
+                      </span>
+                      <p className="mt-2 mb-0 note">{rqst.coaching_request_goal?.length > 30
+                        ? rqst.coaching_request_goal?.slice(0, 30) + "..." : rqst.coaching_request_goal}</p>
                     </div>
                   </div>
 
