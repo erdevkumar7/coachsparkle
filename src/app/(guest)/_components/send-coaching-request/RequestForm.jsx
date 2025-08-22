@@ -155,8 +155,9 @@ export default function RequestForm({
                   {...register("coach_type")}
                   onChange={handleChange}
                   disabled={loading}
+                  defaultValue="" 
                 >
-                  <option selected value="" disabled>
+                  <option value="" disabled>
                     Select category
                   </option>
                   {coachType.map((type) => (
@@ -175,8 +176,9 @@ export default function RequestForm({
                   className="form-selectbox"
                   {...register("coach_subtype")}
                   disabled={loading}
+                  defaultValue="" 
                 >
-                  <option selected value="" disabled>
+                  <option value="" disabled>
                     Select sub category
                   </option>
                   {coachSubTypes.map((item) => (

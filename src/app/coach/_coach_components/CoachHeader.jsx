@@ -47,7 +47,7 @@ export default function CoachHeader() {
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a className="navbar-brand" href="#">
             <img
-              src="assets/images/favicon.png"
+              src={`${FRONTEND_BASE_URL}/images/favicon.png`}
               alt="favicon logo"
               className="navbar-brand-img d-lg-none"
             />

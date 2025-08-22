@@ -12,6 +12,7 @@ export default function CoachingRequests({ initialRequest, token }) {
   const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
   const [currentPage, setCurrentPage] = useState(initialRequest.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   dayjs.extend(relativeTime);
@@ -23,7 +24,7 @@ export default function CoachingRequests({ initialRequest, token }) {
     const diffInHours = now.diff(created, "hour");
     const diffInDays = now.diff(created, "day");
 
-    if (diffInDays > 2) {      
+    if (diffInDays > 2) {
       return created.format("DD MMM YYYY"); // If more than 2 days, show date
     } else if (diffInHours >= 24) {
       return created.fromNow(); // e.g., "2 days ago"
@@ -42,12 +43,14 @@ export default function CoachingRequests({ initialRequest, token }) {
     }
   };
 
-  const handleViewRequest = () => {
+  const handleViewRequest = (rqst) => {
+    setSelectedRequest(rqst);
     setShowModal(true);
-  }
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setSelectedRequest(null);
   };
 
   // console.log('pendingRequest', pendingRequest)
@@ -78,7 +81,7 @@ export default function CoachingRequests({ initialRequest, token }) {
                     <h4 className="mb-0">Request received</h4>
                     <MoreHorizOutlinedIcon sx={{ color: '#A9A9A9' }} />
                   </div>
-                  
+
                   <div className="mb-3 status-div">
                     <button className="border px-3 py-1 rounded-pill" style={{
                       backgroundColor: "#FFA500",
@@ -101,7 +104,7 @@ export default function CoachingRequests({ initialRequest, token }) {
                       <span className="fw-semibold d-block name">{rqst.first_name} {rqst.last_name}</span>
                       <span className="d-block location">{rqst.country}</span>
                       <span className="d-block time">
-                         {/* Received 2 hours ago */}
+                        {/* Received 2 hours ago */}
                         Received {formatReceivedTime(rqst.created_at)}
                       </span>
                       <p className="mt-2 mb-0 note">{rqst.coaching_request_goal?.length > 30
@@ -110,7 +113,7 @@ export default function CoachingRequests({ initialRequest, token }) {
                   </div>
 
                   <div className="d-flex gap-3">
-                    <button className="btn btn-primary button-note" onClick={handleViewRequest}>View request</button>
+                    <button className="btn btn-primary button-note" onClick={() => handleViewRequest(rqst)}>View request</button>
                     <button className="btn btn-outline-secondary button-msg">Message</button>
                   </div>
                 </div>))}
@@ -125,7 +128,7 @@ export default function CoachingRequests({ initialRequest, token }) {
       </div>
 
 
-      {showModal && (
+      {showModal && selectedRequest && (
         <div className="request-modal-overlay">
           <div className="request-modal">
             <div className="request-modal-header d-flex justify-content-between align-items-center">
@@ -138,20 +141,19 @@ export default function CoachingRequests({ initialRequest, token }) {
               <div className="request-modal-body">
                 <h6>1. Coaching Details</h6>
                 <p>
-                  <strong>Type of Coaching:</strong> Wellness & Health Coaches
+                  <strong>Type of Coaching:</strong> {selectedRequest?.coaching_category || "N/A"}
                 </p>
                 <p>
-                  <strong>Sub Coaching Category:</strong> Fitness Coach
+                  <strong>Sub Coaching Category:</strong> {selectedRequest?.coach_sub_category || "N/A"}
                 </p>
                 <p>
-                  <strong>Preferred Mode of Delivery:</strong> Online
+                  <strong>Preferred Mode of Delivery:</strong> {selectedRequest?.delivery_mode || "N/A"}
                 </p>
                 <p>
-                  <strong>Location:</strong> Singapore
+                  <strong>Location:</strong> {selectedRequest?.country || "N/A"}
                 </p>
                 <p>
-                  <strong>Goal or Objective of Coaching/Learning:</strong> Improve
-                  confidence, Career advancement, Academic improvement
+                  <strong>Goal or Objective of Coaching/Learning:</strong> {selectedRequest?.coaching_request_goal || "N/A"}
                 </p>
               </div>
               <div className="request-modal-body">
