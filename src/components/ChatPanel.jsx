@@ -1,37 +1,86 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "././_styles/chat_panel.css";
+import axios from "axios";
 
 const ChatPanel = ({
   tabs = [],
   onSendMessage,
   showCreatePackageButtonTabs = ["Coaching Requests", "Active Coaching"],
 }) => {
+  // const [activeTab, setActiveTab] = useState(0);
+  // const [newMessage, setNewMessage] = useState("");
+  // const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
+  // const [tabMessages, setTabMessages] = useState(
+  //   tabs.map((tab) => tab.initialMessages || [])
+  // );
+
+  // const handleSend = () => {
+  //   if (newMessage.trim()) {
+  //     const msg = {
+  //       sender: "You",
+  //       time: "Just now",
+  //       text: newMessage,
+  //     };
+
+  //     const updatedMessages = [...tabMessages];
+  //     updatedMessages[activeTab] = [...updatedMessages[activeTab], msg];
+  //     setTabMessages(updatedMessages);
+  //     setNewMessage("");
+
+  //     onSendMessage?.(tabs[activeTab].key, msg);
+  //   }
+  // };
+
+  // const currentTab = tabs[activeTab];
+
   const [activeTab, setActiveTab] = useState(0);
   const [newMessage, setNewMessage] = useState("");
   const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
-  const [tabMessages, setTabMessages] = useState(
-    tabs.map((tab) => tab.initialMessages || [])
-  );
+  const [tabMessages, setTabMessages] = useState([]); // messages from backend
 
+  // console.log('setSelectedCoachIndex', setSelectedCoachIndex)
+
+  const currentTab = tabs[activeTab];
+  const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
+
+
+  // Fetch messages when coach is selected
+  useEffect(() => {
+    if (!selectedCoach) return;
+
+    axios.post(
+      "https://coachsparkle-backend.votivereact.in/api/chat/getMessages",
+      { receiver_id: selectedCoach.id }, // backend expects receiver_id
+      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+    )
+      .then((res) => {
+        if (res.data.success) {
+          setTabMessages(res.data.data);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, [selectedCoach]);
+  console.log('tabMessages', tabMessages)
+  // Send new message
   const handleSend = () => {
-    if (newMessage.trim()) {
-      const msg = {
-        sender: "You",
-        time: "Just now",
-        text: newMessage,
-      };
-
-      const updatedMessages = [...tabMessages];
-      updatedMessages[activeTab] = [...updatedMessages[activeTab], msg];
-      setTabMessages(updatedMessages);
-      setNewMessage("");
-
-      onSendMessage?.(tabs[activeTab].key, msg);
+    // console.log('sendMessag')
+    if (newMessage.trim() && selectedCoach) {
+      axios.post(
+        "https://coachsparkle-backend.votivereact.in/api/chat/send",
+        { receiver_id: selectedCoach.id, message: newMessage },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      )
+        .then((res) => {
+          if (res.data.success) {
+            setTabMessages([...tabMessages, res.data.data]);
+            setNewMessage("");
+          }
+        })
+        .catch((err) => console.error(err));
     }
   };
 
-  const currentTab = tabs[activeTab];
 
   return (
     <div className="chat-message-start">
@@ -63,55 +112,54 @@ const ChatPanel = ({
                         placeholder="Search or start a new chat"
                       />
                     </div>
-                   
-                   <div className="coach-chat-list">
 
-                    <ul className="list-unstyled mb-0">
-                      {currentTab.coaches.map((coach, index) => (
-                        <li
-                          key={index}
-                          className={`border-bottom coach-item ${
-                            selectedCoachIndex === index ? "active-chat" : ""
-                          }`}
-                          onClick={() => setSelectedCoachIndex(index)}
-                        >
-                          <a
-                            href="#!"
-                            className="d-flex justify-content-between"
+                    <div className="coach-chat-list">
+
+                      <ul className="list-unstyled mb-0">
+                        {currentTab.coaches.map((coach, index) => (
+                          <li
+                            key={index}
+                            className={`border-bottom coach-item ${selectedCoachIndex === index ? "active-chat" : ""
+                              }`}
+                            onClick={() => setSelectedCoachIndex(index)}
                           >
-                            <div className="d-flex flex-row">
-                              <img
-                                src={coach.img}
-                                alt="avatar"
-                                className="d-flex align-self-center me-3"
-                                width="60"
-                              />
-                              <div className="pt-1">
-                                <p className="fw-bold mb-0 d-flex align-items-center gap-1">
-                                  {coach.name}
-                                  {coach.isAI && (
-                                    <span className="ai-label">AI</span>
-                                  )}
-                                </p>
-                                <p className="small text-muted">
-                                  User Name: <span>{coach.lastMessage}</span>
-                                </p>
+                            <a
+                              href="#!"
+                              className="d-flex justify-content-between"
+                            >
+                              <div className="d-flex flex-row">
+                                <img
+                                  src={coach.img}
+                                  alt="avatar"
+                                  className="d-flex align-self-center me-3"
+                                  width="60"
+                                />
+                                <div className="pt-1">
+                                  <p className="fw-bold mb-0 d-flex align-items-center gap-1">
+                                    {coach.name}
+                                    {coach.isAI && (
+                                      <span className="ai-label">AI</span>
+                                    )}
+                                  </p>
+                                  <p className="small text-muted">
+                                    User Name: <span>{coach.lastMessage}</span>
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            <div className="pt-1">
-                              <p className="small text-muted mb-1 time-add">
-                                {coach.time}
-                              </p>
-                              {coach.unread > 0 && (
-                                <span className="badge rounded-pill float-end">
-                                  {coach.unread}
-                                </span>
-                              )}
-                            </div>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
+                              <div className="pt-1">
+                                <p className="small text-muted mb-1 time-add">
+                                  {coach.time}
+                                </p>
+                                {coach.unread > 0 && (
+                                  <span className="badge rounded-pill float-end">
+                                    {coach.unread}
+                                  </span>
+                                )}
+                              </div>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -136,51 +184,60 @@ const ChatPanel = ({
                       <a className="report-btn-add">Report</a>
                     </div>
 
-{tabMessages[activeTab]?.map((msg, i) => (
-  <div className="user-name-text" key={i}>
-    {msg.type === "session-info" && (
-      <div className="hi-text-tell session-info">
-        <h6>{msg.data?.title} with {msg.sender}</h6>
-        <p>{msg.data?.date}</p>
-        <img
-          src="/coachsparkle/images/google-meet.png"
-          alt="file"
-          className="session-img"
-        />
-      </div>
-    )}
+                    {tabMessages?.map((msg, i) => (
+                      <div className="user-name-text" key={i}>
+                        {/* {msg.type === "session-info" && (
+                          <div className="hi-text-tell session-info">
+                            <h6>{msg.data?.title} with {msg.sender}</h6>
+                            <p>{msg.data?.date}</p>
+                            <img
+                              src="/coachsparkle/images/google-meet.png"
+                              alt="file"
+                              className="session-img"
+                            />
+                          </div>
+                        )} */}
+                           <div className="hi-text-tell session-info">
+                            <h6>{msg.data?.title} with {msg.sender}</h6>
+                            <p>{msg.created_at}</p>
+                            <img
+                              src="/coachsparkle/images/google-meet.png"
+                              alt="file"
+                              className="session-img"
+                            />
+                          </div>
 
-    <p className="first-text-tell">{msg.sender}</p>
-    <span>{msg.time}</span>
+                        <p className="first-text-tell">{msg.sender}</p>
+                        <span>{msg.time}</span>
 
-    {msg.type === "text" && (
-      <div className="hi-text-tell">
-        <p className="hi-enter-text">{msg.text}</p>
-      </div>
-    )}
+                        {msg.type === "text" && (
+                          <div className="hi-text-tell">
+                            <p className="hi-enter-text">{msg.text}</p>
+                          </div>
+                        )}
 
-    {msg.type === "coaching-request" && (
-      <div className="hi-text-tell coaching-request-message">
-        <img
-          src="/coachsparkle/assets/images/folder-icon.png"
-          alt="file"
-          width={30}
-        />
-        <p className="click-to-view">
-          {msg.data?.title || "Click to view Coaching Request"}
-          <br/>
-          {msg.data?.subtitle}
-        </p>
-      </div>
-    )}
+                        {msg.type === "coaching-request" && (
+                          <div className="hi-text-tell coaching-request-message">
+                            <img
+                              src="/coachsparkle/assets/images/folder-icon.png"
+                              alt="file"
+                              width={30}
+                            />
+                            <p className="click-to-view">
+                              {msg.data?.title || "Click to view Coaching Request"}
+                              <br />
+                              {msg.data?.subtitle}
+                            </p>
+                          </div>
+                        )}
 
-    {msg.type === "session-info" && msg.text && (
-      <div className="hi-text-tell">
-        <p className="hi-enter-text">{msg.text}</p>
-      </div>
-    )}
-  </div>
-))}
+                        {msg.type === "session-info" && msg.text && (
+                          <div className="hi-text-tell">
+                            <p className="hi-enter-text">{msg.text}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
 
 
                     <div className="text-send-message">
