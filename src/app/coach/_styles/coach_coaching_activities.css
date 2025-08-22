@@ -175,6 +175,10 @@
   border-radius: 12px;
 }
 
+.completed-status .row {
+    width: 100%;
+}
+
 .completed-status {
   border: 1px solid #d7d7d7;
   border-radius: 0px 0px 10px 10px;
