@@ -2431,9 +2431,17 @@ display: none;
   border-radius: 8px;
 }
 .sidebar .nav .nav-item.active > .nav-link {
-  background: #4B49AC;
+  background: #E8F7FF;
   position: relative;
+  color: #009BFA !important;
+  border-radius: 0px;
+  border-left: solid 3px #009BFA  !important;
 }
+
+li.nav-item.active.user-nav-active span.menu-title {
+  color: #009BFA !important;
+}
+
 .sidebar .nav .nav-item.active > .nav-link i,
 .sidebar .nav .nav-item.active > .nav-link .menu-title,
 .sidebar .nav .nav-item.active > .nav-link .menu-arrow {
