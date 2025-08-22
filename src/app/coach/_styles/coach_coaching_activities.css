@@ -6,7 +6,6 @@
   width: 30%;
 }
 
-
 .coaching-status {
   border: 1px solid #d7d7d7;
   border-radius: 0px 0px 10px 10px;
@@ -90,6 +89,9 @@
   padding: 12px 14px 12px 14px;
   border-radius: 12px;
 }
+.coaching-progress-status .row {
+  width: 100%;
+}
 
 .coaching-progress-status {
   border: 1px solid #d7d7d7;
@@ -122,9 +124,16 @@
   color: #6f7c8e;
 }
 
-.coaching-progress .content {
+/* .coaching-progress .content {
   height: 48%;
+} */
+.coaching-status .row {
+  width: 100%;
 }
+.coaching-status .d-flex.justify-content-between.flex-wrap.py-4.px-4 {
+  padding-right: 0px !important;
+}
+
 .coaching-progress .status-div button {
   font-size: 13px;
   font-weight: 500px;
@@ -152,7 +161,7 @@
   width: 135px;
   height: auto;
   padding: 12px 0px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .coaching-progress .button-msg {
@@ -165,10 +174,6 @@
   padding: 12px 14px 12px 14px;
   border-radius: 12px;
 }
-
-
-
-
 
 .completed-status {
   border: 1px solid #d7d7d7;
@@ -239,7 +244,7 @@ h4.coaching-tittle-text {
   padding: 12px 14px 12px 14px;
   border-radius: 12px;
   border: none;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .completed .button-msg {
@@ -250,11 +255,11 @@ h4.coaching-tittle-text {
   height: auto;
   font-size: 12px;
   padding: 12px 14px 12px 14px;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
 .cancel-btn button{
-      font-size: 13px;
+  font-size: 13px;
   font-weight: 500px;
   background-color: #FF0000;
   color: white;

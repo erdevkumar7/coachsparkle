@@ -78,7 +78,7 @@ export default function CoachingRequests({ initialRequest, token }) {
                     <h4 className="mb-0">Request received</h4>
                     <MoreHorizOutlinedIcon sx={{ color: '#A9A9A9' }} />
                   </div>
-
+                  
                   <div className="mb-3 status-div">
                     <button className="border px-3 py-1 rounded-pill" style={{
                       backgroundColor: "#FFA500",

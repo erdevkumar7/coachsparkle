@@ -1,16 +1,17 @@
 .sidebar .nav .nav-item .nav-link .menu-title {
     color: inherit;
     vertical-align: middle;
-    font-size: 16px !important;
-    line-height: auto !important;
-    display: inline-block;
     margin-top: -3px;
+    display: inline-block;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
 }
 .sidebar.collapsed {
     width: 53px !important;
 }
 nav#sidebar a.nav-link {
     padding: 14px !important;
+    text-wrap: auto;
 }
 .text-with-check-icons svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
     color: #27C200 !important;
@@ -94,7 +95,7 @@ nav#sidebar ul.nav {
 nav#sidebar a.nav-link div {
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 13px;
     display: flex;
 }
 i.bi.bi-check-circle-fill {
