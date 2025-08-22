@@ -156,7 +156,7 @@ export default function RequestForm({
                   onChange={handleChange}
                   disabled={loading}
                 >
-                  <option value="" disabled>
+                  <option selected value="" disabled>
                     Select category
                   </option>
                   {coachType.map((type) => (
@@ -171,12 +171,12 @@ export default function RequestForm({
               </div>
               <div className="col-md-6">
                 <label className="form-label">Coaching Category*</label>
-                {/* <select
+                <select
                   className="form-selectbox"
                   {...register("coach_subtype")}
                   disabled={loading}
                 >
-                  <option value="" disabled>
+                  <option selected value="" disabled>
                     Select sub category
                   </option>
                   {coachSubTypes.map((item) => (
@@ -184,9 +184,9 @@ export default function RequestForm({
                       {item.subtype_name}
                     </option>
                   ))}
-                </select> */}
+                </select>
 
-                <Controller
+                {/* <Controller
                   name="coach_subtype"
                   control={control}
                   render={({ field }) => (
@@ -210,7 +210,7 @@ export default function RequestForm({
                       onChange={(selected) => field.onChange(selected.map(opt => opt.value))}
                     />
                   )}
-                />
+                /> */}
 
 
                 {errors.coach_subtype && (

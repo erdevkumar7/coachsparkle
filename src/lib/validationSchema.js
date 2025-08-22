@@ -194,7 +194,8 @@ export const sendMessageSchema = yup.object().shape({
 
 export const requestSchema = yup.object().shape({
     coach_type: yup.string().required("Category is required"),
-    coach_subtype: yup.array().min(1, "Subcategory is required"),
+    coach_subtype: yup.string().required("Subcategory is required"),
+    // coach_subtype: yup.array().min(1, "Subcategory is required"),
     preferred_mode_of_delivery: yup.string().required("Delivery mode is required"),
     location: yup.string().required("Location is required"),
     coaching_goal: yup.string().required("Coaching goal is required"),
