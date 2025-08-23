@@ -37,14 +37,14 @@ export default function CoachSideBarComp() {
     };
 
     const menuItems = [
-        { href: "/coach/dashboard", label: "Dashboard", icon: <AppsIcon /> },
+        { href: "/coach/dashboard", label: "Dashboard", icon: <AppsIcon />, className: "explore-tab" },
         { href: "/coach/profile", label: "Profile", icon: <PersonOutlineIcon /> },
         { href: "/coach/service-packages", label: "Service Packages", icon: <ViewInArIcon /> },
         { href: "/coach/coaching-activities", label: "Coaching Activities", icon: <WorkOutlineIcon /> },
         { href: "/coach/booking", label: "Booking", icon: <CalendarMonthIcon /> },
         { href: "/coach/messages", label: "Message + Coaching Requests", icon: <TextsmsOutlinedIcon /> },
         { href: "/coach/review", label: "Reviews", icon: <StarBorderPurple500OutlinedIcon /> },
-        { href: "/coach/account-settings", label: "Account Settings", icon: <SettingsOutlinedIcon /> },
+        { href: "/coach/account-settings", label: "Account Settings", icon: <SettingsOutlinedIcon />, className: "explore-tab" },
         { href: "/coach/subscription-plan", label: "Subscription Plan", icon: <FavoriteBorderOutlinedIcon /> },
         { href: "/coach/faq", label: "FAQs and Support", icon: <HeadsetMicOutlinedIcon /> },
     ];
@@ -73,22 +73,10 @@ export default function CoachSideBarComp() {
 
 
             <ul className="nav">
-                {/* <li className="nav-item" onClick={() => router.push('/coach/dashboard')}>
-                    <a className="nav-link" href="#" data-bs-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
-                        <div>
-                            <AppsIcon />
-                            <span className="menu-title">Dashboard</span>
-                        </div>
-                    </a>
-                </li> */}
-
                 {menuItems.map((item, idx) => (
                     <li
                         key={idx}
-                        className={`nav-item ${isActive(item.href)
-                            ? "active user-nav-active"
-                            : ""
-                            }`}
+                        className={`nav-item ${isActive(item.href) ? "active user-nav-active" : ""} ${item.className ? item.className : ""}`}
                     >
                         <Link href={item.href} className="nav-link">
                             <div>
