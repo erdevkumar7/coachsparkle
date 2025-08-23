@@ -1,90 +1,83 @@
-import * as React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import ListSubheader from '@mui/material/ListSubheader';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Checkbox from '@mui/material/Checkbox';
-import ListItemText from '@mui/material/ListItemText';
+import * as React from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import ListSubheader from "@mui/material/ListSubheader";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
 
-export default function CoachCategory() {
-  const [selectedOptions, setSelectedOptions] = React.useState([]);
+import { getCoachType, getSubCoachType } from "@/app/api/guest";
+
+export default function CoachCategory({ value = [], onChange }) {
+  const [coachTypes, setCoachTypes] = React.useState([]);
+  const [subCoachTypes, setSubCoachTypes] = React.useState({});
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const types = await getCoachType();
+      setCoachTypes(types);
+
+      const subTypeMap = {};
+      for (const type of types) {
+        const subtypes = await getSubCoachType(type.id);
+        subTypeMap[type.id] = subtypes;
+      }
+      setSubCoachTypes(subTypeMap);
+    };
+    fetchData();
+  }, []);
 
   const handleChange = (event) => {
     const {
-      target: { value },
+      target: { value: selectedIds },
     } = event;
-    setSelectedOptions(typeof value === 'string' ? value.split(',') : value);
+    onChange(selectedIds);
   };
 
   return (
     <FormControl sx={{ m: 1, width: 300 }}>
-      <InputLabel id="grouped-multiselect-checkbox-label">Select Options</InputLabel>
+      <InputLabel id="grouped-multiselect-checkbox-label" sx={{m:0}}>
+        Select Categories
+      </InputLabel>
       <Select
         labelId="grouped-multiselect-checkbox-label"
         id="grouped-multiselect-checkbox"
         multiple
-        value={selectedOptions}
+        value={value}
         onChange={handleChange}
-        input={<OutlinedInput label="Select Options" />}
-        renderValue={(selected) => selected.join(', ')}
+        input={<OutlinedInput label="Select Categories" />}
+        renderValue={(selected) =>
+          selected
+            .map((id) => {
+              for (const typeId in subCoachTypes) {
+                const sub = subCoachTypes[typeId]?.find((s) => s.id === id);
+                if (sub) return sub.subtype_name;
+              }
+              return id;
+            })
+            .join(", ")
+        }
+        MenuProps={{
+          PaperProps: {
+            style: {
+              maxHeight: 300,
+            },
+          },
+        }}
       >
-        <ListSubheader>Career & Professional Coaches</ListSubheader>
-        <MenuItem value="Career Coach">
-          <Checkbox checked={selectedOptions.includes('Career Coach')} />
-          <ListItemText primary="Career Coach" />
-        </MenuItem>
-        <MenuItem value="Executive Coach">
-          <Checkbox checked={selectedOptions.includes('Executive Coach')} />
-          <ListItemText primary="Executive Coach" />
-        </MenuItem>
-        <MenuItem value="Business Coach">
-          <Checkbox checked={selectedOptions.includes('Business Coach')} />
-          <ListItemText primary="Business Coach" />
-        </MenuItem>
-        <MenuItem value="Interview Coach">
-          <Checkbox checked={selectedOptions.includes('Interview Coach')} />
-          <ListItemText primary="Interview Coach" />
-        </MenuItem>
-        <MenuItem value="Resume/LinkedIn Coach">
-          <Checkbox checked={selectedOptions.includes('Resume/LinkedIn Coach')} />
-          <ListItemText primary="Resume/LinkedIn Coach" />
-        </MenuItem>
-        <MenuItem value="Public Speaking Coach">
-          <Checkbox checked={selectedOptions.includes('Public Speaking Coach')} />
-          <ListItemText primary="Public Speaking Coach" />
-        </MenuItem>
-        <MenuItem value="Sales Coach">
-          <Checkbox checked={selectedOptions.includes('Sales Coach')} />
-          <ListItemText primary="Sales Coach" />
-        </MenuItem>
-
-        <ListSubheader>Personal Development & Life Coaches</ListSubheader>
-        <MenuItem value="Life Coach">
-          <Checkbox checked={selectedOptions.includes('Life Coach')} />
-          <ListItemText primary="Life Coach" />
-        </MenuItem>
-        <MenuItem value="Confidence Coach">
-          <Checkbox checked={selectedOptions.includes('Confidence Coach')} />
-          <ListItemText primary="Confidence Coach" />
-        </MenuItem>
-        <MenuItem value="Mindset Coach">
-          <Checkbox checked={selectedOptions.includes('Mindset Coach')} />
-          <ListItemText primary="Mindset Coach" />
-        </MenuItem>
-        <MenuItem value="Motivational Coach">
-          <Checkbox checked={selectedOptions.includes('Motivational Coach')} />
-          <ListItemText primary="Motivational Coach" />
-        </MenuItem>
-        <MenuItem value="Productivity Coach">
-          <Checkbox checked={selectedOptions.includes('Productivity Coach')} />
-          <ListItemText primary="Productivity Coach" />
-        </MenuItem>
-        <MenuItem value="Creativity Coach">
-          <Checkbox checked={selectedOptions.includes('Creativity Coach')} />
-          <ListItemText primary="Creativity Coach" />
-        </MenuItem>
+        {coachTypes.flatMap((type) => [
+          <ListSubheader key={`header-${type.id}`}>
+            {type.type_name}
+          </ListSubheader>,
+          ...(subCoachTypes[type.id]?.map((sub) => (
+            <MenuItem key={sub.id} value={sub.id}>
+              <Checkbox checked={value.includes(sub.id)} />
+              <ListItemText primary={sub.subtype_name} />
+            </MenuItem>
+          )) || []),
+        ])}
       </Select>
     </FormControl>
   );
