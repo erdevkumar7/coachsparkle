@@ -1,24 +1,31 @@
-import * as React from 'react';
-import Rating from '@mui/material/Rating';
-import Box from '@mui/material/Box';
+import * as React from "react";
+import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
 
-export default function SingleActiveRating() {
-  const [activeRating, setActiveRating] = React.useState({ index: null, value: 0 });
+export default function SingleActiveRating({ value, onChange }) {
+  const [activeIndex, setActiveIndex] = React.useState(value || null);
 
-  const handleChange = (index, value) => {
-    setActiveRating({ index, value });
+  const handleClick = (count) => {
+    setActiveIndex(count);
+    if (onChange) onChange(count);
   };
 
   return (
     <Box>
-      {[1, 2, 3, 4, 5].map((maxValue, idx) => (
-        <Box textAlign="left" key={idx} mb={0}>
+      {[1, 2, 3, 4, 5].map((count) => (
+        <Box
+          textAlign="left"
+          key={count}
+          mb={1}
+          sx={{ cursor: "pointer" }}
+          onClick={() => handleClick(count)}
+        >
           <Rating
-            name={`rating-${idx}`}
-            max={maxValue}
-            value={activeRating.index === idx ? activeRating.value : 0}
-            onChange={(event, newValue) => handleChange(idx, newValue)}
-            sx={{ fontSize: 50 }}
+            readOnly
+            value={count}
+            max={count}
+            sx={{ fontSize: 35 }}
+            style={{ color: activeIndex === count ? "#faaf00" : "#e0e0e0" }}
           />
         </Box>
       ))}

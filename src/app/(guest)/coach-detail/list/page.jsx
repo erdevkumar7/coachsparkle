@@ -6,20 +6,14 @@ import axios from "axios";
 import Link from "next/link";
 import "../../_styles/coach-list.css";
 import RangeSlider from "../../_components/CoachRange";
-import MultipleSelectCheckmarks from "../../_components/CoachLocation";
 import MultipleSelect from "../../_components/CoachLocation";
-import GroupedSelect from "../../_components/CoachCategory";
-import GroupedMultiSelectWithCheckboxes from "../../_components/CoachCategory";
 import CoachServices from "../../_components/CoachServices";
-import CheckboxLabels from "../../_components/CoachDeliveryMode";
 import CoachTrials from "../../_components/CoachTrials";
 import CoachDeliveryMode from "../../_components/CoachDeliveryMode";
 import CoachCorporateWork from "../../_components/CoachCorporateWork";
 import CoachCategory from "../../_components/CoachCategory";
 import CoachLanguages from "../../_components/CoachLanguages";
-import BasicRating from "../../_components/CoachRatings";
-import HalfRating from "../../_components/CoachRatings";
-import CoachAvail from "../../_components/CoachSideCalendar";
+import SingleActiveRating from "../../_components/CoachRatings";
 import BreadCrumb from "@/components/BreadCrumb";
 import Pagination from "@/components/Pagination";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
@@ -39,7 +33,6 @@ export default function CoachList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [countries, setCountries] = useState([]);
   const [deliveryMode, setDeliveryMode] = useState([]);
-  const [coachTypes, setCoachTypes] = useState([]);
   const [allLanguages, setAllLanguages] = useState([]);
   const [services, setServices] = useState([]);
   const [filters, setFilters] = useState({
@@ -75,7 +68,6 @@ export default function CoachList() {
         if (allMasters) {
           setCountries(allMasters.countries || []);
           setDeliveryMode(allMasters.delivery_mode || []);
-          setCoachTypes(allMasters.coach_type || []);
           setAllLanguages(allMasters.languages || []);
           setServices(allMasters.services || []);
         }
@@ -115,6 +107,7 @@ export default function CoachList() {
 
       if (userId) activeFilters.user_id = userId;
 
+
       const response = await axios.post(
         `${apiUrl}/coachlist?page=${page}`,
         activeFilters,
@@ -140,7 +133,6 @@ export default function CoachList() {
     }
   };
 
-  // console.log(currentPage, 'coachescoaches')
   return (
     <>
       <div className="coach-banner-add">
@@ -195,13 +187,6 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Prices</h4>
-              {/* <div className="price-range-slider">
-                                <div className="range-values">
-                                    <span id="amount-left">$0</span>
-                                    <span id="amount-right">$2000</span>
-                                </div>
-                                <div id="slider-range" className="range-bar"></div>
-                            </div> */}
               <div className="range_sld">
                 <div className="price-range-box">
                   <span className="price">
@@ -224,17 +209,6 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Location</h4>
-              {/* <div className="filter-services">
-                                <label><input type="checkbox" /> Leadership</label>
-                                <label><input type="checkbox" /> Product Management</label>
-                                <label><input type="checkbox" /> Career Growth</label>
-                                <label><input type="checkbox" /> Career</label>
-                                <label><input type="checkbox" /> Product Strategy</label>
-                                <label><input type="checkbox" /> Startup</label>
-                                <label><input type="checkbox" /> Management</label>
-                                <a href="#">Show more services</a>
-                            </div> */}
-
               <MultipleSelect
                 countries={countries}
                 value={filters.countries}
@@ -244,27 +218,16 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Coaching Category</h4>
-              {/* <div className="filter-services">
-                                <label><input type="checkbox" /> Career & Professional Coaches</label>
-                                <label><input type="checkbox" /> Personal Development & Life Coaches</label>
-                                <label><input type="checkbox" /> Wellness & Health Coaches</label>
-                                <label><input type="checkbox" /> Family, Relationship & Youth Coaches</label>
-                                <label><input type="checkbox" /> Academic & Learning Coaches </label>
-                                <label><input type="checkbox" /> Specialized & Skill-Based Coaches </label>
-                                <label><input type="checkbox" /> Niches (Emerging)</label>
-                            </div> */}
-
-              <CoachCategory />
+              <CoachCategory
+                value={filters.coaching_sub_categories}
+                onChange={(selected) =>
+                  updateFilter("coaching_sub_categories", selected)
+                }
+              />
             </div>
 
             <div className="filter-section">
               <h4>Services</h4>
-              {/* <div className="filter-services">
-                                <label><input type="checkbox" /> Online</label>
-                                <label><input type="checkbox" /> In-Person</label>
-                                <label><input type="checkbox" /> Hybrid</label>
-                            </div> */}
-
               <CoachServices
                 services={services}
                 value={filters.services}
@@ -274,16 +237,6 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Delivery Mode</h4>
-
-              {/* <div className="filter-services">
-                                <label><input type="checkbox" /> Structured</label>
-                                <label><input type="checkbox" /> Free-flow</label>
-                                <label><input type="checkbox" /> Visual</label>
-                                <label><input type="checkbox" /> Practical</label>
-                                <label><input type="checkbox" /> Mindfulness-based</label>
-                                <label><input type="checkbox" /> Conversational </label>
-                            </div> */}
-
               <CoachDeliveryMode
                 deliveryMode={deliveryMode}
                 value={filters.delivery_mode}
@@ -293,17 +246,6 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Free Trial / Volunteer / Pro Bono</h4>
-              {/* <div className="filter-services">
-                                <label><input type="checkbox" /> French</label>
-                                <label><input type="checkbox" /> English</label>
-                                <label><input type="checkbox" /> Arabic</label>
-                                <label><input type="checkbox" /> Spanish</label>
-                                <label><input type="checkbox" /> Hindi</label>
-                                <label><input type="checkbox" /> Italian</label>
-                                <label><input type="checkbox" /> German</label>
-                                <a href="#">Show more languages</a>
-                            </div> */}
-
               <CoachTrials
                 value={filters.free_trial_session}
                 onChange={(val) => updateFilter("free_trial_session", val)}
@@ -312,24 +254,9 @@ export default function CoachList() {
 
             <div className="filter-section rating-add">
               <h4>Available for Corporate Work</h4>
-
-              {/* <div className="filter-services">
-                                <label><input type="checkbox" /> <i className="bi bi-star"></i></label>
-                                <label><input type="checkbox" /> <i className="bi bi-star"></i><i className="bi bi-star"></i></label>
-                                <label><input type="checkbox" /> <i className="bi bi-star"></i><i className="bi bi-star"></i><i className="bi bi-star"></i></label>
-                                <label><input type="checkbox" /> <i className="bi bi-star"></i><i className="bi bi-star"></i><i className="bi bi-star"></i><i className="bi bi-star"></i></label>
-                                <label>
-                                    <input type="checkbox" /> <i className="bi bi-star"></i>
-                                    <i className="bi bi-star"></i>
-                                    <i className="bi bi-star"></i>
-                                    <i className="bi bi-star"></i>
-                                    <i className="bi bi-star"></i>
-                                </label>
-                            </div> */}
-
               <CoachCorporateWork
-                value={filters.corporate_work}
-                onChange={(val) => updateFilter("corporate_work", val)}
+                value={filters.is_corporate}
+                onChange={(val) => updateFilter("is_corporate", val)}
               />
             </div>
 
@@ -344,12 +271,16 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Availability</h4>
-              <CoachDetailCalendar className="coach-list-calendar" />
+              <CoachDetailCalendar
+              />
             </div>
 
             <div className="filter-section rating-star">
               <h4>Rating</h4>
-              <HalfRating />
+              <SingleActiveRating
+                value={filters.average_rating}
+                onChange={(val) => updateFilter("average_rating", val)}
+              />
             </div>
           </aside>
 
@@ -422,7 +353,6 @@ export default function CoachList() {
                     </div>
                     <div className="fav-list">
                       <span>
-                        {/* <FavoriteBorderIcon className="mui-icons" /> */}
                         <FavIcon
                           coachId={coach.user_id}
                           initiallyFavorited={coach?.is_fevorite}
