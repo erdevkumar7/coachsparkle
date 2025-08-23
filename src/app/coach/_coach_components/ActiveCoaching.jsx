@@ -1,42 +1,27 @@
+"use client";
 import { useUser } from "@/context/UserContext";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function ActiveCoaching() {
+export default function ActiveCoaching({ initialRequest, token }) {  
+  const [allRequests, setAllRequests] = useState(initialRequest.data);
+  const router = useRouter()
   const { user } = useUser();
   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
 
-
-  const allRequests = [
-    {
-      name: "User Display Name",
-      image: "/coachsparkle/assets/images/coaching-img.png",
-      location: "Location, City",
-      match: "High Match",
-      goal: "Improve Public Speaking",
-    },
-    {
-      name: "User Display Name",
-      image: "/coachsparkle/assets/images/coaching-img.png",
-      location: "Location, City",
-      match: "High Match",
-      goal: "Build Confidence",
-    },
-    {
-      name: "User Display Name",
-      image: "/coachsparkle/assets/images/coaching-img.png",
-      location: "Location, City",
-      match: "High Match",
-      goal: "Career Change",
-    },
-  ];
-
   const visibleRequests = isProUser ? allRequests : allRequests.slice(0, 3);
+
+
+  // console.log('initialRequest', initialRequest)
+
 
   return (
     <>
       <div>
         <h3 className="text-lg font-semibold">
           Active Coaching Requests and AI Matches{" "}
-          <strong>{allRequests.length.toString().padStart(2, "0")}</strong>
+          <strong>{initialRequest.request_count < 10 ? `0${initialRequest.request_count}` : initialRequest.request_count}</strong>
         </h3>
         {!isProUser && (
           <span>Your current plan limits you to 5 requests and matches per month.</span>
@@ -72,14 +57,18 @@ export default function ActiveCoaching() {
             {visibleRequests.map((request, index) => (
               <tr key={index} className="coaching-all-match">
                 <td className="user-info">
-                  <img src={request.image} alt="Coach Photo" />
+                  <img
+                    src={request?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                    alt="UserImg"
+                    style={{ width: "50px", height: "50px", borderRadius: "50px" }} />
                   <div className="tracy-text">
-                    <div className="name">{request.name}</div>
-                    <div className="sub-info">{request.location}</div>
+                    <div className="name">{request.first_name} {request.last_name}</div>
+                    <div className="sub-info">Location: {request.country}</div>
                   </div>
                 </td>
-                <td className="match">{request.match}</td>
-                <td className="goal">{request.goal}</td>
+                <td className="match">High Match</td>
+                <td className="goal">{request.coaching_request_goal?.length > 25 ?
+                  request.coaching_request_goal?.slice(0, 25) + "..." : request.coaching_request_goal}</td>
               </tr>
             ))}
           </tbody>
@@ -99,7 +88,7 @@ export default function ActiveCoaching() {
             </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </>
         )}
-        <button className="view-btn">
+        <button className="view-btn" onClick={() => router.push('/coach/coaching-activities')}>
           View Requests <i className="bi bi-arrow-right"></i>
         </button>
       </div>

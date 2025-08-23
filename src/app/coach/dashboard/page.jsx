@@ -1,9 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { HandleValidateToken } from "@/app/api/auth";
-import { FRONTEND_BASE_URL } from "@/utiles/config";
+import { cookies } from "next/headers";
 import CoachCalendar from "../_coach_components/CoachCalendar";
 import QuickSnapshot from "../_coach_components/QuickSnapshot";
 import ActiveCoaching from "../_coach_components/ActiveCoaching";
@@ -13,91 +8,31 @@ import IndustryInsights from "../_coach_components/IndustryInsights";
 import ServicePerformancess from "../_coach_components/ServicePerformances";
 import MyArticles from "../_coach_components/MyArticles";
 import ActivityLog from "../_coach_components/ActivityLog";
-import { useUser } from "@/context/UserContext";
-
-export default function CoachDashboard() {
-  const router = useRouter();
-   const { user } = useUser();
-
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (!token) {
-      router.push("/login");
-    }
-
-    const fetchUser = async () => {
-      const tokenData = await HandleValidateToken(token);
-      if (!tokenData) {
-        Cookies.remove("token");
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        router.push("/login");
-        return;
-      }
-    };
-
-    fetchUser();
-  }, []);
+import WelcomeBack from "../_coach_components/WelcomeBack";
 
 
+export default async function CoachDashboard() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+
+  const [pendingRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/getPendingCoaching`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+    }),
+  ])
+  const pendingRequest = await pendingRes.json();
+  //  console.log('token', pendingRequest)
   return (
     <div className="main-panel">
       <div className="new-content-wrapper coach-wrap">
         <div className="coach-dashboard-add">
-          <div className="header">
-            <h1>
-              Welcome back, Coach {user?.first_name}! <br /> Ready
-              to empower someone today?
-            </h1>
-          </div>
-
-          <div className="profile-box">
-            <div className="profile-info">
-              <img
-                alt="profile"
-                src={
-                  user?.profile_image ||
-                  `${FRONTEND_BASE_URL}/images/default_profile.jpg`
-                }
-              />
-              <div className="coach-profile-view">
-                <div>
-                  {user?.subscription_plan?.plan_name == 'Pro' ? (
-                    <p className="pro-add-value">Pro</p>
-                  ) : (
-                    <p className="basic-add-value">Basic</p>
-                  )}
-                  <div>
-                    <strong>
-                      {user?.first_name} {user?.last_name}
-                    </strong>
-                  </div>
-                  <p className="coach-name-text">Coach</p>
-                </div>
-                <div className="status">
-                  <select>
-                    <option>Online</option>
-                    <option>Offline</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="progress-bar">
-              <div className="progress-line">
-                <div className="progress-fill">
-                  <span>80%</span>
-                </div>
-              </div>
-
-              <div className="update-links">
-                <div className="complete-bar">Profile 80% Complete</div>
-                <div className="links">
-                  <a href="#">Update Profile</a>
-                  <a href="#">Add Services +</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          <WelcomeBack />
 
           <div className="snapshot">
             <QuickSnapshot />
@@ -108,7 +43,9 @@ export default function CoachDashboard() {
           <div className="grid">
             <div className="matches-add">
               <div className="card col-md-8">
-                <ActiveCoaching />
+                <ActiveCoaching
+                  initialRequest={pendingRequest}
+                  token={token} />
               </div>
 
               <div className="col-md-4 matches-right-side">
