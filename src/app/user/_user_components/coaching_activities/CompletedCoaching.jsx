@@ -1,14 +1,30 @@
-// components/CompletedCoachingSection.jsx
-import React from "react";
+"use client";
+import { getUserCompletedCoachingClient } from "@/app/api/user-client";
+import Pagination from "@/components/Pagination";
+import React, { useState } from "react";
 
-export default function CompletedCoaching({ title, count, completed }) {
+export default function CompletedCoaching({ initialCompleted, token }) {
+  const [getCompleted, setCompleted] = useState(initialCompleted.data);
+  const [currentPage, setCurrentPage] = useState(initialCompleted.pagination.current_page);
+  const [lastPage, setLastPage] = useState(initialCompleted.pagination.last_page);
+
+
+  const fetchPageData = async (page) => {
+    const res = await getUserCompletedCoachingClient(page, token);
+    if (res?.data) {
+      setCompleted(res.data.data);
+      setCurrentPage(res.data.pagination.current_page);
+      setLastPage(res.data.pagination.last_page);
+    }
+  };
+
   return (
     <div className="mt-5 meditation-package">
       <div className="coaching-progress-status">
         <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
           <div>
             <h3>
-              {title} ({count < 10 ? `0${count}` : count})
+              Completed Coaching ({initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total})
             </h3>
           </div>
           <div className="sorting-data d-flex align-items-center gap-2">
@@ -26,11 +42,10 @@ export default function CompletedCoaching({ title, count, completed }) {
 
         <div className="d-flex justify-content-between flex-wrap py-4 px-4">
           <div className="row gap-4">
-            {completed.map((session, index) => (
+            {getCompleted.map((completed, index) => (
               <div key={index} className="col-md-4 coaching-progress p-3">
                 <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">Pending review</h4>
-                  {/* <span className="session">1 Session left</span> */}
+                  {/* <h4 className="mb-0">Pending review</h4> */}
                 </div>
 
                 <div className="mb-3 status-div">
@@ -41,31 +56,37 @@ export default function CompletedCoaching({ title, count, completed }) {
 
                 <div className="d-flex align-items-start gap-2 mb-3 content">
                   <div>
-                    <img
-                      src={session.userImage}
-                      alt="coachsparkle"
+                  <img
+                      src={completed?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                      alt="User"
                       className="rounded-circle"
-                    />
+                      style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
                   </div>
                   <div>
                     <span className="fw-semibold d-block name">
-                      {session.packageTitle}
+                       {completed.package_title?.slice(0, 20)} With {completed.first_name} {completed.last_name}
                     </span>
-                    <span className="d-block time">{session.time}</span>
+                    <span className="d-block time">Completed {completed.session_date_end}</span>
                   </div>
                 </div>
 
                 <div className="d-flex gap-3">
                   <button className="btn btn-primary button-note">
-                    {session.primaryAction}
+                    Leave a Review
                   </button>
                   <button className="btn btn-outline-secondary button-msg">
-                    {session.secondaryAction}
+                    Message
                   </button>
                 </div>
               </div>
             ))}
           </div>
+
+          <Pagination
+            currentPage={currentPage}
+            lastPage={lastPage}
+            onPageChange={fetchPageData}
+          />
         </div>
       </div>
     </div>

@@ -5,14 +5,34 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Link from "next/link";
 import { useState } from "react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 export default function CoachingRequests({ initialRequest, token }) {
   const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
   const [currentPage, setCurrentPage] = useState(initialRequest.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  // console.log('token', token)
+  dayjs.extend(relativeTime);
+
+  function formatReceivedTime(createdAt) {
+    const now = dayjs();
+    const created = dayjs(createdAt);
+
+    const diffInHours = now.diff(created, "hour");
+    const diffInDays = now.diff(created, "day");
+
+    if (diffInDays > 2) {
+      return created.format("DD MMM YYYY"); // If more than 2 days, show date
+    } else if (diffInHours >= 24) {
+      return created.fromNow(); // e.g., "2 days ago"
+    } else {
+      return created.fromNow(); // e.g., "2 hours ago"
+    }
+  }
+
 
   const fetchPageData = async (page) => {
     const res = await getUserPendingCoachingClient(page, token);
@@ -23,15 +43,17 @@ export default function CoachingRequests({ initialRequest, token }) {
     }
   };
 
-  const handleViewRequest = () => {
+  const handleViewRequest = (rqst) => {
+    setSelectedRequest(rqst);
     setShowModal(true);
-  }
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setSelectedRequest(null);
   };
 
-
+  // console.log('pendingRequest', pendingRequest)
   return (
     <>
       <div className="mt-5">
@@ -56,7 +78,7 @@ export default function CoachingRequests({ initialRequest, token }) {
               {pendingRequest.map((rqst, indx) => (
                 <div key={indx} className="col-md-4 coaching-content p-3">
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h4 className="mb-0">Coaching request received</h4>
+                    <h4 className="mb-0">Request received</h4>
                     <MoreHorizOutlinedIcon sx={{ color: '#A9A9A9' }} />
                   </div>
 
@@ -81,13 +103,17 @@ export default function CoachingRequests({ initialRequest, token }) {
                     <div>
                       <span className="fw-semibold d-block name">{rqst.first_name} {rqst.last_name}</span>
                       <span className="d-block location">{rqst.country}</span>
-                      <span className="d-block time">Received 2 hours ago</span>
-                      <p className="mt-2 mb-0 note">Looking for help with career advice</p>
+                      <span className="d-block time">
+                        {/* Received 2 hours ago */}
+                        Received {formatReceivedTime(rqst.created_at)}
+                      </span>
+                      <p className="mt-2 mb-0 note">{rqst.coaching_request_goal?.length > 30
+                        ? rqst.coaching_request_goal?.slice(0, 30) + "..." : rqst.coaching_request_goal}</p>
                     </div>
                   </div>
 
                   <div className="d-flex gap-3">
-                    <button className="btn btn-primary button-note" onClick={handleViewRequest}>View request</button>
+                    <button className="btn btn-primary button-note" onClick={() => handleViewRequest(rqst)}>View request</button>
                     <button className="btn btn-outline-secondary button-msg">Message</button>
                   </div>
                 </div>))}
@@ -102,7 +128,7 @@ export default function CoachingRequests({ initialRequest, token }) {
       </div>
 
 
-      {showModal && (
+      {showModal && selectedRequest && (
         <div className="request-modal-overlay">
           <div className="request-modal">
             <div className="request-modal-header d-flex justify-content-between align-items-center">
@@ -115,20 +141,19 @@ export default function CoachingRequests({ initialRequest, token }) {
               <div className="request-modal-body">
                 <h6>1. Coaching Details</h6>
                 <p>
-                  <strong>Type of Coaching:</strong> Wellness & Health Coaches
+                  <strong>Type of Coaching:</strong> {selectedRequest?.coaching_category || "N/A"}
                 </p>
                 <p>
-                  <strong>Sub Coaching Category:</strong> Fitness Coach
+                  <strong>Sub Coaching Category:</strong> {selectedRequest?.coach_sub_category || "N/A"}
                 </p>
                 <p>
-                  <strong>Preferred Mode of Delivery:</strong> Online
+                  <strong>Preferred Mode of Delivery:</strong> {selectedRequest?.delivery_mode || "N/A"}
                 </p>
                 <p>
-                  <strong>Location:</strong> Singapore
+                  <strong>Location:</strong> {selectedRequest?.country || "N/A"}
                 </p>
                 <p>
-                  <strong>Goal or Objective of Coaching/Learning:</strong> Improve
-                  confidence, Career advancement, Academic improvement
+                  <strong>Goal or Objective of Coaching/Learning:</strong> {selectedRequest?.coaching_request_goal || "N/A"}
                 </p>
               </div>
               <div className="request-modal-body">
