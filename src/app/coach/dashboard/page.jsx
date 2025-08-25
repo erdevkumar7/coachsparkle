@@ -16,8 +16,17 @@ export default async function CoachDashboard() {
   const token = cookieStore.get("token")?.value;
 
 
-  const [pendingRes] = await Promise.all([
+  const [pendingRes, QuickSnapRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/getPendingCoaching`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+    }),
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachDashboard`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -27,7 +36,9 @@ export default async function CoachDashboard() {
     }),
   ])
   const pendingRequest = await pendingRes.json();
-  //  console.log('token', pendingRequest)
+  const QuickSnapData = await QuickSnapRes.json();
+  const upcomingSession = QuickSnapData.data.upcoming_bookings || [];
+  console.log('upcomingSession', upcomingSession)
   return (
     <div className="main-panel">
       <div className="new-content-wrapper coach-wrap">
@@ -35,7 +46,7 @@ export default async function CoachDashboard() {
           <WelcomeBack />
 
           <div className="snapshot">
-            <QuickSnapshot />
+            <QuickSnapshot QuickSnapData={QuickSnapData} />
           </div>
         </div>
 
