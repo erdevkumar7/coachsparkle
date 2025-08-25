@@ -1,6 +1,11 @@
 "use client";
 import { useUser } from "@/context/UserContext";
 import { useState } from "react";
+import EastIcon from '@mui/icons-material/East';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+
 
 export default function ServicePerformancess() {
   const { user } = useUser();
@@ -79,13 +84,13 @@ export default function ServicePerformancess() {
               </td>
               <td className="actions">
                 <a href="#">
-                  <i className="bi bi-pencil-square"></i>
+                 <DriveFileRenameOutlineOutlinedIcon className="mui-edit-icons"/>
                 </a>
                 <a href="#">
-                  <i className="bi bi-trash3"></i>
+                 <DeleteOutlineOutlinedIcon className="mui-delet-add-icon"/>
                 </a>
                 <a href="#">
-                  <i className="bi bi-eye"></i>
+                 <RemoveRedEyeOutlinedIcon className="mui-eye-add-icon"/>
                 </a>
               </td>
             </tr>
@@ -101,13 +106,12 @@ export default function ServicePerformancess() {
               </td>
               <td className="actions">
                 <a href="#">
-                  <i className="bi bi-pencil-square"></i>
+                <DriveFileRenameOutlineOutlinedIcon className="mui-edit-icons"/>
                 </a>
                 <a href="#">
-                  <i className="bi bi-trash3"></i>
-                </a>
+                <DeleteOutlineOutlinedIcon className="mui-delet-add-icon"/>                </a>
                 <a href="#">
-                  <i className="bi bi-eye"></i>
+                <RemoveRedEyeOutlinedIcon className="mui-eye-add-icon"/>
                 </a>
               </td>
             </tr>
@@ -123,13 +127,13 @@ export default function ServicePerformancess() {
               </td>
               <td className="actions">
                 <a href="#">
-                  <i className="bi bi-pencil-square"></i>
+                <DriveFileRenameOutlineOutlinedIcon className="mui-edit-icons"/>
                 </a>
                 <a href="#">
-                  <i className="bi bi-trash3"></i>
+                <DeleteOutlineOutlinedIcon className="mui-delet-add-icon"/>
                 </a>
                 <a href="#">
-                  <i className="bi bi-eye"></i>
+                <RemoveRedEyeOutlinedIcon className="mui-eye-add-icon"/>
                 </a>
               </td>
             </tr>
@@ -243,7 +247,7 @@ export default function ServicePerformancess() {
                 padding: "20px 16px",
               }}
             >
-              Upgrade & Unlock Now <i className="bi bi-arrow-right"></i>
+              Upgrade & Unlock Now <EastIcon className="mui-icons"/>
             </a>
           </div>
         </div>
@@ -252,7 +256,7 @@ export default function ServicePerformancess() {
       {isProUser ? (
         <div className="footer-btn mt-4">
           <button className="manage-btn">
-            Manage Services <i className="bi bi-arrow-right"></i>
+            Manage Services <EastIcon className="mui-icons"/>
           </button>
         </div>
       ) : (

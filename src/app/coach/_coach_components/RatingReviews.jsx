@@ -1,3 +1,6 @@
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import EastIcon from '@mui/icons-material/East';
+
 export default function RatingReviews() {
   return (
     <>
@@ -50,7 +53,8 @@ export default function RatingReviews() {
             </td>
             <td className="action-btns">
               <button className="reply-btn">Reply</button>
-              <i className="bi bi-eye"></i>
+              {/* <i className="bi bi-eye"></i> */}
+              <RemoveRedEyeOutlinedIcon className='eye-icons' />
             </td>
           </tr>
           <tr style={{ height: "15px" }}></tr>
@@ -87,7 +91,8 @@ export default function RatingReviews() {
             </td>
             <td className="action-btns">
               <button className="reply-btn">Reply</button>
-              <i className="bi bi-eye"></i>
+              {/* <i className="bi bi-eye"></i> */}
+              <RemoveRedEyeOutlinedIcon className='eye-icons' />
             </td>
           </tr>
           <tr style={{ height: "15px" }}></tr>
@@ -124,14 +129,17 @@ export default function RatingReviews() {
             </td>
             <td className="action-btns">
               <button className="reply-btn">Reply</button>
-              <i className="bi bi-eye"></i>
+              {/* <i className="bi bi-eye"></i> */}
+              <RemoveRedEyeOutlinedIcon className='eye-icons' />
             </td>
           </tr>
         </tbody>
       </table>
       <div className="view-all">
         <button>
-          View All <i className="bi bi-arrow-right"></i>
+          View All
+          {/* <i className="bi bi-arrow-right"></i> */}
+          <EastIcon className="mui-icons" />
         </button>
       </div>
     </>

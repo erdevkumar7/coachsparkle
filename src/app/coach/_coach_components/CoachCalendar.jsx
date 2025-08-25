@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../_styles/coach_calendar.css";
 import { format } from "date-fns";
+import EastIcon from '@mui/icons-material/East';
 
 export default function CoachCalendar() {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -70,7 +71,8 @@ export default function CoachCalendar() {
 
         <div className="manage">
           <button className="manage-buttons">
-            Manage Calendar <i className="bi bi-arrow-right"></i>
+            {/* Manage Calendar <i className="bi bi-arrow-right"></i> */}
+            Manage Calendar <EastIcon className="mui-icons" />
           </button>
         </div>
       </div>

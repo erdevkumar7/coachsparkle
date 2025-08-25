@@ -893,6 +893,26 @@ tr.service-add {
   line-height: 1.9;
 }
 
+td.actions {
+  padding-top: 20px !important;
+}
+td.actions a {
+  margin-right: 0px !important;
+}
+td.actions svg {
+  font-size: 19px;
+}
+.mui-edit-icons {
+  color: #4E7FFF;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-delet-add-icon.css-1umw9bq-MuiSvgIcon-root {
+  color: #FF4B4B;
+}
+
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-eye-add-icon.css-1umw9bq-MuiSvgIcon-root {
+  color: #111111;
+}
+
 
 tbody.growth-package td i.bi.bi-pencil-square {
   color: #4E7FFF;
