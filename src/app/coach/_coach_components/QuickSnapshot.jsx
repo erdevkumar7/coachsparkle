@@ -2,9 +2,18 @@
 import { useUser } from "@/context/UserContext";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 
-export default function QuickSnapshot() {
+export default function QuickSnapshot({ QuickSnapData }) {
+  const {
+    completed_count,
+    confirmed_count,
+    in_progress_count,
+    new_requests,
+    total_earning,
+    upcoming_bookings = [],
+  } = QuickSnapData?.data || {};
+  
   const { user } = useUser();
-   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
 
   const LockedCard = ({ title, image }) => (
     <div className="card locked-card">
@@ -37,7 +46,7 @@ export default function QuickSnapshot() {
             />
             <div className="new-add-coming">
               <p className="title">New Coaching Request</p>
-              <p className="count">03</p>
+              <p className="count">{new_requests < 10 ? `0${new_requests}` : new_requests}</p>
             </div>
           </div>
         </div>
@@ -50,7 +59,7 @@ export default function QuickSnapshot() {
             />
             <div className="new-add-coming">
               <p className="title">Confirmed Booking</p>
-              <p className="count">02</p>
+              <p className="count">{confirmed_count < 10 ? `0${confirmed_count}` : confirmed_count}</p>
             </div>
           </div>
         </div>
@@ -62,8 +71,8 @@ export default function QuickSnapshot() {
               className="glance-img"
             />
             <div className="new-add-coming">
-              <p className="title">Upcoming Sessions (05)</p>
-              <span>Aug 15, 8:00PM</span>
+              <p className="title">Upcoming Sessions ({new_requests < 10 ? `0${new_requests}` : new_requests})</p>
+              {/* <span>Aug 15, 8:00PM</span> */}
             </div>
           </div>
         </div>
@@ -96,7 +105,7 @@ export default function QuickSnapshot() {
             />
             <div className="new-add-coming">
               <p className="title">Total Earnings</p>
-              <span>$3,560</span>
+              <span>${total_earning}</span>
             </div>
           </div>
         </div>
