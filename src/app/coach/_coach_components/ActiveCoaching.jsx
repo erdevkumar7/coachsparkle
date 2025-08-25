@@ -3,6 +3,7 @@ import { useUser } from "@/context/UserContext";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import EastIcon from '@mui/icons-material/East';
 
 export default function ActiveCoaching({ initialRequest, token }) {  
   const [allRequests, setAllRequests] = useState(initialRequest.data);
@@ -89,7 +90,9 @@ export default function ActiveCoaching({ initialRequest, token }) {
           </>
         )}
         <button className="view-btn" onClick={() => router.push('/coach/coaching-activities')}>
-          View Requests <i className="bi bi-arrow-right"></i>
+          View Requests
+          <EastIcon className="mui-icons"/>
+           {/* <i className="bi bi-arrow-right"></i> */}
         </button>
       </div>
     </>

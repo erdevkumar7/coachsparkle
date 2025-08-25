@@ -1,3 +1,6 @@
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+
 export default function MyArticles() {
   return (
     <>
@@ -33,8 +36,10 @@ export default function MyArticles() {
               <span className="badge published">Published</span>
             </td>
             <td className="actions">
-              <i className="bi bi-pencil-square"></i>
-              <i className="bi bi-trash3"></i>
+              {/* <i className="bi bi-pencil-square"></i>
+              <i className="bi bi-trash3"></i> */}
+              <DriveFileRenameOutlineOutlinedIcon className="mui-edit-icons" />
+              <DeleteOutlineOutlinedIcon className="mui-delet-add-icon" />
             </td>
           </tr>
           <tr style={{ height: "10px" }}></tr>
@@ -58,8 +63,10 @@ export default function MyArticles() {
               <span className="badge published">Published</span>
             </td>
             <td className="actions">
-              <i className="bi bi-pencil-square"></i>
-              <i className="bi bi-trash3"></i>
+              {/* <i className="bi bi-pencil-square"></i>
+              <i className="bi bi-trash3"></i> */}
+              <DriveFileRenameOutlineOutlinedIcon className="mui-edit-icons" />
+              <DeleteOutlineOutlinedIcon className="mui-delet-add-icon" />
             </td>
           </tr>
           <tr style={{ height: "10px" }}></tr>
@@ -83,8 +90,10 @@ export default function MyArticles() {
               <span className="badge pending">Pending</span>
             </td>
             <td className="actions">
-              <i className="bi bi-pencil-square"></i>
-              <i className="bi bi-trash3"></i>
+              {/* <i className="bi bi-pencil-square"></i>
+              <i className="bi bi-trash3"></i> */}
+              <DriveFileRenameOutlineOutlinedIcon className="mui-edit-icons" />
+              <DeleteOutlineOutlinedIcon className="mui-delet-add-icon" />
             </td>
           </tr>
         </tbody>

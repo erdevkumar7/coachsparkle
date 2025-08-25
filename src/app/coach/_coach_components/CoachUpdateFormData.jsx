@@ -22,6 +22,7 @@ import {
   Chip,
   Box
 } from "@mui/material";
+import EastIcon from '@mui/icons-material/East';
 
 
 export default function CoachUpdateForm({
@@ -958,7 +959,9 @@ export default function CoachUpdateForm({
             name="action"
             className="save-btn-add"
           >
-            Save Draft <i className="bi bi-arrow-right"></i>
+            Save Draft
+            {/* <i className="bi bi-arrow-right"></i> */}
+            <EastIcon className="mui-icons" />
           </button>
           <button
             type="submit"
@@ -966,7 +969,8 @@ export default function CoachUpdateForm({
             value="add_package"
             className="save-btn-add"
           >
-            Add Service Package <i className="bi bi-arrow-right"></i>
+            Add Service Package
+            <EastIcon className="mui-icons" />
           </button>
           <button
             type="submit"
@@ -974,7 +978,9 @@ export default function CoachUpdateForm({
             value="publish"
             className="save-btn-add"
           >
-            Publish <i className="bi bi-arrow-right"></i>
+            Publish
+            {/* <i className="bi bi-arrow-right"></i> */}
+            <EastIcon className="mui-icons" />
           </button>
         </div>
       </form>
