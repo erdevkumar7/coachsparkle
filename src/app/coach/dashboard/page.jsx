@@ -76,7 +76,7 @@ export default async function CoachDashboard() {
 
           <div className="card col-md-4 reviews-right-side">
             <div className="session-card">
-              <UpcomingSessions />
+              <UpcomingSessions upcomingSession={upcomingSession}/>
             </div>
           </div>
         </div>
