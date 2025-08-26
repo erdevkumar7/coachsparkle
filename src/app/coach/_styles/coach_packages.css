@@ -8,6 +8,16 @@
     padding: 20px !important;
 }
 
+.slots-available-input input#«ra» {
+    margin-top: 8px;
+    padding: 0px 10px;
+}
+
+.slots-available-input input#«r9» {
+    margin-top: 8px;
+    padding: 0px 10px;
+}
+
 .content-wrapper h3{
     font-size: 24px;
     font-weight: 500;
@@ -16,6 +26,10 @@
 .coach-session-count {
     display: flex;
 }
+.d-flex.gap-1.add-draft-service .mui-icons {
+    font-size: 20px;
+    margin-top: 2px;
+}
 
 .custom-file-upload label {
     border: solid 1px #009BFA;
@@ -23,8 +37,6 @@
     background: #F2FFF7;
     border-radius: 50px;
 }
-
-
 
 .coach-price-currency {
     display: flex;
@@ -78,7 +90,6 @@
     flex-wrap: nowrap;
 }
 
-
 .session-pkg-content h2 {
     font-size: 20px;
     margin: 10px 0;
@@ -98,7 +109,6 @@
     height: 80px;
 }
 
-
 .session-description {
     color: #444;
     margin-bottom: 15px;
@@ -107,7 +117,7 @@
 }
 .btn-action-add {
     display: flex;
-        gap: 5px;
+    gap: 5px;
 }
 
 .circular-progress-bar{

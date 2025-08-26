@@ -2714,7 +2714,15 @@ select:focus-visible {
 }
 
 .row.signup-page-top.login-content-add {
-  height: 700px;
+  height: 650px;
+}
+.matches-add .view-btn .mui-icons.css-1umw9bq-MuiSvgIcon-root {
+  padding-left: 5px;
+  margin-top: 2px;
+}
+.matches-add button.manage-buttons .mui-icons.css-1umw9bq-MuiSvgIcon-root {
+  padding-left: 5px;
+  margin-top: 2px;
 }
 
 .login-right-side .login-container .signup-text a {

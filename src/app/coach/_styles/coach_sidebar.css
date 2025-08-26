@@ -38,6 +38,11 @@ nav#sidebar a.nav-link {
     display: flex;
     font-size: 16px;
 }
+
+.side-top-bar h5.font-medium svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-q7mezt {
+    color: #27c200 !important;
+}
+
 .side-top-bar p.text-sm.text-gray-500 {
     color: #767e94;
     margin-bottom: 0;
@@ -46,7 +51,6 @@ nav#sidebar a.nav-link {
 .side-top-bar i.bi.bi-check-circle-fill {
     font-size: 15px !important;
 }
-
 
 .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link, .sidebar .nav:not(.sub-menu) > .nav-item:hover[aria-expanded="true"] {
     color: #009bfa !important;
@@ -58,9 +62,15 @@ nav#sidebar a.nav-link {
     margin: 0;
     border-left: solid 3px #fff;
 }
-
+.sidebar .nav:not(.sub-menu)>.nav-item.active {
+    background: #fff !important;
+}
 .sidebar .nav .nav-item:hover > .nav-link i, .sidebar .nav .nav-item:hover > .nav-link .menu-title, .sidebar .nav .nav-item:hover > .nav-link .menu-arrow {
     color: #009BFA !important;
+}
+
+.link-nav:active, .active {
+    border: none !important;
 }
 .sidebar .nav .nav-item .nav-link {
     white-space: nowrap;

@@ -11,7 +11,9 @@
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-
+  h3.message-board-text {
+    margin-bottom: 0px;
+}
   .chat-support .chat-header {
     display: flex;
     align-items: center;

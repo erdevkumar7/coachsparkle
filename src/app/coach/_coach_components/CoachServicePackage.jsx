@@ -733,7 +733,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     />
                   </div>
 
-                  <div className="form-group col-md-12">
+                  <div className="form-group col-md-12 availablity-list-input">
                     <label htmlFor="booking_availability">Availablity</label>
                     <BookingAvailabilityPicker
                       formData={formData}
