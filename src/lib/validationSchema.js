@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import dayjs from "dayjs";
 
 export const loginSchema = yup.object().shape({
     email: yup
@@ -281,34 +282,90 @@ export const passwordSchema = yup.object().shape({
 
 
 export const servicePackageSchema = yup.object().shape({
-  title: yup.string().required("Service title is required").min(3),
-  short_description: yup
-    .string()
-    .max(200, "Max 200 characters")
-    .required("Short description is required"),
-  coaching_category: yup.string().required("Category is required"),
-  description: yup.string().required("Description is required"),
-  focus: yup.string().required("Focus is required"),
-  age_group: yup.string().required("Target audience is required"),
-  session_count: yup
-    .number()
-    .typeError("Must be a number")
-    .min(1, "At least 1 session required")
-    .required(),
-  session_duration: yup.string().required("Session duration is required"),
-  session_format: yup.string().required("Session format is required"),
-  price: yup
-    .number()
-    .typeError("Must be a number")
-    .min(1, "Price must be at least 1")
-    .required(),
-  price_model: yup.string().required("Pricing model is required"),
-  booking_slots: yup
-    .number()
-    .typeError("Must be a number")
-    .min(1, "At least 1 slot required")
-    .required(),
-  session_validity: yup.string().required("Validity is required"),
-  cancellation_policy: yup.string().required("Cancellation policy is required"),
-  rescheduling_policy: yup.string().required("Rescheduling policy is required"),
+    title: yup.string().required("Service title is required"),
+    short_description: yup
+        .string()
+        .required("Short description is required")
+        .max(200, "Short description must be less than 200 characters"),
+    coaching_category: yup.string().required("Coaching category is required"),
+    description: yup.string().required("Detailed description is required"),
+    focus: yup.string().required("Service focus is required"),
+    age_group: yup.string().required("Target audience is required"),
+    delivery_mode_detail: yup
+        .string()
+        .required("Delivery mode details are required"),
+    session_count: yup
+        .number()
+        .typeError("Session count must be a number")
+        .required("Number of sessions is required")
+        .min(1, "Must have at least 1 session")
+        .positive("Must be a positive number"),
+    session_duration: yup.string().required("Session duration is required"),
+    session_format: yup.string().required("Session format is required"),
+    price: yup
+        .number()
+        .typeError("Price must be a number")
+        .required("Price is required")
+        .min(0, "Price cannot be negative"),
+    currency: yup.string().required("Currency is required"),
+    price_model: yup.string().required("Pricing model is required"),
+    booking_slots: yup
+        .number()
+        .typeError("Booking slots must be a number")
+        .required("Booking slots are required")
+        .min(1, "Must have at least 1 slot")
+        .max(1000, "Cannot exceed 1000 slots")
+        .positive("Must be a positive number"),
+    //   booking_window: yup.string().required("Booking window is required"),
+    session_validity: yup.string().required("Validity is required"),
+    //   cancellation_policy: yup.string().required("Cancellation policy is required"),
+    rescheduling_policy: yup
+        .string()
+        .required("Rescheduling policy is required"),
+    //   booking_availability: yup
+    //     .string()
+    //     .required("Booking availability is required"),
+    // booking_availability_start: yup
+    //     .string()
+    //     .required("Start date is required"),
+    // booking_availability_end: yup
+    //     .string()
+    //     .required("End date is required")
+    //     .test(
+    //         "is-after-start",
+    //         "End date must be after start date",
+    //         function (value) {
+    //             const { booking_availability_start } = this.parent;
+    //             if (!booking_availability_start || !value) return true;
+    //             return dayjs(value).isAfter(dayjs(booking_availability_start));
+    //         }
+    //     ),
+
+    booking_availability_start: yup
+        .string()
+        .required("Start date is required")
+        .test("is-valid-date", "Invalid start date", (value) => {
+            return dayjs(value, "YYYY-MM-DD", true).isValid();
+        }),
+    booking_availability_end: yup
+        .string()
+        .required("End date is required")
+        .test("is-valid-date", "Invalid end date", (value) => {
+            return dayjs(value, "YYYY-MM-DD", true).isValid();
+        })
+        .test("is-after-start", "End date must be after start date", function (value) {
+            const { booking_availability_start } = this.parent;
+            if (!booking_availability_start || !value) return true;
+            return dayjs(value).isAfter(dayjs(booking_availability_start));
+        }),
+    media_file: yup
+        .mixed()
+        .test("fileSize", "File size is too large", (value) => {
+            if (!value) return true; // Optional field
+            return value.size <= 5000000; // 5MB limit
+        })
+        .test("fileType", "Unsupported file format", (value) => {
+            if (!value) return true; // Optional field
+            return ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
+        }),
 });

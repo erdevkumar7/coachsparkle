@@ -10,11 +10,20 @@ import "../_styles/booking_availability.css";
 
 export default function DateRangeSelector({
   formData,
-  setFormData,
+  setValue, // Changed from setFormData to setValue
   isProUser,
+  trigger, // Added trigger for validation
 }) {
-  const [startDate, setStartDate] = React.useState(dayjs());
-  const [endDate, setEndDate] = React.useState(dayjs().add(1, "day"));
+  const [startDate, setStartDate] = React.useState(
+    formData.booking_availability_start 
+      ? dayjs(formData.booking_availability_start)
+      : dayjs()
+  );
+  const [endDate, setEndDate] = React.useState(
+    formData.booking_availability_end 
+      ? dayjs(formData.booking_availability_end)
+      : dayjs().add(1, "day")
+  );
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -25,14 +34,12 @@ export default function DateRangeSelector({
   const handleClose = () => {
     setAnchorEl(null);
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      booking_availability_start: startDate.format("YYYY-MM-DD"),
-      booking_availability_end: endDate.format("YYYY-MM-DD"),
-    }));
-
-    // console.log("Selected Start:", startDate.format("YYYY-MM-DD"));
-    // console.log("Selected End:", endDate.format("YYYY-MM-DD"));
+    // Use setValue to update form values
+    setValue("booking_availability_start", startDate.format("YYYY-MM-DD"));
+    setValue("booking_availability_end", endDate.format("YYYY-MM-DD"));
+    
+    // Trigger validation for these fields
+    trigger(["booking_availability_start", "booking_availability_end"]);
   };
 
   const open = Boolean(anchorEl);
@@ -49,6 +56,11 @@ export default function DateRangeSelector({
         value={formatRange(startDate, endDate)}
         onClick={handleOpen}
         readOnly
+        error={!!formData.errors?.booking_availability_start || !!formData.errors?.booking_availability_end}
+        helperText={
+          formData.errors?.booking_availability_start?.message || 
+          formData.errors?.booking_availability_end?.message
+        }
       />
 
       <Popover
@@ -98,3 +110,5 @@ export default function DateRangeSelector({
     </LocalizationProvider>
   );
 }
+
+
