@@ -278,3 +278,37 @@ export const passwordSchema = yup.object().shape({
         .oneOf([yup.ref("new_password"), null], "Passwords must match"),
 
 })
+
+
+export const servicePackageSchema = yup.object().shape({
+  title: yup.string().required("Service title is required").min(3),
+  short_description: yup
+    .string()
+    .max(200, "Max 200 characters")
+    .required("Short description is required"),
+  coaching_category: yup.string().required("Category is required"),
+  description: yup.string().required("Description is required"),
+  focus: yup.string().required("Focus is required"),
+  age_group: yup.string().required("Target audience is required"),
+  session_count: yup
+    .number()
+    .typeError("Must be a number")
+    .min(1, "At least 1 session required")
+    .required(),
+  session_duration: yup.string().required("Session duration is required"),
+  session_format: yup.string().required("Session format is required"),
+  price: yup
+    .number()
+    .typeError("Must be a number")
+    .min(1, "Price must be at least 1")
+    .required(),
+  price_model: yup.string().required("Pricing model is required"),
+  booking_slots: yup
+    .number()
+    .typeError("Must be a number")
+    .min(1, "At least 1 slot required")
+    .required(),
+  session_validity: yup.string().required("Validity is required"),
+  cancellation_policy: yup.string().required("Cancellation policy is required"),
+  rescheduling_policy: yup.string().required("Rescheduling policy is required"),
+});

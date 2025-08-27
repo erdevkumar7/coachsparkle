@@ -8,8 +8,10 @@ import { CircularProgress } from "@mui/material";
 import { allPackagesOfaCoach } from "@/app/api/coach";
 import ViewServicePackage from "../_coach_components/ViewServicePackage";
 import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 export default function CoachServicePackages() {
+  const router = useRouter();
   const { user } = useUser();
   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
   const [packages, setPackages] = useState([]);
@@ -19,6 +21,8 @@ export default function CoachServicePackages() {
   useEffect(() => {
     const token = Cookies.get("token");
     if (!token) {
+      Cookies.remove('token');
+      localStorage.removeItem('user');
       router.push("/login");
     }
     const fetchPackages = async () => {

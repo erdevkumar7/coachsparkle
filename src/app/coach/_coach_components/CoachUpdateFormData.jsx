@@ -952,7 +952,7 @@ export default function CoachUpdateForm({
         </div>
 
         <div className="save-btn gap-3 align-items-center">
-          <span className="fw-bold second-list-show"><span className="number-color">1</span>/2</span>
+          {/* <span className="fw-bold second-list-show"><span className="number-color">1</span>/2</span> */}
           <button
             type="submit"
             value="draft"
@@ -960,10 +960,9 @@ export default function CoachUpdateForm({
             className="save-btn-add"
           >
             Save Draft
-            {/* <i className="bi bi-arrow-right"></i> */}
             <EastIcon className="mui-icons" />
           </button>
-          <button
+          {/* <button
             type="submit"
             name="action"
             value="add_package"
@@ -971,7 +970,7 @@ export default function CoachUpdateForm({
           >
             Add Service Package
             <EastIcon className="mui-icons" />
-          </button>
+          </button> */}
           <button
             type="submit"
             name="action"
