@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '@/lib/validationSchema';
 import { toast } from 'react-toastify';
 import EastIcon from '@mui/icons-material/East';
+import axios from 'axios';
 
 
 export default function LoginForm() {
@@ -74,40 +75,57 @@ export default function LoginForm() {
         setError('');
 
         const dataToSend = { ...data, user_type: role };
-        const result = await HandleLogin(dataToSend);
 
-        if (result?.response?.status === 403) {
-            setError(result.response.data.error || 'User not found or deactivated');
-            setLoading(false);
-            return;
-        }
+        try {
+            // const result = await HandleLogin(dataToSend);
+            const result = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/login`,
+                dataToSend,
+                {
+                    headers: { "Content-Type": "application/json" },
+                   // withCredentials: true, // if you want Laravel to set cookies
+                }
+            );
 
-        if (result?.response?.status === 401) {
-            setError(result.response.data.error || 'Invalid credentials');
-            setLoading(false);
-            return;
-        }
+            if (result?.response?.status === 403) {
+                setError(result.response.data.error || 'User not found or deactivated');
+                setLoading(false);
+                return;
+            }
 
-        if (result.data.token) {
-            Cookies.set('token', result.data.token, {
-                expires: 7,
-                secure: true,
-                sameSite: 'Lax',
-            });
-            localStorage.setItem('token', result.data.token);
-            localStorage.setItem('user', JSON.stringify(result.data.user));
-        }
+            if (result?.response?.status === 401) {
+                setError(result.response.data.error || 'Invalid credentials');
+                setLoading(false);
+                return;
+            }
 
-        if (redirect) {
-            router.push(redirect);
-        } else if (result.data.user.user_type === 2) {
-            toast.success("Login successful!");
-            router.push('/user/dashboard');
-        } else if (result.data.user.user_type === 3) {
-            toast.success("Login successful!");
-            router.push('/coach/dashboard');
-        } else {
-            router.push('/');
+            if (result.data.token) {
+                Cookies.set('token', result.data.token, {
+                    expires: 7,
+                    secure: true,
+                    sameSite: 'Lax',
+                });
+                // localStorage.setItem('token', result.data.token);
+                localStorage.setItem('user', JSON.stringify(result.data.user));
+            }
+
+            if (redirect) {
+                router.push(redirect);
+            } else if (result.data.user.user_type === 2) {
+                toast.success("Login successful!");
+                router.push('/user/dashboard');
+            } else if (result.data.user.user_type === 3) {
+                toast.success("Login successful!");
+                router.push('/coach/dashboard');
+            } else {
+                router.push('/');
+            }
+        } catch (err) {
+            if (err.response && err.response.status === 401) {
+                setError(err.response.data.error || 'Invalid credentials');
+            } else {
+                setError('Something went wrong. Please try again.');
+            }
         }
 
         setLoading(false);

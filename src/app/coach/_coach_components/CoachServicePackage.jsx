@@ -124,7 +124,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
     e.preventDefault();
 
     const clickedButton = e.nativeEvent.submitter?.value || "draft";
-    const package_status = clickedButton === "publish" ? 1 : 2;    
+    const package_status = clickedButton === "publish" ? 1 : 2;
 
     try {
       const token = Cookies.get("token");
@@ -138,7 +138,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       form.append("package_status", package_status);
 
       // console.log('form', form)
- 
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
         {
@@ -154,23 +154,17 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       const result = await response.json();
 
       if (result.status) {
-        if (clickedButton === "add_package") {
-          toast.success("Package Added!");
-        } else {
-          toast.success(
-            package_status === 1 ? "Package published!" : "Draft saved!"
-          );
-        }
+        toast.success(package_status === 1 ? "Package published!" : "Draft saved!");
 
         onPackageAdded?.();
         setFormData(initialFormData);
         setSelectedDeliveryMode("");
       } else {
-        toast.error("❌ " + result.message || "Something went wrong.");
+        toast.error(result.message || "Something went wrong.");
       }
     } catch (err) {
       console.error("Error submitting package:", err);
-      toast.error("❌ Network or server error.");
+      toast.error("Network or server error.");
     }
   };
   // console.log("deliveryModes", deliveryModes)
@@ -210,6 +204,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     className={`form-control ${!isProUser ? "disabled-bg" : ""
                       }`}
                   />
+
                 </div>
                 <div className="form-group">
                   <label htmlFor="short_description">
@@ -876,10 +871,10 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
         <div className="action-button">
           <div className="save-btn gap-0">
             <div className="two-number-add-list">
-              <span className="fw-bold second-list-show"><span className="number-color">2</span>/2</span>
+              {/* <span className="fw-bold second-list-show"><span className="number-color">2</span>/2</span> */}
             </div>
             {isProUser ? (
-              <div className="d-flex gap-1 add-draft-service">
+              <div className="d-flex gap-3 add-draft-service">
                 <button
                   type="submit"
                   className="save-btn-add"
@@ -889,14 +884,14 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   Save Draft <EastIcon className="mui-icons" />
                 </button>
 
-                <button
+                {/* <button
                   type="submit"
                   className="save-btn-add"
                   value="add_package"
                   disabled={!isProUser}
                 >
                   Add Service Package <EastIcon className="mui-icons" />
-                </button>
+                </button> */}
                 <button
                   type="submit"
                   className="save-btn-add"
