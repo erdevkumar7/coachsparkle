@@ -23,6 +23,11 @@
     font-weight: 500;
 }
 
+input#«r0» {
+    padding: 0px 10px;
+    margin-top: 15px;
+}
+
 .coach-session-count {
     display: flex;
 }
