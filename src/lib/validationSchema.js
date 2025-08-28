@@ -305,6 +305,9 @@ export const servicePackageSchema = yup.object().shape({
     delivery_mode_detail: yup
         .string()
         .required("Delivery mode details are required"),
+    // delivery_mode: yup
+    //     .string()
+    //     .required("Delivery mode is required"),
     session_count: yup
         .number()
         .typeError("Session count must be a number")
@@ -327,7 +330,7 @@ export const servicePackageSchema = yup.object().shape({
         .min(1, "Must have at least 1 slot")
         .positive("Must be a positive number"),
     session_validity: yup.string().required("Validity is required"),
-    //   cancellation_policy: yup.string().required("Cancellation policy is required"),
+    cancellation_policy: yup.string().required("Cancellation policy is required"),
     rescheduling_policy: yup
         .string()
         .required("Rescheduling policy is required"),
@@ -352,18 +355,7 @@ export const servicePackageSchema = yup.object().shape({
 
     booking_time: yup
         .string()
-        .required("Booking time is required")
-        .test('is-valid-time', 'Invalid time format (HH:MM)', (value) => {
-            if (!value) return false;
-            // Validate time format HH:MM (24-hour format)
-            const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-            return timeRegex.test(value);
-        })
-        .test('is-reasonable-time', 'Time must be between 06:00 and 22:00', (value) => {
-            if (!value) return false;
-            const [hours] = value.split(':').map(Number);
-            return hours >= 6 && hours <= 22;
-        }),
+        .required("Booking time is required"),
 
     booking_window_start: yup
         .string()

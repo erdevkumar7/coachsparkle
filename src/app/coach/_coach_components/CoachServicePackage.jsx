@@ -23,6 +23,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [getFormats, setSessionFormats] = useState([]);
   const [getPriceModels, setPriceModels] = useState([]);
   const [getCommunChannel, setCommunChannel] = useState([]);
+  const [getCancelPolicies, setCancellationPolicies] = useState([]);
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
@@ -81,7 +82,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
         getAllMasters(),
       ]);
 
-      // console.log('priceRes', priceRes?.data)
+      // console.log('allMasters', allMasters)
 
       if (allMasters) {
         setPriceModels(allMasters.priceModels || []);
@@ -90,6 +91,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
         setCommunChannel(allMasters.communication_channel || []);
         setAgeGroups(allMasters.age_group || []);
         setDeliveryModes(allMasters.delivery_mode || []);
+        setCancellationPolicies(allMasters.cancellation_policies || []);
       }
     } catch (error) {
       console.error("Failed to fetch data", error);
@@ -97,7 +99,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
     }
   };
 
-  // console.log('getComm', getCommunChannel)
+  // console.log('getCancelPolicies', getCancelPolicies)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -396,6 +398,11 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         </label>
                       ))}
                   </div>
+                    {errors.delivery_mode && (
+                      <div className="invalid-feedback">
+                        {errors.delivery_mode.message}
+                      </div>
+                    )}
                 </div>
 
                 <div className="form-group">
@@ -528,7 +535,6 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <input
                       type="number"
                       min={0}
-                      step="0.01"
                       id="price"
                       disabled={!isProUser}
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.price ? "is-invalid" : ""
@@ -620,7 +626,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   </div>
                 </div>
 
-                <div className="coach-slot-and-availability gap-2">
+                <div className="d-flex gap-2">
                   <div className="form-group col-md-4 slots-available-input">
                     <label htmlFor="booking_slots">Slots available for Booking</label>
                     <input
@@ -642,7 +648,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     )}
                   </div>
 
-                  <div className="form-group col-md-4 availablity-list-input">
+                  <div className="form-group col-md-6 availablity-list-input">
                     <label htmlFor="booking_availability">Availability</label>
                     <BookingAvailabilityPicker
                       formData={formData}
@@ -677,7 +683,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       </div>
                     )}
                     <small className="form-text text-muted">
-                      Available (24-hour format)
+                     Select the time when sessions are available (24-hour format)
                     </small>
                   </div>
                 </div>
@@ -732,12 +738,16 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.cancellation_policy ? "is-invalid" : ""
                         }`}
                       {...register("cancellation_policy")}
-                    >
-                      <option value="">
-                        Flexible – Full refund if canceled ≥24 hours before session
-                      </option>
+                    >      
+                       <option value="">Select Cancellation Policy </option>
+                      {Array.isArray(getCancelPolicies) &&
+                        getCancelPolicies.map((concelPolicy) => (
+                          <option key={concelPolicy.id} value={concelPolicy.id}>
+                            {concelPolicy.name}
+                          </option>
+                        ))}
 
-                      <option value="custom">Custom Policy</option>
+                      {/* <option value="custom">Custom Policy</option> */}
                     </select>
                     {errors.cancellation_policy && (
                       <div className="invalid-feedback">
