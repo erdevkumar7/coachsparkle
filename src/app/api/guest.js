@@ -238,5 +238,15 @@ export const getMasterFaq = async () => {
     }
 };
 
+export const getCommunicationChannel = async () => {
+    const ageGroupRes = await fetch(`${apiUrl}/communicationChannels`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    return await ageGroupRes.json();
+}
+
 
 
