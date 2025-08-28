@@ -2,23 +2,17 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  getAgeGroup,
-  getAllCoachingCategory,
-  getAllPriceModels,
-  getDeliveryMode,
-  sessionFormats,
-} from "@/app/api/guest";
+import { getAllMasters } from "@/app/api/guest";
 import Cookies from "js-cookie";
 import BookingWindowPicker from "./BookingWindow";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import BookingAvailabilityPicker from "./BookingAvailability";
 import { PreviewPackage } from "./PreviewPackage";
 import EastIcon from "@mui/icons-material/East";
 import { toast } from "react-toastify";
 import { servicePackageSchema } from "@/lib/validationSchema";
 import dayjs from "dayjs";
+import BookingAvailabilityPicker from "./BookingAvailability";
 
 
 
@@ -28,6 +22,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [deliveryModes, setDeliveryModes] = useState([]);
   const [getFormats, setSessionFormats] = useState([]);
   const [getPriceModels, setPriceModels] = useState([]);
+  const [getCommunChannel, setCommunChannel] = useState([]);
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
@@ -64,8 +59,12 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       cancellation_policy: "",
       rescheduling_policy: "",
       media_file: null,
-      booking_availability_start: dayjs().format("YYYY-MM-DD"),
-      booking_availability_end: dayjs().add(1, "day").format("YYYY-MM-DD"),
+      booking_availability_start: "",
+      booking_availability_end: "",
+      booking_time: "",
+      booking_window_start: "",
+      booking_window_end: "",
+      communication_channel: "",
     },
   });
   console.log('errors', errors)
@@ -78,24 +77,27 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
   const fetchData = async () => {
     try {
-      const [resCat, resAge, delRes, formateRes, priceRes] = await Promise.all([
-        getAllCoachingCategory(),
-        getAgeGroup(),
-        getDeliveryMode(),
-        sessionFormats(),
-        getAllPriceModels(),
+      const [allMasters] = await Promise.all([
+        getAllMasters(),
       ]);
 
-      if (resCat) setCategories(resCat);
-      if (resAge) setAgeGroups(resAge);
-      if (delRes) setDeliveryModes(Array.isArray(delRes) ? delRes : []);
-      if (formateRes) setSessionFormats(formateRes);
-      if (priceRes?.data) setPriceModels(priceRes.data);
+      // console.log('priceRes', priceRes?.data)
+
+      if (allMasters) {
+        setPriceModels(allMasters.priceModels || []);
+        setSessionFormats(allMasters.formates || []);
+        setCategories(allMasters.coaching_cat || []);
+        setCommunChannel(allMasters.communication_channel || []);
+        setAgeGroups(allMasters.age_group || []);
+        setDeliveryModes(allMasters.delivery_mode || []);
+      }
     } catch (error) {
       console.error("Failed to fetch data", error);
       toast.error("Failed to load form data");
     }
   };
+
+  // console.log('getComm', getCommunChannel)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -138,7 +140,34 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
           package_status === 1 ? "Package published!" : "Draft saved!"
         );
         onPackageAdded?.();
-        reset();
+        // Reset the form with specific values for date fields
+        reset({
+          title: "",
+          short_description: "",
+          coaching_category: "",
+          description: "",
+          focus: "",
+          delivery_mode_detail: "",
+          age_group: "",
+          session_count: "",
+          session_duration: "",
+          session_format: "",
+          price: "",
+          currency: "USD",
+          price_model: "",
+          booking_slots: "",
+          booking_window: "",
+          session_validity: "",
+          cancellation_policy: "",
+          rescheduling_policy: "",
+          media_file: null,
+          booking_availability_start: "",
+          booking_availability_end: "",
+          booking_time: "",
+          booking_window_start: "",
+          booking_window_end: "",
+          communication_channel: "",
+        });
         setSelectedDeliveryMode("");
       } else {
         toast.error(result.message || "Something went wrong.");
@@ -298,28 +327,54 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   )}
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="age_group"> Targeted Audience</label>
-                  <select
-                    id="age_group"
-                    disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.age_group ? "is-invalid" : ""
-                      }`}
-                    {...register("age_group")}
-                  >
-                    <option value="">Select </option>
-                    {Array.isArray(ageGroups) &&
-                      ageGroups.map((group) => (
-                        <option key={group.id} value={group.id}>
-                          {group.group_name}
-                        </option>
-                      ))}
-                  </select>
-                  {errors.age_group && (
-                    <div className="invalid-feedback">
-                      {errors.age_group.message}
-                    </div>
-                  )}
+                <div className="d-flex gap-2">
+                  <div className="form-group col-md-6">
+                    <label htmlFor="age_group"> Targeted Audience</label>
+                    <select
+                      id="age_group"
+                      disabled={!isProUser}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.age_group ? "is-invalid" : ""
+                        }`}
+                      {...register("age_group")}
+                    >
+                      <option value="">Select </option>
+                      {Array.isArray(ageGroups) &&
+                        ageGroups.map((group) => (
+                          <option key={group.id} value={group.id}>
+                            {group.group_name}
+                          </option>
+                        ))}
+                    </select>
+                    {errors.age_group && (
+                      <div className="invalid-feedback">
+                        {errors.age_group.message}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="form-group col-md-6">
+                    <label htmlFor="communication_channel"> Communication Channel</label>
+                    <select
+                      id="communication_channel"
+                      disabled={!isProUser}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.communication_channel ? "is-invalid" : ""
+                        }`}
+                      {...register("communication_channel")}
+                    >
+                      <option value="">Select </option>
+                      {Array.isArray(getCommunChannel) &&
+                        getCommunChannel.map((chanel) => (
+                          <option key={chanel.id} value={chanel.id}>
+                            {chanel.category_name}
+                          </option>
+                        ))}
+                    </select>
+                    {errors.communication_channel && (
+                      <div className="invalid-feedback">
+                        {errors.communication_channel.message}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div className="delivery-row">
@@ -587,50 +642,67 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     )}
                   </div>
 
-
-                  {/* <div className="form-group col-md-12 availablity-list-input">
-                    <label htmlFor="booking_availability">Availablity</label>
-                    <BookingAvailabilityPicker
-                      formData={formData}
-                      setFormData={setFormData}
-                      isProUser={isProUser}
-                    />
-                  </div> */}
-
-                  <div className="form-group col-md-12 availablity-list-input">
+                  <div className="form-group col-md-4 availablity-list-input">
                     <label htmlFor="booking_availability">Availability</label>
                     <BookingAvailabilityPicker
                       formData={formData}
-                      setValue={setValue} // Pass setValue instead of setFormData
-                      trigger={trigger} // Pass trigger for validation
+                      setFormData={(data) => {
+                        // Update both fields in react-hook-form
+                        setValue("booking_availability_start", data.booking_availability_start);
+                        setValue("booking_availability_end", data.booking_availability_end);
+
+                        // Trigger validation for both fields
+                        trigger(["booking_availability_start", "booking_availability_end"]);
+                      }}
                       isProUser={isProUser}
+                      error={errors.booking_availability_start || errors.booking_availability_end}
                     />
                   </div>
 
 
-
                   <div className="form-group col-md-4">
-                    <label htmlFor="booking_window">
+                    <label htmlFor="booking_time">Availability Time</label>
+                    <input
+                      type="time"
+                      id="booking_time"
+                      disabled={!isProUser}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.booking_time ? "is-invalid" : ""
+                        }`}
+                      {...register("booking_time")}
+                    // step="900" // 15-minute intervals (900 seconds)
+                    />
+                    {errors.booking_time && (
+                      <div className="invalid-feedback">
+                        {errors.booking_time.message}
+                      </div>
+                    )}
+                    <small className="form-text text-muted">
+                      Available (24-hour format)
+                    </small>
+                  </div>
+                </div>
+
+                <div className="d-flex gap-2">
+                  <div className="form-group col-md-4">
+                    <label>
                       Booking Window &nbsp;
                       <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
                     </label>
                     <BookingWindowPicker
                       formData={formData}
                       setFormData={(data) => {
-                        setValue("booking_window", data.booking_window);
+                        // Update both fields in react-hook-form
+                        setValue("booking_window_start", data.booking_window_start);
+                        setValue("booking_window_end", data.booking_window_end);
+
+                        // Trigger validation for both fields
+                        trigger(["booking_window_start", "booking_window_end"]);
                       }}
                       isProUser={isProUser}
-                      error={errors.booking_window}
+                      error={errors.booking_window_start || errors.booking_window_end}
                     />
-                    {errors.booking_window && (
-                      <div className="invalid-feedback">
-                        {errors.booking_window.message}
-                      </div>
-                    )}
                   </div>
-                </div>
 
-                <div className="validity-cancel-resedule gap-2">
                   <div className="form-group col-md-4">
                     <label htmlFor="session_validity">Validity</label>
                     <input
@@ -648,6 +720,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       </div>
                     )}
                   </div>
+                </div>
+
+                <div className="validity-cancel-resedule gap-2">
 
                   <div className="form-group col-md-4 cancellation-policy-input">
                     <label htmlFor="cancellation_policy">Cancellation Policy</label>
@@ -661,18 +736,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       <option value="">
                         Flexible – Full refund if canceled ≥24 hours before session
                       </option>
-                      <option value="">
-                        Moderate – 50% refund if canceled ≥24 hours before session
-                      </option>
-                      <option value="">
-                        Strict – No refund if canceled {"<"}48 hours before session
-                      </option>
-                      <option value="">
-                        Rescheduling Only – No refund, but reschedule allowed with 24-hour notice
-                      </option>
-                      <option value="">
-                        Non-refundable – All bookings are final and non-refundable
-                      </option>
+
                       <option value="custom">Custom Policy</option>
                     </select>
                     {errors.cancellation_policy && (
@@ -759,6 +823,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
         <div className="action-button">
           <div className="save-btn gap-0">
+            <div className="two-number-add-list">
+              {/* <span className="fw-bold second-list-show"><span className="number-color">2</span>/2</span> */}
+            </div>
             {isProUser ? (
               <div className="d-flex gap-3 add-draft-service">
                 <button

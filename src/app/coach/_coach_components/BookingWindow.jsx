@@ -12,9 +12,18 @@ export default function BookingWindowPicker({
   formData,
   setFormData,
   isProUser,
+  error
 }) {
-  const [startDate, setStartDate] = React.useState(dayjs());
-  const [endDate, setEndDate] = React.useState(dayjs().add(1, 'hour'));
+  const [startDate, setStartDate] = React.useState(
+    formData.booking_window_start 
+      ? dayjs(formData.booking_window_start)
+      : dayjs()
+  );
+  const [endDate, setEndDate] = React.useState(
+    formData.booking_window_end 
+      ? dayjs(formData.booking_window_end)
+      : dayjs().add(1, 'day')
+  );
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -24,35 +33,51 @@ export default function BookingWindowPicker({
 
   const handleClose = () => {
     setAnchorEl(null);
-
   };
 
-  const handleDone = () => {
-  const formattedStart = startDate.format('YYYY-MM-DD');
-  const formattedEnd = endDate.format('YYYY-MM-DD');
+  const updateFormData = (newStartDate, newEndDate) => {
+    const formattedStart = newStartDate.format('YYYY-MM-DD');
+    const formattedEnd = newEndDate.format('YYYY-MM-DD');
 
-  setFormData(prev => ({
-    ...prev,
-    booking_window: `${formattedStart} - ${formattedEnd}`
-  }));
+    setFormData({
+      booking_window_start: formattedStart,
+      booking_window_end: formattedEnd
+    });
+  };
 
-  handleClose();
-};
+  const handleDateChange = (newValue, isStartDate = false) => {
+    if (isStartDate) {
+      setStartDate(newValue);
+      if (newValue && newValue.isAfter(endDate)) {
+        const newEndDate = newValue.add(1, 'day');
+        setEndDate(newEndDate);
+        updateFormData(newValue, newEndDate);
+      } else {
+        updateFormData(newValue, endDate);
+      }
+    } else {
+      setEndDate(newValue);
+      updateFormData(startDate, newValue);
+    }
+  };
 
   const open = Boolean(anchorEl);
 
   const formatRange = (start, end) => {
-    return `${start.format('MMM D')} - ${end.format('MMM D')}`;
+    if (!start || !end) return "Select date range";
+    return `${start.format('MMM D, YYYY')} - ${end.format('MMM D, YYYY')}`;
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <TextField
         fullWidth
-        className="range-picker-field"
+        className={`range-picker-field ${error ? "is-invalid" : ""}`}
         value={formatRange(startDate, endDate)}
         onClick={handleOpen}
         readOnly
+        error={!!error}
+        helperText={error?.message}
       />
 
       <Popover
@@ -69,21 +94,19 @@ export default function BookingWindowPicker({
           <DatePicker
             label="Start Date"
             value={startDate}
-            onChange={(newValue) => {
-              setStartDate(newValue);
-              if (newValue && newValue.isAfter(endDate)) {
-                setEndDate(newValue.add(1, 'hour'));
-              }
-            }}
+            onChange={(newValue) => handleDateChange(newValue, true)}
+            minDate={dayjs()}
+            disabled={!isProUser}
           />
           <DatePicker
             label="End Date"
             minDate={startDate}
             value={endDate}
-            onChange={(newValue) => setEndDate(newValue)}
+            onChange={(newValue) => handleDateChange(newValue, false)}
+            disabled={!isProUser}
           />
           <Box textAlign="right">
-            <button className="btn btn-primary btn-sm rounded-pill px-4" onClick={handleDone}>
+            <button className="btn btn-primary btn-sm rounded-pill px-4" onClick={handleClose}>
               Done
             </button>
           </Box>
@@ -92,66 +115,3 @@ export default function BookingWindowPicker({
     </LocalizationProvider>
   );
 }
-
-
-// 'use client';
-// import { useState } from 'react';
-// import { DateRange } from 'react-date-range';
-// import 'react-date-range/dist/styles.css';
-// import 'react-date-range/dist/theme/default.css';
-
-// import { format } from 'date-fns';
-
-// export default function BookingWindowPicker({ formData, setFormData, isProUser }) {
-//     const [showPicker, setShowPicker] = useState(false);
-//     const [range, setRange] = useState([
-//         {
-//             startDate: new Date(),
-//             endDate: new Date(),
-//             key: 'selection',
-//         },
-//     ]);
-
-//     const handleRangeChange = (ranges) => {
-//         const { startDate, endDate } = ranges.selection;
-//         setRange([ranges.selection]);
-
-//         const formatted = `${format(startDate, 'yyyy-MM-dd')} - ${format(endDate, 'yyyy-MM-dd')}`;
-//         setFormData((prev) => ({
-//             ...prev,
-//             booking_window: formatted,
-//         }));
-//         // ✅ Close the calendar after selection
-//         setShowPicker(false);
-
-//     };
-
-//     // console.log('range', range)
-//     return (
-//         <>
-//             <input
-//                 type="text"
-//                 id="booking_window"
-//                 name="booking_window"
-//                 readOnly
-//                 value={formData.booking_window}
-//                 onClick={() => setShowPicker(!showPicker)}
-//                 placeholder="Select Date Range"
-//                 disabled={!isProUser}
-//                 className={`form-control ${!isProUser ? "disabled-bg" : ""
-//                     }`}
-//             />
-//             {showPicker && (
-//                 <div className="calendar-container" style={{ zIndex: 9999, position: 'absolute' }}>
-//                     <DateRange
-//                         ranges={range}
-//                         onChange={handleRangeChange}
-//                         moveRangeOnFirstSelection={false}
-//                         editableDateInputs={true}
-//                         minDate={new Date()}
-//                     />
-//                 </div>
-//             )}
-//         </>
-//     );
-// }

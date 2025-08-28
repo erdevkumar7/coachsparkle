@@ -282,14 +282,25 @@ export const passwordSchema = yup.object().shape({
 
 
 export const servicePackageSchema = yup.object().shape({
-    title: yup.string().required("Service title is required"),
+    title: yup.string()
+        .required("Service title is required")
+        .min(5, "Title must be minimum 5 characters")
+        .max(100, "Title must be less than 100 characters"),
     short_description: yup
         .string()
         .required("Short description is required")
+        .min(50, "Short description minimum 50 characters")
         .max(200, "Short description must be less than 200 characters"),
     coaching_category: yup.string().required("Coaching category is required"),
-    description: yup.string().required("Detailed description is required"),
-    focus: yup.string().required("Service focus is required"),
+    description: yup.string()
+        .required("Detailed description is required")
+        .min(100, "Detailed description minimun 100 characters")
+        .max(1000, "Detailed description must be less than 1000 characters"),
+
+    focus: yup.string().
+        required("Service focus is required")
+        .min(5, "Service must be minimum 5 characters")
+        .max(100, "Service must be less than 100 characters"),
     age_group: yup.string().required("Target audience is required"),
     delivery_mode_detail: yup
         .string()
@@ -314,50 +325,64 @@ export const servicePackageSchema = yup.object().shape({
         .typeError("Booking slots must be a number")
         .required("Booking slots are required")
         .min(1, "Must have at least 1 slot")
-        .max(1000, "Cannot exceed 1000 slots")
         .positive("Must be a positive number"),
-    //   booking_window: yup.string().required("Booking window is required"),
     session_validity: yup.string().required("Validity is required"),
     //   cancellation_policy: yup.string().required("Cancellation policy is required"),
     rescheduling_policy: yup
         .string()
         .required("Rescheduling policy is required"),
-    //   booking_availability: yup
-    //     .string()
-    //     .required("Booking availability is required"),
-    // booking_availability_start: yup
-    //     .string()
-    //     .required("Start date is required"),
-    // booking_availability_end: yup
-    //     .string()
-    //     .required("End date is required")
-    //     .test(
-    //         "is-after-start",
-    //         "End date must be after start date",
-    //         function (value) {
-    //             const { booking_availability_start } = this.parent;
-    //             if (!booking_availability_start || !value) return true;
-    //             return dayjs(value).isAfter(dayjs(booking_availability_start));
-    //         }
-    //     ),
 
     booking_availability_start: yup
         .string()
         .required("Start date is required")
-        .test("is-valid-date", "Invalid start date", (value) => {
-            return dayjs(value, "YYYY-MM-DD", true).isValid();
+        .test('is-valid-date', 'Invalid start date', (value) => {
+            return value && dayjs(value).isValid();
         }),
     booking_availability_end: yup
         .string()
         .required("End date is required")
-        .test("is-valid-date", "Invalid end date", (value) => {
-            return dayjs(value, "YYYY-MM-DD", true).isValid();
+        .test('is-valid-date', 'Invalid end date', (value) => {
+            return value && dayjs(value).isValid();
         })
-        .test("is-after-start", "End date must be after start date", function (value) {
+        .test('is-after-start', 'End date must be after start date', function (value) {
             const { booking_availability_start } = this.parent;
             if (!booking_availability_start || !value) return true;
             return dayjs(value).isAfter(dayjs(booking_availability_start));
         }),
+
+    booking_time: yup
+        .string()
+        .required("Booking time is required")
+        .test('is-valid-time', 'Invalid time format (HH:MM)', (value) => {
+            if (!value) return false;
+            // Validate time format HH:MM (24-hour format)
+            const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+            return timeRegex.test(value);
+        })
+        .test('is-reasonable-time', 'Time must be between 06:00 and 22:00', (value) => {
+            if (!value) return false;
+            const [hours] = value.split(':').map(Number);
+            return hours >= 6 && hours <= 22;
+        }),
+
+    booking_window_start: yup
+        .string()
+        .required("Booking window start date is required")
+        .test('is-valid-date', 'Invalid start date', (value) => {
+            return value && dayjs(value).isValid();
+        }),
+    booking_window_end: yup
+        .string()
+        .required("Booking window end date is required")
+        .test('is-valid-date', 'Invalid end date', (value) => {
+            return value && dayjs(value).isValid();
+        })
+        .test('is-after-start', 'End date must be after start date', function (value) {
+            const { booking_window_start } = this.parent;
+            if (!booking_window_start || !value) return true;
+            return dayjs(value).isAfter(dayjs(booking_window_start));
+        }),
+
     media_file: yup
         .mixed()
         .test("fileSize", "File size is too large", (value) => {
