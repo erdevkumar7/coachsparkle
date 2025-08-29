@@ -1,3 +1,19 @@
+.selected-date-item {
+  border-left: 3px solid #007bff;
+}
+
+.calendar-day-custom.selected {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+}
+
+.calendar-day-custom.current {
+  border: 2px solid #007bff;
+  border-radius: 50%;
+}
+
+
 .coach-avatar {
   width: 80px;
   height: 90px;
