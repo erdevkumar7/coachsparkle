@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { HandleLogin, HandleValidateToken } from '@/app/api/auth';
 import Cookies from 'js-cookie';
 import { CircularProgress } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -36,28 +35,7 @@ export default function LoginForm() {
         }
     }, [searchParams]);
 
-    useEffect(() => {
-        const token = Cookies.get('token');
-        if (token) {
-            const fetchUser = async () => {
-                const tokenData = await HandleValidateToken(token);
-                // console.log('tokenData', tokenData)
-
-                if (!tokenData) {
-                    Cookies.remove('token')
-                }
-
-                if (tokenData) {
-                    if (tokenData.data.user_type == 2) {
-                        router.push('/user/dashboard');
-                    } else if (tokenData.data.user_type == 3) {
-                        router.push('/coach/dashboard');
-                    }
-                }
-            };
-
-            fetchUser();
-        }
+    useEffect(() => {      
         const storedRole = sessionStorage.getItem('role');
         if (storedRole) {
             const parsedRole = parseInt(storedRole, 10);

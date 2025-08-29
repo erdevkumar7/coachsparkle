@@ -1,5 +1,3 @@
-// 'use client';
-// import React, { useEffect } from "react";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,20 +11,24 @@ import CheckIcon from '@mui/icons-material/Check';
 import { HandleValidateTokenOnServer } from "./api/user";
 import Link from "next/link";
 import { getLatestMasterBlogs } from "./api/guest";
+import { redirect } from "next/navigation";
 
 
 export default async function Home() {
   const tokenData = await HandleValidateTokenOnServer();
   let user;
   if (tokenData) {
-    user = tokenData?.data
+    user = tokenData?.data;
+    if (user.user_type == 3) {
+      return redirect('/coach/dashboard');
+    }
   }
 
   const blogs = await getLatestMasterBlogs();
 
   return (
     <>
-      <Header user={user}/>
+      <Header user={user} />
       <div className="smarter-matching py-5">
         <div className="container">
           <div className="row smarter-matching-inner align-items-center">
@@ -566,38 +568,38 @@ export default async function Home() {
         <div className="container">
           <h1>Latest Articles</h1>
           <p>Read Articles Contributed by Featured Coaches</p>
-<div className="row latest-articles-inner">
-  <div className="articles-btn-top">
-    <Link href="/articles" className="articles-btn-add">All articles</Link>
-  </div>
-  <div className="latest-articles-cards-content row">
-    {blogs.map((blog) => (
-      <div className="col-12 col-sm-6 col-md-4 latest-articles-cards" key={blog.id}>
-        <div className="card h-100">
-          <Image
-            src={blog.blog_image}
-            alt={blog.blog_name}
-            width={1000}
-            height={226}
-          />
-          <div className="card-body d-flex flex-column">
-            <h5 className="card-title">{blog.blog_name}</h5>
-            <h6><i className="bi bi-calendar"></i> {new Date(blog.created_at).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-  })}</h6>
-            <p className="card-text">
-              {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 80)}...
-            </p>
-            <Link href={`#`} className="read-more-btn">Read More..</Link>
-            {/* <Link href={`/coachsparkle/articles/${blog.id}`} className="read-more-btn">Read More..</Link> */}
+          <div className="row latest-articles-inner">
+            <div className="articles-btn-top">
+              <Link href="/articles" className="articles-btn-add">All articles</Link>
+            </div>
+            <div className="latest-articles-cards-content row">
+              {blogs.map((blog) => (
+                <div className="col-12 col-sm-6 col-md-4 latest-articles-cards" key={blog.id}>
+                  <div className="card h-100">
+                    <Image
+                      src={blog.blog_image}
+                      alt={blog.blog_name}
+                      width={1000}
+                      height={226}
+                    />
+                    <div className="card-body d-flex flex-column">
+                      <h5 className="card-title">{blog.blog_name}</h5>
+                      <h6><i className="bi bi-calendar"></i> {new Date(blog.created_at).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      })}</h6>
+                      <p className="card-text">
+                        {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 80)}...
+                      </p>
+                      <Link href={`#`} className="read-more-btn">Read More..</Link>
+                      {/* <Link href={`/coachsparkle/articles/${blog.id}`} className="read-more-btn">Read More..</Link> */}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
 
         </div>
       </div>
