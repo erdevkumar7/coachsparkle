@@ -249,12 +249,13 @@
 
 /*Booking*/
 .booking-card {
-  display: flex;
-  background: white;
-  border: 1px solid #D1D5DB;
-  max-width: 1000px;
-  margin: auto;
-  border-radius: 30px;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 30px;
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    height: 632px;
 }
 
 .left-panel,
@@ -365,14 +366,14 @@
 
 .time-panel .inner-panel{
     border: 1px solid #D1D5DB;
-    height: 500px;
+    height: 589px;
     text-align: center;
     padding: 10px;
 }
 
 .time-slot-scroll {
-  max-height: 400px;
-  overflow-y: auto;
+    max-height: 312px;
+    overflow-y: auto;
 }
 
 .time-slot-btn {
@@ -400,7 +401,10 @@
   width: 100%;
 }
 
-
+.selected-dates{
+  overflow: auto;
+  max-height: 180px;
+}
 /*Confirmation */
 .booking-confirm-modal{
     z-index: 9999;

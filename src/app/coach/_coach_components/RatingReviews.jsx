@@ -15,8 +15,8 @@ export default function RatingReviews() {
           <tr>
             <th>Name</th>
             <th>Reviews</th>
-            <th>Status</th>
-            <th>Action</th>
+            {/* <th>Status</th>
+            <th>Action</th> */}
           </tr>
           <tr style={{ height: "10px" }}></tr>
         </thead>
@@ -48,14 +48,13 @@ export default function RatingReviews() {
                 accusantium"
               </p>
             </td>
-            <td>
+            {/* <td>
               <span className="status published">Published</span>
             </td>
             <td className="action-btns">
-              <button className="reply-btn">Reply</button>
-              {/* <i className="bi bi-eye"></i> */}
+              <button className="reply-btn">Reply</button>             
               <RemoveRedEyeOutlinedIcon className='eye-icons' />
-            </td>
+            </td> */}
           </tr>
           <tr style={{ height: "15px" }}></tr>
 
@@ -86,14 +85,13 @@ export default function RatingReviews() {
                 accusantium"
               </p>
             </td>
-            <td>
+            {/* <td>
               <span className="status published">Published</span>
             </td>
             <td className="action-btns">
               <button className="reply-btn">Reply</button>
-              {/* <i className="bi bi-eye"></i> */}
               <RemoveRedEyeOutlinedIcon className='eye-icons' />
-            </td>
+            </td> */}
           </tr>
           <tr style={{ height: "15px" }}></tr>
 
@@ -124,21 +122,19 @@ export default function RatingReviews() {
                 accusantium"
               </p>
             </td>
-            <td>
+            {/* <td>
               <span className="status published">Published</span>
             </td>
             <td className="action-btns">
               <button className="reply-btn">Reply</button>
-              {/* <i className="bi bi-eye"></i> */}
               <RemoveRedEyeOutlinedIcon className='eye-icons' />
-            </td>
+            </td> */}
           </tr>
         </tbody>
       </table>
       <div className="view-all">
         <button>
           View All
-          {/* <i className="bi bi-arrow-right"></i> */}
           <EastIcon className="mui-icons" />
         </button>
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BreadCrumb from "@/components/BreadCrumb";
 import { getSubCoachType } from "@/app/api/guest";
 import Cookies from "js-cookie";
@@ -29,7 +29,7 @@ export default function RequestForm({
 }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [loading, setLoading] = useState(false);
-
+  const [showMsg, setMsg] = useState(false);
   const {
     register,
     handleSubmit,
@@ -54,6 +54,17 @@ export default function RequestForm({
   const [coachId, setCoachId] = useState();
   const [coachSubTypes, setSubCoachTypes] = useState([]);
   const dropdownRef = useRef(null);
+
+  // remove this use effect if it causes problem in sendRequest
+  useEffect(() => {
+    if (!showMsg) return; // only run if message is visible
+
+    const subscription = watch(() => {
+      setMsg(false); // clear when any field changes
+    });
+
+    return () => subscription.unsubscribe();
+  }, [showMsg, watch]);
 
   const handleChange = async (e) => {
     const { name, value, type, checked } = e.target;
@@ -106,6 +117,7 @@ export default function RequestForm({
       console.log("Raw response:", result);
 
       if (!response.ok || result.status === false) {
+        setMsg(true);
         const messages = [];
 
         if (result?.errors) {
@@ -117,7 +129,8 @@ export default function RequestForm({
         if (messages.length > 0) {
           messages.forEach((msg) => toast.error(msg));
         } else {
-          toast.error(result.message || "Something went wrong");
+          console.log(result.message)
+          // toast.error(result.message || "Something went wrong");
         }
 
         return;
@@ -155,7 +168,7 @@ export default function RequestForm({
                   {...register("coach_type")}
                   onChange={handleChange}
                   disabled={loading}
-                  defaultValue="" 
+                  defaultValue=""
                 >
                   <option value="" disabled>
                     Select category
@@ -176,7 +189,7 @@ export default function RequestForm({
                   className="form-selectbox"
                   {...register("coach_subtype")}
                   disabled={loading}
-                  defaultValue="" 
+                  defaultValue=""
                 >
                   <option value="" disabled>
                     Select sub category
@@ -420,24 +433,9 @@ export default function RequestForm({
                     <p className="text-danger">{errors.budget_range.message}</p>
                   )}
                 </div>
+
+
                 {/* <div className="col-md-6">
-                  <label className="form-label">Preferred Schedule</label>
-                  <BookingPreferCaledar />
-                  <input
-                    type="text"
-                    className="form-input"
-                    {...register("preferred_schedule")}
-                    disabled={loading}
-                  />
-
-                  {errors.preferred_schedule && (
-                    <p className="text-danger">
-                      {errors.preferred_schedule.message}
-                    </p>
-                  )}
-                </div> */}
-
-                <div className="col-md-6">
                   <label className="form-label">Preferred Schedule</label>
 
                   <Controller
@@ -462,7 +460,7 @@ export default function RequestForm({
                       {errors.preferred_schedule.message}
                     </p>
                   )}
-                </div>
+                </div> */}
 
                 <div className="col-md-6">
                   <label className="form-label">Coach Gender</label>
@@ -482,7 +480,8 @@ export default function RequestForm({
                     <p className="text-danger">{errors.coach_gender.message}</p>
                   )}
                 </div>
-                <div className="col-md-6">
+
+                <div className="col-md-4">
                   <label className="form-label">Coach Experience Level*</label>
                   <select
                     className="form-selectbox"
@@ -504,9 +503,9 @@ export default function RequestForm({
                     </p>
                   )}
                   {/* <select
-                                            className="form-selectbox"
-                                            name="coach_experience_level"
-                                            value={formData.coach_experience_level}
+                                   className="form-selectbox"
+                                   name="coach_experience_level"
+                                    value={formData.coach_experience_level}
                                             onChange={handleChange}
                                             required
                                           >
@@ -516,7 +515,7 @@ export default function RequestForm({
                                             <option value={3}>Beginner</option>
                                           </select> */}
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <label className="form-label">Only Certified Coach</label>
                   <select
                     className="form-selectbox"
@@ -535,9 +534,9 @@ export default function RequestForm({
                     </p>
                   )}
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <label className="form-label">
-                    Urgency Or Preferred Start Date
+                    Urgency/Preferred Start Date
                   </label>
                   <select
                     className="form-selectbox"
@@ -557,7 +556,7 @@ export default function RequestForm({
                     </p>
                   )}
                 </div>
-                <div className="col-12">
+                {/* <div className="col-12">
                   <label className="form-label">
                     Special Requirements Or Notes
                   </label>
@@ -572,7 +571,7 @@ export default function RequestForm({
                       {errors.special_requirements.message}
                     </p>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -605,6 +604,7 @@ export default function RequestForm({
               </div>
             )}
             <div className="text-center mt-4">
+              {showMsg ? <p className="mt-2 text-danger">No matching coaches found.</p> : ""}
               <button
                 type="submit"
                 className="btn submit-btn"
