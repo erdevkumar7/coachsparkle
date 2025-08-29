@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-export default function Calendar({ selectedDate, onValidatedDateChange, getActiveDays, sessionDates = [] }) {
-  const [displayedMonth, setDisplayedMonth] = useState(selectedDate.getMonth());
-  const [displayedYear, setDisplayedYear] = useState(selectedDate.getFullYear());
+export default function Calendar({ currentDate, onDateSelect, getActiveDays, selectedDates = [] }) {
+  const [displayedMonth, setDisplayedMonth] = useState(currentDate.getMonth());
+  const [displayedYear, setDisplayedYear] = useState(currentDate.getFullYear());
   const [activeDays, setActiveDays] = useState([]);
 
   useEffect(() => {
@@ -12,10 +12,9 @@ export default function Calendar({ selectedDate, onValidatedDateChange, getActiv
   }, [displayedMonth, displayedYear, getActiveDays]);
 
   useEffect(() => {
-  setDisplayedMonth(selectedDate.getMonth());
-  setDisplayedYear(selectedDate.getFullYear());
-}, [selectedDate]);
-
+    setDisplayedMonth(currentDate.getMonth());
+    setDisplayedYear(currentDate.getFullYear());
+  }, [currentDate]);
 
   const daysInMonth = new Date(displayedYear, displayedMonth + 1, 0).getDate();
   const startDay = new Date(displayedYear, displayedMonth, 1).getDay();
@@ -23,7 +22,7 @@ export default function Calendar({ selectedDate, onValidatedDateChange, getActiv
   const handleDateClick = (day) => {
     if (!activeDays.includes(day)) return;
     const newDate = new Date(displayedYear, displayedMonth, day, 12);
-    onValidatedDateChange(newDate);
+    onDateSelect(newDate);
   };
 
   const goToPreviousMonth = () => {
@@ -48,17 +47,17 @@ export default function Calendar({ selectedDate, onValidatedDateChange, getActiv
     month: "long",
   });
 
-    const sessionDayMap = sessionDates
+  // Create a map of selected days in the current month
+  const selectedDayMap = selectedDates
     .filter(date =>
       date.getFullYear() === displayedYear &&
       date.getMonth() === displayedMonth
     )
     .map(date => date.getDate());
 
-
   return (
     <div className="calendar-wrapper-custom">
-      <h5 className="fw-semibold mb-3">Select a Date & Time</h5>
+      <h5 className="fw-semibold mb-3">Select Dates & Times</h5>
 
       <div className="d-flex justify-content-between align-items-center mb-3">
         <i className="bi bi-chevron-left text-muted cursor-pointer" onClick={goToPreviousMonth}></i>
@@ -76,33 +75,32 @@ export default function Calendar({ selectedDate, onValidatedDateChange, getActiv
         {[...Array(startDay)].map((_, i) => (
           <div key={"empty-" + i}></div>
         ))}
-{[...Array(daysInMonth)].map((_, i) => {
-  const day = i + 1;
-  const isActive = activeDays.includes(day);
-  const isSelected =
-    selectedDate.getDate() === day &&
-    selectedDate.getMonth() === displayedMonth &&
-    selectedDate.getFullYear() === displayedYear;
+        {[...Array(daysInMonth)].map((_, i) => {
+          const day = i + 1;
+          const isActive = activeDays.includes(day);
+          const isCurrent =
+            currentDate.getDate() === day &&
+            currentDate.getMonth() === displayedMonth &&
+            currentDate.getFullYear() === displayedYear;
+          
+          const isSelected = selectedDayMap.includes(day);
 
-  const isSessionDay = sessionDayMap.includes(day);
+          let className = "calendar-day-custom";
+          if (isCurrent) className += " current";
+          else if (isSelected) className += " selected";
+          else if (isActive) className += " active";
+          else className += " inactive";
 
-  let className = "calendar-day-custom";
-  if (isSelected) className += " selected";
-  else if (isSessionDay) className += " multi-selected";
-  else if (isActive) className += " active";
-  else className += " inactive";
-
-  return (
-    <div
-      key={day}
-      className={className}
-      onClick={() => handleDateClick(day)}
-    >
-      {day}
-    </div>
-  );
-})}
-
+          return (
+            <div
+              key={day}
+              className={className}
+              onClick={() => handleDateClick(day)}
+            >
+              {day}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
