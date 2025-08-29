@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { fetchAvailability } from "@/app/api/guest";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import { PackageBookingSubmit } from "@/app/api/packages";
+import { PackageBookingAndStripePayment, PackageBookingSubmit } from "@/app/api/packages";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Link from "next/link";
 
@@ -71,14 +71,14 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
 
   const handleTimeSelect = (time) => {
     if (!currentDate) return;
-    
+
     const dateKey = currentDate.toISOString().slice(0, 10);
-    
+
     // Check if this date is already selected
     const existingIndex = selectedDates.findIndex(
       item => item.date.toISOString().slice(0, 10) === dateKey
     );
-    
+
     if (existingIndex >= 0) {
       // Update time for existing date
       const updatedDates = [...selectedDates];
@@ -88,7 +88,7 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
       // Add new date with time
       setSelectedDates([...selectedDates, { date: new Date(currentDate), time }]);
     }
-    
+
     toast.success("Date and time added!");
   };
 
@@ -98,7 +98,75 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
     ));
   };
 
-  const handleBookingSubmit = async () => {    
+  // const handleBookingSubmit = async () => {    
+  //   if (selectedDates.length === 0) {
+  //     toast.error("Please select at least one date and time");
+  //     return;
+  //   }
+
+  //   const token = Cookies.get("token");
+  //   if (!token) {
+  //     router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`)
+  //     sessionStorage.setItem('role', 2);
+  //     return;
+  //   }
+
+  //   function calculateSlotEnd(startTime, durationMinutes) {
+  //     const [hours, minutes] = startTime.split(":").map(Number);
+  //     const date = new Date();
+  //     date.setHours(hours);
+  //     date.setMinutes(minutes);
+  //     date.setSeconds(0);
+  //     date.setMilliseconds(0);
+
+  //     date.setMinutes(date.getMinutes() + durationMinutes); // Add duration
+
+  //     const endHours = String(date.getHours()).padStart(2, "0");
+  //     const endMinutes = String(date.getMinutes()).padStart(2, "0");
+
+  //     return `${endHours}:${endMinutes}`;
+  //   }
+
+  //   // Prepare payload for multiple dates
+  //   const payloads = selectedDates.map(selected => {
+  //     const slot_time_end = calculateSlotEnd(selected.time, packageData?.coach_profile?.session_duration);
+
+  //     return {
+  //       "package_id": packageData?.coach_profile?.package_id,
+  //       "coach_id": packageData?.coach_profile?.coach_id,
+  //       "slot_time_start": selected.time,
+  //       "slot_time_end": slot_time_end,
+  //       "session_date": selected.date.toISOString().split('T')[0],
+  //       "amount": packageData?.coach_profile?.session_price
+  //     };
+  //   });
+
+  //   try {
+  //     // Submit all selected dates (you might need to adjust your API to handle multiple bookings)
+  //     const responses = await Promise.all(
+  //       payloads.map(payload => PackageBookingAndStripePayment(payload, token))
+  //     );
+
+  //     const allSuccess = responses.every(response => response.data.status);
+
+  //     if (allSuccess) {
+  //       toast.success("All bookings confirmed!");
+  //       setConfirmedBookingData({
+  //         bookings: responses.map(r => r.data.data)
+  //       });
+  //       setShowConfirmation(true);
+  //       setSelectedDates([]); // Clear selections after successful booking
+  //     } else {
+  //       toast.error("Some bookings failed. Please try again.");
+  //     }
+  //   } catch (err) {
+  //     console.error("Error submitting package:", err);
+  //     toast.error("Network or server error.");
+  //   }
+  // };
+
+
+  const handleBookingSubmit = async () => {
     if (selectedDates.length === 0) {
       toast.error("Please select at least one date and time");
       return;
@@ -111,60 +179,41 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
       return;
     }
 
-    function calculateSlotEnd(startTime, durationMinutes) {
-      const [hours, minutes] = startTime.split(":").map(Number);
-      const date = new Date();
-      date.setHours(hours);
-      date.setMinutes(minutes);
-      date.setSeconds(0);
-      date.setMilliseconds(0);
-
-      date.setMinutes(date.getMinutes() + durationMinutes); // Add duration
-
-      const endHours = String(date.getHours()).padStart(2, "0");
-      const endMinutes = String(date.getMinutes()).padStart(2, "0");
-
-      return `${endHours}:${endMinutes}`;
-    }
-
-    // Prepare payload for multiple dates
-    const payloads = selectedDates.map(selected => {
-      const slot_time_end = calculateSlotEnd(selected.time, packageData?.coach_profile?.session_duration);
-      
-      return {
-        "package_id": packageData?.coach_profile?.package_id,
-        "coach_id": packageData?.coach_profile?.coach_id,
-        "slot_time_start": selected.time,
-        "slot_time_end": slot_time_end,
-        "session_date": selected.date.toISOString().split('T')[0],
-        "amount": packageData?.coach_profile?.session_price
-      };
-    });
+    // Prepare payload according to API requirements
+    const payload = {
+      "package_id": packageData?.coach_profile?.package_id,
+      "coach_id": packageData?.coach_profile?.coach_id,
+      "slot_date_time": selectedDates.map(selected => [
+        selected.date.toISOString().split('T')[0], // Format as YYYY-MM-DD
+        selected.time
+      ])
+    };
 
     try {
-      // Submit all selected dates (you might need to adjust your API to handle multiple bookings)
-      const responses = await Promise.all(
-        payloads.map(payload => PackageBookingSubmit(payload, token))
-      );
-      
-      const allSuccess = responses.every(response => response.data.status);
-      
-      if (allSuccess) {
-        toast.success("All bookings confirmed!");
-        setConfirmedBookingData({
-          bookings: responses.map(r => r.data.data)
-        });
-        setShowConfirmation(true);
-        setSelectedDates([]); // Clear selections after successful booking
+      // Submit all selected dates in a single API call
+      const response = await PackageBookingAndStripePayment(payload, token);
+
+      if (response.data.success) {
+        // toast.success("Booking confirmed!");
+
+        // Redirect to Stripe checkout
+        if (response.data.redirect_url) {
+          window.location.href = response.data.redirect_url;
+        } else {
+          setConfirmedBookingData({
+            bookings: response.data.data || []
+          });
+          setShowConfirmation(true);
+          setSelectedDates([]); // Clear selections after successful booking
+        }
       } else {
-        toast.error("Some bookings failed. Please try again.");
+        toast.error(response.data.message || "Booking failed. Please try again.");
       }
     } catch (err) {
       console.error("Error submitting package:", err);
       toast.error("Network or server error.");
     }
   };
-
   return (
     <div className="booking-container mt-5 mb-5 p-0">
       <div className="booking-card d-flex">
@@ -289,7 +338,7 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
                         </span>
                         <span className="ms-2">{selected.time}</span>
                       </div>
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-danger"
                         onClick={() => removeSelectedDate(selected)}
                       >
@@ -316,7 +365,7 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
         </div>
       </div>
 
-      {showConfirmation && (
+      {showConfirmation && !confirmedBookingData?.redirect_url && (
         <div className="modal d-block booking-confirm-modal">
           <div className="modal-dialog modal-lg modal-dialog-centered">
             <div className="modal-content rounded-4 overflow-hidden">

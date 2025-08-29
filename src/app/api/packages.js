@@ -41,3 +41,15 @@ export const PackageBookingSubmit = async (packageData, getToken) => {
 
   return res;
 }
+
+
+export const PackageBookingAndStripePayment = async (packageData, getToken) => {
+  const res = await axios.post(`${apiUrl}/payServicePackages`, packageData, {
+    headers: {
+      Authorization: `Bearer ${getToken}`,
+      Accept: 'application/json',
+    },
+  });
+
+  return res;
+}
