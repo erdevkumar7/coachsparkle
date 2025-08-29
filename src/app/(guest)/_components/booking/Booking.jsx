@@ -321,8 +321,9 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
             </div>
 
             {/* Selected dates section */}
-            <div className="selected-dates-section">
               <h6 className="fw-semibold mb-2">Selected Dates & Times</h6>
+            <div className="selected-dates">
+            <div className="selected-dates-section">
               {selectedDates.length === 0 ? (
                 <div className="text-muted small">No dates selected yet</div>
               ) : (
@@ -361,6 +362,8 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
                 </button>
               </div>
             )}
+            </div>
+
           </div>
         </div>
       </div>

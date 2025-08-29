@@ -1,6 +1,7 @@
 "use client";
 import { useUser } from "@/context/UserContext";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
+import Link from "next/link";
 
 export default function WelcomeBack() {
      const { user } = useUser();
@@ -56,8 +57,8 @@ export default function WelcomeBack() {
                     <div className="update-links">
                         <div className="complete-bar">Profile 80% Complete</div>
                         <div className="links">
-                            <a href="#">Update Profile</a>
-                            <a href="#">Add Services +</a>
+                            <Link href="/coach/profile">Update Profile</Link>
+                            <Link href="/coach/service-packages">Add Services +</Link>
                         </div>
                     </div>
                 </div>

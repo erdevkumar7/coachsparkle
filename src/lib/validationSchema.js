@@ -205,12 +205,11 @@ export const requestSchema = yup.object().shape({
     learner_age_group: yup.string().required("Age group is required"),
     preferred_teaching_style: yup.string().required("Teaching style is required"),
     budget_range: yup.string().required("Budget is required"),
-    preferred_schedule: yup.string().required("Schedule is required"),
     coach_gender: yup.string().required("Gender is required"),
     coach_experience_level: yup.string().required("Experience is required"),
     only_certified_coach: yup.string().required("Select if only certified"),
     preferred_start_date_urgency: yup.string().required("Start urgency is required"),
-    special_requirements: yup.string().required("Special requirements are required"),
+    // special_requirements: yup.string().required("Special requirements are required"),
     // share_with_coaches: yup
     //     .number()
     //     .required("Consent is required")
