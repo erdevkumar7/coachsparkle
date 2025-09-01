@@ -223,7 +223,7 @@ const getEventClass = (status) => {
         height="auto"
         allDaySlot={false}
       />
-
+       
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}

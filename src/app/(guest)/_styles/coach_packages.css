@@ -400,15 +400,28 @@
   border-radius: 6px;
   width: 100%;
 }
-
+/* 
 .selected-dates{
   overflow: auto;
   max-height: 180px;
-}
+} */
 /*Confirmation */
 .booking-confirm-modal{
     z-index: 9999;
 }
+.selected-dates-section.add-selected-date-inner {
+  height: 132px;
+  overflow: auto;
+}
+.book-selected-date {
+  margin: 0px auto auto;
+  position: absolute;
+  left: 0;
+  right: -689px;
+  width: 220px !important;
+}
+
+
 
 .booking-confirm-modal .modal-content {
   border-radius: 16px;

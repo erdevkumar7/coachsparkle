@@ -2146,7 +2146,7 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
 .row.signup-page-top {
   align-items: center;
-  height: 600px;
+  height: 500px;
 }
 
 .signup-right-side .card-container {
@@ -2736,9 +2736,10 @@ select:focus-visible {
 }
 
 .login-right-side {
-  display: flex;
   justify-content: center;
   padding: 50px 0;
+  display: flex;
+  margin-top: -10px;
 }
 
 .login-left-side {

@@ -322,8 +322,8 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
 
             {/* Selected dates section */}
               <h6 className="fw-semibold mb-2">Selected Dates & Times</h6>
-            <div className="selected-dates">
-            <div className="selected-dates-section">
+            <div className="selected-dates add-selected-date">
+            <div className="selected-dates-section add-selected-date-inner">
               {selectedDates.length === 0 ? (
                 <div className="text-muted small">No dates selected yet</div>
               ) : (
@@ -355,7 +355,7 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
             {selectedDates.length > 0 && (
               <div className="mt-3">
                 <button
-                  className="btn btn-primary w-100"
+                  className="btn btn-primary w-100 book-selected-date"
                   onClick={handleBookingSubmit}
                 >
                   Book Selected Dates ({selectedDates.length})
