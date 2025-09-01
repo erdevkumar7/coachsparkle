@@ -77,10 +77,10 @@ export default function CoachingRequests({ initialRequest, token }) {
             <div className="row gap-4">
               {pendingRequest.map((rqst, indx) => (
                 <div key={indx} className="col-md-4 coaching-content p-3">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
+                  {/* <div className="d-flex justify-content-between align-items-center mb-2">
                     <h4 className="mb-0">Request received</h4>
                     <MoreHorizOutlinedIcon sx={{ color: '#A9A9A9' }} />
-                  </div>
+                  </div> */}
 
                   <div className="mb-3 status-div">
                     <button className="border px-3 py-1 rounded-pill" style={{

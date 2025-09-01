@@ -32,7 +32,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
         </div>
         <div className="d-flex justify-content-between flex-wrap py-4 px-4">
           <div className="row gap-4">
-            {getCompleted.slice(0,1).map((completed, index) => (
+            {getCompleted.map((completed, index) => (
               <div className="col-md-4 completed p-3" key={index}>
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   {/* <h4 className="mb-0">{completed.heading}</h4> */}

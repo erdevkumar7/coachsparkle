@@ -4,6 +4,12 @@
     width: 30%;
     box-shadow: 0 2px 6px #00000014;
 }
+.d-flex.justify-content-between.flex-wrap.py-4.px-4 .row.gap-3.m-2 {
+    width: 100%;
+}
+.coaching-progress-status .d-flex.justify-content-between.flex-wrap.py-4.px-4 .row.gap-4 {
+    width: 100%;
+}
 
 .favourite-user-warp h4.coaching-tittle-text {
     font-size: 17px;
