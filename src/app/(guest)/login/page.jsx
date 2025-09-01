@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import LoginForm from '../_components/LoginForm';
 import { HandleValidateTokenOnServer } from '@/app/api/user';
 import { redirect } from 'next/navigation';
@@ -18,8 +17,6 @@ export default async function Page() {
     }
   }
   return (
-    <Suspense fallback={<div>Loading...</div>}>
       <LoginForm />
-    </Suspense>
   );
 }
