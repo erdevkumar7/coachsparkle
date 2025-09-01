@@ -83,15 +83,7 @@ console.log('showModal', showModal)
               <div className="col-md-4 coaching-content p-3" key={index}>
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   <h4 className="mb-0">{item.title}</h4>
-                  <svg
-                    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-x0hvl5-MuiSvgIcon-root"
-                    focusable="false"
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    data-testid="MoreHorizOutlinedIcon"
-                  >
-                    <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"></path>
-                  </svg>
+     
                 </div>
 
                 <div className="mb-3 status-div">
