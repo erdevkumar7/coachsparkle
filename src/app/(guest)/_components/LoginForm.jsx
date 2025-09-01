@@ -19,6 +19,7 @@ export default function LoginForm() {
     const [role, setRole] = useState(3);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
     // useForm hook
     const {
         register,
@@ -28,14 +29,32 @@ export default function LoginForm() {
         resolver: yupResolver(loginSchema),
     });
 
+    // useEffect(() => {
+    //     const role = searchParams.get("role");
+    //     if (role) {
+    //         sessionStorage.setItem("role", role);
+    //     }
+    // }, [searchParams]);
+
     useEffect(() => {
         const role = searchParams.get("role");
         if (role) {
             sessionStorage.setItem("role", role);
         }
+
+        // Check for Google OAuth callback parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const user = urlParams.get('user');
+        const type = urlParams.get('type');
+
+        if (token && user) {
+            // Handle Google OAuth success
+            handleGoogleAuthSuccess(token, user, type);
+        }
     }, [searchParams]);
 
-    useEffect(() => {      
+    useEffect(() => {
         const storedRole = sessionStorage.getItem('role');
         if (storedRole) {
             const parsedRole = parseInt(storedRole, 10);
@@ -45,6 +64,32 @@ export default function LoginForm() {
             sessionStorage.removeItem('role');
         }
     }, []);
+
+    const handleGoogleAuthSuccess = (token, userData, userType) => {
+        try {
+            const user = JSON.parse(userData);
+
+            // Store token and user data
+            Cookies.set('token', token, {
+                expires: 7,
+                secure: true,
+                sameSite: 'Lax',
+            });
+            localStorage.setItem('user', JSON.stringify(user));
+
+            toast.success("Google login successful!");
+
+            // Redirect based on user type
+            if (userType === 'coach' || user.user_type === 3) {
+                router.push('/coach/dashboard');
+            } else {
+                router.push('/user/dashboard');
+            }
+        } catch (error) {
+            console.error('Error handling Google auth success:', error);
+            toast.error('Failed to complete Google login');
+        }
+    };
 
 
     // handle form submit
@@ -61,7 +106,7 @@ export default function LoginForm() {
                 dataToSend,
                 {
                     headers: { "Content-Type": "application/json" },
-                   // withCredentials: true, // if you want Laravel to set cookies
+                    // withCredentials: true, // if you want Laravel to set cookies
                 }
             );
 
@@ -83,7 +128,6 @@ export default function LoginForm() {
                     secure: true,
                     sameSite: 'Lax',
                 });
-                // localStorage.setItem('token', result.data.token);
                 localStorage.setItem('user', JSON.stringify(result.data.user));
             }
 
@@ -112,6 +156,17 @@ export default function LoginForm() {
     const handleRoleSwitch = (newRole) => {
         setRole(newRole);
     };
+
+    const handleGoogleLogin = (userRole) => {
+        setGoogleLoading(true);
+
+        // Determine user type for the redirect
+        const userType = userRole === 3 ? 'coach' : 'user';
+
+        // Redirect directly to the backend endpoint that will handle the OAuth flow
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google/redirect?user_type=${userType}`;
+    };
+
 
     return (
         <div className="signup-page-add login-page-form">
@@ -188,9 +243,18 @@ export default function LoginForm() {
                                     <span>Or</span>
                                 </div>
 
-                                <button className="google-login" type="button">
+                                {/* <button className="google-login" type="button">
                                     <img src="./images/google.png" alt="google" />
                                     Log in with Google
+                                </button> */}
+                                <button
+                                    className="google-login"
+                                    type="button"
+                                    onClick={() => handleGoogleLogin(role)}
+                                    disabled={googleLoading}
+                                >
+                                    <img src="./images/google.png" alt="google" />
+                                    {googleLoading ? 'Redirecting...' : 'Log in with Google'}
                                 </button>
 
                                 <p className="signup-text">
