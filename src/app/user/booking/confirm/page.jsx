@@ -43,7 +43,7 @@ export default async function BookingConfirmPage({ params, searchParams }) {
 
                     <div className="modal-body">
                         <p>
-                            Hi Emma Rosen,
+                            Hi Deven,
                             <br />
                             Thank you for booking the{" "}
                             <strong>
