@@ -8,8 +8,6 @@ import {
   getCommunicationChannels,
   getAllMasters
 } from "@/app/api/guest";
-import { HandleValidateTokenOnServer } from "@/app/api/user";
-
 
 
 export default async function SendCoachingRequestPage() {
@@ -19,12 +17,6 @@ export default async function SendCoachingRequestPage() {
   // If no token → redirect instantly without API call
   if (!token) {
     redirect("/login?redirect=/send-coaching-request&role=2");
-  }
-
-  // Optional: validate token on the server before showing page
-  const tokenData = await HandleValidateTokenOnServer();
-  if (!tokenData) {
-    redirect("/login");
   }
 
   // Fetch all data in parallel (server-side)

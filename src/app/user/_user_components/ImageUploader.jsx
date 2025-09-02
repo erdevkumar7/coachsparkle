@@ -4,8 +4,10 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function UserImageUploader ({ image, user_type }) {
+    const router = useRouter();
     const [preview, setPreview] = useState(image);
 
     const handleImageUpload = async (e) => {
@@ -30,6 +32,7 @@ export default function UserImageUploader ({ image, user_type }) {
             if (result.success) {
                 toast.success("Profile image updated successfully!");
                 setPreview(result.profile_image); // update the preview without reloading
+                router.refresh(); // ✅ forces server components to re-run
             } else {
                 toast.error(result.message || "Failed to upload image.");
             }
