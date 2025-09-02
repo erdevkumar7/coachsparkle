@@ -1409,6 +1409,207 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 
 /*coach-list-page-mobile-css*/
 @media only screen and (max-width: 767px) {
+
+  .calendar.shadow-sm.calendar-profile-show .css-5wchs2-MuiDateCalendar-root {
+  height: 300px !important;
+}
+  .about-section.package_short .d-flex.justify-content-between.align-items-center.mb-3 {
+    display: block !important;
+}
+.about-section.package_short .prev-next-arrow.d-flex.gap-3 {
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.coach-profile-content {
+    padding-bottom: 0px;
+}
+.session-wrapper .session-card {
+  padding: 10px;
+}
+.coach-profile-list-right .profile-message .trial-offer {
+  display: flex !important;
+}
+
+
+  .coach-profile-list-left .coaches-view-cards .card-body {
+    box-shadow: 0 2px 15px #0000001a;
+    height: auto !important;
+}
+  .coaches-view-cards {
+    margin-bottom: 0px !important;
+}
+  .about-section.publs_artcl .item-artcl img.top-image {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+    display: block;
+    margin: 25px 0px;
+} 
+.about-section.publs_artcl img.top-image {
+  margin-top: 0px !important;
+}
+.about-section.publs_artcl .item-cont1 {
+  margin-bottom: 25px;
+}
+
+.coach-profile-content .about-section.sim-coachs {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.about-section.publs_artcl .artcl-flex .item-cont1 button {
+  color: #fff;
+  background: #009df6;
+  border: 1px solid #009df6;
+  border-radius: 12px;
+  padding: 8px 35px;
+  font-size: 14px;
+}
+
+
+.session-content .icons-row {
+    display: flex;
+    text-align: center;
+    justify-content: center !important;
+}
+.about-section.package_short .v-all {
+  text-align: center;
+  margin-top: 20px;
+}
+.about-section.publs_artcl .artcl-flex {
+  display: block;
+}
+
+.about-section.publs_artcl .artcl-flex .item-cont1 p {
+  height: auto;
+}
+.about-section.package_short .session-list {
+  font-size: 14px !important;
+  list-style: none;
+  padding-left: 0px !important;
+}
+
+  .prev-next-arrow i.bi.bi-chevron-left {
+    font-size: 15px;
+    width: 26px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.prev-next-arrow i.bi.bi-chevron-right {
+  font-size: 15px;
+  width: 26px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coach-profile-list-left p.senior-engineer-text {
+    width: 100%;
+}
+.session-content .book-btn {
+  font-size: 13px;
+}
+.session-content .d-flex.justify-content-start.gap-2.mt-4 {
+  justify-content: center !important;
+  margin-top: 0px !important;
+}
+
+.session-content button.read-more-btn {
+  margin: auto !important;
+  margin-top: 10px !important;
+  padding: 0 !important;
+  font-size: 14px;
+  font-weight: 500;
+  display: block !important;
+}
+  .coach-profile-list-add span.verified-text {
+    display: flex;
+    margin-top: 35px;
+}
+.coach-profile-list-left .about-section h4 {
+  margin-bottom: 0;
+  font-size: 18px;
+  font-weight: 600;
+  width: 100%;
+} 
+.senior-engineer-details-add .box-txts {
+  margin-bottom: 10px;
+  display: block;
+}
+
+span.avail-text {
+  margin-top: 10px;
+}
+  main nav.d-flex.align-items-center.breadcrumb-nav.mt-4.container {
+    margin-top: 28px !important;
+}
+.row.coach-profile-list-inner {
+  padding: 30px 0 0;
+}
+.coach-info .coach-action-share-icon {
+  top: 15px;
+  right: 15px;
+}
+.coach-banner-add button.profile {
+    border-radius: 12px;
+    width: 100%;
+} 
+.container.list-start .info1 {
+  text-align: center;
+  justify-content: end;
+  align-items: baseline;
+  display: block;
+}
+span.MuiRating-root.MuiRating-sizeMedium.Mui-readOnly.css-tw2awz-MuiRating-root {
+  font-size: 20px !important;
+}
+
+  .coach-banner-add .results {
+    padding-left: 0px;
+    text-align: center;
+}
+.senior-engineer-details-add .co-name {
+  align-items: baseline;
+  justify-content: center;
+}
+  .title-banner p {
+    margin-top: 40px;
+}
+.container .sort-container {
+  justify-content: center;
+  padding-top: 10px;
+}
+.css-1crh3dt {
+  width: 100%;
+  padding: 16px;
+  padding-bottom: 0px;
+}
+.search-container {
+  justify-content: center;
+  padding-top: 25px;
+  display: block;
+}
+input.form-control.search-input {
+  width: 100%;
+  height: 50px;
+}
+nav.d-flex.align-items-center.breadcrumb-nav.mt-4.container {
+  margin-top: 100px !important;
+}
+.ai-btn-find {
+  margin-top: 15px;
+}
+
+.ai-btn-find button {
+  width: 65%;
+  margin-left: 0px;
+  height: 45px;
+}
   .coach-banner-add .container.list-start {
     display: block;
     padding: 20px;
@@ -1441,7 +1642,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   }
   .coach-banner-add .coach-card img {
     width: 100%;
-    height: 380px;
+    height: auto;
     border-radius: 12px;
     object-fit: cover;
   }
@@ -1467,17 +1668,18 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
     font-size: 21px;
   }
   .coach-banner-add .tags span {
-    display: inline-block;
-    padding: 6px 15px;
-    margin: 5px 5px 0 0;
+    margin: 15px 5px 0 0;
+    padding: 10px 15px;
     font-size: 13px;
-    margin-top: 15px;
-  }
-  .pagination-content-inner .pagination {
-    gap: 5px;
-    padding-top: 0px;
-    padding-right: 0px;
-  }
+    display: flex;
+    justify-content: center;
+}
+.pagination-content-inner .pagination {
+  gap: 5px;
+  padding-top: 0;
+  padding-right: 0;
+  justify-content: center !important;
+}
   .pagination-content-inner .page-btn,
   .page-number {
     padding: 6px 6px;
@@ -1509,9 +1711,11 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 
   /*coach-profile-list-page-mobile-css*/
   .col-md-8.coach-profile-list-left {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    width: 93%;
+    margin: auto;
+}
   .coach-profile-list-left .coach-profile-content .coach-card {
     padding: 0px;
   }
@@ -1541,9 +1745,9 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   .coach-action-profile-icon {
     margin-left: 20%;
     position: absolute;
-    top: 408px;
+    top: 308px;
     right: 10px;
-  }
+}
 
   .coach-action-profile-icon i.bi.bi-heart {
     padding: 8px 10px;
@@ -1667,7 +1871,8 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
     max-width: 95%;
     margin-top: 35px;
     margin-left: 2px;
-  }
+    margin-bottom: 25px;
+}
 
   .coach-profile-list-inner {
     padding: 50px 0;
