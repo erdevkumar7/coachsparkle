@@ -133,6 +133,7 @@ export default function LoginForm() {
 
             if (redirect) {
                 router.push(redirect);
+                router.refresh(); // ✅ forces server components to re-run
             } else if (result.data.user.user_type === 2) {
                 toast.success("Login successful!");
                 router.push('/user/dashboard');
