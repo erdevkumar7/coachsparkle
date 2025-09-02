@@ -298,7 +298,7 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 .counters-inner-content {
   background-color: #009bfa;
   border-radius: 0px 12px 0px 0px;
-  height: 126px;
+  height: 100px;
   align-items: center;
   text-align: left;
   justify-content: center;
@@ -1614,6 +1614,18 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 /*Mobile-view-css*/
 
 @media only screen and (max-width: 767px) {
+ 
+  .login-right-side .login-container .login-form .signup-text a {
+    width: 100%;
+}
+
+
+  .choose-plan-you .featured button {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
   .view-all-coaches-list input.form-control.search-input {
     height: 52px;
     width: 100%;
@@ -1682,12 +1694,11 @@ footer.coach-footer-section .new-add-footer .mui-icons {
     width: 40px;
     height: 40px;
   }
-
   .smarter-matching .counters-content {
-    margin-top: 50px;
-    margin-left: 0;
     max-width: 100%;
-  }
+    margin-top: 30px;
+    margin-left: 0;
+}
 
   /* .coach-top-navber-add .container {
     padding: 0 20px;
@@ -1753,11 +1764,10 @@ footer.coach-footer-section .new-add-footer .mui-icons {
   .smarter-matching marquee#coachMarquee {
     height: 450px !important;
   }
-
   .counters-inner-content .counter-box p {
-    font-size: 15px;
-    text-align: left;
-  }
+    text-align: center;
+    font-size: 12px;
+}
 
   .how-it-work-inner-part .card h1 {
     font-size: 40px;
@@ -2104,8 +2114,8 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
   footer.coach-footer-section .coach-footer-one p {
     margin-bottom: 10px;
-    padding-top: 25px;
-  }
+    padding-top: 0px;
+}
 
   .choose-plan-you .card ul li {
     gap: 10px;
@@ -2764,6 +2774,61 @@ select:focus-visible {
 }
 
 @media only screen and (max-width: 767px) {
+  
+  
+  .coach-top-navber-add div#navbarTogglerDemo01 {
+    width: 100%;
+}
+  .sign-user-content .input-group input {
+    border-radius: 20px !important;
+}
+/* .navbar-collapse.collapse.show {
+  display: block !important;
+} */
+.coach-top-navber-add ul.navbar-nav.list-show {
+  width: 100%;
+}
+
+.coach-top-navber-add .register-content {
+  width: 100%;
+}
+.counters-inner-content .counter-box span {
+    font-size: 25px;
+}
+.counter-box {
+  text-align: center;
+}
+
+  .smarter-matching-inner .search-container {
+    align-items: center;
+    padding-top: 25px;
+    display: block;
+}
+.smarter-matching.py-5 .ai-btn-find button {
+  color: #fff;
+  background-color: #009bfa;
+  border: 1px solid #009bfa;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  width: 65%;
+  height: 50px;
+  margin: 26px auto auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-family: Roboto;
+  font-size: 16px;
+  display: flex;
+}
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   .signup-left-side {
     height: 250px;
   }

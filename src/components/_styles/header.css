@@ -11,8 +11,12 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
-  margin: auto;
+  /* margin: auto; */
   display: flex;
+  padding-left: 90px;
+}
+.register-login.head-top-login-add {
+  padding-left: 60px;
 }
 .mui-icons.power-icons {
   color: #009bfa;
@@ -137,7 +141,10 @@ a#notificationDropdown {
   background: none !important;
   color: #009bfa !important;
 }
-
+a#notificationDropdown {
+  padding-left: 0;
+  padding-right: 10px;
+}
 
 /*Mobile-view-css*/
 
@@ -145,7 +152,13 @@ a#notificationDropdown {
   .coach-top-navber-add .container {
     padding: 0 20px;
   }
-
+  .register-login.head-top-login-add {
+    padding-left: 0px !important;
+}
+.register-login.head-top-login-add .register-content {
+  margin-top: 0;
+  margin-left: 0px !important;
+}
   .coach-top-navber-add div#navbarTogglerDemo01 {
     background-color: #fff;
     box-shadow: 0px 2px 15px rgb(0 0 0 / 10%);

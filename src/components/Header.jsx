@@ -108,14 +108,13 @@ export default function Header({ user }) {
               </ul>
             </li>
 
-            <li className="nav-item">
+            <li className="nav-item mobile-event-add">
               <Link className="nav-link" href="/">
                 Events
               </Link>
             </li>
-          </ul>
 
-          {user ? (
+            {user ? (
             // <button onClick={handleLogout} style={{
             //     display: 'inline-block',
             //     padding: '6px 16px',
@@ -127,7 +126,7 @@ export default function Header({ user }) {
             //     marginLeft: '10px',
             //     border: 'white'
             // }}>Logout</button>
-            <div className="register-login">
+            <div className="register-login head-top-login-add">
               <div className="register-content">
                 <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end logout-add-head">
                   <button
@@ -287,7 +286,7 @@ export default function Header({ user }) {
             </div>
           ) : (
             <>
-              <div className="register-login">
+              <div className="register-login head-top-login-add">
                 <div className="register-content">
                   <Link href="/login" className="Login-navbar">
                     Login
@@ -311,6 +310,9 @@ export default function Header({ user }) {
               </div>
             </>
           )}
+
+          </ul>
+
         </div>
       </div>
     </nav>

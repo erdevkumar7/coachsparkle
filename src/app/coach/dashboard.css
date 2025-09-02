@@ -2233,10 +2233,11 @@ display: none;
 
 .top-dashboard-header .navbar {
   box-shadow: none !important;
-  padding: 10px 0px !important;
   background: #fff !important;
+  padding: 10px 0 !important;
+  width: 98%;
+  padding-right: 9px !important;
 }
-
 
 .navbar .navbar-brand-wrapper {
   background: #ffffff;
