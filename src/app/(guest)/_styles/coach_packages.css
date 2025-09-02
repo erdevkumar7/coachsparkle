@@ -15,7 +15,7 @@
 
 
 .coach-avatar {
-  width: 80px;
+  width: 90px;
   height: 90px;
   border-radius: 40px;
   object-fit: cover;
@@ -224,7 +224,6 @@
   color: rgb(138, 137, 137);
 }
 
-
 .prev-next-disable .arrow-icon:hover {
    color: rgb(138, 137, 137);
 }
@@ -245,7 +244,6 @@
   cursor: auto;
   z-index: 10;
 }
-
 
 /*Booking*/
 .booking-card {
@@ -400,12 +398,7 @@
   border-radius: 6px;
   width: 100%;
 }
-/* 
-.selected-dates{
-  overflow: auto;
-  max-height: 180px;
-} */
-/*Confirmation */
+
 .booking-confirm-modal{
     z-index: 9999;
 }
@@ -420,8 +413,6 @@
   right: -689px;
   width: 220px !important;
 }
-
-
 
 .booking-confirm-modal .modal-content {
   border-radius: 16px;
@@ -443,7 +434,6 @@
   padding: 0px 200px;
   line-height: 1;
 }
-
 
 .booking-confirm-modal .modal-body {
   color: #333;
@@ -479,25 +469,75 @@
   border: none;
 }
 
-
 .booking-confirm-modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 
+@media (max-width: 767px) {
+  .mt-4.content p {
+    text-align: center;
+}
 
-@media (max-width: 768px) {
-  .swiper-button-prev.custom-arrow {
-    left: -10px;
-  }
+  .card-body h5 {
+    font-size: 20px;
+    text-align: center;
+} 
+.small {
+    justify-content: center;
+    text-align: center;
+} 
+  .service-page {
+    padding-bottom: 0px;
+}
+.service-page .numbering {
+  margin-bottom: 35px !important;
+}
+  .share-btn {
+    padding: 5px;
+    font-size: 18px;
+    position: absolute;
+    top: 30px;
+    right: 50px;
+}
 
-  .swiper-button-next.custom-arrow {
-    right: -10px;
-  }
-
-  .package-card {
+  .package-card .book-btn {
     width: 100%;
-  }
+    min-width: 50px;
+    padding: 12px 30px;
+} 
+  .manage-btn-add {
+    text-align: center;
+    width: 100%;
+}
+.package-card .card-body .icons {
+  margin-top: 10px;
+  display: block !important;
+  line-height: 2.2;
+}
+
+
+  .breadcrumb-nav .breadcrumb-link {
+    font-size: 13px;
+}
+.swiper-button-prev.custom-arrow {
+  left: 11px;
+  width: 35px;
+  height: 35px;
+}
+.swiper-button-next.custom-arrow {
+  right: 11px;
+  width: 35px;
+  height: 35px;
+}
+
+.package-card {
+  width: 100%;
+  padding: 0px;
+}
+
+
+
 }
 
 

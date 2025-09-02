@@ -1545,9 +1545,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 span.avail-text {
   margin-top: 10px;
 }
-  main nav.d-flex.align-items-center.breadcrumb-nav.mt-4.container {
-    margin-top: 28px !important;
-}
+
 .row.coach-profile-list-inner {
   padding: 30px 0 0;
 }
@@ -1598,8 +1596,8 @@ input.form-control.search-input {
   width: 100%;
   height: 50px;
 }
-nav.d-flex.align-items-center.breadcrumb-nav.mt-4.container {
-  margin-top: 100px !important;
+.coach-banner-add .breadcrumb-nav {
+  margin-top: 111px !important;
 }
 .ai-btn-find {
   margin-top: 15px;
@@ -1741,12 +1739,11 @@ nav.d-flex.align-items-center.breadcrumb-nav.mt-4.container {
   .coach-profile-list-left .coach-profile-content {
     position: relative;
   }
-
   .coach-action-profile-icon {
     margin-left: 20%;
     position: absolute;
-    top: 308px;
-    right: 10px;
+    top: 69px;
+    right: 15px;
 }
 
   .coach-action-profile-icon i.bi.bi-heart {
