@@ -1402,7 +1402,6 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   border: none !important;
 }
 
-
 /*coach-profile-detail-css-desktop*/
 
 /*mobile view css*/
@@ -1410,6 +1409,38 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 /*coach-list-page-mobile-css*/
 @media only screen and (max-width: 767px) {
 
+  .css-1yn4ouz-MuiTabs-root .MuiTab-root {
+    font-size: 15px;
+}
+
+  .swiper-slide.swiper-slide-active {
+    width: 100% !important;
+}
+.css-13xfq8m-MuiTabPanel-root {
+  padding: 0px;
+  padding-top: 20px;
+}
+  .sim-coachs .swiper-button-next {
+    left: 50px !important;
+    right: 0px !important;
+    margin: auto !important;
+    margin-top: 25px !important;
+}
+.swiper-button-prev.swiper-button-disabled {
+  left: 0px !important;
+  right: 50px !important;
+  margin: auto !important;
+  margin-top: 25px !important;
+}
+.sim-coachs .swiper-button-prev {
+  left: 0px !important;
+  right: 50px !important;
+  margin: auto !important;
+  margin-top: 25px !important;
+}
+  .about-section.sim-coachs .swiper.swiper-initialized.swiper-horizontal.swiper-backface-hidden .swiper-wrapper {
+    margin-top: 60px;
+}
   .calendar.shadow-sm.calendar-profile-show .css-5wchs2-MuiDateCalendar-root {
   height: 300px !important;
 }
@@ -1527,9 +1558,10 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   font-weight: 500;
   display: block !important;
 }
-  .coach-profile-list-add span.verified-text {
-    display: flex;
-    margin-top: 35px;
+.coach-profile-list-add span.verified-text {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 .coach-profile-list-left .about-section h4 {
   margin-bottom: 0;
@@ -1544,6 +1576,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 
 span.avail-text {
   margin-top: 10px;
+  justify-content: center;
 }
 
 .row.coach-profile-list-inner {
@@ -1567,7 +1600,7 @@ span.MuiRating-root.MuiRating-sizeMedium.Mui-readOnly.css-tw2awz-MuiRating-root 
   font-size: 20px !important;
 }
 
-  .coach-banner-add .results {
+.coach-banner-add .results {
     padding-left: 0px;
     text-align: center;
 }
@@ -1752,10 +1785,11 @@ input.form-control.search-input {
     line-height: 2.5;
   }
   .coach-profile-list-left .coach-info h2 {
-    margin: 0 0 5px;
-    font-size: 20px;
+    margin: 0 0 0px;
     padding-top: 14px;
-  }
+    font-size: 20px;
+    justify-content: center;
+}
 
   .coach-profile-list-left .coach-profile-content .tags span {
     display: inline-block;
@@ -1790,7 +1824,7 @@ input.form-control.search-input {
   }
   .review-section .review-adding {
     display: flex;
-    gap: 10px;
+    gap: 0px;
     justify-content: center;
   }
   .services-offered .tags {

@@ -17,12 +17,26 @@ export default function LabTabs({ coach }) {
         <Box sx={{ width: '100%', typography: 'body1' }}>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange} aria-label="lab API tabs example">
+                    <TabList
+                        onChange={handleChange}
+                        aria-label="lab API tabs example"
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        allowScrollButtonsMobile
+                        sx={{
+                            '& .MuiTab-root': {
+                                fontSize: { xs: '12px', sm: '14px' },
+                                minWidth: { xs: '100px', sm: 'auto' },
+                                padding: { xs: '6px', sm: '12px' },
+                            },
+                        }}
+                    >
                         <Tab label="About" value="1" />
                         <Tab label="Experiences and Key Achievements" value="2" />
                         <Tab label="Credentials" value="3" />
                         <Tab label="Reviews" value="4" />
                     </TabList>
+
                 </Box>
                 <TabPanel value="1">
                     <div className='tab-cont'>
@@ -53,8 +67,8 @@ export default function LabTabs({ coach }) {
                             <p>Not available</p>
                         )}
                     </div>
-
                 </TabPanel>
+                
                 <TabPanel value="4">
                     <h5 className="what-user-text">What User's Say</h5>
                     <div className="review-section">
