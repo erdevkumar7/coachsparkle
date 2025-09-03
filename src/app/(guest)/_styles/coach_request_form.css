@@ -197,3 +197,42 @@ textarea.form-textarea:focus {
 input#«r1» {
     height: 32px !important;
 }
+
+
+@media (max-width: 767px) {
+
+  .breadcrumb-nav .breadcrumb-link {
+    font-size: 14px;
+}
+.send-request {
+  padding-top: 15px !important;
+}
+
+.request-form {
+  padding: 20px;
+}
+.form-selectbox {
+  width: 100% !important;
+  height: 45px !important;
+}
+
+.sub-form-section {
+  border-radius: 12px;
+  padding: 15px !important;
+}
+
+.form-check label.form-check-label.ms-2 {
+  font-size: 14px;
+}
+.form-select-multi {
+  width: 100%;
+  min-height: 45px;
+}
+
+.send-request .request-heading {
+  font-size: 15px;
+}
+
+
+
+}

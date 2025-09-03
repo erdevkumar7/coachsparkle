@@ -154,6 +154,15 @@ a#notificationDropdown {
 
 @media only screen and (max-width: 767px) {
  
+
+  .coach-top-navber-add ul.navbar-nav.list-show {
+    gap: 0px !important;
+  }
+
+  .user-add-top ul.navbar-nav.navbar-nav-right{
+    padding-left: 30px;
+  }
+
   .inner-tab-nav {
     justify-content: center;
     width: 100%;
