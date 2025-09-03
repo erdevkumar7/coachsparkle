@@ -429,14 +429,17 @@
   border-bottom: none;
   padding: 1.75rem 2rem;
 }
-
-.booking-confirm-modal .modal-title{
-  font-size: 28px;
+.booking-confirm-modal .modal-title {
+  text-align: center;
+  padding: 0 200px;
+  font-size: 26px;
   font-weight: 600;
-  padding: 0px 200px;
-  line-height: 1;
+  line-height: 1.2;
 }
-
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.check-box-add.css-1umw9bq-MuiSvgIcon-root {
+  background: #27C200;
+  border-radius: 3px;
+}
 .booking-confirm-modal .modal-body {
   color: #333;
   text-align: left;
@@ -456,9 +459,9 @@
 }
 
 .booking-confirm-modal .modal-footer {
-  padding: 1.5rem 2rem;
+  background-color: #fff;
   border-top: none;
-  background-color: #f8f9fa;
+  padding: 1.5rem 2rem;
 }
 
 .booking-confirm-modal .btn {
@@ -467,7 +470,7 @@
   padding: 10px 18px 10px 18px;
   border-radius: 12px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   border: none;
 }
 
@@ -475,8 +478,108 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-
 @media (max-width: 767px) {
+ 
+.booking-confirm-modal ul.list-unstyled.small {
+    text-align: center;
+}
+.booking-confirm-modal .modal-footer {
+  padding: 1.5rem 2rem;
+  justify-content: center !important;
+  gap: 0px !important;
+} 
+  .booking-confirm-modal .btn {
+    border-radius: 12px;
+    padding: 10px 10px;
+}
+.booking-confirm-modal .modal-header {
+  padding: 0.75rem 2rem;
+}
+  .booking-confirm-modal .modal-title {
+    padding: 0 0px;
+    font-size: 18px;
+}
+.booking-confirm-modal .modal-body {
+  color: #333;
+  padding-bottom: 0px;
+}
+.booking-confirm-modal .modal-content .modal-body {
+  text-align: center !important;
+}
+
+.booking-confirm-modal ul.small {
+  text-align: center;
+  padding-left: 0px;
+  list-style: none;
+}
+
+.booking-card.d-flex .position-relative.mb-3 {
+    left: 40px;
+}
+.left-panel, .calendar-panel {
+  border-right: 0px solid #d1d5db;
+} 
+.selected-dates-section.add-selected-date-inner {
+  height: 180px;
+  overflow: auto;
+}
+.calendar-wrapper-custom h5.fw-semibold.mb-3 {
+    text-align: center;
+}
+.session-info {
+  margin-top: 25px;
+}
+
+.session-info li.d-flex.align-items-start {
+  align-items: center !important;
+}
+.session-info ul.list-unstyled.small.text-muted {
+  width: 90%;
+  margin: auto;
+}
+
+  .time-panel .inner-panel {
+    height: auto;
+    padding-bottom: 60px !important;
+}
+
+  .book-selected-date {
+    left: 0;
+    right: 0px;
+    width: 220px !important;
+}
+.calendar-grid-custom {
+  grid-template-columns: repeat(7, 1fr);
+  gap: 9px;
+  display: grid;
+}
+.profile-img {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+.left-panel .package-name {
+  font-weight: 500;
+  text-align: center;
+}
+
+.left-panel .title {
+  text-align: center;
+}
+
+  .booking-card {
+    max-width: 94%;
+    height: auto;
+    margin: auto;
+    display: block !important;
+}
+.top-divider-line {
+  background-color: #e0e0e0;
+  background: none;
+}
+
   .package-card.mx-auto .content h6 span {
     text-align: center !important;
     display: flex;

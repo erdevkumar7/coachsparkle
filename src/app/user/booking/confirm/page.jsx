@@ -3,6 +3,7 @@ import '../../../(guest)/_styles/coach_packages.css';
 import '../../_styles/dashboard.css';
 import { notFound } from 'next/navigation';
 import Link from "next/link";
+import CheckIcon from '@mui/icons-material/Check';
 
 export default async function BookingConfirmPage({ params, searchParams }) {
     const cookieStore = await cookies();
@@ -35,7 +36,7 @@ export default async function BookingConfirmPage({ params, searchParams }) {
                     <div className="modal-header text-white flex-column align-items-start">
                         <div className="d-flex align-items-center mb-2">
                             <h5 className="modal-title mb-0">
-                                <span className="me-2 fs-4">✅</span>
+                                <span className="me-2 fs-4"><CheckIcon className='check-box-add'/></span>
                                 Booking Confirmed {booking_confirm.session_title} with {booking_confirm.first_name} {booking_confirm.last_name}
                             </h5>
                         </div>
