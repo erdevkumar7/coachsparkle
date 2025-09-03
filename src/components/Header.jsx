@@ -32,8 +32,9 @@ export default function Header({ user }) {
     Cookies.remove("token");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    window.location.href = `${FRONTEND_BASE_URL}/login`;
     //  window.location.reload();
-    router.push("/login");
+    // router.push("/login");
     toast.success("Logout Successful!")
   };
 
