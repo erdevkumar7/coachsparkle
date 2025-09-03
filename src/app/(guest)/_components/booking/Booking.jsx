@@ -15,11 +15,197 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
   const [selectedDates, setSelectedDates] = useState([]); // Array of {date: Date, time: string}
   const [availability, setAvailability] = useState({});
   const [timeSlots, setTimeSlots] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [confirmedBookingData, setConfirmedBookingData] = useState(null);
   const [currentDate, setCurrentDate] = useState(null); // For calendar display
 
-  console.log("packageData", packageData);
+  // console.log("packageData", packageData);
+
+  // useEffect(() => {
+  //   if (!package_id) return;
+
+  //   fetchAvailability(package_id)
+  //     .then((data) => {
+  //       // Transform API array into an object like { "2025-08-04": ["09:00", "09:30"], ... }
+  //       const availabilityMap = {};
+  //       if (Array.isArray(data.availability)) {
+  //         data.availability.forEach((item) => {
+  //           availabilityMap[item.date] = item.available_times;
+  //         });
+  //       }
+
+  //       setAvailability(availabilityMap);
+  //       setPackageData(data);
+
+  //       // If there are available dates, set the first one as current
+  //       const availableDates = Object.keys(availabilityMap);
+  //       if (availableDates.length > 0) {
+  //         setCurrentDate(new Date(availableDates[0]));
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error fetching availability:", err);
+  //       toast.error("Failed to load availability");
+  //     });
+  // }, [package_id]);
+
+  // useEffect(() => {
+  //   if (!currentDate) return;
+  //   const key = currentDate.toISOString().slice(0, 10);
+  //   setTimeSlots(availability[key] || []);
+  // }, [currentDate, availability]);
+
+  // const getActiveDays = (year, month) => {
+  //   return Object.keys(availability).reduce((active, dateStr) => {
+  //     const date = new Date(dateStr);
+  //     if (date.getFullYear() === year && date.getMonth() === month) {
+  //       active.push(date.getDate());
+  //     }
+  //     return active;
+  //   }, []);
+  // };
+
+  // const handleDateSelect = (date) => {
+  //   setCurrentDate(date);
+  // };
+
+  // const handleTimeSelect = (time) => {
+  //   if (!currentDate) return;
+
+  //   const dateKey = currentDate.toISOString().slice(0, 10);
+
+  //   // Check if this date is already selected
+  //   const existingIndex = selectedDates.findIndex(
+  //     item => item.date.toISOString().slice(0, 10) === dateKey
+  //   );
+
+  //   if (existingIndex >= 0) {
+  //     // Update time for existing date
+  //     const updatedDates = [...selectedDates];
+  //     updatedDates[existingIndex].time = time;
+  //     setSelectedDates(updatedDates);
+  //   } else {
+  //     // Add new date with time
+  //     setSelectedDates([...selectedDates, { date: new Date(currentDate), time }]);
+  //   }
+
+  //   toast.success("Date and time added!");
+  // };
+
+  // const removeSelectedDate = (dateToRemove) => {
+  //   setSelectedDates(selectedDates.filter(
+  //     item => item.date.toISOString() !== dateToRemove.date.toISOString()
+  //   ));
+  // };
+
+
+  // const handleBookingSubmit = async () => {
+  //   if (selectedDates.length === 0) {
+  //     toast.error("Please select at least one date and time");
+  //     return;
+  //   }
+
+  //   const token = Cookies.get("token");
+  //   if (!token) {
+  //     router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`)
+  //     sessionStorage.setItem('role', 2);
+  //     return;
+  //   }
+
+  //   // Prepare payload according to API requirements
+  //   const payload = {
+  //     "package_id": packageData?.coach_profile?.package_id,
+  //     "coach_id": packageData?.coach_profile?.coach_id,
+  //     "slot_date_time": selectedDates.map(selected => [
+  //       selected.date.toISOString().split('T')[0], // Format as YYYY-MM-DD
+  //       selected.time
+  //     ])
+  //   };
+
+  //   try {
+  //     // Submit all selected dates in a single API call
+  //     const response = await PackageBookingAndStripePayment(payload, token);
+
+  //     if (response.data.success) {
+  //       // toast.success("Booking confirmed!");
+
+  //       // Redirect to Stripe checkout
+  //       if (response.data.redirect_url) {
+  //         window.location.href = response.data.redirect_url;
+  //       } else {        
+  //         setSelectedDates([]); // Clear selections after successful booking
+  //       }
+  //     } else {
+  //       toast.error(response.data.message || "Booking failed. Please try again.");
+  //     }
+  //   } catch (err) {
+  //     console.error("Error submitting package:", err);
+  //     toast.error("Network or server error.");
+  //   }
+  // };
+
+
+
+  // Load selected dates from sessionStorage on component mount
+  useEffect(() => {
+    const savedSelections = sessionStorage.getItem(`booking_selections_${package_id}`);
+    if (savedSelections) {
+      try {
+        const parsedSelections = JSON.parse(savedSelections);
+
+        // Filter out expired dates (older than today)
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        const validSelections = parsedSelections.filter(item => {
+          const itemDate = new Date(item.date);
+          itemDate.setHours(0, 0, 0, 0);
+          return itemDate >= currentDate;
+        });
+
+        // Convert date strings back to Date objects
+        const selectionsWithDates = validSelections.map(item => ({
+          ...item,
+          date: new Date(item.date)
+        }));
+
+        setSelectedDates(selectionsWithDates);
+
+        // Update storage with only valid selections
+        if (validSelections.length !== parsedSelections.length) {
+          sessionStorage.setItem(
+            `booking_selections_${package_id}`,
+            JSON.stringify(validSelections)
+          );
+        }
+      } catch (error) {
+        console.error("Error parsing saved selections:", error);
+      }
+    }
+  }, [package_id]);
+
+  // Save selected dates to sessionStorage whenever they change
+  useEffect(() => {
+    if (selectedDates.length > 0) {
+      // Convert Date objects to strings for storage
+      const selectionsForStorage = selectedDates.map(item => ({
+        ...item,
+        date: item.date.toISOString()
+      }));
+      sessionStorage.setItem(
+        `booking_selections_${package_id}`,
+        JSON.stringify(selectionsForStorage)
+      );
+    } else {
+      sessionStorage.removeItem(`booking_selections_${package_id}`);
+    }
+  }, [selectedDates, package_id]);
+
+  // Clean up on component unmount if needed
+  useEffect(() => {
+    return () => {
+      // Optional: Only remove if you want to clear on page navigation
+      // sessionStorage.removeItem(`booking_selections_${package_id}`);
+    };
+  }, [package_id]);
 
   useEffect(() => {
     if (!package_id) return;
@@ -93,78 +279,11 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
   };
 
   const removeSelectedDate = (dateToRemove) => {
-    setSelectedDates(selectedDates.filter(
+    const updatedDates = selectedDates.filter(
       item => item.date.toISOString() !== dateToRemove.date.toISOString()
-    ));
+    );
+    setSelectedDates(updatedDates);
   };
-
-  // const handleBookingSubmit = async () => {    
-  //   if (selectedDates.length === 0) {
-  //     toast.error("Please select at least one date and time");
-  //     return;
-  //   }
-
-  //   const token = Cookies.get("token");
-  //   if (!token) {
-  //     router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`)
-  //     sessionStorage.setItem('role', 2);
-  //     return;
-  //   }
-
-  //   function calculateSlotEnd(startTime, durationMinutes) {
-  //     const [hours, minutes] = startTime.split(":").map(Number);
-  //     const date = new Date();
-  //     date.setHours(hours);
-  //     date.setMinutes(minutes);
-  //     date.setSeconds(0);
-  //     date.setMilliseconds(0);
-
-  //     date.setMinutes(date.getMinutes() + durationMinutes); // Add duration
-
-  //     const endHours = String(date.getHours()).padStart(2, "0");
-  //     const endMinutes = String(date.getMinutes()).padStart(2, "0");
-
-  //     return `${endHours}:${endMinutes}`;
-  //   }
-
-  //   // Prepare payload for multiple dates
-  //   const payloads = selectedDates.map(selected => {
-  //     const slot_time_end = calculateSlotEnd(selected.time, packageData?.coach_profile?.session_duration);
-
-  //     return {
-  //       "package_id": packageData?.coach_profile?.package_id,
-  //       "coach_id": packageData?.coach_profile?.coach_id,
-  //       "slot_time_start": selected.time,
-  //       "slot_time_end": slot_time_end,
-  //       "session_date": selected.date.toISOString().split('T')[0],
-  //       "amount": packageData?.coach_profile?.session_price
-  //     };
-  //   });
-
-  //   try {
-  //     // Submit all selected dates (you might need to adjust your API to handle multiple bookings)
-  //     const responses = await Promise.all(
-  //       payloads.map(payload => PackageBookingAndStripePayment(payload, token))
-  //     );
-
-  //     const allSuccess = responses.every(response => response.data.status);
-
-  //     if (allSuccess) {
-  //       toast.success("All bookings confirmed!");
-  //       setConfirmedBookingData({
-  //         bookings: responses.map(r => r.data.data)
-  //       });
-  //       setShowConfirmation(true);
-  //       setSelectedDates([]); // Clear selections after successful booking
-  //     } else {
-  //       toast.error("Some bookings failed. Please try again.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error submitting package:", err);
-  //     toast.error("Network or server error.");
-  //   }
-  // };
-
 
   const handleBookingSubmit = async () => {
     if (selectedDates.length === 0) {
@@ -174,6 +293,16 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
 
     const token = Cookies.get("token");
     if (!token) {
+      // Save selections before redirecting to login
+      const selectionsForStorage = selectedDates.map(item => ({
+        ...item,
+        date: item.date.toISOString()
+      }));
+      sessionStorage.setItem(
+        `booking_selections_${package_id}`,
+        JSON.stringify(selectionsForStorage)
+      );
+
       router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`)
       sessionStorage.setItem('role', 2);
       return;
@@ -194,16 +323,13 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
       const response = await PackageBookingAndStripePayment(payload, token);
 
       if (response.data.success) {
-        // toast.success("Booking confirmed!");
+        // Clear saved selections after successful booking
+        sessionStorage.removeItem(`booking_selections_${package_id}`);
 
         // Redirect to Stripe checkout
         if (response.data.redirect_url) {
           window.location.href = response.data.redirect_url;
         } else {
-          setConfirmedBookingData({
-            bookings: response.data.data || []
-          });
-          setShowConfirmation(true);
           setSelectedDates([]); // Clear selections after successful booking
         }
       } else {
@@ -321,165 +447,52 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
             </div>
 
             {/* Selected dates section */}
-              <h6 className="fw-semibold mb-2">Selected Dates & Times</h6>
+            <h6 className="fw-semibold mb-2">Selected Dates & Times</h6>
             <div className="selected-dates add-selected-date">
-            <div className="selected-dates-section add-selected-date-inner">
-              {selectedDates.length === 0 ? (
-                <div className="text-muted small">No dates selected yet</div>
-              ) : (
-                <div className="selected-dates-list">
-                  {selectedDates.map((selected, index) => (
-                    <div key={index} className="selected-date-item d-flex align-items-center justify-content-between mb-2 p-2 bg-light rounded">
-                      <div>
-                        <span className="fw-medium">
-                          {selected.date.toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </span>
-                        <span className="ms-2">{selected.time}</span>
+              <div className="selected-dates-section add-selected-date-inner">
+                {selectedDates.length === 0 ? (
+                  <div className="text-muted small">No dates selected yet</div>
+                ) : (
+                  <div className="selected-dates-list">
+                    {selectedDates.map((selected, index) => (
+                      <div key={index} className="selected-date-item d-flex align-items-center justify-content-between mb-2 p-2 bg-light rounded">
+                        <div>
+                          <span className="fw-medium">
+                            {selected.date.toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </span>
+                          <span className="ms-2">{selected.time}</span>
+                        </div>
+                        <button
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => removeSelectedDate(selected)}
+                        >
+                          &times;
+                        </button>
                       </div>
-                      <button
-                        className="btn btn-sm btn-outline-danger"
-                        onClick={() => removeSelectedDate(selected)}
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Book button */}
+              {selectedDates.length > 0 && (
+                <div className="mt-3">
+                  <button
+                    className="btn btn-primary w-100 book-selected-date"
+                    onClick={handleBookingSubmit}
+                  >
+                    Book Selected Dates ({selectedDates.length})
+                  </button>
                 </div>
               )}
-            </div>
-
-            {/* Book button */}
-            {selectedDates.length > 0 && (
-              <div className="mt-3">
-                <button
-                  className="btn btn-primary w-100 book-selected-date"
-                  onClick={handleBookingSubmit}
-                >
-                  Book Selected Dates ({selectedDates.length})
-                </button>
-              </div>
-            )}
             </div>
 
           </div>
         </div>
       </div>
-
-      {showConfirmation && !confirmedBookingData?.redirect_url && (
-        <div className="modal d-block booking-confirm-modal">
-          <div className="modal-dialog modal-lg modal-dialog-centered">
-            <div className="modal-content rounded-4 overflow-hidden">
-              <div className="modal-header text-white flex-column align-items-start">
-                <div className="d-flex align-items-center mb-2">
-                  <h5 className="modal-title mb-0">
-                    <span className="me-2 fs-4">✅</span>
-                    Booking Confirmed {packageData?.coach_profile?.session_title} with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
-                  </h5>
-                </div>
-              </div>
-
-              <div className="modal-body">
-                <p>
-                  Hi {confirmedBookingData?.bookings?.[0]?.user_details?.first_name} {confirmedBookingData?.bookings?.[0]?.user_details?.last_name},
-                  <br />
-                  Thank you for booking the{" "}
-                  <strong>
-                    {packageData?.coach_profile?.session_title}
-                  </strong>{" "}
-                  with {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}. Your journey toward
-                  clarity and growth begins now!
-                </p>
-
-                <h6 className="fw-bold mt-4">
-                  Booking Details:
-                </h6>
-                <ul className="list-unstyled small">
-                  <li>
-                    <strong>Coach:</strong> {packageData?.coach_profile?.first_name} {packageData?.coach_profile?.last_name}
-                  </li>
-                  <li>
-                    <strong>Number of Sessions:</strong> {selectedDates.length}
-                  </li>
-                  <li>
-                    <strong>Scheduled Dates:</strong>
-                    <ul>
-                      {confirmedBookingData?.bookings?.map((booking, index) => (
-                        <li key={index}>
-                          {booking.session_date} at {booking.slot_time_start}
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                  <li>
-                    <strong>Session Format:</strong> {packageData?.coach_profile?.delivery_mode}
-                  </li>
-                  <li>
-                    <strong>Policy:</strong> {packageData?.coach_profile?.cancellation_policy}
-                  </li>
-                </ul>
-
-                {packageData?.coach_profile?.delivery_mode_detail &&
-                  <>
-                    <h6 className="fw-bold mt-4">
-                      Zoom Meeting/Video Link
-                    </h6>
-                    <p className="small">
-                      Please join your sessions at the scheduled
-                      time using the link below:
-                      <br />
-                      <Link href={packageData?.coach_profile?.delivery_mode_detail} className="link" target="blank">
-                        Join Zoom/Video Meeting
-                      </Link>
-                      <br />
-                      (The same link will remain for all
-                      sessions unless otherwise updated by your
-                      coach.)
-                    </p>
-                  </>}
-
-                <h6 className="fw-bold mt-4">
-                  What's Included
-                </h6>
-                <ul className="small">
-                  {packageData?.coach_profile?.price_model &&
-                    <li>{packageData?.coach_profile?.price_model}</li>}
-                  {packageData?.coach_profile?.rescheduling_policy &&
-                    <li>{packageData?.coach_profile?.rescheduling_policy}</li>}
-                </ul>
-
-                <h6 className="fw-bold mt-4">About Package</h6>
-                <p className="small">
-                  {packageData?.coach_profile?.short_description}
-                </p>
-              </div>
-
-              <div className="modal-footer justify-content-start gap-3">
-                <button
-                  className="btn msg-btn"
-                  onClick={() => {
-                    setShowConfirmation(false);
-                    router.push("/send-message");
-                  }}
-                >
-                  Message {packageData?.coach_profile?.first_name}{" "}
-                  <i className="bi bi-arrow-right"></i>
-                </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    setShowConfirmation(false);
-                  }}>
-                  Close{" "}
-                  <i className="bi bi-arrow-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
