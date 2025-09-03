@@ -1,22 +1,24 @@
 
-
-
-
 .coach-top-navber-add div#navbarTogglerDemo01 {
   justify-content: space-between;
   padding-right: 0px;
+}
+.inner-tab-nav {
+  justify-content: center;
+  display: flex;
+  width: 78%;
 }
 
 .coach-top-navber-add ul.navbar-nav.list-show {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  /* margin: auto; */
+  padding-left: 0;
   display: flex;
-  padding-left: 90px;
+  width: 100%;
 }
 .register-login.head-top-login-add {
-  padding-left: 60px;
+  padding-left: 0px;
 }
 .mui-icons.power-icons {
   color: #009bfa;
@@ -32,7 +34,9 @@ a#notificationDropdown {
   font-family: "Inter";
 }
 
-
+p.top-name-add svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
+  font-size: 24px;
+}
 .user-add-top ul.navbar-nav.navbar-nav-right {
     width: 100%;
 }
@@ -97,10 +101,10 @@ a#notificationDropdown {
 }
 
 .coach-top-navber-add ul.navbar-nav.list-show a {
+  color: #000;
   font-family: inter;
-  font-weight: 600;
-  color: #000000;
   font-size: 16px;
+  font-weight: 600;
 }
 
 
@@ -149,7 +153,13 @@ a#notificationDropdown {
 /*Mobile-view-css*/
 
 @media only screen and (max-width: 767px) {
-  .coach-top-navber-add .container {
+ 
+  .inner-tab-nav {
+    justify-content: center;
+    width: 100%;
+    display: block;
+}
+ .coach-top-navber-add .container {
     padding: 0 20px;
   }
   .register-login.head-top-login-add {

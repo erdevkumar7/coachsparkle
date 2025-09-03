@@ -169,11 +169,11 @@ p.pro-add-value {
 
 p.basic-add-value {
   text-align: center;
-  color: #664C00;
-  background-color: #CAC4D0;
+  color: #664c00;
+  background-color: #cac4d0;
   border-radius: 50px;
-  width: 50%;
-  padding: 6px 0;
+  width: 65%;
+  padding: 5px 0;
   font-family: Roboto;
   font-weight: 500;
 }
@@ -1076,7 +1076,6 @@ li.nav-item.nav-profile.dropdown a#profileDropdown {
 p.top-name-add {
   color: #1A1A1A;
   margin-bottom: 0;
-  font-size: 15px;
   font-weight: 500;
 }
 
@@ -2235,7 +2234,7 @@ display: none;
   box-shadow: none !important;
   background: #fff !important;
   padding: 10px 0 !important;
-  width: 98%;
+  width: 100%;
   padding-right: 9px !important;
 }
 
