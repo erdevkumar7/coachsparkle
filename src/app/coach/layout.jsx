@@ -26,7 +26,7 @@ export default async function CoachLayout({ children }) {
           {children}
           <ChatSupportWrapper />
         </div>
-        <PusherDebug />
+        {/* <PusherDebug /> */}
       </ChatProvider>
     </UserProvider>
   );

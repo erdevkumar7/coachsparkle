@@ -20,7 +20,7 @@ export const ChatProvider = ({ children, user }) => {
     const token = Cookies.get('token');
 
     // API call functions without external helper
-    const makeApiCall = async (url, options = {}) => {        
+    const makeApiCall = async (url, options = {}) => {
 
         const defaultOptions = {
             headers: {
@@ -73,12 +73,96 @@ export const ChatProvider = ({ children, user }) => {
         }
     };
 
+    // useEffect(() => {
+    //     // console.log('ChatProvider useEffect triggered', { userId: user?.id });
+    //     if (!user?.user_id) return;
+    //     const initializePusher = async () => {
+    //         console.log('Initializing Pusher with key:', process.env.NEXT_PUBLIC_PUSHER_APP_KEY);
+    //         try {
+    //             // Initialize Pusher
+    //             const pusherInstance = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+    //                 cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
+    //                 authEndpoint: `${FRONTEND_BASE_URL}/api/broadcasting/auth`,
+    //                 auth: {
+    //                     headers: {
+    //                         Authorization: `Bearer ${token}`,
+    //                     },
+    //                 },
+    //             });
+
+
+    //             setPusher(pusherInstance);
+
+    //             // Subscribe to user's private channel
+    //             const userChannel = pusherInstance.subscribe(`private-chat.101`);
+
+    //             userChannel.bind('pusher:subscription_succeeded', () => {
+    //                 setIsConnected(true);
+    //                 console.log('Pusher connected successfully');
+    //             });
+
+    //             userChannel.bind('pusher:subscription_error', (error) => {
+    //                 console.error('Pusher subscription error:', error);
+    //                 setIsConnected(false);
+    //             });
+
+
+    //             // Listen for new messages
+    //             userChannel.bind('MessageSent', (data) => {
+    //                 console.log('Message received from Pusher:', data);
+    //                 const message = data.message;
+    //                 const chatKey = `${Math.min(message.sender_id, message.receiver_id)}-${Math.max(message.sender_id, message.receiver_id)}`;
+
+    //                 // Update messages
+    //                 setMessages(prev => {
+    //                     const existingMessages = prev[chatKey] || [];
+    //                     // Check if message already exists to avoid duplicates
+    //                     if (!existingMessages.some(msg => msg.id === message.id)) {
+    //                         return {
+    //                             ...prev,
+    //                             [chatKey]: [...existingMessages, message]
+    //                         };
+    //                     }
+    //                     return prev;
+    //                 });
+
+    //                 // Update unread counts if message is not from current user
+    //                 if (message.sender_id !== user.user_id) {
+    //                     setUnreadCounts(prev => ({
+    //                         ...prev,
+    //                         [chatKey]: (prev[chatKey] || 0) + 1
+    //                     }));
+    //                 }
+    //             });
+
+
+    //             setChannel(userChannel);
+
+    //         } catch (error) {
+    //             console.error('Error initializing Pusher:', error);
+    //             setIsConnected(false);
+    //         }
+    //     };
+
+    //     initializePusher();
+
+    //     return () => {
+    //         if (pusher) {
+    //             pusher.unsubscribe(`private-chat.${user.id}`);
+    //             pusher.disconnect();
+    //             setIsConnected(false);
+    //         }
+    //     };
+    // }, [user]);
+
+
     useEffect(() => {
-        // console.log('ChatProvider useEffect triggered', { userId: user?.id });
         if (!user?.user_id) return;
+
         const initializePusher = async () => {
             try {
-                // Initialize Pusher
+                console.log('Initializing Pusher with key:', process.env.NEXT_PUBLIC_PUSHER_APP_KEY);
+
                 const pusherInstance = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
                     cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
                     authEndpoint: `${FRONTEND_BASE_URL}/api/broadcasting/auth`,
@@ -89,14 +173,30 @@ export const ChatProvider = ({ children, user }) => {
                     },
                 });
 
+                // Add connection event listeners
+                pusherInstance.connection.bind('state_change', (states) => {
+                    console.log('Pusher connection state changed:', states);
+                });
+
+                pusherInstance.connection.bind('connected', () => {
+                    console.log('Pusher connected successfully');
+                });
+
+                pusherInstance.connection.bind('error', (error) => {
+                    console.error('Pusher connection error:', error);
+                });
+
                 setPusher(pusherInstance);
 
                 // Subscribe to user's private channel
-                const userChannel = pusherInstance.subscribe(`private-chat.101`);
+                const channelName = `private-chat-101`;
+                console.log('Subscribing to channel:', channelName);
+
+                const userChannel = pusherInstance.subscribe(channelName);
 
                 userChannel.bind('pusher:subscription_succeeded', () => {
+                    console.log('Pusher subscription succeeded for channel:', channelName);
                     setIsConnected(true);
-                    console.log('Pusher connected successfully');
                 });
 
                 userChannel.bind('pusher:subscription_error', (error) => {
@@ -104,31 +204,44 @@ export const ChatProvider = ({ children, user }) => {
                     setIsConnected(false);
                 });
 
-                // Listen for new messages
+
+                // Listen for new messages - ADD DEBUGGING HERE
+                console.log('Binding to MessageSent event');
                 userChannel.bind('MessageSent', (data) => {
+                    console.log('✅ Message received from Pusher:', data);
                     const message = data.message;
+                    console.log('Message data:', message);
+
                     const chatKey = `${Math.min(message.sender_id, message.receiver_id)}-${Math.max(message.sender_id, message.receiver_id)}`;
+                    console.log('Chat key:', chatKey);
 
                     // Update messages
                     setMessages(prev => {
                         const existingMessages = prev[chatKey] || [];
-                        // Check if message already exists to avoid duplicates
                         if (!existingMessages.some(msg => msg.id === message.id)) {
+                            console.log('Adding new message to state');
                             return {
                                 ...prev,
                                 [chatKey]: [...existingMessages, message]
                             };
                         }
+                        console.log('Message already exists, skipping');
                         return prev;
                     });
 
-                    // Update unread counts if message is not from current user
+                    // Update unread counts
                     if (message.sender_id !== user.user_id) {
+                        console.log('Updating unread count');
                         setUnreadCounts(prev => ({
                             ...prev,
                             [chatKey]: (prev[chatKey] || 0) + 1
                         }));
                     }
+                });
+
+                // Also bind to generic events for debugging
+                userChannel.bind('pusher:cache_miss', () => {
+                    console.log('Pusher cache miss - waiting for event');
                 });
 
                 setChannel(userChannel);
@@ -143,7 +256,7 @@ export const ChatProvider = ({ children, user }) => {
 
         return () => {
             if (pusher) {
-                pusher.unsubscribe(`private-chat.${user.id}`);
+                pusher.unsubscribe(`private-chat-101`);
                 pusher.disconnect();
                 setIsConnected(false);
             }
@@ -176,6 +289,7 @@ export const ChatProvider = ({ children, user }) => {
         isConnected,
         chatAPI // Expose the API functions if needed elsewhere
     };
+
 
     console.log('pusher', value)
     return (
