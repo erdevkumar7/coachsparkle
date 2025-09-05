@@ -224,11 +224,153 @@
     padding-bottom: 40px;
 }
 
-
-
 .journey-head-content .team-member h6 {
     font-weight: 400;
     padding-bottom: 15px;
+}
+
+
+@media (max-width: 767px) {
+ 
+    .about-us-page-add .hero h1 {
+        font-size: 30px;
+    }
+
+    .about-us-page-add .hero {
+        align-items: center;
+        height: 200px;
+    }
+
+    .about-content-section .row.align-items-center {
+        display: block;
+    }
+
+    .about-content-section {
+        padding: 30px 0 0;
+        display: flex;
+    }
+
+    .about-content-section .col-6.images-column-left {
+        width: 92%;
+        margin: auto;
+    }
+
+    .about-content-section .col-6.text-column-right {
+        width: 95% !important;
+        margin: auto;
+    }
+
+    .about-content-section .text-column-right h2 {
+        font-size: 25px;
+        font-weight: 600;
+        text-align: center !important;
+        padding-top: 28px;
+    }
+
+    .about-content-section .text-column-right {
+        padding-left: 0px !important;
+    }
+    .about-content-section .text-column-right p {
+        text-align: center;
+        padding-left: 10px;
+        padding-top: 0px;
+    }
+
+    .coach-sparkle’s-focus .content-section {
+        padding: 0px 20px 0;
+    }
+
+    .coach-sparkle’s-focus .section-title {
+        margin-bottom: 10px;
+        font-size: 25px;
+    }
+
+    .coach-sparkle’s-focus .focus-section {
+        margin-bottom: 25px;
+        padding-top: 10px;
+        display: block;
+    }
+    .focus-section .col-6.focus-item {
+        width: 100%;
+        text-align: center;
+    }
+
+    .coach-sparkle’s-focus .focus-item p, .values-text p {
+        color: #1a1a1a;
+        width: 100%;
+    }
+
+    .row.values-section .col-6 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .row.values-section {
+        margin-bottom: 0px;
+    }
+
+    .journey-head-content .section-title {
+        padding-top: 0px;
+        font-size: 25px;
+    }
+
+    .journey-head-content .section-description {
+        width: 100%;
+        margin: auto;
+        padding-bottom: 0px;
+    }
+
+    p.section-description.mb-4 {
+        margin-bottom: 0px !important;
+    }
+    h2.section-title.text-center.mb-4 {
+        margin-bottom: 10px !important;
+    }
+
+    .container.meet-team p.section-description.text-center.mb-4 {
+        margin-bottom: 20px !important;
+    }
+
+    .container.meet-team .row {
+        display: block;
+    }
+
+    .journey-head-content .team-member p {
+        color: #1a1a1a;
+        text-align: center;
+        padding-bottom: 0px;
+    }
+    .journey-head-content .team-member h6 {
+        padding-bottom: 0px;
+    }
+
+    .journey-head-content .meet-team {
+        padding-top: 20px;
+        padding-bottom: 0px;
+    }
+    .centered-image {
+        margin-top: 20px;
+    }
+    
+    .centered-image video {
+        height: auto;
+    }
+
+    .journey-head-content .team-member img {
+        width: 80%;
+        height: auto;
+    }
+
+    .row.values-section {
+        padding-top: 10px;
+    }
+
+    .about-us-page-add .hero p {
+        margin-bottom: 0px;
+    }
+
+
+
 }
 
 
