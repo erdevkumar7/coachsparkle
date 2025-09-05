@@ -9,13 +9,7 @@ export default function Messages() {
       bannerDescription: `You’ve received a new inquiry from a potential client! Someone is interested in your coaching services and has sent a message to learn more.
 ${(<br />)}👉 Take a moment to review and reply to start the conversation.`,
       coaches: [
-        {
-          name: "User Name 1",
-          img: "/coachsparkle/assets/images/top-nav.png",
-          lastMessage: "Hi",
-          time: "17:36",
-          unread: 5,
-        },
+         { id: 73, name: "Dev Duo", img: "/coachsparkle/assets/images/top-nav.png", lastMessage: "Hi",  time: "17:36", unread: 5, },
         {
           name: "User Name 2",
           img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
@@ -24,38 +18,7 @@ ${(<br />)}👉 Take a moment to review and reply to start the conversation.`,
           unread: 5,
         },
         {
-          name: "User Name 3",
-          img: "/coachsparkle/assets/images/top-nav.png",
-          lastMessage: "Hi",
-          time: "17:36",
-        },
-        {
           name: "Emma Rose",
-          img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
-          lastMessage: "Hi",
-          time: "17:36",
-          unread: 5,
-        },
-        {
-          name: "Coach Name 1",
-          img: "/coachsparkle/assets/images/top-nav.png",
-          lastMessage: "Hi",
-          time: "17:36",
-        },
-        {
-          name: "Coach Name 2",
-          img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
-          lastMessage: "Hi",
-          time: "17:36",
-        },
-        {
-          name: "Coach Name 3",
-          img: "/coachsparkle/assets/images/top-nav.png",
-          lastMessage: "Hi",
-          time: "17:36",
-        },
-        {
-          name: "User Name 4",
           img: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
           lastMessage: "Hi",
           time: "17:36",

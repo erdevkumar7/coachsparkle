@@ -4,6 +4,8 @@ import Header from "@/components/Header.jsx"
 import { getUserProfileData } from "@/app/api/user";
 import { redirect } from 'next/navigation';
 import UserSideBarComp from "./_user_components/UserSideBar";
+import { ChatProvider } from "@/context/ChatContext";
+import { PusherDebug } from "@/components/PusherDebug";
 
 export default async function UserLayout({ children }) {
   const { data: user, error, removeToken } = await getUserProfileData();
@@ -15,16 +17,17 @@ export default async function UserLayout({ children }) {
 
 
   return (
-    <>
-    <Header user={user} error={error} removeToken={removeToken}/>
+    <ChatProvider user={user}>
+      <Header user={user} error={error} removeToken={removeToken} />
       {/* <UserHeader user={user} error={error} removeToken={removeToken} /> */}
- 
+
       <div className="top-user-section-add">
-       <div className="container user-wrapper user-page-add">
-        <UserSideBarComp user={user} />
-        {children}
+        <div className="container user-wrapper user-page-add">
+          <UserSideBarComp user={user} />
+          {children}
+        </div>
       </div>
-      </div>
-    </>
+      <PusherDebug />
+    </ ChatProvider>
   );
 }

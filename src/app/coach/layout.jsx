@@ -5,6 +5,8 @@ import CoachHeader from './_coach_components/CoachHeader';
 import CoachSideBarComp from './_coach_components/coachSideBar';
 import { UserProvider } from '@/context/UserContext';
 import ChatSupportWrapper from './_coach_components/support/ChatSupportWrapper';
+import { ChatProvider } from '@/context/ChatContext';
+import { PusherDebug } from '@/components/PusherDebug';
 
 export default async function CoachLayout({ children }) {
   const { data: user, error } = await getUserProfileData();
@@ -16,13 +18,16 @@ export default async function CoachLayout({ children }) {
   }
 
   return (
-      <UserProvider initialUser={user}>
-      <CoachHeader />
-      <div className="container dashboard-wrapper">
-        <CoachSideBarComp />
-        {children}
-        <ChatSupportWrapper/>
-      </div>
+    <UserProvider initialUser={user}>
+      <ChatProvider user={user}>
+        <CoachHeader />
+        <div className="container dashboard-wrapper">
+          <CoachSideBarComp />
+          {children}
+          <ChatSupportWrapper />
+        </div>
+        <PusherDebug />
+      </ChatProvider>
     </UserProvider>
   );
 }

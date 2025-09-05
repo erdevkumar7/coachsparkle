@@ -1,86 +1,134 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import "././_styles/chat_panel.css";
 import axios from "axios";
+import { ChatContext } from '@/context/ChatContext';
+import Cookies from "js-cookie";
 
 const ChatPanel = ({
   tabs = [],
   onSendMessage,
   showCreatePackageButtonTabs = ["Coaching Requests", "Active Coaching"],
 }) => {
-  // const [activeTab, setActiveTab] = useState(0);
-  // const [newMessage, setNewMessage] = useState("");
-  // const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
-  // const [tabMessages, setTabMessages] = useState(
-  //   tabs.map((tab) => tab.initialMessages || [])
-  // );
-
-  // const handleSend = () => {
-  //   if (newMessage.trim()) {
-  //     const msg = {
-  //       sender: "You",
-  //       time: "Just now",
-  //       text: newMessage,
-  //     };
-
-  //     const updatedMessages = [...tabMessages];
-  //     updatedMessages[activeTab] = [...updatedMessages[activeTab], msg];
-  //     setTabMessages(updatedMessages);
-  //     setNewMessage("");
-
-  //     onSendMessage?.(tabs[activeTab].key, msg);
-  //   }
-  // };
-
-  // const currentTab = tabs[activeTab];
-
+  const { messages, unreadCounts, markAsRead, chatAPI } = useContext(ChatContext);
   const [activeTab, setActiveTab] = useState(0);
   const [newMessage, setNewMessage] = useState("");
   const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
-  const [tabMessages, setTabMessages] = useState([]); // messages from backend
-
-  // console.log('setSelectedCoachIndex', setSelectedCoachIndex)
+  const [tabMessages, setTabMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
 
+  // Get current user from localStorage
+  const getCurrentUser = () => {
+    if (typeof window !== 'undefined') {
+      const userStr = localStorage.getItem('user');
+      return userStr ? JSON.parse(userStr) : null;
+    }
+    return null;
+  };
+
+  // Generate a unique key for this chat
+  const getChatKey = () => {
+    const user = getCurrentUser();
+    if (!user || !selectedCoach) return null;
+    const userIds = [user.id, selectedCoach.id].sort((a, b) => a - b);
+    return `${userIds[0]}-${userIds[1]}`;
+  };
+
+  // Scroll to bottom of messages
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   // Fetch messages when coach is selected
   useEffect(() => {
     if (!selectedCoach) return;
 
-    axios.post(
-      "https://coachsparkle-backend.votivereact.in/api/chat/getMessages",
-      { receiver_id: selectedCoach.id }, // backend expects receiver_id
-      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-    )
-      .then((res) => {
-        if (res.data.success) {
-          setTabMessages(res.data.data);
+    const fetchMessages = async () => {
+      setIsLoading(true);
+      try {
+        const response = await chatAPI.getMessages(selectedCoach.id);
+
+        if (response.success) {
+          setTabMessages(response.data);
         }
-      })
-      .catch((err) => console.error(err));
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMessages();
+
+    // Mark messages as read in context
+    const chatKey = getChatKey();
+    if (chatKey) {
+      // markAsRead(chatKey, selectedCoach.id);
+    }
   }, [selectedCoach]);
-  console.log('tabMessages', tabMessages)
+
+  // Update tab messages when context messages change
+  useEffect(() => {
+    const chatKey = getChatKey();
+    if (chatKey && messages[chatKey]) {
+      // Merge API messages with real-time messages
+      const allMessages = [...tabMessages];
+
+      messages[chatKey].forEach(rtMessage => {
+        if (!allMessages.some(msg => msg.id === rtMessage.id)) {
+          allMessages.push(rtMessage);
+        }
+      });
+
+      // Sort by creation time
+      allMessages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      setTabMessages(allMessages);
+    }
+  }, [messages, selectedCoach]);
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [tabMessages]);
+
+  // Update unread counts in the coaches list
+  const updatedCoaches = currentTab.coaches.map(coach => {
+    const user = getCurrentUser();
+    if (!user) return coach;
+
+    const chatKey = `${Math.min(user.id, coach.id)}-${Math.max(user.id, coach.id)}`;
+    return {
+      ...coach,
+      unread: unreadCounts[chatKey] || 0
+    };
+  });
+
   // Send new message
-  const handleSend = () => {
-    // console.log('sendMessag')
+  const handleSend = async () => {
     if (newMessage.trim() && selectedCoach) {
-      axios.post(
-        "https://coachsparkle-backend.votivereact.in/api/chat/send",
-        { receiver_id: selectedCoach.id, message: newMessage },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      )
-        .then((res) => {
-          if (res.data.success) {
-            setTabMessages([...tabMessages, res.data.data]);
-            setNewMessage("");
-          }
-        })
-        .catch((err) => console.error(err));
+      try {
+        const response = await chatAPI.sendMessage(selectedCoach.id, newMessage);
+
+        if (response.success) {
+          setNewMessage("");
+          // The real-time event will handle adding the message to the UI
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
+  // Handle enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
+  };
 
   return (
     <div className="chat-message-start">
@@ -114,13 +162,11 @@ const ChatPanel = ({
                     </div>
 
                     <div className="coach-chat-list">
-
                       <ul className="list-unstyled mb-0">
-                        {currentTab.coaches.map((coach, index) => (
+                        {updatedCoaches.map((coach, index) => (
                           <li
                             key={index}
-                            className={`border-bottom coach-item ${selectedCoachIndex === index ? "active-chat" : ""
-                              }`}
+                            className={`border-bottom coach-item ${selectedCoachIndex === index ? "active-chat" : ""}`}
                             onClick={() => setSelectedCoachIndex(index)}
                           >
                             <a
@@ -142,7 +188,7 @@ const ChatPanel = ({
                                     )}
                                   </p>
                                   <p className="small text-muted">
-                                    User Name: <span>{coach.lastMessage}</span>
+                                    {coach.lastMessage}
                                   </p>
                                 </div>
                               </div>
@@ -151,7 +197,7 @@ const ChatPanel = ({
                                   {coach.time}
                                 </p>
                                 {coach.unread > 0 && (
-                                  <span className="badge rounded-pill float-end">
+                                  <span className="badge bg-primary rounded-pill float-end">
                                     {coach.unread}
                                   </span>
                                 )}
@@ -166,98 +212,77 @@ const ChatPanel = ({
 
                 <div className="col-md-6 col-lg-7 col-xl-8 right-side-message">
                   <div className="chat-show-right-side">
-                    <div className="start-chat-with-coach">
-                      <div className="start-chat-add">
-                        <img
-                          className="alert-icon"
-                          src="/coachsparkle/assets/images/alrt-icon.png"
-                          alt="alert"
-                          width="60"
-                        />
-                        <div>
-                          <p>
-                            <b>{currentTab.bannerTitle}</b>
-                          </p>
-                          <p>{currentTab.bannerDescription}</p>
-                        </div>
-                      </div>
-                      <a className="report-btn-add">Report</a>
-                    </div>
-
-                    {tabMessages?.map((msg, i) => (
-                      <div className="user-name-text" key={i}>
-                        {/* {msg.type === "session-info" && (
-                          <div className="hi-text-tell session-info">
-                            <h6>{msg.data?.title} with {msg.sender}</h6>
-                            <p>{msg.data?.date}</p>
-                            <img
-                              src="/coachsparkle/images/google-meet.png"
-                              alt="file"
-                              className="session-img"
-                            />
-                          </div>
-                        )} */}
-                           <div className="hi-text-tell session-info">
-                            <h6>{msg.data?.title} with {msg.sender}</h6>
-                            <p>{msg.created_at}</p>
-                            <img
-                              src="/coachsparkle/images/google-meet.png"
-                              alt="file"
-                              className="session-img"
-                            />
-                          </div>
-
-                        <p className="first-text-tell">{msg.sender}</p>
-                        <span>{msg.time}</span>
-
-                        {msg.type === "text" && (
-                          <div className="hi-text-tell">
-                            <p className="hi-enter-text">{msg.text}</p>
-                          </div>
-                        )}
-
-                        {msg.type === "coaching-request" && (
-                          <div className="hi-text-tell coaching-request-message">
-                            <img
-                              src="/coachsparkle/assets/images/folder-icon.png"
-                              alt="file"
-                              width={30}
-                            />
-                            <p className="click-to-view">
-                              {msg.data?.title || "Click to view Coaching Request"}
-                              <br />
-                              {msg.data?.subtitle}
+                    {!selectedCoach ? (
+                      <div className="start-chat-with-coach">
+                        <div className="start-chat-add">
+                          <img
+                            className="alert-icon"
+                            src="/coachsparkle/assets/images/alrt-icon.png"
+                            alt="alert"
+                            width="60"
+                          />
+                          <div>
+                            <p>
+                              <b>{currentTab.bannerTitle}</b>
                             </p>
+                            <p>{currentTab.bannerDescription}</p>
                           </div>
-                        )}
-
-                        {msg.type === "session-info" && msg.text && (
-                          <div className="hi-text-tell">
-                            <p className="hi-enter-text">{msg.text}</p>
-                          </div>
-                        )}
+                        </div>
+                        <a className="report-btn-add">Report</a>
                       </div>
-                    ))}
+                    ) : isLoading ? (
+                      <div className="text-center p-4">Loading messages...</div>
+                    ) : (
+                      <>
+                        <div className="messages-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                          {tabMessages.map((msg, i) => {
+                            const user = getCurrentUser();
+                            const isOwnMessage = user && msg.sender_id === user.id;
 
+                            return (
+                              <div key={i} className={`message-item ${isOwnMessage ? 'own-message' : 'other-message'}`}>
+                                <div className="message-header">
+                                  <span className="message-sender">
+                                    {isOwnMessage ? 'You' : msg.sender?.name || 'Unknown'}
+                                  </span>
+                                  <span className="message-time">
+                                    {new Date(msg.created_at).toLocaleTimeString()}
+                                  </span>
+                                </div>
+                                <div className="message-content">
+                                  {msg.message}
+                                </div>
+                              </div>
+                            );
+                          })}
+                          <div ref={messagesEndRef} />
+                        </div>
 
-                    <div className="text-send-message">
-                      <span className="plus-add-value">+</span>
-                      <i className="bi bi-emoji-smile"></i>
-                      <input
-                        type="text"
-                        className=" form-control-lg"
-                        placeholder="Type a message"
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                      />
-                    </div>
+                        <div className="message-input-container mt-3">
+                          <div className="text-send-message">
+                            <span className="plus-add-value">+</span>
+                            <i className="bi bi-emoji-smile"></i>
+                            <input
+                              type="text"
+                              className="form-control-lg"
+                              placeholder="Type a message"
+                              value={newMessage}
+                              onChange={(e) => setNewMessage(e.target.value)}
+                              onKeyPress={handleKeyPress}
+                              disabled={!selectedCoach}
+                            />
+                          </div>
 
-                    <button
-                      className="send-message-button"
-                      onClick={handleSend}
-                    >
-                      Send Message <i className="bi bi-arrow-right"></i>
-                    </button>
+                          <button
+                            className="send-message-button"
+                            onClick={handleSend}
+                            disabled={!selectedCoach || !newMessage.trim()}
+                          >
+                            Send Message <i className="bi bi-arrow-right"></i>
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

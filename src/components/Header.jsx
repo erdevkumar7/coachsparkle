@@ -36,6 +36,7 @@ export default function Header({ user }) {
     //  window.location.reload();
     // router.push("/login");
     toast.success("Logout Successful!")
+    sessionStorage.setItem('role', 2);
   };
 
   return (
