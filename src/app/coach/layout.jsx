@@ -6,6 +6,7 @@ import CoachSideBarComp from './_coach_components/coachSideBar';
 import { UserProvider } from '@/context/UserContext';
 import ChatSupportWrapper from './_coach_components/support/ChatSupportWrapper';
 import { ChatProvider } from '@/context/ChatContext';
+import { PusherDebug } from '@/components/PusherDebug';
 
 export default async function CoachLayout({ children }) {
   const { data: user, error } = await getUserProfileData();
@@ -25,6 +26,7 @@ export default async function CoachLayout({ children }) {
           {children}
           <ChatSupportWrapper />
         </div>
+        <PusherDebug />
       </ChatProvider>
     </UserProvider>
   );

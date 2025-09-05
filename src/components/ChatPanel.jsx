@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import "././_styles/chat_panel.css";
 import axios from "axios";
-import { useChat } from '@/context/ChatContext';
+import { ChatContext } from '@/context/ChatContext';
 import Cookies from "js-cookie";
 
 const ChatPanel = ({
@@ -10,16 +10,13 @@ const ChatPanel = ({
   onSendMessage,
   showCreatePackageButtonTabs = ["Coaching Requests", "Active Coaching"],
 }) => {
-  const { messages,channel,pusher, unreadCounts, markAsRead } = useChat();
+  const { messages, unreadCounts, markAsRead, chatAPI } = useContext(ChatContext);
   const [activeTab, setActiveTab] = useState(0);
   const [newMessage, setNewMessage] = useState("");
   const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
   const [tabMessages, setTabMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  const token = Cookies.get('token');
-
-  // console.log('pusher',channel,)
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
@@ -53,14 +50,10 @@ const ChatPanel = ({
     const fetchMessages = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/chat/getMessages`,
-          { receiver_id: selectedCoach.id },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await chatAPI.getMessages(selectedCoach.id);
 
-        if (response.data.success) {
-          setTabMessages(response.data.data);
+        if (response.success) {
+          setTabMessages(response.data);
         }
       } catch (error) {
         console.error("Error fetching messages:", error);
@@ -74,7 +67,7 @@ const ChatPanel = ({
     // Mark messages as read in context
     const chatKey = getChatKey();
     if (chatKey) {
-      markAsRead(chatKey);
+      // markAsRead(chatKey, selectedCoach.id);
     }
   }, [selectedCoach]);
 
@@ -118,13 +111,9 @@ const ChatPanel = ({
   const handleSend = async () => {
     if (newMessage.trim() && selectedCoach) {
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/chat/send`,
-          { receiver_id: selectedCoach.id, message: newMessage },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await chatAPI.sendMessage(selectedCoach.id, newMessage);
 
-        if (response.data.success) {
+        if (response.success) {
           setNewMessage("");
           // The real-time event will handle adding the message to the UI
         }
