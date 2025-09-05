@@ -27,7 +27,7 @@ export default async function UserLayout({ children }) {
           {children}
         </div>
       </div>
-      <PusherDebug />
+      {/* <PusherDebug /> */}
     </ ChatProvider>
   );
 }
