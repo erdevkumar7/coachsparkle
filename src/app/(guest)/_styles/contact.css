@@ -145,4 +145,46 @@ form.contact-form-add button.send-message-btn-add {
     .contact-container {
         flex-direction: column;
     }
+    
+}
+
+@media (max-width: 767px) {
+
+    .contact-information {
+        padding: 30px 0;
+    }
+
+    .row.contact-info {
+        width: 100%;
+        display: flex;
+    }
+
+
+    .contact-information .contact-info h3 {
+        text-align: center;
+        padding-right: 0;
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .contact-information .contact-info p {
+        text-align: center;
+    }
+
+
+    .contact-information form {
+        padding-right: 0px;
+        margin: auto;
+        width: 88%;
+        margin-top: 10px;
+    }
+    .contact-map {
+        width: 100%;
+        padding-left: 0px;
+        margin-top: 24px;
+    }
+
+
+
 }
