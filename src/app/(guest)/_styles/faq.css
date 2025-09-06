@@ -108,4 +108,45 @@ p.still-below-text a {
 }
 
 
+@media (max-width: 767px) {
+.input-with-btn {
+    gap: 8px;
+    width: 89%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+.input-with-btn input[type="text"] {
+    width: 64%;
+    height: 40px;
+    font-size: 14px;
+}
+.input-with-btn button {
+    width: 35%;
+    height: 40px;
+    font-size: 14px;
+}
+.frequently-add p.looking-coach-text {
+    padding: 15px 0;
+    font-size: 16px;
+    text-align: center;
+}
+.frequently-add p.looking-coach-text {
+    padding: 15px 0;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 0px;
+}
 
+.frequently-add .accordion-button:after {
+    width: 25px;
+    height: 25px;
+}
+.accordion-text-top {
+    padding-top: 20px;
+}
+
+
+
+
+}
