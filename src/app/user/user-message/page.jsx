@@ -1,4 +1,3 @@
-"use client";
 import ChatPanel from "@/components/ChatPanel";
 import "../_styles/dashboard.css";
 

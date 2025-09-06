@@ -264,7 +264,7 @@ const ChatPanel = ({
                               <div key={i} className={`message-item ${isOwnMessage ? 'own-message' : 'other-message'}`}>
                                 <div className="message-header">
                                   <span className="message-sender">
-                                    {isOwnMessage ? 'You' : msg.sender?.name || 'Unknown'}
+                                    {isOwnMessage ? 'You' : msg.sender?.first_name || 'Unknown'}
                                   </span>
                                   <span className="message-time">
                                     {new Date(msg.created_at).toLocaleTimeString()}
