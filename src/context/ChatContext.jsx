@@ -11,13 +11,13 @@ export const useChat = () => {
 };
 
 export const ChatProvider = ({ children, user }) => {
-    console.log('user', user)
-    // const [pusher, setPusher] = useState(null);
-    // const [channel, setChannel] = useState(null);
-    // const [messages, setMessages] = useState({});
-    // const [unreadCounts, setUnreadCounts] = useState({});
-    // const [isConnected, setIsConnected] = useState(false);
-    // const token = Cookies.get('token');
+    // console.log('user', user)
+    const [pusher, setPusher] = useState(null);
+    const [channel, setChannel] = useState(null);
+    const [messages, setMessages] = useState({});
+    const [unreadCounts, setUnreadCounts] = useState({});
+    const [isConnected, setIsConnected] = useState(false);
+    const token = Cookies.get('token');
 
     // // API call functions without external helper
     // const makeApiCall = async (url, options = {}) => {
@@ -291,13 +291,6 @@ export const ChatProvider = ({ children, user }) => {
     // };
 
 
-    const [pusher, setPusher] = useState(null);
-    const [channel, setChannel] = useState(null);
-    const [messages, setMessages] = useState({});
-    const [unreadCounts, setUnreadCounts] = useState({});
-    const [isConnected, setIsConnected] = useState(false);
-    const token = Cookies.get('token');
-
     // Function to handle new messages (both received and sent)
     const handleNewMessage = (message) => {
         const chatKey = `${Math.min(message.sender_id, message.receiver_id)}-${Math.max(message.sender_id, message.receiver_id)}`;
@@ -439,7 +432,7 @@ export const ChatProvider = ({ children, user }) => {
     };
 
 
-    console.log('pusher', value)
+    // console.log('pusher', value)
     return (
         <ChatContext.Provider value={value}>
             {children}
