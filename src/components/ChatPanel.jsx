@@ -2,12 +2,12 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import "././_styles/chat_panel.css";
 import axios from "axios";
-import { ChatContext } from '@/context/ChatContext';
+import { ChatContext, useChat } from '@/context/ChatContext';
 import Cookies from "js-cookie";
+
 
 const ChatPanel = ({
   tabs = [],
-  onSendMessage,
   showCreatePackageButtonTabs = ["Coaching Requests", "Active Coaching"],
 }) => {
   const { messages, unreadCounts, markAsRead, chatAPI } = useContext(ChatContext);
@@ -17,10 +17,11 @@ const ChatPanel = ({
   const [tabMessages, setTabMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const { sendMessage } = useChat();
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
-
+  const token = Cookies.get('token');
   // Get current user from localStorage
   const getCurrentUser = () => {
     if (typeof window !== 'undefined') {
@@ -50,8 +51,20 @@ const ChatPanel = ({
     const fetchMessages = async () => {
       setIsLoading(true);
       try {
-        const response = await chatAPI.getMessages(selectedCoach.id);
+        // const response = await chatAPI.getMessages(selectedCoach.id);
+        const MsgRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat/getMessages`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ receiver_id: selectedCoach.id }),
+        });
 
+
+        const response = await MsgRes.json();
+
+        console.log('response', response)
         if (response.success) {
           setTabMessages(response.data);
         }
@@ -108,20 +121,28 @@ const ChatPanel = ({
   });
 
   // Send new message
+  // const handleSend = async () => {
+  //   if (newMessage.trim() && selectedCoach) {
+  //     try {
+  //       const response = await chatAPI.sendMessage(selectedCoach.id, newMessage);
+
+  //       if (response.success) {
+  //         setNewMessage("");
+  //         // The real-time event will handle adding the message to the UI
+  //       }
+  //     } catch (error) {
+  //       console.error("Error sending message:", error);
+  //     }
+  //   }
+  // };
+
+  // When sending a message
   const handleSend = async () => {
     if (newMessage.trim() && selectedCoach) {
-      try {
-        const response = await chatAPI.sendMessage(selectedCoach.id, newMessage);
-
-        if (response.success) {
-          setNewMessage("");
-          // The real-time event will handle adding the message to the UI
-        }
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
+      await sendMessage(selectedCoach.id, newMessage);
+      setNewMessage("");
     }
-  };
+  }
 
   // Handle enter key press
   const handleKeyPress = (e) => {

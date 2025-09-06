@@ -92,17 +92,12 @@ export default function UserMessage() {
     // },
   ];
 
-  const handleSendMessage = (tabKey, message) => {
-    console.log(`New message sent in tab: ${tabKey}`, message);
-  };
-
   return (
     <div className="main-panel">
       <h3>Message Board</h3>
       <div className="content-panel">
         <ChatPanel
           tabs={tabs}
-          onSendMessage={handleSendMessage}
         />
       </div>
     </div>
