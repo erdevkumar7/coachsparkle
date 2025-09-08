@@ -1615,6 +1615,10 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
 @media only screen and (max-width: 767px) {
  
+  .signup-coach {
+    display: block !important;
+}
+
   .login-right-side .login-container .login-form .signup-text a {
     width: 100%;
 }

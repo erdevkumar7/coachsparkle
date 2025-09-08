@@ -5,7 +5,7 @@ export default function MyArticles() {
   return (
     <>
       <h3 className="text-lg font-semibold quick-text">My Articles</h3>
-
+      <div className='articles-tables'>
       <table>
         <thead>
           <tr className="articles-add">
@@ -98,6 +98,7 @@ export default function MyArticles() {
           </tr>
         </tbody>
       </table>
+      </div>
     </>
   );
 }

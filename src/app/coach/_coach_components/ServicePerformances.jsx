@@ -53,7 +53,7 @@ export default function ServicePerformancess() {
       </div>
 
       <div
-        style={{
+        className="service-performance" style={{
           position: "relative",
           pointerEvents: !isProUser ? "none" : "auto",
         }}
