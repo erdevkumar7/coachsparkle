@@ -10,6 +10,10 @@
     color: #27c200 !important;
     font-size: 20px !important;
 }
+
+.container.user-wrapper.user-page-add svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-q7mezt {
+    color: #27c200 !important;
+}
 .sidebar.collapsed {
     width: 53px !important;
 }

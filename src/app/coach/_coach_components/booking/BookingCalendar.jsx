@@ -174,7 +174,7 @@ const getEventClass = (status) => {
             </Link>
           </div>
         </div>
-        <div className="d-flex justify-content-between mt-2 align-items-center">
+        <div className="d-flex justify-content-between mt-2 align-items-center confirmed-pending-tab">
           <div className="d-flex flex-wrap gap-3 small align-items-center booking-status">
             <span>
               <span className="dot confirm me-1"></span>Confirmed
