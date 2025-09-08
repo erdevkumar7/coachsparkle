@@ -200,7 +200,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
             </>
           )}
           <div>
-            <div className="profile-form">
+            <div className="profile-form service-profile-add">
               <div className="form-section">
                 <div className="form-group">
                   <label htmlFor="title">Service Title</label>

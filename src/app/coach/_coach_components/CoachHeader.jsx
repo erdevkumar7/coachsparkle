@@ -64,12 +64,7 @@ export default function CoachHeader() {
             </div>
           </a>
 
-          {/* <button
-            className="btn btn-link d-none d-lg-block ms-3"
-            onClick={toggleSidebar}
-          >
-            <i className="bi bi-list fs-3"></i>
-          </button> */}
+    
         </div>
 
         <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -200,11 +195,10 @@ export default function CoachHeader() {
             </li>
           </ul>
           <button
-            className="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
-            type="button"
-            data-bs-toggle="offcanvas"
+            className="btn btn-link d-none d-lg-block ms-3 mobile-view-add"
+            onClick={toggleSidebar}
           >
-            <i className="bi bi-list fs-2"></i>
+            <i className="bi bi-list fs-3"></i>
           </button>
         </div>
       </nav>

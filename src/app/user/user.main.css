@@ -179,18 +179,17 @@
   width: 50px;
 }
 
-
-
 .user-update-btn {
   color: #fff;
   cursor: pointer;
   background: #009bfa;
   border: none;
   border-radius: 12px;
+  align-items: center;
   padding: 8px 15px;
   font-size: 14px;
   display: flex;
-  align-items: center;
+  gap: 5px;
 }
 .goals-progress .right-column button.btn.view {
   color: #fff;
