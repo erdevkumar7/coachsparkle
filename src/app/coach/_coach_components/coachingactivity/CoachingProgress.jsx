@@ -19,7 +19,7 @@ export default function CoachingProgress({ initialProgress, token }) {
  
   // console.log('getCoahcingProgress', getCoahcingProgress)
   return (
-    <div className="mt-5">
+    <div className="mt-5 status-coaching-top">
       <div className="coaching-progress-status">
         <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
           <div>
@@ -37,7 +37,7 @@ export default function CoachingProgress({ initialProgress, token }) {
                   {/* <h4 className="mb-0">{progress.heading}</h4> */}
                   <span className="session">{session.session_left} Session left</span>
                 </div>
-
+                
                 <div className="mb-3 status-div">
                   <button className="border px-3 py-1 rounded-pill">
                     {/* {session.status} */}

@@ -1825,6 +1825,13 @@ td.edit-add-btn button {
   display: none !important;
 }
 
+.booking-status span {
+  display: flex;
+  align-items: center;
+}
+
+
+/* mobile-view-css */
 @media only screen and (max-width: 767px) {
  
 
@@ -1923,6 +1930,7 @@ p.pro-add-value {
 
 .matches-add button.manage-buttons {
   width: 74% !important;
+  margin-top: 10px !important;
 }
 .details-add-btn {
   justify-content: center !important;
@@ -1935,6 +1943,8 @@ p.pro-add-value {
 }
 .rating-reviews .view-all button {
   width: 80%;
+  margin-top: 18px;
+  margin-bottom: 0px;
 }
 
 .rating-reviews .view-all {
@@ -1989,11 +1999,13 @@ p.pro-add-value {
 
 .coaching-card td.user-info {
   min-width: 225px;
+  padding: 10px;
 }
 
 h3.text-lg.font-semibold {
   font-size: 20px;
   line-height: 1.4;
+  margin-bottom: 0px;
 }
 
 .coach-dashboard-add .snapshot .glance-box p.title {
@@ -2062,6 +2074,7 @@ h3.font-weight-bold.quick-text-add.my-changes {
 
 .profile-form-add .service-profile-add {
   display: block !important;
+  margin-top: 20px !important;
 }
 
 .profile-form .form-section {
@@ -2150,7 +2163,7 @@ textarea.delivery-textarea.form-control {
   padding: 8px !important;
 }
 
-.preview-section .session-preview-content h2 {
+.main-panel .preview-section .session-preview-content h2 {
   font-size: 20px;
 }
 .content-wrapper.coach-profile-add .form-row {
@@ -2178,26 +2191,137 @@ textarea.delivery-textarea.form-control {
   margin-bottom: 0px !important;
 }
 
+.industry-insights .d-flex.justify-content-start.gap-2.align-items-center.mb-3 {
+  margin-bottom: 0px !important;
+}
 
+.industry-insights ol.mb-0.ps-3 {
+  line-height: 1.6;
+}
 
+.coach-profile-view strong {
+  font-size: 18px;
+}
+.react-datepicker__month-container .react-datepicker__day-names {
+  white-space: nowrap;
+  margin-bottom: -25px;
+}
+.react-datepicker__month-container .react-datepicker__day {
+  padding: 0;
+}
 
+.card.media-section h3.quick-text {
+  margin-bottom: 0px;
+}
 
+.new-content-wrapper.coach-wrap .profile-form-add {
+  margin-top: 30px;
+}
 
+.icons-row.first-online-add {
+  height: auto !important;
+}
 
+.profile-form-add .card h3 {
+  text-align: center;
+}
 
+.main-panel .profile-form .preview-section button {
+  max-width: 100%;
+  padding: 10px 20px;
+}
 
+.preview-section .session-preview-content p.session-description {
+  height: auto;
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+.coaching-activities-page .status-bar {
+  width: 90%;
+  margin-bottom: 10px;
+  margin: auto;
+  margin-bottom: 10px;
+}
 
+.coaching-activities-page {
+  display: block !important;
+}
 
+.status-coachings {
+  margin-top: 20px !important;
+}
 
+.coaching-status .topbar {
+  display: block !important;
+}
 
+.status-coachings .coaching-status .row {
+  width: 100%;
+  display: block;
+}
 
+.status-coachings .coaching-status .coaching-content {
+  width: 100%;
+  margin-bottom: 10px;
+}
 
+.status-coachings .coaching-content .note {
+  height: auto;
+}
 
+.status-coachings .coaching-content .button-msg {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+}
+.status-coachings .coaching-content .button-note {
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+}
+
+.status-coachings .coaching-content .time {
+  font-size: 11px;
+}
+.status-coachings .coaching-content .location {
+  font-size: 11px;
+}
+
+.status-coachings .pagination-content-add {
+  padding-bottom: 0px;
+  padding-top: 0 !important;
+}
+ .coaching-progress-status .row {
+  width: 100%;
+  display: block !important;
+}
+.coaching-progress-status .d-flex.justify-content-between.flex-wrap.py-4.px-4 {
+  padding-right: 0 !important;
+  padding-top: 10px !important;
+}
+.coaching-progress-status .coaching-progress {
+  width: 100% !important;
+  margin-top: 10px;
+}
+
+.coaching-progress-status .coaching-progress .button-note {
+  width: 100%;
+  height: auto;
+}
+.coaching-progress-status .coaching-progress .button-msg {
+  width: 100%;
+  height: auto;
+}
+.coaching-progress-status .coaching-progress .button-msg {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+}
 .flex.items-center.mt-4.side-top-bar {
-    gap: 15px !important;
-    width: 52% !important;
-    margin-bottom: 15px !important;
-    margin-top: 15px !important;
+  gap: 15px !important;
+  width: 68% !important;
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
 }
 
 p.pro-add-value {
@@ -2225,11 +2349,11 @@ nav#sidebar {
   left: -244px;
 }
 nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
+  border-radius: 0;
   position: absolute;
-  width: 100% !important;
-  left: 0px !important;
   top: 96px;
-  border-radius: 0px;
+  width: 80% !important;
+  left: 0 !important;
 }
   
   .col-md-12.grid-margin {
@@ -2322,11 +2446,92 @@ nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
 .sales-report-left {
   margin-bottom: 25px;
 }
+.pagination-content-add .pagination-content-inner .pagination {
+  margin-top: 20px;
+}
+.pagination-content-add .pagination-content-inner .page-btn, .page-number {
+  padding: 6px 11px;
+}
+.status-complete {
+  margin-top: 20px !important;
+}
+
+.inner-completed-status .row {
+  display: block;
+}
+.completed-status .completed {
+  width: 100% !important;
+  margin-bottom: 10px;
+}
+.inner-completed-status {
+  padding-right: 0px !important;
+}
+.status-coaching-top {
+  margin-top: 20px !important;
+}
+.container-fluid.pt-3.pagination-content-add {
+  padding-bottom: 0px !important;
+}
+
+.booking-top-inner {
+  padding: 15px !important;
+  padding-top: 0px !important;
+}
+
+.booking-header .quick-text {
+  display: block !important;
+}
+
+.confirmed-pending-tab {
+  display: block !important;
+}
+
+.booking-status {
+  padding: 8px 20px;
+  margin-bottom: 10px;
+}
+
+.booking-top-inner .add-new-btn {  
+  padding: 10px 20px !important;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: 80%;
+}
+
+.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+  display: block;
+}
+.booking-top-inner .fc .fc-toolbar-chunk {
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.booking-top-inner .fc .fc-button-group {
+  width: 100%;
+}
+.booking-section .small {
+  text-align: center;
+}
 
 
 
 
 }
+
+
+/* mobile-view-css */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .add-sdbar {

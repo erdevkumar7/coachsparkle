@@ -97,7 +97,7 @@ export default async function CoachingActivitiesPage() {
     return (
         <div className="main-panel">
             <div className="new-content-wrapper coach-wrap">
-                <div className=" d-flex justify-content-between gap-4">
+                <div className=" d-flex justify-content-between gap-4 coaching-activities-page">
                     {requests.map((request, index) => (
                         <StatusBar
                             key={index}

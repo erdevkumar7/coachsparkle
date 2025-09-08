@@ -56,7 +56,7 @@ export default function CoachingRequests({ initialRequest, token }) {
   // console.log('pendingRequest', pendingRequest)
   return (
     <>
-      <div className="mt-5">
+      <div className="mt-5 status-coachings">
         <div className="coaching-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>

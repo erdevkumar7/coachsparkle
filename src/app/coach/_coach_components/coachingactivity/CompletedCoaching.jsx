@@ -20,7 +20,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
   };
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 status-complete">
       <div className="completed-status">
         <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
           <div>
@@ -30,7 +30,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
             <ExpandMoreOutlinedIcon />
           </div>
         </div>
-        <div className="d-flex justify-content-between flex-wrap py-4 px-4">
+        <div className="d-flex justify-content-between flex-wrap py-4 px-4 inner-completed-status">
           <div className="row gap-4">
             {getCompleted.map((completed, index) => (
               <div className="col-md-4 completed p-3" key={index}>
