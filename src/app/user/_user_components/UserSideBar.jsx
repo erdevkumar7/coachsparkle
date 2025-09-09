@@ -92,7 +92,7 @@ export default function UserSideBarComp({ user }) {
                     </a>
                 </li>
 
-                <li className={`nav-item ${isActive("/user/user-message") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/user-message')}>
+                <li className={`nav-item ${isActive("/user/user-message") ? "active user-nav-active" : ""}`} onClick={() => router.push('/user/user-message/1')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <TextsmsOutlinedIcon />
