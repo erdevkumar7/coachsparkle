@@ -42,7 +42,7 @@ export default function CoachSideBarComp() {
         { href: "/coach/service-packages", label: "Service Packages", icon: <ViewInArIcon /> },
         { href: "/coach/coaching-activities", label: "Coaching Activities", icon: <WorkOutlineIcon /> },
         { href: "/coach/booking", label: "Booking", icon: <CalendarMonthIcon /> },
-        { href: "/coach/messages", label: "Message + Coaching Requests", icon: <TextsmsOutlinedIcon /> },
+        { href: "/coach/messages/1", label: "Message + Coaching Requests", icon: <TextsmsOutlinedIcon /> },
         { href: "/coach/review", label: "Reviews", icon: <StarBorderPurple500OutlinedIcon /> },
         { href: "/coach/account-settings", label: "Account Settings", icon: <SettingsOutlinedIcon />, className: "mt-5" },
         { href: "/coach/subscription-plan", label: "Subscription Plan", icon: <FavoriteBorderOutlinedIcon /> },

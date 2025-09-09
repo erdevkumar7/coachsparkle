@@ -1,27 +1,25 @@
 "use client";
 import { useEffect, useState, useRef, useContext } from "react";
 import "././_styles/chat_panel.css";
-import axios from "axios";
 import { ChatContext, useChat } from '@/context/ChatContext';
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
-
-const ChatPanel = ({
-  tabs = [],
-  showCreatePackageButtonTabs = ["Coaching Requests", "Active Coaching"],
-}) => {
-  const { messages, unreadCounts, markAsRead, chatAPI } = useContext(ChatContext);
-  const [activeTab, setActiveTab] = useState(0);
+const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh}) => {
+  const { messages, unreadCounts, markAsRead } = useContext(ChatContext);
   const [newMessage, setNewMessage] = useState("");
   const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
   const [tabMessages, setTabMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const messagesEndRef = useRef(null);
   const { sendMessage } = useChat();
+  const router = useRouter();
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
   const token = Cookies.get('token');
+
   // Get current user from localStorage
   const getCurrentUser = () => {
     if (typeof window !== 'undefined') {
@@ -44,6 +42,20 @@ const ChatPanel = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    
+    // Debounce the search
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(() => {
+      if (onSearch) {
+        onSearch(activeTab, value);
+      }
+    }, 500);
+  };
+
   // Fetch messages when coach is selected
   useEffect(() => {
     if (!selectedCoach) return;
@@ -51,20 +63,19 @@ const ChatPanel = ({
     const fetchMessages = async () => {
       setIsLoading(true);
       try {
-        // const response = await chatAPI.getMessages(selectedCoach.id);
         const MsgRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chat/getMessages`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({ receiver_id: selectedCoach.id }),
+          body: JSON.stringify({ 
+            receiver_id: selectedCoach.id,
+            message_type: currentTab.message_type 
+          }),
         });
 
-
         const response = await MsgRes.json();
-
-        console.log('response', response)
         if (response.success) {
           setTabMessages(response.data);
         }
@@ -80,9 +91,9 @@ const ChatPanel = ({
     // Mark messages as read in context
     const chatKey = getChatKey();
     if (chatKey) {
-      // markAsRead(chatKey, selectedCoach.id);
+      markAsRead(chatKey, selectedCoach.id);
     }
-  }, [selectedCoach]);
+  }, [selectedCoach, currentTab.message_type]);
 
   // Update tab messages when context messages change
   useEffect(() => {
@@ -120,26 +131,10 @@ const ChatPanel = ({
     };
   });
 
-  // Send new message
-  // const handleSend = async () => {
-  //   if (newMessage.trim() && selectedCoach) {
-  //     try {
-  //       const response = await chatAPI.sendMessage(selectedCoach.id, newMessage);
-
-  //       if (response.success) {
-  //         setNewMessage("");
-  //         // The real-time event will handle adding the message to the UI
-  //       }
-  //     } catch (error) {
-  //       console.error("Error sending message:", error);
-  //     }
-  //   }
-  // };
-
   // When sending a message
   const handleSend = async () => {
     if (newMessage.trim() && selectedCoach) {
-      await sendMessage(selectedCoach.id, newMessage);
+      await sendMessage(selectedCoach.id, newMessage, currentTab.message_type);
       setNewMessage("");
     }
   }
@@ -158,7 +153,7 @@ const ChatPanel = ({
           <li className="item-nav" key={idx}>
             <button
               className={`link-nav ${idx === activeTab ? "active" : ""}`}
-              onClick={() => setActiveTab(idx)}
+              onClick={() => onTabChange(idx)}
             >
               {tab.label}
             </button>
@@ -169,7 +164,16 @@ const ChatPanel = ({
       <div className="row">
         <div className="col-md-12 left-col-add">
           <div className="card" id="chat3">
-            <h5>Messages</h5>
+            <div className="card-header d-flex justify-content-between align-items-center">
+              <h5 className="mb-0">Messages</h5>
+              <button 
+                className="btn btn-sm btn-outline-primary"
+                onClick={() => onRefresh()}
+                disabled={currentTab.isLoading}
+              >
+                {currentTab.isLoading ? 'Loading...' : 'Refresh'}
+              </button>
+            </div>
             <div className="card-body">
               <div className="row both-chat-start">
                 <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 left-side-message">
@@ -178,55 +182,62 @@ const ChatPanel = ({
                       <input
                         type="search"
                         className="form-control rounded"
-                        placeholder="Search or start a new chat"
+                        placeholder="Search by name"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
                       />
                     </div>
 
                     <div className="coach-chat-list">
-                      <ul className="list-unstyled mb-0">
-                        {updatedCoaches.map((coach, index) => (
-                          <li
-                            key={index}
-                            className={`border-bottom coach-item ${selectedCoachIndex === index ? "active-chat" : ""}`}
-                            onClick={() => setSelectedCoachIndex(index)}
-                          >
-                            <a
-                              href="#!"
-                              className="d-flex justify-content-between"
-                            >
-                              <div className="d-flex flex-row">
-                                <img
-                                  src={coach.img}
-                                  alt="avatar"
-                                  className="d-flex align-self-center me-3"
-                                  width="60"
-                                />
-                                <div className="pt-1">
-                                  <p className="fw-bold mb-0 d-flex align-items-center gap-1">
-                                    {coach.name}
-                                    {coach.isAI && (
-                                      <span className="ai-label">AI</span>
+                      {currentTab.isLoading ? (
+                        <div className="text-center p-3">Loading coaches...</div>
+                      ) : (
+                        <ul className="list-unstyled mb-0">
+                          {updatedCoaches.length > 0 ? (
+                            updatedCoaches.map((coach, index) => (
+                              <li
+                                key={coach.id}
+                                className={`border-bottom coach-item ${selectedCoachIndex === index ? "active-chat" : ""}`}
+                                onClick={() => setSelectedCoachIndex(index)}
+                              >
+                                <a
+                                  href="#!"
+                                  className="d-flex justify-content-between"
+                                >
+                                  <div className="d-flex flex-row">
+                                    <img
+                                      src={coach.img}
+                                      alt="avatar"
+                                      className="d-flex align-self-center me-3"
+                                      width="60"
+                                    />
+                                    <div className="pt-1">
+                                      <p className="fw-bold mb-0">
+                                        {coach.name}
+                                      </p>
+                                      <p className="small text-muted">
+                                        {coach.lastMessage}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="pt-1">
+                                    <p className="small text-muted mb-1 time-add">
+                                      {coach.time}
+                                    </p>
+                                    {coach.unread > 0 && (
+                                      <span className="badge bg-primary rounded-pill float-end">
+                                        {coach.unread}
+                                      </span>
                                     )}
-                                  </p>
-                                  <p className="small text-muted">
-                                    {coach.lastMessage}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="pt-1">
-                                <p className="small text-muted mb-1 time-add">
-                                  {coach.time}
-                                </p>
-                                {coach.unread > 0 && (
-                                  <span className="badge bg-primary rounded-pill float-end">
-                                    {coach.unread}
-                                  </span>
-                                )}
-                              </div>
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
+                                  </div>
+                                </a>
+                              </li>
+                            ))
+                          ) : (
+                            <li className="text-center p-3">No coaches found</li>
+                          )}
+                        </ul>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -256,26 +267,32 @@ const ChatPanel = ({
                     ) : (
                       <>
                         <div className="messages-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                          {tabMessages.map((msg, i) => {
-                            const user = getCurrentUser();
-                            const isOwnMessage = user && msg.sender_id === user.id;
+                          {tabMessages.length > 0 ? (
+                            tabMessages.map((msg, i) => {
+                              const user = getCurrentUser();
+                              const isOwnMessage = user && msg.sender_id === user.id;
 
-                            return (
-                              <div key={i} className={`message-item ${isOwnMessage ? 'own-message' : 'other-message'}`}>
-                                <div className="message-header">
-                                  <span className="message-sender">
-                                    {isOwnMessage ? 'You' : msg.sender?.first_name || 'Unknown'}
-                                  </span>
-                                  <span className="message-time">
-                                    {new Date(msg.created_at).toLocaleTimeString()}
-                                  </span>
+                              return (
+                                <div key={i} className={`message-item ${isOwnMessage ? 'own-message' : 'other-message'}`}>
+                                  <div className="message-header">
+                                    <span className="message-sender">
+                                      {isOwnMessage ? 'You' : msg.sender?.first_name || 'Coach'}
+                                    </span>
+                                    <span className="message-time">
+                                      {new Date(msg.created_at).toLocaleTimeString()}
+                                    </span>
+                                  </div>
+                                  <div className="message-content">
+                                    {msg.message}
+                                  </div>
                                 </div>
-                                <div className="message-content">
-                                  {msg.message}
-                                </div>
-                              </div>
-                            );
-                          })}
+                              );
+                            })
+                          ) : (
+                            <div className="text-center p-4">
+                              No messages yet. Start a conversation!
+                            </div>
+                          )}
                           <div ref={messagesEndRef} />
                         </div>
 
@@ -307,15 +324,7 @@ const ChatPanel = ({
                   </div>
                 </div>
               </div>
-            </div>
-            {showCreatePackageButtonTabs.includes(currentTab.label) && (
-              <div className="text-end mt-3">
-                <button className="custom-btn shadow-sm">
-                  Create Custom Coaching Package{" "}
-                  <i className="bi bi-arrow-right"></i>
-                </button>
-              </div>
-            )}
+            </div>          
           </div>
         </div>
       </div>
