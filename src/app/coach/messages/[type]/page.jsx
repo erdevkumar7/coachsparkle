@@ -15,7 +15,7 @@ export default function Messages() {
   // Redirect if invalid type
   useEffect(() => {
     if (![1, 2, 3].includes(type)) {
-      router.replace('/user/user-message/1');
+      router.replace('/coach/messages/1');
     }
   }, [type, router]);
 
@@ -171,7 +171,7 @@ ${(
     if (index >= 0 && index < tabs.length) {
       setActiveTab(index);
       // Update URL without page reload
-      const newUrl = `/coachsparkle/user/user-message/${index + 1}`;
+       const newUrl = `/coachsparkle/coach/messages/${index + 1}`;
       window.history.pushState({}, '', newUrl);
     }
   };
