@@ -4,6 +4,7 @@ import ChatPanel from "@/components/ChatPanel";
 import Cookies from "js-cookie";
 import { useParams, useRouter } from "next/navigation";
 import CoachChatPanel from "@/components/CoachChatPanel";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 export default function Messages() {
   const params = useParams();
@@ -20,7 +21,7 @@ export default function Messages() {
     }
   }, [type, router]);
 
- const [tabs, setTabs] = useState([
+  const [tabs, setTabs] = useState([
     {
       key: "general",
       label: "General Inquiries (0)",
@@ -42,18 +43,6 @@ ${(
         )}👉 Respond now to express interest or start a conversation. Your quick reply can make all the difference`,
       coaches: [],
       isLoading: true,
-      initialMessages: [
-        {
-          sender: "Emma Rose",
-          time: "2 hour ago",
-          type: "coaching-request",
-          data: {
-            title: "Click to view Coaching Request",
-            icon: "📁",
-          },
-        },
-        { sender: "You", type: "text", time: "35 minutes ago", text: "Hi" },
-      ],
     },
     {
       key: "active",
@@ -64,24 +53,6 @@ ${(
         "This space is for you to engage directly with your coachee. Use it to discuss session goals, share resources, provide encouragement, or clarify next steps. Keep communication respectful, focused, and aligned with your coaching objectives.",
       coaches: [],
       isLoading: true,
-      initialMessages: [
-        {
-          sender: "Emma Rose",
-          time: "1 hour ago",
-          type: "session-info",
-          data: {
-            title: "Confidence Jump Start Package",
-            date: "Thursday, July 18 · 9:30am - 10:00am",
-          },
-          text: "Hi. Am I able to change the schedule for the upcoming session?",
-        },
-
-        {
-          sender: "You",
-          time: "3 days, 2 hour ago",
-          text: "Hi. Am I able to change the schedule for the upcoming session?",
-        },
-      ],
     },
   ]);
 
@@ -131,14 +102,16 @@ ${(
         updatedTabs[tabIndex].coaches = result.data.map(coach => ({
           id: coach.id,
           name: coach.name,
-          img: "/coachsparkle/assets/images/top-nav.png", // Default image
+          img: coach.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`,
           lastMessage: coach.last_message,
           time: coach.last_message_time,
           unread: coach.unread_count,
         }));
 
         // Update count in label
-        if (tabIndex === 1) {
+        if (tabIndex === 0) {
+          updatedTabs[tabIndex].label = `General Inquiries (${result.data.length})`;
+        } else if (tabIndex === 1) {
           updatedTabs[tabIndex].label = `Coaching Requests (${result.data.length})`;
         } else if (tabIndex === 2) {
           updatedTabs[tabIndex].label = `Active Coaching (${result.data.length})`;
@@ -172,7 +145,7 @@ ${(
     if (index >= 0 && index < tabs.length) {
       setActiveTab(index);
       // Update URL without page reload
-       const newUrl = `/coachsparkle/coach/messages/${index + 1}`;
+      const newUrl = `/coachsparkle/coach/messages/${index + 1}`;
       window.history.pushState({}, '', newUrl);
     }
   };
