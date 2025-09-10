@@ -4,15 +4,16 @@ import ChatPanel from "@/components/ChatPanel";
 import "../../_styles/dashboard.css";
 import Cookies from "js-cookie";
 import { useParams, useRouter } from "next/navigation";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 export default function UserMessage() {
   const params = useParams();
   const router = useRouter();
   const type = parseInt(params?.type) || 1;
-  
+
   // Validate message type - only allow 1, 2, or 3
   const validType = [1, 2, 3].includes(type) ? type : 1;
-  
+
   // Redirect if invalid type
   useEffect(() => {
     if (![1, 2, 3].includes(type)) {
@@ -23,7 +24,7 @@ export default function UserMessage() {
   const [tabs, setTabs] = useState([
     {
       key: "general",
-      label: "General Inquiries",
+      label: "General Inquiries (0)",
       message_type: 1,
       bannerTitle: "You have initiated a conversation with Coach",
       bannerDescription: `Your message has been sent! The coach will get back to you shortly — typically within 24–48 hours. You’ll be notified as soon as they respond. In the meantime, feel free to explore other coaches or update your inquiry details if needed.`,
@@ -39,23 +40,6 @@ export default function UserMessage() {
         "Your coaching request has been shared with qualified coaches who match your needs. Coaches will respond to your coaching needs or you can initiate a message to them. ",
       coaches: [],
       isLoading: true,
-      initialMessages: [
-        {
-          sender: "You",
-          time: "2 hour ago",
-          type: "coaching-request",
-          data: {
-            title: "Click to view Coaching Request",
-            icon: "📁",
-            subtitle: "You sent a coaching request on 25 Jun, 6.40pm"
-          },
-        },
-        {
-          sender: "Sarah Lee",
-          time: "35 minutes ago",
-          text: "Hi Emma, I received your coaching request and this is something that I can offer you.",
-        },
-      ],
     },
     {
       key: "active",
@@ -66,23 +50,6 @@ export default function UserMessage() {
         "This space is for you to engage directly with your coach. Use it to discuss session goals, share resources, provide encouragement, or clarify next steps. Keep communication respectful, focused, and aligned with your coaching objectives.",
       coaches: [],
       isLoading: true,
-      initialMessages: [
-        {
-          sender: "You",
-          time: "3 days, 2 hour ago",
-          type: "session-info",
-          data: {
-            title: "Confidence Jump Start Package",
-            date: "Thursday, July 18 · 9:30am - 10:00am",
-          },
-          text: "Hi. Am I able to change the schedule for the upcoming session?",
-        },
-        {
-          sender: "Sarah Lee",
-          time: "35 minutes ago",
-          text: "Hi",
-        },
-      ],
     },
   ]);
 
@@ -102,16 +69,16 @@ export default function UserMessage() {
       console.error("Invalid tab index:", tabIndex);
       return;
     }
-    
+
     const token = Cookies.get('token');
     const currentTab = tabs[tabIndex];
-    
+
     try {
       // Update loading state
       const updatedTabs = [...tabs];
       updatedTabs[tabIndex].isLoading = true;
       setTabs(updatedTabs);
-      
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/generalCoachChatList`, {
         method: "POST",
         headers: {
@@ -125,26 +92,27 @@ export default function UserMessage() {
       });
 
       const result = await response.json();
-
       if (result.success) {
         // Update coaches list for this tab
         const updatedTabs = [...tabs];
         updatedTabs[tabIndex].coaches = result.data.map(coach => ({
           id: coach.id,
           name: coach.name,
-          img: "/coachsparkle/assets/images/top-nav.png", // Default image
+          img: coach.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`,
           lastMessage: coach.last_message,
           time: coach.last_message_time,
           unread: coach.unread_count,
         }));
-        
-        // Update count in label
-        if (tabIndex === 1) {
+
+        // Update count in label    
+        if (tabIndex === 0) {
+          updatedTabs[tabIndex].label = `General Inquiries (${result.data.length})`;
+        } else if (tabIndex === 1) {
           updatedTabs[tabIndex].label = `Coaching Requests (${result.data.length})`;
         } else if (tabIndex === 2) {
           updatedTabs[tabIndex].label = `Active Coaching (${result.data.length})`;
         }
-        
+
         updatedTabs[tabIndex].isLoading = false;
         setTabs(updatedTabs);
       }

@@ -37,10 +37,27 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
     return `${userIds[0]}-${userIds[1]}-${currentTab.message_type}`;
   };
 
+  // Format time to display (e.g., "2 hours ago", "Just now")
+  const formatTime = (timestamp) => {
+    if (!timestamp) return "";
+
+    const now = new Date();
+    const messageTime = new Date(timestamp);
+    const diffInSeconds = Math.floor((now - messageTime) / 1000);
+
+    if (diffInSeconds < 60) return "Just now";
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+
+    return messageTime.toLocaleDateString();
+  };
+
   // Scroll to bottom of messages
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
   // Handle search input change
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -129,9 +146,17 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
 
     // Create type-specific chat key for unread counts
     const chatKey = `${Math.min(user.id, coach.id)}-${Math.max(user.id, coach.id)}-${currentTab.message_type}`;
+
+    // Get the last message for this coach
+    const lastMessage = messages[chatKey] && messages[chatKey].length > 0
+      ? messages[chatKey][messages[chatKey].length - 1]
+      : null;
+
     return {
       ...coach,
-      unread: unreadCounts[chatKey] || 0
+      unread: unreadCounts[chatKey] || 0,
+      lastMessageText: lastMessage ? lastMessage.message : coach.lastMessage,
+      lastMessageTime: lastMessage ? formatTime(lastMessage.created_at) : coach.time
     };
   });
 
@@ -215,20 +240,23 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
                                       className="d-flex align-self-center me-3"
                                       width="60"
                                     />
-                                    <div className="pt-1">
-                                      <p className="fw-bold mb-0">
-                                        {coach.name}
-                                      </p>
-                                      <p className="small text-muted">
-                                        {coach.lastMessage}
+                                    <div className="pt-1" style={{ flex: 1 }}>
+                                      <div className="d-flex justify-content-between align-items-center">
+                                        <p className="fw-bold mb-0">
+                                          {coach.name}
+                                        </p>
+                                        <p className="small text-muted mb-0 time-add">
+                                          {coach.lastMessageTime}
+                                        </p>
+                                      </div>
+                                      <p className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}>
+                                        {coach.lastMessageText}
                                       </p>
                                     </div>
                                   </div>
                                   <div className="pt-1">
-                                    <p className="small text-muted mb-1 time-add">
-                                      {coach.time}
-                                    </p>
-                                    {coach.unread > 0 && (
+                                    {/* Only show unread count if not the active chat */}
+                                    {coach.unread > 0 && selectedCoachIndex !== index && (
                                       <span className="badge bg-primary rounded-pill float-end">
                                         {coach.unread}
                                       </span>
@@ -283,7 +311,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
                                       {isOwnMessage ? 'You' : msg.sender?.first_name || 'Coach'}
                                     </span>
                                     <span className="message-time">
-                                      {new Date(msg.created_at).toLocaleTimeString()}
+                                      {formatTime(msg.created_at)}
                                     </span>
                                   </div>
                                   <div className="message-content">
