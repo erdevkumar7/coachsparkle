@@ -79,11 +79,11 @@ export default function UserDashboard() {
 
     return (
         <div className="main-panel">
-            <div className="content-wrapper">
+            <div className="content-wrapper user-dash-top-content">
                 <div className="row">
                     <div className="col-md-12 grid-margin">
                         <div className="row">
-                            <div className="col-12 col-xl-8 mb-4 mb-xl-0">
+                            <div className="col-12 col-xl-8 mb-4 mb-xl-0 user-dash-add">
                                 <h3 className="font-weight-bold quick-text-add my-changes">
                                     Hi {user?.first_name}, <br />
                                     Ready to level up?
@@ -309,13 +309,6 @@ export default function UserDashboard() {
                     </div>
                 </div>
 
-
-
-
-
-
-
-
                 <div className="goal-setting-tips">
                     <div className="goal-left-column">
                         <div className="tips-card">
@@ -328,12 +321,10 @@ export default function UserDashboard() {
                             </ul>
                             <a href="#" className="explore-link">Explore Coaches to learn Public Speaking, Skating and Python Coding</a>
                         </div>
-
                     </div>
 
                     <div className="goal-right-column">
                         <div className="coaching-card">
-
                             <div className="coach-card">
                                 <h3 className="card-title">Your Favourite Coach</h3>
                                 <div className="coach-list">
@@ -380,15 +371,12 @@ export default function UserDashboard() {
                     </div>
                 </div>
 
-
-
                 <div className="activity-log-card">
                     <h3 className="activity-title">Activity Log</h3>
                     <ul className="activity-list">
                         <li>- You Sent A Request To Coach Tracy McCoy <span className="activity-time">(3 days ago)</span></li>
                     </ul>
                 </div>
-
             </div>
         </div>
     );

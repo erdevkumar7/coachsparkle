@@ -242,14 +242,6 @@ h3.font-weight-bold.quick-text-add {
     border-bottom: solid 1px #E7E7E7;
 }
 
-
-
-
-
-
-
-
-
 .goals-progress .left-column {
     flex: 1;
     width: 65%;
@@ -728,4 +720,184 @@ p.coach-rating span {
 
 .grid-margin {
     margin-bottom: 0.5rem;
+}
+
+
+
+@media (max-width: 767px) {
+    .top-user-section-add {
+        margin-top: 0px;
+    }
+
+    .user-dash-add h3.font-weight-bold.quick-text-add {
+        text-align: left;
+        margin-bottom: 0;
+        font-size: 25px;
+    }
+    .user-dash-add {
+        margin-bottom: 0px !important;
+    }
+    .top-user-section-add .inner-card-add {
+        display: block;
+    }
+
+    .content-wrapper {
+        padding-right: 0;
+        padding-left: 0px;
+        width: 92%;
+        margin: auto;
+    }
+
+    .top-user-section-add .boder-line-add .inner-card-add .bg-gray-100.rounded-xl.p-4.text-center {
+        margin-bottom: 10px;
+        align-items: center !important;
+        display: block;
+    }
+
+    .inner-card-add .new-add-comeing p.font-medium, .inner-card-add p.text-blue-600.font-bold {
+        text-align: center;
+    }
+
+    .top-user-section-add p.text-blue-600.font-bold {
+        margin-bottom: 0;
+        text-align: center;
+    }
+    .top-user-section-add .at-glance-add h3.text-lg.font-semibold.mb-4 {
+        border-bottom: 1px solid #e7e7e7;
+        padding-bottom: 10px;
+        margin-bottom: 8px !important;
+        text-align: center;
+    }
+    .top-user-section-add .at-glance-add p.mt-6.text-sm.text-gray-500 {
+        padding-top: 10px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+
+    .top-user-section-add  .goals-progress {
+        display: block;
+    }
+
+    .goals-progress .left-column {
+        flex: 1;
+        width: 100%;
+    }
+
+    .goals-progress .card-header {
+        padding-left: 0;
+        display: block;
+        text-align: center;
+    }
+
+    .user-update-btn {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .goals-progress .card-header h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .goals-progress .view-btn {
+        border-radius: 12px;
+        width: 100%;
+    }
+    .goals-progress .card.matched-add .coach {
+        display: block;
+    }
+
+    .card.matched-add .coach button.msg-btn {
+        width: 84%;
+        margin: 15px auto auto;
+        margin: auto !important;
+        float: none !important;
+        display: flex;
+        justify-content: center;
+        margin-top: 15px !important;
+    }
+
+    .goals-progress .right-column {
+        width: 100%;
+    }
+
+    .goals-progress .buttons {
+        gap: 10px;
+        padding-bottom: 0px;
+        display: flex;
+    }
+
+    .goal-setting-tips {
+        display: block;
+    }
+
+    .goal-left-column {
+        border-radius: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .goal-right-column {
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    .activity-log-card {
+        width: 100%;
+        padding: 15px 15px 10px;
+    }
+    .goals-progress .goal p {
+        text-align: center;
+    }
+     
+    .card.matched-add h3 {
+        text-align: center;
+    }
+
+    .card.matched-add .info {
+        display: flex;
+        justify-content: center;
+    }
+
+    .goals-progress .right-column .coaching-card h3.title {
+        text-align: center;
+    }
+
+    .favourite-user-warp .d-flex.justify-content-between.gap-4 {
+        display: block !important;
+    }
+    .favourite-user-warp .status-bar.d-flex.align-items-center.gap-1 {
+        margin: auto auto 10px;
+        display: block !important;
+        width: 100% !important;
+        text-align: center;
+    }
+    .favourite-user-warp {
+        padding-top: 20px !important;
+    }
+    .favourite-user-warp .topbar.d-flex.justify-content-between.align-items-center.py-2.px-2 {
+        display: block !important;
+    }
+    
+    .topbar h3 {
+        font-size: 20px;
+        font-weight: 500;
+    }
+    .pending-coach-result {
+        display: block !important;
+    }
+
+    .pending-coach-result .coaching-content.p-3 {
+        width: 100% !important;
+    }
+
+    .pending-coaching-add {
+        padding: 10px !important;
+    }
+
+
+
+
+
+
 }

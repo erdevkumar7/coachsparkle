@@ -77,8 +77,8 @@ console.log('showModal', showModal)
           </div>
         </div>
 
-        <div className="d-flex justify-content-between flex-wrap py-4 px-4">
-          <div className="row gap-3 m-2">
+        <div className="d-flex justify-content-between flex-wrap py-4 px-4 pending-coaching-add">
+          <div className="row gap-3 m-2 pending-coach-result">
             {pendingRequest.map((item, index) => (
               <div className="col-md-4 coaching-content p-3" key={index}>
                 <div className="d-flex justify-content-between align-items-center mb-2">
