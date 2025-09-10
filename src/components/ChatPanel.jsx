@@ -237,24 +237,25 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
                                     <img
                                       src={coach.img}
                                       alt="avatar"
-                                      className="d-flex align-self-center me-3"
+                                      className="d-flex align-self-center me-2"
                                       width="60"
                                     />
                                     <div className="pt-1" style={{ flex: 1 }}>
-                                      <div className="d-flex justify-content-between align-items-center">
+                                      <div className="d-flex justify-content-between align-items-center user-name-adding">
                                         <p className="fw-bold mb-0">
                                           {coach.name}
                                         </p>
-                                        <p className="small text-muted mb-0 time-add">
-                                          {coach.lastMessageTime}
-                                        </p>
+                                   
                                       </div>
                                       <p className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}>
                                         {coach.lastMessageText}
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="pt-1">
+                                  <div className="pt-1 time-zone-add">
+                                  <p className="small text-muted mb-0 time-add">
+                                          {coach.lastMessageTime}
+                                        </p>
                                     {/* Only show unread count if not the active chat */}
                                     {coach.unread > 0 && selectedCoachIndex !== index && (
                                       <span className="badge bg-primary rounded-pill float-end">
@@ -298,7 +299,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
                       <div className="text-center p-4">Loading messages...</div>
                     ) : (
                       <>
-                        <div className="messages-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                        <div className="messages-container">
                           {tabMessages.length > 0 ? (
                             tabMessages.map((msg, i) => {
                               const user = getCurrentUser();

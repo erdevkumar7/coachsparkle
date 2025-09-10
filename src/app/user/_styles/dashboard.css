@@ -11,13 +11,15 @@
     font-size: 20px !important;
 }
 
-.container.user-wrapper.user-page-add svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-q7mezt {
-    color: #27c200 !important;
-}
 .sidebar.collapsed {
     width: 53px !important;
 }
-
+.left-col-add button.btn.btn-sm.btn-outline-primary {
+    background: #089df9;
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+}
 ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
     margin-right: 0 !important;
 }
@@ -725,6 +727,9 @@ p.coach-rating span {
 
 
 @media (max-width: 767px) {
+
+
+    
     .top-user-section-add {
         margin-top: 0px;
     }
