@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ChatPanel from "@/components/ChatPanel";
 import Cookies from "js-cookie";
 import { useParams, useRouter } from "next/navigation";
+import CoachChatPanel from "@/components/CoachChatPanel";
 
 export default function Messages() {
   const params = useParams();
