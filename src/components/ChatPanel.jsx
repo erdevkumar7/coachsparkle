@@ -5,7 +5,7 @@ import { ChatContext, useChat } from '@/context/ChatContext';
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
-const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh}) => {
+const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh }) => {
   const { messages, unreadCounts, markAsRead } = useContext(ChatContext);
   const [newMessage, setNewMessage] = useState("");
   const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
@@ -29,24 +29,23 @@ const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh})
     return null;
   };
 
-  // Generate a unique key for this chat
+  // Generate a unique key for this chat with message type
   const getChatKey = () => {
     const user = getCurrentUser();
     if (!user || !selectedCoach) return null;
     const userIds = [user.id, selectedCoach.id].sort((a, b) => a - b);
-    return `${userIds[0]}-${userIds[1]}`;
+    return `${userIds[0]}-${userIds[1]}-${currentTab.message_type}`;
   };
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   // Handle search input change
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    
+
     // Debounce the search
     clearTimeout(window.searchTimeout);
     window.searchTimeout = setTimeout(() => {
@@ -69,9 +68,9 @@ const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh})
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             receiver_id: selectedCoach.id,
-            message_type: currentTab.message_type 
+            message_type: currentTab.message_type
           }),
         });
 
@@ -91,18 +90,22 @@ const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh})
     // Mark messages as read in context
     const chatKey = getChatKey();
     if (chatKey) {
-      markAsRead(chatKey, selectedCoach.id);
+      markAsRead(chatKey, selectedCoach.id, currentTab.message_type);
     }
   }, [selectedCoach, currentTab.message_type]);
 
-  // Update tab messages when context messages change
+  // Update tab messages when context messages change - FILTER BY TYPE
   useEffect(() => {
     const chatKey = getChatKey();
     if (chatKey && messages[chatKey]) {
-      // Merge API messages with real-time messages
-      const allMessages = [...tabMessages];
+      // Only show messages for the current message type
+      const filteredMessages = messages[chatKey].filter(
+        msg => msg.message_type === currentTab.message_type
+      );
 
-      messages[chatKey].forEach(rtMessage => {
+      // Merge with API messages
+      const allMessages = [...tabMessages];
+      filteredMessages.forEach(rtMessage => {
         if (!allMessages.some(msg => msg.id === rtMessage.id)) {
           allMessages.push(rtMessage);
         }
@@ -112,26 +115,27 @@ const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh})
       allMessages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
       setTabMessages(allMessages);
     }
-  }, [messages, selectedCoach]);
+  }, [messages, selectedCoach, currentTab.message_type]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
   }, [tabMessages]);
 
-  // Update unread counts in the coaches list
+  // Update unread counts in the coaches list - FILTER BY TYPE
   const updatedCoaches = currentTab.coaches.map(coach => {
     const user = getCurrentUser();
     if (!user) return coach;
 
-    const chatKey = `${Math.min(user.id, coach.id)}-${Math.max(user.id, coach.id)}`;
+    // Create type-specific chat key for unread counts
+    const chatKey = `${Math.min(user.id, coach.id)}-${Math.max(user.id, coach.id)}-${currentTab.message_type}`;
     return {
       ...coach,
       unread: unreadCounts[chatKey] || 0
     };
   });
 
-  // When sending a message
+  // When sending a message - include message type
   const handleSend = async () => {
     if (newMessage.trim() && selectedCoach) {
       await sendMessage(selectedCoach.id, newMessage, currentTab.message_type);
@@ -166,7 +170,7 @@ const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh})
           <div className="card" id="chat3">
             <div className="card-header d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Messages</h5>
-              <button 
+              <button
                 className="btn btn-sm btn-outline-primary"
                 onClick={() => onRefresh()}
                 disabled={currentTab.isLoading}
@@ -324,7 +328,7 @@ const ChatPanel = ({tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh})
                   </div>
                 </div>
               </div>
-            </div>          
+            </div>
           </div>
         </div>
       </div>

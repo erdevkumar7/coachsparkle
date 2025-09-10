@@ -6,6 +6,8 @@ import CoachSideBarComp from './_coach_components/coachSideBar';
 import { UserProvider } from '@/context/UserContext';
 import ChatSupportWrapper from './_coach_components/support/ChatSupportWrapper';
 import { ChatProvider } from '@/context/ChatContext';
+import { PusherDebugCoach } from '@/components/PusherDebugCoach';
+import { CoachChatProvider } from '@/context/CoachChatContext';
 import { PusherDebug } from '@/components/PusherDebug';
 
 export default async function CoachLayout({ children }) {
@@ -26,7 +28,8 @@ export default async function CoachLayout({ children }) {
           {children}
           <ChatSupportWrapper />
         </div>
-        {/* <PusherDebug /> */}
+        {/* <PusherDebugCoach /> */}
+        {/* <PusherDebug />  */}
       </ChatProvider>
     </UserProvider>
   );
