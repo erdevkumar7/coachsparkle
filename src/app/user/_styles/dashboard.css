@@ -14,12 +14,7 @@
 .sidebar.collapsed {
     width: 53px !important;
 }
-.left-col-add button.btn.btn-sm.btn-outline-primary {
-    background: #089df9;
-    border: none;
-    color: #fff;
-    padding: 8px 12px;
-}
+
 ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
     margin-right: 0 !important;
 }

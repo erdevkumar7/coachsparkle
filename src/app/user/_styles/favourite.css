@@ -51,7 +51,7 @@
 
 .card.engagements-cards .respond-add img {
     width: 50px;
-    height: 70px;
+    height: 50px;
     border-radius: 45px;
     object-fit: cover;
 }
@@ -89,3 +89,4 @@
     border: 1px solid #D7D7D7;
     border-radius: 10px;
 }
+
