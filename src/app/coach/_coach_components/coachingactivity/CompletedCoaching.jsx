@@ -2,9 +2,11 @@
 import { getUserCompletedCoachingClient } from "@/app/api/user-client";
 import Pagination from "@/components/Pagination";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CompletedCoaching({ initialCompleted, token }) {
+  const router = useRouter();
   const [getCompleted, setCompleted] = useState(initialCompleted.data);
   const [currentPage, setCurrentPage] = useState(initialCompleted.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialCompleted.pagination.last_page);
@@ -61,7 +63,13 @@ export default function CompletedCoaching({ initialCompleted, token }) {
 
                 <div className="d-flex gap-3">
                   <button className="btn btn-primary button-note">Request Review</button>
-                  <button className="btn btn-outline-secondary button-msg">Message</button>
+                  <button
+                    className="btn btn-outline-secondary button-msg"
+                    onClick={() => {
+                      router.push(`/coach/messages/3?user_id=${completed.id}`);
+                    }}>
+                    Message
+                  </button>
                 </div>
               </div>
             ))}

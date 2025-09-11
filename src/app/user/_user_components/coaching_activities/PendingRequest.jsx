@@ -6,8 +6,10 @@ import React, { useEffect, useState } from "react";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useRouter } from "next/navigation";
 
 export default function PendingRequest({ initialRequest, token }) {
+  const router = useRouter();
   const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
   const [currentPage, setCurrentPage] = useState(initialRequest.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
@@ -44,7 +46,7 @@ export default function PendingRequest({ initialRequest, token }) {
 
 
   const handleViewRequest = (rqst) => {
-    console.log('item',rqst)
+    console.log('item', rqst)
     setSelectedRequest(rqst);
     setShowModal(true);
   };
@@ -54,7 +56,7 @@ export default function PendingRequest({ initialRequest, token }) {
     setSelectedRequest(null);
   };
 
-console.log('showModal', showModal)
+  console.log('showModal', showModal)
 
   return (
     <>
@@ -83,7 +85,7 @@ console.log('showModal', showModal)
               <div className="col-md-4 coaching-content p-3" key={index}>
                 <div className="d-flex justify-content-between align-items-center mb-2">
                   <h4 className="mb-0">{item.title}</h4>
-     
+
                 </div>
 
                 <div className="mb-3 status-div">
@@ -116,8 +118,10 @@ console.log('showModal', showModal)
                     {/* {item.primaryAction} */}
                     View Request
                   </button>
-                  <button className="btn btn-outline-secondary button-msg">
-                    {/* {item.secondaryAction} */}
+                  <button className="btn btn-outline-secondary button-msg"
+                    onClick={() => {
+                      router.push(`/user/user-message/2?coach_id=${item.id}`)
+                    }}>
                     Message
                   </button>
                 </div>

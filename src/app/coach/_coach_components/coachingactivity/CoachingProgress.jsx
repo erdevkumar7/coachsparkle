@@ -2,8 +2,10 @@
 import { getUserProgressCoachingClient } from "@/app/api/user-client";
 import Pagination from "@/components/Pagination";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 export default function CoachingProgress({ initialProgress, token }) {
+  const router = useRouter();
   const [getCoahcingProgress, setCoahcingProgress] = useState(initialProgress.data);
   const [currentPage, setCurrentPage] = useState(initialProgress.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialProgress.pagination.last_page);
@@ -16,7 +18,7 @@ export default function CoachingProgress({ initialProgress, token }) {
       setLastPage(res.data.pagination.last_page);
     }
   };
- 
+
   // console.log('getCoahcingProgress', getCoahcingProgress)
   return (
     <div className="mt-5 status-coaching-top">
@@ -37,7 +39,7 @@ export default function CoachingProgress({ initialProgress, token }) {
                   {/* <h4 className="mb-0">{progress.heading}</h4> */}
                   <span className="session">{session.session_left} Session left</span>
                 </div>
-                
+
                 <div className="mb-3 status-div">
                   <button className="border px-3 py-1 rounded-pill">
                     {/* {session.status} */}
@@ -71,7 +73,10 @@ export default function CoachingProgress({ initialProgress, token }) {
                   <button className="btn btn-primary button-note">
                     View Session
                   </button>
-                  <button className="btn btn-outline-secondary button-msg">
+                  <button className="btn btn-outline-secondary button-msg"
+                    onClick={() => {
+                      router.push(`/coach/messages/3?user_id=${session.id}`);
+                    }}>
                     Message
                   </button>
                 </div>

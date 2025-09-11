@@ -2,9 +2,11 @@
 import { getUserProgressCoachingClient } from "@/app/api/user-client";
 import Pagination from "@/components/Pagination";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function CoachingProgress({ initialProgress, token }) {
+  const router = useRouter();
   const [getCoahcingProgress, setCoahcingProgress] = useState(initialProgress.data);
   const [currentPage, setCurrentPage] = useState(initialProgress.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialProgress.pagination.last_page);
@@ -98,7 +100,11 @@ export default function CoachingProgress({ initialProgress, token }) {
                   <button className="btn btn-primary button-note">
                     View Session
                   </button>
-                  <button className="btn btn-outline-secondary button-msg">
+                  <button
+                    className="btn btn-outline-secondary button-msg"
+                    onClick={() => {
+                      router.push(`/user/user-message/3?coach_id=${session.id}`)
+                    }}>
                     Message
                   </button>
                 </div>
