@@ -7,8 +7,10 @@ import Link from "next/link";
 import { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useRouter } from "next/navigation";
 
 export default function CoachingRequests({ initialRequest, token }) {
+  const router = useRouter();
   const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
   const [currentPage, setCurrentPage] = useState(initialRequest.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
@@ -114,7 +116,11 @@ export default function CoachingRequests({ initialRequest, token }) {
 
                   <div className="d-flex gap-3">
                     <button className="btn btn-primary button-note" onClick={() => handleViewRequest(rqst)}>View request</button>
-                    <button className="btn btn-outline-secondary button-msg">Message</button>
+                    <button className="btn btn-outline-secondary button-msg" onClick={() => {
+                      router.push(`/coach/messages/2?user_id=${rqst.id}`);
+                    }}>
+                      Message
+                    </button>
                   </div>
                 </div>))}
               <Pagination

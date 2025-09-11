@@ -1,9 +1,11 @@
 "use client";
 import { getUserCompletedCoachingClient } from "@/app/api/user-client";
 import Pagination from "@/components/Pagination";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function CompletedCoaching({ initialCompleted, token }) {
+  const router = useRouter();
   const [getCompleted, setCompleted] = useState(initialCompleted.data);
   const [currentPage, setCurrentPage] = useState(initialCompleted.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialCompleted.pagination.last_page);
@@ -56,7 +58,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
 
                 <div className="d-flex align-items-start gap-2 mb-3 content">
                   <div>
-                  <img
+                    <img
                       src={completed?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
                       alt="User"
                       className="rounded-circle"
@@ -64,7 +66,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                   </div>
                   <div>
                     <span className="fw-semibold d-block name">
-                       {completed.package_title?.slice(0, 20)} With {completed.first_name} {completed.last_name}
+                      {completed.package_title?.slice(0, 20)} With {completed.first_name} {completed.last_name}
                     </span>
                     <span className="d-block time">Completed {completed.session_date_end}</span>
                   </div>
@@ -74,7 +76,12 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                   <button className="btn btn-primary button-note">
                     Leave a Review
                   </button>
-                  <button className="btn btn-outline-secondary button-msg">
+                  <button
+                    className="btn btn-outline-secondary button-msg"
+                    onClick={() => {
+                      router.push(`/user/user-message/3?coach_id=${completed.id}`)
+                    }}
+                  >
                     Message
                   </button>
                 </div>

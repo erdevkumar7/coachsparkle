@@ -5,7 +5,7 @@ import { ChatContext, useChat } from '@/context/ChatContext';
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
-const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh }) => {
+const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabChange, onCoachSelect, onRefresh }) => {
   const { messages, unreadCounts, markAsRead } = useContext(ChatContext);
   const [newMessage, setNewMessage] = useState("");
   const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
@@ -58,6 +58,14 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Handle coach selection
+  const handleCoachSelection = (coach, index) => {
+    setSelectedCoachIndex(index);
+    if (onCoachSelect) {
+      onCoachSelect(coach.id);
+    }
+  };
+
   // Handle search input change
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -71,6 +79,16 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
       }
     }, 500);
   };
+
+  // Select coach from URL parameter
+  useEffect(() => {
+    if (selectedCoachId && currentTab.coaches.length > 0) {
+      const index = currentTab.coaches.findIndex(coach => coach.id === selectedCoachId);
+      if (index !== -1) {
+        setSelectedCoachIndex(index);
+      }
+    }
+  }, [selectedCoachId, currentTab.coaches]);
 
   // Fetch messages when coach is selected
   useEffect(() => {
@@ -227,7 +245,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, onSearch, onTabChange, onRefresh 
                               <li
                                 key={coach.id}
                                 className={`border-bottom coach-item ${selectedCoachIndex === index ? "active-chat" : ""}`}
-                                onClick={() => setSelectedCoachIndex(index)}
+                                onClick={() => handleCoachSelection(coach, index)}
                               >
                                 <a
                                   href="#!"
