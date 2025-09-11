@@ -2,14 +2,16 @@
 import { useEffect, useState } from "react";
 import ChatPanel from "@/components/ChatPanel";
 import Cookies from "js-cookie";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import CoachChatPanel from "@/components/CoachChatPanel";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 export default function Messages() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const type = parseInt(params?.type) || 1;
+  const coachIdFromUrl = searchParams.get('user_id');
 
   // Validate message type - only allow 1, 2, or 3
   const validType = [1, 2, 3].includes(type) ? type : 1;
@@ -57,6 +59,7 @@ ${(
   ]);
 
   const [activeTab, setActiveTab] = useState(validType - 1);
+  const [selectedCoachId, setSelectedCoachId] = useState(coachIdFromUrl ? parseInt(coachIdFromUrl) : null);
 
   // Set active tab based on URL parameter
   useEffect(() => {
@@ -64,6 +67,13 @@ ${(
       setActiveTab(type - 1);
     }
   }, [type]);
+
+  // Update URL when coach is selected
+  const updateUrlWithCoachId = (coachId) => {
+    const newUrl = `/coachsparkle/coach/messages/${activeTab + 1}${coachId ? `?user_id=${coachId}` : ''}`;
+    window.history.replaceState({}, '', newUrl);
+    setSelectedCoachId(coachId);
+  };
 
   // Fetch coaches based on active tab and search
   const fetchCoaches = async (tabIndex, searchTerm = "") => {
@@ -119,6 +129,14 @@ ${(
 
         updatedTabs[tabIndex].isLoading = false;
         setTabs(updatedTabs);
+
+        // If there's a coach_id in URL, try to select it
+        if (selectedCoachId && tabIndex === activeTab) {
+          const coachIndex = updatedTabs[tabIndex].coaches.findIndex(coach => coach.id === selectedCoachId);
+          if (coachIndex !== -1) {
+            // This will be handled by the ChatPanel via the onCoachSelect prop
+          }
+        }
       }
     } catch (error) {
       console.error("Error fetching coaches:", error);
@@ -144,10 +162,17 @@ ${(
     // Safety check for valid index
     if (index >= 0 && index < tabs.length) {
       setActiveTab(index);
+      // Clear selected coach when changing tabs
+      setSelectedCoachId(null);
       // Update URL without page reload
       const newUrl = `/coachsparkle/coach/messages/${index + 1}`;
       window.history.pushState({}, '', newUrl);
     }
+  };
+
+  // Handle coach selection from ChatPanel
+  const handleCoachSelect = (coachId) => {
+    updateUrlWithCoachId(coachId);
   };
 
   // Show loading or error if invalid type
@@ -172,7 +197,9 @@ ${(
         <ChatPanel
           tabs={tabs}
           activeTab={activeTab}
+          selectedCoachId={selectedCoachId}
           onTabChange={handleTabChange}
+          onCoachSelect={handleCoachSelect}
           onSearch={(tabIndex, searchTerm) => fetchCoaches(tabIndex, searchTerm)}
           onRefresh={() => fetchCoaches(activeTab)}
         />
