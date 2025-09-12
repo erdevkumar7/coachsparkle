@@ -12,10 +12,29 @@ import { toast } from "react-toastify";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+import { useState } from "react";
 
 
 export default function Header({ user }) {
   const router = useRouter();
+  const [collapsed, setCollapsed] = useState(false);
+
+
+  const toggleSidebar = () => {
+    const sidebar = document.getElementById("sidebar");
+    const moblileCollapsBtn = document.getElementById("remov-coll-on-tech");
+    const navbarTogglerDemo = document.getElementById("navbarTogglerDemo01")
+    
+    if (sidebar) {
+      sidebar.classList.toggle("collapsed");
+    }
+
+    if (moblileCollapsBtn && navbarTogglerDemo) {
+      navbarTogglerDemo.classList.toggle("show");
+    }
+
+    setCollapsed(!collapsed);
+  };
 
   const handleLogout = () => {
     // HandleAuthLogout()
@@ -33,6 +52,7 @@ export default function Header({ user }) {
           <img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo" />
         </Link>
         <button
+          id="remov-coll-on-tech"
           className="navbar-toggler tech"
           type="button"
           data-bs-toggle="collapse"
@@ -248,7 +268,7 @@ export default function Header({ user }) {
                     <button
                       className="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
                       type="button"
-                      data-bs-toggle="offcanvas"
+                      onClick={toggleSidebar}
                     >
                       <i className="bi bi-list fs-2"></i>
                     </button>
