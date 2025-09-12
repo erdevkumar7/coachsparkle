@@ -1,6 +1,4 @@
 "use client";
-
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "./_styles/header.css";
 import Link from "next/link";
@@ -17,26 +15,15 @@ import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOu
 
 
 export default function Header({ user }) {
-
-  // const [hasMounted, setHasMounted] = useState(false);
   const router = useRouter();
-
-  //   useEffect(() => {
-  //   setHasMounted(true);
-  // }, []);
-
-  // if (!hasMounted) return null;
 
   const handleLogout = () => {
     // HandleAuthLogout()
     Cookies.remove("token");
-    localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.href = `${FRONTEND_BASE_URL}/login`;
-    //  window.location.reload();
     // router.push("/login");
     toast.success("Logout Successful!")
-    sessionStorage.setItem('role', 2);
   };
 
   return (
@@ -119,17 +106,6 @@ export default function Header({ user }) {
             </div>
 
             {user ? (
-              // <button onClick={handleLogout} style={{
-              //     display: 'inline-block',
-              //     padding: '6px 16px',
-              //     backgroundColor: '#007bff',
-              //     color: 'white',
-              //     borderRadius: '4px',
-              //     textDecoration: 'none',
-              //     textAlign: 'center',
-              //     marginLeft: '10px',
-              //     border: 'white'
-              // }}>Logout</button>
               <div className="register-login head-top-login-add">
                 <div className="register-content">
                   <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end logout-add-head">
@@ -260,15 +236,6 @@ export default function Header({ user }) {
                             >
                               <AccountCircleOutlinedIcon />&nbsp;
                               Profile{" "}
-                            </Link>
-                          )}
-                          {user?.user_type == 3 && (
-                            <Link
-                              className="dropdown-item"
-                              href={"/coach/dashboard"}
-                            >
-                              <i className="bi bi-person-circle mx-0"></i>&nbsp;
-                              Dashboard{" "}
                             </Link>
                           )}
                           <a className="dropdown-item" onClick={handleLogout}>

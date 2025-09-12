@@ -2,7 +2,7 @@
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 import '../_styles/coach_sidebar.css';
 import { useRouter, usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '@/context/UserContext';
 import AppsIcon from '@mui/icons-material/Apps';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -26,11 +26,22 @@ export default function CoachSideBarComp() {
     const { user } = useUser();
     const router = useRouter();
     const pathname = usePathname();
+    const [collapsed, setCollapsed] = useState(false);
+
+    const toggleSidebar = () => {
+        // Check if we're on mobile (window width less than 992px)
+        if (typeof window !== 'undefined' && window.innerWidth < 992) {
+            const sidebar = document.getElementById("sidebar");
+            if (sidebar) {
+                sidebar.classList.toggle("collapsed");
+            }
+            setCollapsed(!collapsed);
+        }
+    };
 
     const handleSignout = () => {
         // HandleAuthLogout()
         Cookies.remove("token");
-        localStorage.removeItem("token");
         localStorage.removeItem("user");
         router.push("/login");
         toast.success("Signout Successful!")
@@ -78,7 +89,7 @@ export default function CoachSideBarComp() {
                         key={idx}
                         className={`nav-item ${isActive(item.href) ? "active user-nav-active" : ""} ${item.className ? item.className : ""}`}
                     >
-                        <Link href={item.href} className="nav-link">
+                        <Link href={item.href} className="nav-link" onClick={toggleSidebar}>
                             <div>
                                 {item.icon}
                                 <span className="menu-title">{item.label}</span>

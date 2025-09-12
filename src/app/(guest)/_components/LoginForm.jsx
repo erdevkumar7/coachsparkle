@@ -16,7 +16,7 @@ export default function LoginForm() {
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect');
     const router = useRouter();
-    const [role, setRole] = useState(3);
+    const [role, setRole] = useState(2);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [googleLoading, setGoogleLoading] = useState(false);
