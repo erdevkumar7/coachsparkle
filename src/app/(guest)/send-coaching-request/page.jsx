@@ -11,7 +11,7 @@ import {
 
 
 export default async function SendCoachingRequestPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
   // If no token → redirect instantly without API call

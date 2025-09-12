@@ -17,11 +17,12 @@ export default async function GuestLayout({ children }) {
     }
     return (
         <div>
-            <MuiClientProvider>
-                <Header user={user} />
-                <main>{children}</main>
-                <Footer />
-            </MuiClientProvider>
+            {/* hide MuiClientProvider for hydration error we can add if we have isssue on MUI Components */}
+            {/* <MuiClientProvider> */}
+            <Header user={user} />
+            <main>{children}</main>
+            <Footer />
+            {/* </MuiClientProvider> */}
         </div>
     );
 }

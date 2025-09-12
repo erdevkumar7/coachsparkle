@@ -32,11 +32,11 @@ export default function CoachHeader() {
 
   const handleLogout = () => {
     Cookies.remove('token');
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
     window.location.href = `${FRONTEND_BASE_URL}/login`;
     // router.push('/login');
-    toast.success("Logout Successful!")
+    toast.success("Logout Successful!");
+    sessionStorage.setItem('role', 3);
   };
 
   return (

@@ -1,6 +1,4 @@
 "use client";
-
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "./_styles/header.css";
 import Link from "next/link";
@@ -14,29 +12,37 @@ import { toast } from "react-toastify";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+import { useState } from "react";
 
 
 export default function Header({ user }) {
-
-  // const [hasMounted, setHasMounted] = useState(false);
   const router = useRouter();
+  const [collapsed, setCollapsed] = useState(false);
 
-  //   useEffect(() => {
-  //   setHasMounted(true);
-  // }, []);
 
-  // if (!hasMounted) return null;
+  const toggleSidebar = () => {
+    const sidebar = document.getElementById("sidebar");
+    const moblileCollapsBtn = document.getElementById("remov-coll-on-tech");
+    const navbarTogglerDemo = document.getElementById("navbarTogglerDemo01")
+    
+    if (sidebar) {
+      sidebar.classList.toggle("collapsed");
+    }
+
+    if (moblileCollapsBtn && navbarTogglerDemo) {
+      navbarTogglerDemo.classList.toggle("show");
+    }
+
+    setCollapsed(!collapsed);
+  };
 
   const handleLogout = () => {
     // HandleAuthLogout()
     Cookies.remove("token");
-    localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.href = `${FRONTEND_BASE_URL}/login`;
-    //  window.location.reload();
     // router.push("/login");
     toast.success("Logout Successful!")
-    sessionStorage.setItem('role', 2);
   };
 
   return (
@@ -46,6 +52,7 @@ export default function Header({ user }) {
           <img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo" />
         </Link>
         <button
+          id="remov-coll-on-tech"
           className="navbar-toggler tech"
           type="button"
           data-bs-toggle="collapse"
@@ -119,17 +126,6 @@ export default function Header({ user }) {
             </div>
 
             {user ? (
-              // <button onClick={handleLogout} style={{
-              //     display: 'inline-block',
-              //     padding: '6px 16px',
-              //     backgroundColor: '#007bff',
-              //     color: 'white',
-              //     borderRadius: '4px',
-              //     textDecoration: 'none',
-              //     textAlign: 'center',
-              //     marginLeft: '10px',
-              //     border: 'white'
-              // }}>Logout</button>
               <div className="register-login head-top-login-add">
                 <div className="register-content">
                   <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end logout-add-head">
@@ -262,15 +258,6 @@ export default function Header({ user }) {
                               Profile{" "}
                             </Link>
                           )}
-                          {user?.user_type == 3 && (
-                            <Link
-                              className="dropdown-item"
-                              href={"/coach/dashboard"}
-                            >
-                              <i className="bi bi-person-circle mx-0"></i>&nbsp;
-                              Dashboard{" "}
-                            </Link>
-                          )}
                           <a className="dropdown-item" onClick={handleLogout}>
                             <PowerSettingsNewOutlinedIcon className="mui-icons power-icons" />
                             &nbsp;Logout{" "}
@@ -281,7 +268,7 @@ export default function Header({ user }) {
                     <button
                       className="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
                       type="button"
-                      data-bs-toggle="offcanvas"
+                      onClick={toggleSidebar}
                     >
                       <i className="bi bi-list fs-2"></i>
                     </button>
