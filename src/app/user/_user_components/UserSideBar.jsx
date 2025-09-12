@@ -64,7 +64,7 @@ export default function UserSideBarComp({ user }) {
                     </a>
                 </li>
 
-                <li className="nav-item explore-tab">
+                <li className="nav-item explore-tab" onClick={() => router.push('/coach-detail/list')}>
                     <a className="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <div>
                             <SearchOutlinedIcon />

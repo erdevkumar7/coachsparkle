@@ -79,7 +79,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                   <button
                     className="btn btn-outline-secondary button-msg"
                     onClick={() => {
-                      router.push(`/user/user-message/3?coach_id=${completed.id}`)
+                      router.push(`/user/user-message/1?coach_id=${completed.id}`)
                     }}
                   >
                     Message
