@@ -226,3 +226,45 @@ label.form-label {
     background-image: none !important;
 }
 
+@media only screen and (max-width: 767px) {
+    .faq-form-add {
+        padding-top: 10px;
+        margin-bottom: 0px !important;
+    }
+
+    .attach-screenshot {
+        padding-top: 0px;
+    }
+
+    .custom-file-input-wrapper {
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .faq-support-add.faqs-coaches {
+        margin-top: 20px;
+        padding: 15px 15px;
+    }
+
+    .accordion-text-top {
+        padding-top: 10px;
+    }
+
+    .faq-support-add.faqs-coaches .accordion-body {
+        padding: 8px;
+    }
+
+    .faq-support-add label.form-label {
+        font-family: Roboto;
+        margin-bottom: 0px;
+    }
+    .faq-support-add .col-md-6 {
+        padding-bottom: 10px;
+    }
+
+
+
+
+
+    
+}

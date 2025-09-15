@@ -11,6 +11,7 @@ export default function Review() {
                                 Rating and reviews
                                 <span className="total-rating"><i className="bi bi-star"></i> 5.0 (21 reviews)</span>
                             </h3>
+                            <div className='review-section table-striped'>
                             <table className="review-table">
                                 <thead>
                                     <tr>
@@ -73,6 +74,7 @@ export default function Review() {
 
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                 </div>

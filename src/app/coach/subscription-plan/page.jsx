@@ -14,7 +14,7 @@ export default function SubscriptionPlan() {
             <div className="new-content-wrapper coach-wrap">
                 <div className="container subscription-view-plan">
                     <div className="pro-coach-banner row align-items-center justify-content-between">
-                        <div className="col-md-7 mb-4 mb-md-0">
+                        <div className="col-md-7 mb-4 mb-md-0 pro-coach-banner-botm">
                             <h4 className="fw-bold you-currently-text">You are currently on Pro Coach Plan</h4>
                             <p className="leverage-text">Leverage on the advanced tools, smarter insights, and exclusive features to grow your coaching business faster.</p>
                             <button className="btn btn-learn mt-2">Learn More</button>
@@ -39,11 +39,11 @@ export default function SubscriptionPlan() {
                                 <span className="badge-active">Active Plan</span>
                                 <div className="monthly-paid">
                                 <ToggleSwitch
-                value={activePlanEnable}
-                onChange={setActivePlanEnable}
-                onLabel="Monthly"
-                offLabel="Yearly"
-              />
+                                    value={activePlanEnable}
+                                    onChange={setActivePlanEnable}
+                                    onLabel="Monthly"
+                                    offLabel="Yearly"
+                                />
 
                                 </div>
                             </div>
@@ -63,18 +63,18 @@ export default function SubscriptionPlan() {
                             <div className="d-flex align-items-center mt-3 auto-renew-add">
                                 <div className="form-check form-switch me-3">
                                 <ToggleSwitch
-                value={autoRenew}
-                onChange={setAutoRenew}
-                onLabel="On"
-                offLabel="Off"
-              />
+                                    value={autoRenew}
+                                    onChange={setAutoRenew}
+                                    onLabel="On"
+                                    offLabel="Off"
+                                />
                                     <label className="form-check-label" htmlFor="autoRenew">Auto Renew is On</label>
                                 </div>
                                 <button className="btn btn-primary btn-sm">Manage</button>
-                            </div>
+                             </div>
                         </div>
 
-
+ 
                         <div className="payment-method-part">
                             <h4>Payment Method</h4>
 
@@ -84,8 +84,6 @@ export default function SubscriptionPlan() {
                                     <i className="bi bi-check-circle-fill"></i>
                                     <small>Credit Card</small>
                                     <div className="debit-card-inner">
-
-
                                         <div><img src="/coachsparkle/images/master-card.png" width="40" alt="MasterCard" /></div>
                                         <div className="card-number">**** **** **** 3512</div>
                                     </div>
@@ -99,8 +97,6 @@ export default function SubscriptionPlan() {
                                         <div className="card-number">**** **** **** 1543</div>
                                     </div>
                                     <div className="remove-btn">&minus;</div>
-
-
                                 </div>
 
                                 <div className="payment-method-card d-flex justify-content-center align-items-center">

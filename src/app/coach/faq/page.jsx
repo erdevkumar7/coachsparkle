@@ -20,7 +20,7 @@ export default function Faq() {
                             </div>
                         </div>
 
-                        <div className="row mb-3">
+                        <div className="faq-form-add row mb-3">
                             <div className="col-md-6">
                                 <label htmlFor="userType" className="form-label">I am a...</label>
                                 <select id="userType" className="form-select">
@@ -84,19 +84,20 @@ export default function Faq() {
                     <div className="accordion" id="accordionExample">
 
                     <div className='accordion-text-top'>
-    <div className="accordion-item">
-        <h2 className="accordion-header" id="headingOne">
-            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                What is Coach Sparkle?
-            </button>
-        </h2>
-        <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div className="accordion-body">
-                <p>Coach Sparkle is a smart directory and matching platform that connects coaches, tutors, trainers, and educators with clients looking for personalized guidance. It uses AI-assisted matching while keeping the human element central to the coaching experiences.</p>
-            </div>
-        </div>
-    </div>
-</div>
+        
+                    <div className="accordion-item">
+                        <h2 className="accordion-header" id="headingOne">
+                            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                What is Coach Sparkle?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div className="accordion-body">
+                                <p>Coach Sparkle is a smart directory and matching platform that connects coaches, tutors, trainers, and educators with clients looking for personalized guidance. It uses AI-assisted matching while keeping the human element central to the coaching experiences.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                         <div className='accordion-text-top'>

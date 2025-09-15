@@ -1833,19 +1833,38 @@ td.edit-add-btn button {
 
 /* mobile-view-css */
 @media only screen and (max-width: 767px) {
- 
-
+  .chat-container .chat-header {
+    background: #1c1c1e;
+    margin-top: 40px;
+}
+  .content-wrapper.coach-wrap.review-section-add {
+    padding: 0px 15px !important;
+} 
+  .review-section.table-striped {
+    overflow-y: scroll;
+}
+.review-section-add td.sed-tab {
+  width: 48%;
+  min-width: 300px;
+}
+.review-section-add td.replied-btns button.reply-btn {
+  width: 100% !important;
+}
   body .main-panel {
     width: 100%;
     padding-top: 80px;
 }
-
+.review-section-add button.reply-btn {
+  width: 100% !important;
+}
 body .top-dashboard-header {
   padding: 0px 0px !important;
   position: fixed;
   z-index: 999;
 }
-
+.review-section-add .rating-reviews .review-container h3.text-lg.font-semibold.mb-4.quick-text {
+  text-align: left;
+}
 body .dashboard-wrapper {
   padding-top: 25px;
 }
