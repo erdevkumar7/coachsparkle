@@ -560,15 +560,26 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   margin-top: 35px;
 }
 
+.professional-cards li.more-subtypes {
+    text-align: left;
+    color: #009bfa !important;
+    margin-top: 10px;
+    font-family: inter;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
 .explore-coaches-inner-content .professional-cards .card {
-  width: 25%;
-  border: solid 1px #e3dbd8;
-  border-radius: 20px;
-  padding: 25px;
-  background-color: #fff;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #e3dbd8;
+    border-radius: 20px;
+    width: 100%;
+    padding: 25px;
+    transition: all .3s;
+    box-shadow: 0 2px 8px #0000000d;
+    height: 94%;
 }
 
 .explore-coaches-inner-content .professional-cards .card:hover {
@@ -727,7 +738,8 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .view-all-coaches-view {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
+    row-gap: 25px;
 }
 
 .coaches-view-cards .card img {
@@ -751,20 +763,21 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .software-engineer-list a {
-  background-color: #e7e8e9;
-  color: #000000;
-  text-decoration: none;
-  font-family: "Roboto";
-  font-size: 12px;
-  border-radius: 8px;
-  padding: 3px 9px;
+    color: #000;
+    background-color: #e7e8e9;
+    border-radius: 8px;
+    padding: 3px 9px;
+    font-family: Roboto;
+    font-size: 12px;
+    text-decoration: none;
+    text-align: center;
 }
 
 .software-engineer-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  width: 40%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+    display: grid;
 }
 
 .software-engineer-list a:hover {
@@ -1610,6 +1623,19 @@ footer.coach-footer-section .new-add-footer .mui-icons {
   text-decoration: underline !important;
   color: #000000;
 }
+
+.professional-cards {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 20px !important;
+    margin: 20px 0 !important;
+    display: grid !important;
+    row-gap: 0px !important;
+}
+
+.professional-cards a {
+    text-decoration: none !important;
+}
+
 
 /*Mobile-view-css*/
 

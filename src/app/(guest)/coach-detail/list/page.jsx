@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import axios from "axios";
@@ -24,6 +23,7 @@ import FavIcon from "../../_components/coach-detail/FavIcon";
 import Cookies from "js-cookie";
 import { getAllMasters } from "@/app/api/guest";
 import CoachDetailCalendar from "@/app/(guest)/_components/CoachDetailCalendar";
+import { useSearchParams } from 'next/navigation';
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -35,6 +35,8 @@ export default function CoachList() {
   const [deliveryMode, setDeliveryMode] = useState([]);
   const [allLanguages, setAllLanguages] = useState([]);
   const [services, setServices] = useState([]);
+
+
   const [filters, setFilters] = useState({
     search_for: "",
     delivery_mode: null,
@@ -49,6 +51,29 @@ export default function CoachList() {
     availability_start: null,
     availability_end: null,
   });
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Check for coaching_sub_categories in URL params
+    const subCategoriesParam = searchParams.get('coaching_sub_categories');
+    const isCorporateParam = searchParams.get('isCorporate');
+
+    if (subCategoriesParam) {
+      const subCategoryIds = subCategoriesParam.split(',').map(id => parseInt(id));
+      setFilters(prev => ({
+        ...prev,
+        coaching_sub_categories: subCategoryIds
+      }));
+    }
+
+    if (isCorporateParam) {
+      setFilters(prev => ({
+        ...prev,
+        is_corporate: parseInt(isCorporateParam)
+      }));
+    }
+  }, [searchParams]);
 
   const updateFilter = (key, value) => {
     setFilters((prev) => ({
