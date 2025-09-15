@@ -320,3 +320,117 @@
     margin-bottom: 0px !important;
 }
 
+
+
+@media only screen and (max-width: 767px) {
+
+    .pro-coach-banner .you-currently-text {
+        width: 100%;
+        font-size: 28px;
+    }
+
+    .pro-coach-banner-botm {
+        margin-bottom: 0px !important;
+    }
+
+    .pro-coach-banner .btn-learn {
+        margin-bottom: 0px;
+    }
+
+    .pro-plan-right-side-img {
+        margin-bottom: 0;
+        margin-right: 0;
+        padding-right: 0;
+        padding-left: 0px;
+    }
+    .pro-coach-banner {
+        padding: 20px 10px 0;
+        position: relative;
+    }
+    
+    .current-sub-plan.card h4 {
+        padding-top: 15px;
+        font-size: 22px;
+    }
+
+    .current-sub-plan .subscription-card {
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    .monthly-paid .toggle-switch {
+        width: 111px;
+        margin-top: 13px;
+    }
+    .auto-renew-add {
+        display: block !important;
+    }
+
+    .current-sub-plan .subscription-card button.btn.btn-primary.btn-sm {
+        width: 100%;
+        padding: 10px 0;
+        margin-top: 15px;
+    }
+
+    .current-sub-plan.card {
+        margin-top: 40px;
+        margin-left: 0px;
+        margin-right: 0px;
+        padding: 10px;
+    }
+    .payment-method {
+       display: block;
+    }
+
+    .payment-method .payment-method-card {
+        position: relative;
+        height: 111px;
+        margin-right: 0px;
+    }
+
+    .budget-tabs-right {
+        padding-left: 10px;
+    }
+
+    .budget-tabs-left {
+        padding-right: 0px;
+    }
+
+    .payment-method .payment-method-card.active {
+        margin-bottom: 15px;
+    }
+
+    .payment-method .payment-method-card {
+        margin-bottom: 15px;
+    }
+    .payment-method-card.d-flex.justify-content-center.align-items-center {
+        width: 100%;
+    }
+
+    .payment-history {
+        padding-top: 0px;
+    }
+    
+    .payment-method-part {
+        padding-top: 10px;
+    }
+
+    .payment-method .payment-method-card .add-icon {
+        line-height: 1;
+        width: 30px;
+        height: 30px;
+    }
+    
+    .pro-coach-banner p.leverage-text {
+        width: 100%;
+        margin-bottom: 0px;
+    }
+
+    .current-sub-plan .subscription-title {
+        padding-top: 0px;
+    }
+    
+
+
+
+}

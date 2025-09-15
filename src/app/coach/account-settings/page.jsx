@@ -282,7 +282,7 @@ control={accountForm.control}
               </div>
             </div>
           </form>
-
+          
           <div className="notification-section mt-5">
             <h3 className="quick-text">Notifications</h3>
             <div className="d-flex gap-2 flex-wrap mt-4">
@@ -341,7 +341,7 @@ control={accountForm.control}
           <div className="privacy-section mt-5">
             <h3 className="quick-text">Data & Privacy Control</h3>
             <div className="mt-4">
-              <div className="d-flex gap-2 mb-2 pt-2">
+              <div className="d-flex gap-2 mb-2 pt-2 data-privacy-control">
                 <PublicOffIcon className="mui-icons" />
                 <span className="title">Profile Visibility</span>
                 <input type="checkbox" />
@@ -349,7 +349,7 @@ control={accountForm.control}
                 <input type="checkbox" />
                 <label htmlFor="private">Private</label>
               </div>
-              <div className="d-flex gap-2 mb-2 pt-2">
+              <div className="d-flex gap-2 mb-2 pt-2 data-privacy-control">
                 <PodcastsIcon className="mui-icons" />
                 <span className="title">Communication Preference</span>
                 <input type="checkbox" />
@@ -359,7 +359,7 @@ control={accountForm.control}
                 <input type="checkbox" />
                 <label htmlFor="push-toggles">Push Toggles</label>
               </div>
-              <div className="d-flex gap-2 mb-2 pt-2">
+              <div className="d-flex gap-2 mb-2 pt-2 data-privacy-control">
                 <i className="bi bi-openai mui-icons"></i>
                 <span className="title">Allow AI Matching</span>
                 <input type="checkbox" />
