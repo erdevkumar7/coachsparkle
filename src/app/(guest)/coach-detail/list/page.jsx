@@ -24,6 +24,7 @@ import FavIcon from "../../_components/coach-detail/FavIcon";
 import Cookies from "js-cookie";
 import { getAllMasters } from "@/app/api/guest";
 import CoachDetailCalendar from "@/app/(guest)/_components/CoachDetailCalendar";
+import { useSearchParams } from 'next/navigation';
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -35,6 +36,8 @@ export default function CoachList() {
   const [deliveryMode, setDeliveryMode] = useState([]);
   const [allLanguages, setAllLanguages] = useState([]);
   const [services, setServices] = useState([]);
+
+
   const [filters, setFilters] = useState({
     search_for: "",
     delivery_mode: null,
@@ -49,6 +52,20 @@ export default function CoachList() {
     availability_start: null,
     availability_end: null,
   });
+
+     const searchParams = useSearchParams();
+
+    useEffect(() => {
+    // Check for coaching_sub_categories in URL params
+    const subCategoriesParam = searchParams.get('coaching_sub_categories');
+    if (subCategoriesParam) {
+      const subCategoryIds = subCategoriesParam.split(',').map(id => parseInt(id));
+      setFilters(prev => ({
+        ...prev,
+        coaching_sub_categories: subCategoryIds
+      }));
+    }
+  }, [searchParams]);
 
   const updateFilter = (key, value) => {
     setFilters((prev) => ({

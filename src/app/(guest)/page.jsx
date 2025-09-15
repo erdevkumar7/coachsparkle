@@ -5,9 +5,9 @@ import SwiperOne from "@/components/SwiperOne";
 // import SwiperFour from "@/components/SwiperFour";
 import Image from 'next/image';
 import EastIcon from '@mui/icons-material/East';
-import CheckIcon from '@mui/icons-material/Check';
 import Link from "next/link";
 import { getLatestMasterBlogs } from "../api/guest";
+import ExploreCoachs from "./_components/ExploreCoachs";
 
 
 export default async function Home() {
@@ -273,72 +273,7 @@ export default async function Home() {
         </div>
       </div>
 
-
-      <div className="explore-coaches">
-        <div className="container">
-          <div className="explore-coaches-section">
-            <div className="row explore-coaches-inner-content">
-              <div className="col-md-12 adipiscing-text">
-                <h1>Explore 1,000+ Available Coaches</h1>
-                <p>
-                  Browse by category, read real profiles, and connect with a coach who truly gets you.<br />
-                  Start your journey today — it’s free, personalized, and built around your goals.
-                </p>
-              </div>
-              <div className="professional-top">
-                <a href="#" className="view-all-add-btn text-right">VIEW ALL <EastIcon className="mui-icons" /></a>
-                <div className="professional-cards">
-                  <div className="card">
-                    <img src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Career & Professional" className="img-fluid" />
-                    <h5>Career & Professional Coaches</h5>
-                    <ul>
-                      <li><CheckIcon className="mui-icons" />Career Coach</li>
-                      <li><CheckIcon className="mui-icons" />Executive Coach</li>
-                      <li><CheckIcon className="mui-icons" />Business Coach</li>
-                    </ul>
-                  </div>
-
-                  <div className="card">
-                    <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Personal Development" width={1000} height={226} />
-
-                    <h5>Personal Development & Life Coaches</h5>
-                    <ul>
-                      <li><CheckIcon className="mui-icons" />Life Coach</li>
-                      <li><CheckIcon className="mui-icons" />Confidence Coach</li>
-                      <li><CheckIcon className="mui-icons" />Mindset Coach</li>
-                    </ul>
-                  </div>
-
-                  <div className="card">
-                    <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Wellness & Health" width={1000} height={226} />
-
-                    <h5>
-                      Wellness & Health <br />
-                      Coaches
-                    </h5>
-                    <ul>
-                      <li><CheckIcon className="mui-icons" />Health Coach</li>
-                      <li><CheckIcon className="mui-icons" />Fitness Coach</li>
-                      <li><CheckIcon className="mui-icons" />Nutrition Coach</li>
-                    </ul>
-                  </div>
-
-                  <div className="card">
-                    <Image src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`} alt="Family & Youth" width={1000} height={226} />
-
-                    <h5>Family, Relationship & Youth Coaches</h5>
-                    <ul>
-                      <li><CheckIcon className="mui-icons" />Academic Coach</li>
-                      <li><CheckIcon className="mui-icons" />Learning Specialist</li>
-                      <li><CheckIcon className="mui-icons" />Language Coach</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ExploreCoachs />
 
 
       <div className="view-all-coaches-list">
