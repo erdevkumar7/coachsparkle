@@ -5,13 +5,13 @@ import SwiperOne from "@/components/SwiperOne";
 // import SwiperFour from "@/components/SwiperFour";
 import Image from 'next/image';
 import EastIcon from '@mui/icons-material/East';
+import ExploreCoachs from "./_components/HomeComp/ExploreCoachs";
+import FindCoach from "./_components/HomeComp/FIndCoach";
+import LatestArticles from "./_components/HomeComp/LatestArticles";
+import FeaturedCoaches from "./_components/HomeComp/FeaturedCoaches";
 import Link from "next/link";
-import { getLatestMasterBlogs } from "../api/guest";
-import ExploreCoachs from "./_components/ExploreCoachs";
-
 
 export default async function Home() {
-  const blogs = await getLatestMasterBlogs();
 
   return (
     <>
@@ -216,8 +216,6 @@ export default async function Home() {
         </div>
       </div>
 
-
-
       <div className="global-companies">
         <div className="container">
           <h1 className="text-center">Trusted by 500+ Global Partners</h1>
@@ -275,205 +273,9 @@ export default async function Home() {
 
       <ExploreCoachs />
 
+      <FeaturedCoaches />
 
-      <div className="view-all-coaches-list">
-        <div className="container">
-          <div className="search-container">
-            <div>
-              <h1>Featured Coaches</h1>
-            </div>
-            <div className="view-all-btn">
-              <a href="#">View All Coaches <EastIcon className="mui-icons" /></a>
-            </div>
-          </div>
-          <div className="row view-all-coaches-view">
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-                {/* <img src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" /> */}
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="row view-all-coaches-view">
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-one.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
-              <div className="card h-100">
-                <Image src={`${FRONTEND_BASE_URL}/images/coaches-img-two.png`} className="card-img-top" alt="Coach Image" width={1000} height={226} />
-
-                <div className="card-body">
-                  <h5 className="card-title"><a href="#">Coach Name Will Go Here</a></h5>
-                  <p className="card-text">Staff Software Engineer at eBay</p>
-                  <div className="software-engineer-list">
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                    <a href="#">Software</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div className="how-it-work">
-        <div className="container">
-          <h1 className="text-center">Multiple Ways to Find Your Ideal Coaches</h1>
-          <div className="row how-it-work-inner-part">
-            <div className="col-md-4">
-              <div className="card">
-                <div className="card-body">
-                  <h1>01</h1>
-                  <h5 className="card-title">Manual Search</h5>
-                  <span>Browse with Filters</span>
-                  <p className="card-text">Use standard filters like category, location,
-                    budget, and language to find coaches manually at your own pace.</p>
-                </div>
-                <div className="btn_hiw">
-                  <a href="#">Try Now</a>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="card two">
-                <div className="card-body">
-                  <h1>02</h1>
-                  <h5 className="card-title">Send a Coaching Request</h5>
-                  <span>Let Coaches Come to You</span>
-                  <p className="card-text">
-                    Describe your coaching need and we’ll notify all qualified coaches.
-                    Those interested will reach out to you directly.</p>
-                </div>
-                <div className="btn_hiw">
-                  <a href="#">Try Now</a>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="card">
-                <div className="card-body">
-                  <h1>03</h1>
-                  <h5 className="card-title">Smart AI Matching</h5>
-                  <span>Let AI Recommend Your Fit</span>
-                  <p className="card-text">Share your goal, availability, and preferences — our AI will
-                    suggest the most suitable coaches for you in seconds.</p>
-                </div>
-                <div className="btn_hiw">
-                  <a href="#">Try Now</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <FindCoach />
 
       <div className="people-love-living">
         <div className="container">
@@ -484,47 +286,7 @@ export default async function Home() {
         </div>
       </div>
 
-
-      <div className="latest-articles-explore">
-        <div className="container">
-          <h1>Latest Articles</h1>
-          <p>Read Articles Contributed by Featured Coaches</p>
-          <div className="row latest-articles-inner">
-            <div className="articles-btn-top">
-              <Link href="/articles" className="articles-btn-add">All articles</Link>
-            </div>
-            <div className="latest-articles-cards-content row">
-              {blogs.map((blog) => (
-                <div className="col-12 col-sm-6 col-md-4 latest-articles-cards" key={blog.id}>
-                  <div className="card h-100">
-                    <Image
-                      src={blog.blog_image}
-                      alt={blog.blog_name}
-                      width={1000}
-                      height={226}
-                    />
-                    <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">{blog.blog_name}</h5>
-                      <h6><i className="bi bi-calendar"></i> {new Date(blog.created_at).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "2-digit",
-                      })}</h6>
-                      <p className="card-text">
-                        {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 80)}...
-                      </p>
-                      <Link href={`#`} className="read-more-btn">Read More..</Link>
-                      {/* <Link href={`/coachsparkle/articles/${blog.id}`} className="read-more-btn">Read More..</Link> */}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </div>
-
+      <LatestArticles />
 
       <div className="choose-plan-you">
         <div className="container">
@@ -611,7 +373,6 @@ export default async function Home() {
         </div>
       </div>
 
-
       <div className="your-organization-coach">
         <div className="container">
           <div className="row organization-coach">
@@ -621,7 +382,7 @@ export default async function Home() {
               culture, and performance through curated coaching solutions
             </p>
             <div className="register-add">
-              <a href="#" className="register-now-btn">Find Corporate Coaches</a>
+              <Link href="/coach-detail/list?isCorporate=1" className="register-now-btn">Find Corporate Coaches</Link>
             </div>
           </div>
         </div>

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import axios from "axios";
@@ -53,16 +52,25 @@ export default function CoachList() {
     availability_end: null,
   });
 
-     const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
-    useEffect(() => {
+  useEffect(() => {
     // Check for coaching_sub_categories in URL params
     const subCategoriesParam = searchParams.get('coaching_sub_categories');
+    const isCorporateParam = searchParams.get('isCorporate');
+
     if (subCategoriesParam) {
       const subCategoryIds = subCategoriesParam.split(',').map(id => parseInt(id));
       setFilters(prev => ({
         ...prev,
         coaching_sub_categories: subCategoryIds
+      }));
+    }
+
+    if (isCorporateParam) {
+      setFilters(prev => ({
+        ...prev,
+        is_corporate: parseInt(isCorporateParam)
       }));
     }
   }, [searchParams]);

@@ -738,7 +738,8 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .view-all-coaches-view {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
+    row-gap: 25px;
 }
 
 .coaches-view-cards .card img {
@@ -762,20 +763,21 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .software-engineer-list a {
-  background-color: #e7e8e9;
-  color: #000000;
-  text-decoration: none;
-  font-family: "Roboto";
-  font-size: 12px;
-  border-radius: 8px;
-  padding: 3px 9px;
+    color: #000;
+    background-color: #e7e8e9;
+    border-radius: 8px;
+    padding: 3px 9px;
+    font-family: Roboto;
+    font-size: 12px;
+    text-decoration: none;
+    text-align: center;
 }
 
 .software-engineer-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  width: 40%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+    display: grid;
 }
 
 .software-engineer-list a:hover {
