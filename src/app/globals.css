@@ -405,6 +405,7 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 .coach-img-left-side.me-3 img {
   width: 80px;
   height: 80px;
+  border-radius: 100%;
 }
 
 /*second-section-css*/
