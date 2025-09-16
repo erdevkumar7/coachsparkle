@@ -10,211 +10,31 @@ import FindCoach from "./_components/HomeComp/FIndCoach";
 import LatestArticles from "./_components/HomeComp/LatestArticles";
 import FeaturedCoaches from "./_components/HomeComp/FeaturedCoaches";
 import Link from "next/link";
+import CoachPlans from "./_components/HomeComp/CoachPlans";
+import SmartMatching from "./_components/HomeComp/SmartMatching";
 
 export default async function Home() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachlist`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store" // comment if you don't want caching
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch coaches");
+  }
+
+  const data = await res.json();
+  let coaches = [];
+  if (data.success) {
+    coaches = data.data;
+  }
 
   return (
     <>
-      <div className="smarter-matching py-5">
-        <div className="container">
-          <div className="row smarter-matching-inner align-items-center">
-            <div className="col-md-7 smarter-matching-left">
-              <h1 className="display-5 fw-bold">
-                Smarter Matching.<br />
-                Human Connections. <br />
-                Better Outcomes.
-              </h1>
-              <p className="lead">Describe your goal or challenge — our AI will match you with
-                the right coach</p>
-              <div className="search-container">
-                <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
-                <div className="ai-btn-find">
-                  <button>Start AI Matching</button>
-                </div>
-              </div>
-
-              <div className="counters-content">
-                <div className="row counters-inner-content">
-                  <div className="four col-md-4">
-                    <div className="counter-box">
-                      <span className="counter" data-count="680">680</span>
-                      <p>Available Coaches</p>
-                    </div>
-                  </div>
-                  <div className="four col-md-4">
-                    <div className="counter-box">
-                      <span className="counter" data-count="8000">8k+</span>
-                      <p>Matches made</p>
-                    </div>
-                  </div>
-                  <div className="four col-md-4">
-                    <div className="counter-box">
-                      <span className="counter" data-count="100">100+</span>
-                      <p>Coaching goals achieved</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-5 smarter-matching-right">
-              <marquee direction="up" height="628px" id="coachMarquee">
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-one.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-three.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card p-2 d-flex flex-row align-items-center">
-                  <div className="coach-img-left-side me-3">
-                    <Image src={`${FRONTEND_BASE_URL}/images/ellipse-two.png`} className="card-img-top" alt="coach-name" width={1000} height={226} />
-
-                  </div>
-
-                  <div className="coach-name-right-side">
-                    <h5 className="mb-1">Coach Name Will Go Here</h5>
-                    <p className="mb-1">Staff Software Engineer at eBay</p>
-                    <div className="coach-software-name">
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                      <a href="#" className="me-2">Software</a>
-                    </div>
-                  </div>
-                </div>
-              </marquee>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SmartMatching coaches={coaches}/>
 
       <div className="global-companies">
         <div className="container">
@@ -288,90 +108,7 @@ export default async function Home() {
 
       <LatestArticles />
 
-      <div className="choose-plan-you">
-        <div className="container">
-          <h1 className="text-center">
-            Free for Everyone <br />
-            Premium for Coaches Who Want More
-          </h1>
-          <p className="text-center">Whether you’re searching for your next coach or listing your expertise,
-            Coach Sparkle is always free to use.</p>
-          <p className="text-center span-txt">Users: Browse, match, and message coaches - 100% free<br />
-            Coaches: Join free, list your profile, and get discovered. Ready to stand out? Upgrade to Pro Coach Plan for advance tools and top placement</p>
-          <div className="row">
-            <div className="toggle-container">
-              <div className="switch-toggle">
-                <input type="radio" name="plan" id="monthly" ></input>
-                <input type="radio" name="plan" id="yearly"></input>
-                <label htmlFor="monthly">Monthly</label>
-                <label htmlFor="yearly">Yearly</label>
-                <div className="slider"></div>
-              </div>
-            </div>
-            <div className="pricing">
-              <div className="col-md-4">
-                <div className="card">
-                  <h3>Basic Plan</h3>
-                  <p>Get started with a basic profile to explore the platform and connect with your first few clients.</p>
-                  <h2>$<span className="number-add">0</span></h2>
-                  <div className="user-list-plan">
-                    <ul>
-                      <li><i className="bi bi-check"></i>Basic Listing In 1 Category</li>
-                      <li><i className="bi bi-check"></i>500 Character Bio + Photo</li>
-                      <li><i className="bi bi-check"></i> Standard AI Matching</li>
-                      <li><i className="bi bi-check"></i>Up to  5 Notifications / Month</li>
-                      <li><i className="bi bi-check"></i>Manual Booking Only</li>
-                      <li><i className="bi bi-check"></i>Fixed Pricing</li>
-                      <li><i className="bi bi-check"></i>Text Message Only</li>
-                      <li><i className="bi bi-check"></i>Standard Support, Limited Analytics</li>
-                    </ul>
-                    <button>Sign up</button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="card featured">
-                  <h3>Pro Coach Plan</h3>
-                  <p>Maximize your reach and revenue with advanced tools, full visibility and priority matching</p>
-                  <h2>$<span className="number-add">190</span></h2>
-                  {/* <span className="save">Save <span> $50 </span> a year</span> */}
-                  <div className="user-list-plan pro-coach-plan-add">
-                    <ul>
-                      <li><i className="bi bi-check"></i>Featured Listing In Unlimited Categories With Priority</li>
-                      <li><i className="bi bi-check"></i>3000 Character, Intro Video & Media Gallery</li>
-                      <li><i className="bi bi-check"></i>Real Time Alerts + Priority AI Matching</li>
-                      <li><i className="bi bi-check"></i>Unlimited Coaching Request Notifications</li>
-                      <li><i className="bi bi-check"></i>Smart Calendar Sync + Auto Booking Capabilities</li>
-                      <li><i className="bi bi-check"></i>Custom Pricing, Bundled Packages, and Flexible Offers</li>
-                      <li><i className="bi bi-check"></i>Email, Video Call and Client Interest Insights</li>
-                      <li><i className="bi bi-check"></i>24 Hours Priority Support + Full Analytics Dashboard</li>
-                    </ul>
-                    <button>Start Free! First 3 months on us!</button>
-                  </div>
-                </div>
-              </div>
-
-              {/* <div className="col-md-4">
-                <div className="card">
-                  <h3>Premium</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur</p>
-                  <h2>$<span className="number-add">16</span></h2>
-                  <div className="user-list-plan">
-                    <ul>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i> Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
-                      <li><i className="bi bi-check"></i>Features</li>
-                    </ul>
-                    <button>Signup</button>
-                  </div>
-                </div>
-              </div> */}
-            </div>
-          </div>
-        </div>
-      </div>
+      <CoachPlans />
 
       <div className="your-organization-coach">
         <div className="container">
