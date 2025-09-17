@@ -24,6 +24,7 @@ import Cookies from "js-cookie";
 import { getAllMasters } from "@/app/api/guest";
 import CoachDetailCalendar from "@/app/(guest)/_components/CoachDetailCalendar";
 import { useSearchParams } from 'next/navigation';
+import { CircularProgress } from "@mui/material";
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -35,7 +36,7 @@ export default function CoachList() {
   const [deliveryMode, setDeliveryMode] = useState([]);
   const [allLanguages, setAllLanguages] = useState([]);
   const [services, setServices] = useState([]);
-
+  const [itemsPerPage, setItemsPerPage] = useState(25); // Add items per page state
 
   const [filters, setFilters] = useState({
     search_for: "",
@@ -107,7 +108,7 @@ export default function CoachList() {
 
   useEffect(() => {
     getAllCoaches(currentPage);
-  }, [currentPage, filters]);
+  }, [currentPage, filters, itemsPerPage]);
 
   const getAllCoaches = async (page = 1) => {
     setLoading(true);
@@ -134,7 +135,7 @@ export default function CoachList() {
 
 
       const response = await axios.post(
-        `${apiUrl}/coachlist?page=${page}`,
+        `${apiUrl}/coachlist?page=${page}&per_page=${itemsPerPage}`,
         activeFilters,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -156,6 +157,13 @@ export default function CoachList() {
     ) {
       setCurrentPage(page);
     }
+  };
+
+  // Add handler for items per page change
+  const handleItemsPerPageChange = (e) => {
+    const newItemsPerPage = parseInt(e.target.value);
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
   };
 
   return (
@@ -193,9 +201,13 @@ export default function CoachList() {
               <select className="best-tab">
                 <option>Best Match</option>
               </select>
-              <select className="option-tab">
-                <option>25</option>
-                <option>50</option>
+              <select
+                className="option-tab"
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+              >
+                <option value={25}>25</option>
+                <option value={50}>50</option>
               </select>
             </div>
           </div>
@@ -311,7 +323,9 @@ export default function CoachList() {
 
           {loading ? (
             <main className="main-content">
-              <p>Loading...</p>
+              <div className="d-flex justify-content-center align-items-center min-vh-100">
+                <CircularProgress />
+              </div>
             </main>
           ) : coaches.length > 0 ? (
             <main className="main-content">
