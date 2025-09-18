@@ -6,8 +6,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../_styles/coach_calendar.css";
 import { format } from "date-fns";
 import EastIcon from '@mui/icons-material/East';
+import { useRouter } from "next/navigation";
 
 export default function CoachCalendar() {
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState(null);
 
   const available = [
@@ -69,7 +71,7 @@ export default function CoachCalendar() {
           calendarClassName="custom-calendar"
         />
 
-        <div className="manage">
+        <div className="manage" onClick={() => router.push('/coach/booking')}>
           <button className="manage-buttons">
             {/* Manage Calendar <i className="bi bi-arrow-right"></i> */}
             Manage Calendar <EastIcon className="mui-icons" />

@@ -12,6 +12,8 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
+import { useRouter } from "next/navigation";
 
 export default function BookingCalendar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -24,6 +26,7 @@ export default function BookingCalendar() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = Cookies.get('token');
+  const router = useRouter();
   // Fetch data from API
   useEffect(() => {
     const fetchBookingData = async () => {
@@ -79,6 +82,7 @@ export default function BookingCalendar() {
             extendedProps: {
               status: getStatusText(user.status),
               user: `${user.first_name} ${user.last_name}`,
+              profile_image: user.profile_image,
               email: user.email,
               packageId: pkg.package_id,
               coachId: pkg.coach_id,
@@ -378,7 +382,7 @@ export default function BookingCalendar() {
               </div>
 
               <div className="d-flex align-items-center mb-3 custom-border">
-                <img src="/coachsparkle/images/person.png" alt="User" className="rounded-circle me-3" width="40" height="40" />
+                <img src={selectedEvent.extendedProps.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} alt="User" className="rounded-circle me-3" width="40" height="40" />
                 <div>
                   <div className="fw-semibold">{selectedEvent.extendedProps.user}</div>
                   <div className="text-muted small">{selectedEvent.extendedProps.email}</div>
@@ -406,7 +410,7 @@ export default function BookingCalendar() {
               <div className="d-grid gap-2">
                 <button className="action-btn btn-outline-primary">Reschedule</button>
                 <button className="action-btn btn-outline-primary">Cancel Session</button>
-                <button className="action-btn btn-outline-primary">Message</button>
+                <button className="action-btn btn-outline-primary" onClick={() => router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`)}>Message</button>
               </div>
             </div>
           </div>
