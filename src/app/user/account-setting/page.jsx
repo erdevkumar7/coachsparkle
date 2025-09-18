@@ -88,9 +88,46 @@ const onPasswordSave = async (data) => {
   try {
     setLoading(true);
 
-    console.log("Password form submitted:", data);
+    const token = Cookies.get("token");
+    if (!token) {
+      toast.error("Session expired, Please login again.");
+      router.push("/login");
+      return;
+    }
 
-    toast.success("Password updated successfully!");
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        current_password: data.current_password,
+        new_password: data.new_password,
+        new_password_confirmation: data.confirm_password,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      if (result.errors) {
+        Object.values(result.errors).forEach((msgs) => {
+          msgs.forEach((msg) => toast.error(msg));
+        });
+      }
+      else if (result.error) {
+        toast.error(result.error);
+      }
+      else {
+        toast.error(result.message || "Failed to update password");
+      }
+      return;
+    }
+
+    toast.success(result.message || "Password updated successfully!");
+    passwordForm.reset();
+
   } catch (error) {
     console.error("Failed to update password", error);
     toast.error("Error updating password. Please try again.");
@@ -98,7 +135,6 @@ const onPasswordSave = async (data) => {
     setLoading(false);
   }
 };
-
 
 
   return (
@@ -279,7 +315,13 @@ control={accountForm.control}
                 </div>
               </div>
               <div>
-                <button className="save-changes-btn">Save Changes</button>
+                              <button className="save-changes-btn" disabled={loading}>
+                {loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  <>Save Changes</>
+                )}
+              </button>
               </div>
             </div>
           </form>

@@ -68,36 +68,72 @@ export default function Accountsetting() {
   }, []);
 
   const onAccountSave = async (data) => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    console.log("Account settings submitted:", data);
+      console.log("Account settings submitted:", data);
 
-    toast.success("Account settings updated!");
+      toast.success("Account settings updated!");
 
-  } catch (error) {
-    console.error("Account settings update failed:", error);
-    toast.error("Failed to update settings. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+    } catch (error) {
+      console.error("Account settings update failed:", error);
+      toast.error("Failed to update settings. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const onPasswordSave = async (data) => {
-  try {
-    setLoading(true);
+  const onPasswordSave = async (data) => {
+    try {
+      setLoading(true);
 
-    console.log("Password form submitted:", data);
+      const token = Cookies.get("token");
+      if (!token) {
+        toast.error("Session expired, Please login again.");
+        router.push("/login");
+        return;
+      }
 
-    toast.success("Password updated successfully!");
-  } catch (error) {
-    console.error("Failed to update password", error);
-    toast.error("Error updating password. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/change-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          current_password: data.current_password,
+          new_password: data.new_password,
+          new_password_confirmation: data.confirm_password,
+        }),
+      });
 
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.errors) {
+          Object.values(result.errors).forEach((msgs) => {
+            msgs.forEach((msg) => toast.error(msg));
+          });
+        }
+        else if (result.error) {
+          toast.error(result.error);
+        }
+        else {
+          toast.error(result.message || "Failed to update password");
+        }
+        return;
+      }
+
+      toast.success(result.message || "Password updated successfully!");
+      passwordForm.reset();
+
+    } catch (error) {
+      console.error("Failed to update password", error);
+      toast.error("Error updating password. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (
@@ -175,7 +211,7 @@ const onPasswordSave = async (data) => {
                 <label>Phone Number</label>
                 <Controller
                   name="mobile"
-control={accountForm.control}
+                  control={accountForm.control}
 
                   rules={{ required: true }}
                   render={({ field }) => (
@@ -278,11 +314,17 @@ control={accountForm.control}
                 </div>
               </div>
               <div>
-                <button className="save-changes-btn">Save Changes</button>
+                <button className="save-changes-btn" disabled={loading}>
+                  {loading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    <>Save Changes</>
+                  )}
+                </button>
               </div>
             </div>
           </form>
-          
+
           <div className="notification-section mt-5">
             <h3 className="quick-text">Notifications</h3>
             <div className="d-flex gap-2 flex-wrap mt-4">
