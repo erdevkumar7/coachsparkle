@@ -220,7 +220,9 @@ export default function CoachList() {
               value={filters.search_for}
               onChange={(e) => updateFilter("search_for", e.target.value)}
             />
-            <p className="results">1000+ coaches found</p>
+            <p className="results"> {pagination?.total
+    ? `${pagination.total} coaches found`
+    : "No coaches found"}</p>
 
             <div className="filter-section">
               <h4>Prices</h4>
