@@ -7,8 +7,6 @@ import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-
-
 export default function UserDashboard() {
     const router = useRouter();
     const [user, setUser] = useState(null);
@@ -333,11 +331,11 @@ export default function UserDashboard() {
                                             return (
                                                 <div className="coach-item" key={coach?.id ?? 0}>
                                                     <img
-                                                        src={coach?.profile_image || "/coachsparkle/assets/images/professional-img.png"}
+                                                        src={coach?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
                                                         alt="Coach"
                                                         className="coach-img"
                                                         onError={(e) => {
-                                                            e.target.src = "/coachsparkle/assets/images/professional-img.png";
+                                                            e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
                                                         }}
                                                     />
                                                     <span className="coach-name">

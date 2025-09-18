@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Pagination from "@/components/Pagination";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 export default function favourite() {
   const router = useRouter();
@@ -88,7 +89,7 @@ export default function favourite() {
               const fullName = `${coach?.first_name} ${coach?.last_name}`;
               const imageUrl = coach?.profile_image
                 ? `${coach.profile_image}`
-                : "/coachsparkle/assets/images/professional-img.png";
+                : `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
               const typeName =
                 item?.coach_subtype_usershow?.coach_subtypeid?.coach_type_show?.type_name;
 

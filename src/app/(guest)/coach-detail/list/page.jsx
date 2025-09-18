@@ -22,9 +22,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import FavIcon from "../../_components/coach-detail/FavIcon";
 import Cookies from "js-cookie";
 import { getAllMasters } from "@/app/api/guest";
-import CoachDetailCalendar from "@/app/(guest)/_components/CoachDetailCalendar";
 import { useSearchParams } from 'next/navigation';
 import { CircularProgress } from "@mui/material";
+import AvailabilityStartEndCalendar from "../../_components/coach-detail/AvailabilityStartEndCalendar";
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -308,7 +308,12 @@ export default function CoachList() {
 
             <div className="filter-section">
               <h4>Availability</h4>
-              <CoachDetailCalendar
+              <AvailabilityStartEndCalendar
+                value={[filters.availability_start, filters.availability_end]}
+                onChange={([start, end]) => {
+                  updateFilter("availability_start", start ? start.format("YYYY-MM-DD") : null);
+                  updateFilter("availability_end", end ? end.format("YYYY-MM-DD") : null);
+                }}
               />
             </div>
 
