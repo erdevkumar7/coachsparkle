@@ -40,7 +40,15 @@ export default function LabTabs({ coach }) {
                 </Box>
                 <TabPanel value="1">
                     <div className='tab-cont'>
-                        <p><strong>Confidence & Communication Coach | Empowering Professionals to Speak with Impact</strong></p>
+                        <p>
+                            <strong>
+                                {coach?.short_bio
+                                    ? coach.short_bio.length > 100
+                                        ? coach.short_bio.slice(0, 100) + "..."
+                                        : coach.short_bio
+                                    : "Confidence & Communication Coach | Empowering Professionals to Speak with Impact"}
+                            </strong>
+                        </p>
 
                         <p>{coach?.detailed_bio?.trim() ? coach.detailed_bio : 'Not available'}</p>
                     </div>
@@ -68,7 +76,7 @@ export default function LabTabs({ coach }) {
                         )}
                     </div>
                 </TabPanel>
-                
+
                 <TabPanel value="4">
                     <h5 className="what-user-text">What User's Say</h5>
                     <div className="review-section">

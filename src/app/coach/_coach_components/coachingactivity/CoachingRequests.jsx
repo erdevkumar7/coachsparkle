@@ -4,7 +4,7 @@ import Pagination from "@/components/Pagination";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/navigation";
@@ -16,6 +16,7 @@ export default function CoachingRequests({ initialRequest, token }) {
   const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(6); // Add items per page state
 
   dayjs.extend(relativeTime);
 
@@ -35,9 +36,13 @@ export default function CoachingRequests({ initialRequest, token }) {
     }
   }
 
+    useEffect(() => {
+      fetchPageData(currentPage);
+    }, [itemsPerPage]);
+
 
   const fetchPageData = async (page) => {
-    const res = await getUserPendingCoachingClient(page, token);
+    const res = await getUserPendingCoachingClient(page, token, itemsPerPage);
     if (res?.data) {
       setPendingRequest(res.data.data);
       setCurrentPage(res.data.pagination.current_page);
@@ -55,6 +60,13 @@ export default function CoachingRequests({ initialRequest, token }) {
     setSelectedRequest(null);
   };
 
+    // Add handler for items per page change
+  const handleItemsPerPageChange = (e) => {
+    const newItemsPerPage = parseInt(e.target.value);
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
+  };
+
   // console.log('pendingRequest', pendingRequest)
   return (
     <>
@@ -69,8 +81,12 @@ export default function CoachingRequests({ initialRequest, token }) {
               <select>
                 <option>Most Recent</option>
               </select>
-              <select>
-                <option>12</option>
+               <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+              >
+                <option value={6}>6</option>
+                <option value={12}>12</option>
               </select>
               <Link href="#">Bulk Edit</Link>
             </div>

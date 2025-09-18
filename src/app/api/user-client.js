@@ -1,10 +1,10 @@
-export const getUserPendingCoachingClient = async (page = 1, token) => {
+export const getUserPendingCoachingClient = async (page = 1, token, itemsPerPage) => {
   if (!token) {
     return { error: "No token provided", data: null };
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getPendingCoaching?page=${page}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getPendingCoaching?page=${page}&per_page=${itemsPerPage}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

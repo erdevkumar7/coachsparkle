@@ -28,7 +28,7 @@ export default async function BookingConfirmPage({ params, searchParams }) {
     }
 
     const booking_confirm = bookingConfirmData.data.transaction_detail;
-
+    // console.log('booking_confirm', booking_confirm)
     return (
         <div className="modal d-block booking-confirm-modal">
             <div className="modal-dialog modal-lg modal-dialog-centered">
@@ -122,7 +122,7 @@ export default async function BookingConfirmPage({ params, searchParams }) {
                     </div>
 
                     <div className="modal-footer justify-content-start gap-3">
-                        <Link href="/user/user-message" className="btn msg-btn">
+                        <Link href={`/user/user-message/1?coach_id=${booking_confirm.coach_id}`} className="btn msg-btn">
                             Message {booking_confirm.first_name} <i className="bi bi-arrow-right"></i>
                         </Link>
 
