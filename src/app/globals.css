@@ -400,7 +400,9 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   background-color: #1489d1;
   color: #fff;
 }
-
+.coaches-view-cards .software-engineer-list {
+    width: 100%;
+}
 .coach-img-left-side.me-3 img {
   border-radius: 100%;
   width: 80px;

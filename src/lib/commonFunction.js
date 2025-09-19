@@ -1,7 +1,6 @@
-export const formatBookingAvailability = (range) => {
-    if (!range) return "";
-
-    const [startStr, endStr] = range.split(" - ");
+export const formatBookingAvailability = (startStr, endStr) => {
+    if (!startStr || !endStr) return "";
+  
     const start = new Date(startStr);
     const end = new Date(endStr);
 

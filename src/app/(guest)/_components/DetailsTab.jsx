@@ -42,11 +42,18 @@ export default function LabTabs({ coach }) {
                     <div className='tab-cont'>
                         <p>
                             <strong>
-                                {coach?.short_bio
+                                {/* {coach?.short_bio
                                     ? coach.short_bio.length > 100
                                         ? coach.short_bio.slice(0, 100) + "..."
                                         : coach.short_bio
-                                    : "Confidence & Communication Coach | Empowering Professionals to Speak with Impact"}
+                                    : "Confidence & Communication Coach | Empowering Professionals to Speak with Impact"} */}
+
+                                {coach?.coach_subtype?.length > 0 &&
+                                    coach.coach_subtype.map((subtype, index) => (
+                                        <span key={index}>
+                                            {subtype.subtype_name}{" | "}
+                                        </span>
+                                    ))}
                             </strong>
                         </p>
 

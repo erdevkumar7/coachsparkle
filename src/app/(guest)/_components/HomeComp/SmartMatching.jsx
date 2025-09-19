@@ -77,7 +77,7 @@ export default function SmartMatching({ coaches }) {
                                         <div className="coach-software-name">
                                             {coach.service_names && (
                                                 <div className="software-engineer-list">
-                                                    {coach.service_names?.map((service) => (<Link href="#" key={service}>{service}</Link>))}
+                                                    {coach.service_names?.slice(0,4).map((service) => (<Link href="#" key={service}>{service}</Link>))}
                                                 </div>)}
                                         </div>
                                     </div>
