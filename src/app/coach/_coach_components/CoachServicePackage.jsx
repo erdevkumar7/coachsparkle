@@ -27,7 +27,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
-  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(null);
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
 
   // React Hook Form setup
   const {

@@ -6,7 +6,9 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { useRouter } from "next/navigation";
+import { formatBookingAvailability } from "@/lib/commonFunction";
 export default function ViewServicePackage({ pkg, allPackageIds }) {
+  console.log('pkgg', pkg)
   const router = useRouter();
   const handleClick = () => {
     router.push(`/coach/all-packages/${pkg.id}?coach_id=${pkg.coach_id}`);
@@ -31,7 +33,8 @@ export default function ViewServicePackage({ pkg, allPackageIds }) {
             {pkg?.delivery_mode?.mode_name}
             <PersonOutlineOutlinedIcon className="mui-icons" />{" "}
             {pkg?.session_format?.name}
-            <CalendarMonthOutlinedIcon className="mui-icons" /> Jun - Aug 2025
+            <CalendarMonthOutlinedIcon className="mui-icons" />
+            {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"}
           </div>
           <div className="icons-row">
             <ForumOutlinedIcon className="mui-icons" /> {pkg?.session_count}{" "}

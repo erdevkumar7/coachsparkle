@@ -27,7 +27,8 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
                 <div className="icons-row">
                     <PersonalVideoIcon className="mui-icons"/> {getNameById(allDelveryMode, DeliveryMode) || "Online"}
                     <PersonOutlineOutlinedIcon className="mui-icons"/> {getNameById(allSessionFormat, pkg?.session_format) || "1-on-1 coaching"}
-                    <CalendarMonthOutlinedIcon className="mui-icons"/> {formatBookingAvailability(pkg?.booking_availability) || 'Jun - Aug 2025'}
+                    <CalendarMonthOutlinedIcon className="mui-icons"/> 
+                    {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_end) || 'Jun - Aug 2025'}
                 </div>
                 <div className="icons-row">
                     <ForumOutlinedIcon className="mui-icons"/> {pkg?.session_count ? `${pkg?.session_count} Sessions` : "1 Sessions"}
