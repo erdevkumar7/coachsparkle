@@ -27,14 +27,22 @@ import { Controller } from "react-hook-form";
 export default function Accountsetting() {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [newCoachEnabled, setNewCoachEnabled] = useState(true);
-  const [msgEnabled, setMsgEnabled] = useState(true);
-  const [bookingEnabled, setBookingEnabled] = useState(true);
-  const [requestEnabled, setRequestEnabled] = useState(true);
-  const [announcementEnabled, setAnnouncementEnabled] = useState(true);
-  const [blogEnabled, setBlogEnabled] = useState(true);
-  const [billingEnabled, setBillingEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [passwordApiErrors, setPasswordApiErrors] = useState([]);
+  const [settingsLoading, setSettingsLoading] = useState();
+  const [newCoachEnabled, setNewCoachEnabled] = useState();
+  const [msgEnabled, setMsgEnabled] = useState();
+  const [bookingEnabled, setBookingEnabled] = useState();
+  const [requestEnabled, setRequestEnabled] = useState();
+  const [announcementEnabled, setAnnouncementEnabled] = useState();
+  const [blogEnabled, setBlogEnabled] = useState();
+  const [billingEnabled, setBillingEnabled] = useState();
+  const [profileVisibility, setProfileVisibility] = useState("");
+  const [communicationPreference, setCommunicationPreference] = useState("");
+  const [allowAiMatching, setAllowAiMatching] = useState();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   const accountForm = useForm({
     resolver: yupResolver(userAccountSettingSchema),
@@ -68,73 +76,179 @@ export default function Accountsetting() {
     fetchUser();
   }, []);
 
+useEffect(() => {
+  const fetchSettings = async () => {
+    try {
+      const token = Cookies.get("token");
+      if (!token) return;
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) return;
+      const data = await res.json();
+      const s = data.settings;
+
+      setNewCoachEnabled(!!s.new_coach_match_alert);
+      setMsgEnabled(!!s.message_notifications);
+      setBookingEnabled(!!s.booking_reminders);
+      setRequestEnabled(!!s.coaching_request_status);
+      setAnnouncementEnabled(!!s.platform_announcements);
+      setBlogEnabled(!!s.blog_article_recommendations);
+      setBillingEnabled(!!s.billing_updates);
+
+      setProfileVisibility(s.profile_visibility || "public");
+      setCommunicationPreference(s.communication_preference || "email");
+      setAllowAiMatching(!!s.allow_ai_matching);
+    } catch (err) {
+      console.error("Failed to fetch settings:", err);
+    }
+  };
+
+  fetchSettings();
+}, []);
+
+
+
   const onAccountSave = async (data) => {
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    console.log("Account settings submitted:", data);
+      console.log("Account settings submitted:", data);
 
-    toast.success("Account settings updated!");
+      toast.success("Account settings updated!");
 
-  } catch (error) {
-    console.error("Account settings update failed:", error);
-    toast.error("Failed to update settings. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+    } catch (error) {
+      console.error("Account settings update failed:", error);
+      toast.error("Failed to update settings. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const onPasswordSave = async (data) => {
-  try {
-    setLoading(true);
+  const onPasswordSave = async (data) => {
+    try {
+      setLoading(true);
+      setPasswordApiErrors([]);
 
-    const token = Cookies.get("token");
-    if (!token) {
-      toast.error("Session expired, Please login again.");
+      const token = Cookies.get("token");
+      if (!token) {
+        toast.error("Session expired, Please login again.");
+        router.push("/login");
+        return;
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/change-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          current_password: data.current_password,
+          new_password: data.new_password,
+          new_password_confirmation: data.confirm_password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        let errors = [];
+
+        if (result.errors) {
+          errors = Object.values(result.errors).flat();
+        } else if (result.error) {
+          errors = [result.error];
+        } else if (result.message) {
+          errors = [result.message];
+        }
+
+        setPasswordApiErrors(errors);
+        toast.error("Failed to update password");
+        return;
+      }
+
+      toast.success(result.message || "Password updated successfully!");
+      passwordForm.reset();
+
+    } catch (error) {
+      console.error("Failed to update password", error);
+      toast.error("Failed to update password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const updateSetting = async (key, value) => {
+    try {
+      const token = Cookies.get("token");
+      if (!token) {
+        toast.error("Session expired, Please login again.");
+        router.push("/login");
+        return;
+      }
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/setting`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ [key]: value }),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        toast.error(result.message || "Failed to update setting");
+        return;
+      }
+
+      toast.success(result.message || "Setting updated!");
+    } catch (err) {
+      console.error("Failed to update setting:", err);
+      toast.error("Failed to update setting");
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!confirmDelete) {
+      setDeleteError("Please confirm before deleting your account.");
+      return;
+    }
+    setDeleteError("");
+
+    try {
+      setDeleting(true);
+      const token = Cookies.get("token");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delete-account`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        setDeleteError(result.error || "Failed to delete account.");
+        return;
+      }
+
+      Cookies.remove("token");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
       router.push("/login");
-      return;
+    } catch (err) {
+      setDeleteError("Something went wrong while deleting your account.");
+    } finally {
+      setDeleting(false);
     }
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/change-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        current_password: data.current_password,
-        new_password: data.new_password,
-        new_password_confirmation: data.confirm_password,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      if (result.errors) {
-        Object.values(result.errors).forEach((msgs) => {
-          msgs.forEach((msg) => toast.error(msg));
-        });
-      }
-      else if (result.error) {
-        toast.error(result.error);
-      }
-      else {
-        toast.error(result.message || "Failed to update password");
-      }
-      return;
-    }
-
-    toast.success(result.message || "Password updated successfully!");
-    passwordForm.reset();
-
-  } catch (error) {
-    console.error("Failed to update password", error);
-    toast.error("Error updating password. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 
   return (
@@ -212,7 +326,7 @@ const onPasswordSave = async (data) => {
                 <label>Phone Number</label>
                 <Controller
                   name="mobile"
-control={accountForm.control}
+                  control={accountForm.control}
 
                   rules={{ required: true }}
                   render={({ field }) => (
@@ -314,14 +428,21 @@ control={accountForm.control}
                   />
                 </div>
               </div>
+              {passwordApiErrors.length > 0 && (
+                <div className="invalid-feedback d-block mt-0">
+                  {passwordApiErrors.map((err, idx) => (
+                    <div key={idx}>{err}</div>
+                  ))}
+                </div>
+              )}
               <div>
-                              <button className="save-changes-btn" disabled={loading}>
-                {loading ? (
-                  <CircularProgress size={20} color="inherit" />
-                ) : (
-                  <>Save Changes</>
-                )}
-              </button>
+                <button className="save-changes-btn" disabled={loading}>
+                  {loading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    <>Save Changes</>
+                  )}
+                </button>
               </div>
             </div>
           </form>
@@ -332,28 +453,41 @@ control={accountForm.control}
               <ToggleSwitch
                 label="New Coach Match Alert"
                 value={newCoachEnabled}
-                onChange={setNewCoachEnabled}
+                onChange={(checked) => {
+                  setNewCoachEnabled(checked);
+                  updateSetting("new_coach_match_alert", checked);
+                }}
                 onLabel="ON"
                 offLabel="OFF"
               />
+
               <ToggleSwitch
                 label="Message Notifications"
                 value={msgEnabled}
-                onChange={setMsgEnabled}
+                onChange={(checked) => {
+                  setMsgEnabled(checked);
+                  updateSetting("message_notifications", checked);
+                }}
                 onLabel="ON"
                 offLabel="OFF"
               />
               <ToggleSwitch
                 label="Booking Reminders"
                 value={bookingEnabled}
-                onChange={setBookingEnabled}
+                onChange={(checked) => {
+                  setBookingEnabled(checked);
+                  updateSetting("booking_reminders", checked);
+                }}
                 onLabel="ON"
                 offLabel="OFF"
               />
               <ToggleSwitch
                 label="Coaching Request Status"
                 value={requestEnabled}
-                onChange={setRequestEnabled}
+                onChange={(checked) => {
+                  setRequestEnabled(checked);
+                  updateSetting("coaching_request_status", checked);
+                }}
                 onLabel="ON"
                 offLabel="OFF"
               />
@@ -361,21 +495,30 @@ control={accountForm.control}
               <ToggleSwitch
                 label="Platform Announcements"
                 value={announcementEnabled}
-                onChange={setAnnouncementEnabled}
+                onChange={(checked) => {
+                  setAnnouncementEnabled(checked);
+                  updateSetting("platform_announcements", checked);
+                }}
                 onLabel="ON"
                 offLabel="OFF"
               />
               <ToggleSwitch
                 label="Blog / Article Recommendations"
                 value={blogEnabled}
-                onChange={setBlogEnabled}
+                onChange={(checked) => {
+                  setBlogEnabled(checked);
+                  updateSetting("blog_article_recommendations", checked);
+                }}
                 onLabel="ON"
                 offLabel="OFF"
               />
               <ToggleSwitch
                 label="Billing Updates"
                 value={billingEnabled}
-                onChange={setBillingEnabled}
+                onChange={(checked) => {
+                  setBillingEnabled(checked);
+                  updateSetting("billing_updates", checked);
+                }}
                 onLabel="ON"
                 offLabel="OFF"
               />
@@ -387,26 +530,92 @@ control={accountForm.control}
               <div className="d-flex gap-2 mb-2 pt-2">
                 <PublicOffIcon className="mui-icons" />
                 <span className="title">Profile Visibility</span>
-                <input type="checkbox" />
-                <label htmlFor="public">Public</label>
-                <input type="checkbox" />
-                <label htmlFor="private">Private</label>
+                <input
+                  type="radio"
+                  name="profileVisibility"
+                  checked={profileVisibility === "public"}
+                  onChange={() => {
+                    setProfileVisibility("public");
+                    updateSetting("profile_visibility", "public");
+                  }}
+                />
+                <label>Public</label>
+
+                <input
+                  type="radio"
+                  name="profileVisibility"
+                  checked={profileVisibility === "private"}
+                  onChange={() => {
+                    setProfileVisibility("private");
+                    updateSetting("profile_visibility", "private");
+                  }}
+                />
+                <label>Private</label>
+
               </div>
               <div className="d-flex gap-2 mb-2 pt-2">
                 <PodcastsIcon className="mui-icons" />
                 <span className="title">Communication Preference</span>
-                <input type="checkbox" />
-                <label htmlFor="email">Email</label>
-                <input type="checkbox" />
-                <label htmlFor="inapp">In-App</label>
-                <input type="checkbox" />
-                <label htmlFor="push-toggles">Push Toggles</label>
+                <input
+    type="checkbox"
+    checked={communicationPreference.includes("email")}
+    onChange={(e) => {
+      const newPref = e.target.checked
+        ? [...communicationPreference.split(","), "email"].join(",")
+        : communicationPreference
+            .split(",")
+            .filter((p) => p !== "email")
+            .join(",");
+      setCommunicationPreference(newPref);
+      updateSetting("communication_preference", newPref);
+    }}
+  />
+  <label>Email</label>
+
+  <input
+    type="checkbox"
+    checked={communicationPreference.includes("inapp")}
+    onChange={(e) => {
+      const newPref = e.target.checked
+        ? [...communicationPreference.split(","), "inapp"].join(",")
+        : communicationPreference
+            .split(",")
+            .filter((p) => p !== "inapp")
+            .join(",");
+      setCommunicationPreference(newPref);
+      updateSetting("communication_preference", newPref);
+    }}
+  />
+  <label>In-App</label>
+
+  <input
+    type="checkbox"
+    checked={communicationPreference.includes("push")}
+    onChange={(e) => {
+      const newPref = e.target.checked
+        ? [...communicationPreference.split(","), "push"].join(",")
+        : communicationPreference
+            .split(",")
+            .filter((p) => p !== "push")
+            .join(",");
+      setCommunicationPreference(newPref);
+      updateSetting("communication_preference", newPref);
+    }}
+  />
+  <label>Push</label>
               </div>
               <div className="d-flex gap-2 mb-2 pt-2">
                 <i className="bi bi-openai mui-icons"></i>
                 <span className="title">Allow AI Matching</span>
-                <input type="checkbox" />
-                <label htmlFor="agree">I agree to AI Personalization</label>
+                <input
+                  type="checkbox"
+                  checked={allowAiMatching}
+                  onChange={(e) => {
+                    setAllowAiMatching(e.target.checked);
+                    updateSetting("allow_ai_matching", e.target.checked);
+                  }}
+                />
+                <label>I agree to AI Personalization</label>
               </div>
               <div className="d-flex gap-2 mb-2 pt-2 under-line-text">
                 <CookieIcon className="mui-icons" />
@@ -569,13 +778,29 @@ control={accountForm.control}
               coaching history will be permanently removed.
             </p>
             <div className="d-flex gap-2">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={confirmDelete}
+                onChange={(e) => setConfirmDelete(e.target.checked)}
+              />
               <label htmlFor="delete">
                 I understand and wish to proceed with account deletion.
               </label>
             </div>
-            <button className="delete-btn d-flex gap-2 align-items-center">
-              <i className="bi bi-trash fs-5"></i>Delete Account
+            {deleteError && (
+              <div className="invalid-feedback d-block mt-1">{deleteError}</div>
+            )}
+            <button className="delete-btn d-flex gap-2 align-items-center"
+              disabled={deleting}
+              onClick={handleDeleteAccount}
+            >
+              {deleting ? (
+                <>Deleting...</>
+              ) : (
+                <>
+                  <i className="bi bi-trash fs-5"></i>Delete Account
+                </>
+              )}
             </button>
           </div>
         </div>

@@ -34,6 +34,7 @@ export default function Accountsetting() {
   const [blogEnabled, setBlogEnabled] = useState(true);
   const [billingEnabled, setBillingEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [passwordApiErrors, setPasswordApiErrors] = useState([]);
 
   const accountForm = useForm({
     resolver: yupResolver(userAccountSettingSchema),
@@ -86,6 +87,7 @@ export default function Accountsetting() {
   const onPasswordSave = async (data) => {
     try {
       setLoading(true);
+      setPasswordApiErrors([]);
 
       const token = Cookies.get("token");
       if (!token) {
@@ -110,17 +112,18 @@ export default function Accountsetting() {
       const result = await response.json();
 
       if (!response.ok) {
+        let errors = [];
+
         if (result.errors) {
-          Object.values(result.errors).forEach((msgs) => {
-            msgs.forEach((msg) => toast.error(msg));
-          });
+          errors = Object.values(result.errors).flat();
+        } else if (result.error) {
+          errors = [result.error];
+        } else if (result.message) {
+          errors = [result.message];
         }
-        else if (result.error) {
-          toast.error(result.error);
-        }
-        else {
-          toast.error(result.message || "Failed to update password");
-        }
+
+        setPasswordApiErrors(errors);
+        toast.error("Failed to update password");
         return;
       }
 
@@ -129,12 +132,11 @@ export default function Accountsetting() {
 
     } catch (error) {
       console.error("Failed to update password", error);
-      toast.error("Error updating password. Please try again.");
+      toast.error("Failed to update password");
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="main-panel account-section">
@@ -313,6 +315,13 @@ export default function Accountsetting() {
                   />
                 </div>
               </div>
+              {passwordApiErrors.length > 0 && (
+                <div className="invalid-feedback d-block mt-0">
+                  {passwordApiErrors.map((err, idx) => (
+                    <div key={idx}>{err}</div>
+                  ))}
+                </div>
+              )}
               <div>
                 <button className="save-changes-btn" disabled={loading}>
                   {loading ? (
