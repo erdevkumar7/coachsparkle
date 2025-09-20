@@ -15,7 +15,9 @@
   font-size: 24px;
   font-weight: 500;
 }
-
+.status-coachings img.rounded-circle {
+    object-fit: cover;
+}
 .coaching-status .topbar {
   background-color: #e5e5e5;
 }

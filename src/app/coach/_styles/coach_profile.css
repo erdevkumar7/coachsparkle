@@ -1,9 +1,13 @@
 .profile-form {
-  max-width: 1100px;
   width: 88% !important;
   margin: 0 !important;
   font-family: 'Inter', sans-serif;
   display: block !important;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    border-radius: 12px;
+    padding: 6px 6px;
 }
 
 .profile-form-add .card {
@@ -22,6 +26,10 @@
 .content-wrapper {
     padding-right: 20px;
 }
+input.price-range-add-input {
+    height: 45px;
+}
+
 
 .profile-form-add {
     margin-top: 10px;
@@ -73,6 +81,26 @@
   margin-bottom: 20px;
 }
 
+.form-group.main-coach-cate-add {
+    max-width: 32%;
+}
+.form-group.main-coach-cate-add select {
+    width: 100%;
+}
+
+
+div#mui-component-select-coach_subtype {
+    padding: 5px;
+}
+
+.form-group.target-input select {
+    width: 100%;
+}
+
+.form-group.target-input {
+    max-width: 32% !important;
+}
+
 .form-row.two-cols .form-group {
   flex: 1 1 48%;
 }
@@ -95,16 +123,18 @@
   margin-bottom: 6px;
 }
 
-.form-group input,
-.form-group select {
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
-  padding: 13px 14px;
-  font-size: 14px;
-  background: white;
-  width: 100%;
+.form-group input, .form-group select {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    width: 100%;
+    padding: 13px 14px;
+    font-size: 14px;
+    color: #666;
 }
-
+.MuiSelect-select.MuiSelect-outlined.MuiSelect-multiple.MuiInputBase-input.MuiOutlinedInput-input.css-18jp67o-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    color: #666;
+}
 
 .profile-form .form-group.full-width {
     flex: 1 1 100%;
@@ -193,7 +223,7 @@ button.save-btn-add {
   border-radius: 10px;
   align-items: center;
   gap: 6px;
-  padding: 8px 20px;
+  padding: 10px 20px;
   font-size: 15px;
   display: flex;
 }
@@ -283,7 +313,8 @@ button.save-btn-add {
   margin-left: 5px;
 }
 .keywords-input .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
-  height: auto;
+    height: auto;
+    border-radius: 12px !important;
 }
 .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-iz33ar {
     background: #fff !important;
@@ -293,7 +324,9 @@ button.save-btn-add {
     font-size: 14px !important;
     border: none !important;
 }
-
+.save-btn.gap-3.align-items-center .mui-icons {
+    font-size: 18px;
+}
 .MuiFormControl-root.css-10phmba {
     width: 100% !important;
 }
@@ -306,8 +339,8 @@ button.save-btn-add {
     height: auto !important;
 }
 
-.keyword-wrapper {
-  max-width: 500px;
+.profile-form-add .keyword-wrapper {
+  max-width: 100%;
 }
 
 .keyword-input {

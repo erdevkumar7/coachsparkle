@@ -1996,6 +1996,9 @@ nav#sidebar {
     width: 55px;
     height: 55px;
 }
+.side-top-bar img, .user-profile-change-image img {
+      object-fit: cover;
+}
 
 .user-profile-change-image img {
     border-radius: 50%;

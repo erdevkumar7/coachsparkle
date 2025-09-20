@@ -18,6 +18,11 @@
     padding: 0px 10px;
 }
 
+
+.d-flex.gap-3.add-draft-service .mui-icons {
+    width: 18px;
+}
+
 .content-wrapper h3{
     font-size: 24px;
     font-weight: 500;
@@ -25,7 +30,7 @@
 
 input#«r0» {
     padding: 0px 10px;
-    margin-top: 15px;
+    margin-top: 8px;
 }
 
 .coach-session-count {
@@ -318,10 +323,9 @@ p.best-text-one {
 
 
 .delivery-checkboxes input {
-    width: 24px;
-    height: 24px;
+    width: 15px;
+    height: 15px;
 }
-
 /* .delivery-checkboxes input[type="checkbox"] {
   accent-color: #009BFA;
 } */
@@ -480,15 +484,14 @@ p.best-text-one {
 .action-button button.save-btn-add {
     color: #fff;
     cursor: pointer;
-    background-color: #009BFA !important;
     border: none;
     border-radius: 12px;
-    padding: 14px 20px !important;
-    font-size: 15px;
-    margin: auto;
-    margin-top: 20px;
-    display: flex;
     gap: 5px;
+    margin: 20px auto auto;
+    font-size: 15px;
+    display: flex;
+    background-color: #009bfa !important;
+    padding: 10px 20px !important;
 }
 
 .action-button .save-btn-add:hover {

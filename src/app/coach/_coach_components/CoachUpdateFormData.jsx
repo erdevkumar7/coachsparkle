@@ -340,8 +340,30 @@ export default function CoachUpdateForm({
               </div>
             </div>
 
-            <div className="form-row three-cols">
+            <div className="form-row four-cols">
               <div className="form-group">
+                <label>Gender*</label>
+                <select {...register('gender')}>
+                  <option value="">Select</option>
+                  <option value={1}>Male</option>
+                  <option value={2}>Female</option>
+                  <option value={3}>Other</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Professional Title</label>
+                <input {...register('professional_title')} />
+                {errors.professional_title && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.professional_title.message}</p>}
+              </div>
+              <div className="form-group">
+                <label>Company Name</label>
+                <input {...register('company_name')} />
+                {errors.company_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.company_name.message}</p>}
+              </div>
+            </div>
+
+            <div className="form-row three-cols">
+              <div className="form-group main-coach-cate-add">
                 <label>Main Coaching Category</label>
                 <select {...register('coach_type')} >
                   <option value="">Select</option>
@@ -468,28 +490,10 @@ export default function CoachUpdateForm({
 
 
               </div>
-              <div className="form-group">
-                <label>Gender*</label>
-                <select {...register('gender')}>
-                  <option value="">Select</option>
-                  <option value={1}>Male</option>
-                  <option value={2}>Female</option>
-                  <option value={3}>Other</option>
-                </select>
-              </div>
             </div>
 
             <div className="form-row four-cols">
-              <div className="form-group">
-                <label>Professional Title</label>
-                <input {...register('professional_title')} />
-                {errors.professional_title && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.professional_title.message}</p>}
-              </div>
-              <div className="form-group">
-                <label>Company Name</label>
-                <input {...register('company_name')} />
-                {errors.company_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.company_name.message}</p>}
-              </div>
+
               <div className="form-group">
                 <label htmlFor="experience">Years of Experience</label>
                 {/* <input {...register('experience')} /> */}
@@ -515,9 +519,7 @@ export default function CoachUpdateForm({
                 </select>
                 {errors.delivery_mode && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.delivery_mode.message}</p>}
               </div>
-            </div>
 
-            <div className="form-row three-cols">
               <div className="form-group">
                 <label>Price Range</label>
                 {/* <input {...register('price_range')} /> */}
@@ -531,8 +533,11 @@ export default function CoachUpdateForm({
                 </select>
                 {errors.price_range && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.price_range.message}</p>}
               </div>
+            </div>
 
-              <div className="form-group">
+            <div className="form-row three-cols">
+
+              <div className="form-group target-input">
                 <label>Target Audience / Age Group</label>
                 <select {...register('age_group')}
                 >
@@ -588,7 +593,7 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group">
                 <label>Average Charge/Hour</label>
-                <input
+                <input className="price-range-add-input"
                   {...register('price')}
                 />
                 {errors.price && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.price.message}</p>}
@@ -701,13 +706,13 @@ export default function CoachUpdateForm({
                   {errors.service_keyword && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_keyword.message}</p>}
                 </div>
 
-                <div className="d-flex flex-wrap gap-2">
+                {/* <div className="d-flex flex-wrap gap-2">
                   {user?.service_keyword && user.service_keyword.map((kw, idx) => (
                     <span className="keyword-chip" key={idx}>
                       {kw.service}
                     </span>
                   ))}
-                </div>
+                </div> */}
               </div>
             </>
           ) : (
