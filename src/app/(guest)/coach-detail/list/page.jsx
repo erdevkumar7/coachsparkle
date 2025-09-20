@@ -221,8 +221,8 @@ export default function CoachList() {
               onChange={(e) => updateFilter("search_for", e.target.value)}
             />
             <p className="results"> {pagination?.total
-    ? `${pagination.total} coaches found`
-    : "No coaches found"}</p>
+              ? `${pagination.total} coaches found`
+              : "No coaches found"}</p>
 
             <div className="filter-section">
               <h4>Prices</h4>
@@ -368,8 +368,13 @@ export default function CoachList() {
                           </strong>
                         </p>
                         <p className="description">
-                          {coach.short_bio ||
-                            "Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical guidance designed to help you move forward with confidence."}
+
+                          {coach?.detailed_bio
+                            ? coach.detailed_bio.length > 270
+                              ? coach.detailed_bio.slice(0, 270) + "..."
+                              : coach.detailed_bio
+                            : "Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical guidance designed to help you move forward with confidence."}
+
                         </p>
                       </div>
                       <div className="coach-actions">
