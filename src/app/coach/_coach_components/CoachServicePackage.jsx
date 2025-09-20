@@ -682,9 +682,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         {errors.booking_time.message}
                       </div>
                     )}
-                    <small className="form-text text-muted">
+                    {/* <small className="form-text text-muted">
                      Select the time when sessions are available (24-hour format)
-                    </small>
+                    </small> */}
                   </div>
                 </div>
 
