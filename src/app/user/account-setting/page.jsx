@@ -24,12 +24,13 @@ import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { Controller } from "react-hook-form";
 
+
 export default function Accountsetting() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [passwordApiErrors, setPasswordApiErrors] = useState([]);
-  const [settingsLoading, setSettingsLoading] = useState();
+  // const [settingsLoading, setSettingsLoading] = useState();
   const [newCoachEnabled, setNewCoachEnabled] = useState();
   const [msgEnabled, setMsgEnabled] = useState();
   const [bookingEnabled, setBookingEnabled] = useState();
@@ -38,7 +39,7 @@ export default function Accountsetting() {
   const [blogEnabled, setBlogEnabled] = useState();
   const [billingEnabled, setBillingEnabled] = useState();
   const [profileVisibility, setProfileVisibility] = useState("");
-  const [communicationPreference, setCommunicationPreference] = useState("");
+  const [communicationPreference, setCommunicationPreference] = useState([]);
   const [allowAiMatching, setAllowAiMatching] = useState();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteError, setDeleteError] = useState("");
@@ -76,39 +77,44 @@ export default function Accountsetting() {
     fetchUser();
   }, []);
 
-useEffect(() => {
-  const fetchSettings = async () => {
-    try {
-      const token = Cookies.get("token");
-      if (!token) return;
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const token = Cookies.get("token");
+        if (!token) return;
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-      if (!res.ok) return;
-      const data = await res.json();
-      const s = data.settings;
+        if (!res.ok) return;
+        const data = await res.json();
+        const s = data.settings;
 
-      setNewCoachEnabled(!!s.new_coach_match_alert);
-      setMsgEnabled(!!s.message_notifications);
-      setBookingEnabled(!!s.booking_reminders);
-      setRequestEnabled(!!s.coaching_request_status);
-      setAnnouncementEnabled(!!s.platform_announcements);
-      setBlogEnabled(!!s.blog_article_recommendations);
-      setBillingEnabled(!!s.billing_updates);
+        const commPref = s.communication_preference
+          ? Array.isArray(s.communication_preference)
+            ? s.communication_preference
+            : JSON.parse(s.communication_preference)
+          : [];
 
-      setProfileVisibility(s.profile_visibility || "public");
-      setCommunicationPreference(s.communication_preference || "email");
-      setAllowAiMatching(!!s.allow_ai_matching);
-    } catch (err) {
-      console.error("Failed to fetch settings:", err);
-    }
-  };
+        setCommunicationPreference(commPref);
+        setNewCoachEnabled(!!s.new_coach_match_alert);
+        setMsgEnabled(!!s.message_notifications);
+        setBookingEnabled(!!s.booking_reminders);
+        setRequestEnabled(!!s.coaching_request_status);
+        setAnnouncementEnabled(!!s.platform_announcements);
+        setBlogEnabled(!!s.blog_article_recommendations);
+        setBillingEnabled(!!s.billing_updates);
 
-  fetchSettings();
-}, []);
+        setProfileVisibility(s.profile_visibility || "public");
+        setAllowAiMatching(!!s.allow_ai_matching);
+      } catch (err) {
+        console.error("Failed to fetch settings:", err);
+      }
+    };
 
+    fetchSettings();
+  }, []);
 
 
   const onAccountSave = async (data) => {
@@ -179,6 +185,15 @@ useEffect(() => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCommunicationChange = (option) => {
+    const updated = communicationPreference.includes(option)
+      ? communicationPreference.filter((item) => item !== option)
+      : [...communicationPreference, option];
+
+    setCommunicationPreference(updated);
+    updateSetting("communication_preference", updated);
   };
 
 
@@ -557,52 +572,27 @@ useEffect(() => {
                 <PodcastsIcon className="mui-icons" />
                 <span className="title">Communication Preference</span>
                 <input
-    type="checkbox"
-    checked={communicationPreference.includes("email")}
-    onChange={(e) => {
-      const newPref = e.target.checked
-        ? [...communicationPreference.split(","), "email"].join(",")
-        : communicationPreference
-            .split(",")
-            .filter((p) => p !== "email")
-            .join(",");
-      setCommunicationPreference(newPref);
-      updateSetting("communication_preference", newPref);
-    }}
-  />
-  <label>Email</label>
+                  type="checkbox"
+                  checked={communicationPreference.includes("email")}
+                  onChange={() => handleCommunicationChange("email")}
+                />
+                <label>Email</label>
 
-  <input
-    type="checkbox"
-    checked={communicationPreference.includes("inapp")}
-    onChange={(e) => {
-      const newPref = e.target.checked
-        ? [...communicationPreference.split(","), "inapp"].join(",")
-        : communicationPreference
-            .split(",")
-            .filter((p) => p !== "inapp")
-            .join(",");
-      setCommunicationPreference(newPref);
-      updateSetting("communication_preference", newPref);
-    }}
-  />
-  <label>In-App</label>
+                <input
+                  type="checkbox"
+                  checked={communicationPreference.includes("app")}
+                  onChange={() => handleCommunicationChange("app")}
+                />
+                <label>In-App</label>
 
-  <input
-    type="checkbox"
-    checked={communicationPreference.includes("push")}
-    onChange={(e) => {
-      const newPref = e.target.checked
-        ? [...communicationPreference.split(","), "push"].join(",")
-        : communicationPreference
-            .split(",")
-            .filter((p) => p !== "push")
-            .join(",");
-      setCommunicationPreference(newPref);
-      updateSetting("communication_preference", newPref);
-    }}
-  />
-  <label>Push</label>
+                <input
+                  type="checkbox"
+                  checked={communicationPreference.includes("push")}
+                  onChange={() => handleCommunicationChange("push")}
+                />
+                <label>Push Toggles</label>
+
+
               </div>
               <div className="d-flex gap-2 mb-2 pt-2">
                 <i className="bi bi-openai mui-icons"></i>
@@ -630,14 +620,14 @@ useEffect(() => {
                 </span>
 
                 <div
-                  className="modal fade"
+                  className="modal fade cookie-modal"
                   id="cookieModal"
                   tabIndex="-1"
                   aria-labelledby="cookieModalLabel"
                   aria-hidden="true"
                 >
                   <div className="modal-dialog">
-                    <div className="modal-content p-3">
+                    <div className="modal-content p-0">
                       <div className="modal-header border-0">
                         <h5
                           className="modal-title fw-bold"
@@ -659,7 +649,7 @@ useEffect(() => {
                           manage your preferences anytime.
                         </p>
 
-                        <div className="border rounded p-3 one">
+                        <div className="border rounded p-2 one">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <strong>Essential Cookies</strong>
@@ -675,14 +665,12 @@ useEffect(() => {
                                 type="checkbox"
                                 role="switch"
                                 id="essentialCookies"
-                                checked
-                                disabled
                               />
                             </div>
                           </div>
                         </div>
 
-                        <div className="border rounded p-3 two">
+                        <div className="border rounded p-2 two">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <strong>Performance Cookies</strong>
@@ -703,7 +691,7 @@ useEffect(() => {
                           </div>
                         </div>
 
-                        <div className="border rounded p-3 three">
+                        <div className="border rounded p-2 three">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <strong>Functional Cookies</strong>
@@ -723,7 +711,7 @@ useEffect(() => {
                           </div>
                         </div>
 
-                        <div className="border rounded p-3 four">
+                        <div className="border rounded p-2 four">
                           <div className="d-flex justify-content-between align-items-center">
                             <div>
                               <strong>Marketing Cookies</strong>
