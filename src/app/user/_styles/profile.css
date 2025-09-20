@@ -41,10 +41,10 @@
     gap: 20px;
     margin-top: 20px;
 }
-
 .upload-photo-add img {
     border-radius: 100%;
     width: 54px;
+    object-fit: cover;
     height: 54px;
 }
 

@@ -27,7 +27,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
-  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(null);
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
 
   // React Hook Form setup
   const {
@@ -682,9 +682,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         {errors.booking_time.message}
                       </div>
                     )}
-                    <small className="form-text text-muted">
+                    {/* <small className="form-text text-muted">
                      Select the time when sessions are available (24-hour format)
-                    </small>
+                    </small> */}
                   </div>
                 </div>
 

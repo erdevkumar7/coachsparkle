@@ -325,8 +325,9 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   max-width: 780px;
 }
 .latest-articles-cards img {
-    width: 100%;
     border-radius: 20px 20px 0 0;
+    width: 100%;
+    object-fit: cover;
 }
 .row.counters-inner-content .four.col-md-4 {
   width: 29.3333%;
@@ -396,11 +397,18 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   color: #009bfa !important;
 } */
 
+
+.view-all-coaches-list img.card-img-top {
+    object-fit: cover;
+}
+
 .coach-software-name a.me-2:hover {
   background-color: #1489d1;
   color: #fff;
 }
-
+.coaches-view-cards .software-engineer-list {
+    width: 100%;
+}
 .coach-img-left-side.me-3 img {
   border-radius: 100%;
   width: 80px;
@@ -983,6 +991,7 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   border-radius: 100px;
   width: 60px;
   height: 60px;
+  object-fit: cover;
 }
 
 .people-love-living .good-jobs-content h4 {
@@ -1343,6 +1352,9 @@ p.span-txt {
   justify-content: center;
   width: 20px;
   height: 20px;
+}
+.choose-plan-you .user-list-plan a {
+    text-decoration: none;
 }
 
 .choose-plan-you .user-list-plan i.bi.bi-check::before {

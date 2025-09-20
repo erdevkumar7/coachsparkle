@@ -234,11 +234,15 @@ h3.font-weight-bold.quick-text-add {
     padding-right: 0px;
 }
 
-.at-glance-add h3.text-lg.font-semibold.mb-4 {
-    padding-bottom: 15px;
-    border-bottom: solid 1px #E7E7E7;
+a.nav-link {
+    cursor: pointer;
 }
 
+.at-glance-add h3.text-lg.font-semibold.mb-4 {
+    border-bottom: 1px solid #e7e7e7;
+    padding-bottom: 15px;
+    font-size: 24px;
+}
 .goals-progress .left-column {
     flex: 1;
     width: 65%;
@@ -565,10 +569,10 @@ p.coach-rating span {
     font-family: 'roboto';
 }
 
-.card.matched-add h3,
-.card.matched-add .coach {
+.card.matched-add h3, .card.matched-add .coach {
     border-bottom: 1px solid #e7e7e7;
     padding-bottom: 18px;
+    font-size: 24px;
 }
 
 .card.matched-add .coach {
@@ -606,12 +610,12 @@ p.coach-rating span {
     margin-top: 30px;
 }
 
-
 .goal-setting-tips .card-title {
-    margin-bottom: 12px;
-    font-weight: 600;
     border-bottom: 1px solid #e7e7e7;
+    margin-bottom: 12px;
     padding-bottom: 18px;
+    font-weight: 600;
+    font-size: 24px;
 }
 
 .goal-setting-tips .tips-list {
@@ -671,8 +675,9 @@ p.coach-rating span {
     background: #fff;
     border: 1px solid #009bfa;
     border-radius: 12px;
-    padding: 10px 21px;
-    font-size: 14px;
+    padding: 8px 10px;
+    font-size: 13px;
+    margin-left: 8px;
 }
 
 .goal-setting-tips span.coach-name {
@@ -696,11 +701,12 @@ p.coach-rating span {
 
 .activity-log-card h3.activity-title {
     border-bottom: 1px solid #e7e7e7;
+    width: 37%;
     margin-bottom: 12px;
     padding-bottom: 18px;
     font-weight: 600;
-    width: 37%;
-}
+    font-size: 24px;
+}   
 
 .activity-log-card ul.activity-list {
     padding-left: 0pc;

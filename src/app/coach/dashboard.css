@@ -156,6 +156,11 @@
   left: 80%;
 }
 
+h3.text-lg.font-semibold {
+    font-size: 24px;
+}
+
+
 p.pro-add-value {
   text-align: center;
   color: #664C00;
@@ -165,6 +170,9 @@ p.pro-add-value {
   padding: 6px 0;
   font-family: Roboto;
   font-weight: 500;
+}
+.coach-profile-view p.pro-add-value {
+    width: 60%;
 }
 
 p.basic-add-value {
@@ -551,6 +559,7 @@ i.bi.bi-star-fill {
 }
 tr.coaching-all-match td.user-info img {
   width: 40px;
+  object-fit: cover !important;
 }
 .rating-reviews .review-table th,
 .review-table td {
@@ -671,12 +680,12 @@ i.bi.bi-arrow-right {
 }
 
 .reviews-right-side .session {
-  gap: 8px;
-  border-bottom: 1px solid #e7e7e7;
-  align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  display: flex;
+    border-bottom: 1px solid #e7e7e7;
+    align-items: center;
+    gap: 0px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    display: flex;
 }
 .reviews-right-side .session-date {
   text-align: center;
@@ -688,15 +697,16 @@ i.bi.bi-arrow-right {
 }
 
 .reviews-right-side .session-date .day {
-  font-size: 18px;
+  font-size: 16px;
   display: block;
 }
 
 .reviews-right-side .avatar {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+    object-fit: cover;
 }
 
 .reviews-right-side .session-info {
@@ -708,13 +718,13 @@ i.bi.bi-arrow-right {
 .reviews-right-side .name {
   color: #000;
   font-family: Roboto;
-  font-size: 18px;
+  font-size: 16px;
 }
 .reviews-right-side .time {
   color: #000000;
   font-weight: 400;
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 14px;
 }
 .reviews-right-side .manage-btn {
   text-align: right;
@@ -2681,9 +2691,10 @@ a#notificationDropdown {
   margin-left: 0.2rem;
 }
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile img {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile.dropdown .dropdown-toggle:after {
   display: none;
@@ -3561,6 +3572,7 @@ ul.navbar-nav.navbar-nav-right li.nav-item.dropdown {
     border-radius: 50%;
     width: 55px;
     height: 55px;
+    object-fit: cover;
 }
 
 .new-content-wrapper {

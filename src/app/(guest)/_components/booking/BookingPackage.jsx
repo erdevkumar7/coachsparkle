@@ -11,7 +11,7 @@ import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import Booking from "./Booking";
 import BreadCrumb from "@/components/BreadCrumb";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
-import { formatBookingWindow } from "@/lib/commonFunction";
+import { formatBookingAvailability, formatBookingWindow } from "@/lib/commonFunction";
 import { useRouter } from "next/navigation";
 
 
@@ -94,7 +94,7 @@ export default function BookingPackage({ pkg, allPackages }) {
                 <PersonOutlineOutlinedIcon className="text-muted mui-icons" />{" "}
                 {pkg?.session_format?.name}
                 <CalendarMonthOutlinedIcon className="text-muted mui-icons" />{" "}
-                Jun - Aug 2025
+                {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"}
               </div>
               <div className="d-flex gap-3 small mb-2">
                 <ForumOutlinedIcon className="text-muted mui-icons" />{pkg?.session_count ? pkg?.session_count : 1} Sessions
