@@ -546,3 +546,11 @@ div#cookieModal .four {
 .react-tel-input input.form-control:focus {
     border: 1px solid #d1d5db;
 }
+
+.cookie-modal {
+    top: 84px;
+}
+
+input[type="radio"] {
+    width: 20px;
+}

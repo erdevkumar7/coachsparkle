@@ -26,15 +26,22 @@ import { Controller } from "react-hook-form";
 export default function Accountsetting() {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [newCoachEnabled, setNewCoachEnabled] = useState(true);
-  const [msgEnabled, setMsgEnabled] = useState(true);
-  const [bookingEnabled, setBookingEnabled] = useState(true);
-  const [requestEnabled, setRequestEnabled] = useState(true);
-  const [announcementEnabled, setAnnouncementEnabled] = useState(true);
-  const [blogEnabled, setBlogEnabled] = useState(true);
-  const [billingEnabled, setBillingEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [passwordApiErrors, setPasswordApiErrors] = useState([]);
+    // const [settingsLoading, setSettingsLoading] = useState();
+    const [newCoachEnabled, setNewCoachEnabled] = useState();
+    const [msgEnabled, setMsgEnabled] = useState();
+    const [bookingEnabled, setBookingEnabled] = useState();
+    const [requestEnabled, setRequestEnabled] = useState();
+    const [announcementEnabled, setAnnouncementEnabled] = useState();
+    const [blogEnabled, setBlogEnabled] = useState();
+    const [billingEnabled, setBillingEnabled] = useState();
+    const [profileVisibility, setProfileVisibility] = useState("");
+    const [communicationPreference, setCommunicationPreference] = useState([]);
+    const [allowAiMatching, setAllowAiMatching] = useState();
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [deleteError, setDeleteError] = useState("");
+    const [deleting, setDeleting] = useState(false);
 
   const accountForm = useForm({
     resolver: yupResolver(userAccountSettingSchema),
@@ -67,6 +74,45 @@ export default function Accountsetting() {
 
     fetchUser();
   }, []);
+
+    useEffect(() => {
+      const fetchSettings = async () => {
+        try {
+          const token = Cookies.get("token");
+          if (!token) return;
+  
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+  
+          if (!res.ok) return;
+          const data = await res.json();
+          const s = data.settings;
+  
+          const commPref = s.communication_preference
+            ? Array.isArray(s.communication_preference)
+              ? s.communication_preference
+              : JSON.parse(s.communication_preference)
+            : [];
+  
+          setCommunicationPreference(commPref);
+          setNewCoachEnabled(!!s.new_coach_match_alert);
+          setMsgEnabled(!!s.message_notifications);
+          setBookingEnabled(!!s.booking_reminders);
+          setRequestEnabled(!!s.coaching_request_status);
+          setAnnouncementEnabled(!!s.platform_announcements);
+          setBlogEnabled(!!s.blog_article_recommendations);
+          setBillingEnabled(!!s.billing_updates);
+  
+          setProfileVisibility(s.profile_visibility || "public");
+          setAllowAiMatching(!!s.allow_ai_matching);
+        } catch (err) {
+          console.error("Failed to fetch settings:", err);
+        }
+      };
+  
+      fetchSettings();
+    }, []);
 
   const onAccountSave = async (data) => {
     try {
@@ -137,6 +183,84 @@ export default function Accountsetting() {
       setLoading(false);
     }
   };
+
+    const handleCommunicationChange = (option) => {
+      const updated = communicationPreference.includes(option)
+        ? communicationPreference.filter((item) => item !== option)
+        : [...communicationPreference, option];
+  
+      setCommunicationPreference(updated);
+      updateSetting("communication_preference", updated);
+    };
+  
+  
+    const updateSetting = async (key, value) => {
+      try {
+        const token = Cookies.get("token");
+        if (!token) {
+          toast.error("Session expired, Please login again.");
+          router.push("/login");
+          return;
+        }
+  
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/setting`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ [key]: value }),
+        });
+  
+        const result = await res.json();
+  
+        if (!res.ok) {
+          toast.error(result.message || "Failed to update setting");
+          return;
+        }
+  
+        toast.success(result.message || "Setting updated!");
+      } catch (err) {
+        console.error("Failed to update setting:", err);
+        toast.error("Failed to update setting");
+      }
+    };
+  
+    const handleDeleteAccount = async () => {
+      if (!confirmDelete) {
+        setDeleteError("Please confirm before deleting your account.");
+        return;
+      }
+      setDeleteError("");
+  
+      try {
+        setDeleting(true);
+        const token = Cookies.get("token");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delete-account`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const result = await res.json();
+  
+        if (!res.ok) {
+          setDeleteError(result.error || "Failed to delete account.");
+          return;
+        }
+  
+        Cookies.remove("token");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+  
+        router.push("/login");
+      } catch (err) {
+        setDeleteError("Something went wrong while deleting your account.");
+      } finally {
+        setDeleting(false);
+      }
+    };
 
   return (
     <div className="main-panel account-section">
@@ -338,55 +462,77 @@ export default function Accountsetting() {
             <h3 className="quick-text">Notifications</h3>
             <div className="d-flex gap-2 flex-wrap mt-4">
               <ToggleSwitch
-                label="New Coach Match Alert"
-                value={newCoachEnabled}
-                onChange={setNewCoachEnabled}
-                onLabel="ON"
-                offLabel="OFF"
-              />
-              <ToggleSwitch
-                label="Message Notifications"
-                value={msgEnabled}
-                onChange={setMsgEnabled}
-                onLabel="ON"
-                offLabel="OFF"
-              />
-              <ToggleSwitch
-                label="Booking Reminders"
-                value={bookingEnabled}
-                onChange={setBookingEnabled}
-                onLabel="ON"
-                offLabel="OFF"
-              />
-              <ToggleSwitch
-                label="Coaching Request Status"
-                value={requestEnabled}
-                onChange={setRequestEnabled}
-                onLabel="ON"
-                offLabel="OFF"
-              />
-
-              <ToggleSwitch
-                label="Platform Announcements"
-                value={announcementEnabled}
-                onChange={setAnnouncementEnabled}
-                onLabel="ON"
-                offLabel="OFF"
-              />
-              <ToggleSwitch
-                label="Blog / Article Recommendations"
-                value={blogEnabled}
-                onChange={setBlogEnabled}
-                onLabel="ON"
-                offLabel="OFF"
-              />
-              <ToggleSwitch
-                label="Billing Updates"
-                value={billingEnabled}
-                onChange={setBillingEnabled}
-                onLabel="ON"
-                offLabel="OFF"
-              />
+                              label="New Coach Match Alert"
+                              value={newCoachEnabled}
+                              onChange={(checked) => {
+                                setNewCoachEnabled(checked);
+                                updateSetting("new_coach_match_alert", checked);
+                              }}
+                              onLabel="ON"
+                              offLabel="OFF"
+                            />
+              
+                            <ToggleSwitch
+                              label="Message Notifications"
+                              value={msgEnabled}
+                              onChange={(checked) => {
+                                setMsgEnabled(checked);
+                                updateSetting("message_notifications", checked);
+                              }}
+                              onLabel="ON"
+                              offLabel="OFF"
+                            />
+                            <ToggleSwitch
+                              label="Booking Reminders"
+                              value={bookingEnabled}
+                              onChange={(checked) => {
+                                setBookingEnabled(checked);
+                                updateSetting("booking_reminders", checked);
+                              }}
+                              onLabel="ON"
+                              offLabel="OFF"
+                            />
+                            <ToggleSwitch
+                              label="Coaching Request Status"
+                              value={requestEnabled}
+                              onChange={(checked) => {
+                                setRequestEnabled(checked);
+                                updateSetting("coaching_request_status", checked);
+                              }}
+                              onLabel="ON"
+                              offLabel="OFF"
+                            />
+              
+                            <ToggleSwitch
+                              label="Platform Announcements"
+                              value={announcementEnabled}
+                              onChange={(checked) => {
+                                setAnnouncementEnabled(checked);
+                                updateSetting("platform_announcements", checked);
+                              }}
+                              onLabel="ON"
+                              offLabel="OFF"
+                            />
+                            <ToggleSwitch
+                              label="Blog / Article Recommendations"
+                              value={blogEnabled}
+                              onChange={(checked) => {
+                                setBlogEnabled(checked);
+                                updateSetting("blog_article_recommendations", checked);
+                              }}
+                              onLabel="ON"
+                              offLabel="OFF"
+                            />
+                            <ToggleSwitch
+                              label="Billing Updates"
+                              value={billingEnabled}
+                              onChange={(checked) => {
+                                setBillingEnabled(checked);
+                                updateSetting("billing_updates", checked);
+                              }}
+                              onLabel="ON"
+                              offLabel="OFF"
+                            />
             </div>
           </div>
           <div className="privacy-section mt-5">
@@ -395,25 +541,64 @@ export default function Accountsetting() {
               <div className="d-flex gap-2 mb-2 pt-2 data-privacy-control">
                 <PublicOffIcon className="mui-icons" />
                 <span className="title">Profile Visibility</span>
-                <input type="checkbox" />
-                <label htmlFor="public">Public</label>
-                <input type="checkbox" />
-                <label htmlFor="private">Private</label>
+                <input
+                  type="radio"
+                  name="profileVisibility"
+                  checked={profileVisibility === "public"}
+                  onChange={() => {
+                    setProfileVisibility("public");
+                    updateSetting("profile_visibility", "public");
+                  }}
+                />
+                <label>Public</label>
+
+                <input
+                  type="radio"
+                  name="profileVisibility"
+                  checked={profileVisibility === "private"}
+                  onChange={() => {
+                    setProfileVisibility("private");
+                    updateSetting("profile_visibility", "private");
+                  }}
+                />
+                <label>Private</label>
+
               </div>
-              <div className="d-flex gap-2 mb-2 pt-2 data-privacy-control">
+              <div className="d-flex gap-2 mb-2 pt-2">
                 <PodcastsIcon className="mui-icons" />
                 <span className="title">Communication Preference</span>
-                <input type="checkbox" />
-                <label htmlFor="email">Email</label>
-                <input type="checkbox" />
-                <label htmlFor="inapp">In-App</label>
-                <input type="checkbox" />
-                <label htmlFor="push-toggles">Push Toggles</label>
+                <input
+                  type="checkbox"
+                  checked={communicationPreference.includes("email")}
+                  onChange={() => handleCommunicationChange("email")}
+                />
+                <label>Email</label>
+
+                <input
+                  type="checkbox"
+                  checked={communicationPreference.includes("app")}
+                  onChange={() => handleCommunicationChange("app")}
+                />
+                <label>In-App</label>
+
+                <input
+                  type="checkbox"
+                  checked={communicationPreference.includes("push")}
+                  onChange={() => handleCommunicationChange("push")}
+                />
+                <label>Push Toggles</label>
               </div>
               <div className="d-flex gap-2 mb-2 pt-2 data-privacy-control">
                 <i className="bi bi-openai mui-icons"></i>
                 <span className="title">Allow AI Matching</span>
-                <input type="checkbox" />
+               <input
+                  type="checkbox"
+                  checked={allowAiMatching}
+                  onChange={(e) => {
+                    setAllowAiMatching(e.target.checked);
+                    updateSetting("allow_ai_matching", e.target.checked);
+                  }}
+                />
                 <label htmlFor="agree">I agree to AI Personalization</label>
               </div>
               <div className="d-flex gap-2 mb-2 pt-2 under-line-text">
@@ -576,14 +761,30 @@ export default function Accountsetting() {
               permanent and cannot be undone. All your data, messages, and
               coaching history will be permanently removed.
             </p>
-            <div className="d-flex gap-2">
-              <input type="checkbox" />
+             <div className="d-flex gap-2">
+              <input
+                type="checkbox"
+                checked={confirmDelete}
+                onChange={(e) => setConfirmDelete(e.target.checked)}
+              />
               <label htmlFor="delete">
                 I understand and wish to proceed with account deletion.
               </label>
             </div>
-            <button className="delete-btn d-flex gap-2 align-items-center">
-              <i className="bi bi-trash fs-5"></i>Delete Account
+            {deleteError && (
+              <div className="invalid-feedback d-block mt-1">{deleteError}</div>
+            )}
+            <button className="delete-btn d-flex gap-2 align-items-center"
+              disabled={deleting}
+              onClick={handleDeleteAccount}
+            >
+              {deleting ? (
+                <>Deleting...</>
+              ) : (
+                <>
+                  <i className="bi bi-trash fs-5"></i>Delete Account
+                </>
+              )}
             </button>
           </div>
         </div>
