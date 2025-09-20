@@ -66,7 +66,11 @@ export default function BookingPackage({ pkg, allPackages }) {
           />
           <h3 className="mb-4">{pkg?.user?.first_name} {pkg?.user?.last_name}</h3>
           <p className="coach-bio">
-            {pkg?.user?.short_bio}
+            {pkg?.user?.detailed_bio
+              ? pkg?.user.detailed_bio.length > 270
+                ? pkg?.user.detailed_bio.slice(0, 270) + "..."
+                : pkg?.user.detailed_bio
+              : ""}
           </p>
           <div className="manage-btn-add" onClick={handleClick}>
             <button className="btn mb-4 msg-btn">

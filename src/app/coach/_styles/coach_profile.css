@@ -1,8 +1,8 @@
-.profile-form {
-  width: 88% !important;
-  margin: 0 !important;
-  font-family: 'Inter', sans-serif;
-  display: block !important;
+.profile-form-add .profile-form {
+    display: block!important;
+    gap: 30px;
+    width: 100%!important;
+    margin-top: 25px!important;
 }
 
 .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
