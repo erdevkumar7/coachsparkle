@@ -356,6 +356,9 @@ p.best-text-one {
     border: 1px solid #d1d5db !important;
 }
 
+.service-profile-add {
+    display: flex !important;
+}
 
 /* .upload-btn {
   background-color: #ecfffa;
