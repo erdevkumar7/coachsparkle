@@ -44,7 +44,7 @@ export default async function BookingConfirmPage({ params, searchParams }) {
 
                     <div className="modal-body">
                         <p>
-                            Hi Deven,
+                            Hi {booking_confirm?.user_first_name || "User"},
                             <br />
                             Thank you for booking the{" "}
                             <strong>

@@ -43,7 +43,7 @@ export default function BookingCalendar() {
             body: JSON.stringify({ status: "all" }),
           }
         );
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -87,7 +87,8 @@ export default function BookingCalendar() {
               packageId: pkg.package_id,
               coachId: pkg.coach_id,
               userId: user.id,
-              rawStatus: user.status
+              rawStatus: user.status,
+              bookingId: user.booking_id
             }
           };
           events.push(event);
@@ -356,7 +357,7 @@ export default function BookingCalendar() {
             <Button size="small" onClick={handleViewClick}>
               View
             </Button>
-            <Button size="small">Edit</Button>
+            {/* <Button size="small">Edit</Button> */}
             <Button size="small" onClick={handleClose}>
               Cancel
             </Button>
@@ -378,7 +379,7 @@ export default function BookingCalendar() {
                     {selectedEvent.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
-                <button className="px-4 py-1">Edit</button>
+                {/* <button className="px-4 py-1">Edit</button> */}
               </div>
 
               <div className="d-flex align-items-center mb-3 custom-border">
@@ -408,8 +409,9 @@ export default function BookingCalendar() {
               </div>
 
               <div className="d-grid gap-2">
-                <button className="action-btn btn-outline-primary">Reschedule</button>
-                <button className="action-btn btn-outline-primary">Cancel Session</button>
+                {selectedEvent?.extendedProps.status == "canceled" &&
+                  <button className="action-btn btn-outline-primary" onClick={() => router.push(`/coach-detail/${selectedEvent?.extendedProps.coachId}/package/${selectedEvent?.extendedProps.packageId}/booking`)}>Reschedule</button>}
+                {/* <button className="action-btn btn-outline-primary">Cancel Session</button> */}
                 <button className="action-btn btn-outline-primary" onClick={() => router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`)}>Message</button>
               </div>
             </div>
