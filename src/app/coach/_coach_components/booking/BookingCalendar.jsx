@@ -14,6 +14,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function BookingCalendar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -21,52 +22,53 @@ export default function BookingCalendar() {
   const [showMoreModal, setShowMoreModal] = useState(false);
   const [moreEvents, setMoreEvents] = useState([]);
   const [modalDate, setModalDate] = useState("");
-  const [showCustomDialog, setShowCustomDialog] = useState(false);
+  const [showViewDialog, setShowViewDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = Cookies.get('token');
   const router = useRouter();
+
   // Fetch data from API
   useEffect(() => {
-    const fetchBookingData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/CoachConfirmedBooking`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ status: "all" }),
-          }
-        );
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (data.success) {
-          // Transform API data to calendar events
-          const transformedEvents = transformApiDataToEvents(data.data);
-          setEvents(transformedEvents);
-        } else {
-          throw new Error(data.message || "Failed to fetch booking data");
-        }
-      } catch (err) {
-        setError(err.message);
-        console.error("Error fetching booking data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchBookingData();
   }, []);
+
+  const fetchBookingData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/CoachConfirmedBooking`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "all" }),
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        const transformedEvents = transformApiDataToEvents(data.data);
+        setEvents(transformedEvents);
+      } else {
+        throw new Error(data.message || "Failed to fetch booking data");
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error("Error fetching booking data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Function to transform API data to calendar events
   const transformApiDataToEvents = (apiData) => {
@@ -75,8 +77,8 @@ export default function BookingCalendar() {
     apiData.forEach(dateGroup => {
       dateGroup.packages.forEach(pkg => {
         pkg.users.forEach(user => {
-          // Create event object for each user booking
           const event = {
+            id: `${user.id}-${pkg.package_id}-${dateGroup.date}`, // Create a unique ID
             title: pkg.title,
             start: `${dateGroup.date}T${user.slot_time_start}:00`,
             extendedProps: {
@@ -87,7 +89,8 @@ export default function BookingCalendar() {
               packageId: pkg.package_id,
               coachId: pkg.coach_id,
               userId: user.id,
-              rawStatus: user.status
+              rawStatus: user.status,
+              bookingId: user.booking_id // Assuming API returns booking_id
             }
           };
           events.push(event);
@@ -109,104 +112,93 @@ export default function BookingCalendar() {
     }
   };
 
+  // Handle status change
+  const handleStatusChange = async (newStatus) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/change-booking-status`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            booking_id: selectedEvent.extendedProps.bookingId,
+            status: newStatus
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Update the event status in the local state
+        setEvents(prevEvents => 
+          prevEvents.map(event => 
+            event.id === selectedEvent.id 
+              ? {
+                  ...event,
+                  extendedProps: {
+                    ...event.extendedProps,
+                    status: getStatusText(newStatus),
+                    rawStatus: newStatus
+                  }
+                }
+              : event
+          )
+        );
+        
+        // Update the selected event
+        setSelectedEvent(prev => ({
+          ...prev,
+          extendedProps: {
+            ...prev.extendedProps,
+            status: getStatusText(newStatus),
+            rawStatus: newStatus
+          }
+        }));
+        
+        toast.success("Status updated successfully!");
+        setShowEditDialog(false); // Close the edit dialog after successful update
+      } else {
+        throw new Error(data.message || "Failed to update status");
+      }
+    } catch (err) {
+      toast.error(`Error updating status: ${err.message}`);
+      console.error("Error updating status:", err);
+    }
+  };
+
   const handleEventClick = (info) => {
     setSelectedEvent(info.event);
     setAnchorEl(info.jsEvent.currentTarget);
   };
 
   const handleViewClick = () => {
-    setShowCustomDialog(true);
+    setShowViewDialog(true);
+    setShowEditDialog(false);
+    setAnchorEl(null);
+  };
+
+  const handleEditClick = () => {
+    setShowEditDialog(true);
+    setShowViewDialog(false);
     setAnchorEl(null);
   };
 
   const handleDialogClose = () => {
-    setShowCustomDialog(false);
+    setShowViewDialog(false);
+    setShowEditDialog(false);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
     setSelectedEvent(null);
-  };
-
-  const handleMoreClick = (arg) => {
-    const events = arg.allSegs.map((seg) => seg.event);
-    setMoreEvents(events);
-    setModalDate(arg.date.toDateString());
-    setShowMoreModal(true);
-    return false;
-  };
-
-  const handleModalClose = () => {
-    setShowMoreModal(false);
-    setMoreEvents([]);
-  };
-
-  const getIcon = (mode) => {
-    switch (mode) {
-      case "zoom":
-        return (
-          <Image
-            src="/coachsparkle/images/zoom.png"
-            alt="Zoom"
-            width={20}
-            height={16}
-          />
-        );
-      case "teams":
-        return (
-          <Image
-            src="/coachsparkle/images/teams.png"
-            alt="Teams"
-            width={16}
-            height={16}
-          />
-        );
-      case "google":
-        return (
-          <Image
-            src="/coachsparkle/images/google-meet.png"
-            alt="Google"
-            width={16}
-            height={16}
-          />
-        );
-      default:
-        return "";
-    }
-  };
-
-  const getEventClass = (status) => {
-    switch (status) {
-      case "confirmed":
-        return {
-          className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
-          style: { backgroundColor: "#00A81C" },
-        };
-
-      case "pending":
-        return {
-          className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
-          style: { backgroundColor: "#DB6E00" },
-        };
-
-      case "completed":
-        return {
-          className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
-          style: { backgroundColor: "#009BFA" },
-        };
-
-      case "canceled":
-        return {
-          className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
-          style: { backgroundColor: "#DC3545" },
-        };
-
-      default:
-        return {
-          className: "text-dark rounded-2 px-2 py-1 w-100",
-          style: { backgroundColor: "#f8f9fa" },
-        };
-    }
   };
 
   // Calculate statistics for the summary
@@ -224,8 +216,9 @@ export default function BookingCalendar() {
     const scheduled = monthEvents.filter(e => e.extendedProps.rawStatus === 1).length;
     const pending = monthEvents.filter(e => e.extendedProps.rawStatus === 0).length;
     const completed = monthEvents.filter(e => e.extendedProps.rawStatus === 2).length;
+    const canceled = monthEvents.filter(e => e.extendedProps.rawStatus === 3).length;
 
-    return { scheduled, pending, completed };
+    return { scheduled, pending, completed, canceled };
   };
 
   const stats = calculateStats();
@@ -251,6 +244,80 @@ export default function BookingCalendar() {
       </div>
     );
   }
+
+  // Render Action Buttons based on status and mode (view/edit)
+  const renderActionButtons = (isEditMode = false) => {
+    if (!isEditMode) {
+      // View Mode - Only show Message button
+      return (
+        <button 
+          className="action-btn btn-outline-primary" 
+          onClick={() => {
+            handleDialogClose();
+            router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`);
+          }}
+        >
+          Message
+        </button>
+      );
+    }
+
+    // Edit Mode - Show status-specific buttons + Message
+    return (
+      <>
+        {selectedEvent.extendedProps.rawStatus === 0 && ( // Pending
+          <>
+            <button 
+              className="action-btn btn-outline-primary" 
+              onClick={() => handleStatusChange(1)} // Confirm
+            >
+              Confirm
+            </button>
+            <button 
+              className="action-btn btn-outline-primary" 
+              onClick={() => handleStatusChange(3)} // Cancel
+            >
+              Cancel Session
+            </button>
+          </>
+        )}
+        
+        {selectedEvent.extendedProps.rawStatus === 1 && ( // Confirmed
+          <>
+            <button 
+              className="action-btn btn-outline-primary" 
+              onClick={() => handleStatusChange(2)} // Complete
+            >
+              Complete Session
+            </button>
+            <button 
+              className="action-btn btn-outline-primary" 
+              onClick={() => handleStatusChange(3)} // Cancel
+            >
+              Cancel Session
+            </button>
+          </>
+        )}
+        
+        {/* {selectedEvent.extendedProps.rawStatus === 3 && ( // Canceled
+          <button className="action-btn btn-outline-primary">
+            Reschedule
+          </button>
+        )} */}
+        
+        {/* Always show Message button in edit mode too */}
+        <button 
+          className="action-btn btn-outline-primary" 
+          onClick={() => {
+            handleDialogClose();
+            router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`);
+          }}
+        >
+          Message
+        </button>
+      </>
+    );
+  };
 
   return (
     <div className="booking-section">
@@ -311,7 +378,6 @@ export default function BookingCalendar() {
           return (
             <div className={className} style={style}>
               <span className="small fw-semibold">{arg.event.title}</span>
-              {/* Removed mode icon since API doesn't provide this data */}
             </div>
           );
         }}
@@ -356,7 +422,7 @@ export default function BookingCalendar() {
             <Button size="small" onClick={handleViewClick}>
               View
             </Button>
-            <Button size="small">Edit</Button>
+            <Button size="small" onClick={handleEditClick}>Edit</Button>
             <Button size="small" onClick={handleClose}>
               Cancel
             </Button>
@@ -364,7 +430,8 @@ export default function BookingCalendar() {
         </div>
       </Popover>
 
-      {selectedEvent && showCustomDialog && (
+      {/* View Dialog */}
+      {selectedEvent && showViewDialog && (
         <div className="custom-dialog-overlay" onClick={handleDialogClose}>
           <div className="custom-dialog" onClick={(e) => e.stopPropagation()}>
             <button className="btn-close position-absolute top-0 end-0 m-3" onClick={handleDialogClose}></button>
@@ -378,7 +445,7 @@ export default function BookingCalendar() {
                     {selectedEvent.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
-                <button className="px-4 py-1">Edit</button>
+                <span className="badge bg-secondary">{selectedEvent.extendedProps.status.toUpperCase()}</span>
               </div>
 
               <div className="d-flex align-items-center mb-3 custom-border">
@@ -408,9 +475,59 @@ export default function BookingCalendar() {
               </div>
 
               <div className="d-grid gap-2">
-                <button className="action-btn btn-outline-primary">Reschedule</button>
-                <button className="action-btn btn-outline-primary">Cancel Session</button>
-                <button className="action-btn btn-outline-primary" onClick={() => router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`)}>Message</button>
+                {renderActionButtons(false)} {/* View mode - only Message button */}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Dialog */}
+      {selectedEvent && showEditDialog && (
+        <div className="custom-dialog-overlay" onClick={handleDialogClose}>
+          <div className="custom-dialog" onClick={(e) => e.stopPropagation()}>
+            <button className="btn-close position-absolute top-0 end-0 m-3" onClick={handleDialogClose}></button>
+
+            <div className="custom-dialog-body p-5 mt-4">
+              <div className="d-flex justify-content-between align-items-start mb-2 gap-3 custom-border">
+                <div>
+                  <h3 className="fw-bold mb-1">{selectedEvent.title} With {selectedEvent.extendedProps.user}</h3>
+                  <p>
+                    {selectedEvent.start.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })},
+                    {selectedEvent.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+                <span className="badge bg-secondary">{selectedEvent.extendedProps.status.toUpperCase()}</span>
+              </div>
+
+              <div className="d-flex align-items-center mb-3 custom-border">
+                <img src={selectedEvent.extendedProps.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} alt="User" className="rounded-circle me-3" width="40" height="40" />
+                <div>
+                  <div className="fw-semibold">{selectedEvent.extendedProps.user}</div>
+                  <div className="text-muted small">{selectedEvent.extendedProps.email}</div>
+                </div>
+              </div>
+
+              <div className="d-flex align-items-start mb-3 custom-border">
+                <img src="/coachsparkle/images/zoom-fill.png" alt="Zoom" className="me-3" width="40" height="40" />
+                <div>
+                  <div className="fw-semibold">Join Zoom Meeting</div>
+                  <a href="https://zoom.us/12312312345" className="text-primary small">
+                    https://zoom.us/12312312345
+                  </a>
+                </div>
+              </div>
+
+              <div className="mb-3 custom-border">
+                <div className="fw-bold mb-1">Notes</div>
+                <ul className="small ps-3 mb-0">
+                  <li>Coaching worksheets + voice note support between sessions allowed</li>
+                  <li>24 hour notice cancellation policy</li>
+                </ul>
+              </div>
+
+              <div className="d-grid gap-2">
+                {renderActionButtons(true)} {/* Edit mode - all action buttons */}
               </div>
             </div>
           </div>
@@ -418,4 +535,39 @@ export default function BookingCalendar() {
       )}
     </div>
   );
+}
+
+// Helper function to get event class based on status
+function getEventClass(status) {
+  switch (status) {
+    case "confirmed":
+      return {
+        className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
+        style: { backgroundColor: "#00A81C" },
+      };
+
+    case "pending":
+      return {
+        className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
+        style: { backgroundColor: "#DB6E00" },
+      };
+
+    case "completed":
+      return {
+        className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
+        style: { backgroundColor: "#009BFA" },
+      };
+
+    case "canceled":
+      return {
+        className: "text-white rounded-2 px-2 py-1 d-inline-flex align-items-center justify-content-between gap-1 w-100",
+        style: { backgroundColor: "#DC3545" },
+      };
+
+    default:
+      return {
+        className: "text-dark rounded-2 px-2 py-1 w-100",
+        style: { backgroundColor: "#f8f9fa" },
+      };
+  }
 }
