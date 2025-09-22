@@ -5,9 +5,9 @@
     margin-top: 25px!important;
 }
 
-.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiSelect-root.css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
-    border-radius: 12px;
-    padding: 6px 6px;
+.sub-coaching-category-input {
+  border-radius: 12px !important;
+  padding: 6px 6px !important;
 }
 
 .profile-form-add .card {

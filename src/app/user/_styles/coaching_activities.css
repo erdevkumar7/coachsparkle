@@ -10,6 +10,15 @@
 .coaching-progress-status .d-flex.justify-content-between.flex-wrap.py-4.px-4 .row.gap-4 {
     width: 100%;
 }
+.coaching-status img {
+    object-fit: cover;
+}
+.coaching-progress-status img {
+    object-fit: cover;
+}
+
+
+
 
 .favourite-user-warp h4.coaching-tittle-text {
     font-size: 17px;

@@ -374,7 +374,7 @@ export default function CoachUpdateForm({
                   ))}
                 </select>
               </div>
-              <div className="form-group">
+              <div className="form-group sub-coaching-category">
                 <label>Sub Coaching Category</label>
                 {/* <select {...register('coach_subtype')}>
                   <option value="">Select</option>
@@ -450,7 +450,7 @@ export default function CoachUpdateForm({
                   control={control}
                   render={({ field }) => (
                     <FormControl fullWidth>
-                      <Select
+                      <Select className="sub-coaching-category-input"
                         {...field}
                         multiple
                         value={field.value || []}
