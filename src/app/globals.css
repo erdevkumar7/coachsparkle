@@ -1692,9 +1692,9 @@ footer.coach-footer-section .new-add-footer .mui-icons {
   }
 
   .explore-coaches-inner-content .professional-cards {
-    display: block;
+    display: block !important;
     gap: 20px;
-    margin-top: 40px;
+    margin-top: 40px !important;
   }
 
   .explore-coaches-inner-content .professional-cards .card {
@@ -2818,7 +2818,16 @@ select:focus-visible {
 
 @media only screen and (max-width: 767px) {
   
-  
+  .view-all-coaches-list h1 {
+    text-align: center;
+}
+
+.coaches-view-cards .card img {
+  cursor: pointer;
+  width: 100%;
+  height: auto !important;
+}
+
   .coach-top-navber-add div#navbarTogglerDemo01 {
     width: 100%;
 }
