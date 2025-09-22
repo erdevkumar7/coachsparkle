@@ -133,6 +133,10 @@ td.sed-tab p {
     padding: 6px 10px;
 }
 
+table.review-table {
+    width: 100%;
+}
+
 .rating-reviews .review-table th, .review-table td {
     text-align: left;
     vertical-align: top;

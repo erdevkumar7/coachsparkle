@@ -149,4 +149,40 @@ export async function HandleValidateTokenServer(token) {
     }
 }
 
+export async function getUserReviews() {
+    const cookieStore = cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if(!token) {
+        return { error: "No token provided", data: null };
+    }
+
+    try {
+        const res = await fetch(`${apiUrl}/userReviews`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
+            cache: "no-store",
+        });
+
+        if(!res.ok) {
+            const errorText = await res.text();
+            console.error("API error response:", errorText);
+            return { error: "Failed to fetch reviews", data: null };
+        }
+
+        const json = await res.json();
+
+        if (!json.status) {
+            return { error: json.message || "No reviews found", data: null };
+        }
+
+        return { error: null, data: json.data };
+    } catch (err) {
+        console.error("Fetch error:", err);
+        return { error: "Unexpected error", data: null };
+    }
+}
 

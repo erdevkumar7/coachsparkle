@@ -80,3 +80,59 @@ export const getUserCompletedCoachingClient = async (page = 1, token) => {
     return { error: "Unexpected error", data: null };
   }
 };
+
+
+export const submitUserReview = async (reviewData, token) => {
+    
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userReviewSubmit`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(reviewData),
+        });
+
+        const json = await res.json();
+
+        if(!res.ok || !json.status) {
+            return { error: json.message || "Failed to submit review", data: null };
+        }
+
+        return { error: null, data: json.data };
+    } catch (err) {
+        console.error("Review submit error:", err);
+    return { error: "Unexpected error while submitting review", data: null };
+  }
+};
+
+export async function updateUserReview(reviewId, payload, token) {
+
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userReviewUpdate`, {
+            method: "PUT",
+            headers: {
+                                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: reviewId,
+                ...payload,
+            }),
+        });
+
+        const json = await res.json();
+
+        if (!json.status) {
+            return { error: json.message || "Update failed", data: null };
+        }
+
+        return { error: null, data: json.data };
+    } catch (err) {
+        console.error("Update error:", err);
+        return { error: "Unexpected error", data: null };
+    }
+}
