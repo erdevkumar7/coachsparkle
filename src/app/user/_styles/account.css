@@ -1,5 +1,10 @@
 
-
+.upload-photo-add.user-upload-pic img {
+    border-radius: 50%;
+    width: 55px !important;
+    height: 55px !important;
+    object-fit: cover;
+}
 .account-section {
     background-color: #fff;
     padding: 0 2.375rem 2.375rem;
