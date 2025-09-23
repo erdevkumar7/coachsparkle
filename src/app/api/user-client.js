@@ -109,7 +109,6 @@ export const submitUserReview = async (reviewData, token) => {
 };
 
 export async function updateUserReview(reviewId, payload, token) {
-
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userReviewUpdate`, {
             method: "PUT",
@@ -135,4 +134,27 @@ export async function updateUserReview(reviewId, payload, token) {
         console.error("Update error:", err);
         return { error: "Unexpected error", data: null };
     }
+}
+
+export async function deleteUserReview(reviewId, token ) {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/userReviewDelete/${reviewId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      const json = await res.json();
+
+      if (!res.ok || !json.status) {
+      return { error: json.message || "Failed to delete review", data: null };
+    }
+
+    return { error: null, data: json.message };
+  } catch (err) {
+    console.error("Delete error:", err);
+    return { error: "Unexpected error", data: null };
+  }
 }

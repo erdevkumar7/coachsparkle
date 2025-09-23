@@ -4,6 +4,13 @@
     display: block;
 }
 
+.rating-reviews .user-info img {
+    border-radius: 50%;
+    width: 51px !important;
+    height: 51px !important;
+    margin-right: 10px;
+}
+
 .review-section-add .rating-reviews .review-container {
     background: #fff;
     border: 1px solid #d7d7d7;

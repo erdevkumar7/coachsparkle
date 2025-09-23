@@ -14,9 +14,19 @@ export default function CompletedCoaching({ initialCompleted, token }) {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const [selectedCoach, setSelectedCoach] = useState(null);
+  const [viewingReview, setViewingReview] = useState(false);
 
-  const handleOpen = (coachId) => {
+  const handleOpen = (coachId, review = null) => {
     setSelectedCoach(coachId);
+    if (review) {
+      setReviewText(review.review_text);
+      setRating(Number(review.rating));
+      setViewingReview(true);
+    } else {
+      setReviewText("");
+      setRating(0);
+      setViewingReview(false);
+    }
     setShow(true);
   };
 
@@ -25,6 +35,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
     setReviewText("");
     setRating(0);
     setSelectedCoach(null);
+    setViewingReview(false);
   };
 
   const handleSubmit = async () => {
@@ -68,17 +79,6 @@ export default function CompletedCoaching({ initialCompleted, token }) {
               Completed Coaching ({initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total})
             </h3>
           </div>
-          <div className="sorting-data d-flex align-items-center gap-2">
-            <svg
-              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-              focusable="false"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              data-testid="ExpandMoreOutlinedIcon"
-            >
-              <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-            </svg>
-          </div>
         </div>
 
         <div className="d-flex justify-content-between flex-wrap py-4 px-4">
@@ -86,9 +86,16 @@ export default function CompletedCoaching({ initialCompleted, token }) {
             {getCompleted.map((completed, index) => (
               <div key={index} className="col-md-4 coaching-progress p-3">
                 <div className="d-flex justify-content-between align-items-center mb-2">
-                  {/* <h4 className="mb-0">Pending review</h4> */}
+                  <h4 className="mb-0">                  {completed.review ? (
+                    <>
+                      Complete review
+                    </>
+                  ) : (
+                    <>
+                      Pending review
+                    </>
+                  )}</h4>
                 </div>
-
                 <div className="mb-3 status-div">
                   <button className="border px-3 py-1 rounded-pill">
                     Completed
@@ -101,7 +108,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                       src={completed?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
                       alt="User"
                       className="rounded-circle"
-                      style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+                      style={{ width: '50px', height: '50px' }} />
                   </div>
                   <div>
                     <span className="fw-semibold d-block name">
@@ -112,13 +119,25 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                 </div>
 
                 <div className="d-flex gap-3">
-                  <button className="btn btn-primary button-note" onClick={() => handleOpen(completed.id)}>
-                    Leave a Review
-                  </button>
+                  {completed.review ? (
+                    <button
+                      className="btn btn-primary button-note"
+                      onClick={() => handleOpen(completed.coach_id, completed.review)}
+                    >
+                      View Review
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-primary button-note"
+                      onClick={() => handleOpen(completed.coach_id)}
+                    >
+                      Leave a Review
+                    </button>
+                  )}
                   <button
                     className="btn btn-outline-secondary button-msg"
                     onClick={() => {
-                      router.push(`/user/user-message/1?coach_id=${completed.id}`)
+                      router.push(`/user/user-message/1?coach_id=${completed.coach_id}`)
                     }}
                   >
                     Message
@@ -136,41 +155,50 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                 </div>
 
                 <div className="modal-body text-center">
-                  <h4 className="fw-bold">Leave a Review</h4>
-                  <p>Share your feedback on your coaching experiences</p>
+                  <h4 className="fw-bold">{viewingReview ? "View Review" : "Leave a Review"}</h4>
+                  {viewingReview ? (
+                    <>
+                      <div className="mb-3">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <span
+                            key={star}
+                            style={{ fontSize: "28px", color: star <= rating ? "#fbbc05" : "#e4e5e9", marginRight: "4px" }}
+                          >★</span>
+                        ))}
+                      </div>
+                      <p>{reviewText}</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="mb-3">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <span
+                            key={star}
+                            style={{ cursor: "pointer", fontSize: "28px", color: star <= rating ? "#fbbc05" : "#e4e5e9", marginRight: "4px" }}
+                            onClick={() => setRating(star)}
+                          >★</span>
+                        ))}
+                      </div>
+                      <textarea
+                        className="form-control review-textarea"
+                        rows="6"
+                        placeholder="Write your review..."
+                        value={reviewText}
+                        onChange={e => setReviewText(e.target.value)}
+                      ></textarea>
+                    </>
+                  )}
+                </div>
 
-                  <div className="mb-3">
-                    {[1, 2, 3, 4, 5].map(star => (
-                      <span
-                        key={star}
-                        style={{ cursor: "pointer", fontSize: "28px", color: star <= rating ? "#fbbc05" : "#e4e5e9", marginRight: "4px" }}
-                        onClick={() => setRating(star)}
-                      >★</span>
-                    ))}
+                {!viewingReview && (
+                  <div className="modal-footer border-0 justify-content-center gap-3">
+                    <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
+                    <button className="btn btn-outline-primary" onClick={handleClose}>Cancel</button>
                   </div>
-
-                  <textarea
-                    className="form-control review-textarea"
-                    rows="6"
-                    placeholder="Write your review..."
-                    value={reviewText}
-                    onChange={e => setReviewText(e.target.value)}
-                  ></textarea>
-                </div>
-
-                <div className="modal-footer border-0 justify-content-center gap-3">
-                  <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
-                  <button className="btn btn-outline-primary" onClick={handleClose}>Cancel</button>
-                </div>
+                )}
               </div>
             </div>
           </div>
-
-
-
-
-
-
 
           <Pagination
             currentPage={currentPage}

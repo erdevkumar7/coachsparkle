@@ -9,9 +9,7 @@ export default async function Review() {
     const token = cookieStore.get("token")?.value; 
 
     const { error, data: reviews } = await getUserReviews();
-    if (error) {
-        return <p className="text-center mt-4">{error}</p>;
-    }
+
 
     return (
         <div className="main-panel">
