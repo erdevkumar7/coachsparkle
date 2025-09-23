@@ -409,10 +409,28 @@ export default function BookingCalendar() {
               </div>
 
               <div className="d-grid gap-2">
-                {selectedEvent?.extendedProps.status == "canceled" &&
-                  <button className="action-btn btn-outline-primary" onClick={() => router.push(`/coach-detail/${selectedEvent?.extendedProps.coachId}/package/${selectedEvent?.extendedProps.packageId}/booking`)}>Reschedule</button>}
+                {/* {selectedEvent?.extendedProps.status == "canceled" &&
+                  <button
+                    className="action-btn btn-outline-primary"
+                    onClick={() => router.push(`/coach-detail/${selectedEvent?.extendedProps.coachId}/package/${selectedEvent?.extendedProps.packageId}/booking`)}>
+                    Reschedule
+                  </button>} */}
+
                 {/* <button className="action-btn btn-outline-primary">Cancel Session</button> */}
-                <button className="action-btn btn-outline-primary" onClick={() => router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`)}>Message</button>
+
+
+                {selectedEvent.extendedProps.rawStatus === 3 && ( // Canceled
+                  <button
+                    className="action-btn btn-outline-primary"
+                    onClick={() => {
+                      handleDialogClose();
+                      router.push(`/coach-detail/${selectedEvent.extendedProps.coachId}/package/${selectedEvent.extendedProps.packageId}/booking?reschedule=true&booking_id=${selectedEvent.extendedProps.bookingId}`);
+                    }}
+                  >
+                    Reschedule
+                  </button>
+                )}
+                <button className="action-btn btn-outline-primary" onClick={() => router.push(`/user/user-message/3?coach_id=${selectedEvent.extendedProps.coachId}`)}>Message</button>
               </div>
             </div>
           </div>

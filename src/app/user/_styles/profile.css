@@ -34,7 +34,12 @@
     text-decoration: none;
     padding: 12px 25px;
 }
-
+.upload-photo-add.user-upload-pic img {
+    border-radius: 50%;
+    width: 55px !important;
+    height: 55px !important;
+    object-fit: cover;
+}
 .upload-photo-add {
     display: flex;
     align-items: center;

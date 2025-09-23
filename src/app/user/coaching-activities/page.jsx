@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import "../_styles/dashboard.css";
 import "../_styles/coaching_activities.css";
+import "../../coach/_styles/coach_coaching_activities.css";
 import StatusItem from "../_user_components/coaching_activities/StatusItem";
 import PendingRequest from "../_user_components/coaching_activities/PendingRequest";
 import CoachingProgress from "../_user_components/coaching_activities/CoachingProgress";

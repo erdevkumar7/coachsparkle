@@ -65,7 +65,7 @@ p.top-name-add svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgI
   position: sticky;
   width: 100%;
   top: 0px;
-  z-index: 999999;
+  z-index: 999;
 }
 
 .coach-top-navber-add ul.dropdown-menu.show a {
