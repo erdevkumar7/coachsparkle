@@ -2573,7 +2573,12 @@ nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
 .top-dashboard-header {
   background: #fff;
   box-shadow: 0 5px 21px -5px #cdd1e1;
-  padding: 8px 0px !important;
+  padding: 8px 0 !important;
+  z-index: 999;
+  background-color: #fff;
+  width: 100%;
+  position: sticky;
+  top: 0;
 }
 
 .upgrade-warning {
