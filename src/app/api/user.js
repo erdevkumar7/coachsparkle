@@ -153,8 +153,8 @@ export async function getUserReviews() {
     const cookieStore = cookies();
     const token = cookieStore.get("token")?.value;
 
-    if(!token) {
-        return { error: "No token provided", data: null };
+    if (!token) {
+        return { error: "No token provided", data: [] }; // return empty array
     }
 
     try {
@@ -167,22 +167,25 @@ export async function getUserReviews() {
             cache: "no-store",
         });
 
-        if(!res.ok) {
+        if (!res.ok) {
             const errorText = await res.text();
             console.error("API error response:", errorText);
-            return { error: "Failed to fetch reviews", data: null };
+            return { error: "Failed to fetch reviews", data: [] }; // return empty array
         }
 
         const json = await res.json();
 
+        // If no reviews, return empty array
         if (!json.status) {
-            return { error: json.message || "No reviews found", data: null };
+            console.warn("No reviews found:", json.message); // optional log
+            return { error: null, data: [] };
         }
 
-        return { error: null, data: json.data };
+        return { error: null, data: json.data || [] };
     } catch (err) {
         console.error("Fetch error:", err);
-        return { error: "Unexpected error", data: null };
+        return { error: "Unexpected error", data: [] };
     }
 }
+
 
