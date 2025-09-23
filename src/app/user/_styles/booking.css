@@ -225,19 +225,28 @@
     width: 100%;
     max-width: 550px;
     position: relative;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-  }
-  
+    box-shadow: 0 0 20px #0003;
+    top: 50px;
+}
+.custom-dialog-body {
+  padding-top: 10px !important;
+  padding-bottom: 35px !important;
+}
+
+img.rounded-circle.me-3 {
+  object-fit: cover;
+}
+
   .custom-dialog .btn-outline-primary {
     border-width: 2px;
     font-weight: 500;
   }
-  
-  .custom-dialog-body h3{
-    font-size: 26px;
+  .custom-dialog-body h3 {
+    font-size: 23px;
     font-weight: 600;
-  }
+    padding-bottom: 5px;
+}
   
   .custom-dialog-body p{
     font-size: 12px;
@@ -317,3 +326,58 @@ th.fc-col-header-cell.fc-day {
   border: 1px solid #ddd;
   border-right: 1px solid var(--fc-border-color, #ddd);
 }
+
+.fc-daygrid-body.fc-daygrid-body-unbalanced.fc-daygrid-body-natural a.fc-daygrid-event {
+  margin-right: 8px !important;
+}
+
+
+@media only screen and (max-width: 767px) {
+
+
+  .fc .fc-daygrid-more-link {
+    z-index: 4;
+    cursor: pointer;
+    position: relative;
+    font-size: 9px;
+}
+
+.fc .fc-daygrid-day-frame {
+  min-height: auto !important;
+  position: relative;
+}
+  .confirmed-pending-tab {
+    display: block !important;
+}
+
+.add-new-btn {
+  padding: 11px 20px !important;
+  margin-top: 10px;
+  margin: auto;
+  display: flex;
+  margin-top: 10px;
+}
+
+.custom-dialog {
+  border-radius: 10px;
+  width: 93%;
+}
+table.fc-scrollgrid-sync-table .d-inline-flex.align-items-center.justify-content-between.gap-1.w-100 {
+  margin-left: -5px;
+  font-size: 9px;
+  line-height: 1.1;
+  padding-left: 3px !important;
+  padding-right: 40px !important;
+}
+
+.custom-dialog-body {
+  padding-top: 20px !important;
+  padding-bottom: 35px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+
+
+}
+
