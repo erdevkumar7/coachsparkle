@@ -1,265 +1,3 @@
-    /*
-
-    .account-section {
-        padding: 2.375rem;
-        padding-top: 0px;
-        background-color: #ffffff;
-    }
-
-    .account-setting {
-        border-radius: 12px;
-        border: 1px solid #d7d7d7;
-        padding: 2rem;
-    }
-
-    .account-setting .account-form{
-        max-width: 1100px;
-        width: 88% !important;
-        margin: 0 !important;
-        display: block !important;
-    }
-
-    .account-setting-form{
-        border-bottom: 1px solid #d7d7d7;
-        padding-bottom: 50px;
-    }
-
-    .account-setting-form input[type="checkbox"] {
-        height: 23px;
-        width: 30px;
-    }
-
-    .upload-photo-add {
-        align-items: center !important;
-        gap: 20px !important;
-        margin-bottom: 30px !important;
-        display: flex !important;
-    }
-
-    .upload-photo-add img {
-        object-fit: cover !important;
-        border: 2px solid #e5e7eb !important;
-        border-radius: 50% !important;
-        width: 72px !important;
-        height: 72px !important;
-    }
-
-    .user-upload-btn label {
-        color: #009bfa !important;
-        cursor: pointer !important;
-        border: 1px solid #009bfa !important;
-        border-radius: 10px !important;
-        align-items: center !important;
-        gap: 6px !important;
-        padding: 10px 25px !important;
-        font-size: 14px !important;
-        display: inline-flex !important;
-        font-weight: 600;
-    }
-    .account-setting-form .account-form-group select {
-        height: 49px;
-    }
-    .account-form-group {
-        flex-direction: column;
-        display: flex;
-    }
-
-    .account-form-group input.form-control:focus {
-        box-shadow: none;
-        border: 3px solid black;
-    }
-
-    .account-form-row {
-        gap: 20px;
-        margin-bottom: 20px;
-        display: flex;
-    }
-
-    .account-form-row.account-two-cols .account-form-group {
-        flex: 1 1 48%;
-    }
-    .account-form-row.account-three-cols .account-form-group {
-        flex: 1 1 33%;
-    }
-    .account-form-row.account-four-cols .account-form-group {
-        flex: 1 1 22%;
-    }
-
-    .account-form-group label {
-        color: #111827;
-        margin-bottom: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        display: inline-block;
-    }
-
-    .account-form-group input, .account-form-group select {
-        background: #fff;
-        border: 1px solid #d1d5db;
-        border-radius: 12px;
-        padding: 13px 14px;
-        font-size: 14px;
-    }
-
-
-    .react-tel-input .form-control {
-
-        background: #fff;
-        border: 1px solid #cacaca;
-        border-radius: 12px !important;
-        height: 50px !important;
-        margin-left: 0;
-        padding-left: 48px;
-        font-size: 14px;
-    }
-
-    .react-tel-input .flag-dropdown {
-        background: transparent !important;
-        border: none;
-        border-radius: 12px 0 0 12px !important;
-    }
-
-    .react-tel-input .selected-flag:hover {
-        background-color: transparent !important;
-        border-radius: 12px 0 0 12px !important;
-    }
-
-    .save-changes-btn{
-        color: #fff;
-        cursor: pointer;
-        background-color: #009bfa;
-        border: none;
-        border-radius: 12px;
-        align-items: center;
-        gap: 6px;
-        padding: 12px 40px;
-        font-size: 15px;
-        display: flex;
-        margin-top: 30px;
-        font-weight: 600;
-    }
-
-    .notification-section{
-        border-bottom: 1px solid #d7d7d7;
-        padding-bottom: 50px;
-    }
-
-    .privacy-section{
-            border-bottom: 1px solid #d7d7d7;
-        padding-bottom: 50px;
-    }
-
-    .privacy-section.title{
-        font-size: 12px;
-        font-weight: 500;
-    }
-
-    .privacy-section input[type="checkbox"] {
-        height: 23px;
-        width: 30px;
-    }
-
-    .delete-account input[type="checkbox"] {
-        height: 23px;
-        width: 30px;
-    }
-
-    .delete-account .delete-btn{
-        margin-top: 40px;
-        background-color: #FFE5E5;
-        color: #FF4F4F;
-        border: 1px solid #FFE5E5;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 15px 30px 15px 30px;
-    }
-
-    .account-form-row.account-three-cols button.toggle-btn {
-        color: #212529;
-        cursor: pointer;
-        background: none;
-        border: none;
-        padding: 0;
-        font-size: 18px;
-        position: absolute;
-        top: 50%;
-        right: 12px;
-        transform: translateY(-50%);
-    }
-    .account-form-row.account-three-cols i.bi.bi-eye {
-        cursor: pointer;
-        font-size: 25px;
-        line-height: 2.5;
-    }
-
-    .account-form-row.account-three-cols .input-wrapper {
-        position: relative;
-    }
-    .toggle-switch.active {
-        cursor: pointer;
-        color: #fff;
-        background-color: #009bfa;
-        border-radius: 30px;
-        align-items: center;
-        width: 90px;
-        height: 30px;
-        padding: 0 8px;
-        font-size: 14px;
-        font-weight: 300;
-        transition: background-color .3s;
-        display: flex;
-        position: relative;
-    }
-
-    .switch-knob {
-        background: #fff;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        transition: left .3s;
-        position: absolute;
-        left: 8px;
-    }
-    span.switch-label {
-        z-index: 1;
-        margin: 0 auto;
-    }
-
-    .privacy-section svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-icons.css-1umw9bq-MuiSvgIcon-root {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        width: 1em;
-        height: 1em;
-        display: inline-block;
-        -webkit-flex-shrink: 0;
-        -ms-flex-negative: 0;
-        flex-shrink: 0;
-        -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        fill: currentColor;
-        font-size: 1.5rem;
-    }
-    .quick-text {
-        color: #181a20;
-        border-bottom: 1px solid #e7e7e7;
-        width: 100%;
-        padding-bottom: 15px;
-        font-family: Inter;
-        font-size: 24px;
-    } */
-
-
-
-
-
-
-
-
-
-/*Coach Account Setting CSS*/
 
 
 .account-section {
@@ -553,4 +291,97 @@ div#cookieModal .four {
 
 input[type="radio"] {
     width: 20px;
+}
+
+
+@media only screen and (max-width: 768px) {
+ 
+    .account-setting {
+        border: 1px solid #d7d7d7;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-top: 25px;
+    }
+    .account-form-row {
+        gap: 20px;
+        margin-bottom: 20px;
+        display: block;
+    }
+    
+    .privacy-section .d-flex.gap-2.mb-2.pt-2 {
+        display: block !important;
+    }
+    .account-section {
+        background-color: #fff;
+        padding: 0 0 2.375rem 2.375rem;
+        padding-left: 0px;
+        width: 92%;
+        margin: auto;
+    }
+    .account-setting {
+        padding: 18px;
+    }
+
+    .account-setting .account-form {
+        width: 100% !important;
+    }
+
+    .delete-account.mt-5 {
+        margin-top: 10px !important;
+    }
+    .privacy-section.mt-5 {
+        margin-top: 10px !important;
+    }
+
+    .notification-section.mt-5 {
+        margin-top: 10px !important;
+    }
+
+    .account-setting-form {
+        border-bottom: 1px solid #d7d7d7;
+        padding-bottom: 25px;
+    }
+
+    .password-section.mt-5 {
+        margin-top: 10px !important;
+    }
+
+    .account-setting h3.quick-text {
+        padding-top: 0px !important;
+    }
+    .password-field {
+        padding: 5px 0px;
+    }
+
+    .account-form-row.account-two-cols .account-form-group {
+        flex: 48%;
+        padding-bottom: 10px;
+    }
+
+    .account-form-row.account-three-cols .account-form-group {
+        flex: 33%;
+        padding-bottom: 10px;
+    }
+
+    .mobile-view-toggle-add {
+        width: 100% !important;
+        justify-content: space-between;
+    }
+
+.mobile-view-toggle-add span.title {
+        font-size: 13px;
+    }
+
+    .notification-section, .privacy-section {
+        padding-bottom: 25px;
+    }
+
+    .privacy-section input[type="checkbox"], .delete-account input[type="checkbox"] {
+        width: 30px;
+        height: 23px;
+        margin: 0 8px;
+    }
+
+    
+
 }
