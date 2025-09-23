@@ -2,7 +2,8 @@
 import { useState } from "react";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { updateUserReview } from "@/app/api/user-client";
+import CircularProgress from "@mui/material/CircularProgress";
+import { updateUserReview, deleteUserReview } from "@/app/api/user-client";
 import {
   Dialog,
   DialogTitle,
@@ -14,11 +15,11 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 
-export default function ReviewTable({ reviews, token }) {
+export default function ReviewTable({ reviews = [], token }) {
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ review_text: "", rating: 0 });
-  const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
   const handleEditClick = (review) => {
     setEditingId(review.id);
@@ -35,21 +36,34 @@ export default function ReviewTable({ reviews, token }) {
     setFormData({ review_text: "", rating: 0 });
   };
 
-const handleUpdate = async () => {
-  const result = await updateUserReview(editingId, formData, token);
+  const handleUpdate = async () => {
+    const result = await updateUserReview(editingId, formData, token);
 
-  if (result.error) {
-    toast.error(result.error);
-  } else {
-    toast.success("Review updated successfully");
-    handleClose();
-    setTimeout(() => window.location.reload(), 1000);
-  }
-};
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Review updated successfully");
+      handleClose();
+      setTimeout(() => window.location.reload(), 1000);
+    }
+  };
+
+  const handleDelete = async (reviewId) => {
+    setDeletingId(reviewId);
+    const result = await deleteUserReview(reviewId, token);
+
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      toast.success("Review deleted successfully");
+      setTimeout(() => window.location.reload(), 1000);
+    }
+    setDeletingId(null);
+  };
 
   return (
     <>
-      <table className="review-table">
+      <table className="review-table" style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
             <th>Name</th>
@@ -58,35 +72,44 @@ const handleUpdate = async () => {
           </tr>
         </thead>
         <tbody>
-          {reviews.length === 0 && (
+          {reviews.length === 0 ? (
             <tr>
-              <td colSpan={3}>No reviews available</td>
+              <td colSpan={3} style={{ textAlign: "center", padding: "20px" }}>
+                No reviews found
+              </td>
             </tr>
-          )}
-
-          {reviews.map((review) => (
-            <tr key={review.id} className="user-row">
-              <td className="user-name-add">
-                <div className="user-info">
-                  <p>
+          ) : (
+            reviews.map((review) => (
+              <tr key={review.id} className="user-row">
+                <td className="user-name-add">
+                  <div className="user-info">
                     {review.coach?.first_name} {review.coach?.last_name}
-                  </p>
-                </div>
-              </td>
-
-              <td className="sed-tab">
-                <p>"{review.review_text}"</p>
-              </td>
-
-              <td className="icon-actions">
-                <BorderColorIcon
-                  className="mui-icons edit-icon"
-                  onClick={() => handleEditClick(review)}
-                />
-                <DeleteIcon className="mui-icons delet-icon" />
-              </td>
-            </tr>
-          ))}
+                  </div>
+                </td>
+                <td className="sed-tab">"{review.review_text}"</td>
+                <td
+                  className="icon-actions"
+                >
+                  {deletingId === review.id ? (
+                    <CircularProgress size={24} />
+                  ) : (
+                    <>
+                      <BorderColorIcon
+                        className="mui-icons edit-icon"
+                        onClick={() => handleEditClick(review)}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <DeleteIcon
+                        className="mui-icons delet-icon"
+                        onClick={() => handleDelete(review.id)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
@@ -119,8 +142,6 @@ const handleUpdate = async () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      {message && <p style={{ marginTop: "10px" }}>{message}</p>}
     </>
   );
 }
