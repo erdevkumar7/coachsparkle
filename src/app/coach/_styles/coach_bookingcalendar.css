@@ -275,3 +275,57 @@
 border-radius: 12px;
 padding: 10px 0px 10px 0px;
 }
+
+
+span.badge.bg-secondary {
+  padding: 11px 16px;
+  background: #009BFA !important;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+  .fc .fc-daygrid-day-frame {
+    min-height: auto;
+    position: relative;
+  }
+
+  table.fc-scrollgrid-sync-table .d-inline-flex.align-items-center.justify-content-between.gap-1.w-100 {
+    margin-left: -5px;
+    font-size: 9px;
+    line-height: 1.1;
+    padding-left: 3px !important;
+    padding-right: 40px !important;
+}
+
+.booking-section .small {
+  text-align: left;
+}
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+  margin-bottom: 1em;
+  margin-left: 5px;
+}
+
+.custom-dialog {
+  width: 94%;
+}
+
+.custom-dialog-body.p-5.mt-4 {
+  padding: 20px 20px !important;
+}
+
+.custom-dialog-body h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+
+
+}
+
+
+
+
+
+
