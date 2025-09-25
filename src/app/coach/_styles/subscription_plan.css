@@ -7,6 +7,55 @@
     overflow: hidden;
     padding-bottom: 0px;
 }
+
+
+button.btn.btn-not-pro-learn.mt-2 {
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 9px;
+    margin-bottom: 30px;
+    padding: 5px 30px;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+button.btn.btn-not-pro-learn.mt-2:hover {
+    color: #09f;
+    background-color: #fff;
+}
+.try-pro-free ul {
+    padding-left: 0px;
+    list-style: none;
+}
+p.try-text-add {
+    background: #009BFA;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0px;
+}
+.try-pro-free button {
+    color: #fff;
+    background: #009bfa;
+    border: none;
+    border-radius: 12px;
+    justify-content: center;
+    gap: 6px;
+    margin: auto auto 20px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+}
+.try-pro-free button .mui-icons {
+    font-size: 19px;
+}
+.try-pro-free ul li {
+    margin-bottom: 8px;
+}
+
+.current-sub-plan .subscription-card i {
+    padding-right: 3px;
+}
+
 .pro-coach-banner .btn-learn {
     color: #fff;
     border: 1px solid #fff;
