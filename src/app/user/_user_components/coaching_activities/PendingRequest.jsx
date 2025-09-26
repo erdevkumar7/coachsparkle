@@ -15,6 +15,7 @@ export default function PendingRequest({ initialRequest, token }) {
   const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
 
   dayjs.extend(relativeTime);
 
@@ -34,9 +35,14 @@ export default function PendingRequest({ initialRequest, token }) {
     }
   }
 
+  useEffect(() => {
+    fetchPageData(currentPage);
+  }, [itemsPerPage]);
+
+
 
   const fetchPageData = async (page) => {
-    const res = await getUserPendingCoachingClient(page, token);
+    const res = await getUserPendingCoachingClient(page, token, itemsPerPage);
     if (res?.data) {
       setPendingRequest(res.data.data);
       setCurrentPage(res.data.pagination.current_page);
@@ -56,7 +62,13 @@ export default function PendingRequest({ initialRequest, token }) {
     setSelectedRequest(null);
   };
 
-  console.log('showModal', showModal)
+  const handleItemsPerPageChange = (e) => {
+    const newItemsPerPage = parseInt(e.target.value);
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
+  };
+
+  // console.log('showModal', showModal)
 
   return (
     <>
@@ -72,8 +84,12 @@ export default function PendingRequest({ initialRequest, token }) {
             <select>
               <option>Most Recent</option>
             </select>
-            <select>
-              <option>12</option>
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+            >
+              <option value={6}>6</option>
+              <option value={12}>12</option>
             </select>
             <a href="#">Bulk Edit</a>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 import { getUserCompletedCoachingClient, submitUserReview } from "@/app/api/user-client";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -10,6 +11,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
   const [getCompleted, setCompleted] = useState(initialCompleted.data);
   const [currentPage, setCurrentPage] = useState(initialCompleted.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialCompleted.pagination.last_page);
+  const [isOpen, setIsOpen] = useState(true);
   const [show, setShow] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
@@ -79,9 +81,21 @@ export default function CompletedCoaching({ initialCompleted, token }) {
               Completed Coaching ({initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total})
             </h3>
           </div>
+          <div
+            className="sorting-data d-flex align-items-center gap-2"
+            onClick={() => setIsOpen((prev) => !prev)}
+            style={{ cursor: "pointer" }}
+          >
+            <ExpandMoreOutlinedIcon
+              style={{
+                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.3s ease",
+              }}
+            />
+          </div>
         </div>
 
-        <div className="d-flex justify-content-between flex-wrap py-4 px-4">
+        {isOpen && (<div className="d-flex justify-content-between flex-wrap py-4 px-4">
           <div className="row gap-4">
             {getCompleted.map((completed, index) => (
               <div key={index} className="col-md-4 coaching-progress p-3">
@@ -205,7 +219,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
             lastPage={lastPage}
             onPageChange={fetchPageData}
           />
-        </div>
+        </div>)}
       </div>
     </div>
   );
