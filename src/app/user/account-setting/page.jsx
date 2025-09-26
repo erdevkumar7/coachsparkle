@@ -44,6 +44,12 @@ export default function Accountsetting() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [preferences, setPreferences] = useState({
+    performance: false,
+    functional: false,
+    marketing: false,
+  });
+
 
   const accountForm = useForm({
     resolver: yupResolver(userAccountSettingSchema),
@@ -91,6 +97,12 @@ export default function Accountsetting() {
         const data = await res.json();
         const s = data.settings;
 
+        setPreferences({
+          performance: s.is_performance_cookies,
+          functional: s.is_functional_cookies,
+          marketing: s.is_marketing_cookies,
+        });
+        // console.log('ssss', s)
         const commPref = s.communication_preference
           ? Array.isArray(s.communication_preference)
             ? s.communication_preference
@@ -197,7 +209,7 @@ export default function Accountsetting() {
   };
 
 
-  const updateSetting = async (key, value) => {
+  const updateSetting = async (key, value, showToast = true) => {
     try {
       const token = Cookies.get("token");
       if (!token) {
@@ -218,14 +230,14 @@ export default function Accountsetting() {
       const result = await res.json();
 
       if (!res.ok) {
-        toast.error(result.message || "Failed to update setting");
+        if (showToast) toast.error(result.message || "Failed to update setting");
         return;
       }
 
-      toast.success(result.message || "Setting updated!");
+      if (showToast) toast.success(result.message || "Setting updated!");
     } catch (err) {
       console.error("Failed to update setting:", err);
-      toast.error("Failed to update setting");
+      if (showToast) toast.error("Failed to update setting");
     }
   };
 
@@ -665,6 +677,8 @@ export default function Accountsetting() {
                                 type="checkbox"
                                 role="switch"
                                 id="essentialCookies"
+                                checked
+                                disabled
                               />
                             </div>
                           </div>
@@ -686,7 +700,14 @@ export default function Accountsetting() {
                                 type="checkbox"
                                 role="switch"
                                 id="performanceCookies"
+                                checked={preferences.performance}
+                                onChange={(e) => {
+                                  const updated = { ...preferences, performance: e.target.checked };
+                                  setPreferences(updated);
+                                  updateSetting("is_performance_cookies", e.target.checked);
+                                }}
                               />
+
                             </div>
                           </div>
                         </div>
@@ -706,6 +727,12 @@ export default function Accountsetting() {
                                 type="checkbox"
                                 role="switch"
                                 id="functionalCookies"
+                                checked={preferences.functional}
+                                onChange={(e) => {
+                                  const updated = { ...preferences, functional: e.target.checked };
+                                  setPreferences(updated);
+                                  updateSetting("is_functional_cookies", e.target.checked);
+                                }}
                               />
                             </div>
                           </div>
@@ -724,27 +751,78 @@ export default function Accountsetting() {
                                 type="checkbox"
                                 role="switch"
                                 id="marketingCookies"
+                                checked={preferences.marketing}
+                                onChange={(e) => {
+                                  const updated = { ...preferences, marketing: e.target.checked };
+                                  setPreferences(updated);
+                                  updateSetting("is_marketing_cookies", e.target.checked);
+                                }}
                               />
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="modal-footer border-0 three-btn-add">
-                        <button type="button" className="btn btn-primary">
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={async () => {
+                            setPreferences({ performance: true, functional: true, marketing: true });
+
+                            await updateSetting("is_performance_cookies", true, false);
+                            await updateSetting("is_functional_cookies", true, false);
+                            await updateSetting("is_marketing_cookies", true, false);
+
+                            toast.success("All cookies accepted!"); // ✅ single toast
+                          }}
+                        >
                           Accept All Cookies
                         </button>
-                        <button
+
+
+                        {/* <button
                           type="button"
                           className="btn btn-outline-primary"
+                          onClick={() => {
+                            updateSetting("is_performance_cookies", preferences.performance);
+                            updateSetting("is_functional_cookies", preferences.functional);
+                            updateSetting("is_marketing_cookies", preferences.marketing);
+                            toast.success("Custom cookie preferences updated!");
+                          }}
                         >
                           Customize Settings
-                        </button>
+                        </button> */}
                         <button
                           type="button"
-                          className="btn btn-outline-primary"
+                          className="btn btn-primary"
+                          onClick={async () => {
+                            setPreferences({ performance: false, functional: false, marketing: false });
+
+                            await updateSetting("is_performance_cookies", false, false);
+                            await updateSetting("is_functional_cookies", false, false);
+                            await updateSetting("is_marketing_cookies", false, false);
+
+                            toast.success("All cookies rejected!"); // ✅ single toast
+                          }}
                         >
                           Reject Cookies
                         </button>
+
+                        {/* <button
+                          type="button"
+                          className="btn btn-outline-primary"
+                          onClick={() => {
+                            const allFalse = { performance: false, functional: false, marketing: false };
+                            setPreferences(allFalse);
+
+                            updateSetting("is_performance_cookies", false);
+                            updateSetting("is_functional_cookies", false);
+                            updateSetting("is_marketing_cookies", false);
+                          }}
+                        >
+                          Reject Cookies
+                        </button> */}
+
                       </div>
                     </div>
                   </div>
