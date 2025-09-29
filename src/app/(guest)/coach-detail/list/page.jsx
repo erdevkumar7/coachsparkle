@@ -166,6 +166,8 @@ export default function CoachList() {
     setCurrentPage(1); // Reset to first page when changing items per page
   };
 
+  // console.log('coachesvvv', coaches)
+
   return (
     <>
       <div className="coach-banner-add">
@@ -359,7 +361,7 @@ export default function CoachList() {
                         </div>
                         <p className="reviews-text">
                           <StarOutlineIcon className="mui-icons" />
-                          <span>5.0</span> (21 reviews)
+                          <span>{coach?.averageRating || 'No Rating'}</span> ({`${coach?.totalReviews} reviews` || '0 reviews'})
                         </p>
                         <p className="senior-engineer-text">
                           <BusinessCenterIcon className="mui-icons" />

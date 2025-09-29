@@ -191,9 +191,9 @@ export default async function CoachDetail({ params }) {
 
                                 <div className="info-item">
                                  <StarBorderIcon className="mui-icons"/>
-                                  {/* <span><b>5.0</b> (21 reviews)</span> */}
+                                  <span><b>{coach?.averageRating || 'No Rating'}</b> ({`${coach?.totalReviews} reviews` || '0 reviews'})</span>
                                   <span>
-                                    <b>No Rating </b>
+                                    {/* <b>No Rating </b> */}
                                   </span>
                                 </div>
                               </div>

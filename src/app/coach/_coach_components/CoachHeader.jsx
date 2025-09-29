@@ -16,8 +16,8 @@ import { toast } from "react-toastify";
 
 
 
-export default function CoachHeader() {
-  const { user } = useUser();
+export default function CoachHeader({user}) {
+  // const { user } = useUser();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
 

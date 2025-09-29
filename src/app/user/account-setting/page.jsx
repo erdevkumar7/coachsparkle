@@ -23,11 +23,13 @@ import {
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import { Controller } from "react-hook-form";
+import { useUser } from "@/context/UserContext";
 
 
 export default function Accountsetting() {
+  const { user } = useUser();
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [passwordApiErrors, setPasswordApiErrors] = useState([]);
   // const [settingsLoading, setSettingsLoading] = useState();
@@ -61,26 +63,26 @@ export default function Accountsetting() {
     mode: "onBlur",
   });
 
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-    const fetchUser = async () => {
-      const tokenData = await HandleValidateToken(token);
-      if (!tokenData) {
-        Cookies.remove("token");
-        localStorage.removeItem("user");
-        router.push("/login");
-        return;
-      }
+  // useEffect(() => {
+  //   const token = Cookies.get("token");
+  //   if (!token) {
+  //     router.push("/login");
+  //     return;
+  //   }
+  //   const fetchUser = async () => {
+  //     const tokenData = await HandleValidateToken(token);
+  //     if (!tokenData) {
+  //       Cookies.remove("token");
+  //       localStorage.removeItem("user");
+  //       router.push("/login");
+  //       return;
+  //     }
 
-      setUser(tokenData.data);
-    };
+  //     setUser(tokenData.data);
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
 
   useEffect(() => {
@@ -286,8 +288,8 @@ export default function Accountsetting() {
         "is_marketing_cookies",
       ];
 
-      if (cookieKeys.includes(key) ) {
-        const prefCookieName = `user_prefs_${user?.id}`;
+      if (cookieKeys.includes(key)) {
+        const prefCookieName = `user_prefs_${user?.user_id}`;
         let currentPrefs = {};
 
         // read existing cookie for this user
@@ -358,8 +360,8 @@ export default function Accountsetting() {
         <h3 className="quick-text">Account Setting</h3>
         <div className="mt-4">
           <UserImageUploader
-            image="/coachsparkle/images/coach-list-img-two.png"
-            alt="coachsparkle"
+            image={user.profile_image}
+            user_type={user?.user_type || 2}
           />
         </div>
         <form
