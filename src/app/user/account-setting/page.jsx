@@ -71,7 +71,6 @@ export default function Accountsetting() {
       const tokenData = await HandleValidateToken(token);
       if (!tokenData) {
         Cookies.remove("token");
-        localStorage.removeItem("token");
         localStorage.removeItem("user");
         router.push("/login");
         return;
@@ -82,6 +81,7 @@ export default function Accountsetting() {
 
     fetchUser();
   }, []);
+
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -102,7 +102,7 @@ export default function Accountsetting() {
           functional: s.is_functional_cookies,
           marketing: s.is_marketing_cookies,
         });
-        // console.log('ssss', s)
+
         const commPref = s.communication_preference
           ? Array.isArray(s.communication_preference)
             ? s.communication_preference
@@ -209,11 +209,45 @@ export default function Accountsetting() {
   };
 
 
+  // const updateSetting = async (key, value, showToast = true) => {
+  //   try {
+  //     const token = Cookies.get("token");
+  //     if (!token) {
+  //       toast.error("Session expired, Please login again.");
+  //       router.push("/login");
+  //       return;
+  //     }
+
+  //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/setting`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({ [key]: value }),
+  //     });
+
+  //     const result = await res.json();
+
+  //     if (!res.ok) {
+  //       if (showToast) toast.error(result.message || "Failed to update setting");
+  //       return;
+  //     }
+
+  //     if (showToast) toast.success(result.message || "Setting updated!");
+  //   } catch (err) {
+  //     console.error("Failed to update setting:", err);
+  //     if (showToast) toast.error("Failed to update setting");
+  //   }
+  // };
+
+
+
   const updateSetting = async (key, value, showToast = true) => {
     try {
       const token = Cookies.get("token");
       if (!token) {
-        toast.error("Session expired, Please login again.");
+        if (showToast) toast.error("Session expired, Please login again.");
         router.push("/login");
         return;
       }
@@ -234,12 +268,52 @@ export default function Accountsetting() {
         return;
       }
 
+      // const cookieKeys = [
+      //   "is_performance_cookies",
+      //   "is_functional_cookies",
+      //   "is_marketing_cookies",
+      // ];
+
+      // if (cookieKeys.includes(key)) {
+      //   const userKey = `${key}_user_${user?.id}`; // tie preference to user email
+      //   Cookies.set(userKey, value, { expires: 365 }); // 1 year
+      // }
+
+      // ✅ Only manage cookie preferences
+      const cookieKeys = [
+        "is_performance_cookies",
+        "is_functional_cookies",
+        "is_marketing_cookies",
+      ];
+
+      if (cookieKeys.includes(key) ) {
+        const prefCookieName = `user_prefs_${user?.id}`;
+        let currentPrefs = {};
+
+        // read existing cookie for this user
+        const existing = Cookies.get(prefCookieName);
+        if (existing) {
+          try {
+            currentPrefs = JSON.parse(existing);
+          } catch {
+            currentPrefs = {};
+          }
+        }
+
+        // update only the modified key
+        currentPrefs[key] = value;
+
+        // store back as JSON string
+        Cookies.set(prefCookieName, JSON.stringify(currentPrefs), { expires: 365 });
+      }
+
       if (showToast) toast.success(result.message || "Setting updated!");
     } catch (err) {
       console.error("Failed to update setting:", err);
       if (showToast) toast.error("Failed to update setting");
     }
   };
+
 
   const handleDeleteAccount = async () => {
     if (!confirmDelete) {
