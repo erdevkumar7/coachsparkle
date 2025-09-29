@@ -22,9 +22,9 @@ export default async function CoachLayout({ children }) {
   return (
     <UserProvider initialUser={user}>
       <ChatProvider user={user}>
-        <CoachHeader />
+        <CoachHeader user={user}/>
         <div className="container dashboard-wrapper">
-          <CoachSideBarComp />
+          <CoachSideBarComp user={user}/>
           {children}
           <ChatSupportWrapper />
         </div>

@@ -22,8 +22,8 @@ import Link from 'next/link';
 
 
 
-export default function CoachSideBarComp() {
-    const { user } = useUser();
+export default function CoachSideBarComp({user}) {
+    // const { user } = useUser();
     const router = useRouter();
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(false);
