@@ -770,7 +770,7 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
   color: #000000;
   font-size: 14px;
   font-family: "Roboto";
-  line-height: 18px;
+  line-height: 20px;
 }
 
 
@@ -808,11 +808,18 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
 }
 
 .review-section .review-card img {
-  width: 68px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
+    object-fit: cover;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
 }
+
+span.less-more-conent {
+    cursor: pointer;
+    font-weight: 500;
+    color: #009df6;
+}
+
 
 .review-section .review-content {
   flex: 1;
