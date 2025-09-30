@@ -9,17 +9,75 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 export default function ReviewTable({ reviews }) {
   const [selectedReview, setSelectedReview] = useState(null);
   const [replyText, setReplyText] = useState('');
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [reviewsState, setReviewsState] = useState(reviews); // Local state for reviews
+  const token = Cookies.get('token');
 
   const handleReplyClick = (review) => {
+    console.log('reviews', review)
     setSelectedReview(review);
     setReplyText(review.reply || '');
     setShowReplyModal(true);
+  };
+
+  const handleReplySubmit = async () => {
+    if (!selectedReview || !replyText.trim()) {
+      alert('Please enter a reply');
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachReplyToUserReview`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          review_id: selectedReview.id,
+          coach_id: selectedReview.coach_id,
+          review_text: replyText, // Changed from review_text to reply_text
+        }),
+      });
+
+      const resData = await res.json();
+      // console.log('resData', resData);
+      
+      if (resData.status) {
+        // Update the local reviews state to reflect the reply
+        const updatedReviews = reviewsState.map(review => 
+          review.id === selectedReview.id 
+            ? { ...review, reply: replyText, coach_status: 1 }
+            : review
+        );
+        setReviewsState(updatedReviews);
+        
+        setShowReplyModal(false);
+        setReplyText('');
+        setSelectedReview(null);
+        
+        // Show success message
+        toast.success('Reply submitted successfully!');
+      } else {
+        toast.error(resData.message || 'Failed to submit reply');
+      }
+    } catch (error) {
+      console.error('Error submitting reply:', error);
+      toast.error('Error submitting reply. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleViewClick = (review) => {
@@ -27,6 +85,9 @@ export default function ReviewTable({ reviews }) {
     setShowViewModal(true);
   };
 
+  // Use local reviews state instead of prop
+  const displayReviews = reviewsState;
+  
   return (
     <div className="review-section table-striped">
       <table className="review-table">
@@ -39,7 +100,7 @@ export default function ReviewTable({ reviews }) {
           </tr>
         </thead>
         <tbody>
-          {reviews.map((review) => (
+          {displayReviews.map((review) => (
             <tr key={review.id} className="user-row">
               <td>
                 <div className="user-info">
@@ -49,6 +110,9 @@ export default function ReviewTable({ reviews }) {
                       `${FRONTEND_BASE_URL}/images/default_profile.jpg`
                     }
                     alt={review.user?.display_name || 'user'}
+                    onError={(e) => {
+                      e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
+                    }}
                   />
                   <div className="user-details">
                     <div className="review-stars">
@@ -77,7 +141,7 @@ export default function ReviewTable({ reviews }) {
               </td>
               <td>
                 <span
-                  className={`status ${review.status ? 'published' : 'pending'}`}
+                  className={`status ${review.user_status ? 'published' : 'pending'}`}
                 >
                   {review.status ? 'Published' : 'Pending'}
                 </span>
@@ -103,7 +167,7 @@ export default function ReviewTable({ reviews }) {
               </td>
             </tr>
           ))}
-          {reviews.length === 0 && (
+          {displayReviews.length === 0 && (
             <tr>
               <td colSpan={4} className="text-center py-4">
                 No reviews found.
@@ -114,7 +178,7 @@ export default function ReviewTable({ reviews }) {
       </table>
 
       {/* Reply Modal */}
-      <Modal open={showReplyModal} onClose={() => setShowReplyModal(false)}>
+      <Modal open={showReplyModal} onClose={() => !loading && setShowReplyModal(false)}>
         <Box
           sx={{
             position: 'absolute',
@@ -139,22 +203,30 @@ export default function ReviewTable({ reviews }) {
             fullWidth
             variant="outlined"
             sx={{ mb: 2 }}
+            disabled={loading}
+            placeholder="Type your reply here..."
           />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-            <Button onClick={() => setShowReplyModal(false)} variant="outlined">
+            <Button 
+              onClick={() => setShowReplyModal(false)} 
+              variant="outlined"
+              disabled={loading}
+            >
               Cancel
             </Button>
             <Button
-              onClick={() => setShowReplyModal(false)}
+              onClick={handleReplySubmit}
               variant="contained"
               color="success"
+              disabled={loading || !replyText.trim()}
             >
-              Submit
+              {loading ? 'Submitting...' : 'Submit'}
             </Button>
           </Box>
         </Box>
       </Modal>
 
+      {/* View Modal */}
       <Modal open={showViewModal} onClose={() => setShowViewModal(false)}>
         <Box
           sx={{
@@ -170,7 +242,7 @@ export default function ReviewTable({ reviews }) {
           }}
         >
           <Typography variant="h6" mb={1}>
-            Review by {selectedReview?.user?.first_name} {selectedReview?.user?.last_name} 
+            Review by {selectedReview?.user?.first_name} {selectedReview?.user?.last_name}
           </Typography>
           <Typography mb={2}>{selectedReview?.review_text}</Typography>
           {selectedReview?.reply && (

@@ -5,17 +5,68 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { FRONTEND_BASE_URL } from '@/utiles/config';
 
 export default function LabTabs({ coach }) {
     const [value, setValue] = React.useState('1');
+    const [reviews, setReviews] = React.useState([]);
+    const [expandedIndex, setExpandedIndex] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
 
-    // React.useEffect(() => {
+    React.useEffect(() => {
+        getUserReviews();
+    }, []);
 
-    // },[]);
+    const getUserReviews = async () => {
+        if (!coach?.user_id) return;
+        setLoading(true);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachReviewsFrontend`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ coach_id: coach.user_id }),
+            })
+
+            const resData = await res.json();
+            if (resData.status) {
+                setReviews(resData.data || []);
+            } else {
+                // If API returns status false, treat it as no reviews
+                setReviews([]);
+            }
+        } catch (err) {
+            console.error('Error fetching reviews:', err);
+            // On error, just set empty reviews instead of showing error
+            setReviews([]);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleToggle = (index) => {
+        setExpandedIndex((prev) => (prev === index ? null : index));
+    };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        try {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        } catch (error) {
+            return dateString;
+        }
+    };
+
+
+    // console.log('reviews', reviews)
 
     return (
         <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -89,33 +140,53 @@ export default function LabTabs({ coach }) {
                 </TabPanel>
 
                 <TabPanel value="4">
-                    <h5 className="what-user-text">What User's Say</h5>
-                    <div className="review-section">
-                        <div className="review-card">
-                            <div className="review-adding">
-                                <img src={`/coachsparkle/images/user-review-profile.png`} alt="Coach Image" />
-                                <div className="review-header">
-                                    <div className="rating-star-adding">
+                    {loading ? (
+                        <div className="review-section">
+                            <div className="review-card">
+                                <p>Loading reviews...</p>
+                            </div>
+                        </div>
+                    ) : reviews.length > 0 ? (
+                        <>
+                            <h5 className="what-user-text">What User's Say</h5>
+                            {reviews.map((review, index) =>
+                                <div className="review-section" key={index}>
+                                    <div className="review-card">
+                                        <div className="review-adding">
+                                            <img src={review?.user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} alt="Coach Image" />
+                                            <div className="review-header">
+                                                <div className="rating-star-adding">
 
-                                        {/* <img src="./imges/star-add-icons.png"> */}
-                                        <p>
-                                            <strong className="profile-name">Selena McCoy</strong><br />
-                                            <small className="month-date-add">15 October 2024</small>
-                                        </p>
+                                                    {/* <img src="./imges/star-add-icons.png"> */}
+                                                    <p>
+                                                        <strong className="profile-name">{review?.user?.first_name} {review?.user?.last_name}</strong><br />
+                                                        <small className="month-date-add">{formatDate(review?.created_at)}</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="review-content">
+                                            {/* <strong>Good Tour, Really Well Organised</strong> */}
+                                            <p className="review-text">
+                                                {/* {review?.review_text} */}
+                                                {expandedIndex === index
+                                                    ? review?.review_text
+                                                    : `${review?.review_text.slice(0, 260)}`}
+                                                {review?.review_text.length > 260 && (
+                                                    <span className="less-more-conent" onClick={() => handleToggle(index)} >
+                                                        {expandedIndex === index ? "..Read Less" : " ..Read More"}
+                                                    </span>
+                                                )}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
+                                </div>)}
+                        </>) :
+                        (<div className="review-section">
+                            <div className="review-card">
+                                <p>No Reviews Available</p>
                             </div>
-                            <div className="review-content">
-                                <strong>Good Tour, Really Well Organised</strong>
-                                <p className="review-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.
-                                </p>
-                            </div>
-                        </div>                     
-
-                      
-                    </div>
+                        </div>)}
                 </TabPanel>
             </TabContext>
         </Box>
