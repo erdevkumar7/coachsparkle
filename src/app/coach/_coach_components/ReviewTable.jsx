@@ -13,18 +13,22 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
 export default function ReviewTable({ reviews }) {
+  const [reviewsState, setReviewsState] = useState(reviews); // Local state for reviews
   const [selectedReview, setSelectedReview] = useState(null);
   const [replyText, setReplyText] = useState('');
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [reviewsState, setReviewsState] = useState(reviews); // Local state for reviews
   const token = Cookies.get('token');
 
-  const handleReplyClick = (review) => {
-    console.log('reviews', review)
+  const handleViewClick = (review) => {
     setSelectedReview(review);
-    setReplyText(review.reply || '');
+    setShowViewModal(true);
+  };
+
+  const handleReplyClick = (review) => {    
+    setSelectedReview(review);
+    setReplyText(review.reply?.review_text || '');
     setShowReplyModal(true);
   };
 
@@ -35,7 +39,7 @@ export default function ReviewTable({ reviews }) {
     }
 
     setLoading(true);
-    
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachReplyToUserReview`, {
         method: 'POST',
@@ -53,20 +57,26 @@ export default function ReviewTable({ reviews }) {
 
       const resData = await res.json();
       // console.log('resData', resData);
-      
+
       if (resData.status) {
         // Update the local reviews state to reflect the reply
-        const updatedReviews = reviewsState.map(review => 
-          review.id === selectedReview.id 
-            ? { ...review, reply: replyText, coach_status: 1 }
+        const updatedReviews = reviewsState.map(review =>
+          review.id === selectedReview.id
+            ? {
+              ...review,
+              reply: {
+                review_text: replyText
+              },
+              coach_status: 1
+            }
             : review
         );
         setReviewsState(updatedReviews);
-        
+
         setShowReplyModal(false);
         setReplyText('');
         setSelectedReview(null);
-        
+
         // Show success message
         toast.success('Reply submitted successfully!');
       } else {
@@ -80,14 +90,10 @@ export default function ReviewTable({ reviews }) {
     }
   };
 
-  const handleViewClick = (review) => {
-    setSelectedReview(review);
-    setShowViewModal(true);
-  };
-
   // Use local reviews state instead of prop
   const displayReviews = reviewsState;
-  
+    console.log('reviewsState', displayReviews)
+
   return (
     <div className="review-section table-striped">
       <table className="review-table">
@@ -154,10 +160,10 @@ export default function ReviewTable({ reviews }) {
                 ) : (
                   <button
                     className="reply-btn"
-                    style={{ backgroundColor: '#50C878', border: 'none' }}
+                    style={review.reply && { backgroundColor: '#50C878', border: 'none' }}
                     onClick={() => handleReplyClick(review)}
                   >
-                    Replied
+                    {review.reply ? 'Replied' : 'Reply'}
                   </button>
                 )}
                 <i
@@ -207,8 +213,8 @@ export default function ReviewTable({ reviews }) {
             placeholder="Type your reply here..."
           />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-            <Button 
-              onClick={() => setShowReplyModal(false)} 
+            <Button
+              onClick={() => setShowReplyModal(false)}
               variant="outlined"
               disabled={loading}
             >
@@ -245,14 +251,14 @@ export default function ReviewTable({ reviews }) {
             Review by {selectedReview?.user?.first_name} {selectedReview?.user?.last_name}
           </Typography>
           <Typography mb={2}>{selectedReview?.review_text}</Typography>
-          {selectedReview?.reply && (
+          {/* {selectedReview?.reply?.review_text && (
             <>
               <Typography variant="subtitle1" fontWeight="bold">
                 Your Reply:
               </Typography>
-              <Typography>{selectedReview.reply}</Typography>
+              <Typography>{selectedReview?.reply?.review_text}</Typography>
             </>
-          )}
+          )} */}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
             <Button onClick={() => setShowViewModal(false)} variant="outlined">
               Close

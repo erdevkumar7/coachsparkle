@@ -80,7 +80,9 @@ export const getCoachType = async () => {
 }
 
 export const getSubCoachType = async (coach_type_id) => {
-    const coachSubTypeRes = await fetch(`${apiUrl}/getSubCoachType/${coach_type_id}`, {
+    const newURL = coach_type_id ? `${apiUrl}/getSubCoachType/${coach_type_id}` : `${apiUrl}/getSubCoachType`;
+
+    const coachSubTypeRes = await fetch(`${newURL}`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
