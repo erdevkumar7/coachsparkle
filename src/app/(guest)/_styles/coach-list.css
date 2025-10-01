@@ -804,7 +804,7 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
   display: flex;
   align-items: flex-start;
   gap: 35px;
-  padding: 20px 0;
+  padding: 10px 0;
 }
 
 .review-section .review-card img {
@@ -2392,4 +2392,18 @@ button.ai-mtc {
     height: 46px !important;
     justify-content: center;
     display: flex;
+}
+
+.details-add-reviews {
+    justify-content: right;
+    display: flex;
+    margin-top: -15px;
+}
+.details-add-reviews button.detail-review {
+    font-size: 14px !important;
+    background: #009df6;
+    border: 1px solid #009df6;
+    border-radius: 12px;
+    padding: 8px 11px;
+    color: #fff;
 }

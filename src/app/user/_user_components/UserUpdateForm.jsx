@@ -276,7 +276,7 @@ export default function UserUpdateFormData({
             disabled={loading}
           ></textarea> */}
 
-          <select
+          {/* <select
             id="coaching_goal_1"
             {...register("coaching_goal_1")}
             disabled={loading}
@@ -284,10 +284,35 @@ export default function UserUpdateFormData({
             <option value="">Select First Goal</option>
             {allCoachSubtype.map((subtype) => (
               <option key={subtype.id} value={subtype.id}>
-                {subtype.subtype_name}
+                {`${subtype.subtype_name}ing`}
               </option>
             ))}
+          </select> */}
+          <select
+            id="coaching_goal_1"
+            {...register("coaching_goal_1")}
+            disabled={loading}
+          >
+            <option value="">-- Select Your First Goal --</option>
+            {allCoachSubtype.map((subtype) => {
+              const words = subtype.subtype_name.split(" ");
+              const lastWord = words[words.length - 1].toLowerCase();
+
+              let displayName = subtype.subtype_name;
+              if (lastWord === "coach") {
+                // Replace "coach" with "coaching"
+                words[words.length - 1] = "coaching";
+                displayName = words.join(" ");
+              }
+
+              return (
+                <option key={subtype.id} value={subtype.id}>
+                  {displayName}
+                </option>
+              );
+            })}
           </select>
+
         </div>
 
         <div className="form-group goal">
@@ -417,8 +442,8 @@ export default function UserUpdateFormData({
               <CircularProgress size={20} color="inherit" />
             ) : (
               <>
-                 Save Changes
-                 <i className="bi bi-arrow-right"></i>
+                Save Changes
+                <i className="bi bi-arrow-right"></i>
               </>
             )}
           </button>
