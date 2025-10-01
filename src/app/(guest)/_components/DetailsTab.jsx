@@ -12,36 +12,67 @@ export default function LabTabs({ coach }) {
     const [reviews, setReviews] = React.useState([]);
     const [expandedIndex, setExpandedIndex] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
+    const [loadingMore, setLoadingMore] = React.useState(false);
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [hasMore, setHasMore] = React.useState(true);
 
     React.useEffect(() => {
-        getUserReviews();
-    }, []);
+        getUserReviews(1); // Load first page on initial render
+    }, [coach?.user_id]);
 
-    const getUserReviews = async () => {
+    const getUserReviews = async (page = 1, loadMore = false) => {
         if (!coach?.user_id) return;
-        setLoading(true);
+        
+        if (loadMore) {
+            setLoadingMore(true);
+        } else {
+            setLoading(true);
+        }
 
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachReviewsFrontend`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ coach_id: coach.user_id }),
+                body: JSON.stringify({ 
+                    coach_id: coach.user_id,
+                    page: page 
+                }),
             })
 
             const resData = await res.json();
             if (resData.status) {
-                setReviews(resData.data || []);
+                if (loadMore) {
+                    // Append new reviews to existing ones
+                    setReviews(prevReviews => [...prevReviews, ...resData.data]);
+                } else {
+                    // Replace reviews for first load
+                    setReviews(resData.data || []);
+                }
+                
+                // Update pagination info
+                setCurrentPage(page);
+                setHasMore(page < resData.pagination.last_page);
             } else {
-                // If API returns status false, treat it as no reviews
-                setReviews([]);
+                if (!loadMore) {
+                    setReviews([]);
+                }
+                setHasMore(false);
             }
         } catch (err) {
             console.error('Error fetching reviews:', err);
-            // On error, just set empty reviews instead of showing error
-            setReviews([]);
+            if (!loadMore) {
+                setReviews([]);
+            }
+            setHasMore(false);
         } finally {
             setLoading(false);
+            setLoadingMore(false);
         }
+    }
+
+    const handleLoadMore = () => {
+        const nextPage = currentPage + 1;
+        getUserReviews(nextPage, true);
     }
 
     const handleToggle = (index) => {
@@ -65,8 +96,11 @@ export default function LabTabs({ coach }) {
         }
     };
 
-
-    // console.log('reviews', reviews)
+    // Safe text truncation function
+    const truncateText = (text, maxLength) => {
+        if (!text || text.length <= maxLength) return text;
+        return text.slice(0, maxLength);
+    };
 
     return (
         <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -91,18 +125,12 @@ export default function LabTabs({ coach }) {
                         <Tab label="Credentials" value="3" />
                         <Tab label="Reviews" value="4" />
                     </TabList>
-
                 </Box>
+                
                 <TabPanel value="1">
                     <div className='tab-cont'>
                         <p>
                             <strong>
-                                {/* {coach?.short_bio
-                                    ? coach.short_bio.length > 100
-                                        ? coach.short_bio.slice(0, 100) + "..."
-                                        : coach.short_bio
-                                    : "Confidence & Communication Coach | Empowering Professionals to Speak with Impact"} */}
-
                                 {coach?.coach_subtype?.length > 0 &&
                                     coach.coach_subtype.map((subtype, index) => (
                                         <span key={index}>
@@ -111,15 +139,16 @@ export default function LabTabs({ coach }) {
                                     ))}
                             </strong>
                         </p>
-
                         <p>{coach?.detailed_bio?.trim() ? coach.detailed_bio : 'Not available'}</p>
                     </div>
                 </TabPanel>
+                
                 <TabPanel value="2">
                     <div className='tab-cont'>
                         <p>{coach?.exp_and_achievement?.trim() ? coach.exp_and_achievement : 'Not available'}</p>
                     </div>
                 </TabPanel>
+                
                 <TabPanel value="3">
                     <div className="certifi">
                         {coach?.user_documents?.length > 0 ? (
@@ -149,44 +178,98 @@ export default function LabTabs({ coach }) {
                     ) : reviews.length > 0 ? (
                         <>
                             <h5 className="what-user-text">What User's Say</h5>
-                            {reviews.map((review, index) =>
-                                <div className="review-section" key={index}>
-                                    <div className="review-card">
-                                        <div className="review-adding">
-                                            <img src={review?.user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} alt="Coach Image" />
-                                            <div className="review-header">
-                                                <div className="rating-star-adding">
+                            {reviews.map((review, index) => {
+                                const reviewText = review?.review_text || '';
+                                const shouldTruncate = reviewText.length > 260;
+                                const displayText = expandedIndex === index 
+                                    ? reviewText 
+                                    : truncateText(reviewText, 260);
 
-                                                    {/* <img src="./imges/star-add-icons.png"> */}
-                                                    <p>
-                                                        <strong className="profile-name">{review?.user?.first_name} {review?.user?.last_name}</strong><br />
-                                                        <small className="month-date-add">{formatDate(review?.created_at)}</small>
-                                                    </p>
+                                return (
+                                    <div className="review-section" key={`${review.id}-${index}`}>
+                                        <div className="review-card">
+                                            <div className="review-adding">
+                                                <img 
+                                                    src={review?.user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} 
+                                                    alt="User Profile" 
+                                                    onError={(e) => {
+                                                        e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
+                                                    }}
+                                                />
+                                                <div className="review-header">
+                                                    <div className="rating-star-adding">
+                                                        <p>
+                                                            <strong className="profile-name">
+                                                                {review?.user?.first_name} {review?.user?.last_name}
+                                                            </strong>
+                                                            <br />
+                                                            <small className="month-date-add">
+                                                                {formatDate(review?.created_at)}
+                                                            </small>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="review-content">
-                                            {/* <strong>Good Tour, Really Well Organised</strong> */}
-                                            <p className="review-text">
-                                                {/* {review?.review_text} */}
-                                                {expandedIndex === index
-                                                    ? review?.review_text
-                                                    : `${review?.review_text.slice(0, 260)}`}
-                                                {review?.review_text.length > 260 && (
-                                                    <span className="less-more-conent" onClick={() => handleToggle(index)} >
-                                                        {expandedIndex === index ? "..Read Less" : " ..Read More"}
-                                                    </span>
-                                                )}
-                                            </p>
+                                            <div className="review-content">
+                                                <p className="review-text">
+                                                    {displayText}
+                                                    {shouldTruncate && (
+                                                        <span 
+                                                            className="less-more-conent" 
+                                                            onClick={() => handleToggle(index)}
+                                                            style={{ 
+                                                                color: '#007bff', 
+                                                                cursor: 'pointer',
+                                                                marginLeft: '4px'
+                                                            }}
+                                                        >
+                                                            {expandedIndex === index ? "..Read Less" : " ..Read More"}
+                                                        </span>
+                                                    )}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>)}
-                        </>) :
-                        (<div className="review-section">
+                                );
+                            })}
+                            
+                            {/* Load More Button */}
+                            {hasMore && (
+                                <div className='details-add-reviews'>
+                                    <button 
+                                        className='detail-review'
+                                        onClick={handleLoadMore}
+                                        disabled={loadingMore}
+                                        onMouseOver={(e) => {
+                                            if (!loadingMore) {
+                                                e.target.style.backgroundColor = '#009bfa';
+                                            }
+                                        }}
+                                        onMouseOut={(e) => {
+                                            if (!loadingMore) {
+                                                e.target.style.backgroundColor = '#009bfa';
+                                            }
+                                        }}
+                                    >
+                                        {loadingMore ? 'Loading...' : 'Load More Reviews'}
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Show message when all reviews are loaded */}
+                            {!hasMore && reviews.length > 3 && (
+                                <div style={{ textAlign: 'center', marginTop: '20px', color: '#666' }}>
+                                    <p>All reviews loaded</p>
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <div className="review-section">
                             <div className="review-card">
                                 <p>No Reviews Available</p>
                             </div>
-                        </div>)}
+                        </div>
+                    )}
                 </TabPanel>
             </TabContext>
         </Box>
