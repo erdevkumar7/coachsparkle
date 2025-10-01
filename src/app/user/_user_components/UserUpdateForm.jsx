@@ -15,6 +15,7 @@ export default function UserUpdateFormData({
   deliveryMode,
   ageGroup,
   languages,
+  allCoachSubtype,
 }) {
   const router = useRouter();
   const [getToken, setToken] = useState();
@@ -106,19 +107,19 @@ export default function UserUpdateFormData({
     console.log("Submitting", data);
 
     try {
-        setLoading(true);
-        const response = await axios.post(`${apiUrl}/updateUserProfile`, data, {
-            headers: {
-                Authorization: `Bearer ${getToken}`,
-                "Content-Type": "application/json",
-            },
-        });
-        toast.success("Profile updated successfully");
-        router.refresh();
+      setLoading(true);
+      const response = await axios.post(`${apiUrl}/updateUserProfile`, data, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      toast.success("Profile updated successfully");
+      router.refresh();
     } catch (error) {
-        toast.error("An error occurred. Please try again later.");
+      toast.error("An error occurred. Please try again later.");
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -149,7 +150,7 @@ export default function UserUpdateFormData({
               {...register("last_name")}
               disabled={loading}
             />
-                        {errors.last_name && (
+            {errors.last_name && (
               <div className="invalid-feedback d-block">
                 {errors.last_name.message}
               </div>
@@ -232,15 +233,15 @@ export default function UserUpdateFormData({
           <div className="form-group">
             <label htmlFor="age_group_user">Age Group (Learner’s Demographic)</label>
             <select {...register('age_group_user')} disabled={loading}
-                >
-                  <option value="">Select Age Group</option>
-                  {ageGroup.map((g) => (
-                    <option key={g.id} value={g.id}>
-                      {g.group_name} {g.age_range ? `(${g.age_range})` : ""}
-                    </option>
-                  ))}
+            >
+              <option value="">Select Age Group</option>
+              {ageGroup.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.group_name} {g.age_range ? `(${g.age_range})` : ""}
+                </option>
+              ))}
             </select>
-                        {errors.age_group_user && (
+            {errors.age_group_user && (
               <div className="invalid-feedback d-block">
                 {errors.age_group_user.message}
               </div>
@@ -268,12 +269,25 @@ export default function UserUpdateFormData({
 
         <div className="form-group goal">
           <label htmlFor="coaching_goal_1">Goal #1</label>
-          <textarea
+          {/* <textarea
             id="coaching_goal_1"
             rows="3"
             {...register("coaching_goal_1")}
             disabled={loading}
-          ></textarea>
+          ></textarea> */}
+
+          <select
+            id="coaching_goal_1"
+            {...register("coaching_goal_1")}
+            disabled={loading}
+          >
+            <option value="">Select First Goal</option>
+            {allCoachSubtype.map((subtype) => (
+              <option key={subtype.id} value={subtype.id}>
+                {subtype.subtype_name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="form-group goal">
@@ -403,7 +417,8 @@ export default function UserUpdateFormData({
               <CircularProgress size={20} color="inherit" />
             ) : (
               <>
-                Save Changes <i className="bi bi-arrow-right"></i>
+                 Save Changes
+                 <i className="bi bi-arrow-right"></i>
               </>
             )}
           </button>

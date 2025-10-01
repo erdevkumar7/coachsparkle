@@ -2,22 +2,41 @@ import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import UserUpdateFormData from "../_user_components/UserUpdateForm";
 import { getUserProfileData } from "@/app/api/user";
-import { getAllContries, getDeliveryMode, getAgeGroup, getAllLanguages } from "@/app/api/guest";
+import { getAllMasters, getSubCoachType } from "@/app/api/guest";
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {
     const { data: user, error, removeToken } = await getUserProfileData();
-    // if (!user) {
-    //     return redirect('/login');
-    // } else if (user.user_type == 3) {
-    //     return redirect('/coach/dashboard');
-    // }
 
-    const countries = await getAllContries();
-    const deliveryMode = await getDeliveryMode();
-    const ageGroup = await getAgeGroup();
-    const languages = await getAllLanguages();
+    // const countries = await getAllContries();
+    // const deliveryMode = await getDeliveryMode();
+    // const ageGroup = await getAgeGroup();
+    // const languages = await getAllLanguages();
 
+    const [allMasters, allCoachSubtype] = await Promise.all([
+        getAllMasters(),
+        getSubCoachType(null),
+    ]);
+
+    let countries;
+    let deliveryMode;
+    let ageGroup;
+    let languages;
+    // let coachTypes;
+    // let getAllServices;
+    // let price_range;
+    // let experience;
+
+    if (allMasters) {
+        countries = allMasters.countries;
+        deliveryMode = allMasters.delivery_mode;
+        ageGroup = allMasters.age_group;
+        languages = allMasters.languages;
+        // coachTypes = allMasters.coach_type;
+        // getAllServices = allMasters.services
+        // price_range = allMasters.budget_range_show
+        // experience = allMasters.experience_level_show
+    }
 
     return (
         <div className="main-panel">
@@ -49,6 +68,7 @@ export default async function Profile() {
                             deliveryMode={deliveryMode}
                             ageGroup={ageGroup}
                             languages={languages}
+                            allCoachSubtype={allCoachSubtype}
                         />
                     </div>
                 </div>
