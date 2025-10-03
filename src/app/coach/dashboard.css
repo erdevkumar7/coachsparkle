@@ -274,7 +274,7 @@ p.coach-name-text {
   font-family: Inter;
   font-size: 15px;
   font-weight: 500;
-  width: 86%;
+  width: 100%;
 }
 .coach-dashboard-add .snapshot .glance-box p.count {
   color: #181A20;
@@ -3086,11 +3086,12 @@ display: none;
   transition: all 0.2s ease-in;
 }
 .sidebar .nav .nav-item .nav-link .menu-title {
-  color: inherit;
-  display: inline-block;
-  font-size: 0.875rem;
-  line-height: 1;
-  vertical-align: middle;
+color: inherit;
+    vertical-align: middle;
+    margin-top: -3px;
+    font-size: 16px !important;
+    line-height: 1;
+    display: inline-block;
 }
 .sidebar .nav .nav-item .nav-link .badge {
   margin-left: auto;

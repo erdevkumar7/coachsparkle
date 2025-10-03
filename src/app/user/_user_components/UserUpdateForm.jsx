@@ -439,7 +439,10 @@ export default function UserUpdateFormData({
         <div className="save-btn">
           <button type="submit" className="save-btn-add" disabled={loading}>
             {loading ? (
-              <CircularProgress size={20} color="inherit" />
+              <>
+                Saving
+                <CircularProgress size={20} color="inherit" />
+              </>
             ) : (
               <>
                 Save Changes

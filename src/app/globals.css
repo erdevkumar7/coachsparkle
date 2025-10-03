@@ -1654,6 +1654,19 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
 @media only screen and (max-width: 767px) {
  
+
+.people-love-living .swiper-pagination {
+    position: absolute;
+    top: auto !important;
+    left: 0px !important;
+    right: 0px !important;
+    bottom: -14px !important;
+    margin: auto !important;
+    text-align: center;
+    display: flex !important;
+    justify-content: center !important; 
+}
+
   .signup-coach {
     display: block !important;
 }

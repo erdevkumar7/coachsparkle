@@ -196,11 +196,10 @@ h3.font-weight-bold.quick-text-add.my-changes {
 }
 
 .profile-form .save-btn {
-    display: flex !important;
-    justify-content: center !important;
-    margin: auto !important;
     float: right;
-    width: 55%;
+    margin: auto !important;
+    display: flex !important;
+    justify-content: right !important;
 }
 
 .upload-btn {

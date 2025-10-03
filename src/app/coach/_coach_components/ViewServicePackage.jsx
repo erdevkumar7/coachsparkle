@@ -7,8 +7,9 @@ import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import { useRouter } from "next/navigation";
 import { formatBookingAvailability } from "@/lib/commonFunction";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 export default function ViewServicePackage({ pkg, allPackageIds }) {
-  console.log('pkgg', pkg)
+  // console.log('pkgg', pkg)
   const router = useRouter();
   const handleClick = () => {
     router.push(`/coach/all-packages/${pkg.id}?coach_id=${pkg.coach_id}`);
@@ -16,12 +17,12 @@ export default function ViewServicePackage({ pkg, allPackageIds }) {
   };
   return (
     <>
-      <div className="session-card">
+      <div className="col-md-3 session-card">
         <img
           src={
             pkg?.media_file
               ? pkg?.media_file
-              : `/coachsparkle/images/package1.webp`
+              : `${FRONTEND_BASE_URL}/images/package1.webp`
           }
           alt="Team Image"
           className="top-image"

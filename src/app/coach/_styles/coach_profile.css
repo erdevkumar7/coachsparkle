@@ -1,9 +1,10 @@
-.profile-form-add .profile-form {
-    display: block!important;
-    gap: 30px;
-    width: 100%!important;
-    margin-top: 25px!important;
+
+.coach_profile_form_add .card {
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    padding: 20px !important;
 }
+
 
 .sub-coaching-category-input {
   border-radius: 12px !important;

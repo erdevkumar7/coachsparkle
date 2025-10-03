@@ -1,9 +1,42 @@
+
+.session-wrapper .status-draft button {
+    color: #6c727f;
+    background-color: #d7d7d7;
+    border: 1px solid #767e94;
+    border-radius: 5px;
+    padding: 2px 25px !important;
+}
+.session-wrapper .status.status-draft {
+    z-index: 2;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+.session-wrapper .status {
+    z-index: 2;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+.status.status-unpublished {
+    z-index: 2;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+
+
 .content-wrapper {
     padding: 0px 20px 0px 38px;
 }
 
 .content-wrapper .card {
-       border: 1px solid #d7d7d7;
+    border: 1px solid #d7d7d7;
     border-radius: 12px;
     padding: 20px !important;
 }
@@ -23,7 +56,7 @@
     width: 18px;
 }
 
-.content-wrapper h3{
+.content-wrapper h3 {
     font-size: 24px;
     font-weight: 500;
 }
@@ -36,6 +69,7 @@ input#«r0» {
 .coach-session-count {
     display: flex;
 }
+
 .d-flex.gap-1.add-draft-service .mui-icons {
     font-size: 20px;
     margin-top: 2px;
@@ -61,9 +95,10 @@ input#«r0» {
 }
 
 .session-wrapper {
-    display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    display: flex;
+    padding-bottom: 20px;
 }
 
 .session-card {
@@ -79,7 +114,10 @@ input#«r0» {
     display: block;
     object-fit: cover;
 }
-.profile-form .form-group input, .form-group select, .form-group textarea {
+
+.profile-form .form-group input,
+.form-group select,
+.form-group textarea {
     background: #fff;
     border: 1px solid #d1d5db;
     border-radius: 16px;
@@ -88,6 +126,7 @@ input#«r0» {
     font-size: 14px;
     margin-top: 3px;
 }
+
 .session-card .session-pkg-content {
     background-color: #f4f4f4;
     border-top: 10px solid #e7e6e6;
@@ -95,6 +134,7 @@ input#«r0» {
     margin-bottom: 0px;
     padding: 12px;
 }
+
 .icons-row.strength-value {
     display: flex;
     flex-wrap: nowrap;
@@ -125,12 +165,13 @@ input#«r0» {
     font-size: 14px;
     height: 55px;
 }
+
 .btn-action-add {
     display: flex;
     gap: 5px;
 }
 
-.circular-progress-bar{
+.circular-progress-bar {
     display: flex;
     text-align: center;
     justify-content: center;
@@ -141,36 +182,47 @@ input#«r0» {
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
-    padding-top: 20px;
+    padding-top: 40px;
 }
+
 .profile-form input::placeholder {
     color: #696974 !important;
 }
 
-.profile-form .form-group input, .form-group select, .form-group textarea::placeholder {
+.profile-form .form-group input,
+.form-group select,
+.form-group textarea::placeholder {
     color: #696974 !important;
 }
+
 select#coaching_category {
     border: 0px;
 }
+
 select#age_group {
     border: none;
 }
+
 .form-group.col-md-4.number-of-session-input select.form-control {
     border: none;
 }
+
 .form-group.col-md-4.duration-per-session-input select.form-control {
     border: none;
 }
+
 .form-group.col-md-4.currency-input select#currency {
     border: none;
 }
+
 select#price_model {
     border: none;
 }
+
 select#cancellation_policy {
     border: none;
 }
+
 .action-btn button {
     color: #009BFA;
     background-color: #f4f4f4;
@@ -187,18 +239,18 @@ select#cancellation_policy {
 }
 
 .status.status-published {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
 }
 
 .status.status-published button {
-  padding: 4px 10px;
-  font-size: 12px;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
+    padding: 4px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
 }
 
 
@@ -209,21 +261,24 @@ select#cancellation_policy {
     padding: 5px 18px;
 }
 
+
+
+
 .status-unpublished button {
-  background-color: #FFF6E8;
-  color: #ED9B22;
-  border: 1px solid #FFCC81;
+    color: #ed9b22;
+    background-color: #fff6e8;
+    border: 1px solid #ffcc81;
     border-radius: 5px;
-  padding: 5px 40px 5px 40px;
+    padding: 2px 11px;
+}
+.status-draft button {
+    background-color: #D7D7D7;
+    color: #6C727F;
+    border: 1px solid #767E94;
+    border-radius: 5px;
+    padding: 5px 40px 5px 40px;
 }
 
-.status-draft button {
-  background-color: #D7D7D7;
-  color: #6C727F;
-  border: 1px solid #767E94;
-  border-radius: 5px;
-  padding: 5px 40px 5px 40px;
-}
 .preview-section .session-preview-content .price {
     color: #1A1A1A;
     font-size: 22px;
@@ -232,12 +287,7 @@ select#cancellation_policy {
     margin-bottom: 10px;
     margin-top: 20px;
 }
-.profile-form {
-    display: flex !important;
-    gap: 30px;
-    width: 100% !important;
-    margin-top: 25px !important;
-}
+
 
 .profile-form-add .card {
     border: 1px solid #d7d7d7;
@@ -254,14 +304,16 @@ select#cancellation_policy {
     padding-bottom: 15px;
 }
 
-.profile-form .form-section{
+.profile-form .form-section {
     max-width: 55%;
 }
+
 .profile-form .preview-section {
     max-width: 55%;
     height: 809px;
 }
-.profile-form .preview-section button{
+
+.profile-form .preview-section button {
     background-color: #009BFA;
     color: white;
     border: none;
@@ -272,16 +324,17 @@ select#cancellation_policy {
     text-align: center;
 }
 
-.preview-section .session-preview-content{
+.preview-section .session-preview-content {
     background-color: #f4f4f4;
     border-top: 10px solid #e7e6e6;
     padding: 10px;
     height: auto;
 }
 
-.preview-section .session-preview-content h2{
+.preview-section .session-preview-content h2 {
     font-size: 22px;
 }
+
 /* .profile-form .preview-section img{
     max-height: 25vh;
 } */
@@ -290,35 +343,36 @@ p.best-text {
     margin-bottom: 0px;
     font-size: 14px;
 }
+
 p.best-text-one {
     font-size: 14px;
     font-style: italic;
 }
 
-.form-group small{
+.form-group small {
     font-size: 10px;
     color: #696974;
 }
 
 
 .delivery-row {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 
 .form-label {
-  font-weight: 600;
-  white-space: nowrap;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 
 .delivery-checkboxes {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+    display: flex;
+    gap: 16px;
+    align-items: center;
 }
 
 
@@ -326,21 +380,23 @@ p.best-text-one {
     width: 15px;
     height: 15px;
 }
+
 /* .delivery-checkboxes input[type="checkbox"] {
   accent-color: #009BFA;
 } */
 
 
 .delivery-option {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
 }
+
 .custom-file-upload {
     background-color: #e9eaec;
     border-radius: 40px;
@@ -357,6 +413,9 @@ p.best-text-one {
 }
 
 .service-profile-add {
+    gap: 30px;
+    width: 100% !important;
+    margin-top: 25px !important;
     display: flex !important;
 }
 
@@ -374,12 +433,12 @@ p.best-text-one {
 } */
 
 .file-name {
-  color: #777;
-  font-size: 14px;
+    color: #777;
+    font-size: 14px;
 }
 
 .custom-file-upload input[type="file"] {
-  display: none;
+    display: none;
 }
 
 
@@ -478,7 +537,7 @@ p.best-text-one {
     font-weight: 400;
 }
 
-     .form-group.check-box input#coachAgreement {
+.form-group.check-box input#coachAgreement {
     width: 18px;
     cursor: pointer;
 }
@@ -500,6 +559,7 @@ p.best-text-one {
 .action-button .save-btn-add:hover {
     background-color: #009BFA !important;
 }
+
 .action-button .save-btn {
     /* float: right; */
     white-space: normal;
@@ -510,10 +570,12 @@ p.best-text-one {
     justify-content: space-between;
     align-items: center;
 }
+
 .disabled-bg {
-  background-color: #E7E8E9 !important;
-  color: #696974 !important;
+    background-color: #E7E8E9 !important;
+    color: #696974 !important;
 }
+
 .two-number-add-list {
     display: flex;
     width: 48%;
@@ -532,12 +594,12 @@ p.best-text-one {
     }
 }
 
-.upgrade-banner .upgrade-banner-text{
+.upgrade-banner .upgrade-banner-text {
     font-size: 20px;
     font-weight: 400;
 }
 
-.upgrade-banner .upgrade-btn{
+.upgrade-banner .upgrade-btn {
     background-color: #009BFA;
     color: white;
     border-radius: 10px;
@@ -545,7 +607,7 @@ p.best-text-one {
     font-weight: 600;
 }
 
-.upgrade-banner .upgrade-btn:hover{
+.upgrade-banner .upgrade-btn:hover {
     background-color: #009BFA;
     color: white;
     border-radius: 10px;
