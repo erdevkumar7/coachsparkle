@@ -59,7 +59,7 @@ export default async function CoachProfile() {
                     <h4>Public Profile</h4>
                 </div>
 
-                <div className="profile-form-add">
+                <div className="coach_profile_form_add">
                     <CoachUpdateForm
                         user={user}
                         countries={countries}

@@ -10,6 +10,7 @@ import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { formatBookingWindow } from "@/lib/commonFunction";
 import { useRouter } from "next/navigation";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 
 export default function ShowPackage({ pkg, allPackages }) {
@@ -48,7 +49,11 @@ export default function ShowPackage({ pkg, allPackages }) {
           <div className="package-card">
             <div className="package-card-header d-flex justify-content-between align-items-start border-0">
               <img
-                src={pkg?.media_file}
+                src={
+                  pkg?.media_file
+                    ? pkg?.media_file
+                    : `${FRONTEND_BASE_URL}/images/package1.webp`
+                }
                 alt="Package"
                 className="card-img-top rounded-top"
               />

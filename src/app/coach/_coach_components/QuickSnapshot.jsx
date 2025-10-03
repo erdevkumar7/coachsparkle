@@ -46,7 +46,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
             />
             <div className="new-add-coming">
               <p className="title">New Coaching Request</p>
-              <p className="count">{new_requests < 10 ? `0${new_requests}` : new_requests}</p>
+              <span className="count">{new_requests < 10 ? `0${new_requests}` : new_requests}</span>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
             />
             <div className="new-add-coming">
               <p className="title">Confirmed Booking</p>
-              <p className="count">{confirmed_count < 10 ? `0${confirmed_count}` : confirmed_count}</p>
+              <span className="count">{confirmed_count < 10 ? `0${confirmed_count}` : confirmed_count}</span>
             </div>
           </div>
         </div>
@@ -132,7 +132,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
               />
               <div className="new-add-coming">
                 <p className="title">Profile Views</p>
-                <p className="count">15</p>
+                <span className="count">15</span>
                 <span className="this-month-text">
                   this month Increased by 20%
                 </span>
@@ -154,7 +154,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
             />
             <div className="new-add-coming">
               <p className="title">Average Rating</p>
-              <p className="count">4.0</p>
+              <span className="count">4.0</span>
             </div>
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
                 />
                 <div className="new-add-coming">
                   <p className="title">No. of Favorite</p>
-                  <p className="count">10</p>
+                  <span className="count">10</span>
                 </div>
               </div>
             </div>
