@@ -95,6 +95,41 @@ export const coachSchema = yup.object().shape({
         .string()
         .required('Price range required'),
 
+    // custom_price_text: yup
+    //     .string()
+    //     .when('price_range', {
+    //         is: '7', // When "Others" is selected
+    //         then: (schema) => schema.required('Custom price range is required').max(100, 'Custom price range must be less than 100 characters'),
+    //         otherwise: (schema) => schema.notRequired()
+    //     }),
+
+    custom_price_text: yup
+        .string()
+        .when('price_range', {
+            is: '7',
+            then: (schema) => schema
+                .required('Custom price range is required')
+                .max(100, 'Custom price range must be less than 100 characters')
+                .test(
+                    'non-numeric',
+                    'Price range must like (e.g. $150-300)',
+                    (value) => {
+                        if (!value) return false;
+
+                        // Remove common currency symbols and check if only numbers remain
+                        const cleanedValue = value.replace(/[$€£¥,.\s]/g, '');
+                        const onlyNumbers = /^\d+$/.test(cleanedValue);
+
+                        // If it's only numbers, reject it
+                        if (onlyNumbers) return false;
+
+                        return true;
+                    }
+                ),
+            otherwise: (schema) => schema.notRequired()
+        }),
+
+
     age_group: yup
         .string()
         .required('Audience is required'),

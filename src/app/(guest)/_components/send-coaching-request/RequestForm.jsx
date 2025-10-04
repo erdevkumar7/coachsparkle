@@ -474,7 +474,7 @@ export default function RequestForm({
                     </option>
                     <option value={1}>Male</option>
                     <option value={2}>Female</option>
-                    <option value={3}>Other</option>
+                    <option value={3}>No Preference</option>
                   </select>
                   {errors.coach_gender && (
                     <p className="text-danger">{errors.coach_gender.message}</p>

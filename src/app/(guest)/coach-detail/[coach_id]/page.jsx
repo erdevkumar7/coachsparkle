@@ -274,7 +274,7 @@ export default async function CoachDetail({ params }) {
                     <p className="price">
                       {coach.price ? `$${coach.price}/ hour` : "N/A"}
                     </p>
-                    <p className="small-txt">Prices range from {coach?.price_range ? `${coach?.price_range}$` : 'N/A'}</p>
+                    <p className="small-txt">Prices range from {coach?.price_range || 'N/A'}</p>
 
                     <div className="trial-offer">
                       <span>
