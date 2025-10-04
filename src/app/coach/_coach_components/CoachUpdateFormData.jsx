@@ -73,7 +73,32 @@ export default function CoachUpdateForm({
       experience: user?.experience || "",
       delivery_mode: user?.delivery_mode || "",
       price: user?.price || "",
-      price_range: user?.price_range || "",
+      // price_range: user?.price_range || "",
+      // Fix for price_range - handle both cases
+      price_range: (() => {
+        if (!user?.price_range) return "";
+
+        // Check if price_range is a number (ID) or custom text
+        const pr = user.price_range;
+        const isNumeric = !isNaN(pr) && !isNaN(parseFloat(pr));
+
+        if (isNumeric) {
+          return pr.toString(); // It's an ID (1-6)
+        } else {
+          return "7"; // It's custom text, so set dropdown to "Others"
+        }
+      })(),
+
+      // Add custom_price_text field
+      custom_price_text: (() => {
+        if (!user?.price_range) return "";
+
+        const pr = user.price_range;
+        const isNumeric = !isNaN(pr) && !isNaN(parseFloat(pr));
+
+        // If it's not numeric, it means we stored custom text in price_range
+        return isNumeric ? "" : pr;
+      })(),
       age_group: user?.age_group || "",
       language_names: user?.language_names?.map((lang) => lang.id) || [],
       service_keyword: user?.service_keyword?.map((servc) => servc.id) || [],
@@ -223,11 +248,35 @@ export default function CoachUpdateForm({
 
 
   const onSubmit = async (data, e) => {
+    // const clickedButton = e.nativeEvent.submitter?.value || 'draft';
+    // const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
+    // console.log('data', data)
+    // const form = new FormData();
+    // Object.entries(data).forEach(([key, value]) => {
+    //   if (Array.isArray(value)) {
+    //     value.forEach((v) => form.append(`${key}[]`, v));
+    //   } else {
+    //     form.append(key, typeof value === 'boolean' ? (value ? 1 : 0) : value);
+    //   }
+    // });
+
+    // form.append('profile_status', profile_status);
+
+    //============================================
     const clickedButton = e.nativeEvent.submitter?.value || 'draft';
     const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
-    console.log('data', data)
+
+    const finalData = {
+      ...data,
+      price_range: data.price_range === "7" && data.custom_price_text
+        ? data.custom_price_text
+        : data.price_range
+    };
+
+    console.log('finalData', finalData);
+
     const form = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
+    Object.entries(finalData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((v) => form.append(`${key}[]`, v));
       } else {
@@ -533,6 +582,24 @@ export default function CoachUpdateForm({
                 </select>
                 {errors.price_range && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.price_range.message}</p>}
               </div>
+
+              {/* Conditional free text input */}
+              {watch("price_range") === "7" && (
+                <div className="form-group">
+                  <label>Specify Price Range*</label>
+                  <input
+                    {...register('custom_price_text')}
+                  />
+                  <small style={{ color: '#666', fontSize: '12px', display: 'block', marginTop: '5px' }}>
+                    (e.g., $150-300/session, $500/package)
+                  </small>
+                  {errors.custom_price_text && (
+                    <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>
+                      {errors.custom_price_text.message}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="form-row three-cols">
