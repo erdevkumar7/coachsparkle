@@ -30,7 +30,7 @@ export default function Messages() {
       message_type: 1,
       bannerTitle: "Start a Conversation with User",
       bannerDescription: `You’ve received a new inquiry from a potential client! Someone is interested in your coaching services and has sent a message to learn more.
-${(<br />)}👉 Take a moment to review and reply to start the conversation.`,
+      👉 Take a moment to review and reply to start the conversation.`,
       coaches: [],
       isLoading: true,
     },
@@ -40,9 +40,7 @@ ${(<br />)}👉 Take a moment to review and reply to start the conversation.`,
       message_type: 2,
       bannerTitle: "Start a Conversation with User",
       bannerDescription: `Great news! Someone is looking for a coach like you. You've just been matched by AI or with a new coaching request that fits your services and expertise.
-${(
-          <br />
-        )}👉 Respond now to express interest or start a conversation. Your quick reply can make all the difference`,
+      👉 Respond now to express interest or start a conversation. Your quick reply can make all the difference`,
       coaches: [],
       isLoading: true,
     },

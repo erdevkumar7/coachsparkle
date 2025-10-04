@@ -93,7 +93,7 @@ export default function CoachHeader({user}) {
                 <p className="mb-0 font-weight-normal float-left dropdown-header">
                   Notifications
                 </p>
-                <a className="dropdown-item preview-item">
+                {/* <a className="dropdown-item preview-item">
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-success">
                       <i className="bi bi-info-circle mx-0"></i>
@@ -108,8 +108,8 @@ export default function CoachHeader({user}) {
                       Just now{" "}
                     </p>
                   </div>
-                </a>
-                <a className="dropdown-item preview-item">
+                </a> */}
+                {/* <a className="dropdown-item preview-item">
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-warning">
                     <SettingsOutlinedIcon/>
@@ -124,7 +124,7 @@ export default function CoachHeader({user}) {
                       Private message{" "}
                     </p>
                   </div>
-                </a>
+                </a> */}
                 <a className="dropdown-item preview-item">
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-info">
@@ -133,7 +133,7 @@ export default function CoachHeader({user}) {
                   </div>
                   <div className="preview-item-content">
                     <h6 className="preview-subject font-weight-normal">
-                      New user registration
+                      New Message
                     </h6>
                     <p className="font-weight-light small-text mb-0 text-muted">
                       {" "}

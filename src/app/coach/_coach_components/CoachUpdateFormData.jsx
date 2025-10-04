@@ -866,6 +866,9 @@ export default function CoachUpdateForm({
               {errors.linkdin_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.linkdin_link.message}</p>}
             </div>
 
+
+       
+
             <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
               <label>
                 Website
@@ -902,7 +905,6 @@ export default function CoachUpdateForm({
               {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
               <input
                 type="text"
-                placeholder="https://www.youtube.com/"
                 disabled={!isProUser}
                 {...register("podcast_link")}
               />
@@ -913,7 +915,6 @@ export default function CoachUpdateForm({
               {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
               <input
                 type="text"
-                placeholder="https://www.youtube.com/"
                 disabled={!isProUser}
                 {...register("blog_article")}
               />
