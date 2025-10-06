@@ -51,10 +51,20 @@ export default function Accountsetting() {
     functional: false,
     marketing: false,
   });
-
+  const [languages, setLanguages] = useState([]);
 
   const accountForm = useForm({
     resolver: yupResolver(userAccountSettingSchema),
+    defaultValues: {
+      first_name: user?.first_name,
+      last_name: user?.last_name,
+      email: user?.email,
+      pref_lang: user?.pref_lang,
+      contact_number: user?.contact_number,
+      address: user?.address,
+      zip_code: user?.zip_code,
+      is_avail_for_relavant: user?.is_avail_for_relavant,
+    },
     mode: "onBlur",
   });
 
@@ -63,72 +73,84 @@ export default function Accountsetting() {
     mode: "onBlur",
   });
 
-  // useEffect(() => {
-  //   const token = Cookies.get("token");
-  //   if (!token) {
-  //     router.push("/login");
-  //     return;
-  //   }
-  //   const fetchUser = async () => {
-  //     const tokenData = await HandleValidateToken(token);
-  //     if (!tokenData) {
-  //       Cookies.remove("token");
-  //       localStorage.removeItem("user");
-  //       router.push("/login");
-  //       return;
-  //     }
-
-  //     setUser(tokenData.data);
-  //   };
-
-  //   fetchUser();
-  // }, []);
-
 
   useEffect(() => {
-    const fetchSettings = async () => {
+    const fetchInitialData = async () => {
       try {
         const token = Cookies.get("token");
         if (!token) return;
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        // Fetch languages and settings in parallel
+        const [mastersRes, settingsRes] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/getallmastercategories`, {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        ]);
 
-        if (!res.ok) return;
-        const data = await res.json();
-        const s = data.settings;
+        if (mastersRes.ok) {
+          const mastersData = await mastersRes.json();
+          if (mastersData && mastersData.languages) {
+            setLanguages(mastersData.languages);
+          }
+        }
 
-        setPreferences({
-          performance: s.is_performance_cookies,
-          functional: s.is_functional_cookies,
-          marketing: s.is_marketing_cookies,
-        });
+        if (settingsRes.ok) {
+          const data = await settingsRes.json();
+          const s = data.settings;
 
-        const commPref = s.communication_preference
-          ? Array.isArray(s.communication_preference)
-            ? s.communication_preference
-            : JSON.parse(s.communication_preference)
-          : [];
+          setPreferences({
+            performance: s.is_performance_cookies,
+            functional: s.is_functional_cookies,
+            marketing: s.is_marketing_cookies,
+          });
 
-        setCommunicationPreference(commPref);
-        setNewCoachEnabled(!!s.new_coach_match_alert);
-        setMsgEnabled(!!s.message_notifications);
-        setBookingEnabled(!!s.booking_reminders);
-        setRequestEnabled(!!s.coaching_request_status);
-        setAnnouncementEnabled(!!s.platform_announcements);
-        setBlogEnabled(!!s.blog_article_recommendations);
-        setBillingEnabled(!!s.billing_updates);
+          const commPref = s.communication_preference
+            ? Array.isArray(s.communication_preference)
+              ? s.communication_preference
+              : JSON.parse(s.communication_preference)
+            : [];
 
-        setProfileVisibility(s.profile_visibility || "public");
-        setAllowAiMatching(!!s.allow_ai_matching);
+          setCommunicationPreference(commPref);
+          setNewCoachEnabled(!!s.new_coach_match_alert);
+          setMsgEnabled(!!s.message_notifications);
+          setBookingEnabled(!!s.booking_reminders);
+          setRequestEnabled(!!s.coaching_request_status);
+          setAnnouncementEnabled(!!s.platform_announcements);
+          setBlogEnabled(!!s.blog_article_recommendations);
+          setBillingEnabled(!!s.billing_updates);
+
+          setProfileVisibility(s.profile_visibility || "public");
+          setAllowAiMatching(!!s.allow_ai_matching);
+        }
       } catch (err) {
-        console.error("Failed to fetch settings:", err);
+        console.error("Failed to fetch initial data:", err);
       }
     };
 
-    fetchSettings();
+    fetchInitialData();
   }, []);
+
+  // ✅ Ensure form resets only after languages are loaded
+  useEffect(() => {
+    if (user && languages.length > 0) {
+      accountForm.reset({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        pref_lang: String(user.pref_lang), // ensure string match
+        contact_number: user.contact_number,
+        address: user.address,
+        zip_code: user.zip_code,
+        is_avail_for_relavant:user.is_avail_for_relavant,
+      });
+    }
+  }, [user, languages]);
 
 
   const onAccountSave = async (data) => {
@@ -353,7 +375,7 @@ export default function Accountsetting() {
     }
   };
 
-
+  console.log('userr', user)
   return (
     <div className="main-panel account-section">
       <div className="account-setting">
@@ -413,40 +435,45 @@ export default function Accountsetting() {
               <div className="account-form-group">
                 <label>Language Setting</label>
                 <select
-                  name="language"
-                  {...accountForm.register("language")}
+                  id="pref_lang"
+                  {...accountForm.register("pref_lang")}
                   disabled={loading}
                 >
-                  <option>English</option>
+                  <option value="">Select Language</option>
+                  {languages.map((lang) => (
+                    <option key={lang.id} value={lang.id}>
+                      {lang.language}
+                    </option>
+                  ))}
                 </select>
-                {accountForm.formState.errors.language && (
+                {accountForm.formState.errors.pref_lang && (
                   <div className="invalid-feedback d-block">
-                    {accountForm.formState.errors.language.message}
+                    {accountForm.formState.errors.pref_lang.message}
                   </div>
                 )}
               </div>
               <div className="account-form-group phone-input-css">
                 <label>Phone Number</label>
                 <Controller
-                  name="mobile"
+                  name="contact_number"
                   control={accountForm.control}
 
                   rules={{ required: true }}
                   render={({ field }) => (
                     <PhoneInput
                       {...field}
-                      country={"us"}
+                      country={"sg"}
                       inputProps={{
-                        name: "mobile",
+                        name: "contact_number",
                         disabled: loading,
                       }}
                       onChange={(value) => field.onChange("+" + value)}
                     />
                   )}
                 />
-                {accountForm.formState.errors.mobile && (
+                {accountForm.formState.errors.contact_number && (
                   <div className="invalid-feedback d-block">
-                    {accountForm.formState.errors.mobile.message}
+                    {accountForm.formState.errors.contact_number.message}
                   </div>
                 )}
               </div>
@@ -458,7 +485,7 @@ export default function Accountsetting() {
                 <input
                   type="text"
                   placeholder="Enter your address"
-                  {...accountForm.register("location")}
+                  {...accountForm.register("address")}
                   disabled={loading}
                 />
               </div>
@@ -479,12 +506,11 @@ export default function Accountsetting() {
               <div className="d-flex gap-2 pt-2">
                 <input
                   type="checkbox"
-                  {...accountForm.register("consent")}
+                  {...accountForm.register("is_avail_for_relavant")}
                   disabled={loading}
                 />
                 <label htmlFor="corporateCheck">
-                  I agree to let Coach Sparkle match my services to help users
-                  achieve their coaching goals.
+                  I agree to let Coach Sparkle match me with relevant coaches
                 </label>
               </div>
               <button className="save-changes-btn" disabled={loading}>
