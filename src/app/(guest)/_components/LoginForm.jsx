@@ -91,6 +91,17 @@ export default function LoginForm() {
         }
     };
 
+    const handleNavigation = async (path) => {
+        try {
+            router.push(path);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            router.refresh();
+        } catch (error) {
+            console.error('Navigation error:', error);
+            window.location.href = path;
+        }
+    };
+
 
     // handle form submit
     const onSubmit = async (data) => {
@@ -132,19 +143,15 @@ export default function LoginForm() {
             }
 
             if (redirect) {
-                router.push(redirect);
-                router.refresh(); // ✅ forces server components to re-run
+                await handleNavigation(redirect);
             } else if (result.data.user.user_type === 2) {
                 toast.success("Login successful!");
-                router.push('/user/dashboard');
-                router.refresh();
+                await handleNavigation('/user/dashboard');
             } else if (result.data.user.user_type === 3) {
                 toast.success("Login successful!");
-                router.push('/coach/dashboard');
-                router.refresh();
+                await handleNavigation('/coach/dashboard');
             } else {
-                router.push('/');
-                router.refresh();
+                await handleNavigation('/');
             }
         } catch (err) {
             if (err.response && err.response.status === 401) {

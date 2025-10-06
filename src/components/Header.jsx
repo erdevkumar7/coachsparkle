@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import AppsIcon from '@mui/icons-material/Apps';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
@@ -24,7 +25,7 @@ export default function Header({ user }) {
     const sidebar = document.getElementById("sidebar");
     const moblileCollapsBtn = document.getElementById("remov-coll-on-tech");
     const navbarTogglerDemo = document.getElementById("navbarTogglerDemo01")
-    
+
     if (sidebar) {
       sidebar.classList.toggle("collapsed");
     }
@@ -154,7 +155,7 @@ export default function Header({ user }) {
                           <p className="mb-0 font-weight-normal float-left dropdown-header">
                             Notifications
                           </p>
-                          <a className="dropdown-item preview-item">
+                          {/* <a className="dropdown-item preview-item">
                             <div className="preview-thumbnail">
                               <div className="preview-icon bg-success">
                                 <i className="bi bi-info-circle mx-0"></i>
@@ -169,8 +170,8 @@ export default function Header({ user }) {
                                 Just now{" "}
                               </p>
                             </div>
-                          </a>
-                          <a className="dropdown-item preview-item">
+                          </a> */}
+                          {/* <a className="dropdown-item preview-item">
                             <div className="preview-thumbnail">
                               <div className="preview-icon bg-warning">
                                 <SettingsOutlinedIcon className="mui-icons" />
@@ -186,7 +187,7 @@ export default function Header({ user }) {
                                 Private message{" "}
                               </p>
                             </div>
-                          </a>
+                          </a> */}
                           <a className="dropdown-item preview-item">
                             <div className="preview-thumbnail">
                               <div className="preview-icon bg-info">
@@ -195,7 +196,7 @@ export default function Header({ user }) {
                             </div>
                             <div className="preview-item-content">
                               <h6 className="preview-subject font-weight-normal">
-                                New user registration
+                                New Message
                               </h6>
                               <p className="font-weight-light small-text mb-0 text-muted">
                                 {" "}
@@ -246,22 +247,26 @@ export default function Header({ user }) {
                           className="dropdown-menu dropdown-menu-right navbar-dropdown"
                           aria-labelledby="profileDropdown"
                         >
-                          <a className="dropdown-item">
-                            <SettingsOutlinedIcon /> &nbsp; Settings{" "}
-                          </a>
                           {user?.user_type == 2 && (
-                            <Link
-                              className="dropdown-item"
-                              href={"/user/profile"}
-                            >
-                              <AccountCircleOutlinedIcon />&nbsp;
-                              Profile{" "}
-                            </Link>
+                            <>
+                              <Link className="dropdown-item"
+                                href={"/user/dashboard"}>
+                                <AppsIcon /> &nbsp; Dashboard{" "}
+                              </Link>
+                              <Link
+                                className="dropdown-item"
+                                href={"/user/profile"}
+                              >
+                                <AccountCircleOutlinedIcon />&nbsp;
+                                Profile{" "}
+                              </Link>
+                              <a className="dropdown-item" onClick={handleLogout}>
+                                <PowerSettingsNewOutlinedIcon className="mui-icons power-icons" />
+                                &nbsp;Logout{" "}
+                              </a>
+                            </>
                           )}
-                          <a className="dropdown-item" onClick={handleLogout}>
-                            <PowerSettingsNewOutlinedIcon className="mui-icons power-icons" />
-                            &nbsp;Logout{" "}
-                          </a>
+
                         </div>
                       </li>
                     </ul>

@@ -286,7 +286,7 @@ export const userAccountSettingSchema = yup.object().shape({
         .string()
         .email('Please provide valid email')
         .required("Email is required"),
-    language: yup
+    pref_lang: yup
         .string()
         .required("Language is required"),
     mobile: yup
