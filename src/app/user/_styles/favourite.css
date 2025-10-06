@@ -66,6 +66,11 @@
     padding-right: 10px;
 } */
 
+.favourite-coach-page .card.engagements-cards .card-body {
+    padding: 15px !important;
+}
+
+
 .star-add-pointer {
     display: flex;
     align-items: center;

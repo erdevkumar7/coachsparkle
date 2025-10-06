@@ -1,7 +1,7 @@
 .sidebar .nav .nav-item .nav-link .menu-title {
     color: inherit;
     vertical-align: middle;
-    font-size: 16px;
+    font-size: 16px !important;
     line-height: 1;
     display: inline-block;
     margin-top: -3px;
