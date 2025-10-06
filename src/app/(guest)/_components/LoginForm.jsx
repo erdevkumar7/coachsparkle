@@ -137,11 +137,14 @@ export default function LoginForm() {
             } else if (result.data.user.user_type === 2) {
                 toast.success("Login successful!");
                 router.push('/user/dashboard');
+                router.refresh();
             } else if (result.data.user.user_type === 3) {
                 toast.success("Login successful!");
                 router.push('/coach/dashboard');
+                router.refresh();
             } else {
                 router.push('/');
+                router.refresh();
             }
         } catch (err) {
             if (err.response && err.response.status === 401) {
