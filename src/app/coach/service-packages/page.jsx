@@ -43,6 +43,10 @@ export default function CoachServicePackages() {
     setRefreshKey(prev => prev + 1); // triggers useEffect to reload packages
   };
 
+  const handleDeletePackage = (deletedId) => {
+    setPackages((prev) => prev.filter((p) => p.id !== deletedId));
+  };
+
   return (
     <div className="main-panel">
       {loading ? (
@@ -60,7 +64,11 @@ export default function CoachServicePackages() {
                     packages
                       .slice(0, 3)
                       .map((pkg, index) => (
-                        <ViewServicePackage key={index} pkg={pkg} allPackageIds={packages.map((p) => p.id)} />
+                        <ViewServicePackage
+                          key={index} pkg={pkg}
+                          allPackageIds={packages.map((p) => p.id)}
+                          onDelete={handleDeletePackage}
+                        />
 
                       ))}
                 </div>
