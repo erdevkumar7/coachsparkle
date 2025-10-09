@@ -133,26 +133,26 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
 
       {/* ===== Delete Confirmation Modal ===== */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-container">
+        <div className="coachpkg-modal-overlay">
+          <div className="coachpkg-modal-container">
             <h4>Are you sure you want to delete this package?</h4>
             <p>This action cannot be undone.</p>
-            <div className="modal-actions">
+            <div className="coachpkg-modal-actions">
               <button
-                className="btn btn-secondary"
+                className="coachpkg-btn coachpkg-btn-secondary "
                 onClick={() => setShowModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="btn btn-danger"
+                className="coachpkg-btn coachpkg-btn-danger"
                 onClick={handleDeletePackage}
                 disabled={loading}
               >
                 {loading ? "Deleting..." : "Yes, Delete"}
               </button>
             </div>
-            <button className="modal-close" onClick={() => setShowModal(false)}>
+            <button className="coachpkg-modal-close" onClick={() => setShowModal(false)}>
               ✕
             </button>
           </div>
@@ -160,7 +160,7 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
       )}
 
       {/* ===== Simple Inline Styles for modal ===== */}
-      <style jsx>{`
+      {/* <style jsx>{`
         .modal-overlay {
           position: fixed;
           top: 0;
@@ -209,7 +209,7 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
           font-size: 20px;
           cursor: pointer;
         }
-      `}</style>
+      `}</style> */}
     </>
   );
 }
