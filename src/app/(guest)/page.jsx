@@ -14,17 +14,13 @@ import CoachPlans from "./_components/HomeComp/CoachPlans";
 import SmartMatching from "./_components/HomeComp/SmartMatching";
 
 export default async function Home() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachlist`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featuredCoachList`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     cache: "no-store" // comment if you don't want caching
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch coaches");
-  }
 
   const data = await res.json();
   let coaches = [];

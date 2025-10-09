@@ -4,17 +4,13 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Link from "next/link";
 
 export default async function FeaturedCoaches() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachlist`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featuredCoachList`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     cache: "no-store" // comment if you don't want caching
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch coaches");
-  }
 
   const data = await res.json();
   let coaches = [];
@@ -35,7 +31,7 @@ export default async function FeaturedCoaches() {
         </div>
 
         <div className="row view-all-coaches-view">
-          {coaches.slice(0, 8).map((coach) =>
+          {coaches.length > 0 ? coaches.map((coach) =>
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards" key={coach.user_id}>
               <div className="card h-100">
                 <Image src={coach.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} className="card-img-top" alt="Coach Image" width={315} height={250} />
@@ -51,12 +47,13 @@ export default async function FeaturedCoaches() {
                   </p>
                   {coach.service_names && (
                     <div className="software-engineer-list">
-                      {coach.service_names?.map((service) => (<Link href="#" key={service}>{service}</Link>))}
+                      {coach.service_names?.slice(0,4).map((service) => (<Link href="#" key={service}>{service}</Link>))}
                     </div>)}
                 </div>
               </div>
             </div>
-          )}
+          ) : 
+          (<div className="col-12 col-sm-6 col-md-3 coaches-view-cards" >No Featured Coach Available </div>)}
 
           {/* <div className="col-12 col-sm-6 col-md-3 coaches-view-cards">
             <div className="card h-100">
