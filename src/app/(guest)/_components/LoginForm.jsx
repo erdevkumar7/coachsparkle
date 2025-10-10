@@ -20,6 +20,11 @@ export default function LoginForm() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [googleLoading, setGoogleLoading] = useState(false);
+    const [showForgotModal, setShowForgotModal] = useState(false);
+    const [forgotEmail, setForgotEmail] = useState("");
+    const [forgotError, setForgotError] = useState("");
+    const [forgotLoading, setForgotLoading] = useState(false);
+    const [forgotSuccess, setForgotSuccess] = useState("");
     // useForm hook
     const {
         register,
@@ -179,6 +184,46 @@ export default function LoginForm() {
     };
 
 
+    const handleForgotPassword = async () => {
+        setForgotError("");
+        setForgotSuccess("");
+
+        if (!forgotEmail) {
+            setForgotError("Please Enter Your Email");
+            return;
+        }
+
+        setForgotLoading(true);
+        try {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/forgot-password`,
+                { email: forgotEmail }
+            );
+
+            if (res.data.status === true) {
+                toast.success("Please Check Your Eamil, Password reset link sent successfully!");
+                setShowForgotModal(false);
+                setForgotError("");
+                setForgotSuccess("");
+                setForgotEmail("");
+
+            } else {
+                setForgotError(res.data.message || "Failed to send reset link.");
+            }
+        } catch (err) {
+            if (err.response?.data?.message) {
+                setForgotError(err.response.data.message);
+            } else if (err.response?.data?.errors?.email?.[0]) {
+                setForgotError(err.response.data.errors.email[0]);
+            } else {
+                setForgotError("Something went wrong. Please try again.");
+            }
+        }
+        setForgotLoading(false);
+    };
+
+
+
     return (
         <div className="signup-page-add login-page-form">
             <div className="container-fluid">
@@ -235,8 +280,18 @@ export default function LoginForm() {
                                     </div>
                                 )}
 
-                                <div className="forgot">
+                                {/* <div className="forgot">
                                     <a href="#">Forgot password?</a>
+                                </div> */}
+
+                                <div className="forgot">
+                                    <button
+                                        type="button"
+                                        className="forgot-btn"
+                                        onClick={() => setShowForgotModal(true)}
+                                    >
+                                        Forgot password?
+                                    </button>
                                 </div>
 
                                 <button type="submit" className="login-btn" disabled={loading}>
@@ -282,6 +337,61 @@ export default function LoginForm() {
                     </div>
                 </div>
             </div>
+
+
+            {/* ===== Forgot Password Modal ===== */}
+            {showForgotModal && (
+                <div className="forgot-modal-overlay ">
+                    <div className="forgot-modal-container">
+                        <button
+                            className="forgot-modal-close"
+                            onClick={() => {
+                                setShowForgotModal(false);
+                                setForgotError("");
+                                setForgotSuccess("");
+                                setForgotEmail("");
+                            }}
+                        >
+                            &times;
+                        </button>
+                        <h3>Forgot Password</h3>
+                        <p>Please enter your registered email to receive a reset link.</p>
+
+                        <input
+                            type="text"
+                            placeholder="Enter your email"
+                            value={forgotEmail}
+                            onChange={(e) => {
+                                setForgotEmail(e.target.value);
+                                setForgotError("");
+                                setForgotSuccess("");
+                            }}
+                            className="forgot-input"
+                        />
+
+                        {forgotError && <p className="error-text">{forgotError}</p>}
+                        {forgotSuccess && <p className="success-text">{forgotSuccess}</p>}
+
+                        <div className="forgot-modal-actions">
+                            <button
+                                className="coach-forgot-btn coach-forgot-btn-secondary"
+                                onClick={() => setShowForgotModal(false)}
+                                disabled={forgotLoading}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="coach-forgot-btn coach-forgot-btn-danger"
+                                onClick={handleForgotPassword}
+                                disabled={forgotLoading}
+                            >
+                                {forgotLoading ? "Sending..." : "Send Link"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
