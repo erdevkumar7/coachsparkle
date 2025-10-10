@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "../_styles/reset_password.css";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function ResetPasswordPage() {
     const searchParams = useSearchParams();
@@ -11,6 +14,8 @@ export default function ResetPasswordPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handleResetPassword = async () => {
         if (!password || !confirmPassword) {
@@ -35,7 +40,7 @@ export default function ResetPasswordPage() {
 
             if (res.data.status) {
                 toast.success("Password reset successful! You can now log in.");
-                window.location.href = "/login";
+                window.location.href = `${FRONTEND_BASE_URL}/login`;
             } else {
                 toast.error(res.data.message || "Failed to reset password");
             }
@@ -52,34 +57,51 @@ export default function ResetPasswordPage() {
     };
 
     return (
-        <div className="signup-page-add login-page-form">
-            <div className="container-fluid">
-                <div className="row signup-page-top login-content-add">
-                    <div className="col-md-12 signup-right-side login-right-side">
-                        {/* <div className="login-container"> */}
-                            <div className="reset-password-container">
-                                <h2>Reset Password</h2>
-                                <input
-                                    type="password"
-                                    placeholder="New Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                <input
-                                    type="password"
-                                    placeholder="Confirm Password"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                />
+        <div className="reset-password-page">
+            <div className="reset-password-container">
+                <h2>Reset Password</h2>
 
-                                <button onClick={handleResetPassword} disabled={loading}>
-                                    {loading ? "Resetting..." : "Reset Password"}
-                                </button>
-                            {/* </div> */}
-                        </div>
-                    </div>
+                {/* Password Field */}
+                <div className="password-field">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="New Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button
+                        type="button"
+                        className="eye-btn"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label="Toggle password visibility"
+                    >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                 </div>
+
+                {/* Confirm Password Field */}
+                <div className="password-field">
+                    <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <button
+                        type="button"
+                        className="eye-btn"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        aria-label="Toggle confirm password visibility"
+                    >
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                </div>
+
+                <button onClick={handleResetPassword} disabled={loading}>
+                    {loading ? "Resetting..." : "Reset Password"}
+                </button>
             </div>
         </div>
     );
+
 }
