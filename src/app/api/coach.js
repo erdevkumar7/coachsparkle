@@ -17,6 +17,25 @@ export const getCoachById = async (id, user_id) => {
     return result.data;
 };
 
+// Add this function to your server-side utilities or in the same file
+export const getCoachCalendarStatus = async (coach_id) => {
+    try {
+        const response = await fetch(`${apiUrl}/calendar-status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ coach_id: parseInt(coach_id) }),
+        });
+
+        const data = await response.json();
+        return data || null;
+    } catch (error) {
+        console.error('Error fetching calendar status:', error);
+        return null;
+    }
+}
+
 export const allPackagesOfaCoach = async (givenToken) => {
     if (!givenToken) return null;
     const res = await fetch(`${apiUrl}/getalluserservicepackage`,
@@ -80,13 +99,13 @@ export const packageIdsByCoachId = async (coach_id) => {
 }
 
 export const updateCoachData = async (form, getToken) => {
-     const res = await axios.post(`${apiUrl}/updateProfile`, form, {
+    const res = await axios.post(`${apiUrl}/updateProfile`, form, {
         headers: {
-          Authorization: `Bearer ${getToken}`,
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${getToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
         },
     });
 
-      return res;
+    return res;
 }
