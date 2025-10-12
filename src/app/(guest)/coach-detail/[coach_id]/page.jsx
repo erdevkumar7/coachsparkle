@@ -2,7 +2,7 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import "../../_styles/coach-list.css";
 import DetailsTab from "../../_components/DetailsTab";
 import CoachingListDetailPackage from "../../_components/CoachListDetailPackage";
-import { getCoachById, packageIdsByCoachId, similarCoaches } from "@/app/api/coach";
+import { getCoachById, getCoachCalendarStatus, packageIdsByCoachId, similarCoaches } from "@/app/api/coach";
 import SimilarCoaches from "../../../../components/SimilarCoaches";
 import CoachDetailCalendar from "../../_components/CoachDetailCalendar";
 import ViewServicePackage from "@/app/coach/_coach_components/ViewServicePackage";
@@ -37,9 +37,10 @@ export default async function CoachDetail({ params }) {
       fav_user_id = tokenData.data.id
     }
 
-  const [coach, allPackageIdRes] = await Promise.all([
+  const [coach, allPackageIdRes, calendarData] = await Promise.all([
     getCoachById(coach_id, fav_user_id),
     packageIdsByCoachId(coach_id),
+    getCoachCalendarStatus(coach_id), 
   ])
 
   if (!coach) {
@@ -64,7 +65,7 @@ export default async function CoachDetail({ params }) {
       href: `/coach-detail/${coach_id}`,
     },
   ];
-
+// console.log('calendarData', calendarData)
   return (
     <>
       <BreadCrumb items={breadcrumbItems} />
@@ -369,7 +370,8 @@ export default async function CoachDetail({ params }) {
                 <div className="calendar shadow-sm calendar-profile-show">
                   <div className="d-flex prve-next-btn mb-3">
                     <h4 id="monthYear" className="mb-0"></h4>
-                    <CoachDetailCalendar />
+                    {/* <CoachDetailCalendar /> */}
+                    <CoachDetailCalendar calendarData={calendarData?.availability} coachId={coach_id} />
                   </div>
 
                   <div className="days" id="calendarDays"></div>
