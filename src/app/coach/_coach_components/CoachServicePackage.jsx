@@ -16,7 +16,12 @@ import BookingAvailabilityPicker from "./BookingAvailability";
 
 
 
-export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
+export default function CoachServicePackageForm({
+  isProUser,
+  onPackageAdded,
+  packageData = null, // Add this for edit mode
+  isEditMode = false // Add this flag to distinguish between create/edit
+}) {
   const [categories, setCategories] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
   const [deliveryModes, setDeliveryModes] = useState([]);
@@ -27,9 +32,49 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
-  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(packageData?.delivery_mode || 1);
 
   // React Hook Form setup
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors, isSubmitting },
+  //   setValue,
+  //   watch,
+  //   reset,
+  //   trigger,
+  // } = useForm({
+  //   resolver: yupResolver(servicePackageSchema),
+  //   defaultValues: {
+  //     title: packageData?.title || "",
+  //     short_description: packageData?.short_description || "",
+  //     coaching_category: packageData?.coaching_category || "",
+  //     description: packageData?.description || "",
+  //     focus: "",
+  //     delivery_mode_detail: "",
+  //     age_group: "",
+  //     session_count: "",
+  //     session_duration: "",
+  //     session_format: "",
+  //     price: "",
+  //     currency: "USD",
+  //     price_model: "",
+  //     booking_slots: "",
+  //     booking_window: "",
+  //     session_validity: "",
+  //     cancellation_policy: "",
+  //     rescheduling_policy: "",
+  //     media_file: null,
+  //     booking_availability_start: "",
+  //     booking_availability_end: "",
+  //     booking_time: "",
+  //     booking_window_start: "",
+  //     booking_window_end: "",
+  //     communication_channel: "",
+  //   },
+  // });
+
+
   const {
     register,
     handleSubmit,
@@ -41,34 +86,35 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   } = useForm({
     resolver: yupResolver(servicePackageSchema),
     defaultValues: {
-      title: "",
-      short_description: "",
-      coaching_category: "",
-      description: "",
-      focus: "",
-      delivery_mode_detail: "",
-      age_group: "",
-      session_count: "",
-      session_duration: "",
-      session_format: "",
-      price: "",
-      currency: "USD",
-      price_model: "",
-      booking_slots: "",
-      booking_window: "",
-      session_validity: "",
-      cancellation_policy: "",
-      rescheduling_policy: "",
-      media_file: null,
-      booking_availability_start: "",
-      booking_availability_end: "",
-      booking_time: "",
-      booking_window_start: "",
-      booking_window_end: "",
-      communication_channel: "",
+      title: packageData?.title || "",
+      short_description: packageData?.short_description || "",
+      coaching_category: packageData?.coaching_category || "",
+      description: packageData?.description || "",
+      focus: packageData?.focus || "",
+      delivery_mode_detail: packageData?.delivery_mode_detail || "",
+      age_group: packageData?.age_group || "",
+      session_count: packageData?.session_count || "",
+      session_duration: packageData?.session_duration || "",
+      session_format: packageData?.session_format || "",
+      price: packageData?.price || "",
+      currency: packageData?.currency || "USD",
+      price_model: packageData?.price_model || "",
+      booking_slots: packageData?.booking_slots || "",
+      session_validity: packageData?.session_validity || "",
+      cancellation_policy: packageData?.cancellation_policy || "",
+      rescheduling_policy: packageData?.rescheduling_policy || "",
+      media_file: null, // Keep as null for file upload
+      booking_availability_start: packageData?.booking_availability_start
+        ? packageData.booking_availability_start.split(' ')[0] // Extract date part
+        : "",
+      booking_availability_end: packageData?.booking_availability_end || "",
+      booking_time: packageData?.booking_time || "",
+      booking_window_start: packageData?.booking_window_start || "",
+      booking_window_end: packageData?.booking_window_end || "",
+      communication_channel: packageData?.communication_channel || "",
     },
   });
-  console.log('errors', errors)
+
   // Watch form values for preview
   const formData = watch();
 
@@ -398,11 +444,11 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         </label>
                       ))}
                   </div>
-                    {errors.delivery_mode && (
-                      <div className="invalid-feedback">
-                        {errors.delivery_mode.message}
-                      </div>
-                    )}
+                  {errors.delivery_mode && (
+                    <div className="invalid-feedback">
+                      {errors.delivery_mode.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -738,8 +784,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.cancellation_policy ? "is-invalid" : ""
                         }`}
                       {...register("cancellation_policy")}
-                    >      
-                       <option value="">Select Cancellation Policy </option>
+                    >
+                      <option value="">Select Cancellation Policy </option>
                       {Array.isArray(getCancelPolicies) &&
                         getCancelPolicies.map((concelPolicy) => (
                           <option key={concelPolicy.id} value={concelPolicy.id}>
