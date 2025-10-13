@@ -357,12 +357,37 @@ export const servicePackageSchema = yup.object().shape({
         .min(0, "Price cannot be negative"),
     currency: yup.string().required("Currency is required"),
     price_model: yup.string().required("Pricing model is required"),
+    // booking_slots: yup
+    //     .number()
+    //     .typeError("Booking slots must be a number")
+    //     .required("Booking slots are required")
+    //     .min(1, "Must have at least 1 slot")
+    //     .positive("Must be a positive number"),
     booking_slots: yup
-        .number()
-        .typeError("Booking slots must be a number")
-        .required("Booking slots are required")
-        .min(1, "Must have at least 1 slot")
-        .positive("Must be a positive number"),
+    .number()
+    .typeError("Booking slots must be a number")
+    .required("Booking slots are required")
+    .min(1, "At least 1 booking slot is required")
+    .max(1000, "Maximum 1000 booking slots allowed")
+    .test(
+        'slots-within-daily-limit',
+        function(value) {
+            const { session_duration } = this.parent;
+            
+            if (!session_duration || !value) return true;
+            
+            const durationMinutes = parseInt(session_duration);
+            const maxSlotsPerDay = Math.floor(24 * 60 / durationMinutes);
+            
+            if (value > maxSlotsPerDay) {
+                return this.createError({
+                    message: `Maximum ${maxSlotsPerDay} slots allowed for ${durationMinutes}-minute sessions per day`
+                });
+            }
+            
+            return true;
+        }
+    ),
     session_validity: yup.string().required("Validity is required"),
     cancellation_policy: yup.string().required("Cancellation policy is required"),
     rescheduling_policy: yup
@@ -391,6 +416,24 @@ export const servicePackageSchema = yup.object().shape({
         .string()
         .required("Booking time is required"),
 
+    // booking_window_start: yup
+    //     .string()
+    //     .required("Booking window start date is required")
+    //     .test('is-valid-date', 'Invalid start date', (value) => {
+    //         return value && dayjs(value).isValid();
+    //     }),
+    // booking_window_end: yup
+    //     .string()
+    //     .required("Booking window end date is required")
+    //     .test('is-valid-date', 'Invalid end date', (value) => {
+    //         return value && dayjs(value).isValid();
+    //     })
+    //     .test('is-after-start', 'End date must be after start date', function (value) {
+    //         const { booking_window_start } = this.parent;
+    //         if (!booking_window_start || !value) return true;
+    //         return dayjs(value).isAfter(dayjs(booking_window_start));
+    //     }),
+
     booking_window_start: yup
         .string()
         .required("Booking window start date is required")
@@ -407,6 +450,11 @@ export const servicePackageSchema = yup.object().shape({
             const { booking_window_start } = this.parent;
             if (!booking_window_start || !value) return true;
             return dayjs(value).isAfter(dayjs(booking_window_start));
+        })
+        .test('is-before-or-equal-availability-end', 'Booking window must end on or before availability end date', function (value) {
+            const { booking_availability_end } = this.parent;
+            if (!booking_availability_end || !value) return true;
+            return dayjs(value).isBefore(dayjs(booking_availability_end)) || dayjs(value).isSame(dayjs(booking_availability_end));
         }),
 
     media_file: yup
