@@ -7,9 +7,11 @@ import "../_styles/coach_calendar.css";
 import { format, isWithinInterval, parseISO } from "date-fns";
 import EastIcon from '@mui/icons-material/East';
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function CoachCalendar() {
   const router = useRouter();
+  const token = Cookies.get('token');
   const [selectedDate, setSelectedDate] = useState(null);
   const [calendarData, setCalendarData] = useState({
     available: [],
@@ -25,14 +27,12 @@ export default function CoachCalendar() {
     const fetchCalendarData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://coachsparkle-backend.votivereact.in/api/calendar-status', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/calendar-status-dashboard`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+             Accept: 'application/json',
+             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            coach_id: 159
-          })
         });
 
         if (!response.ok) {
