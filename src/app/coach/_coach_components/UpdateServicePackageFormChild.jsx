@@ -16,20 +16,25 @@ import BookingAvailabilityPicker from "./BookingAvailability";
 
 
 
-export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
-  const [categories, setCategories] = useState([]);
-  const [ageGroups, setAgeGroups] = useState([]);
-  const [deliveryModes, setDeliveryModes] = useState([]);
-  const [getFormats, setSessionFormats] = useState([]);
-  const [getPriceModels, setPriceModels] = useState([]);
-  const [getCommunChannel, setCommunChannel] = useState([]);
-  const [getCancelPolicies, setCancellationPolicies] = useState([]);
+export default function CoachServicePackageFormChild({
+  isProUser,
+  onPackageAdded,
+  packageData = null, 
+  ageGroups,
+  getCommunChannel,
+  getPriceModels,
+  categories,
+  getCancelPolicies,
+  getFormats,
+  deliveryModes
+}) {
+ 
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
-  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(packageData?.delivery_mode || 1);
 
-  // React Hook Form setup
+console.log('packageData', packageData)
   const {
     register,
     handleSubmit,
@@ -41,65 +46,39 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   } = useForm({
     resolver: yupResolver(servicePackageSchema),
     defaultValues: {
-      title: "",
-      short_description: "",
-      coaching_category: "",
-      description: "",
-      focus: "",
-      delivery_mode_detail: "",
-      age_group: "",
-      session_count: "",
-      session_duration: "",
-      session_format: "",
-      price: "",
-      currency: "USD",
-      price_model: "",
-      booking_slots: "",
-      booking_window: "",
-      session_validity: "",
-      cancellation_policy: "",
-      rescheduling_policy: "",
-      media_file: null,
-      booking_availability_start: "",
-      booking_availability_end: "",
-      booking_time: "",
-      booking_window_start: "",
-      booking_window_end: "",
-      communication_channel: "",
+      title: packageData?.title || "",
+      short_description: packageData?.short_description || "",
+      coaching_category: packageData?.coaching_category || "",
+      description: packageData?.description || "",
+      focus: packageData?.focus || "",
+      delivery_mode_detail: packageData?.delivery_mode_detail || "",
+      age_group: packageData?.age_group || "",
+      session_count: packageData?.session_count || "",
+      session_duration: packageData?.session_duration || "",
+      session_format: packageData?.session_format || "",
+      price: packageData?.price || "",
+      currency: packageData?.currency || "USD",
+      price_model: packageData?.price_model || "",
+      booking_slots: packageData?.booking_slots || "",
+      session_validity: packageData?.session_validity || "",
+      cancellation_policy: packageData?.cancellation_policy || "",
+      rescheduling_policy: packageData?.rescheduling_policy || "",
+      media_file: null, // Keep as null for file upload
+      booking_availability_start: packageData?.booking_availability_start
+        ? packageData.booking_availability_start.split(' ')[0] // Extract date part
+        : "",
+      booking_availability_end: packageData?.booking_availability_end || "",
+      booking_time: packageData?.booking_time || "",
+      booking_window_start: packageData?.booking_window_start || "",
+      booking_window_end: packageData?.booking_window_end || "",
+      communication_channel: packageData?.communication_channel || "",
     },
   });
-  console.log('errors', errors)
+
   // Watch form values for preview
   const formData = watch();
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
-  const fetchData = async () => {
-    try {
-      const [allMasters] = await Promise.all([
-        getAllMasters(),
-      ]);
-
-      // console.log('allMasters', allMasters)
-
-      if (allMasters) {
-        setPriceModels(allMasters.priceModels || []);
-        setSessionFormats(allMasters.formates || []);
-        setCategories(allMasters.coaching_cat || []);
-        setCommunChannel(allMasters.communication_channel || []);
-        setAgeGroups(allMasters.age_group || []);
-        setDeliveryModes(allMasters.delivery_mode || []);
-        setCancellationPolicies(allMasters.cancellation_policies || []);
-      }
-    } catch (error) {
-      console.error("Failed to fetch data", error);
-      toast.error("Failed to load form data");
-    }
-  };
-
-  // console.log('getCancelPolicies', getCancelPolicies)
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -122,9 +101,10 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
       form.append("delivery_mode", selectedDeliveryMode);
       form.append("package_status", package_status);
+      form.append("package_id", packageData.id);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
+        `${process.env.NEXT_PUBLIC_API_URL}/update-service-package`,
         {
           method: "POST",
           headers: {
@@ -398,11 +378,11 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         </label>
                       ))}
                   </div>
-                    {errors.delivery_mode && (
-                      <div className="invalid-feedback">
-                        {errors.delivery_mode.message}
-                      </div>
-                    )}
+                  {errors.delivery_mode && (
+                    <div className="invalid-feedback">
+                      {errors.delivery_mode.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -738,8 +718,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.cancellation_policy ? "is-invalid" : ""
                         }`}
                       {...register("cancellation_policy")}
-                    >      
-                       <option value="">Select Cancellation Policy </option>
+                    >
+                      <option value="">Select Cancellation Policy </option>
                       {Array.isArray(getCancelPolicies) &&
                         getCancelPolicies.map((concelPolicy) => (
                           <option key={concelPolicy.id} value={concelPolicy.id}>
