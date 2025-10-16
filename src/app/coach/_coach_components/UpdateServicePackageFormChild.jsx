@@ -132,7 +132,7 @@ export default function CoachServicePackageFormChild({
   };
 
   return (
-    <div className="profile-form-add">
+    <div className="profile-form-add update_service_pack add_service_update_list">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="card">
           {isProUser ? (
