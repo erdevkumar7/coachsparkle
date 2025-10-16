@@ -12,6 +12,8 @@ export default function UserDashboard() {
     const [user, setUser] = useState(null);
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const [favoriteCoaches, setFavoriteCoaches] = useState([]);
+    const [userGoals, setUserGoals] = useState([]);
+    const [loadingGoals, setLoadingGoals] = useState(true);
 
     useEffect(() => {
         const token = Cookies.get('token');
@@ -70,9 +72,59 @@ export default function UserDashboard() {
             }
         };
 
+        const fetchUserGoals = async () => {
+            try {
+                setLoadingGoals(true);
+                const response = await fetch(`${apiUrl}/getusergoals`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    setUserGoals(result.data || []);
+                } else {
+                    console.error("Failed to fetch user goals:", result.message);
+                    setUserGoals([]);
+                }
+            } catch (error) {
+                console.error("Error fetching user goals:", error);
+                setUserGoals([]);
+            } finally {
+                setLoadingGoals(false);
+            }
+        };
+
         fetchAllFavorites();
         fetchUser();
+        fetchUserGoals();
     }, []);
+
+    const getProgressColor = (percent) => {
+        if (percent >= 80) return "success";
+        if (percent >= 50) return "warning";
+        if (percent >= 25) return "info";
+        return "danger";
+    };
+
+    const getProgressWidth = (percent) => {
+        return `${Math.min(percent, 100)}%`;
+    };
+
+    const handleUpdateGoal = () => {
+        // Navigate to profile update page or open goal update modal
+        router.push('/user/profile');
+    };
+
+        const handleViewSession = (packageId) => {
+        // Navigate to session details page
+        router.push(`/sessions?package=${packageId}`);
+    };
+
 
     return (
         <div className="main-panel">
@@ -166,7 +218,7 @@ export default function UserDashboard() {
 
                 <div className="goals-progress">
                     <div className="left-column">
-                        <div className="card">
+                        {/* <div className="card">
                             <div className="card-header">
                                 <h3>Your Coaching Goals Progress</h3>
                                 <button className="user-update-btn">Update Goal <i className="bi bi-arrow-right"></i></button>
@@ -192,6 +244,56 @@ export default function UserDashboard() {
                                 </div>
                                 <button className="view-btn">View Session</button>
                             </div>
+                        </div> */}
+
+                        <div className="card">
+                            <div className="card-header">
+                                <h3>Your Coaching Goals Progress</h3>
+                                <button
+                                    className="user-update-btn"
+                                    onClick={handleUpdateGoal}
+                                >
+                                    Update Goal <i className="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+
+                            {loadingGoals ? (
+                                <div className="loading-state">
+                                    <p>Loading your goals...</p>
+                                </div>
+                            ) : userGoals.length === 0 ? (
+                                <div className="empty-state">
+                                    <p>No goals set yet. Start by setting your coaching goals!</p>
+                                    <button
+                                        className="user-update-btn"
+                                        onClick={handleUpdateGoal}
+                                    >
+                                        Set Goals <i className="bi bi-arrow-right"></i>
+                                    </button>
+                                </div>
+                            ) : (
+                                userGoals.map((goal, index) => (
+                                    <div key={goal.package_id} className="goal">
+                                        <p className="build-text-add">{goal.title}</p>
+                                        <div className="progress">
+                                            <div
+                                                className={`progress-bar ${getProgressColor(goal.progress_percent)}`}
+                                                style={{ width: getProgressWidth(goal.progress_percent) }}
+                                            >
+                                                <p>{goal.progress_percent}%</p>
+                                            </div>
+                                        </div>
+                                        <div className="goal-actions">
+                                            <button
+                                                className="view-btn"
+                                                onClick={() => handleViewSession(goal.package_id)}
+                                            >
+                                                View Session
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
                         </div>
 
 
