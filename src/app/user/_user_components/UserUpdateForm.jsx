@@ -15,7 +15,7 @@ export default function UserUpdateFormData({
   deliveryMode,
   ageGroup,
   languages,
-  allCoachSubtype,
+  userGoals
 }) {
   const router = useRouter();
   const [getToken, setToken] = useState();
@@ -60,7 +60,7 @@ export default function UserUpdateFormData({
       });
     }
   }, [user]);
-  console.log("user:", user);
+  // console.log("user:", user);
 
   const getUserData = async () => {
     const token = Cookies.get("token");
@@ -276,43 +276,18 @@ export default function UserUpdateFormData({
             disabled={loading}
           ></textarea> */}
 
-          {/* <select
-            id="coaching_goal_1"
-            {...register("coaching_goal_1")}
-            disabled={loading}
-          >
-            <option value="">Select First Goal</option>
-            {allCoachSubtype.map((subtype) => (
-              <option key={subtype.id} value={subtype.id}>
-                {`${subtype.subtype_name}ing`}
-              </option>
-            ))}
-          </select> */}
           <select
             id="coaching_goal_1"
             {...register("coaching_goal_1")}
             disabled={loading}
           >
-            <option value="">-- Select Your First Goal --</option>
-            {allCoachSubtype.map((subtype) => {
-              const words = subtype.subtype_name.split(" ");
-              const lastWord = words[words.length - 1].toLowerCase();
-
-              let displayName = subtype.subtype_name;
-              if (lastWord === "coach") {
-                // Replace "coach" with "coaching"
-                words[words.length - 1] = "coaching";
-                displayName = words.join(" ");
-              }
-
-              return (
-                <option key={subtype.id} value={subtype.id}>
-                  {displayName}
-                </option>
-              );
-            })}
+            <option value="">Select First Goal</option>
+            {userGoals.map((goal) => (
+              <option key={goal.package_id} value={goal.package_id}>
+                {goal.title}
+              </option>
+            ))}
           </select>
-
         </div>
 
         <div className="form-group goal">
