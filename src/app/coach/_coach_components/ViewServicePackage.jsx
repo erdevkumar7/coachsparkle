@@ -23,6 +23,10 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
     localStorage.setItem("allPackages", JSON.stringify(allPackageIds));
   };
 
+  const handleUpdatePackage = () => {
+    router.push(`/coach/service-packages/${pkg.id}/update`);
+  }
+
   const handleDeletePackage = async () => {
     try {
       setLoading(true);
@@ -91,7 +95,7 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
 
           <div className="d-flex justify-content-between action-btn">
             <div className="btn-action-add">
-              <button className="cursor-pointer">Edit</button>
+              <button className="cursor-pointer" onClick={handleUpdatePackage}>Edit</button>
               <button
                 className="cursor-pointer"
                 onClick={() => setShowModal(true)}

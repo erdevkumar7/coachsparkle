@@ -19,7 +19,7 @@ import BookingAvailabilityPicker from "./BookingAvailability";
 export default function CoachServicePackageFormChild({
   isProUser,
   onPackageAdded,
-  packageData = null, 
+  packageData = null,
   ageGroups,
   getCommunChannel,
   getPriceModels,
@@ -28,20 +28,22 @@ export default function CoachServicePackageFormChild({
   getFormats,
   deliveryModes
 }) {
- 
+
   const [showDetailDescription, setShowDetailDescription] = useState(false);
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
-  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(packageData?.delivery_mode || 1);
+  // Initialize with packageData.delivery_mode from database
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(
+    packageData?.delivery_mode ? parseInt(packageData.delivery_mode) : 1
+  );
+  
 
-console.log('packageData', packageData)
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
     watch,
-    reset,
     trigger,
   } = useForm({
     resolver: yupResolver(servicePackageSchema),
@@ -118,39 +120,8 @@ console.log('packageData', packageData)
       const result = await response.json();
 
       if (result.status) {
-        toast.success(
-          package_status === 1 ? "Package published!" : "Draft saved!"
-        );
+        toast.success("Package updated successfully!");
         onPackageAdded?.();
-        // Reset the form with specific values for date fields
-        reset({
-          title: "",
-          short_description: "",
-          coaching_category: "",
-          description: "",
-          focus: "",
-          delivery_mode_detail: "",
-          age_group: "",
-          session_count: "",
-          session_duration: "",
-          session_format: "",
-          price: "",
-          currency: "USD",
-          price_model: "",
-          booking_slots: "",
-          booking_window: "",
-          session_validity: "",
-          cancellation_policy: "",
-          rescheduling_policy: "",
-          media_file: null,
-          booking_availability_start: "",
-          booking_availability_end: "",
-          booking_time: "",
-          booking_window_start: "",
-          booking_window_end: "",
-          communication_channel: "",
-        });
-        setSelectedDeliveryMode("");
       } else {
         toast.error(result.message || "Something went wrong.");
       }
@@ -167,7 +138,7 @@ console.log('packageData', packageData)
           {isProUser ? (
             <>
               <h3 className="text-lg font-semibold">
-                <AddCircleOutlineRoundedIcon /> Add New Service Package
+                <AddCircleOutlineRoundedIcon /> Update Service Package
               </h3>
             </>
           ) : (
@@ -775,12 +746,10 @@ console.log('packageData', packageData)
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.media_file ? "is-invalid" : ""
                         }`}
                     />
-                    {errors.media_file && (
-                      <div className="invalid-feedback">
-                        {errors.media_file.message}
-                      </div>
-                    )}
                   </div>
+                  {errors.media_file && (
+                    <p style={{ color: "#dc3545" }}>{errors.media_file.message}</p>
+                  )}
                 </div>
               </div>
 
