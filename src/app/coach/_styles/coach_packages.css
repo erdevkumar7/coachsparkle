@@ -55,6 +55,17 @@
 }
 /* ===== End Delete Confirmation Modal ===== */
 
+.profile-form-add.update_service_pack {
+    margin-top: 0px;
+}
+.add_service_update_list input#«rc» {
+    height: 30px !important;
+    margin-top: 5px;
+}
+
+.add_service_update_list input#«r1» {
+    height: 30px !important;
+}
 
 .session-wrapper .status-draft button {
     color: #6c727f;

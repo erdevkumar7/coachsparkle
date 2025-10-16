@@ -1,4 +1,4 @@
-// app/coach/update-service-package/[package_id]/page.js
+// app/coach/_coach_components/UpdateServicePackageForm.js
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { CircularProgress } from "@mui/material";
 import { useUser } from "@/context/UserContext";
 import CoachServicePackageFormChild from "./UpdateServicePackageFormChild";
+import { toast } from "react-toastify";
 
 
 export default function UpdateServicePackageForm({ allMasters }) {
@@ -18,23 +19,14 @@ export default function UpdateServicePackageForm({ allMasters }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    let getCommunChannel;
-    let ageGroups;
-    let getPriceModels;
-    let categories;
-    let getCancelPolicies;
-    let getFormats;
-    let deliveryModes;
-
-    if (allMasters) {
-        getCommunChannel = allMasters.communication_channel || [];
-        ageGroups = allMasters.age_group || [];
-        getPriceModels = allMasters.priceModels || [];
-        categories = allMasters.coaching_cat || [];
-        getCancelPolicies = allMasters.cancellation_policies || [];
-        getFormats = allMasters.formates || [];
-        deliveryModes = allMasters.delivery_mode || [];
-    }
+    // Safely extract data from allMasters with fallbacks
+    const getCommunChannel = allMasters?.communication_channel || [];
+    const ageGroups = allMasters?.age_group || [];
+    const getPriceModels = allMasters?.priceModels || [];
+    const categories = allMasters?.coaching_cat || [];
+    const getCancelPolicies = allMasters?.cancellation_policies || [];
+    const getFormats = allMasters?.formates || [];
+    const deliveryModes = allMasters?.delivery_mode || [];
 
     useEffect(() => {
         const fetchPackageData = async () => {
@@ -58,13 +50,16 @@ export default function UpdateServicePackageForm({ allMasters }) {
                     }
                 );
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const result = await response.json();
 
                 if (result.status && result.data) {
                     setPackageData(result.data);
                 } else {
-                    setPackageData(null);
-                    // throw new Error(result.message || "Failed to fetch package data");
+                    throw new Error(result.message || "Failed to fetch package data");
                 }
             } catch (err) {
                 console.error("Error fetching package:", err);
@@ -80,7 +75,6 @@ export default function UpdateServicePackageForm({ allMasters }) {
     }, [package_id]);
 
     const handlePackageAdded = () => {
-        // You can redirect or show success message
         console.log("Package updated successfully");
         // Optional: Redirect to packages list
         // router.push("/coach/service-packages");
@@ -119,7 +113,7 @@ export default function UpdateServicePackageForm({ allMasters }) {
             </div>
         );
     }
-
+console.log('packageDataaaa', packageData)
     return (
         <div className="main-panel">
             <div className="new-content-wrapper coach-wrap">
@@ -127,7 +121,6 @@ export default function UpdateServicePackageForm({ allMasters }) {
                     isProUser={isProUser}
                     onPackageAdded={handlePackageAdded}
                     packageData={packageData}
-                    isEditMode={true}
                     ageGroups={ageGroups}
                     getCommunChannel={getCommunChannel}
                     getPriceModels={getPriceModels}
