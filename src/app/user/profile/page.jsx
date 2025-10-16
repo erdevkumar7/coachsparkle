@@ -1,42 +1,26 @@
 import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import UserUpdateFormData from "../_user_components/UserUpdateForm";
-import { getUserProfileData } from "@/app/api/user";
-import { getAllMasters, getSubCoachType } from "@/app/api/guest";
+import { getUserBookedGoalsListData, getUserProfileData } from "@/app/api/user";
+import { getAllMasters } from "@/app/api/guest";
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {
-    const { data: user, error, removeToken } = await getUserProfileData();
+    const { data: user, error, removeToken } = await getUserProfileData(); 
 
-    // const countries = await getAllContries();
-    // const deliveryMode = await getDeliveryMode();
-    // const ageGroup = await getAgeGroup();
-    // const languages = await getAllLanguages();
-
-    const [allMasters, allCoachSubtype] = await Promise.all([
+    const [allMasters, userGoalRes] = await Promise.all([
         getAllMasters(),
-        getSubCoachType(null),
+        getUserBookedGoalsListData()
     ]);
 
-    let countries;
-    let deliveryMode;
-    let ageGroup;
-    let languages;
-    // let coachTypes;
-    // let getAllServices;
-    // let price_range;
-    // let experience;
-
-    if (allMasters) {
-        countries = allMasters.countries;
-        deliveryMode = allMasters.delivery_mode;
-        ageGroup = allMasters.age_group;
-        languages = allMasters.languages;
-        // coachTypes = allMasters.coach_type;
-        // getAllServices = allMasters.services
-        // price_range = allMasters.budget_range_show
-        // experience = allMasters.experience_level_show
-    }
+    const countries = allMasters?.countries || [];
+    const deliveryMode = allMasters?.delivery_mode || [];
+    const ageGroup = allMasters?.age_group || [];
+    const languages = allMasters?.languages || [];
+    const userGoals = userGoalRes?.data || [];
+  
+    
+    // console.log('userGoals', userGoals)
 
     return (
         <div className="main-panel">
@@ -68,7 +52,7 @@ export default async function Profile() {
                             deliveryMode={deliveryMode}
                             ageGroup={ageGroup}
                             languages={languages}
-                            allCoachSubtype={allCoachSubtype}
+                            userGoals={userGoals}
                         />
                     </div>
                 </div>

@@ -137,7 +137,7 @@ export const HandleValidateTokenOnServer = async () => {
 // app/api/auth.js
 export async function HandleValidateTokenServer(token) {
     try {
-        const res = await fetch(`${process.env.API_URL}/validate-token`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validate-token`, {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}` },
             cache: "no-store" // ensure fresh validation
@@ -188,4 +188,23 @@ export async function getUserReviews() {
     }
 }
 
+
+export async function getUserBookedGoalsListData() { 
+     const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
+    // return token;
+    if (!token) return null;
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getuserbookedgoalslist`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` },
+            cache: "no-store" // ensure fresh validation
+        });
+        // console.log('rrrrrrrrrrr', res)      
+        if (!res.ok) return null;
+        return await res.json();
+    } catch {
+        return null;
+    }
+}
 
