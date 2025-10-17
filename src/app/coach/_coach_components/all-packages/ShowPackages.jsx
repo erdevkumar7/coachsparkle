@@ -11,11 +11,16 @@ import ArrowForwardSharpIcon from "@mui/icons-material/ArrowForwardSharp";
 import { formatBookingWindow } from "@/lib/commonFunction";
 import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 
 export default function ShowPackage({ pkg, allPackages }) {
   const router = useRouter();
+  const token = Cookies.get('token');
   const [showBooking, setShowBooking] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const currentIndex = allPackages.findIndex(p => p === pkg.id);
 
@@ -30,12 +35,50 @@ export default function ShowPackage({ pkg, allPackages }) {
     }
   };
 
+  const handleUpdatePackage = () => {
+    router.push(`/coach/service-packages/${pkg.id}/update`);
+  }
+
   const handleBookNowClick = () => {
     setShowBooking(true);
   };
 
   const handleCloseBooking = () => {
     setShowBooking(false);
+  };
+
+  const handleDeletePackage = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/delete-package`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ package_id: pkg.id }),
+        }
+      );
+
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Package deleted successfully!");
+        // handleNavigation('prev')
+        // if (onDelete) onDelete(pkg.id); // remove from UI instantly
+        router.push('/coach/service-packages')
+        router.refresh(); // optional: ensure data sync
+      } else {
+        toast.error(data.message || "Failed to delete package");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Something went wrong while deleting the package.");
+    } finally {
+      setLoading(false);
+      setShowModal(false);
+    }
   };
 
   if (showBooking) {
@@ -57,9 +100,17 @@ export default function ShowPackage({ pkg, allPackages }) {
                 alt="Package"
                 className="card-img-top rounded-top"
               />
+            <div className="two_btn_remove_share"> 
+              
               <button className="btn share-btn">
                 <ShareIcon />
               </button>
+              <button
+                className="remove-service-package"
+                onClick={() => setShowModal(true)}>
+                Delete
+              </button>
+              </div>
             </div>
             <div className="card-body text-start">
               <h5 className="mb-1">{pkg?.title}</h5>
@@ -155,12 +206,12 @@ export default function ShowPackage({ pkg, allPackages }) {
                 <h4>
                   ${pkg?.price} <small>/ {pkg?.price_model?.name}</small>
                 </h4>
-                {/* <button
+                <button
                   className="btn book-btn mt-2"
-                  onClick={handleBookNowClick}
+                  onClick={handleUpdatePackage}
                 >
-                  Schedule and Book Now!
-                </button> */}
+                  Update Package
+                </button>
               </div>
 
               <div className="d-flex gap-2 mt-4 small">
@@ -195,6 +246,34 @@ export default function ShowPackage({ pkg, allPackages }) {
           </small>
         </div>
       </div>
+
+      {/* ===== Delete Confirmation Modal ===== */}
+      {showModal && (
+        <div className="coachpkg-modal-overlay">
+          <div className="coachpkg-modal-container">
+            <h4>Are you sure you want to delete this package?</h4>
+            <p>This action cannot be undone.</p>
+            <div className="coachpkg-modal-actions">
+              <button
+                className="coachpkg-btn coachpkg-btn-secondary "
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="coachpkg-btn coachpkg-btn-danger"
+                onClick={handleDeletePackage}
+                disabled={loading}
+              >
+                {loading ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
+            <button className="coachpkg-modal-close" onClick={() => setShowModal(false)}>
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

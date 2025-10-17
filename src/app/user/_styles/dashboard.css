@@ -315,15 +315,13 @@ a.dropdown-item.preview-item {
 .goals-progress .progress {
     background: #8cfac7;
     border-radius: 15px;
-    height: 28px;
+    height: 25px;
     margin-bottom: 10px;
     overflow: hidden;
 }
 
 .goals-progress .progress div {
     background: #00e096;
-    height: 100%;
-    width: 40% !important;
     border-radius: 15px;
 }
 .goals-progress .view-btn {

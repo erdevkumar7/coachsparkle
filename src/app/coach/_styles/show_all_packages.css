@@ -17,7 +17,7 @@
 }
 
 .package-card .card-img-top {
-  height: 200px;
+  height: auto;
   object-fit: cover;
 }
 
@@ -68,14 +68,11 @@
 }
 
 .share-btn {
-  position: absolute;
-  top: 30px;
-  right: 70px;
-  font-size: 18px;
-  border-radius: 4px;
-  padding: 10px;
-  background-color: white;
-  color: #009bfa;
+    color: #009bfa;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 18px;
 }
 
 .share-btn:hover{
@@ -414,8 +411,88 @@
 .booking-confirm-modal {
   background-color: rgba(0, 0, 0, 0.5);
 }
+button.btn.share-btn {
+    background: #fff;
+}
+button.remove-service-package {
+    color: #fff;
+    background: #d9534f;
+    border: none;
+    border-radius: 5px;
+    justify-content: center;
+    width: 22%;
+    min-width: 50px;
+    padding: 8px 30px;
+    font-size: 15px;
+    display: flex;
+}
 
+.two_btn_remove_share {
+    justify-content: right;
+    align-items: center;
+    gap: 10px;
+    margin-top: 13px;
+    display: flex;
+    position: relative;
+    left: -180px;
+}
 
+/* ===== Delete Confirmation Modal ===== */
+.coachpkg-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.coachpkg-modal-container {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  width: 350px;
+}
+
+.coachpkg-modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.coachpkg-btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.coachpkg-btn-secondary {
+  background: #ccc;
+  border: none;
+}
+
+.coachpkg-btn-danger {
+  background: #d9534f;
+  color: white;
+  border: none;
+}
+
+.coachpkg-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+/* ===== End Delete Confirmation Modal ===== */
 
 @media (max-width: 768px) {
   .swiper-button-prev.custom-arrow {
