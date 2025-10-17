@@ -32,6 +32,14 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.profile-form.service-profile-add .form-group input, .form-group select, .form-group textarea {
+    color: #000 !important;
+    box-shadow: none !important;
+}
+.profile-form.service-profile-add select {
+    color: #000 !important;
+    box-shadow: none !important;
+}
 
 .coachpkg-btn-secondary {
   background: #ccc;
@@ -109,16 +117,49 @@
     padding: 20px !important;
 }
 
-.slots-available-input input#«ra» {
-    margin-top: 8px;
-    padding: 0px 10px;
+.profile-form.service-profile-add input#«ra» {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
 }
 
-.slots-available-input input#«r9» {
-    margin-top: 8px;
-    padding: 0px 10px;
+.profile-form.service-profile-add input#«r9» {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
+}
+.profile-form.service-profile-add input#«rb» {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
 }
 
+.profile-form.service-profile-add .availablity-list-input input {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
+}
+
+.profile-form.service-profile-add .range-picker-field input#«r5» {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
+}
+
+.profile-form.service-profile-add .MuiFormControl-root.MuiFormControl-fullWidth.MuiTextField-root.range-picker-field.css-cmpglg-MuiFormControl-root-MuiTextField-root input#«r7» {
+
+ margin-top: 8px !important;
+    padding: 0px 10px !important;
+    }   
+
+.profile-form.service-profile-add input#«r2» {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
+}
+
+.profile-form.service-profile-add input#«r9» {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
+}
+.profile-form.service-profile-add input#«r3» {
+    margin-top: 8px !important;
+    padding: 0px 10px !important;
+}
 
 .d-flex.gap-3.add-draft-service .mui-icons {
     width: 18px;

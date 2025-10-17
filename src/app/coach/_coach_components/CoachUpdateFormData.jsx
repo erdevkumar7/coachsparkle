@@ -44,7 +44,7 @@ export default function CoachUpdateForm({
   const [cities, setCities] = useState([]);
   const [coachSubTypes, setSubCoachTypes] = useState([]);
   const [certificates, setCertificates] = useState([]);
-
+  const [selectedCertificates, setSelectedCertificates] = useState([]);
   // console.log('user', experience)
 
   const {
@@ -177,30 +177,6 @@ export default function CoachUpdateForm({
 
 
 
-  // useEffect(() => {
-  //   if (!selectedCoachType) return;
-
-  //   getSubCoachType(selectedCoachType).then((res) => {
-  //     setSubCoachTypes(res);
-
-  //     if (Array.isArray(user?.coach_subtype)) {
-  //       const userSubtypeIds = user.coach_subtype.map(sub => sub.id); // extract ids
-
-  //       const matchedIds = res
-  //         .filter(s => userSubtypeIds.includes(s.id)) // find matching subtypes
-  //         .map(s => s.id); // we only need their ids for the form
-  //       // console.log('matchedIds', matchedIds);
-  //       if (matchedIds.length > 0) {
-  //         reset({
-  //           ...getValues(), // preserve other form values
-  //           coach_subtype: matchedIds, // set multiple ids as default
-  //         });
-  //       }
-  //     }
-  //   });
-  // }, [selectedCoachType]);
-
-
   useEffect(() => {
     if (!selectedCoachType) {
       setSubCoachTypes([]); // reset subtypes if no coach type
@@ -246,23 +222,32 @@ export default function CoachUpdateForm({
     setCertificates(selected);
   };
 
+  const handleCertificateChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    if (files.length > 5) {
+      toast.error('You can upload a maximum of 5 certificates');
+      e.target.value = '';
+      return;
+    }
+
+    const validFiles = files.filter(file =>
+      file.type === 'image/jpeg' || file.type === 'image/jpg'
+    );
+
+    if (validFiles.length !== files.length) {
+      toast.error('Only JPG/JPEG files are allowed');
+    }
+
+    setSelectedCertificates(validFiles);
+  };
+
+  const removeCertificate = (index) => {
+    setSelectedCertificates(prev => prev.filter((_, i) => i !== index));
+  };
+
 
   const onSubmit = async (data, e) => {
-    // const clickedButton = e.nativeEvent.submitter?.value || 'draft';
-    // const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
-    // console.log('data', data)
-    // const form = new FormData();
-    // Object.entries(data).forEach(([key, value]) => {
-    //   if (Array.isArray(value)) {
-    //     value.forEach((v) => form.append(`${key}[]`, v));
-    //   } else {
-    //     form.append(key, typeof value === 'boolean' ? (value ? 1 : 0) : value);
-    //   }
-    // });
-
-    // form.append('profile_status', profile_status);
-
-    //============================================
     const clickedButton = e.nativeEvent.submitter?.value || 'draft';
     const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
 
@@ -287,11 +272,10 @@ export default function CoachUpdateForm({
     form.append('profile_status', profile_status);
 
     // form.append('video_link', data.video_link);
-    // for (let file of data.upload_credentials || []) {
-    //   form.append('upload_credentials[]', file);
-    // }
-    if (data.upload_credentials && data.upload_credentials.length > 0) {
-      Array.from(data.upload_credentials).forEach((file, index) => {
+
+    // Append certificates ONLY from state
+    if (selectedCertificates.length > 0) {
+      selectedCertificates.forEach((file) => {
         form.append("upload_credentials[]", file);
       });
     }
@@ -300,11 +284,8 @@ export default function CoachUpdateForm({
       const res = await updateCoachData(form, getToken)
 
       if (res.data.success) {
-        if (clickedButton === 'add_package') {
-          router.push('/coach/service-packages');
-        } else {
-          toast.success(profile_status === 'complete' ? 'Profile published!' : 'Draft saved!')
-        }
+        toast.success(profile_status === 'complete' ? 'Profile published!' : 'Draft saved!');
+        setSelectedCertificates([]);
       } else {
         toast.error('Update failed.');
       }
@@ -970,7 +951,7 @@ export default function CoachUpdateForm({
               )}
             </div>
 
-            <div>
+            {/* <div>
               <label className="form-label fw-semibold d-block">
                 Upload Credentials / Certifications
                 {!isProUser && (
@@ -1025,6 +1006,62 @@ export default function CoachUpdateForm({
               />
               {errors.upload_credentials && (
                 <p className="text-danger">{errors.upload_credentials.message}</p>
+              )}
+            </div> */}
+
+            <div>
+              <label className="form-label fw-semibold d-block">
+                Upload Credentials / Certifications
+                {!isProUser && (
+                  <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>
+                )}
+                <span className="text-muted ms-2 small media-size">
+                  (Upload up to 5 Certifications JPG)
+                </span>
+              </label>
+
+              <div className="custom-file-input-wrapper">
+                <input
+                  type="file"
+                  id="cert-upload"
+                  className="custom-file-hidden"
+                  multiple
+                  disabled={!isProUser}
+                  accept=".jpg,.jpeg"
+                  onChange={handleCertificateChange}
+                />
+                <label htmlFor="cert-upload" className="custom-file-btn">
+                  Choose file
+                </label>
+                <span className="custom-file-placeholder">
+                  {selectedCertificates.length > 0
+                    ? `${selectedCertificates.length} files selected`
+                    : "No file chosen"}
+                </span>
+              </div>
+
+              {/* Show selected files */}
+              {selectedCertificates.length > 0 && (
+                <div className="mt-3">
+                  <h6 className="mb-2">Selected Certificates:</h6>
+                  <div className="selected-files-list">
+                    {selectedCertificates.map((file, index) => (
+                      <div key={index} className="selected-file-item d-flex align-items-center justify-content-between mb-2 p-2 border rounded">
+                        <span className="file-name">
+                          <i className="bi bi-file-earmark-image text-primary me-2"></i>
+                          {file.name}
+                        </span>
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => removeCertificate(index)}
+                        >
+                          <i className="bi bi-x"></i>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 
