@@ -142,13 +142,6 @@ function StyledDay(props) {
       borderRadius: '50%',
       fontWeight: 'bold'
     };
-  } else if (isBooked) {
-    dayStyle = {
-      backgroundColor: '#d1ecf1',
-      color: '#0c5460',
-      borderRadius: '50%',
-      fontWeight: 'bold'
-    };
   } else if (isAvailable) {
     dayStyle = {
       backgroundColor: '#d4edda',

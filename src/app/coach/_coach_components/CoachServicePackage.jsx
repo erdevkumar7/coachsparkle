@@ -458,6 +458,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       <option value="60">1 Hour</option>
                       <option value="90">1.5 Hour</option>
                       <option value="120">2 Hour</option>
+                      <option value="180">3 Hour</option>
+                      <option value="240">4 Hour</option>
+                      <option value="300">5 Hour</option>
                     </select>
                     {errors.session_duration && (
                       <div className="invalid-feedback">

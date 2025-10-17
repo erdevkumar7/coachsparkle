@@ -36,7 +36,7 @@ export default function CoachServicePackageFormChild({
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(
     packageData?.delivery_mode ? parseInt(packageData.delivery_mode) : 1
   );
-  
+
 
   const {
     register,
@@ -409,6 +409,9 @@ export default function CoachServicePackageFormChild({
                       <option value="60">1 Hour</option>
                       <option value="90">1.5 Hour</option>
                       <option value="120">2 Hour</option>
+                      <option value="180">3 Hour</option>
+                      <option value="240">4 Hour</option>
+                      <option value="300">5 Hour</option>
                     </select>
                     {errors.session_duration && (
                       <div className="invalid-feedback">
