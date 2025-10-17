@@ -867,7 +867,7 @@ export default function CoachUpdateForm({
             </div>
 
 
-       
+
 
             <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
               <label>
@@ -1003,7 +1003,14 @@ export default function CoachUpdateForm({
                       multiple
                       disabled={!isProUser}
                       accept=".jpg,.jpeg"
-                      onChange={(e) => field.onChange(e.target.files)}
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files);
+                        if (files.length > 5) {
+                          toast.error('Maximum 5 files allowed');
+                          return;
+                        }
+                        field.onChange(files);
+                      }}
                     />
                     <label htmlFor="cert-upload" className="custom-file-btn">
                       Choose file
