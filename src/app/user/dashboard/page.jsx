@@ -6,6 +6,7 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { CircularProgress } from "@mui/material";
 
 export default function UserDashboard() {
     const router = useRouter();
@@ -14,6 +15,9 @@ export default function UserDashboard() {
     const [favoriteCoaches, setFavoriteCoaches] = useState([]);
     const [userGoals, setUserGoals] = useState([]);
     const [loadingGoals, setLoadingGoals] = useState(true);
+
+    const [atAGlanceData, setAtAGlanceData] = useState(null);
+    const [loadingAtAGlance, setLoadingAtAGlance] = useState(true);
 
     useEffect(() => {
         const token = Cookies.get('token');
@@ -99,9 +103,38 @@ export default function UserDashboard() {
             }
         };
 
+        const fetchAtAGlanceData = async () => {
+            const token = Cookies.get("token");
+            try {
+                setLoadingAtAGlance(true);
+                const response = await fetch(`${apiUrl}/at-a-glance-user-dashboard`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    setAtAGlanceData(result.data);
+                } else {
+                    console.error("Failed to fetch at-a-glance data:", result.message);
+                    setAtAGlanceData(null);
+                }
+            } catch (error) {
+                console.error("Error fetching at-a-glance data:", error);
+                setAtAGlanceData(null);
+            } finally {
+                setLoadingAtAGlance(false);
+            }
+        };
+
         fetchAllFavorites();
         fetchUser();
         fetchUserGoals();
+        fetchAtAGlanceData();
     }, []);
 
     const getProgressColor = (percent) => {
@@ -120,11 +153,46 @@ export default function UserDashboard() {
         router.push('/user/profile');
     };
 
-        const handleViewSession = (packageId) => {
+    const handleViewSession = (packageId) => {
         // Navigate to session details page
         router.push(`/sessions?package=${packageId}`);
     };
 
+    // Format date for upcoming session
+    const formatUpcomingSession = (upcomingSession) => {
+        if (!upcomingSession || !upcomingSession.session_date_start) {
+            return "No upcoming session";
+        }
+
+        try {
+            const date = new Date(upcomingSession.session_date_start);
+            const time = upcomingSession.slot_time_start || "00:00";
+
+            // Format date as "Aug 15"
+            const formattedDate = date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric'
+            });
+
+            // Format time as "8:00 PM"
+            const [hours, minutes] = time.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const formattedHour = hour % 12 || 12;
+            const formattedTime = `${formattedHour}:${minutes} ${ampm}`;
+
+            return `${formattedDate}, ${formattedTime}`;
+        } catch (error) {
+            console.error("Error formatting session date:", error);
+            return "Invalid date";
+        }
+    };
+
+
+    // Check if user has any coach matches to respond to
+    const hasUnrespondedMatches = atAGlanceData?.total_coach_matches > 0;
+
+    // console.log('atAGlanceData', atAGlanceData)
 
     return (
         <div className="main-panel">
@@ -163,88 +231,106 @@ export default function UserDashboard() {
                 <div className="max-w-5xl mx-auto px-4 at-glance-add">
                     <div className="bg-white p-5 rounded-xl shadow-md boder-line-add">
                         <h3 className="text-lg font-semibold mb-4">At a Glance</h3>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 inner-card-add">
-                            <div className="bg-gray-100 rounded-xl p-4 text-center">
-                                <img src="/coachsparkle/assets/images/glance-img-one.png" className="mx-auto mb-2" />
-                                <div className="new-add-comeing">
-                                    <p className="font-medium">New Coach Matches</p>
-                                    <p className="text-blue-600 font-bold">02</p>
+                        {loadingAtAGlance ? (
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 inner-card-add">
+                                <div>
+                                    <CircularProgress />
                                 </div>
                             </div>
-
-                            <div className="bg-gray-100 rounded-xl p-4 text-center">
-                                <img src="/coachsparkle/assets/images/glance-img-two.png" className="mx-auto mb-2" />
-                                <div className="new-add-comeing">
-                                    <p className="font-medium">Coaching Request Status</p>
-                                    <p className="text-blue-600 font-bold">02</p>
+                        ) : atAGlanceData ? (
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 inner-card-add">
+                                {/* New Coach Matches */}
+                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                    <img src="/coachsparkle/assets/images/glance-img-one.png" className="mx-auto mb-2" alt="Coach Matches" />
+                                    <div className="new-add-comeing">
+                                        <p className="font-medium">New Coach Matches</p>
+                                        <p className="text-blue-600 font-bold">
+                                            {atAGlanceData.total_coach_matches || 0}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="bg-gray-100 rounded-xl p-4 text-center">
-                                <img src="/coachsparkle/assets/images/glance-img-three.png" className="mx-auto mb-2" />
-                                <div className="new-add-comeing">
-                                    <p className="font-medium">Active Coaching</p>
-                                    <p className="text-blue-600 font-bold">02</p>
+                                {/* Coaching Request Status */}
+                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                    <img src="/coachsparkle/assets/images/glance-img-two.png" className="mx-auto mb-2" alt="Coaching Requests" />
+                                    <div className="new-add-comeing">
+                                        <p className="font-medium">Coaching Request Status</p>
+                                        <p className="text-blue-600 font-bold">
+                                            {atAGlanceData.Total_coaching_request || 0}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="bg-gray-100 rounded-xl p-4 text-center">
-                                <img src="/coachsparkle/assets/images/glance-img-four.png" className="mx-auto mb-2" />
-                                <div className="new-add-comeing">
+                                {/* Active Coaching */}
+                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                    <img src="/coachsparkle/assets/images/glance-img-three.png" className="mx-auto mb-2" alt="Active Coaching" />
+                                    <div className="new-add-comeing">
+                                        <p className="font-medium">Active Coaching</p>
+                                        <p className="text-blue-600 font-bold">
+                                            {atAGlanceData.active_coaching || 0}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Upcoming Session */}
+                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                    <img src="/coachsparkle/assets/images/glance-img-four.png" className="mx-auto mb-2" alt="Upcoming Session" />
                                     <div className="new-add-comeing">
                                         <p className="font-medium">Upcoming Session</p>
-                                        <p className="text-blue-600 font-bold">Aug 15, 8:00PM</p>
+                                        <p className="text-blue-600 font-bold text-sm">
+                                            {formatUpcomingSession(atAGlanceData.upcoming_session)}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Unread Messages */}
+                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                    <img src="/coachsparkle/assets/images/glance-img-five.png" className="mx-auto mb-2" alt="Unread Messages" />
+                                    <div className="new-add-comeing">
+                                        <p className="font-medium">Unread Messages</p>
+                                        <p className="text-blue-600 font-bold">
+                                            {atAGlanceData.unread_message || 0}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="bg-gray-100 rounded-xl p-4 text-center">
-                                <img src="/coachsparkle/assets/images/glance-img-five.png" className="mx-auto mb-2" />
-                                <div className="new-add-comeing">
-                                    <p className="font-medium">Unread Messages</p>
-                                    <p className="text-blue-600 font-bold">03</p>
-                                </div>
+                        ) : (
+                            <div className="text-center py-4 text-gray-500">
+                                Failed to load dashboard data
                             </div>
-                        </div>
+                        )}
 
-                        <p className="mt-6 text-sm text-gray-500">
+                        {/* <p className="mt-6 text-sm text-gray-500">
                             You haven’t responded to any coaches yet.
                             <a href="#" className="text-blue-600 font-medium hover:underline">
                                 View Matches
                             </a>
+                        </p> */}
+
+                        <p className="mt-6 text-sm text-gray-500">
+                            {hasUnrespondedMatches ? (
+                                <>
+                                    You have {atAGlanceData.total_coach_matches} coach match(es) to respond to.
+                                    <a
+                                        href="#"
+                                        className="text-blue-600 font-medium hover:underline ml-1"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.push('/coach-detail/list');
+                                        }}
+                                    >
+                                        View Matches
+                                    </a>
+                                </>
+                            ) : (
+                                "You're all caught up with your coach matches."
+                            )}
                         </p>
                     </div>
                 </div>
 
                 <div className="goals-progress">
                     <div className="left-column">
-                        {/* <div className="card">
-                            <div className="card-header">
-                                <h3>Your Coaching Goals Progress</h3>
-                                <button className="user-update-btn">Update Goal <i className="bi bi-arrow-right"></i></button>
-                            </div>
-                            <div className="goal">
-                                <p className="build-text-add">Build Confidence For Public Speaking</p>
-                                <div className="progress">
-                                    <div style={{ width: "80%" }}><p>40%</p></div>
-                                </div>
-                                <button className="view-btn">View Session</button>
-                            </div>
-                            <div className="goal">
-                                <p className="build-text-add">Learn Skating In 3 Months</p>
-                                <div className="progress two">
-                                    <div style={{ width: "70%" }}><p>0%</p></div>
-                                </div>
-                                <button className="view-btn">View Match</button>
-                            </div>
-                            <div className="goal">
-                                <p className="build-text-add">Learn Python Coding</p>
-                                <div className="progress three">
-                                    <div style={{ width: "90%" }}><p>90%</p></div>
-                                </div>
-                                <button className="view-btn">View Session</button>
-                            </div>
-                        </div> */}
 
                         <div className="card">
                             <div className="card-header">
@@ -280,8 +366,14 @@ export default function UserDashboard() {
                                                 className={`progress-bar ${getProgressColor(goal.progress_percent)}`}
                                                 style={{ width: getProgressWidth(goal.progress_percent) }}
                                             >
-                                                <p>{goal.progress_percent}%</p>
+                                                {goal.progress_percent > 0 && <p>{goal.progress_percent}%</p>}
                                             </div>
+                                            {goal.progress_percent === 0 && (
+                                                <div className="progress-bar">
+                                                    <p>0%</p>
+                                                </div>
+                                            )}
+
                                         </div>
                                         <div className="goal-actions">
                                             <button
