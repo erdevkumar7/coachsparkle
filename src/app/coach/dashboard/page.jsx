@@ -16,7 +16,7 @@ export default async function CoachDashboard() {
   const token = cookieStore.get("token")?.value;
 
 
-  const [pendingRes, QuickSnapRes] = await Promise.all([
+  const [pendingRes, QuickSnapRes, servicePerformanceRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/getPendingCoaching`, {
       method: 'POST',
       headers: {
@@ -34,11 +34,23 @@ export default async function CoachDashboard() {
       },
       cache: 'no-store',
     }),
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/coachServicePerformances`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+    }),
   ])
   const pendingRequest = await pendingRes.json();
   const QuickSnapData = await QuickSnapRes.json();
+  const servicePerformanceData = await servicePerformanceRes.json();
+
   const upcomingSession = QuickSnapData.data.upcoming_bookings || [];
-  console.log('upcomingSession', upcomingSession)
+  const servicePerformances = servicePerformanceData.data || [];
+  // console.log('upcomingSession', upcomingSession)
   return (
     <div className="main-panel">
       <div className="new-content-wrapper coach-wrap">
@@ -76,7 +88,7 @@ export default async function CoachDashboard() {
 
           <div className="card col-md-4 reviews-right-side">
             <div className="session-card">
-              <UpcomingSessions upcomingSession={upcomingSession}/>
+              <UpcomingSessions upcomingSession={upcomingSession} />
             </div>
           </div>
         </div>
@@ -89,7 +101,7 @@ export default async function CoachDashboard() {
 
         <div className="services-performances">
           <div className="service-performance">
-            <ServicePerformancess />
+            <ServicePerformancess servicePerformances={servicePerformances} />
           </div>
         </div>
 
