@@ -495,13 +495,16 @@ a.dropdown-item.preview-item {
 .progress.three div {
     width: 90% !important;
 }
-
+.circular_for_glance {
+    margin: auto;
+}
 .goals-progress .goal .progress p {
-    font-size: 12px;
-    text-align: center !important;
-    display: flex;
     justify-content: flex-end;
     padding-right: 10px;
+    font-size: 12px;
+    display: flex;
+    text-align: center !important;
+    padding-left: 10px;
 }
 
 p.build-text-add {

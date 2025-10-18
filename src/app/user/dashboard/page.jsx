@@ -232,8 +232,8 @@ export default function UserDashboard() {
                     <div className="bg-white p-5 rounded-xl shadow-md boder-line-add">
                         <h3 className="text-lg font-semibold mb-4">At a Glance</h3>
                         {loadingAtAGlance ? (
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 inner-card-add">
-                                <div>
+                            <div className="flex grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 inner-card-add">
+                                <div className="circular_for_glance">
                                     <CircularProgress />
                                 </div>
                             </div>
