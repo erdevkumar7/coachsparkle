@@ -17,8 +17,9 @@
 }
 
 .package-card .card-img-top {
-  height: auto;
-  object-fit: cover;
+    height: auto;
+    object-fit: cover;
+    min-width: 100%;
 }
 
 .package-card ul {
