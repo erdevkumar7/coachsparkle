@@ -256,7 +256,7 @@ export default function UserDashboard() {
                                     <div className="new-add-comeing">
                                         <p className="font-medium">Coaching Request Status</p>
                                         <p className="text-blue-600 font-bold">
-                                            {atAGlanceData.Total_coaching_request || 0}
+                                            {atAGlanceData.total_coaching_request || 0}
                                         </p>
                                     </div>
                                 </div>
