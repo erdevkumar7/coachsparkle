@@ -3,7 +3,6 @@ import { useUser } from "@/context/UserContext";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 
 export default function QuickSnapshot({ QuickSnapData }) {
-  // console.log('QuickSnapDataaaaaa', QuickSnapData)
   const {
     average_rating,
     completed_bookings,
@@ -17,8 +16,10 @@ export default function QuickSnapshot({ QuickSnapData }) {
 
     new_requests,
     total_earning,
+    upcoming_sessions = [],
   } = QuickSnapData?.data || {};
-  
+
+  console.log('QuickSnapDataaaaaa', upcoming_sessions)
   const { user } = useUser();
   let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
 
@@ -79,7 +80,13 @@ export default function QuickSnapshot({ QuickSnapData }) {
             />
             <div className="new-add-coming">
               <p className="title">Upcoming Sessions ({upcoming_session_count < 10 ? `0${upcoming_session_count}` : upcoming_session_count})</p>
-              <span>  Aug 15, 8:00PM</span>
+              {upcoming_sessions && upcoming_sessions.length > 0 ?
+                <span>
+                  {new Date(upcoming_sessions[0].session_date_start).toLocaleDateString(
+                    "en-US",
+                    { day: "numeric", month: "short" }
+                  )}
+                </span> : <span> N/A</span>}
             </div>
           </div>
         </div>
