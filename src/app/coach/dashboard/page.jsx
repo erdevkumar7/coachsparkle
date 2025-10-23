@@ -48,14 +48,16 @@ export default async function CoachDashboard() {
   const QuickSnapData = await QuickSnapRes.json();
   const servicePerformanceData = await servicePerformanceRes.json();
 
-  const upcomingSession = QuickSnapData.data.upcoming_bookings || [];
+  const profile_complete_percentage = QuickSnapData?.data?.profile_percentage || 0;
+
+  const upcomingSession = QuickSnapData.data.upcoming_sessions || [];
   const servicePerformances = servicePerformanceData.data || [];
-  // console.log('upcomingSession', upcomingSession)
+  // console.log('profile_complete_percentage', profile_complete_percentage)
   return (
     <div className="main-panel">
       <div className="new-content-wrapper coach-wrap">
         <div className="coach-dashboard-add">
-          <WelcomeBack />
+          <WelcomeBack profile_complete_percentage={profile_complete_percentage}/>
 
           <div className="snapshot">
             <QuickSnapshot QuickSnapData={QuickSnapData} />

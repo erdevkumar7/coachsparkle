@@ -3,9 +3,12 @@ import { useUser } from "@/context/UserContext";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Link from "next/link";
 
-export default function WelcomeBack() {
-     const { user } = useUser();
+export default function WelcomeBack({ profile_complete_percentage }) {
+    const { user } = useUser();
 
+    const getProgressWidth = (percent) => {
+        return `${Math.min(percent, 100)}%`;
+    };
 
     return (
         <>
@@ -23,7 +26,7 @@ export default function WelcomeBack() {
                         src={
                             user?.profile_image ||
                             `${FRONTEND_BASE_URL}/images/default_profile.jpg`
-                        }                        
+                        }
                     />
                     <div className="coach-profile-view">
                         <div>
@@ -49,13 +52,13 @@ export default function WelcomeBack() {
                 </div>
                 <div className="progress-bar">
                     <div className="progress-line">
-                        <div className="progress-fill">
-                            <span>80%</span>
+                        <div className="progress-fill" style={{ width: getProgressWidth(profile_complete_percentage) }}>
+                            <span>{profile_complete_percentage}%</span>
                         </div>
                     </div>
 
                     <div className="update-links">
-                        <div className="complete-bar">Profile 80% Complete</div>
+                        <div className="complete-bar">Profile {profile_complete_percentage}% Complete</div>
                         <div className="links">
                             <Link href="/coach/profile">Update Profile</Link>
                             <Link href="/coach/service-packages">Add Services +</Link>

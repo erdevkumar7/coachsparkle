@@ -116,22 +116,23 @@
   margin-top: 5px;
 }
 .coach-dashboard-add .progress-line {
-  background: #ddd;
-  border-radius: 2px;
-  width: 69%;
-  height: 17px;
-  margin-top: 0;
-  overflow: hidden;
+    background: #ddd;
+    border-radius: 2px;
+    height: 17px;
+    margin-top: 0;
+    overflow: hidden;
+    width: 100%;
 }
 .coach-dashboard-add .progress-fill {
-  text-align: right;
-  background: #00e096;
-  width: 80%;
-  height: 17px;
-  display: flex;
-  justify-content: right;
-  align-items: center;
+    text-align: right;
+    background: #00e096;
+    justify-content: right;
+    align-items: center;
+    height: 17px;
+    display: flex;
+    padding-right: 40px;
 }
+
 .coach-dashboard-add .progress-fill span {
   margin-right: -29px;
   font-size: 13px;
@@ -184,18 +185,17 @@
   margin-top: 20px;
   text-align: right;
 }
-
 .coach-dashboard-add .cta button {
-  color: #fff;
-  cursor: pointer;
-  background: #009bfa;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 35px;
-  font-size: 14px;
-  height: 45px;
-  font-weight: 600;
-  font-family: 'Inter';
+    color: #fff;
+    cursor: pointer;
+    background: #009bfa;
+    border: none;
+    border-radius: 12px;
+    height: 45px;
+    padding: 0px 35px;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .coach-dashboard-add .badge {
@@ -381,8 +381,8 @@ p.coach-name-text {
 
 .tooltip-box {
   position: absolute;
-  top: 35px;
-  left: 155px;
+  top: 68px;
+  left: 25px;
   background: #fff;
   padding: 6px 10px;
   font-size: 11px;
@@ -586,7 +586,7 @@ i.bi.bi-star-fill {
   margin-bottom: 10px;
   padding: 12px 0;
   font-family: Inter;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
