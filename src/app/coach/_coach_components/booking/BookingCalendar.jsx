@@ -284,12 +284,12 @@ export default function BookingCalendar() {
         
         {selectedEvent.extendedProps.rawStatus === 1 && ( // Confirmed
           <>
-            <button 
+            {/* <button 
               className="action-btn btn-outline-primary" 
               onClick={() => handleStatusChange(2)} // Complete
             >
               Complete Session
-            </button>
+            </button> */}
             <button 
               className="action-btn btn-outline-primary" 
               onClick={() => handleStatusChange(3)} // Cancel

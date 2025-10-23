@@ -17,7 +17,7 @@ export default function UpcomingSessions({ upcomingSession }) {
             <span className="day">
               {new Date(session.session_date_start).toLocaleDateString(
                 "en-US",
-                { day: "numeric", month: "short", year: "numeric" }
+                { day: "numeric", month: "short" }
               )}
             </span>
           </div>
