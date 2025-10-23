@@ -64,12 +64,12 @@ h2.react-datepicker__current-month {
 }
 
 .react-datepicker__day.day-green {
-  background-color: #52c41a;
-  color: white;
+    color: #fff;
+    background-color: #52c41a !important;
 }
 
 .react-datepicker__day.day-blue {
-  background-color: #1890ff;
+  background-color: #1890ff !important;
   color: white;
 }
 

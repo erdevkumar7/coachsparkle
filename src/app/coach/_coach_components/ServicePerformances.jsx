@@ -330,7 +330,7 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
             </ul>
           </div>
 
-          <div className="d-flex justify-content-start start-making align-items-center mt-3 flex-wrap gap-2">
+          <div className="d-flex justify-content-center start-making align-items-center mt-3 flex-wrap gap-2">
             <p className="mb-0">
               Start making data-driven decision for your coaching
             </p>
@@ -341,7 +341,7 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
                 backgroundColor: "#009BFA",
                 border: "none",
                 borderRadius: "10px",
-                padding: "20px 16px",
+                padding: "11px 16px",
               }}
             >
               Upgrade & Unlock Now <EastIcon className="mui-icons" />
