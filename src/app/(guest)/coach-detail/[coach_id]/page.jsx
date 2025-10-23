@@ -30,17 +30,33 @@ import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 export default async function CoachDetail({ params }) {
 
   const { coach_id } = await params;
-   const tokenData = await HandleValidateTokenOnServer();
+  const tokenData = await HandleValidateTokenOnServer();
   const blogs = await getLatestMasterBlogs();
-   let fav_user_id;
-    if (tokenData) {
-      fav_user_id = tokenData.data.id
-    }
+  let fav_user_id;
+  if (tokenData) {
+    fav_user_id = tokenData.data.id
+  }
 
-  const [coach, allPackageIdRes, calendarData] = await Promise.all([
+  const [coach, allPackageIdRes, calendarData, incrementViewRes] = await Promise.all([
     getCoachById(coach_id, fav_user_id),
     packageIdsByCoachId(coach_id),
-    getCoachCalendarStatus(coach_id), 
+    getCoachCalendarStatus(coach_id),
+
+    // Increment profile view count
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/submit-coach-and-package-views`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        coach_id,
+        user_id: fav_user_id ?? null,
+      }),
+      cache: "no-store",
+    }).catch((error) => {
+      console.error("Error increasing profile view count:", error);
+      return null;
+    }),
   ])
 
   if (!coach) {
@@ -65,7 +81,7 @@ export default async function CoachDetail({ params }) {
       href: `/coach-detail/${coach_id}`,
     },
   ];
-// console.log('calendarData', calendarData)
+  // console.log('calendarData', calendarData)
   return (
     <>
       <BreadCrumb items={breadcrumbItems} />
@@ -94,13 +110,13 @@ export default async function CoachDetail({ params }) {
                             {coach?.is_verified === 1 && (
                               <span className="verified-text">
                                 {" "}
-                                <CheckCircleIcon className="mui-icons"/>Verified
+                                <CheckCircleIcon className="mui-icons" />Verified
                               </span>
                             )}
                             {coach?.is_corporate === 1 && (
                               <span className="avail-text">
                                 {" "}
-                                <CheckCircleIcon className="mui-icons"/>Available for
+                                <CheckCircleIcon className="mui-icons" />Available for
                                 Corporate Work
                               </span>
                             )}
@@ -153,7 +169,7 @@ export default async function CoachDetail({ params }) {
                                 </div>
 
                                 <div className="info-item">
-                                  <TranslateIcon className="mui-icons"/>
+                                  <TranslateIcon className="mui-icons" />
                                   <span>
                                     {coach.language_names?.join(", ") ||
                                       "Not available"}
@@ -163,7 +179,7 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.delivery_mode && (
                                     <>
-                                       <LanguageIcon className="mui-icons"/>
+                                      <LanguageIcon className="mui-icons" />
                                       <span>{coach?.delivery_mode}</span>
                                     </>
                                   )}
@@ -173,7 +189,7 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.experience && (
                                     <>
-                                       <EmojiEventsIcon className="mui-icons award-icons-add"/>
+                                      <EmojiEventsIcon className="mui-icons award-icons-add" />
                                       <span>
                                         {coach?.experience}-years experiences
                                       </span>
@@ -184,14 +200,14 @@ export default async function CoachDetail({ params }) {
                                 <div className="info-item">
                                   {coach?.age_group && (
                                     <>
-                                      <AdjustIcon className="mui-icons"/>
+                                      <AdjustIcon className="mui-icons" />
                                       <span>For Ages {coach?.age_group}</span>
                                     </>
                                   )}
                                 </div>
 
                                 <div className="info-item">
-                                 <StarBorderIcon className="mui-icons"/>
+                                  <StarBorderIcon className="mui-icons" />
                                   <span><b>{coach?.averageRating || 'No Rating'}</b> ({`${coach?.totalReviews} reviews` || '0 reviews'})</span>
                                   <span>
                                     {/* <b>No Rating </b> */}
@@ -203,10 +219,10 @@ export default async function CoachDetail({ params }) {
                         </div>
                       </div>
                       <div className="coach-action-profile-icon">
-                        <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite}/>
+                        <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite} />
                       </div>
                       <div className="coach-action-share-icon">
-                       <ShareIcon className="mui-iconss share-icons-add"/>
+                        <ShareIcon className="mui-iconss share-icons-add" />
                       </div>
                       <div className="tags">
                         {coach?.service_names &&
@@ -237,24 +253,24 @@ export default async function CoachDetail({ params }) {
                   <div className="about-section publs_artcl">
                     <h4>Published Articles</h4>
                     <div className="artcl-flex">
-                    {blogs.map((blog) => (
-                      <div className="item-artcl" key={blog.id}>
-                      <Image src={blog.blog_image} alt={blog.blog_name}
-                          className="top-image" width={1000} height={226} />
+                      {blogs.map((blog) => (
+                        <div className="item-artcl" key={blog.id}>
+                          <Image src={blog.blog_image} alt={blog.blog_name}
+                            className="top-image" width={1000} height={226} />
 
-                        <div className="item-cont1">
-                          <h4>
-                            {blog.blog_name}
-                          </h4>
-                          <p>
-                            {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 100)}...
-                          </p>
-                           {/* <Link href={`/coachsparkle/articles/${blog.id}`}><button>Read Article</button></Link> */}
-                           <Link href={`#`}><button>Read Article</button></Link>
+                          <div className="item-cont1">
+                            <h4>
+                              {blog.blog_name}
+                            </h4>
+                            <p>
+                              {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 100)}...
+                            </p>
+                            {/* <Link href={`/coachsparkle/articles/${blog.id}`}><button>Read Article</button></Link> */}
+                            <Link href={`#`}><button>Read Article</button></Link>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                      </div>
+                      ))}
+                    </div>
 
                   </div>
 
@@ -267,8 +283,8 @@ export default async function CoachDetail({ params }) {
 
               <div className="col-md-4 coach-profile-list-right">
                 <div className="profile-card">
-                <Image src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}  alt="Team Image"
-                          className="top-image" width={1000} height={226} />
+                  <Image src={`${FRONTEND_BASE_URL}/images/profile-video.webp`} alt="Team Image"
+                    className="top-image" width={1000} height={226} />
 
 
                   <div className="profile-message">
@@ -296,7 +312,7 @@ export default async function CoachDetail({ params }) {
                         {/* <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label> */}
                       </div>
                     </div>
-                    <SendMessageButton coachId={coach.user_id}/>
+                    <SendMessageButton coachId={coach.user_id} />
                     {/* <button
                       className="btn btn-primary"
                       data-bs-toggle="modal"
