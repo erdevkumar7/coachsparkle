@@ -9,7 +9,7 @@ export default function ActiveCoaching({ initialRequest, token }) {
   const [allRequests, setAllRequests] = useState(initialRequest.data);
   const router = useRouter()
   const { user } = useUser();
-  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+  let isProUser = user.subscription_plan.plan_status;
 
   const visibleRequests = isProUser ? allRequests : allRequests.slice(0, 3);
 

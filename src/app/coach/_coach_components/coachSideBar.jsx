@@ -27,6 +27,9 @@ export default function CoachSideBarComp({user}) {
     const router = useRouter();
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(false);
+    let isProUser = user.subscription_plan.plan_status;
+
+    // let isProUser = user.subscription_plan.plan_status;
 
     const toggleSidebar = () => {
         // Check if we're on mobile (window width less than 992px)
@@ -69,7 +72,7 @@ export default function CoachSideBarComp({user}) {
                 <div className="flex items-center mt-4 side-top-bar">
                     <img alt="profile" src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} />
                     <div>
-                        {user?.subscription_plan?.plan_name == 'Pro' ? (
+                        {isProUser ? (
                             <p className="pro-add-value">Pro</p>
                         ) : (
                             <p className="basic-add-value">Basic</p>
