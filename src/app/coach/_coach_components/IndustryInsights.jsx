@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 export default function IndustryInsights() {
   const { user } = useUser();
-    let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+    let isProUser = user.subscription_plan.plan_status;
   // const [isProUser, setIsProUser] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 

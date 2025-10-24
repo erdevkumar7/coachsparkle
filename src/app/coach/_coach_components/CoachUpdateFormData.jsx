@@ -37,7 +37,7 @@ export default function CoachUpdateForm({
   experience
 }) {
   const router = useRouter();
-  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+  let isProUser = user.subscription_plan.plan_status;
 
   const [getToken, setToken] = useState();
   const [states, setStates] = useState([]);

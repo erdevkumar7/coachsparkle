@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 export default function CoachServicePackages() {
   const router = useRouter();
   const { user } = useUser();
-  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+  let isProUser = user.subscription_plan.plan_status;
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);

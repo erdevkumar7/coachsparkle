@@ -21,7 +21,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
 
   console.log('QuickSnapDataaaaaa', upcoming_sessions)
   const { user } = useUser();
-  let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+  let isProUser = user.subscription_plan.plan_status;
 
   const LockedCard = ({ title, image }) => (
     <div className="card locked-card">

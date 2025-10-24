@@ -7,7 +7,7 @@ import EastIcon from '@mui/icons-material/East';
 import Cookies from 'js-cookie';
 
 export default function SubscriptionPlans({ user }) {
-    let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
+    let isProUser = user.subscription_plan.plan_status;
     const token = Cookies.get("token");
     const [activePlanEnable, setActivePlanEnable] = useState(true);
     const [autoRenew, setAutoRenew] = useState(true);
