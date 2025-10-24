@@ -1,6 +1,7 @@
 "use client";
 import { getUserCompletedCoachingClient } from "@/app/api/user-client";
 import Pagination from "@/components/Pagination";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
