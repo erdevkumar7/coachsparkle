@@ -7,6 +7,7 @@ import EastIcon from '@mui/icons-material/East';
 import Cookies from 'js-cookie';
 
 export default function SubscriptionPlans({ user }) {
+    // let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
     let isProUser = user.subscription_plan.plan_status;
     const token = Cookies.get("token");
     const [activePlanEnable, setActivePlanEnable] = useState(true);
@@ -17,6 +18,7 @@ export default function SubscriptionPlans({ user }) {
     const [error, setError] = useState('');
     const [processingPayment, setProcessingPayment] = useState(null); // Track which plan is being processed
 
+    console.log('usersss', user.subscription_plan)
     // Fetch plans from API
     const fetchPlans = async () => {
         setLoading(true);
@@ -120,6 +122,21 @@ export default function SubscriptionPlans({ user }) {
         return { __html: htmlContent };
     };
 
+    function formatNextPaymentDate(dateStr) {
+        if (!dateStr) return "";
+
+        // Convert "24-11-2025" → "2025-11-24"
+        const [day, month, year] = dateStr.split("-");
+        const formattedDate = new Date(`${year}-${month}-${day}`);
+
+        // Format as "Next Payment: Aug 30, 2025"
+        return `Next Payment: ${formattedDate.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        })}`;
+    }
+
     return (
         <>
             <div className="pro-coach-banner row align-items-center justify-content-between">
@@ -151,29 +168,34 @@ export default function SubscriptionPlans({ user }) {
             </div>
 
             <div className="current-sub-plan card">
-                {isProUser && <div className="notification-bar">
+                {isProUser ? <div className="notification-bar">
                     <i className="bi bi-bell-fill"></i> Notifications
-                </div>}
+                </div> : ''}
 
                 <h4>Your Current Subscription</h4>
 
                 <div className="subscription-card mt-3">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                         <span className="badge-active">Active Plan</span>
-                        {isProUser && <div className="monthly-paid">
+                        {isProUser ? <div className="monthly-paid">
                             <ToggleSwitch
                                 value={activePlanEnable}
                                 onChange={setActivePlanEnable}
                                 onLabel="Monthly"
                                 offLabel="Yearly"
                             />
-                        </div>}
+                        </div> : ''}
                     </div>
-                    <div className="subscription-title">{isProUser ? "Pro Coach Plan" : "Basic Plan"}</div>
-                    <div className="subscription-price">{isProUser ? "$25/month" : "$0/month"}</div>
-                    <div className="next--payment-text mb-3 pt-1">
-                        {isProUser ? "Next Payment: Aug 30, 2025" : "Basic profile, limited features"}
+                    <div className="subscription-title">{isProUser ? user?.subscription_plan?.plan_name : "Basic Plan"}</div>
+                    <div className="subscription-price">${isProUser ? user?.subscription_plan?.amount : "$0/month"}</div>
+                    {isProUser ? <div className="next--payment-text mb-3 pt-1">
+                        {formatNextPaymentDate(user?.subscription_plan?.end_date)}
+                    </div> : <div className="next--payment-text mb-3 pt-1">
+                        Basic profile, limited features
                     </div>
+                    }
+
+
 
                     {isProUser ? (
                         <>
@@ -325,7 +347,7 @@ export default function SubscriptionPlans({ user }) {
                 )}
 
                 {/* Rest of your existing code for payment methods and history */}
-                {isProUser && (
+                {isProUser ? (
                     <>
                         <div className="payment-method-part">
                             <h4>Payment Method</h4>
@@ -397,7 +419,7 @@ export default function SubscriptionPlans({ user }) {
                             </div>
                         </div>
                     </>
-                )}
+                ) : <></>}
             </div>
         </>
     );
