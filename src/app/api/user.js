@@ -169,7 +169,7 @@ export async function getUserReviews() {
 
         if (!res.ok) {
             const errorText = await res.text();
-            console.error("API error response:", errorText);
+            // console.error("API error response:", errorText);
             return { error: "Failed to fetch reviews", data: [] }; // return empty array
         }
 
