@@ -15,11 +15,11 @@ export default function CompletedCoaching({ initialCompleted, token }) {
   const [show, setShow] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-  const [selectedCoach, setSelectedCoach] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useState(null);
   const [viewingReview, setViewingReview] = useState(false);
 
-  const handleOpen = (coachId, review = null) => {
-    setSelectedCoach(coachId);
+  const handleOpen = (packageId, review = null) => {
+    setSelectedPackage(packageId);
     if (review) {
       setReviewText(review.review_text);
       setRating(Number(review.rating));
@@ -36,18 +36,23 @@ export default function CompletedCoaching({ initialCompleted, token }) {
     setShow(false);
     setReviewText("");
     setRating(0);
-    setSelectedCoach(null);
+    setSelectedPackage(null);
     setViewingReview(false);
   };
 
   const handleSubmit = async () => {
-    if (!selectedCoach || rating === 0) {
-      alert("Please provide a rating and select a coach.");
+    if (!selectedPackage) {
+      alert("Please provide a Package.");
+      return;
+    }
+
+    if (rating === 0 || reviewText == "") {
+      alert("Please provide both rating and review.");
       return;
     }
 
     const payload = {
-      coach_id: selectedCoach,
+      package_id: selectedPackage,
       review_text: reviewText,
       rating: rating,
     };
@@ -100,7 +105,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
             {getCompleted.map((completed, index) => (
               <div key={index} className="col-md-4 coaching-progress p-3">
                 <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4 className="mb-0">                  {completed.review ? (
+                  <h4 className="mb-0"> {completed.review ? (
                     <>
                       Complete review
                     </>
@@ -136,14 +141,14 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                   {completed.review ? (
                     <button
                       className="btn btn-primary button-note"
-                      onClick={() => handleOpen(completed.coach_id, completed.review)}
+                      onClick={() => handleOpen(completed.package_id, completed.review)}
                     >
                       View Review
                     </button>
                   ) : (
                     <button
                       className="btn btn-primary button-note"
-                      onClick={() => handleOpen(completed.coach_id)}
+                      onClick={() => handleOpen(completed.package_id)}
                     >
                       Leave a Review
                     </button>
