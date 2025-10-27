@@ -29,10 +29,11 @@ export default function faq() {
     const fetchFaq = async () => {
       try {
         const data = await getMasterFaq();
+        // console.log('dataaa', data)
         const userFaqs = data.filter(
           (category) =>
-            category.name?.toLowerCase().includes("user") ||
-            category.type === "user"
+            category.name?.toLowerCase().includes("coaches") ||
+            category.type === "coaches"
         );
         setFaqData(userFaqs);
       } catch (error) {
