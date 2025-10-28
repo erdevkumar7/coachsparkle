@@ -171,7 +171,7 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
                   </td>
                   <td>{service.confirmed_booking}</td>
                   <td>
-                    <span className="text-muted">-</span>
+                    <span>{service.review_rating}</span>
                   </td>
                   <td className="total-text">${service.total_earning}</td>
                   <td>
