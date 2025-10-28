@@ -14,7 +14,7 @@ export default function CoachPlans() {
 
     const fethPlans = async (type) => {
         try {
-            const response = await axios.get(`${apiUrl}/subscriptionplansbyduration?type=${type}`);
+            const response = await axios.post(`${apiUrl}/subscriptionplansbyduration?type=${type}`);
             setPlans(response.data.plans);
         } catch (error) {
             console.error("Error fetching plans", error);
@@ -66,19 +66,17 @@ export default function CoachPlans() {
 
                                         <div className="user-list-plan">
                                             <ul>
-                                                {plan.plan_content
-                                                    ?.split(".")
-                                                    .filter((item) => item.trim() !== "")
-                                                    .map((feature, index) => {
-                                                        const cleanFeature = feature.replace(/<[^>]+>/g, "").trim();
-                                                        return (
-                                                            <li key={index}>
-                                                                <i className="bi bi-check"></i> {cleanFeature}
-                                                            </li>
-                                                        );
-                                                    })
-                                                }
+                                                {plan.features && plan.features.length > 0 ? (
+                                                    plan.features.map((feature) => (
+                                                        <li key={feature.id}>
+                                                            <i className="bi bi-check"></i> {feature.feature_text}
+                                                        </li>
+                                                    ))
+                                                ) : (
+                                                    <li>No features available</li>
+                                                )}
                                             </ul>
+
                                             {plan.plan_amount > 0 ? (
                                                 <button>
                                                     Subscribe
