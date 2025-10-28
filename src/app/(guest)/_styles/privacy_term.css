@@ -1,0 +1,77 @@
+.privacy-policy-page-add {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.privacy-policy-page-add-inner {
+    padding: 40px;
+    line-height: 1.8;
+}
+.privacy-policy-page-add p.text-sm {
+    padding: 0px 35px;
+}
+.privacy-policy-page-add-inner p {
+    margin-bottom: 0px;
+    width: 90%;
+}
+.privacy-policy-page-add-inner ul {
+    margin-bottom: 0px;
+    width: 90%;
+}
+
+.bg-white.shadow-lg.rounded-lg.overflow-hidden {
+    border-radius: 12px !important;
+}
+
+
+.term-condition-page-add {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.term-condition-page-add-inner {
+    padding: 40px;
+    line-height: 1.8;
+}
+
+.term-condition-page-add p.text-sm {
+    padding: 0px 35px;
+}
+.term-condition-page-add-inner p {
+    margin-bottom: 0px;
+    width: 90%;
+}
+.term-condition-page-add-inner ul {
+    margin-bottom: 0px;
+    width: 90%;
+}
+
+@media only screen and (max-width: 767px) {
+    .privacy-policy-page-add-inner {
+        padding: 20px;
+        line-height: 1.8;
+    }
+    .term-condition-page-add-inner  {
+        padding: 20px;
+        line-height: 1.8;
+    }
+    .privacy-policy-page-add {
+        margin-top: 35px;
+        margin-bottom: 35px;
+    }
+    .term-condition-page-add {
+        margin-top: 35px;
+        margin-bottom: 35px;
+    }
+    .term-condition-page-add-inner p, .term-condition-page-add-inner ul {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .privacy-policy-page-add-inner p, .privacy-policy-page-add-inner ul {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    
+
+
+}
