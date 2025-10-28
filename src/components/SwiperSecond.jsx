@@ -2,8 +2,9 @@
 import { FRONTEND_BASE_URL } from '@/utiles/config';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
+import Image from 'next/image';
 
-export default function SwiperSecond() {
+export default function SwiperSecond({ partners }) {
     return (
 
         <Swiper spaceBetween={20}
@@ -29,92 +30,115 @@ export default function SwiperSecond() {
                 },
             }}
         >
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-one.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-two.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-three.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-four.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-five.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-six.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-one.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-two.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-three.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-four.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-five.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-five.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-four.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-one.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-six.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-one.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="item">
-                    <img src={`${FRONTEND_BASE_URL}/images/global-img-two.png`} alt="carousel" />
-                </div>
-            </SwiperSlide>
+            {partners && partners.length > 0 ? (
+                partners.map((partner) => (
+                    <SwiperSlide key={partner.id}>
+                        <div className="item">
+                            <Image
+                                src={partner.logo}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                                onError={(e) => {
+                                    e.target.src = `${FRONTEND_BASE_URL}/images/global-img-one.png`;
+                                }}
+                            />
+                        </div>
+                    </SwiperSlide>
+                ))
+            ) : (
+                <>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-one.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-two.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-three.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-four.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-five.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-six.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-one.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <div className="item">
+                            <Image
+                                src={`${FRONTEND_BASE_URL}/images/global-img-two.png`}
+                                className="w-full h-auto object-contain"
+                                alt="log_img"
+                                width={186}
+                                height={20}
+                            />
+                        </div>
+                    </SwiperSlide>
+                </>
+            )}
         </Swiper>
     );
 };

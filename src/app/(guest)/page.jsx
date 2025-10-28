@@ -14,28 +14,53 @@ import CoachPlans from "./_components/HomeComp/CoachPlans";
 import SmartMatching from "./_components/HomeComp/SmartMatching";
 
 export default async function Home() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/featuredCoachList`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    cache: "no-store" // comment if you don't want caching
-  });
+  // Fetch both APIs concurrently using Promise.all
+  const [featuredCoachesResponse, globalPartnersResponse] = await Promise.all([
+    // Featured coaches API call
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/featuredCoachList`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store"
+    }),
 
-  const data = await res.json();
+    // Global partners API call
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/getGlobalPartnersList`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store"
+    })
+  ]);
+
+  // Parse both responses
+  const [featuredCoachesData, globalPartnersData] = await Promise.all([
+    featuredCoachesResponse.json(),
+    globalPartnersResponse.json()
+  ]);
+
+  // Process featured coaches data
   let coaches = [];
-  if (data.success) {
-    coaches = data.data;
+  if (featuredCoachesData.success) {
+    coaches = featuredCoachesData.data;
+  }
+
+  // Process global partners data
+  let globalPartners = [];
+  if (globalPartnersData.global_partners) {
+    globalPartners = globalPartnersData.global_partners;
   }
 
   return (
     <>
-      <SmartMatching coaches={coaches}/>
+      <SmartMatching coaches={coaches} />
 
       <div className="global-companies">
         <div className="container">
           <h1 className="text-center">Trusted by 500+ Global Partners</h1>
-          <SwiperSecond />
+          <SwiperSecond partners={globalPartners} />
           {/* <SwiperThird />      */}
         </div>
       </div>
