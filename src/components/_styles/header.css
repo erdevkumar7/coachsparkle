@@ -1,4 +1,7 @@
 
+a.navbar-logo-add:focus-visible {
+  outline: none;
+}
 .coach-top-navber-add div#navbarTogglerDemo01 {
   justify-content: space-between;
   padding-right: 0px;
@@ -153,31 +156,42 @@ a#notificationDropdown {
 /*Mobile-view-css*/
 
 @media only screen and (max-width: 767px) {
- 
+
+
+  button.navbar-toggler.navbar-toggler-right.d-lg-none.align-self-center {
+    display: none;
+  }
+
+  .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown {
+    width: calc(100% - 40px);
+    top: 370px !important;
+    left: 20px;
+    right: 20px;
+  } 
 
   .coach-top-navber-add ul.navbar-nav.list-show {
     gap: 0px !important;
   }
 
   .user-add-top ul.navbar-nav.navbar-nav-right{
-    padding-left: 30px;
+    padding-left: 0px;
   }
 
   .inner-tab-nav {
     justify-content: center;
     width: 100%;
     display: block;
-}
+  }
  .coach-top-navber-add .container {
     padding: 0 20px;
   }
   .register-login.head-top-login-add {
     padding-left: 0px !important;
-}
-.register-login.head-top-login-add .register-content {
-  margin-top: 0;
-  margin-left: 0px !important;
-}
+  }
+  .register-login.head-top-login-add .register-content {
+    margin-top: 0;
+    margin-left: 0px !important;
+  }
   .coach-top-navber-add div#navbarTogglerDemo01 {
     background-color: #fff;
     box-shadow: 0px 2px 15px rgb(0 0 0 / 10%);
@@ -206,6 +220,7 @@ a#notificationDropdown {
     outline: none !important;
     box-shadow: none;
   }
+  
 }
 
 

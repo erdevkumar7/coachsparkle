@@ -1654,6 +1654,13 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
 @media only screen and (max-width: 767px) {
  
+  .coaching-approach-left {
+    background: #fcfcfc;
+    padding-left: 5px;
+}
+.coaching-approach-left .informative-text p {
+  text-align: center;
+}
 
 .people-love-living .swiper-pagination {
     position: absolute;
@@ -1729,7 +1736,7 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
   .smarter-matching-right .card p.mb-1 {
     padding-top: 5px;
-    font-size: 16px;
+    font-size: 14px;
     text-align: left;
   }
 
@@ -1808,10 +1815,13 @@ footer.coach-footer-section .new-add-footer .mui-icons {
   }
 
   .smarter-matching-right .card {
-    height: 160px;
-    gap: 0px;
-    padding-left: 0px !important;
-  }
+    gap: 0;
+    height: 180px;
+    padding-left: 0 !important;
+}
+.software-engineer-list a {
+  width: 120px;
+}
 
   .latest-articles-explore a.articles-btn-add {
     font-size: 16px;
@@ -2054,6 +2064,7 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
   .latest-articles-cards {
     margin-bottom: 20px;
+    padding-right: 0px;
   }
 
   .latest-articles-cards .card-body p.card-text {
@@ -3119,7 +3130,7 @@ select:focus-visible {
   background-color: #009bfa;
   border: 1px solid #009bfa;
   border-radius: 12px;
-  height: 64px;
+  height: 60px;
   margin-left: 10px;
   padding-left: 15px;
   padding-right: 15px;

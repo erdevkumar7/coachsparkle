@@ -70,7 +70,7 @@ div#loginModal .modal-dialog.modal-dialog-centered.modal-lg {
   border: 1px solid #d7d7d7;
   border-radius: 12px;
   width: 700px;
-  height: 68px;
+  height: 60px;
   padding-left: 20px;
   font-family: Roboto;
   font-size: 17px;
@@ -566,14 +566,13 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
   margin-left: 4px;
   font-size: 18px;
 }
-
 .pagination-content-inner .pagination {
-  display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
+  padding-top: 0px;
   font-family: sans-serif;
-  justify-content: center;
-  padding-top: 20px;
+  display: flex;
 }
 .pagination-content-inner .page-btn,
 .page-number {
@@ -1442,13 +1441,28 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   border: none !important;
 }
 
+.fav-list svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-1umw9bq-MuiSvgIcon-root {
+  color: #fff !important;
+} 
+
+.coach-action-profile-icon svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-1umw9bq-MuiSvgIcon-root {
+  color: #009bfa !important;
+}
+
 /*coach-profile-detail-css-desktop*/
 
 /*mobile view css*/
 
 /*coach-list-page-mobile-css*/
 @media only screen and (max-width: 767px) {
-
+  
+.coach-banner-add .main-content {
+    flex-direction: column;
+    text-align: center;
+}
+  .coach-banner-add .title-banner p {
+    padding-top: 0px;
+}
   .css-1yn4ouz-MuiTabs-root .MuiTab-root {
     font-size: 15px;
 }
@@ -1656,26 +1670,27 @@ span.MuiRating-root.MuiRating-sizeMedium.Mui-readOnly.css-tw2awz-MuiRating-root 
   padding-top: 10px;
 }
 .css-1crh3dt {
-  width: 100%;
+  width: 100% !important;
   padding: 16px;
   padding-bottom: 0px;
 }
 .search-container {
   justify-content: center;
-  padding-top: 25px;
+  padding-top: 0px;
   display: block;
 }
 input.form-control.search-input {
   width: 100%;
   height: 50px;
+  font-size: 16px;
 }
 .coach-banner-add .breadcrumb-nav {
-  margin-top: 111px !important;
+  margin-top: 40px !important;
 }
 .ai-btn-find {
   margin-top: 15px;
+  padding-bottom: 35px;
 }
-
 .ai-btn-find button {
   width: 65%;
   margin-left: 0px;
@@ -1702,10 +1717,24 @@ input.form-control.search-input {
   }
   .coach-banner-add .banner-text {
     z-index: 2;
-    font-size: 30px;
-    bottom: 140px;
     height: auto;
-  }
+    font-size: 24px;
+    bottom: -30px;
+}
+.css-13xfq8m-MuiTabPanel-root {
+  padding-bottom: 0px !important;
+  padding: 24px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.coach-profile-list-left .profile-card .badge-tag {
+  display: flex;
+  flex-direction: column;
+}
+.coach-banner-add p.senior-engineer-text strong {
+  text-align: center;
+}
+
   .coach-banner-add .sidebar {
     width: 100%;
     padding: 0px;
@@ -1776,8 +1805,8 @@ input.form-control.search-input {
     padding-bottom: 5px;
   }
   .coach-banner-add .banner {
+    height: auto;
     position: relative;
-    height: 200px;
   }
 
   /*coach-profile-list-page-mobile-css*/
