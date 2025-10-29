@@ -28,9 +28,12 @@ export default function Accountsetting() {
   const { user } = useUser();
   const router = useRouter();
   // const [user, setUser] = useState(null);
+  const [languages, setLanguages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordApiErrors, setPasswordApiErrors] = useState([]);
-  // const [settingsLoading, setSettingsLoading] = useState();
+
+
   const [newCoachEnabled, setNewCoachEnabled] = useState();
   const [msgEnabled, setMsgEnabled] = useState();
   const [bookingEnabled, setBookingEnabled] = useState();
@@ -50,9 +53,18 @@ export default function Accountsetting() {
     marketing: false,
   });
 
-
   const accountForm = useForm({
     resolver: yupResolver(userAccountSettingSchema),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      pref_lang: "",
+      contact_number: "",
+      address: "",
+      zip_code: "",
+      is_avail_for_relavant: false,
+    },
     mode: "onBlur",
   });
 
@@ -61,82 +73,125 @@ export default function Accountsetting() {
     mode: "onBlur",
   });
 
-  // useEffect(() => {
-  //   const token = Cookies.get("token");
-  //   if (!token) {
-  //     router.push("/login");
-  //     return;
-  //   }
-  //   const fetchUser = async () => {
-  //     const tokenData = await HandleValidateToken(token);
-  //     if (!tokenData) {
-  //       Cookies.remove("token");
-  //       localStorage.removeItem("user");
-  //       router.push("/login");
-  //       return;
-  //     }
-
-  //     setUser(tokenData.data);
-  //   };
-
-  //   fetchUser();
-  // }, []);
 
 
   useEffect(() => {
-    const fetchSettings = async () => {
+    const fetchInitialData = async () => {
       try {
         const token = Cookies.get("token");
         if (!token) return;
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        // Fetch languages and settings in parallel
+        const [mastersRes, settingsRes] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/getallmastercategories`, {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        ]);
 
-        if (!res.ok) return;
-        const data = await res.json();
-        const s = data.settings;
+        if (mastersRes.ok) {
+          const mastersData = await mastersRes.json();
+          if (mastersData && mastersData.languages) {
+            setLanguages(mastersData.languages);
+          }
+        }
 
-        setPreferences({
-          performance: s.is_performance_cookies,
-          functional: s.is_functional_cookies,
-          marketing: s.is_marketing_cookies,
-        });
+        if (settingsRes.ok) {
+          const data = await settingsRes.json();
+          const s = data.settings;
 
-        const commPref = s.communication_preference
-          ? Array.isArray(s.communication_preference)
-            ? s.communication_preference
-            : JSON.parse(s.communication_preference)
-          : [];
+          setPreferences({
+            performance: s.is_performance_cookies,
+            functional: s.is_functional_cookies,
+            marketing: s.is_marketing_cookies,
+          });
 
-        setCommunicationPreference(commPref);
-        setNewCoachEnabled(!!s.new_coach_match_alert);
-        setMsgEnabled(!!s.message_notifications);
-        setBookingEnabled(!!s.booking_reminders);
-        setRequestEnabled(!!s.coaching_request_status);
-        setAnnouncementEnabled(!!s.platform_announcements);
-        setBlogEnabled(!!s.blog_article_recommendations);
-        setBillingEnabled(!!s.billing_updates);
+          const commPref = s.communication_preference
+            ? Array.isArray(s.communication_preference)
+              ? s.communication_preference
+              : JSON.parse(s.communication_preference)
+            : [];
 
-        setProfileVisibility(s.profile_visibility || "public");
-        setAllowAiMatching(!!s.allow_ai_matching);
+          setCommunicationPreference(commPref);
+          setNewCoachEnabled(!!s.new_coach_match_alert);
+          setMsgEnabled(!!s.message_notifications);
+          setBookingEnabled(!!s.booking_reminders);
+          setRequestEnabled(!!s.coaching_request_status);
+          setAnnouncementEnabled(!!s.platform_announcements);
+          setBlogEnabled(!!s.blog_article_recommendations);
+          setBillingEnabled(!!s.billing_updates);
+
+          setProfileVisibility(s.profile_visibility || "public");
+          setAllowAiMatching(!!s.allow_ai_matching);
+        }
       } catch (err) {
-        console.error("Failed to fetch settings:", err);
+        console.error("Failed to fetch initial data:", err);
       }
     };
 
-    fetchSettings();
+    fetchInitialData();
   }, []);
 
+  // ✅ Sync user data into form when available
+  useEffect(() => {
+    if (user) {
+      accountForm.reset({
+        first_name: user.first_name || "",
+        last_name: user.last_name || "",
+        email: user.email || "",
+        pref_lang: user.pref_lang ? String(user.pref_lang) : "",
+        contact_number: user.contact_number || "",
+        address: user.address || "",
+        zip_code: user.zip_code || "",
+        is_avail_for_relavant: !!user.is_avail_for_relavant,
+      });
+    }
+  }, [user, accountForm, languages]);
 
+
+  // ✅ Save Account Settings
   const onAccountSave = async (data) => {
     try {
       setLoading(true);
+      const token = Cookies.get("token");
 
-      console.log("Account settings submitted:", data);
+      if (!token) {
+        toast.error("Session expired, please login again.");
+        router.push("/login");
+        return;
+      }
 
-      toast.success("Account settings updated!");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user-account-setting-update`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.errors) {
+          Object.values(result.errors).forEach((errArray) =>
+            errArray.forEach((err) => toast.error(err))
+          );
+        } else {
+          toast.error(result.message || "Failed to update settings");
+        }
+        return;
+      }
+
+      toast.success(result.message || "Account settings updated successfully!");
     } catch (error) {
       console.error("Account settings update failed:", error);
       toast.error("Failed to update settings. Please try again.");
@@ -145,9 +200,10 @@ export default function Accountsetting() {
     }
   };
 
+  // ✅ Change Password
   const onPasswordSave = async (data) => {
     try {
-      setLoading(true);
+      setPasswordLoading(true);
       setPasswordApiErrors([]);
 
       const token = Cookies.get("token");
@@ -190,14 +246,14 @@ export default function Accountsetting() {
 
       toast.success(result.message || "Password updated successfully!");
       passwordForm.reset();
-
     } catch (error) {
       console.error("Failed to update password", error);
       toast.error("Failed to update password");
     } finally {
-      setLoading(false);
+      setPasswordLoading(false);
     }
   };
+
 
   const handleCommunicationChange = (option) => {
     const updated = communicationPreference.includes(option)
@@ -207,40 +263,6 @@ export default function Accountsetting() {
     setCommunicationPreference(updated);
     updateSetting("communication_preference", updated);
   };
-
-
-  // const updateSetting = async (key, value, showToast = true) => {
-  //   try {
-  //     const token = Cookies.get("token");
-  //     if (!token) {
-  //       toast.error("Session expired, Please login again.");
-  //       router.push("/login");
-  //       return;
-  //     }
-
-  //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/setting`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify({ [key]: value }),
-  //     });
-
-  //     const result = await res.json();
-
-  //     if (!res.ok) {
-  //       if (showToast) toast.error(result.message || "Failed to update setting");
-  //       return;
-  //     }
-
-  //     if (showToast) toast.success(result.message || "Setting updated!");
-  //   } catch (err) {
-  //     console.error("Failed to update setting:", err);
-  //     if (showToast) toast.error("Failed to update setting");
-  //   }
-  // };
-
 
 
   const updateSetting = async (key, value, showToast = true) => {
@@ -362,89 +384,78 @@ export default function Accountsetting() {
             user_type={user?.user_type || 2}
           />
         </div>
-        <form
-          className="account-setting-form"
-          onSubmit={accountForm.handleSubmit(onAccountSave)}
-        >
+        <form className="account-setting-form" onSubmit={accountForm.handleSubmit(onAccountSave)}>
           <div className="account-form">
             <div className="account-form-row account-two-cols">
               <div className="account-form-group">
                 <label>First Name</label>
-                <input
-                  type="text"
-                  placeholder="Emma"
-                  {...accountForm.register("first_name")}
-                  disabled={loading}
-                />
+                <input type="text" {...accountForm.register("first_name")} disabled={loading} />
                 {accountForm.formState.errors.first_name && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.first_name.message}
                   </div>
                 )}
               </div>
+
               <div className="account-form-group">
                 <label>Last Name</label>
-                <input
-                  type="text"
-                  placeholder="Rose"
-                  {...accountForm.register("last_name")}
-                  disabled={loading}
-                />
+                <input type="text" {...accountForm.register("last_name")} disabled={loading} />
+                {accountForm.formState.errors.last_name && (
+                  <div className="invalid-feedback d-block">
+                    {accountForm.formState.errors.last_name.message}
+                  </div>
+                )}
               </div>
             </div>
 
             <div className="account-form-row account-three-cols">
               <div className="account-form-group">
                 <label>Email</label>
-                <input
-                  type="email"
-                  placeholder="Your registered email to create an account"
-                  {...accountForm.register("email")}
-                  disabled={loading}
-                />
+                <input type="email" placeholder="Your registered email" {...accountForm.register("email")} disabled={loading} />
                 {accountForm.formState.errors.email && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.email.message}
                   </div>
                 )}
               </div>
+
               <div className="account-form-group">
                 <label>Language Setting</label>
-                <select
-                  name="language"
-                  {...accountForm.register("language")}
-                  disabled={loading}
-                >
-                  <option>English</option>
+                <select id="pref_lang" {...accountForm.register("pref_lang")} disabled={loading}>
+                  <option value="">Select Language</option>
+                  {languages.map((lang) => (
+                    <option key={lang.id} value={lang.id}>
+                      {lang.language}
+                    </option>
+                  ))}
                 </select>
-                {accountForm.formState.errors.language && (
+                {accountForm.formState.errors.pref_lang && (
                   <div className="invalid-feedback d-block">
-                    {accountForm.formState.errors.language.message}
+                    {accountForm.formState.errors.pref_lang.message}
                   </div>
                 )}
               </div>
+
               <div className="account-form-group phone-input-css">
                 <label>Phone Number</label>
                 <Controller
-                  name="mobile"
+                  name="contact_number"
                   control={accountForm.control}
-
-                  rules={{ required: true }}
                   render={({ field }) => (
                     <PhoneInput
                       {...field}
-                      country={"us"}
+                      country="sg"
                       inputProps={{
-                        name: "mobile",
+                        name: "contact_number",
                         disabled: loading,
                       }}
                       onChange={(value) => field.onChange("+" + value)}
                     />
                   )}
                 />
-                {accountForm.formState.errors.mobile && (
+                {accountForm.formState.errors.contact_number && (
                   <div className="invalid-feedback d-block">
-                    {accountForm.formState.errors.mobile.message}
+                    {accountForm.formState.errors.contact_number.message}
                   </div>
                 )}
               </div>
@@ -453,44 +464,33 @@ export default function Accountsetting() {
             <div className="account-form-row account-two-cols">
               <div className="account-form-group">
                 <label>Location</label>
-                <input
-                  type="text"
-                  placeholder="Enter your address"
-                  {...accountForm.register("location")}
-                  disabled={loading}
-                />
+                <input type="text" placeholder="Enter your address" {...accountForm.register("address")} disabled={loading} />
+                {accountForm.formState.errors.address && (
+                  <div className="invalid-feedback d-block">
+                    {accountForm.formState.errors.address.message}
+                  </div>
+                )}
               </div>
               <div className="account-form-group">
                 <label>Zip code</label>
-                <input
-                  type="text"
-                  placeholder="Enter your zip code"
-                  {...accountForm.register("zip_code")}
-                  disabled={loading}
-                />
+                <input type="text" placeholder="Enter your zip code" {...accountForm.register("zip_code")} disabled={loading} />
+                {accountForm.formState.errors.zip_code && (
+                  <div className="invalid-feedback d-block">
+                    {accountForm.formState.errors.zip_code.message}
+                  </div>
+                )}
               </div>
             </div>
+
             <div>
-              <span className="d-block">
-                Consent to Data Sharing and AI Matching
-              </span>
+              <span className="d-block">Consent to Data Sharing and AI Matching</span>
               <div className="d-flex gap-2 pt-2">
-                <input
-                  type="checkbox"
-                  {...accountForm.register("consent")}
-                  disabled={loading}
-                />
-                <label htmlFor="corporateCheck">
-                  I agree to let Coach Sparkle match my services to help users
-                  achieve their coaching goals.
-                </label>
+                <input type="checkbox" {...accountForm.register("is_avail_for_relavant")} disabled={loading} />
+                <label>I agree to let Coach Sparkle match my services to help users achieve their coaching goals.</label>
               </div>
+
               <button className="save-changes-btn" disabled={loading}>
-                {loading ? (
-                  <CircularProgress size={20} color="inherit" />
-                ) : (
-                  <>Save Changes</>
-                )}
+                {loading ? <CircularProgress size={20} color="inherit" /> : <>Save Changes</>}
               </button>
             </div>
           </div>
@@ -498,37 +498,14 @@ export default function Accountsetting() {
 
         <div className="password-section mt-5">
           <h3 className="quick-text">Change Password</h3>
-          <form
-            className="account-setting-form mt-4"
-            onSubmit={passwordForm.handleSubmit(onPasswordSave)}
-          >
+          <form className="account-setting-form mt-4" onSubmit={passwordForm.handleSubmit(onPasswordSave)}>
             <div className="account-form">
               <div className="account-form-row account-three-cols">
-                <div className="account-form-group">
-                  <PasswordField
-                    label="Current Password"
-                    name="current_password"
-                    register={passwordForm.register}
-                    error={passwordForm.formState.errors.current_password}
-                  />
-                </div>
-                <div className="account-form-group">
-                  <PasswordField
-                    label="New Password"
-                    name="new_password"
-                    register={passwordForm.register}
-                    error={passwordForm.formState.errors.new_password}
-                  />
-                </div>
-                <div className="account-form-group">
-                  <PasswordField
-                    label="Confirm Password"
-                    name="confirm_password"
-                    register={passwordForm.register}
-                    error={passwordForm.formState.errors.confirm_password}
-                  />
-                </div>
+                <PasswordField label="Current Password" name="current_password" register={passwordForm.register} error={passwordForm.formState.errors.current_password} />
+                <PasswordField label="New Password" name="new_password" register={passwordForm.register} error={passwordForm.formState.errors.new_password} />
+                <PasswordField label="Confirm Password" name="confirm_password" register={passwordForm.register} error={passwordForm.formState.errors.confirm_password} />
               </div>
+
               {passwordApiErrors.length > 0 && (
                 <div className="invalid-feedback d-block mt-0">
                   {passwordApiErrors.map((err, idx) => (
@@ -536,13 +513,10 @@ export default function Accountsetting() {
                   ))}
                 </div>
               )}
+
               <div>
-                <button className="save-changes-btn" disabled={loading}>
-                  {loading ? (
-                    <CircularProgress size={20} color="inherit" />
-                  ) : (
-                    <>Save Changes</>
-                  )}
+                <button className="save-changes-btn" disabled={passwordLoading}>
+                  {passwordLoading ? <CircularProgress size={20} color="inherit" /> : <>Save Changes</>}
                 </button>
               </div>
             </div>
