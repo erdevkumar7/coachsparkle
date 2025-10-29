@@ -1,8 +1,6 @@
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import SwiperSecond from "@/components/SwiperSecond";
-// import SwiperThird from "@/components/SwiperThird";
 import SwiperOne from "@/components/SwiperOne";
-// import SwiperFour from "@/components/SwiperFour";
 import Image from 'next/image';
 import EastIcon from '@mui/icons-material/East';
 import ExploreCoachs from "./_components/HomeComp/ExploreCoachs";
@@ -15,7 +13,7 @@ import SmartMatching from "./_components/HomeComp/SmartMatching";
 
 export default async function Home() {
   // Fetch both APIs concurrently using Promise.all
-  const [featuredCoachesResponse, globalPartnersResponse] = await Promise.all([
+  const [featuredCoachesResponse, globalPartnersResponse, homePageContentResponse] = await Promise.all([
     // Featured coaches API call
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/featuredCoachList`, {
       method: "POST",
@@ -32,47 +30,58 @@ export default async function Home() {
         "Content-Type": "application/json",
       },
       cache: "no-store"
-    })
+    }),
+
+    // Home Page contents
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/getHomePageSection`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store"
+    }),
   ]);
+
 
   // Parse both responses
-  const [featuredCoachesData, globalPartnersData] = await Promise.all([
+  const [featuredCoachesData, globalPartnersData, homePageContentData] = await Promise.all([
     featuredCoachesResponse.json(),
-    globalPartnersResponse.json()
+    globalPartnersResponse.json(),
+    homePageContentResponse.json(),
   ]);
 
-  // Process featured coaches data
-  let coaches = [];
-  if (featuredCoachesData.success) {
-    coaches = featuredCoachesData.data;
-  }
+  // Extract data safely
+  const coaches = featuredCoachesData?.success ? featuredCoachesData.data : [];
+  const globalPartners = globalPartnersData?.global_partners || [];
+  const home_page_content = homePageContentData?.success ? homePageContentData.data : [];
 
-  // Process global partners data
-  let globalPartners = [];
-  if (globalPartnersData.global_partners) {
-    globalPartners = globalPartnersData.global_partners;
-  }
+  // Extract specific sections 
+  const topSection = home_page_content.find(item => item.section_name === "top");
+  const globalPartnersSection = home_page_content.find(item => item.section_name === "global_partners");
+  const middleOneSection = home_page_content.find(item => item.section_name === "middle_one");
+  const middleTwoSection = home_page_content.find(item => item.section_name === "middle_two");
+  const planSection = home_page_content.find(item => item.section_name === "plan");
+  const corporateSection = home_page_content.find(item => item.section_name === "corporate");
 
+  // console.log('corporateSection', corporateSection)
   return (
     <>
-      <SmartMatching coaches={coaches} />
+      <SmartMatching coaches={coaches} sectionData={topSection} />
 
       <div className="global-companies">
         <div className="container">
-          <h1 className="text-center">Trusted by 500+ Global Partners</h1>
+          <h1 className="text-center">{globalPartnersSection?.title || "Trusted by 500+ Global Partners"}</h1>
           <SwiperSecond partners={globalPartners} />
-          {/* <SwiperThird />      */}
         </div>
       </div>
 
       <div className="dedicated-career-coach">
         <div className="container">
           <div className="row dedicated-career-coach-inner">
-
             <div className="col-md-6 mb-4 mb-md-0 dedicated-career-coach-left">
-              <h1 className="mb-3">Coach Sparkle uses AI to deliver personalized coach matches - faster and smarter</h1>
+              <h1 className="mb-3">{middleOneSection?.title || "Coach Sparkle uses AI to deliver personalized coach matches - faster and smarter"} </h1>
               <p>
-                Coach Sparkle uses smart AI to understand your coaching goals, preferences, and availability — then instantly matches you with coaches who align with your needs. Whether you’re looking to build confidence, grow your career, or improve a skill, our AI cuts through the noise to connect you with the right coach — saving you time and ensuring a better fit from the start. You can also use CoachSparkle to find the right coach for your child, a loved one, or even aging parents — because growth and support matter at every stage of life.
+                {middleOneSection?.description || "Coach Sparkle uses smart AI to understand your coaching goals, preferences, and availability — then instantly matches you with coaches who align with your needs. Whether you’re looking to build confidence, grow your career, or improve a skill, our AI cuts through the noise to connect you with the right coach — saving you time and ensuring a better fit from the start. You can also use CoachSparkle to find the right coach for your child, a loved one, or even aging parents — because growth and support matter at every stage of life."}
               </p>
 
               <a href="#" className="learn-more-btn-add">Try Know <EastIcon className="mui-icons" /></a>
@@ -80,33 +89,36 @@ export default async function Home() {
 
 
             <div className="col-md-6 dedicated-career-coach-right">
-              <Image src={`${FRONTEND_BASE_URL}/images/career-coach-img.webp`} className="card-img-top" alt="career-coach" width={1000} height={226} />
-
+              <Image
+                src={middleOneSection?.image ? middleOneSection.image : `${FRONTEND_BASE_URL}/images/career-coach-img.webp`}
+                className="card-img-top" alt="career-coach"
+                width={1000} height={226}
+              />
             </div>
           </div>
 
           <div className="row coaching-approach-inner">
-
             <div className="col-md-6 coaching-approach-right">
-              <Image src={`${FRONTEND_BASE_URL}/images/coaching-approach-img.webp`} className="card-img-top" alt="coaching approach" width={1000} height={226} />
-
+              <Image
+                src={middleTwoSection?.image ? middleTwoSection.image : `${FRONTEND_BASE_URL}/images/coaching-approach-img.webp`}
+                className="card-img-top" alt="coaching approach"
+                width={1000} height={226}
+              />
             </div>
-
 
             <div className="col-md-6 mb-4 mb-md-0 coaching-approach-left">
               <h1 className="mb-3">
-                It’s always free to use - for learners, users and curious browsers
+                {middleTwoSection?.title || "It’s always free to use - for learners, users and curious browsers"}
               </h1>
               <div className="clear-informative">
                 <div className="informative-text">
                   <div>
                     <p>
-                      Coach Sparkle is free to use for anyone looking for coaching. Whether you're exploring options, comparing profiles, or sending a coaching request, there’s no cost to browse, match, or message coaches. No hidden fees. No commitment required — just the freedom to find the right support at your own pace.
+                      {middleTwoSection?.description || "Coach Sparkle is free to use for anyone looking for coaching. Whether you're exploring options, comparing profiles, or sending a coaching request, there’s no cost to browse, match, or message coaches. No hidden fees. No commitment required — just the freedom to find the right support at your own pace."}
                     </p>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -123,21 +135,19 @@ export default async function Home() {
           <h1>People Love Using Coach Sparkle</h1>
           <p>Hear What the Coachees have to say</p>
           <SwiperOne />
-          {/* <SwiperFour /> */}
         </div>
       </div>
 
       <LatestArticles />
-
-      <CoachPlans />
+      <CoachPlans sectionData={planSection} />
 
       <div className="your-organization-coach">
         <div className="container">
           <div className="row organization-coach">
-            <h1 className="text-center">Unlock Human Potential in Your Workforce</h1>
+            <h1 className="text-center">{corporateSection?.title || "Unlock Human Potential in Your Workforce"}</h1>
             <p className="text-center">
-              From executive coaching to team development and mental wellness — Coach Sparkle helps companies elevate people,
-              culture, and performance through curated coaching solutions
+              {corporateSection?.subtitle || `From executive coaching to team development and mental wellness — Coach Sparkle helps companies elevate people,
+              culture, and performance through curated coaching solutions`}
             </p>
             <div className="register-add">
               <Link href="/coach-detail/list?isCorporate=1" className="register-now-btn">Find Corporate Coaches</Link>
