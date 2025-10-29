@@ -20,15 +20,20 @@ export const registerSchema = yup.object().shape({
         .required('First name is required')
         .min(2, 'First name least two characters')
         .max(35, 'First name maximum 35 characters'),
+
     last_name: yup
         .string()
         .required('Last name is required')
         .min(2, 'Last name least two characters')
         .max(35, 'Last name maximum 35 characters'),
+
     email: yup
         .string()
-        .required('Email is required')
-        .email('Please provide valid email'),
+        .email("Please provide a valid email address.")
+        .required("Email is required.")
+        .min(5, "Email must be at least 5 characters long.")
+        .max(255, "Email cannot exceed 255 characters."),
+
     password: yup
         .string()
         .required('Password is required')
@@ -38,6 +43,7 @@ export const registerSchema = yup.object().shape({
     //     .string()
     //     .oneOf([yup.ref('password')], 'Passwords must match')
     //     .required('Confirm your password'),
+    
     country_id: yup.string().required('Please select your country'),
     terms: yup.bool().oneOf([true], 'You must agree to the terms'),
 });
@@ -280,22 +286,42 @@ export const userProfileSchema = yup.object().shape({
 export const userAccountSettingSchema = yup.object().shape({
     first_name: yup
         .string()
-        .required("First name is required"),
-    last_name: yup.string(),
+        .required("First name is required")
+        .min(2, 'First name least two characters')
+        .max(35, 'First name maximum 35 characters'),
+
+    last_name: yup
+        .string()
+        .required("First name is required")
+        .min(2, 'Last name least two characters')
+        .max(35, 'Last name maximum 35 characters'),
+
     email: yup
         .string()
-        .email('Please provide valid email')
-        .required("Email is required"),
+        .email("Please provide a valid email address.")
+        .required("Email is required.")
+        .min(5, "Email must be at least 5 characters long.")
+        .max(255, "Email cannot exceed 255 characters."),
+
     pref_lang: yup
         .string()
         .required("Language is required"),
-    mobile: yup
+
+    contact_number: yup
         .string()
         .required("Mobile number is required")
         .matches(/^\+\d{10,15}$/, "Enter a valid mobile number with country code"),
-    location: yup.string(),
-    zip_code: yup.string(),
-    consent: yup.string(),
+
+    address: yup
+        .string()
+        .required("Address is required.")
+        .min(5, "Address must be at least 5 characters long.")
+        .max(150, "Address cannot exceed 150 characters."),
+
+    zip_code: yup
+        .string()
+        .required("Zip code is required.")
+        .max(15, "Zip code cannot exceed 15 characters."),
 })
 
 export const passwordSchema = yup.object().shape({
@@ -364,30 +390,30 @@ export const servicePackageSchema = yup.object().shape({
     //     .min(1, "Must have at least 1 slot")
     //     .positive("Must be a positive number"),
     booking_slots: yup
-    .number()
-    .typeError("Booking slots must be a number")
-    .required("Booking slots are required")
-    .min(1, "At least 1 booking slot is required")
-    .max(1000, "Maximum 1000 booking slots allowed")
-    .test(
-        'slots-within-daily-limit',
-        function(value) {
-            const { session_duration } = this.parent;
-            
-            if (!session_duration || !value) return true;
-            
-            const durationMinutes = parseInt(session_duration);
-            const maxSlotsPerDay = Math.floor(24 * 60 / durationMinutes);
-            
-            if (value > maxSlotsPerDay) {
-                return this.createError({
-                    message: `Maximum ${maxSlotsPerDay} slots allowed for ${durationMinutes}-minute sessions per day`
-                });
+        .number()
+        .typeError("Booking slots must be a number")
+        .required("Booking slots are required")
+        .min(1, "At least 1 booking slot is required")
+        .max(1000, "Maximum 1000 booking slots allowed")
+        .test(
+            'slots-within-daily-limit',
+            function (value) {
+                const { session_duration } = this.parent;
+
+                if (!session_duration || !value) return true;
+
+                const durationMinutes = parseInt(session_duration);
+                const maxSlotsPerDay = Math.floor(24 * 60 / durationMinutes);
+
+                if (value > maxSlotsPerDay) {
+                    return this.createError({
+                        message: `Maximum ${maxSlotsPerDay} slots allowed for ${durationMinutes}-minute sessions per day`
+                    });
+                }
+
+                return true;
             }
-            
-            return true;
-        }
-    ),
+        ),
     session_validity: yup.string().required("Validity is required"),
     cancellation_policy: yup.string().required("Cancellation policy is required"),
     rescheduling_policy: yup
