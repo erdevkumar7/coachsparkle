@@ -391,7 +391,7 @@ export default function Accountsetting() {
             <div className="account-form-row account-two-cols">
               <div className="account-form-group">
                 <label>First Name</label>
-                <input type="text" placeholder="Emma" {...accountForm.register("first_name")} disabled={loading} />
+                <input type="text" {...accountForm.register("first_name")} disabled={loading} />
                 {accountForm.formState.errors.first_name && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.first_name.message}
@@ -401,7 +401,7 @@ export default function Accountsetting() {
 
               <div className="account-form-group">
                 <label>Last Name</label>
-                <input type="text" placeholder="Rose" {...accountForm.register("last_name")} disabled={loading} />
+                <input type="text" {...accountForm.register("last_name")} disabled={loading} />
                 {accountForm.formState.errors.last_name && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.last_name.message}
