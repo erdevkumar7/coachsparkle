@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function SmartMatching({ coaches }) {
+export default function SmartMatching({ coaches, sectionData }) {
     const router = useRouter();
 
     return (
@@ -13,12 +13,27 @@ export default function SmartMatching({ coaches }) {
                 <div className="row smarter-matching-inner align-items-center">
                     <div className="col-md-7 smarter-matching-left">
                         <h1 className="display-5 fw-bold">
-                            Smarter Matching.<br />
-                            Human Connections. <br />
-                            Better Outcomes.
+                            {sectionData?.title
+                                ? sectionData.title
+                                    .split(".")
+                                    .filter(line => line.trim() !== "")
+                                    .map((line, index) => (
+                                        <span key={index}>
+                                            {line.trim()}.
+                                            <br />
+                                        </span>
+                                    ))
+                                : (
+                                    <>
+                                        Smarter Matching.<br />
+                                        Human Connections.<br />
+                                        Better Outcomes.
+                                    </>
+                                )}
                         </h1>
-                        <p className="lead">Describe your goal or challenge — our AI will match you with
-                            the right coach</p>
+                        <p className="lead">
+                            {sectionData?.subtitle || "Describe your goal or challenge — our AI will match you with the right coach"}
+                        </p>
                         <div className="search-container">
                             <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
                             <div className="ai-btn-find">
@@ -77,7 +92,7 @@ export default function SmartMatching({ coaches }) {
                                         <div className="coach-software-name">
                                             {coach.service_names && (
                                                 <div className="software-engineer-list">
-                                                    {coach.service_names?.slice(0,4).map((service) => (<Link href="#" key={service}>{service}</Link>))}
+                                                    {coach.service_names?.slice(0, 4).map((service) => (<Link href="#" key={service}>{service}</Link>))}
                                                 </div>)}
                                         </div>
                                     </div>

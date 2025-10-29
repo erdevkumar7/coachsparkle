@@ -3,7 +3,7 @@ import axios from "axios"
 import Link from "next/link";
 import { useEffect, useState } from "react"
 
-export default function CoachPlans() {
+export default function CoachPlans({ sectionData }) {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const [plans, setPlans] = useState([]);
     const [planType, setPlanType] = useState("monthly");
@@ -26,13 +26,23 @@ export default function CoachPlans() {
         <div className="choose-plan-you">
             <div className="container">
                 <h1 className="text-center">
-                    Free for Everyone <br />
-                    Premium for Coaches Who Want More
+                    {/* Free for Everyone <br />
+                    Premium for Coaches Who Want More */}
+                    {sectionData?.title
+                        ? sectionData.title.split("Premium").map((part, index) => (
+                            <span key={index}>
+                                {part}
+                                {index === 0 && <br />}
+                                {index === 0 && "Premium"}
+                            </span>
+                        ))
+                        : "Free for Everyone Premium for Coaches Who Want More"}
                 </h1>
-                <p className="text-center">Whether you’re searching for your next coach or listing your expertise,
-                    Coach Sparkle is always free to use.</p>
-                <p className="text-center span-txt">Users: Browse, match, and message coaches - 100% free<br />
-                    Coaches: Join free, list your profile, and get discovered. Ready to stand out? Upgrade to Pro Coach Plan for advance tools and top placement</p>
+                <p className="text-center">{sectionData?.subtitle || `Whether you’re searching for your next coach or listing your expertise, Coach Sparkle is always free to use.`}</p>
+                <p className="text-center span-txt">
+                    {sectionData?.description || `Users: Browse, match, and message coaches - 100% free
+                    Coaches: Join free, list your profile, and get discovered. Ready to stand out? Upgrade to Pro Coach Plan for advance tools and top placement`}
+                </p>
                 <div className="row">
                     <div className="toggle-container">
                         <div className="switch-toggle">
