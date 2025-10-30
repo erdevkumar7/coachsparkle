@@ -157,7 +157,10 @@ a#notificationDropdown {
 
 @media only screen and (max-width: 767px) {
 
-
+  .coach-top-navber-add ul.navbar-nav.list-show a {
+    font-size: 15px;
+    padding: 10px 30px !important;
+}
   button.navbar-toggler.navbar-toggler-right.d-lg-none.align-self-center {
     display: none;
   }
