@@ -12,7 +12,7 @@ export default async function CoachingActivitiesPage() {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
-    const [pendingRes, progressRes, completeRes] = await Promise.all([
+    const [pendingRes, progressRes, completeRes, cancelRes] = await Promise.all([
         fetch(`${apiUrl}/getPendingCoaching`, {
             method: 'POST',
             headers: {
@@ -38,11 +38,25 @@ export default async function CoachingActivitiesPage() {
                 Accept: 'application/json',
             },
             cache: 'no-store',
+        }),
+
+        fetch(`${apiUrl}/getPackagesCanceled`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json',
+            },
+            cache: 'no-store',
         })
-    ])
-    const pendingRequest = await pendingRes.json();
-    const coachingProgress = await progressRes.json();
-    const initialCompleted = await completeRes.json();
+    ]);
+
+
+    const [pendingRequest, coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
+        pendingRes.json(),
+        progressRes.json(),
+        completeRes.json(),
+        cancelRes.json()
+    ]);
 
     // console.log('pendingRequest', pendingRequest)
 
@@ -62,36 +76,12 @@ export default async function CoachingActivitiesPage() {
             title: "Completed",
             count: initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
         },
-        // {
-        //     img: "/coachsparkle/assets/images/match-four.png",
-        //     title: "Canceled / Missed",
-        //     count: "02",
-        // },
+        {
+            img: "/coachsparkle/assets/images/match-four.png",
+            title: "Canceled / Missed",
+            count: initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
+        },
     ];
- 
-
-    // const canceled = [
-    //     {
-    //         image: "/coachsparkle/assets/images/coaching-img.png",
-    //         heading: "Session Canceled",
-    //         sessions: "1 Session left",
-    //         status: "Canceled",
-    //         name: "Breakthrough Package With User Display Name",
-    //         time: "Monday, July 7, 1:00 PM - 2:00 PM (GMT+8)",
-    //         app: "/coachsparkle/images/zoom.png",
-    //         buttonNote: "Reschedule Session",
-    //     },
-    //     {
-    //         image: "/coachsparkle/assets/images/coaching-img.png",
-    //         heading: "Session Missed",
-    //         sessions: "1 Session left",
-    //         status: "Missed",
-    //         name: "Breakthrough Package With User Display Name",
-    //         time: "Tuesday, July 9, 1:00 PM - 2:00 PM (GMT+8)",
-    //         app: "/coachsparkle/images/zoom.png",
-    //         buttonNote: "Manage Session",
-    //     },
-    // ];
 
     // console.log('initialCompletedData', initialCompletedData)
     return (
@@ -122,37 +112,11 @@ export default async function CoachingActivitiesPage() {
                     initialCompleted={initialCompleted}
                     token={token}
                 />
-            
 
-                {/* <div className="mt-5">
-                    <div className="coaching-progress-status">
-                        <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
-                            <div>
-                                <h3>Canceled / Missed (02)</h3>
-                            </div>
-                            <div className="sorting-data d-flex align-items-center gap-2">
-                                <ExpandMoreOutlinedIcon />
-                            </div>
-                        </div>
-                        <div className="d-flex justify-content-between flex-wrap py-4 px-4">
-                            <div className="row gap-4">
-                                {canceled.map((cancel, index) => (
-                                    <CanceledMissed
-                                        key={index}
-                                        image={cancel.image}
-                                        heading={cancel.heading}
-                                        sessions={cancel.sessions}
-                                        status={cancel.status}
-                                        name={cancel.name}
-                                        time={cancel.time}
-                                        app={cancel.app}
-                                        buttonNote={cancel.buttonNote}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
+                <CanceledMissed
+                    initialCanceled={initialCanceled}
+                    token={token}
+                />
             </div>
         </div>
     );
