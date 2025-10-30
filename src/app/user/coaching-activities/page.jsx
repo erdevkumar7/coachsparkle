@@ -13,7 +13,7 @@ export default async function Activities() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-  const [pendingRes, progressRes, completeRes] = await Promise.all([
+  const [pendingRes, progressRes, completeRes, cancelRes] = await Promise.all([
     fetch(`${apiUrl}/getPendingCoaching`, {
       method: 'POST',
       headers: {
@@ -39,12 +39,30 @@ export default async function Activities() {
         Accept: 'application/json',
       },
       cache: 'no-store',
+    }),
+
+    fetch(`${apiUrl}/getPackagesCanceled`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
     })
   ])
-  const pendingRequest = await pendingRes.json();
-  const coachingProgress = await progressRes.json();
-  const initialCompleted = await completeRes.json();
-  // console.log('initialCompleted', initialCompleted)
+
+  const [pendingRequest, coachingProgress, initialCompleted, initialConcelled] = await Promise.all([
+    pendingRes.json(),
+    progressRes.json(),
+    completeRes.json(),
+    cancelRes.json()
+  ]);
+  // const pendingRequest = await pendingRes.json();
+  // const coachingProgress = await progressRes.json();
+  // const initialCompleted = await completeRes.json();
+  // const initialConcelled = await cancelRes.json();
+
+  console.log('initialConcelled', initialConcelled)
 
   const statusItems = [
     {
@@ -62,11 +80,11 @@ export default async function Activities() {
       title: "Completed",
       count: initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
     },
-    // {
-    //   icon: "/coachsparkle/assets/images/match-four.png",
-    //   title: "Canceled / Missed",
-    //   count: 2,
-    // },
+    {
+      icon: "/coachsparkle/assets/images/match-four.png",
+      title: "Canceled / Missed",
+      count: initialConcelled.pagination.total < 10 ? `0${initialConcelled.pagination.total}` : initialConcelled.pagination.total,
+    },
   ];
 
 
@@ -102,9 +120,8 @@ export default async function Activities() {
         />
 
         {/* <CanceledMissed
-          title="Canceled / Missed"
-          count={canceledMissed.length}
-          canceledMissed={canceledMissed}
+          initialCompleted={initialConcelled}
+          token={token}
         /> */}
       </div>
     </div>

@@ -57,16 +57,22 @@ export default async function Home() {
 
   // Extract specific sections 
   const topSection = home_page_content.find(item => item.section_name === "top");
+  const homePageCountData = home_page_content.find(item => item.section_name === "home_page_data");  // conut of available coach
+
   const globalPartnersSection = home_page_content.find(item => item.section_name === "global_partners");
   const middleOneSection = home_page_content.find(item => item.section_name === "middle_one");
   const middleTwoSection = home_page_content.find(item => item.section_name === "middle_two");
   const planSection = home_page_content.find(item => item.section_name === "plan");
   const corporateSection = home_page_content.find(item => item.section_name === "corporate");
 
-  // console.log('corporateSection', corporateSection)
+  // console.log("Home Page Data:", homePageCountData);
   return (
     <>
-      <SmartMatching coaches={coaches} sectionData={topSection} />
+      <SmartMatching
+        coaches={coaches}
+        sectionData={topSection}
+        homePageCountData={homePageCountData}
+      />
 
       <div className="global-companies">
         <div className="container">
@@ -84,7 +90,7 @@ export default async function Home() {
                 {middleOneSection?.description || "Coach Sparkle uses smart AI to understand your coaching goals, preferences, and availability — then instantly matches you with coaches who align with your needs. Whether you’re looking to build confidence, grow your career, or improve a skill, our AI cuts through the noise to connect you with the right coach — saving you time and ensuring a better fit from the start. You can also use CoachSparkle to find the right coach for your child, a loved one, or even aging parents — because growth and support matter at every stage of life."}
               </p>
 
-              <a href="#" className="learn-more-btn-add">Try Know <EastIcon className="mui-icons" /></a>
+              <a href="#" className="learn-more-btn-add">Try Now <EastIcon className="mui-icons" /></a>
             </div>
 
 

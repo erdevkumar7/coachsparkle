@@ -36,10 +36,11 @@ export default function SwiperSecond({ partners }) {
                         <div className="item">
                             <Image
                                 src={partner.logo}
-                                className="w-full h-auto object-contain"
                                 alt="log_img"
                                 width={186}
                                 height={20}
+                                className="object-contain"
+                                style={{ width: "180px", height: "60px" }} // ✅ Maintain aspect ratio
                                 onError={(e) => {
                                     e.target.src = `${FRONTEND_BASE_URL}/images/global-img-one.png`;
                                 }}

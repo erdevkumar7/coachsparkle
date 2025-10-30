@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import EastIcon from '@mui/icons-material/East';
 
 export default function FindCoach() {
     const router = useRouter()
@@ -20,7 +21,7 @@ export default function FindCoach() {
                                     budget, and language to find coaches manually at your own pace.</p>
                             </div>
                             <div className="btn_hiw">
-                                <Link href="/coach-detail/list">Try Now</Link>
+                                <Link href="/coach-detail/list">Try Now <EastIcon className="find_icons" /></Link>
                             </div>
                         </div>
                     </div>
@@ -36,7 +37,7 @@ export default function FindCoach() {
                                     Those interested will reach out to you directly.</p>
                             </div>
                             <div className="btn_hiw">
-                                <Link href="/send-coaching-request">Try Now</Link>
+                                <Link href="/send-coaching-request">Try Now <EastIcon className="find_icons" /></Link>
                             </div>
                         </div>
                     </div>
@@ -51,7 +52,7 @@ export default function FindCoach() {
                                     suggest the most suitable coaches for you in seconds.</p>
                             </div>
                             <div className="btn_hiw">
-                                <a href="#">Try Now</a>
+                                <a href="#">Try Now <EastIcon className="find_icons" /></a>
                             </div>
                         </div>
                     </div>
