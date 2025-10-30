@@ -5,6 +5,7 @@ import Link from "next/link";
 
 export default function WelcomeBack({ profile_complete_percentage }) {
     const { user } = useUser();
+    let isProUser = user.subscription_plan.plan_status;
 
     const getProgressWidth = (percent) => {
         return `${Math.min(percent, 100)}%`;
@@ -30,7 +31,7 @@ export default function WelcomeBack({ profile_complete_percentage }) {
                     />
                     <div className="coach-profile-view">
                         <div>
-                            {user?.subscription_plan?.plan_name == 'Pro' ? (
+                            {isProUser ? (
                                 <p className="pro-add-value">Pro</p>
                             ) : (
                                 <p className="basic-add-value">Basic</p>
