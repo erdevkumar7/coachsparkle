@@ -4,9 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function SmartMatching({ coaches, sectionData }) {
+export default function SmartMatching({ coaches, sectionData, homePageCountData }) {
     const router = useRouter();
 
+    const availableCoaches = homePageCountData?.available_coach_count ?? 0;
+    const matchedCount = homePageCountData?.matched_count ?? 0;
+    const goalAchievedCount = homePageCountData?.coaching_goal_achieve_count ?? 0;
     return (
         <div className="smarter-matching py-5">
             <div className="container">
@@ -45,19 +48,19 @@ export default function SmartMatching({ coaches, sectionData }) {
                             <div className="row counters-inner-content">
                                 <div className="four col-md-4">
                                     <div className="counter-box">
-                                        <span className="counter" data-count="680">680</span>
+                                        <span className="counter" data-count={availableCoaches}>{availableCoaches}+</span>
                                         <p>Available Coaches</p>
                                     </div>
                                 </div>
                                 <div className="four col-md-4">
                                     <div className="counter-box">
-                                        <span className="counter" data-count="8000">8k+</span>
+                                        <span className="counter" data-count={matchedCount}>{matchedCount}+</span>
                                         <p>Matches made</p>
                                     </div>
                                 </div>
                                 <div className="four col-md-4">
                                     <div className="counter-box">
-                                        <span className="counter" data-count="100">100+</span>
+                                        <span className="counter" data-count={goalAchievedCount}>{goalAchievedCount}+</span>
                                         <p>Coaching goals achieved</p>
                                     </div>
                                 </div>
