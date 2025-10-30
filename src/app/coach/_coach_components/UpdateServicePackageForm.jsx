@@ -13,7 +13,7 @@ export default function UpdateServicePackageForm({ allMasters }) {
     const params = useParams();
     const package_id = params.package_id;
     const { user } = useUser();
-    const isProUser = user?.subscription_plan?.plan_name === 'Pro';
+    let isProUser = user.subscription_plan.plan_status;
 
     const [packageData, setPackageData] = useState(null);
     const [loading, setLoading] = useState(true);

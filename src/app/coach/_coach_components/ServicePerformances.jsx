@@ -32,7 +32,7 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
   const { user } = useUser();
   const router = useRouter();
   const token = Cookies.get('token');
-  const isProUser = user?.subscription_plan?.plan_name === 'Pro';
+  let isProUser = user.subscription_plan.plan_status;
   const [showTooltip, setShowTooltip] = useState(false);
 
   // State for delete modal
