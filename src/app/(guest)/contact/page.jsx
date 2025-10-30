@@ -3,16 +3,42 @@ import '../_styles/contact.css';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import ContactUsForm from '../_components/ContactUsForm';
 
+// ✅ Fetch contact page data from backend (server-side)
+async function getContactData() {
+    const res = await fetch("https://coachsparkle-backend.votivereact.in/api/showcontactpage", {
+        method: "POST",
+        cache: "no-store", // ensures fresh data on each request
+    });
 
-export default function Contact() {
+    if (!res.ok) {
+        throw new Error("Failed to fetch contact page data");
+    }
+
+    const data = await res.json();
+    return data?.data?.[0] || null;
+}
+
+export default async function Contact() {
+    const contactData = await getContactData();
+    console.log('contactData', contactData)
+    if (!contactData) {
+        return <div className="error-text">Failed to load contact information.</div>;
+    }
+
     return (
 
         <div className="about-us-page-add">
             <section className="hero">
                 <div>
                     <h1>We’re <strong>Here to Help</strong></h1>
-                    <p>Reach out to us with any questions, partnership inquiries, or support — we’ll get back within 1-2 business days.</p>
+                    {/* <h1>
+                        {contactData?.title
+                            ? contactData?.title
+                            : <>We’re <strong>Here to Help</strong></>}
+                    </h1> */}
+                    <p>{contactData?.subtitle || `Reach out to us with any questions, partnership inquiries, or support — we’ll get back within 1-2 business days.`}</p>
                 </div>
             </section>
 
@@ -24,78 +50,25 @@ export default function Contact() {
                             Contact Information
                         </h3>
                         <p>
-                            <strong> <MailOutlineOutlinedIcon className='mui-icons'/> Email:</strong><br />
-                            contact@coachsparkle.com
+                            <strong> <MailOutlineOutlinedIcon className='mui-icons' /> Email:</strong><br />
+                            {contactData?.email || "contact@coachsparkle.com"}
                         </p>
                         <p>
-                            <strong> <MapOutlinedIcon className='mui-icons'/> Address:</strong><br />
-                            61 Upper Paya Lebar Road<br />
-                            Singapore 534816
+                            <strong><MapOutlinedIcon className='mui-icons' /> Address:</strong><br />
+                            <span
+                                dangerouslySetInnerHTML={{ __html: contactData.address }}
+                            />
                         </p>
                         <p>
-                            <strong> <AccessTimeOutlinedIcon className='mui-icons'/> Business Hours:</strong><br />
-                            Mon - Fri<br />
-                            9:00 AM - 6:00 PM (GMT +8)
+                            <strong> <AccessTimeOutlinedIcon className='mui-icons' /> Business Hours:</strong><br />
+                            {contactData?.business_hourse || <>
+                                Mon - Fri<br />
+                                9:00 AM - 6:00 PM (GMT +8)
+                            </>}
+
                         </p>
 
-                        <h3 className="sena-msg-add">
-                            <img src="/coachsparkle/images/send-icon.png" alt="send-img" />
-                            Send Us A Message
-                        </h3>
-
-                        <form className="contact-form-add">
-                            <div className="form-row">
-                                <div>
-                                    <label>First name:</label>
-                                    <input type="text" placeholder="Enter your first name" required />
-                                </div>
-
-                                <div>
-                                    <label>Last name:</label>
-                                    <input type="text" placeholder="Enter your last name" required />
-                                </div>
-                            </div>
-
-                            <div className="form-row">
-                                <div>
-                                    <label>Email:</label>
-                                    <input type="email" placeholder="Enter your email" required />
-                                </div>
-
-                                <div>
-                                    <label>Phone number:</label>
-                                    <div className="phone-input-group">
-                                        <select required>
-                                            <option value="+91">IN +91</option>
-                                            <option value="+1">US +1</option>
-                                            <option value="+44">GB +44</option>
-                                            <option value="+61">AU +61</option>
-                                        </select>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="form-row subject-input">
-                                <div>
-                                    <label>Subject:</label>
-                                    <select required>
-                                        <option value="General">General</option>
-                                        <option value="Support">Support</option>
-                                        <option value="Sales">Sales</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="form-row message-input">
-                                <div>
-                                    <label>Message:</label>
-                                    <textarea placeholder="Enter your message here" required></textarea>
-                                </div>
-                            </div>
-
-                            <button type="submit" className="send-message-btn-add">Send Message</button>
-                        </form>
+                        <ContactUsForm />
                     </div>
 
                     <div className="contact-map">
