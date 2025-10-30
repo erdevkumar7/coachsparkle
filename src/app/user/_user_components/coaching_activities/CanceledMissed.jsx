@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 export default function CoachingProgress({ initialCanceled, token }) {
   const router = useRouter();
-  const [getCoahcingProgress, setCoahcingProgress] = useState(initialCanceled.data);
+  const [getCoahcingCanceled, setCoahcingProgress] = useState(initialCanceled.data);
   const [currentPage, setCurrentPage] = useState(initialCanceled.pagination.current_page);
   const [lastPage, setLastPage] = useState(initialCanceled.pagination.last_page);
   const [isOpen, setIsOpen] = useState(true);
@@ -56,7 +56,7 @@ export default function CoachingProgress({ initialCanceled, token }) {
           {isOpen && (
             <div className="d-flex justify-content-between flex-wrap py-4 px-4">
               <div className="row gap-4">
-                {getCoahcingProgress.map((session, index) => (
+                {getCoahcingCanceled.map((session, index) => (
                   <div key={index} className="col-md-4 coaching-progress p-3">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <h4 className="mb-0">Session Canceled</h4>
