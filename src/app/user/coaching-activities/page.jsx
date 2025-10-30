@@ -51,7 +51,7 @@ export default async function Activities() {
     })
   ])
 
-  const [pendingRequest, coachingProgress, initialCompleted, initialConcelled] = await Promise.all([
+  const [pendingRequest, coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
     pendingRes.json(),
     progressRes.json(),
     completeRes.json(),
@@ -60,9 +60,9 @@ export default async function Activities() {
   // const pendingRequest = await pendingRes.json();
   // const coachingProgress = await progressRes.json();
   // const initialCompleted = await completeRes.json();
-  // const initialConcelled = await cancelRes.json();
+  // const initialCanceled = await cancelRes.json();
 
-  console.log('initialConcelled', initialConcelled)
+  console.log('initialCanceled', initialCanceled)
 
   const statusItems = [
     {
@@ -83,7 +83,7 @@ export default async function Activities() {
     {
       icon: "/coachsparkle/assets/images/match-four.png",
       title: "Canceled / Missed",
-      count: initialConcelled.pagination.total < 10 ? `0${initialConcelled.pagination.total}` : initialConcelled.pagination.total,
+      count: initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
     },
   ];
 
@@ -119,10 +119,10 @@ export default async function Activities() {
           token={token}
         />
 
-        {/* <CanceledMissed
-          initialCompleted={initialConcelled}
+        <CanceledMissed
+          initialCanceled={initialCanceled}
           token={token}
-        /> */}
+        />
       </div>
     </div>
   );
