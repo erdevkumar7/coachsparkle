@@ -36,7 +36,7 @@ export default function CoachingProgress({ initialProgress, token }) {
     setSelectedRequest(null);
   };
 
-  // console.log('getCoahcingProgress', getCoahcingProgress)
+  console.log('getCoahcingProgress', getCoahcingProgress)
 
   // const coachingProgress = [
   //   {
@@ -121,7 +121,7 @@ export default function CoachingProgress({ initialProgress, token }) {
                       <button
                         className="btn btn-outline-secondary button-msg"
                         onClick={() => {
-                          router.push(`/user/user-message/3?coach_id=${session.id}`)
+                          router.push(`/user/user-message/3?coach_id=${session.package_coach_id}`)
                         }}>
                         Message
                       </button>

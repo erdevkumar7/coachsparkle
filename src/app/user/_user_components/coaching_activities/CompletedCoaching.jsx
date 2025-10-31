@@ -76,7 +76,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
       setLastPage(res.data.pagination.last_page);
     }
   };
-
+// console.log('getCompletedgetCompleted', getCompleted)
   return (
     <div className="mt-5 meditation-package">
       <div className="coaching-progress-status">
@@ -156,7 +156,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                   <button
                     className="btn btn-outline-secondary button-msg"
                     onClick={() => {
-                      router.push(`/user/user-message/1?coach_id=${completed.coach_id}`)
+                      router.push(`/user/user-message/1?coach_id=${completed.package_coach_id}`)
                     }}
                   >
                     Message
