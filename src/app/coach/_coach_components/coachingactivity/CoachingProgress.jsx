@@ -1,6 +1,7 @@
 "use client";
 import { getUserProgressCoachingClient } from "@/app/api/user-client";
 import Pagination from "@/components/Pagination";
+import { newDateTimeFormatter } from "@/lib/commonFunction";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import { useRouter } from "next/navigation";
@@ -34,7 +35,8 @@ export default function CoachingProgress({ initialProgress, token }) {
     setSelectedRequest(null);
   };
 
-  // console.log('getCoahcingProgress', getCoahcingProgress)
+
+  console.log('getCoahcingProgress', getCoahcingProgress)
   return (
     <>
       <div className="mt-5 status-coaching-top">
@@ -72,7 +74,7 @@ export default function CoachingProgress({ initialProgress, token }) {
                     <div className="mb-3 status-div">
                       <button className="border px-3 py-1 rounded-pill">
                         {/* {session.status} */}
-                        Session In Progress
+                        In Progress
                       </button>
                     </div>
 
@@ -90,9 +92,10 @@ export default function CoachingProgress({ initialProgress, token }) {
                           {session.package_title?.slice(0, 20)} With {session.first_name} {session.last_name}
                         </span>
                         <span className="d-block time">
-                          {session.session_date_start}
+                          {/* {session.session_date_start}
                           {session.slot_time_start &&
-                            <> at {session.slot_time_start} </>}
+                            <> at {session.slot_time_start} </>} */}
+                          {newDateTimeFormatter(session.session_date_start, session.slot_time_start)}
                         </span>
                         <img src="/coachsparkle/images/zoom.png" alt="zoom" />
                       </div>
@@ -134,8 +137,9 @@ export default function CoachingProgress({ initialProgress, token }) {
               <div className="request-modal-body">
                 <h6>1. Package Details</h6>
                 <p><strong>Package Name:</strong> {selectedRequest?.package_title || "N/A"}</p>
-                <p><strong>Session Start Date: </strong> {selectedRequest?.session_date_start || "N/A"}</p>
-                <p><strong>Session Timing: </strong> {selectedRequest?.slot_time_start || "N/A"}</p>
+                <p><strong>Session Start Date and Time: </strong> {newDateTimeFormatter(selectedRequest?.session_date_start, selectedRequest?.slot_time_start)}</p>
+                {/* <p><strong>Session Start Date: </strong> {selectedRequest?.session_date_start || "N/A"}</p>
+                <p><strong>Session Timing: </strong> {selectedRequest?.slot_time_start || "N/A"}</p> */}
               </div>
               <div className="request-modal-body">
                 <h6>2. User Information</h6>

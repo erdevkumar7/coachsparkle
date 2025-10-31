@@ -48,11 +48,21 @@ export default function CompletedCoaching({ initialCompleted, token }) {
               {getCompleted.map((completed, index) => (
                 <div className="col-md-4 completed p-3" key={index}>
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    {/* <h4 className="mb-0">{completed.heading}</h4> */}
+                    <h4 className="mb-0"> {completed.review ? (
+                      <>
+                        Review Completed
+                      </>
+                    ) : (
+                      <>
+                        Pending review
+                      </>
+                    )}</h4>
                   </div>
 
                   <div className="mb-3 status-div">
-                    <button className="border px-3 py-1 rounded-pill">{completed.status}</button>
+                    <button className="border px-3 py-1 rounded-pill">
+                      Completed
+                    </button>
                   </div>
 
                   <div className="d-flex align-items-start gap-3 mb-3 content">
@@ -73,7 +83,23 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                   </div>
 
                   <div className="d-flex gap-3">
-                    <button className="btn btn-primary button-note">Request Review</button>
+                    {/* <button className="btn btn-primary button-note">Request Review</button> */}
+
+                    {completed.review ? (
+                      <button
+                        className="btn btn-primary button-note"
+                        // onClick={() => handleOpen(completed.package_id, completed.review)}
+                      >
+                        View Review
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary button-note"
+                        // onClick={() => handleOpen(completed.package_id)}
+                      >
+                        Request Review
+                      </button>
+                    )}
                     <button
                       className="btn btn-outline-secondary button-msg"
                       onClick={() => {
