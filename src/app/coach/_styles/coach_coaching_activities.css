@@ -136,6 +136,13 @@
   padding-right: 0px !important;
 }
 
+.canceled-missed button.border.px-3.py-1.rounded-pill {
+    background: #FF0000;
+}
+.canceled-missed button.btn.btn-primary.button-note {
+    padding: 0px 7px !important;
+}
+
 .coaching-progress .status-div button {
   font-size: 13px;
   font-weight: 500px;
