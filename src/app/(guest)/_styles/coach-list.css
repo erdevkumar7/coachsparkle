@@ -816,8 +816,20 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
     transform: none !important;
     box-shadow: none !important;
 }
-.about-section.sim-coachs .col-md-4.item {
+/* .about-section.sim-coachs .col-md-4.item {
   min-width: fit-content !important;
+} */
+.about-section.sim-coachs .swiper .col-md-4.item {
+  min-width: 250px;
+}
+.about-section.sim-coachs {
+  display: block;
+}
+.about-section .swiper-slide.swiper-slide-active {
+  width: 250px !important;
+}
+.about-section .swiper-slide.swiper-slide-next {
+  width: 250px !important;
 }
 .about-section.package_short .session-list {
     color: rgb(68, 68, 68) !important;
