@@ -77,7 +77,7 @@ export default function Register() {
                 if (!tokenData) {
                     Cookies.remove('token')
                 }
-                
+
                 if (tokenData) {
                     if (tokenData.data.user_type == 2) {
                         router.push('/user/dashboard');
@@ -224,7 +224,7 @@ export default function Register() {
 
                                 <div className="checkbox-row">
                                     <input type="checkbox" id="terms" {...register('terms')} />
-                                    <label htmlFor="terms">Yes, I have read and agree to the Terms of Use and Privacy Policy</label>
+                                    <label htmlFor="terms">Please indicate that you have read and agree to the <Link href="/term-conditions">Terms of Use </Link> and <Link href="/privacy-policy">Privacy Policy</Link></label>
                                 </div>
                                 {errors.terms && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.terms.message}</p>}
                                 {/* Hidden field - included in formData */}
