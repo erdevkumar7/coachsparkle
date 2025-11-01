@@ -21,7 +21,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
       setLastPage(res.data.pagination.last_page);
     }
   };
-
+  console.log('getCompleted',getCompleted)
   return (
     <div className="mt-5 status-complete">
       <div className="completed-status">

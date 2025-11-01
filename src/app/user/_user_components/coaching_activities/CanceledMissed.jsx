@@ -23,8 +23,9 @@ export default function CoachingProgress({ initialCanceled, token }) {
   };
 
 
-  const handleRescheduleRequest = (rqst) => {
-    console.log('item', rqst)
+  const handleRescheduleRequest = (session) => {
+    // console.log('item', session)
+    router.push(`/coach-detail/${session.package_coach_id}/package/${session.package_id}/booking?reschedule=true&booking_id=${session.booking_id}`);
   };
 
 
@@ -92,13 +93,15 @@ export default function CoachingProgress({ initialCanceled, token }) {
                     </div>
 
                     <div className="d-flex gap-3">
-                      <button className="btn btn-primary button-note" onClick={() => handleRescheduleRequest(session)}>
+                      <button
+                        className="btn btn-primary button-note"
+                        onClick={() => handleRescheduleRequest(session)}>
                         Reschedule Session
                       </button>
                       <button
                         className="btn btn-outline-secondary button-msg"
                         onClick={() => {
-                          router.push(`/user/user-message/3?coach_id=${session.id}`)
+                          router.push(`/user/user-message/3?coach_id=${session.package_coach_id}`)
                         }}>
                         Message
                       </button>
