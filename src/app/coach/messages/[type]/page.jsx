@@ -48,7 +48,7 @@ export default function Messages() {
       key: "active",
       label: "Active Coaching (0)",
       message_type: 3,
-      bannerTitle: "Start a Conversation with your current Coac",
+      bannerTitle: "Start a Conversation with your current User",
       bannerDescription:
         "This space is for you to engage directly with your coachee. Use it to discuss session goals, share resources, provide encouragement, or clarify next steps. Keep communication respectful, focused, and aligned with your coaching objectives.",
       coaches: [],

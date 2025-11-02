@@ -16,8 +16,7 @@ export default function AboutUs() {
                 <div className='row align-items-center'>
 
                     <div className="col-6 images-column-left">
-
-                    <Image src={`${FRONTEND_BASE_URL}/images/human-img.webp`} alt="Image 1" className="img-fluid" width={1000} height={226} />
+                        <Image src={`${FRONTEND_BASE_URL}/images/human-img.webp`} alt="Image 1" className="img-fluid" width={1000} height={226} />
                     </div>
 
                     <div className="col-6 text-column-right">
@@ -36,13 +35,11 @@ export default function AboutUs() {
                             It's not just someone who sparks - but someone who truly fits your goals, personality, and vision.
                         </p>
                     </div>
-
                 </div>
 
 
                 <div className='coach-sparkle’s-focus'>
                     <div className="content-section">
-
                         <h2 className="section-title">Coach Sparkle's Focus</h2>
 
                         <div className="row focus-section">
@@ -79,7 +76,7 @@ export default function AboutUs() {
 
                         <div className="row values-section">
                             <div className="col-6">
-                            <Image src={`${FRONTEND_BASE_URL}/images/our-img.webp`} alt="Our Values Image" className="img-fluid" width={1000} height={226} />
+                                <Image src={`${FRONTEND_BASE_URL}/images/our-img.webp`} alt="Our Values Image" className="img-fluid" width={1000} height={226} />
 
                             </div>
 
@@ -97,23 +94,14 @@ export default function AboutUs() {
                                 <p className='behind-text'>We believe growth doesn’t stop after a milestone reset. Mastering a skill you believe shouldn’t be a lifelong compulsion — and Coach Sparkle is there for every chapter.</p>
                             </div>
                         </div>
-
                     </div>
-
-
                 </div>
-
-
-
-
             </div>
 
 
             <div className='journey-head-content'>
                 <div className="container content-section text-center">
-
                     <h2 className="section-title mb-4">The Journey Ahead</h2>
-
                     <p className="section-description mb-3">
                         Coach Sparkle is growing — with mobile apps and enterprise integrations coming in the pipeline.
                         But one thing will always stay the same: Our belief in human-first coaching supported by smart technology.
@@ -134,9 +122,7 @@ export default function AboutUs() {
 
 
                 <div className="container meet-team">
-
                     <h2 className="section-title text-center mb-4">Meet the Team</h2>
-
                     <p className="section-description text-center mb-4">
                         We’re a diverse team of educators, developers, designers, and growth strategists who believe in making coaching more discoverable, inclusive, and impactful.
                         Some of us were once in our own careers. Some of us still train mentors we aspire to match up. All of us believe in the power of guided growth.
@@ -144,17 +130,8 @@ export default function AboutUs() {
 
                     <div className="row">
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
+                            <Image src={`${FRONTEND_BASE_URL}/images/meet-team-one.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
 
-                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-one.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
-
-
-                            <h4>Archie Barrett</h4>
-                            <h6>Co-Founder</h6>
-                            <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
-                        </div>
-
-                        <div className="col-md-3 col-sm-6 team-member text-center mb-4">
-                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-two.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
 
                             <h4>Archie Barrett</h4>
                             <h6>Co-Founder</h6>
@@ -162,7 +139,15 @@ export default function AboutUs() {
                         </div>
 
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
-                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-three.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
+                            <Image src={`${FRONTEND_BASE_URL}/images/meet-team-two.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
+
+                            <h4>Archie Barrett</h4>
+                            <h6>Co-Founder</h6>
+                            <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
+                        </div>
+
+                        <div className="col-md-3 col-sm-6 team-member text-center mb-4">
+                            <Image src={`${FRONTEND_BASE_URL}/images/meet-team-three.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
 
                             <h4>Archie Barrett</h4>
                             <h6>Manager</h6>
@@ -170,26 +155,15 @@ export default function AboutUs() {
                         </div>
 
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
-                        <Image src={`${FRONTEND_BASE_URL}/images/meet-team-four.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
+                            <Image src={`${FRONTEND_BASE_URL}/images/meet-team-four.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
 
                             <h4>Archie Barrett</h4>
                             <h6>Manager</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
                         </div>
                     </div>
-
                 </div>
-
-
-
-
-
-
-
             </div>
         </div>
-
-
-
     );
 }
