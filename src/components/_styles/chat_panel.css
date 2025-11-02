@@ -9,6 +9,20 @@
     margin-top: 0px;
 } */
 
+/* Optional custom styles for the tooltip */
+.custom-tooltip {
+  border-radius: 8px;
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 8px 12px;
+}
+
+/* Style the tooltip arrow */
+.custom-tooltip-arrow {
+  color: #333;
+}
+
 .chat-message-start nav{
     flex-wrap: wrap !important;
     margin-bottom: 0;

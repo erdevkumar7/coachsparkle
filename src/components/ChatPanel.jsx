@@ -4,6 +4,7 @@ import "././_styles/chat_panel.css";
 import { ChatContext, useChat } from '@/context/ChatContext';
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { Tooltip } from "react-tooltip";
 
 const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabChange, onCoachSelect, onRefresh }) => {
   const { messages, unreadCounts, markAsRead } = useContext(ChatContext);
@@ -263,7 +264,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                         <p className="fw-bold mb-0">
                                           {coach.name}
                                         </p>
-                                   
+
                                       </div>
                                       <p className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}>
                                         {coach.lastMessageText}
@@ -271,9 +272,9 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                     </div>
                                   </div>
                                   <div className="pt-1 time-zone-add">
-                                  <p className="small text-muted mb-0 time-add">
-                                          {coach.lastMessageTime}
-                                        </p>
+                                    <p className="small text-muted mb-0 time-add">
+                                      {coach.lastMessageTime}
+                                    </p>
                                     {/* Only show unread count if not the active chat */}
                                     {coach.unread > 0 && selectedCoachIndex !== index && (
                                       <span className="badge bg-primary rounded-pill float-end">
@@ -303,12 +304,20 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                             src="/coachsparkle/assets/images/alrt-icon.png"
                             alt="alert"
                             width="60"
+                            data-tooltip-id="alert-tooltip"
+                            data-tooltip-content={currentTab.bannerDescription}
+                            style={{ cursor: 'pointer' }}
                           />
                           <div>
-                            <p>
-                              <b>{currentTab.bannerTitle}</b>
-                            </p>
-                            <p>{currentTab.bannerDescription}</p>
+                            <p><b>{currentTab.bannerTitle}</b></p>
+                            {/* <p>{currentTab.bannerDescription}</p> */}
+                            <Tooltip
+                              id="alert-tooltip"
+                              place="top"
+                              variant="dark"
+                              className="custom-tooltip"
+                              classNameArrow="custom-tooltip-arrow"
+                            />
                           </div>
                         </div>
                         <a className="report-btn-add">Report</a>
