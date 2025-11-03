@@ -2,13 +2,56 @@ import '../_styles/about_us.css';
 import Image from 'next/image';
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 
-export default function AboutUs() {
+async function getAboutPageData() {
+    try {
+        const response = await fetch('https://coachsparkle-backend.votivereact.in/api/getAboutPageSection', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            cache: 'no-store',
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch about page data');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching about page data:', error);
+        throw error;
+    }
+}
+
+
+export default async function AboutUs() {
+    let aboutData = null;
+
+    try {
+        aboutData = await getAboutPageData();
+    } catch (error) {
+        console.error('Error in AboutUs component:', error);
+    }
+
+    // If data fetching failed, return null or error message
+    if (!aboutData || !aboutData.success) {
+        return <div>Failed to load about page content</div>;
+    }
+
+    // Find specific sections
+    const aboutTopSection = aboutData.data.find(section => section.section_name === 'about_top');
+    const journeySection = aboutData.data.find(section => section.section_name === 'jurney');
+    const teamSection = aboutData.data.find(section => section.section_name === 'team');
+    const teamMembersSection = aboutData.data.find(section => section.section_name === 'team_members');
+
+
+    // console.log('teamSection', teamSection)
     return (
         <div className='about-us-page-add'>
             <section className="hero">
                 <div>
                     <h1>About <strong>Coach Sparkle</strong></h1>
-                    <p>Your Growth. Driven by Purpose.</p>
+                    <p>{aboutTopSection.subtitle || "Your Growth. Driven by Purpose."}</p>
                 </div>
             </section>
 
@@ -101,19 +144,22 @@ export default function AboutUs() {
 
             <div className='journey-head-content'>
                 <div className="container content-section text-center">
-                    <h2 className="section-title mb-4">The Journey Ahead</h2>
-                    <p className="section-description mb-3">
-                        Coach Sparkle is growing — with mobile apps and enterprise integrations coming in the pipeline.
-                        But one thing will always stay the same: Our belief in human-first coaching supported by smart technology.
-                    </p>
-
-                    <p className="section-description mb-4">
-                        Join us as we spark the next wave of personal and professional transformation — one match at a time.
-                    </p>
+                    <h2 className="section-title mb-4">{journeySection.title || "The Journey Ahead"}</h2>
+                    {journeySection.description ? <p className="section-description mb-3"
+                        dangerouslySetInnerHTML={{ __html: journeySection.description }} /> :
+                        <>
+                            <p className="section-description mb-3">
+                                Coach Sparkle is growing — with mobile apps and enterprise integrations coming in the pipeline.
+                                But one thing will always stay the same: Our belief in human-first coaching supported by smart technology.
+                            </p>
+                            <p className="section-description mb-4">
+                                Join us as we spark the next wave of personal and professional transformation — one match at a time.
+                            </p></>
+                    }
 
                     <div className="centered-image">
                         <video width="100%" height="360" controls autoPlay>
-                            <source src="/coachsparkle/images/Journey-video.mp4" type="video/mp4" />
+                            <source src={journeySection.video} type="video/mp4" />
                             x
                         </video>
                     </div>
@@ -122,13 +168,15 @@ export default function AboutUs() {
 
 
                 <div className="container meet-team">
-                    <h2 className="section-title text-center mb-4">Meet the Team</h2>
-                    <p className="section-description text-center mb-4">
+                    <h2 className="section-title text-center mb-4">{teamSection.title || "Meet the Team"}</h2>
+                    {teamSection ? <p
+                        className="section-description text-center mb-4"
+                        dangerouslySetInnerHTML={{ __html: teamSection.description }} /> : <p className="section-description text-center mb-4">
                         We’re a diverse team of educators, developers, designers, and growth strategists who believe in making coaching more discoverable, inclusive, and impactful.
                         Some of us were once in our own careers. Some of us still train mentors we aspire to match up. All of us believe in the power of guided growth.
-                    </p>
+                    </p>}
 
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-md-3 col-sm-6 team-member text-center mb-4">
                             <Image src={`${FRONTEND_BASE_URL}/images/meet-team-one.png`} alt="Team Member" className="img-fluid mb-3" width={1000} height={226} />
 
@@ -161,7 +209,31 @@ export default function AboutUs() {
                             <h6>Manager</h6>
                             <p>Lorem ipsum dolor sit amet, consect matetur adipiscing elit. Nam leo lacus, dapibus a turpis et, convallis sectetur cursus turpis. Duis mattis vel erat in luctus adipiscing comus dapibus.</p>
                         </div>
-                    </div>
+                    </div> */}
+
+
+                    {teamMembersSection.team_members && teamMembersSection.team_members.length > 0 && (
+                        <div className="row">
+                            {teamMembersSection.team_members.map((member) => (
+                                <div key={member.id} className="col-md-3 col-sm-6 team-member text-center mb-4">                               
+                                        <Image
+                                            src={member.image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                                            alt="Img"
+                                            className="img-fluid mb-3"
+                                            width={100}
+                                            height={100}
+                                        />                                  
+
+                                    <h4>{member.name}</h4>
+                                    <h6>{member.designation}</h6>
+
+                                    {member.description && (
+                                        <div dangerouslySetInnerHTML={{ __html: member.description }} />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
