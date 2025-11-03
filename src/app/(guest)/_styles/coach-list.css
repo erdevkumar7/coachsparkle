@@ -792,12 +792,14 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
 }
 
 .coach-profile-list-left .about-section h4 {
+  color: #000;
+  font-family: Inter;
   font-size: 22px;
-  color: #000000;
   font-weight: 600;
-  font-family: "Inter";
 }
-
+.prev-next-arrow.d-flex.gap-3 {
+  padding-top: 25px;
+}
 .coach-profile-list-left .about-section p {
   color: #000000;
   font-size: 14px;
@@ -1460,6 +1462,49 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 .coach-action-profile-icon svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-1umw9bq-MuiSvgIcon-root {
   color: #009bfa !important;
 }
+.css-148tcvt {
+  color: #fff !important;
+  background-color: #fb3f4a !important;
+  font-size: 15px;
+}
+
+.css-7f2zis {
+  background-color: #d4edda !important;
+  color: #50C878 !important;
+  font-weight: 600 !important;
+}
+.css-yh58xt {
+  background-color: #d4edda;
+  color: #50C878 !important;
+  font-weight: 600 !important;
+}
+
+.css-12ubr9t {
+  width: 36px;
+  font-size: 15px !important;
+}
+.css-17f9e7e-MuiTypography-root-MuiDayCalendar-weekDayLabel {
+  font-size: 15px !important;
+}
+
+.MuiBox-root.css-7f2zis {
+  font-size: 15px !important;
+}
+
+.MuiBox-root.css-yh58xt {
+  font-size: 15px !important;
+}
+.MuiDayCalendar-weekContainer.css-1pv2de5-MuiDayCalendar-weekContainer {
+  justify-content: space-around !important;
+  margin-bottom: 3px !important;
+}
+
+.prve-next-btn {
+  align-items: center;
+  padding: 15px 40px 0 25px;
+}
+
+
 
 /*coach-profile-detail-css-desktop*/
 
@@ -1468,6 +1513,13 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 /*coach-list-page-mobile-css*/
 @media only screen and (max-width: 767px) {
   
+  .coach-profile-list-left .about-section .certifi {
+    display: block ;
+}
+
+.certifi img {
+    margin-bottom: 14px;
+}
 .coach-banner-add .main-content {
     flex-direction: column;
     text-align: center;
@@ -1515,7 +1567,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 }
 .about-section.package_short .prev-next-arrow.d-flex.gap-3 {
   justify-content: center;
-  margin-top: 15px;
+  margin-top: 0px;
 }
 
 .coach-profile-content {
@@ -1881,11 +1933,10 @@ input.form-control.search-input {
   }
 
   .coach-profile-list-left .about-section {
-    margin-top: 20px;
-    padding-top: 20px;
-    padding-bottom: 10px;
     text-align: center;
-  }
+    margin-top: 15px !important;
+    padding-bottom: 10px !important;
+}
 
   .coach-profile-list-left .about-section p {
     font-size: 14px;
@@ -2058,12 +2109,13 @@ p.small-txt {
   gap: 20px; /* space between items */
 }
 .certifi img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
+  object-fit: cover;
   border: 1px solid #d7d7d7;
+  border-radius: 15px;
+  width: 100%;
+  height: 165px;
   padding: 10px;
+  display: block;
 }
 .tabs-block button.Mui-selected {
   background: #009df6;
@@ -2223,13 +2275,14 @@ span.avail-text i.bi.bi-check {
   font-style: italic;
   text-align: center;
 }
-
 button.nav-arrow.left-arrow {
-  border-radius: 50px;
-  background-color: #ffffff;
-  border: 1px solid #009bfa;
   color: #009bfa;
-  font-size: 22px;
+  background-color: #fff;
+  border: 1px solid #009bfa;
+  border-radius: 50px;
+  font-size: 18px;
+  width: 38px;
+  height: 38px;
 }
 
 button.nav-arrow.left-arrow:hover {
@@ -2237,7 +2290,7 @@ button.nav-arrow.left-arrow:hover {
   background-color: #009bfa;
   border: 1px solid #009bfa;
   color: white;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 button.nav-arrow.right-arrow {
@@ -2245,7 +2298,9 @@ button.nav-arrow.right-arrow {
   background-color: #ffffff;
   border: 1px solid #009bfa;
   color: #009bfa;
-  font-size: 22px;
+  font-size: 18px;
+  width: 38px;
+  height: 38px;
 }
 
 button.nav-arrow.right-arrow:hover {
@@ -2253,18 +2308,19 @@ button.nav-arrow.right-arrow:hover {
   background-color: #009bfa;
   border: 1px solid #009bfa;
   color: white;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .session-content button.read-more-btn {
+  color: #009bfa;
+  cursor: pointer;
   background: none;
   border: none;
-  color: #009bfa;
-  font-weight: 500;
   margin-left: 5px;
-  cursor: pointer;
-  font-size: 14px;
   padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 0px !important;
 }
 .session-content button.read-more-btn:hover {
   text-decoration: underline;
