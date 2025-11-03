@@ -198,8 +198,10 @@
 
 .journey-head-content .team-member img {
     border-radius: 8px;
-    width: 100%;
-    height: auto;
+    width: 265px;
+    height: 265px;
+    object-fit: cover;
+    object-position: top;
 }
 
 .journey-head-content .team-member h4 {
@@ -243,8 +245,9 @@
 
     .about-content-section .row.align-items-center {
         display: block;
+        width: 100%;
+        margin: auto;
     }
-
     .about-content-section {
         padding: 30px 0 0;
         display: flex;
@@ -310,10 +313,15 @@
     }
 
     .journey-head-content .section-title {
-        padding-top: 0px;
+        padding-top: 0;
         font-size: 25px;
+        margin-bottom: 3px !important;
     }
 
+    .journey-head-content .team-member h4 {
+        color: #1a1a1a;
+        margin: 0px 0 8px;
+    }
     .journey-head-content .section-description {
         width: 100%;
         margin: auto;
