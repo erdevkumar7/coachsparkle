@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getCoachType, getSubCoachType } from "@/app/api/guest";
 
-export default async function ExploreCoachs() {
+export default async function ExploreCoachs({ sectionData }) {
     // Fetch all coach types
     const types = await getCoachType();
 
@@ -27,11 +27,13 @@ export default async function ExploreCoachs() {
                 <div className="explore-coaches-section">
                     <div className="row explore-coaches-inner-content">
                         <div className="col-md-12 adipiscing-text">
-                            <h1>Explore 1,000+ Available Coaches</h1>
-                            <p>
-                                Browse by category, read real profiles, and connect with a coach who truly gets you.<br />
-                                Start your journey today — it’s free, personalized, and built around your goals.
-                            </p>
+                            <h1>{sectionData?.title || "Explore 1,000+ Available Coaches"}</h1>
+                            {sectionData?.description ? <p className='section-decrp-dynamic'>{sectionData?.description}</p> :
+                                <p>
+                                    Browse by category, read real profiles, and connect with a coach who truly gets you.<br />
+                                    Start your journey today — it’s free, personalized, and built around your goals.
+                                </p>}
+
                         </div>
                         <div className="professional-top">
                             <Link href="/coach-detail/list" className="view-all-add-btn text-right">VIEW ALL <EastIcon className="mui-icons" /></Link>

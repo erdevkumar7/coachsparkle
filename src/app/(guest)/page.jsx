@@ -62,10 +62,11 @@ export default async function Home() {
   const globalPartnersSection = home_page_content.find(item => item.section_name === "global_partners");
   const middleOneSection = home_page_content.find(item => item.section_name === "middle_one");
   const middleTwoSection = home_page_content.find(item => item.section_name === "middle_two");
+  const categorySection = home_page_content.find(item => item.section_name === "category");
   const planSection = home_page_content.find(item => item.section_name === "plan");
   const corporateSection = home_page_content.find(item => item.section_name === "corporate");
 
-  // console.log("Home Page Data:", homePageCountData);
+  // console.log("Home Page Data:", categorySection);
   return (
     <>
       <SmartMatching
@@ -130,7 +131,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <ExploreCoachs />
+      <ExploreCoachs sectionData={categorySection} />
 
       <FeaturedCoaches />
 

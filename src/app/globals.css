@@ -242,14 +242,21 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 }
-
-.smarter-matching-inner h1 {
-  font-size: 54px;
-  color: #009bfa;
-  font-family: "Inter";
-  padding-top: 116px;
+h1.text-center.premium-text-add {
+    width: 50%;
+    margin: auto;
 }
-
+.smarter-matching-inner h1 {
+    color: #009bfa;
+    padding-top: 116px;
+    font-family: Inter;
+    font-size: 54px;
+    width: 80%;
+}
+p.text-center.span-txt {
+    width: 72%;
+    margin: auto;
+}
 .smarter-matching-inner p {
   color: #000;
   margin-bottom: 0;
@@ -620,10 +627,11 @@ nav.d-flex.align-items-center.breadcrumb-nav .mui-icons {
 }
 
 .explore-coaches-section .adipiscing-text p {
-  font-size: 16px;
-  color: #000000;
-  font-family: "Roboto";
-  font-weight: 400;
+    color: #000;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    width: 75%;
 }
 
 .explore-coaches-section .professional-cards h5 {

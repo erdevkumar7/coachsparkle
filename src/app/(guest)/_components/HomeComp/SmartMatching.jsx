@@ -18,14 +18,6 @@ export default function SmartMatching({ coaches, sectionData, homePageCountData 
                         <h1 className="display-5 fw-bold">
                             {sectionData?.title
                                 ? sectionData.title
-                                    .split(".")
-                                    .filter(line => line.trim() !== "")
-                                    .map((line, index) => (
-                                        <span key={index}>
-                                            {line.trim()}.
-                                            <br />
-                                        </span>
-                                    ))
                                 : (
                                     <>
                                         Smarter Matching.<br />
