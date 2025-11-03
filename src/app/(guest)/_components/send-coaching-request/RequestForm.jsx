@@ -116,23 +116,28 @@ export default function RequestForm({
       const result = await response.json();
       console.log("Raw response:", result);
 
-      if (!response.ok || result.status === false) {
-        setMsg(true);
-        const messages = [];
+      // if (!response.ok || result.status === false) {
+      //   setMsg(true);
+      //   const messages = [];
 
-        if (result?.errors) {
-          for (const [field, errors] of Object.entries(result.errors)) {
-            messages.push(...errors);
-          }
-        }
+      //   if (result?.errors) {
+      //     for (const [field, errors] of Object.entries(result.errors)) {
+      //       messages.push(...errors);
+      //     }
+      //   }
 
-        if (messages.length > 0) {
-          messages.forEach((msg) => toast.error(msg));
-        } else {
-          console.log(result.message)
-          // toast.error(result.message || "Something went wrong");
-        }
+      //   if (messages.length > 0) {
+      //     messages.forEach((msg) => toast.error(msg));
+      //   } else {
+      //     console.log(result.message)
+      //     // toast.error(result.message || "Something went wrong");
+      //   }
 
+      //   return;
+      // }
+
+      if (result.status === false) {
+        toast.error(result.message || "Something went wrong");
         return;
       }
 
@@ -243,7 +248,7 @@ export default function RequestForm({
                   {...register("preferred_mode_of_delivery")}
                   disabled={loading}
                 >
-                  <option value="" disabled>
+                  <option value="">
                     Choose delivery mode
                   </option>
                   {deliveryMode.map((mode) => (
@@ -265,7 +270,7 @@ export default function RequestForm({
                   {...register("location")}
                   disabled={loading}
                 >
-                  <option value="" disabled>
+                  <option value="">
                     Select location
                   </option>
                   {countries.map((country) => (
@@ -344,7 +349,7 @@ export default function RequestForm({
                   {...register("preferred_communication_channel")}
                   disabled={loading}
                 >
-                  <option value="" disabled>
+                  <option value="">
                     Select communication channel
                   </option>
                   {communicationChannels.map((communication) => (
@@ -373,7 +378,7 @@ export default function RequestForm({
                     {...register("learner_age_group")}
                     disabled={loading}
                   >
-                    <option value="" disabled>
+                    <option value="">
                       Select age
                     </option>
                     {ageGroup.map((item) => (
@@ -397,7 +402,7 @@ export default function RequestForm({
                     {...register("preferred_teaching_style")}
                     disabled={loading}
                   >
-                    <option value="" disabled>
+                    <option value="">
                       Select teaching style
                     </option>
                     {coachingCategory.map((cat) => (
@@ -419,7 +424,7 @@ export default function RequestForm({
                     {...register("budget_range")}
                     disabled={loading}
                   >
-                    <option value="" disabled>
+                    <option value="">
                       Select budget range
                     </option>
                     {budgetRange.map((budget) => (
@@ -469,7 +474,7 @@ export default function RequestForm({
                     {...register("coach_gender")}
                     disabled={loading}
                   >
-                    <option value="" disabled>
+                    <option value="">
                       Select gender
                     </option>
                     <option value={1}>Male</option>
@@ -488,7 +493,7 @@ export default function RequestForm({
                     {...register("coach_experience_level")}
                     disabled={loading}
                   >
-                    <option value="" disabled>
+                    <option value="">
                       Select experience level
                     </option>
                     {experienceLevel.map((exp) => (
@@ -522,7 +527,7 @@ export default function RequestForm({
                     {...register("only_certified_coach")}
                     disabled={loading}
                   >
-                    <option value="" disabled>
+                    <option value="">
                       Select
                     </option>
                     <option value={1}>Yes</option>

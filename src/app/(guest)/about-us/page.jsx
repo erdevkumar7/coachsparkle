@@ -4,7 +4,7 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 async function getAboutPageData() {
     try {
-        const response = await fetch('https://coachsparkle-backend.votivereact.in/api/getAboutPageSection', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getAboutPageSection`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
