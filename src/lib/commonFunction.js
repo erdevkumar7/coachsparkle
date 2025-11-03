@@ -34,7 +34,6 @@ export function formatBookingWindow(bookingRange) {
     return `${startDate.toLocaleDateString("en-US", options)} to ${endDate.toLocaleDateString("en-US", options)}`;
 }
 
-
 //  "givenDate": "2025-11-07" -> and  "givenTime": "09:30" -> into  Fri, Nov 7, 9:30 AM (GMT+8)
 export function newDateTimeFormatter(givenDate, givenTime) {
     try {
@@ -65,4 +64,44 @@ export function newDateTimeFormatter(givenDate, givenTime) {
         console.error('Error formatting date:', error);
         return `${session.session_date_start} at ${session.slot_time_start}`;
     }
+};
+
+// Format date  timestamp -> 3 Nov 25, 10.50pm
+export function formatMessageDate(timestamp) {
+    if (!timestamp) return "";
+
+    const date = new Date(timestamp);
+
+    // Format day and month: "25 Jun"
+    const day = date.getDate();
+    const month = date.toLocaleString('en', { month: 'short' });
+
+    // Get last two digits of year: "24" for 2024
+    const year = date.getFullYear().toString().slice(-2);
+
+    // Format time: "6.40pm"
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'pm' : 'am';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+    return `${day} ${month} ${year}, ${hours}.${minutes}${ampm}`;
+};
+
+// Format time to display (e.g., "2 hours ago", "Just now")
+export function formatTime (timestamp) {
+    if (!timestamp) return "";
+
+    const now = new Date();
+    const messageTime = new Date(timestamp);
+    const diffInSeconds = Math.floor((now - messageTime) / 1000);
+
+    if (diffInSeconds < 60) return "Just now";
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+
+    return messageTime.toLocaleDateString();
 };
