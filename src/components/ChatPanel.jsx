@@ -5,6 +5,8 @@ import { ChatContext, useChat } from '@/context/ChatContext';
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { Tooltip } from "react-tooltip";
+import Link from "next/link";
+import { formatMessageDate, formatTime } from "@/lib/commonFunction";
 
 const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabChange, onCoachSelect, onRefresh }) => {
   const { messages, unreadCounts, markAsRead } = useContext(ChatContext);
@@ -39,21 +41,6 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
     return `${userIds[0]}-${userIds[1]}-${currentTab.message_type}`;
   };
 
-  // Format time to display (e.g., "2 hours ago", "Just now")
-  const formatTime = (timestamp) => {
-    if (!timestamp) return "";
-
-    const now = new Date();
-    const messageTime = new Date(timestamp);
-    const diffInSeconds = Math.floor((now - messageTime) / 1000);
-
-    if (diffInSeconds < 60) return "Just now";
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
-
-    return messageTime.toLocaleDateString();
-  };
 
   // Scroll to bottom of messages
   const scrollToBottom = () => {
@@ -211,6 +198,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
     }
   };
 
+  console.log('tabMessages', tabMessages)
   return (
     <div className="chat-message-start">
       <ul className="tab">
@@ -359,9 +347,45 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       {formatTime(msg.created_at)}
                                     </span>
                                   </div>
-                                  <div className="message-content">
-                                    {msg.message}
+
+
+                                  {msg.message_type === 1 &&
+                                    <div className="message-content">
+                                      {msg.message}
+                                    </div>}
+
+                                  {/* <div className="hi-text-tell session-info">
+                                    <img
+                                      src="/coachsparkle/images/google-meet.png"
+                                      alt="file"
+                                      className="session-img"
+                                    />
                                   </div>
+
+                                  <div className="hi-text-tell">
+                                    <p className="hi-enter-text">{msg.message}</p>
+                                  </div> */}
+
+                                  {msg.message_type === 2 && (
+                                    <div className="message-content hi-text-tell coaching-request-message">
+                                      {msg.document && <Link href={msg.document} target="_blank"><img
+                                        src="/coachsparkle/assets/images/folder-icon.png"
+                                        alt="file"
+                                        width={30}
+                                      /></Link>}
+                                      <p className="click-to-view">
+                                        {msg.message}
+                                        <br />
+                                        {msg.document && `You sent a coaching request on ${formatMessageDate(msg.created_at)}`}
+                                      </p>
+                                    </div>
+                                  )}
+
+                                  {msg.message_type === 3 &&
+                                    <div className="message-content">
+                                      {msg.message}
+                                    </div>}
+
                                 </div>
                               );
                             })
