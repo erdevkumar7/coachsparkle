@@ -25,18 +25,10 @@ export default function CoachPlans({ sectionData }) {
     return (
         <div className="choose-plan-you">
             <div className="container">
-                <h1 className="text-center">
+                <h1 className="text-center premium-text-add">
                     {/* Free for Everyone <br />
                     Premium for Coaches Who Want More */}
-                    {sectionData?.title
-                        ? sectionData.title.split("Premium").map((part, index) => (
-                            <span key={index}>
-                                {part}
-                                {index === 0 && <br />}
-                                {index === 0 && "Premium"}
-                            </span>
-                        ))
-                        : "Free for Everyone Premium for Coaches Who Want More"}
+                    {sectionData?.title ? sectionData.title : "Free for Everyone Premium for Coaches Who Want More"}
                 </h1>
                 <p className="text-center">{sectionData?.subtitle || `Whether you’re searching for your next coach or listing your expertise, Coach Sparkle is always free to use.`}</p>
                 <p className="text-center span-txt">

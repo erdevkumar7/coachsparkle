@@ -12,6 +12,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   const [selectedCoachIndex, setSelectedCoachIndex] = useState(null);
   const [tabMessages, setTabMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false); // Add this state for sending
   const [searchTerm, setSearchTerm] = useState("");
   const messagesEndRef = useRef(null);
   const { sendMessage } = useChat();
@@ -180,16 +181,32 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   });
 
   // When sending a message - include message type
+  // const handleSend = async () => {
+  //   if (newMessage.trim() && selectedCoach) {
+  //     await sendMessage(selectedCoach.id, newMessage, currentTab.message_type);
+  //     setNewMessage("");
+  //   }
+  // }
+
   const handleSend = async () => {
-    if (newMessage.trim() && selectedCoach) {
-      await sendMessage(selectedCoach.id, newMessage, currentTab.message_type);
-      setNewMessage("");
+    if (newMessage.trim() && selectedCoach && !isSending) {
+      setIsSending(true); // Disable button
+      try {
+        await sendMessage(selectedCoach.id, newMessage, currentTab.message_type);
+        setNewMessage(""); // Clear input after successful send
+      } catch (error) {
+        console.error("Error sending message:", error);
+      } finally {
+        setIsSending(false); // Re-enable button whether success or failure
+      }
     }
   }
 
+
+
   // Handle enter key press
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !isSending) {
       handleSend();
     }
   };
@@ -336,7 +353,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                 <div key={i} className={`message-item ${isOwnMessage ? 'own-message' : 'other-message'}`}>
                                   <div className="message-header">
                                     <span className="message-sender">
-                                      {isOwnMessage ? 'You' : msg.sender?.first_name || 'Coach'}
+                                      {isOwnMessage ? 'You' : msg.sender?.first_name || 'User'}
                                     </span>
                                     <span className="message-time">
                                       {formatTime(msg.created_at)}
@@ -367,16 +384,16 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                               value={newMessage}
                               onChange={(e) => setNewMessage(e.target.value)}
                               onKeyPress={handleKeyPress}
-                              disabled={!selectedCoach}
+                              disabled={!selectedCoach || isSending}
                             />
                           </div>
 
                           <button
-                            className="send-message-button"
+                            className={`send-message-button ${(!selectedCoach || !newMessage.trim() || isSending) ? 'send-message-button-new-disabled' : ''}`}
                             onClick={handleSend}
-                            disabled={!selectedCoach || !newMessage.trim()}
+                            disabled={!selectedCoach || !newMessage.trim() || isSending}
                           >
-                            Send Message <i className="bi bi-arrow-right"></i>
+                            {isSending ? 'Sending...' : 'Send Message'} <i className="bi bi-arrow-right"></i>
                           </button>
                         </div>
                       </>
