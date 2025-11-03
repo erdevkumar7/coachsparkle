@@ -206,8 +206,9 @@ h3.font-weight-bold.quick-text-add {
 
 .inner-card-add p.text-blue-600.font-bold {
     text-align: left;
-    color: #181A20;
+    color: #181a20;
     font-weight: 600;
+    margin-bottom: 0;
 }
 
 .max-w-5xl.mx-auto.px-4.py-8.at-glance-add {
@@ -315,7 +316,7 @@ a.dropdown-item.preview-item {
 .goals-progress .progress {
     background: #8cfac7;
     border-radius: 15px;
-    height: 25px;
+    height: 20px;
     margin-bottom: 10px;
     overflow: hidden;
 }
@@ -726,18 +727,33 @@ p.coach-rating span {
     margin-bottom: 0.5rem;
 }
 
+.boder-line-add .inner-card-add .bg-gray-100.rounded-xl.p-4.text-center {
+    padding: 8px !important;
+    align-items: center !important;
+}
 
 
 @media (max-width: 767px) {
 
 
-    
+    .goals-progress .coaching-card h5 {
+        font-size: 16px;
+    }
+    .activity-log-card h3.activity-title {
+        border-bottom: 1px solid #e7e7e7;
+        width: 60%;
+    }
     .top-user-section-add {
         margin-top: 0px;
     }
 
+    .flex.items-center.gap-3.mt-4 {
+        justify-content: center;
+        margin-top: 10px !important;
+    }
+
     .user-dash-add h3.font-weight-bold.quick-text-add {
-        text-align: left;
+        text-align: center;
         margin-bottom: 0;
         font-size: 25px;
     }
@@ -803,7 +819,7 @@ p.coach-rating span {
     }
 
     .goals-progress .card-header h3 {
-        font-size: 24px;
+        font-size: 19px;
         margin-bottom: 10px;
     }
     .goals-progress .view-btn {
@@ -815,7 +831,7 @@ p.coach-rating span {
     }
 
     .card.matched-add .coach button.msg-btn {
-        width: 84%;
+        width: 44%;
         margin: 15px auto auto;
         margin: auto !important;
         float: none !important;
@@ -823,6 +839,7 @@ p.coach-rating span {
         justify-content: center;
         margin-top: 15px !important;
     }
+    
 
     .goals-progress .right-column {
         width: 100%;

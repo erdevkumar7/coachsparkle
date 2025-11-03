@@ -159,11 +159,18 @@ a#notificationDropdown {
 
   .coach-top-navber-add ul.navbar-nav.list-show a {
     font-size: 15px;
-    padding: 10px 30px !important;
+    padding: 10px 10px !important;
 }
   button.navbar-toggler.navbar-toggler-right.d-lg-none.align-self-center {
-    display: none;
+    display: block;
   }
+  .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown {
+    width: calc(60% - 40px);
+    top: 60px;
+    left: 150px;
+    right: 20px;
+    margin-top: 11px;
+}
 
   .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown {
     width: calc(100% - 40px);
@@ -193,7 +200,7 @@ a#notificationDropdown {
   }
   .register-login.head-top-login-add .register-content {
     margin-top: 0;
-    margin-left: 0px !important;
+    margin-left: 20px !important;
   }
   .coach-top-navber-add div#navbarTogglerDemo01 {
     background-color: #fff;
