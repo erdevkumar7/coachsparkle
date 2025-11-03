@@ -7,7 +7,7 @@ import ContactUsForm from '../_components/ContactUsForm';
 
 // ✅ Fetch contact page data from backend (server-side)
 async function getContactData() {
-    const res = await fetch("https://coachsparkle-backend.votivereact.in/api/showcontactpage", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/showcontactpage`, {
         method: "POST",
         cache: "no-store", // ensures fresh data on each request
     });
