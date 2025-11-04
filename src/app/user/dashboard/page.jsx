@@ -153,9 +153,9 @@ export default function UserDashboard() {
         router.push('/user/profile');
     };
 
-    const handleViewSession = (packageId) => {
+    const handleViewSession = (coachId, packageId) => {
         // Navigate to session details page
-        router.push(`/sessions?package=${packageId}`);
+        router.push(`/coach-detail/${coachId}/package/${packageId}`);
     };
 
     // Format date for upcoming session
@@ -378,7 +378,7 @@ export default function UserDashboard() {
                                         <div className="goal-actions">
                                             <button
                                                 className="view-btn"
-                                                onClick={() => handleViewSession(goal.package_id)}
+                                                onClick={() => handleViewSession(goal.coach_id, goal.package_id)}
                                             >
                                                 View Session
                                             </button>
