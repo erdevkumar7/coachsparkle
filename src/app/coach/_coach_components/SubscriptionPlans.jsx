@@ -7,7 +7,6 @@ import EastIcon from '@mui/icons-material/East';
 import Cookies from 'js-cookie';
 
 export default function SubscriptionPlans({ user }) {
-    // let isProUser = user.subscription_plan.plan_name == 'Pro' ? true : false;
     let isProUser = user.subscription_plan.plan_status;
     const token = Cookies.get("token");
     const [activePlanEnable, setActivePlanEnable] = useState(true);
@@ -16,9 +15,44 @@ export default function SubscriptionPlans({ user }) {
     const [plans, setPlans] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [processingPayment, setProcessingPayment] = useState(null); // Track which plan is being processed
+    const [processingPayment, setProcessingPayment] = useState(null);
+    const [paymentHistory, setPaymentHistory] = useState([]);
+    const [paymentHistoryLoading, setPaymentHistoryLoading] = useState(false);
+    const [currentPaymentMethod, setCurrentPaymentMethod] = useState(null);
 
     console.log('usersss', user.subscription_plan)
+
+    // Fetch payment history
+    const fetchPaymentHistory = async () => {
+        setPaymentHistoryLoading(true);
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/CoachpaymentHistory`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch payment history');
+            }
+
+            const data = await response.json();
+            if (data.success && data.payments) {
+                setPaymentHistory(data.payments);
+                // Set current payment method from the most recent payment
+                if (data.payments.length > 0) {
+                    setCurrentPaymentMethod(data.payments[0]);
+                }
+            }
+        } catch (err) {
+            console.error('Error fetching payment history:', err);
+        } finally {
+            setPaymentHistoryLoading(false);
+        }
+    };
+
     // Fetch plans from API
     const fetchPlans = async () => {
         setLoading(true);
@@ -72,7 +106,6 @@ export default function SubscriptionPlans({ user }) {
             }
 
             if (data.success && data.redirect_url) {
-                // Redirect to Stripe checkout
                 window.location.href = data.redirect_url;
             } else {
                 throw new Error('Invalid response from payment server');
@@ -125,17 +158,54 @@ export default function SubscriptionPlans({ user }) {
     function formatNextPaymentDate(dateStr) {
         if (!dateStr) return "";
 
-        // Convert "24-11-2025" → "2025-11-24"
         const [day, month, year] = dateStr.split("-");
         const formattedDate = new Date(`${year}-${month}-${day}`);
 
-        // Format as "Next Payment: Aug 30, 2025"
         return `Next Payment: ${formattedDate.toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
             year: "numeric",
         })}`;
     }
+
+    // Format payment date for display
+    const formatPaymentDate = (dateStr) => {
+        if (!dateStr) return "";
+
+        // Handle "01-11-2025 12:21:04" format
+        const [datePart] = dateStr.split(' ');
+        const [day, month, year] = datePart.split("-");
+        const formattedDate = new Date(`${year}-${month}-${day}`);
+
+        return formattedDate.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        });
+    };
+
+    // Get card icon based on payment type
+    const getCardIcon = (paymentType) => {
+        switch (paymentType?.toLowerCase()) {
+            case 'visa':
+                return "/coachsparkle/images/visa-card.png";
+            case 'mastercard':
+            case 'master card':
+                return "/coachsparkle/images/master-card.png";
+            case 'amex':
+            case 'american express':
+                return "/coachsparkle/images/amex-card.png";
+            default:
+                return "/coachsparkle/images/credit-card.png";
+        }
+    };
+
+    // Fetch payment history when component mounts for Pro users
+    useEffect(() => {
+        if (isProUser) {
+            fetchPaymentHistory();
+        }
+    }, [isProUser]);
 
     return (
         <>
@@ -170,7 +240,7 @@ export default function SubscriptionPlans({ user }) {
             <div className="current-sub-plan card">
                 {isProUser ? <div className="notification-bar">
                     <i className="bi bi-bell-fill"></i> Notifications
-                </div> : ''}
+                </div> : null}
 
                 <h4>Your Current Subscription</h4>
 
@@ -187,15 +257,13 @@ export default function SubscriptionPlans({ user }) {
                         </div> : ''}
                     </div>
                     <div className="subscription-title">{isProUser ? user?.subscription_plan?.plan_name : "Basic Plan"}</div>
-                    <div className="subscription-price">${isProUser ? user?.subscription_plan?.amount : "$0/month"}</div>
+                    <div className="subscription-price">${isProUser ? user?.subscription_plan?.amount : "0/month"}</div>
                     {isProUser ? <div className="next--payment-text mb-3 pt-1">
                         {formatNextPaymentDate(user?.subscription_plan?.end_date)}
                     </div> : <div className="next--payment-text mb-3 pt-1">
                         Basic profile, limited features
                     </div>
                     }
-
-
 
                     {isProUser ? (
                         <>
@@ -211,7 +279,7 @@ export default function SubscriptionPlans({ user }) {
                                 </li>
                             </ul>
 
-                            <div className="d-flex align-items-center mt-3 auto-renew-add">
+                            {/* <div className="d-flex align-items-center mt-3 auto-renew-add">
                                 <div className="form-check form-switch me-3">
                                     <ToggleSwitch
                                         value={autoRenew}
@@ -222,7 +290,7 @@ export default function SubscriptionPlans({ user }) {
                                     <label className="form-check-label" htmlFor="autoRenew">Auto Renew is On</label>
                                 </div>
                                 <button className="btn btn-primary btn-sm">Manage</button>
-                            </div>
+                            </div> */}
                         </>
                     ) : (
                         <div className="try-pro-free">
@@ -324,7 +392,6 @@ export default function SubscriptionPlans({ user }) {
                                         </div>
                                     )}
 
-                                    {/* Payment Error Display */}
                                     {error && !loading && (
                                         <div className="alert alert-danger mt-3">
                                             {error}
@@ -346,30 +413,39 @@ export default function SubscriptionPlans({ user }) {
                     </div>
                 )}
 
-                {/* Rest of your existing code for payment methods and history */}
+                {/* Payment Method Section */}
                 {isProUser ? (
                     <>
-                        <div className="payment-method-part">
+                        <div className="payment-method-part mt-4">
                             <h4>Payment Method</h4>
                             <div className="payment-method">
-                                <div className="payment-method-card active">
-                                    <i className="bi bi-check-circle-fill"></i>
-                                    <small>Credit Card</small>
-                                    <div className="debit-card-inner">
-                                        <div><img src="/coachsparkle/images/master-card.png" width="40" alt="MasterCard" /></div>
-                                        <div className="card-number">**** **** **** 3512</div>
+                                {currentPaymentMethod ? (
+                                    <div className="payment-method-card active">
+                                        <i className="bi bi-check-circle-fill"></i>
+                                        <small>
+                                            {currentPaymentMethod.payment_method === 'card'
+                                                ? 'Credit Card'
+                                                : currentPaymentMethod.payment_method}
+                                        </small>
+                                        <div className="debit-card-inner">
+                                            <div>
+                                                <img
+                                                    src={getCardIcon(currentPaymentMethod.payment_type)}
+                                                    width="40"
+                                                    alt={currentPaymentMethod.payment_type}
+                                                />
+                                            </div>
+                                            <div className="card-number">
+                                                **** **** **** {currentPaymentMethod.payment_last4}
+                                            </div>
+                                        </div>
+                                        <div className="remove-btn">&minus;</div>
                                     </div>
-                                    <div className="remove-btn">&minus;</div>
-                                </div>
-
-                                <div className="payment-method-card">
-                                    <small>Debit Card</small>
-                                    <div className="debit-card-inner">
-                                        <div><img src="/coachsparkle/images/visa-card.png" width="40" alt="Visa" /></div>
-                                        <div className="card-number">**** **** **** 1543</div>
+                                ) : (
+                                    <div className="text-center py-3">
+                                        <p>No payment method found</p>
                                     </div>
-                                    <div className="remove-btn">&minus;</div>
-                                </div>
+                                )}
 
                                 <div className="payment-method-card d-flex justify-content-center align-items-center">
                                     <div className="add-icon">+</div>
@@ -377,49 +453,103 @@ export default function SubscriptionPlans({ user }) {
                             </div>
                         </div>
 
-                        <div className="payment-history">
+                        {/* Payment History Section */}
+                        <div className="payment-history mt-4">
                             <h4>Payment History</h4>
-                            <div className="table-responsive card">
-                                <table className="table table-bordered bg-white">
-                                    <thead className="table-light">
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Receipt</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Apr 20, 2025</td>
-                                            <td>$25.00</td>
-                                            <td><span className="status-paid">Paid</span></td>
-                                            <td><a href="#">Download &gt;</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mar 20, 2025</td>
-                                            <td>$25.00</td>
-                                            <td><span className="status-paid">Paid</span></td>
-                                            <td><a href="#">Download &gt;</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Feb 20, 2025</td>
-                                            <td>$25.00</td>
-                                            <td><span className="status-paid">Paid</span></td>
-                                            <td><a href="#">Download &gt;</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jan 20, 2025</td>
-                                            <td>$25.00</td>
-                                            <td><span className="status-paid">Paid</span></td>
-                                            <td><a href="#">Download &gt;</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            {paymentHistoryLoading ? (
+                                <div className="table-responsive card">
+                                    <table className="table table-bordered bg-white">
+                                        <thead className="table-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Plan</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Receipt</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colSpan="5" className="text-center py-4">
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    <p className="mt-2">Loading payment history...</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            ) : paymentHistory.length > 0 ? (
+                                <div className="table-responsive card">
+                                    <table className="table table-bordered bg-white">
+                                        <thead className="table-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Plan</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Receipt</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {paymentHistory.map((payment) => (
+                                                <tr key={payment.id}>
+                                                    <td>{formatPaymentDate(payment.payment_date)}</td>
+                                                    <td>{payment.plan_name}</td>
+                                                    <td>${payment.amount}</td>
+                                                    <td>
+                                                        <span className={`status-${payment.payment_status.toLowerCase()}`}>
+                                                            {payment.payment_status}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {payment.pdf ? (
+                                                            <a
+                                                                href={payment.pdf}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-decoration-none"
+                                                            >
+                                                                Download &gt;
+                                                            </a>
+                                                        ) : (
+                                                            <span className="text-muted">N/A</span>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+
+                                <div className="table-responsive card">
+                                    <table className="table table-bordered bg-white">
+                                        <thead className="table-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Plan</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Receipt</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colSpan="5" className="text-center py-4">
+                                                    <p className="text-muted">No payment history found</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
                         </div>
                     </>
-                ) : <></>}
+                ) : null}
             </div>
         </>
     );
