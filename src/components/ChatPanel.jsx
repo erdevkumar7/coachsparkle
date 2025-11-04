@@ -354,18 +354,6 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       {msg.message}
                                     </div>}
 
-                                  {/* <div className="hi-text-tell session-info">
-                                    <img
-                                      src="/coachsparkle/images/google-meet.png"
-                                      alt="file"
-                                      className="session-img"
-                                    />
-                                  </div>
-
-                                  <div className="hi-text-tell">
-                                    <p className="hi-enter-text">{msg.message}</p>
-                                  </div> */}
-
                                   {msg.message_type === 2 && (
                                     <div className="message-content hi-text-tell coaching-request-message">
                                       {msg.document && <Link href={msg.document} target="_blank"><img
@@ -381,18 +369,17 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                     </div>
                                   )}
 
-                                  {/* {msg.message_type === 3 &&
-                                    <div className="message-content">
-                                      {msg.message}
-                                    </div>} */}
-
-
                                   {msg.message_type === 3 && (
-                                    <div className="hi-text-tell session-info" dangerouslySetInnerHTML={{ __html: msg.message }}/>
-                                   
-                       
-                                  )}
+                                    <>
+                                      {msg.document && <Link href={msg.document} target="_blank"><img
+                                        src="/coachsparkle/images/google-meet.png"
+                                        alt="file"
+                                        className="session-img"
+                                      /></Link>}
+                                      <div className="message-content hi-text-tell session-info" dangerouslySetInnerHTML={{ __html: msg.message }} />
+                                    </>
 
+                                  )}
                                 </div>
                               );
                             })
