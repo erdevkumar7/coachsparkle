@@ -381,10 +381,17 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                     </div>
                                   )}
 
-                                  {msg.message_type === 3 &&
+                                  {/* {msg.message_type === 3 &&
                                     <div className="message-content">
                                       {msg.message}
-                                    </div>}
+                                    </div>} */}
+
+
+                                  {msg.message_type === 3 && (
+                                    <div className="hi-text-tell session-info" dangerouslySetInnerHTML={{ __html: msg.message }}/>
+                                   
+                       
+                                  )}
 
                                 </div>
                               );
