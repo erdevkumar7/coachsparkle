@@ -43,7 +43,7 @@ export const registerSchema = yup.object().shape({
     //     .string()
     //     .oneOf([yup.ref('password')], 'Passwords must match')
     //     .required('Confirm your password'),
-    
+
     country_id: yup.string().required('Please select your country'),
     terms: yup.bool().oneOf([true], 'You must agree to the terms'),
 });
@@ -82,9 +82,7 @@ export const coachSchema = yup.object().shape({
         .max(150, 'Professional title maximum 150 characters'),
     company_name: yup
         .string()
-        .required('Company name is required')
-        .min(2, 'Company name least two characters')
-        .max(150, 'Company name maximum 150 characters'),
+        .max(50, 'Company name must be at most 50 characters'),
 
     experience: yup
         .number()

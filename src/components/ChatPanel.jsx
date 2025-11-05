@@ -151,19 +151,21 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
     const user = getCurrentUser();
     if (!user) return coach;
 
-    // Create type-specific chat key for unread counts
+    // Create type-specific chat key for unread counts 
     const chatKey = `${Math.min(user.id, coach.id)}-${Math.max(user.id, coach.id)}-${currentTab.message_type}`;
+    // chatKey = coachId-LoggedInUserId-message_type = 160-164-1
 
     // Get the last message for this coach
     const lastMessage = messages[chatKey] && messages[chatKey].length > 0
       ? messages[chatKey][messages[chatKey].length - 1]
       : null;
+    // console.log('chatKey', chatKey) 
 
     return {
       ...coach,
       unread: unreadCounts[chatKey] || 0,
       lastMessageText: lastMessage ? lastMessage.message : coach.lastMessage,
-      lastMessageTime: lastMessage ? formatTime(lastMessage.created_at) : coach.time
+      lastMessageTime: lastMessage ? formatTime(lastMessage.created_at) : formatTime(new Date(coach.time))
     };
   });
 
@@ -198,7 +200,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
     }
   };
 
-  console.log('tabMessages', tabMessages)
+  console.log('currentTab', currentTab)
   return (
     <div className="chat-message-start">
       <ul className="tab">
@@ -271,9 +273,13 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                         </p>
 
                                       </div>
-                                      <p className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}>
+                                      {/* <p className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}>
                                         {coach.lastMessageText}
-                                      </p>
+                                      </p> */}
+
+                                      <p
+                                        className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}
+                                        dangerouslySetInnerHTML={{ __html: coach.lastMessageText }} />
                                     </div>
                                   </div>
                                   <div className="pt-1 time-zone-add">

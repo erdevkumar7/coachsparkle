@@ -20,7 +20,9 @@ import {
   Select,
   MenuItem,
   Chip,
-  Box
+  Box,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 import EastIcon from '@mui/icons-material/East';
 
@@ -613,6 +615,48 @@ export default function CoachUpdateForm({
                 />
                 {errors.language_names && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.language_names.message}</p>}
               </div>
+
+              {/* <div className="form-group language-input-add">
+                <label>Language*</label>
+                <Controller
+                  name="language_names"
+                  control={control}
+                  render={({ field }) => (
+                    <Autocomplete
+                      multiple
+                      options={allLanguages}
+                      getOptionLabel={(option) =>
+                        typeof option === 'string' ? option : option.language_name || option.name
+                      }
+                      value={field.value || []}
+                      onChange={(event, newValue) => {
+                        field.onChange(newValue);
+                      }}
+                      filterSelectedOptions
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Type to search languages..."
+                          error={!!errors.language_names}
+                          helperText={errors.language_names?.message}
+                        />
+                      )}
+                      renderTags={(value, getTagProps) =>
+                        value.map((option, index) => {
+                          const label = typeof option === 'string' ? option : option.language_name || option.name;
+                          return (
+                            <Chip
+                              label={label}
+                              {...getTagProps({ index })}
+                              key={index}
+                            />
+                          );
+                        })
+                      }
+                    />
+                  )}
+                />
+              </div> */}
 
 
             </div>
