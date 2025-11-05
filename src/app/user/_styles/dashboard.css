@@ -735,7 +735,9 @@ p.coach-rating span {
 
 @media (max-width: 767px) {
 
-
+    .msg_left_text_add p.small.text-muted.text-truncate.mb-0 {
+        width: 90%;
+    }
     .goals-progress .coaching-card h5 {
         font-size: 16px;
     }
@@ -830,6 +832,18 @@ p.coach-rating span {
         display: block;
     }
 
+    .right-side-message .start-chat-add {
+        margin-bottom: 30px;
+    }
+    a.report-btn-add {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        width: 50%;
+    }
+    .left-col-add {
+        margin-bottom: 30px;
+    }
     .card.matched-add .coach button.msg-btn {
         width: 44%;
         margin: 15px auto auto;
@@ -936,7 +950,24 @@ p.coach-rating span {
     .coaching-progress-status .d-flex {
         justify-content: center !important;
     }
+    .review-section-add {
+        padding-left: 0px !important;
+        margin-top: 25px;
+    }
 
+    .user-review-top-add {
+        overflow: scroll;
+    }
 
+    .user-review-top-add td.sed-tab {
+        min-width: 320px;
+    }
+
+    .rating-reviews .user-info {
+        text-align: left;
+        font-size: 15px;
+        min-width: 110px;
+    }
+    
 
 }

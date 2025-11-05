@@ -20,7 +20,9 @@ export default async function Review() {
                             <h3 className="text-lg font-semibold mb-4 quick-text">
                                 Rating and reviews
                             </h3>
+                            <div className="user-review-top-add">
                             <ReviewTable reviews={reviews} token={token} />
+                            </div>
                         </div>
                     </div>
                 </div>
