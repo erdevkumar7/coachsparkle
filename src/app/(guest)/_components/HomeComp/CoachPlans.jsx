@@ -21,6 +21,7 @@ export default function CoachPlans({ sectionData }) {
         }
     };
 
+    console.log('plansplans', plans)
 
     return (
         <div className="choose-plan-you">
@@ -63,7 +64,8 @@ export default function CoachPlans({ sectionData }) {
                                 <div className="col-md-4 mb-4" key={plan.id}>
                                     <div className={`card ${plan.plan_amount > 0 ? "featured" : ""}`}>
                                         <h3>{plan.plan_name}</h3>
-                                        <p>{plan.plan_amount > 0 ? "Maximize your reach and revenue with advanced tools, full visibility and priority matching" : "Get started with a basic profile to explore the platform and connect with your first few clients."}</p>
+                                        <p> {plan.plan_content || `Maximize your reach and revenue with advanced tools, full visibility and priority matching" : "Get started with a basic profile to explore the platform and connect with your first few clients.`} </p>
+                                        {/* <p>{plan.plan_amount}</p> */}
                                         <h2>$<span className="number-add">{plan.plan_amount}</span></h2>
 
                                         <div className="user-list-plan">
