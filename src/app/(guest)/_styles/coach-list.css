@@ -1516,7 +1516,12 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   .coach-profile-list-left .about-section .certifi {
     display: block ;
 }
-
+.css-13xfq8m-MuiTabPanel-root {
+  padding: 24px 0px;
+}
+.item-artcl {
+  padding-top: 15px;
+}
 .certifi img {
     margin-bottom: 14px;
 }
@@ -1594,7 +1599,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
     height: 200px;
     margin-bottom: 15px;
     display: block;
-    margin: 25px 0px;
+    margin: 15px 0px;
 } 
 .about-section.publs_artcl img.top-image {
   margin-top: 0px !important;
@@ -1723,8 +1728,9 @@ span.MuiRating-root.MuiRating-sizeMedium.Mui-readOnly.css-tw2awz-MuiRating-root 
     text-align: center;
 }
 .senior-engineer-details-add .co-name {
-  align-items: baseline;
   justify-content: center;
+  align-items: baseline;
+  padding-top: 10px;
 }
   .title-banner p {
     margin-top: 40px;
@@ -1805,11 +1811,12 @@ input.form-control.search-input {
     height: fit-content;
   }
   .coach-banner-add .coach-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
     object-fit: cover;
-  }
+    border-radius: 12px;
+    width: 100%;
+    height: 350px;
+    object-position: top;
+}
   .coach-banner-add .coach-info h2 {
     margin: 0 0 5px;
     font-size: 21px;
