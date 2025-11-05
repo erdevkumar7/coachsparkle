@@ -287,7 +287,7 @@ export default function Header({ user }) {
                     <Link href="/login" className="Login-navbar">
                       Login
                     </Link>
-                    <Link
+                    <Link className="sign-up-add"
                       href="/select-role"
                       style={{
                         display: "inline-block",
