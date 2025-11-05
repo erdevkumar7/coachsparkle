@@ -127,13 +127,14 @@
 }
 
 .user-wrapper {
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    min-height: calc(100vh - 60px);
-    padding-left: 0;
-    padding-right: 0;
-    display: -webkit-flex;
-    display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  min-height: calc(100vh - 60px);
+  padding-left: 0;
+  padding-right: 0;
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 30px;
 }
 /* .user-wrapper {
   padding-top: 150px !important;

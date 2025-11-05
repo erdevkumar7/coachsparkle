@@ -205,6 +205,9 @@ a.sign-up-add {
   .register-login.head-top-login-add {
     padding-left: 0px !important;
   }
+  .register-login.head-top-login-add {
+    padding-left: 30px !important;
+}
   .register-login.head-top-login-add .register-content {
     margin-top: 0;
     margin-left: 20px !important;
@@ -222,7 +225,9 @@ a.sign-up-add {
     padding: 20px 20px;
     gap: 10px;
   }
-
+  .side-bar-left-top {
+    margin-top: 40px !important;
+  }
   .coach-top-navber-add .register-content {
     margin-left: 20px;
     margin-top: 0px;

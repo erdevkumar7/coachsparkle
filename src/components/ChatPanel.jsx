@@ -259,7 +259,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                   href="#!"
                                   className="d-flex justify-content-between"
                                 >
-                                  <div className="d-flex flex-row">
+                                  <div className="d-flex flex-row msg_left_text_add">
                                     <img
                                       src={coach.img}
                                       alt="avatar"
