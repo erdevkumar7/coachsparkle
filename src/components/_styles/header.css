@@ -157,6 +157,13 @@ a#notificationDropdown {
 
 @media only screen and (max-width: 767px) {
 
+
+ul.navbar-nav.list-show .register-content {
+    margin-left: 0px !important;
+} 
+a.sign-up-add {
+  min-width: 110px;
+}
   .coach-top-navber-add ul.navbar-nav.list-show a {
     font-size: 15px;
     padding: 10px 10px !important;
