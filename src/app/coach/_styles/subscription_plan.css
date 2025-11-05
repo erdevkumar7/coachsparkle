@@ -8,6 +8,14 @@
     padding-bottom: 0px;
 }
 
+.readonly-toggle {
+    cursor: default;
+}
+
+.readonly-toggle .toggle-switch {
+    pointer-events: none;
+}
+
 
 button.btn.btn-not-pro-learn.mt-2 {
     color: #fff;

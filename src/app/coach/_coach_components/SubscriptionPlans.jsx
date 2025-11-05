@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 export default function SubscriptionPlans({ user }) {
     let isProUser = user.subscription_plan.plan_status;
     const token = Cookies.get("token");
-    const [activePlanEnable, setActivePlanEnable] = useState(true);
+    // const [activePlanEnable, setActivePlanEnable] = useState(true);
     const [autoRenew, setAutoRenew] = useState(true);
     const [showPlansModal, setShowPlansModal] = useState(false);
     const [plans, setPlans] = useState([]);
@@ -247,12 +247,13 @@ export default function SubscriptionPlans({ user }) {
                 <div className="subscription-card mt-3">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                         <span className="badge-active">Active Plan</span>
-                        {isProUser ? <div className="monthly-paid">
+                        {isProUser ? <div className="monthly-paid readonly-toggle">
                             <ToggleSwitch
-                                value={activePlanEnable}
-                                onChange={setActivePlanEnable}
-                                onLabel="Monthly"
-                                offLabel="Yearly"
+                                value={user?.subscription_plan?.duration_unit}
+                                // onChange={setActivePlanEnable}
+                                onLabel={user?.subscription_plan?.duration_unit}
+                                // offLabel="Yearly"
+                                 disabled={true}
                             />
                         </div> : ''}
                     </div>
