@@ -128,7 +128,7 @@ export default function Header({ user }) {
 
             {user ? (
               <div className="register-login head-top-login-add">
-                <div className="register-content">
+                <div className="register-content user_dash_add_mob">
                   <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end logout-add-head">
                     <button
                       className="navbar-toggler navbar-toggler align-self-center"
