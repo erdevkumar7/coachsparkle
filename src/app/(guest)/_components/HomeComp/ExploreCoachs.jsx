@@ -63,7 +63,7 @@ export default async function ExploreCoachs({ sectionData }) {
                                     >
                                         <div key={type.id} className="card">
                                             <Image
-                                                src={`${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`}
+                                                src={type.image || `${FRONTEND_BASE_URL}/images/explore-ellipse-one.png`}
                                                 alt="Img"
                                                 width={1000}
                                                 height={226}
