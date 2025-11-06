@@ -32,7 +32,7 @@ export const registerSchema = yup.object().shape({
         .email("Please provide a valid email address.")
         .required("Email is required.")
         .min(5, "Email must be at least 5 characters long.")
-        .max(255, "Email cannot exceed 255 characters."),
+        .max(100, "Email cannot exceed 100 characters."),
 
     password: yup
         .string()

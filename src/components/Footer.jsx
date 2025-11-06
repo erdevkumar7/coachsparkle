@@ -6,6 +6,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '@mui/icons-material/X';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Link from "next/link";
+import NewsletterForm from "./NewsletterForm";
 
 
 export default async function Footer() {
@@ -29,7 +30,9 @@ export default async function Footer() {
     // Extract specific sections 
     const footerOneSection = home_page_content.find(item => item.section_name === "footer_one");
     const footerTwoSection = home_page_content.find(item => item.section_name === "footer_two");
+    const socialMediaSection = home_page_content.find(item => item.section_name === "social_media");
 
+    // console.log("Home Page Data:", socialMediaSection);
     return (
         <>
             <footer className="coach-footer-section text-white py-5">
@@ -69,29 +72,36 @@ export default async function Footer() {
                         <div className="col-md-2 coach-footer-four">
                             <h5>Social Media</h5>
                             <ul className="list-unstyled">
-                                <li><FacebookIcon className="mui-icons" /> <a href="#" className="text-decoration-none">Facebook</a></li>
-                                <li><InstagramIcon className="mui-icons" /> <a href="#" className="text-decoration-none">Instagram</a></li>
-                                <li><LinkedInIcon className="mui-icons" /> <a href="#" className="text-decoration-none">LinkedIn</a></li>
-                                <li><YouTubeIcon className="mui-icons" /><a href="#" className="text-decoration-none">YouTube</a></li>
-                                <li><XIcon className="mui-icons" /> <a href="#" className="text-decoration-none">Twitter</a></li>
+                                {socialMediaSection && socialMediaSection.facebook && <li><FacebookIcon className="mui-icons" /> <Link href={socialMediaSection.facebook} target="_blank" className="text-decoration-none">Facebook</Link></li>}
+                                {socialMediaSection && socialMediaSection.instagram && <li><InstagramIcon className="mui-icons" /> <Link href={socialMediaSection.instagram} target="_blank" className="text-decoration-none">Instagram</Link></li>}
+                                {socialMediaSection && socialMediaSection.linkedin && <li><LinkedInIcon className="mui-icons" /> <Link href={socialMediaSection.linkedin} target="_blank" className="text-decoration-none">LinkedIn</Link></li>}
+                                {socialMediaSection && socialMediaSection.youtube && <li><YouTubeIcon className="mui-icons" /><Link href={socialMediaSection.youtube} target="_blank" className="text-decoration-none">YouTube</Link></li>}
+                                {socialMediaSection && socialMediaSection.twitter && <li><XIcon className="mui-icons" /> <Link href={socialMediaSection.twitter} target="_blank" className="text-decoration-none">Twitter</Link></li>}
                             </ul>
                         </div>
 
-                        <div className="col-md-3 coach-footer-four">
+                        <NewsletterForm />
+
+                        {/* <div className="col-md-3 coach-footer-four">
                             <h5>Newsletter</h5>
                             <form className="">
                                 <p>Sign up to receive the latest articles</p>
                                 <div className="mb-2">
-                                    <input type="email" className="form-control" placeholder="Your email address" />
+                                    <input type="text" className="form-control" placeholder="Your email address" />
+                                    {errors.email && (
+                                        <p style={{ color: 'red' }}>{errors.email.message}</p>
+                                    )}
                                 </div>
                                 <button type="submit" className="btn btn-primary btn-sm">Sign Up</button>
 
                                 <label className="form-check-box privacy">
-                                    <input type="checkbox" name="terms" required />
-                                    <div>I have read and agree to the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a></div> .
+                                    <input type="checkbox" name="terms" />
+                                    <div>I have read and agree to the <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>
+                                    {errors.terms && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.terms.message}</p>}
+                                    </div> .
                                 </label>
                             </form>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </footer>
