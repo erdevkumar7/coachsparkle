@@ -11,6 +11,35 @@
   justify-content: center;
   z-index: 9999;
 }
+.profile-form-add .profile-form.service-profile-add.add_service_update_list .form-section input::placeholder {
+    color: #b6b6b6 !important;
+}
+
+.profile-form-add .profile-form.service-profile-add.add_service_update_list .form-section textarea::placeholder {
+    color: #b6b6b6 !important;
+}
+
+.profile-form-add 
+.profile-form.service-profile-add.add_service_update_list 
+.form-section select option[disabled] {
+    color: #b6b6b6 !important;
+}
+
+.disable-select-option{
+    color: #b6b6b6 !important;
+}
+
+/* Add this to your component's CSS or global stylesheet */
+select.form-control option[value=""] {
+  color: #b6b6b6 !important;
+}
+
+/* When user selects a valid option, text should be normal color */
+select.form-control:not(:invalid) {
+  color: #000;
+}
+
+
 
 .coachpkg-modal-container {
   background: white;

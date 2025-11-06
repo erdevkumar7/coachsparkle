@@ -80,9 +80,8 @@ export default function CoachServicePackages() {
                 <h3>
                   <strong>Create Custom Coaching Packages Like A Pro</strong>
                 </h3>
-                <p className="mt-3 fs-5 w-50">
-                  This powerful tool is available with Pro Coach Plan - preview
-                  below what you could unlock.
+                <p className="mt-3 fs-5 w-100">
+                  This feature is available in Pro Coach Plan. You can start selling your coaching packages here
                 </p>
               </div>
             </>

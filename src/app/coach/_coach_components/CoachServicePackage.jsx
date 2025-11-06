@@ -248,7 +248,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       }`}
                     {...register("coaching_category")}
                   >
-                    <option value="">Select Category</option>
+                    <option value="" className="disable-select-option">Select Category</option>
                     {categories.map((cat) => (
                       <option key={cat.id} value={cat.id}>
                         {cat.category_name}
@@ -339,7 +339,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         }`}
                       {...register("age_group")}
                     >
-                      <option value="">Select </option>
+                      <option value="" className="disable-select-option">Select </option>
                       {Array.isArray(ageGroups) &&
                         ageGroups.map((group) => (
                           <option key={group.id} value={group.id}>
@@ -363,7 +363,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         }`}
                       {...register("communication_channel")}
                     >
-                      <option value="">Select </option>
+                      <option value="" className="disable-select-option">Select </option>
                       {Array.isArray(getCommunChannel) &&
                         getCommunChannel.map((chanel) => (
                           <option key={chanel.id} value={chanel.id}>
@@ -398,11 +398,11 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         </label>
                       ))}
                   </div>
-                    {errors.delivery_mode && (
-                      <div className="invalid-feedback">
-                        {errors.delivery_mode.message}
-                      </div>
-                    )}
+                  {errors.delivery_mode && (
+                    <div className="invalid-feedback">
+                      {errors.delivery_mode.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -451,7 +451,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         }`}
                       {...register("session_duration")}
                     >
-                      <option value="">Select</option>
+                      <option value="" className="disable-select-option">Select</option>
                       <option value="15">15 Min</option>
                       <option value="30">30 Min</option>
                       <option value="45">45 Min</option>
@@ -516,7 +516,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         }`}
                       {...register("session_format")}
                     >
-                      <option value="">Select </option>
+                      <option value="" className="disable-select-option">Select </option>
                       {Array.isArray(getFormats) &&
                         getFormats.map((fmt) => (
                           <option key={fmt.id} value={fmt.id}>
@@ -614,7 +614,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         }`}
                       {...register("price_model")}
                     >
-                      <option value="">Select </option>
+                      <option value="" className="disable-select-option">Select </option>
                       {getPriceModels.map((mdl) => (
                         <option key={mdl.id} value={mdl.id}>
                           {mdl.name}
@@ -741,8 +741,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.cancellation_policy ? "is-invalid" : ""
                         }`}
                       {...register("cancellation_policy")}
-                    >      
-                       <option value="">Select Cancellation Policy </option>
+                    >
+                      <option value="" className="disable-select-option">Select Cancellation Policy </option>
                       {Array.isArray(getCancelPolicies) &&
                         getCancelPolicies.map((concelPolicy) => (
                           <option key={concelPolicy.id} value={concelPolicy.id}>
