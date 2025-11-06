@@ -2455,19 +2455,21 @@ select {
 select:focus-visible {
   outline: none;
 }
-
 .signup-user .checkbox-row {
-  display: flex;
   align-items: start;
   gap: 8px;
-  margin: 0px 0;
+  margin: 0;
   font-size: 14px;
+  display: flex;
+  padding-top: 5px;
 }
 
 .signup-user .checkbox-row input {
   margin-top: 3px;
 }
-
+.signup-user .checkbox-row label a {
+  color: #000;
+}
 .signup-user .footer-text {
   font-size: 13px;
   color: #555;
@@ -2506,16 +2508,19 @@ select:focus-visible {
   height: 1px;
   background: #A7A7A7 !important;
 }
-
+p.text-red-600.regist-err-msg {
+  margin-top: -11px;
+  font-size: 14px;
+}
 .signup-user h2 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 32px;
   color: #1a1a1a;
+  margin-bottom: 20px;
+  font-family: Inter;
+  font-size: 32px;
   font-weight: 600;
-  font-family: "Inter";
+  padding-top: 20px;
 }
-
 .signup-coach {
   display: flex;
   gap: 25px;
@@ -2529,10 +2534,10 @@ select:focus-visible {
 }
 
 .sign-user-content input {
-  margin-bottom: 15px;
+  color: #000;
+  border-radius: 16px !important;
   height: 45px;
-  color: #000000;
-  border-radius: 16px;
+  margin-bottom: 15px;
 }
 
 .sign-user-content input#email-optin {
@@ -2574,11 +2579,13 @@ select:focus-visible {
 }
 
 .signup-user-add .signup-user {
-  height: 750px;
+  height: 100%;
+  padding-bottom: 30px;
 }
 
 .signup-user-add .signup-left-side {
-  height: 750px;
+  height: 100%;
+  padding-bottom: 30px;
 }
 
 .signup-user-add input#password {
