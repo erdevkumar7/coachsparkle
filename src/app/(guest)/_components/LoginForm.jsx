@@ -159,8 +159,15 @@ export default function LoginForm() {
                 await handleNavigation('/');
             }
         } catch (err) {
+            console.log('errrr', err)
             if (err.response && err.response.status === 401) {
-                setError(err.response.data.error || 'Invalid credentials');
+                if (role == 3) {
+                    setError('Invalid Coach Credentials');
+                } else {
+                    setError('Invalid User Credentials');
+                }
+            } else if (err.response && err.response.status === 403) {
+                setError('Please check your email for a verification link');
             } else {
                 setError('Something went wrong. Please try again.');
             }

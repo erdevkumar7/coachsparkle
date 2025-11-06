@@ -40,17 +40,18 @@ export default function Register() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const router = useRouter();
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => {
-        setOpen(false);
-        router.push('/login');
-    }
 
     const [userType, setUserType] = useState(null);
     const [countries, setCountries] = useState([]);
     const [generalError, setGeneralError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setOpen(false);
+        router.push(`/login?role=${userType}`);
+    }
 
     const togglePassword = () => {
         setShowPassword((prev) => !prev);
