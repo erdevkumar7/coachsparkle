@@ -180,7 +180,7 @@ export default function Register() {
 
                                 <div className="input-group">
                                     <label htmlFor="email">Email</label>
-                                    <input {...register("email")} />
+                                    <input className="email_input_user" {...register("email")} />
                                     {errors.email && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.email.message}</p>}
                                 </div>
 

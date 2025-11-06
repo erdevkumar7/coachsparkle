@@ -767,8 +767,11 @@ p.text-center.span-txt {
 }
 
 .coaches-view-cards .card img {
-  width: 100%;
-  cursor: pointer;
+    cursor: pointer;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    object-position: top;
 }
 
 .coaches-view-cards .card {
@@ -2535,11 +2538,12 @@ p.text-red-600.regist-err-msg {
 
 .sign-user-content input {
   color: #000;
-  border-radius: 16px !important;
   height: 45px;
   margin-bottom: 15px;
 }
-
+input.email_input_user {
+    border-radius: 16px !important;
+}
 .sign-user-content input#email-optin {
   width: 20px;
   height: 20px;
