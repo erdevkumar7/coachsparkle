@@ -355,9 +355,9 @@ export default function CoachList() {
                           <h2>
                             {coach.first_name} {coach.last_name}
                           </h2>
-                          <span className="check-box-add-icons">
-                            <CheckCircleIcon className="mui-icons" /> Verified
-                          </span>
+                          {coach.is_verified ? <span className="check-box-add-icons">
+                            <CheckCircleIcon className="mui-icons" /> Verified 
+                          </span> : null}
                         </div>
                         <p className="reviews-text">
                           <StarOutlineIcon className="mui-icons" />

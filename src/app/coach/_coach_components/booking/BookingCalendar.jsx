@@ -355,7 +355,7 @@ export default function BookingCalendar() {
               <span className="dot today me-1"></span>Today
             </span>
           </div>
-          <button className="add-new-btn">Add New Session</button>
+          <button className="add-new-btn" onClick={() => router.push(`/coach/service-packages`)}>Add New Session</button>
         </div>
       </div>
       <div className="text-muted small mb-3">

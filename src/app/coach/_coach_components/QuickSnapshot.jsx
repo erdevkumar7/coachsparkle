@@ -13,13 +13,14 @@ export default function QuickSnapshot({ QuickSnapData }) {
     profile_percentage,
     profile_views,
     unread_messages,
-
+    service_performance_percentage,
+    profile_views_this_month_increment,
     new_requests,
     total_earning,
     upcoming_sessions = [],
   } = QuickSnapData?.data || {};
 
-  console.log('QuickSnapDataaaaaa', upcoming_sessions)
+  console.log('QuickSnapDataaaaaa', QuickSnapData)
   const { user } = useUser();
   let isProUser = user.subscription_plan.plan_status;
 
@@ -100,7 +101,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
               />
               <div className="new-add-coming">
                 <p className="title">Service Performance</p>
-                <span>54.6% Avg</span>
+                <span>{service_performance_percentage || 0}% Avg</span>
               </div>
             </div>
           </div>
@@ -148,7 +149,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
                 <p className="title">Profile Views</p>
                 <span className="count">{profile_views < 10 ? `0${profile_views}` : profile_views}</span>
                 <span className="this-month-text">
-                  this month Increased by 20%
+                  this month Increased by {profile_views_this_month_increment}%
                 </span>
               </div>
             </div>

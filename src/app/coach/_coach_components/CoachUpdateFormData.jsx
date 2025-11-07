@@ -288,6 +288,7 @@ export default function CoachUpdateForm({
       if (res.data.success) {
         toast.success(profile_status === 'complete' ? 'Profile published!' : 'Draft saved!');
         setSelectedCertificates([]);
+        router.refresh();
       } else {
         toast.error('Update failed.');
       }
@@ -892,8 +893,6 @@ export default function CoachUpdateForm({
             </div>
 
 
-
-
             <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
               <label>
                 Website
@@ -926,8 +925,11 @@ export default function CoachUpdateForm({
 
           <div className="form-row three-cols">
             <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
-              <label>Podcast</label>
-              {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+              <label>Podcast
+
+                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+
+              </label>
               <input
                 type="text"
                 disabled={!isProUser}
@@ -936,8 +938,9 @@ export default function CoachUpdateForm({
               {errors.podcast_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.podcast_link.message}</p>}
             </div>
             <div className={`form-group ${!isProUser ? 'disable-input' : ""}`}>
-              <label>Blog/Published Articles</label>
-              {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+              <label>Blog/Published Articles
+                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+              </label>
               <input
                 type="text"
                 disabled={!isProUser}
