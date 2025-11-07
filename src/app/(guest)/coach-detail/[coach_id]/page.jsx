@@ -71,8 +71,8 @@ export default async function CoachDetail({ params }) {
     fistPackageID = allPackages[0]
   }
 
-  console.log('fistPackageID', coach)
-  console.log("Favourite", coach?.is_fevorite)
+  // console.log('fistPackageID', coach)
+  // console.log("Favourite", coach?.is_fevorite)
 
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
@@ -312,7 +312,7 @@ export default async function CoachDetail({ params }) {
                         {/* <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label> */}
                       </div>
                     </div>
-                    <SendMessageButton coachId={coach.user_id} />
+                    <SendMessageButton coachId={coach.user_id} coachName={coach.first_name}/>
                     {/* <button
                       className="btn btn-primary"
                       data-bs-toggle="modal"

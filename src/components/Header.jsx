@@ -238,7 +238,7 @@ export default function Header({ user }) {
                             }}
                           />
                           <p className="top-name-add">
-                            {user?.first_name}{" "}
+                            {user?.display_name || user?.first_name}{" "}
                             <KeyboardArrowDownOutlinedIcon />
                           </p>
                         </a>

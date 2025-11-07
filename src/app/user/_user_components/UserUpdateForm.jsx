@@ -288,7 +288,7 @@ export default function UserUpdateFormData({
         <p className="set-text-one">Set up to 3 coaching Goals</p>
         <p className="set-text">
           Briefly state your coaching goals (e.g., improve leadership presence,
-          transition careers, manage stress better). This helps us match yu with
+          transition careers, manage stress better). This helps us match you with
           the the most suitable coaches and allow you to track your own coaching
           progress.{" "}
         </p>

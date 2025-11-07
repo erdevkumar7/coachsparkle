@@ -10,15 +10,17 @@ import { sendMessageSchema } from "@/lib/validationSchema";
 import { toast } from 'react-toastify';
 import { CircularProgress } from "@mui/material";
 import { ToastContainer } from 'react-toastify';
+import Link from "next/link";
 
 export default function SendMessagePanel() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const [coachId, setCoachId] = useState(null);
+  const [coachName, setCoachName] = useState("Coach");
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
 
-    const {
+  const {
     register,
     handleSubmit,
     reset,
@@ -28,7 +30,7 @@ export default function SendMessagePanel() {
     mode: "onBlur",
   });
 
-    useEffect(() => {
+  useEffect(() => {
     console.log("Checking token...");
     if (!token) {
       console.warn("No token found. Redirecting to login.");
@@ -45,6 +47,8 @@ export default function SendMessagePanel() {
         Cookies.remove("token");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        localStorage.removeItem("coach_id");
+        localStorage.removeItem("coach_name");
         router.push("/login");
       } else {
         console.log("Token is valid.");
@@ -54,11 +58,14 @@ export default function SendMessagePanel() {
     validateUser();
 
     const id = localStorage.getItem("coach_id");
+    const coach_name = localStorage.getItem("coach_name");
     if (id) {
       console.log("Loaded coach ID from localStorage:", id);
       setCoachId(id);
-    } else {
-      console.warn("No coach_id found in localStorage.");
+    } 
+
+    if(coach_name) {
+      setCoachName(coach_name)
     }
   }, []);
 
@@ -70,11 +77,11 @@ export default function SendMessagePanel() {
 
   const onSubmit = async (data) => {
     if (!coachId) {
-     toast.error("Coach ID not found.");
+      toast.error("Coach ID not found.");
       return;
     }
 
-setLoading(true);
+    setLoading(true);
 
     const payload = {
       coach_id: parseInt(coachId),
@@ -102,7 +109,7 @@ setLoading(true);
       }
       console.log("API Response:", json);
 
-console.log("✅ Toast success will fire");
+      console.log("✅ Toast success will fire");
       toast.success("Message sent successfully.");
       reset();
     } catch (err) {
@@ -122,6 +129,7 @@ console.log("✅ Toast success will fire");
             type="button"
             className="btn-close position-absolute top-5 end-0 m-3"
             aria-label="Close"
+            onClick={() => router.push(`coach-detail/${coachId}`)}
           ></button>
 
           <h4 className="text-center fw-bold mb-4">MESSAGE</h4>
@@ -131,10 +139,10 @@ console.log("✅ Toast success will fire");
               <div>
                 <strong>Start a Conversation with Coach</strong>
                 <br />
-                Hi [Coach's Name], excited to connect! I’m looking for guidance
+                {`Hi ${coachName}, excited to connect! I’m looking for guidance
                 on [specific area]. My biggest challenge is [briefly describe
                 challenge]. How do you typically work with new clients, and
-                which of your coaching packages might help?
+                which of your coaching packages might help?`}
               </div>
             </div>
           </div>
@@ -171,8 +179,8 @@ console.log("✅ Toast success will fire");
             </div>
 
             <div className="text-center mb-2">
-              <button className="btn btn-primary"  disabled={loading}>
-                                {loading ? (
+              <button className="btn btn-primary" disabled={loading}>
+                {loading ? (
                   <CircularProgress size={20} color="inherit" />
                 ) : (
                   <>
@@ -185,14 +193,14 @@ console.log("✅ Toast success will fire");
 
           <p className="text-center text-muted small">
             Check and track your message status in your{" "}
-            <a href="#" className="link">
+            <Link href="/user/user-message/1" className="link">
               inbox
-            </a>
+            </Link>
             .
           </p>
         </div>
       </div>
-              <ToastContainer position="bottom-right" autoClose={3000} />
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </>
   );
 }
