@@ -36,14 +36,14 @@ export default function CoachingProgress({ initialProgress, token }) {
   };
 
 
-  console.log('getCoahcingProgress', getCoahcingProgress)
+  // console.log('getCoahcingProgress', getCoahcingProgress)
   return (
     <>
       <div className="mt-5 status-coaching-top">
         <div className="coaching-progress-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
-              <h3>Coaching In Progress ({initialProgress.pagination.total < 10 ? `0${initialProgress.pagination.total}` : initialProgress.pagination.total})</h3>
+              <h3>Coaching In Progress ({initialProgress.pagination.total > 0 && initialProgress.pagination.total < 10 ? `0${initialProgress.pagination.total}` : initialProgress.pagination.total})</h3>
             </div>
             {/* <div className="sorting-data d-flex align-items-center gap-2">
             <ExpandMoreOutlinedIcon />

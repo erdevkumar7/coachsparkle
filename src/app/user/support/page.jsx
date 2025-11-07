@@ -174,7 +174,7 @@ export default function Support() {
                 >
                   <option value="">Select</option>
                   <option value="2">User</option>
-                  <option value="3">Coach</option>
+                  {/* <option value="3">Coach</option> */}
                 </select>
                 {errors.user_type && <small className="text-danger">{errors.user_type[0]}</small>}
               </div>

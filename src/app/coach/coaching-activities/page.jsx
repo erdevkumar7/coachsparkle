@@ -64,22 +64,22 @@ export default async function CoachingActivitiesPage() {
         {
             img: "/coachsparkle/assets/images/glance-img-one.png",
             title: "Coaching Requests",
-            count: pendingRequest.pagination.total < 10 ? `0${pendingRequest.pagination.total}` : pendingRequest.pagination.total,
+            count: pendingRequest.pagination.total > 0 && pendingRequest.pagination.total < 10 ? `0${pendingRequest.pagination.total}` : pendingRequest.pagination.total,
         },
         {
             img: "/coachsparkle/assets/images/glance-img-three.png",
             title: "In progress",
-            count: coachingProgress.pagination.total < 10 ? `0${coachingProgress.pagination.total}` : coachingProgress.pagination.total,
+            count: coachingProgress.pagination.total > 0 && coachingProgress.pagination.total < 10 ? `0${coachingProgress.pagination.total}` : coachingProgress.pagination.total,
         },
         {
             img: "/coachsparkle/assets/images/match-three.png",
             title: "Completed",
-            count: initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
+            count: initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
         },
         {
             img: "/coachsparkle/assets/images/match-four.png",
             title: "Canceled / Missed",
-            count: initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
+            count: initialCanceled.pagination.total > 0 && initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
         },
     ];
 

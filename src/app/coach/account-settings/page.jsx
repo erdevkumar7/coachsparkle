@@ -191,7 +191,7 @@ export default function Accountsetting() {
         return;
       }
 
-      toast.success(result.message || "Account settings updated successfully!");
+      toast.success("Account settings updated successfully!");
     } catch (error) {
       console.error("Account settings update failed:", error);
       toast.error("Failed to update settings. Please try again.");

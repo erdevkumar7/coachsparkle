@@ -226,7 +226,6 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   <textarea
                     id="short_description"
                     rows="3"
-                    placeholder="Snapshot descriptions"
                     disabled={!isProUser}
                     className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.short_description ? "is-invalid" : ""
                       }`}

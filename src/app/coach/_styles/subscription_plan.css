@@ -513,11 +513,12 @@ p.try-text-add {
 }
 
 .free-list-plan ul li {
+    color: #000;
     gap: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
     display: flex;
-    color: #000;
+    text-align: left;
 }
 
 .choose-your-plan-popup .Month button.btn {
