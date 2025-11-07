@@ -11,6 +11,11 @@
   padding: 6px 6px !important;
 }
 
+i.bi.bi-lock-fill.text-warning {
+  font-size: 16px !important;
+  line-height: 1;
+}
+
 .profile-form-add .card {
     border: 1px solid #d7d7d7;
     border-radius: 12px;

@@ -20,7 +20,7 @@ export default function SubscriptionPlans({ user }) {
     const [paymentHistoryLoading, setPaymentHistoryLoading] = useState(false);
     const [currentPaymentMethod, setCurrentPaymentMethod] = useState(null);
 
-    console.log('usersss', user.subscription_plan)
+    console.log('usersss', plans)
 
     // Fetch payment history
     const fetchPaymentHistory = async () => {
@@ -342,10 +342,10 @@ export default function SubscriptionPlans({ user }) {
                                             </button>
                                         </div>
                                     ) : (
-                                        <div className="row">
+                                        <div className="row choose-your-plan-popup">
                                             {plans.map((plan) => (
-                                                <div key={plan.id} className="col-md-6 mb-4">
-                                                    <div className="card h-100">
+                                                <div key={plan.id} className={`col-md-6 mb-4 ${plan.duration_unit_name}`}>
+                                                    <div className="card your-plan-popup">
                                                         <div className="card-header">
                                                             <h5 className="card-title mb-0">{plan.plan_name}</h5>
                                                             {plan.is_active === 0 && (
@@ -353,19 +353,45 @@ export default function SubscriptionPlans({ user }) {
                                                             )}
                                                         </div>
                                                         <div className="card-body">
-                                                            <div className="plan-price mb-3">
-                                                                <h3 className="text-primary">
-                                                                    ${parseFloat(plan.plan_amount).toFixed(2)}
-                                                                </h3>
-                                                                <small className="text-muted">
-                                                                    {formatPrice(plan)}
-                                                                </small>
-                                                            </div>
-                                                            <div
+                                                        <div
                                                                 className="plan-features mb-3"
                                                                 dangerouslySetInnerHTML={parsePlanContent(plan.plan_content)}
                                                             />
+                                                            <div className="plan-price mb-3">
+                                                                <h3 className="text-primary">
+                                                                    <span className='dollar_text'>$</span>{parseFloat(plan.plan_amount).toFixed(2)}
+                                                                </h3>
+                                                                <small className="doller_price">
+                                                                    {formatPrice(plan)}
+                                                                </small>
+                                                            </div>
+                                                        
                                                         </div>
+
+                                                        <div class="free-list-plan">
+                                                        <ul>
+                                                            <li><i class="bi bi-check"></i> Basic Listing in 1 Category</li>
+                                                            <li><i class="bi bi-check"></i> 500 Character Bio + Photo</li>
+                                                            <li><i class="bi bi-check"></i> Standard AI Matching</li>
+                                                            <li><i class="bi bi-check"></i> Up to 5 Coaching Requests/Month</li>
+                                                        </ul>
+
+                                                        <button
+                                                                className="btn btn-primary w-100"
+                                                                onClick={() => handleSelectPlan(plan.id, plan.plan_name)}
+                                                                disabled={processingPayment === plan.id || plan.is_active === 0}
+                                                            >
+                                                                {processingPayment === plan.id ? (
+                                                                    <>
+                                                                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                                        Processing...
+                                                                    </>
+                                                                ) : (
+                                                                    `Select ${plan.plan_name}`
+                                                                )}
+                                                            </button>
+                                                            </div>
+{/* 
                                                         <div className="card-footer">
                                                             <button
                                                                 className="btn btn-primary w-100"
@@ -386,7 +412,7 @@ export default function SubscriptionPlans({ user }) {
                                                                     This plan is currently unavailable
                                                                 </small>
                                                             )}
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
                                             ))}
