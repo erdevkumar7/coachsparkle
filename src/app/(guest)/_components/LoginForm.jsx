@@ -15,6 +15,7 @@ import axios from 'axios';
 export default function LoginForm() {
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect');
+    const emailVerified = searchParams.get('email_verified');
     const router = useRouter();
     const [role, setRole] = useState(2);
     const [error, setError] = useState('');
@@ -46,6 +47,16 @@ export default function LoginForm() {
         if (role) {
             sessionStorage.setItem("role", role);
         }
+
+        // Check for email_verified parameter
+        if (emailVerified === 'true') {
+            toast.success("Email already verified. Please login.");
+            // Optional: Clear the parameter from URL without page reload
+            const url = new URL(window.location.href);
+            url.searchParams.delete('email_verified');
+            window.history.replaceState({}, '', url.toString());
+        }
+
 
         // Check for Google OAuth callback parameters
         const urlParams = new URLSearchParams(window.location.search);

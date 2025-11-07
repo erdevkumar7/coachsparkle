@@ -3,11 +3,12 @@
 import { useRouter } from 'next/navigation';
 import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
 
-export default function SendMessageButton({ coachId }) {
+export default function SendMessageButton({ coachId, coachName }) {
   const router = useRouter();
 
   const handleClick = () => {
     localStorage.setItem('coach_id', coachId);
+    localStorage.setItem('coach_name', coachName);
     router.push('/send-message');
   };
 
