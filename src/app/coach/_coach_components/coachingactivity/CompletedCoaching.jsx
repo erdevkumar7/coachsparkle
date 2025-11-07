@@ -27,7 +27,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
       <div className="completed-status">
         <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
           <div>
-            <h3>Completed Coaching ({initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total})</h3>
+            <h3>Completed Coaching ({initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total})</h3>
           </div>
           <div
             className="sorting-data d-flex align-items-center gap-2"

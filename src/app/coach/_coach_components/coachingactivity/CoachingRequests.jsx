@@ -67,14 +67,14 @@ export default function CoachingRequests({ initialRequest, token }) {
     setCurrentPage(1); // Reset to first page when changing items per page
   };
 
-  console.log('pendingRequest', pendingRequest)
+  // console.log('pendingRequest', pendingRequest)
   return (
     <>
       <div className="mt-5 status-coachings">
         <div className="coaching-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
-              <h3>Coaching Requests ({initialRequest.request_count})</h3>
+              <h3>Coaching Requests ({initialRequest.request_count > 0 && initialRequest.request_count < 10 ? `0${initialRequest.request_count}` : initialRequest.request_count})</h3>
             </div>
             <div className="sorting-data d-flex align-items-center gap-2">
               <span>Sort By:</span>

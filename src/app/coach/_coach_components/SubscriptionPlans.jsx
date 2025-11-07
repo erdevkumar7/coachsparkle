@@ -253,7 +253,7 @@ export default function SubscriptionPlans({ user }) {
                                 // onChange={setActivePlanEnable}
                                 onLabel={user?.subscription_plan?.duration_unit}
                                 // offLabel="Yearly"
-                                 disabled={true}
+                                disabled={true}
                             />
                         </div> : ''}
                     </div>
@@ -353,7 +353,7 @@ export default function SubscriptionPlans({ user }) {
                                                             )}
                                                         </div>
                                                         <div className="card-body">
-                                                        <div
+                                                            <div
                                                                 className="plan-features mb-3"
                                                                 dangerouslySetInnerHTML={parsePlanContent(plan.plan_content)}
                                                             />
@@ -365,18 +365,33 @@ export default function SubscriptionPlans({ user }) {
                                                                     {formatPrice(plan)}
                                                                 </small>
                                                             </div>
-                                                        
                                                         </div>
 
-                                                        <div class="free-list-plan">
-                                                        <ul>
-                                                            <li><i class="bi bi-check"></i> Basic Listing in 1 Category</li>
-                                                            <li><i class="bi bi-check"></i> 500 Character Bio + Photo</li>
-                                                            <li><i class="bi bi-check"></i> Standard AI Matching</li>
-                                                            <li><i class="bi bi-check"></i> Up to 5 Coaching Requests/Month</li>
-                                                        </ul>
 
-                                                        <button
+                                                        <div className="free-list-plan">
+                                                            {plan?.features && plan.features.length > 0 ? (
+                                                                <ul className="features-list">
+                                                                    {plan.features.map((feature) => (
+                                                                        <li key={feature.id}>
+                                                                            <i className="bi bi-check"></i>
+                                                                            {feature.feature_text}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            ) : (
+                                                                <ul className="features-list">
+                                                                    <li>No Features Available</li>
+                                                                </ul>
+                                                            )}
+                                                            {/* {plan?.features && plan.features.length > 0 &&
+                                                                <ul>
+                                                                    <li><i className="bi bi-check"></i> Basic Listing in 1 Category</li>
+                                                                    <li><i className="bi bi-check"></i> 500 Character Bio + Photo</li>
+                                                                    <li><i className="bi bi-check"></i> Standard AI Matching</li>
+                                                                    <li><i className="bi bi-check"></i> Up to 5 Coaching Requests/Month</li>
+                                                                </ul>} */}
+
+                                                            <button
                                                                 className="btn btn-primary w-100"
                                                                 onClick={() => handleSelectPlan(plan.id, plan.plan_name)}
                                                                 disabled={processingPayment === plan.id || plan.is_active === 0}
@@ -390,8 +405,8 @@ export default function SubscriptionPlans({ user }) {
                                                                     `Select ${plan.plan_name}`
                                                                 )}
                                                             </button>
-                                                            </div>
-{/* 
+                                                        </div>
+                                                        {/* 
                                                         <div className="card-footer">
                                                             <button
                                                                 className="btn btn-primary w-100"
