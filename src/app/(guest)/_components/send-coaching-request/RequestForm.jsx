@@ -548,8 +548,8 @@ export default function RequestForm({
                     {...register("preferred_start_date_urgency")}
                     disabled={loading}
                   >
-                    <option value="" disabled>
-                      Select start duration
+                    <option value="" >
+                      Select
                     </option>
                     <option value={1}>Immediately</option>
                     <option value={2}>Within a week</option>

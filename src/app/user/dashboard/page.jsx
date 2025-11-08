@@ -251,7 +251,7 @@ export default function UserDashboard() {
                                 </div>
 
                                 {/* Coaching Request Status */}
-                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                <div className="bg-gray-100 rounded-xl p-4 text-center" onClick={() => router.push('/user/coaching-activities')}>
                                     <img src="/coachsparkle/assets/images/glance-img-two.png" className="mx-auto mb-2" alt="Coaching Requests" />
                                     <div className="new-add-comeing">
                                         <p className="font-medium">Coaching Request Status</p>
@@ -262,7 +262,7 @@ export default function UserDashboard() {
                                 </div>
 
                                 {/* Active Coaching */}
-                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                <div className="bg-gray-100 rounded-xl p-4 text-center" onClick={() => router.push('/user/coaching-activities')}>
                                     <img src="/coachsparkle/assets/images/glance-img-three.png" className="mx-auto mb-2" alt="Active Coaching" />
                                     <div className="new-add-comeing">
                                         <p className="font-medium">Active Coaching</p>
@@ -273,7 +273,7 @@ export default function UserDashboard() {
                                 </div>
 
                                 {/* Upcoming Session */}
-                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                <div className="bg-gray-100 rounded-xl p-4 text-center" onClick={() => router.push('/user/booking')}>
                                     <img src="/coachsparkle/assets/images/glance-img-four.png" className="mx-auto mb-2" alt="Upcoming Session" />
                                     <div className="new-add-comeing">
                                         <p className="font-medium">Upcoming Session</p>
@@ -284,7 +284,7 @@ export default function UserDashboard() {
                                 </div>
 
                                 {/* Unread Messages */}
-                                <div className="bg-gray-100 rounded-xl p-4 text-center">
+                                <div className="bg-gray-100 rounded-xl p-4 text-center" onClick={() => router.push('/user/user-message/1')}>
                                     <img src="/coachsparkle/assets/images/glance-img-five.png" className="mx-auto mb-2" alt="Unread Messages" />
                                     <div className="new-add-comeing">
                                         <p className="font-medium">Unread Messages</p>
