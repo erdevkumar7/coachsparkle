@@ -71,7 +71,7 @@ export default function SendMessagePanel() {
 
   const breadcrumbItems = [
     { label: "Explore Coaches", href: "/coach-detail/list" },
-    { label: "Coach Name", href: "#" },
+    { label: `${coachName}`, href: `/coach-detail/${coachId}` },
     { label: "Message", href: "#" },
   ];
 
