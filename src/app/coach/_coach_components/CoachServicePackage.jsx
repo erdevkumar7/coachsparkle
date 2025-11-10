@@ -108,7 +108,17 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
   const onSubmit = async (data, e) => {
     const clickedButton = e.nativeEvent.submitter?.value || "draft";
-    const package_status = clickedButton === "publish" ? 1 : 2;
+    let package_status;
+    switch (clickedButton) {
+      case "unpublished":
+        package_status = 0;
+        break;
+      case "publish":
+        package_status = 1;
+        break;
+      default:
+        package_status = 2; // draft
+    }
 
     try {
       const token = Cookies.get("token");
@@ -138,9 +148,15 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       const result = await response.json();
 
       if (result.status) {
-        toast.success(
-          package_status === 1 ? "Package published!" : "Draft saved!"
-        );
+        if (package_status === 0) {
+          toast.warning("Package marked as unpublished!");
+        } else if (package_status === 1) {
+          toast.success("Package published successfully!");
+        } else {
+          toast.success("Draft saved successfully!");
+        }
+
+
         onPackageAdded?.();
         // Reset the form with specific values for date fields
         reset({
@@ -848,6 +864,17 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                 >
                   {isSubmitting ? "Saving..." : "Save Draft"} <EastIcon className="mui-icons" />
                 </button>
+
+                <button
+                  type="submit"
+                  className="save-btn-add"
+                  value="unpublished"
+                  disabled={!isProUser || isSubmitting}
+                >
+                  {isSubmitting ? "Un-Publishing..." : "Add Service Package"} <EastIcon className="mui-icons" />
+                </button>
+
+
                 <button
                   type="submit"
                   className="save-btn-add"

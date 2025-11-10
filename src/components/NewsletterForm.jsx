@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 // Define validation schema with yup
 const newsletterSchema = yup.object({
@@ -127,7 +128,7 @@ export default function NewsletterForm() {
                         {...register('terms')}
                     />
                     <span className="ms-2">
-                        I have read and agree to the <a href="/term-conditions" className="text-decoration-none">Terms of Use</a> & <a href="/privacy-policy" className="text-decoration-none">Privacy Policy</a>
+                        I have read and agree to the <Link href="/term-conditions" className="text-decoration-none">Terms of Use</Link> & <Link href="/privacy-policy" className="text-decoration-none">Privacy Policy</Link>
                         {errors.terms && (
                             <span className="text-danger d-block mt-1 small">
                                 {errors.terms.message}

@@ -12,7 +12,7 @@ import { CircularProgress } from "@mui/material";
 import { ToastContainer } from 'react-toastify';
 import Link from "next/link";
 
-export default function SendMessagePanel() {
+export default function SendMessagePanel({ userData }) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const [coachId, setCoachId] = useState(null);
@@ -62,9 +62,9 @@ export default function SendMessagePanel() {
     if (id) {
       console.log("Loaded coach ID from localStorage:", id);
       setCoachId(id);
-    } 
+    }
 
-    if(coach_name) {
+    if (coach_name) {
       setCoachName(coach_name)
     }
   }, []);
@@ -78,6 +78,11 @@ export default function SendMessagePanel() {
   const onSubmit = async (data) => {
     if (!coachId) {
       toast.error("Coach ID not found.");
+      return;
+    }
+
+    if (userData.user_type == 3) {
+      toast.error("You are not valid user");
       return;
     }
 
