@@ -18,17 +18,22 @@ export default function FavIcon({ coachId, initiallyFavorited }) {
 
   const validateUser = async () => {
     if (!token) {
-      toast.error("Login first");
+      toast.error("Please Login as User...");
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
       return false;
     }
 
-    const tokenData = await HandleValidateToken(token);
+    const tokenData = await HandleValidateToken(token);   
     if (!tokenData) {
       Cookies.remove("token");
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       router.push("/login");
+      return false;
+    }
+
+    if(tokenData.data.user_type == 3) {
+      toast.error("You are not valid user");
       return false;
     }
 
@@ -55,8 +60,8 @@ export default function FavIcon({ coachId, initiallyFavorited }) {
 
       setIsFavorited((prev) => !prev);
     } catch (error) {
-      console.error("Favorite API error:", error);
-      toast.error("Something went wrong.");
+      console.error("Favorite API error:", error.response.data.message);
+      toast.error(error.response.data.message || "Something went wrong.");
     }
   };
 

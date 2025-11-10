@@ -9,6 +9,7 @@ import { ChatProvider } from '@/context/ChatContext';
 import { PusherDebugCoach } from '@/components/PusherDebugCoach';
 import { CoachChatProvider } from '@/context/CoachChatContext';
 import { PusherDebug } from '@/components/PusherDebug';
+import Header from '@/components/Header';
 
 export default async function CoachLayout({ children }) {
   const { data: user, error } = await getUserProfileData();
@@ -22,7 +23,8 @@ export default async function CoachLayout({ children }) {
   return (
     <UserProvider initialUser={user}>
       <ChatProvider user={user}>
-        <CoachHeader user={user}/>
+          <Header user={user} />
+        {/* <CoachHeader user={user}/> */}
         <div className="container dashboard-wrapper">
           <CoachSideBarComp user={user}/>
           {children}

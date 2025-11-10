@@ -255,12 +255,12 @@ export default function CoachUpdateForm({
 
     const finalData = {
       ...data,
+      is_published: clickedButton === 'publish' ? 1 : 0,
       price_range: data.price_range === "7" && data.custom_price_text
         ? data.custom_price_text
         : data.price_range
     };
-
-    console.log('finalData', finalData);
+   
 
     const form = new FormData();
     Object.entries(finalData).forEach(([key, value]) => {
@@ -270,9 +270,8 @@ export default function CoachUpdateForm({
         form.append(key, typeof value === 'boolean' ? (value ? 1 : 0) : value);
       }
     });
-
-    form.append('profile_status', profile_status);
-
+    form.append('profile_status', profile_status); 
+    //  console.log('finalData', form);
     // form.append('video_link', data.video_link);
 
     // Append certificates ONLY from state
@@ -284,7 +283,7 @@ export default function CoachUpdateForm({
 
     try {
       const res = await updateCoachData(form, getToken)
-
+ 
       if (res.data.success) {
         toast.success(profile_status === 'complete' ? 'Profile published!' : 'Draft saved!');
         setSelectedCertificates([]);

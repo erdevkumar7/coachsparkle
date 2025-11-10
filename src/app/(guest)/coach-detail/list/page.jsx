@@ -37,6 +37,7 @@ export default function CoachList() {
   const [allLanguages, setAllLanguages] = useState([]);
   const [services, setServices] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(25); // Add items per page state
+  const [getUserType, setUserType] = useState(null);
 
   const [filters, setFilters] = useState({
     search_for: "",
@@ -117,10 +118,11 @@ export default function CoachList() {
       let userId = null;
 
       if (token) {
-        const user = localStorage.getItem("user");
+        const user = localStorage.getItem("user");       
         if (user) {
           const parsedUser = JSON.parse(user);
           userId = parsedUser.id;
+          setUserType(parsedUser.user_type)
         }
       }
 
@@ -404,14 +406,14 @@ export default function CoachList() {
                         <span>No services listed</span>
                       )}
                     </div>
-                    <div className="fav-list">
+                    {getUserType === 3 ? null : <div className="fav-list">
                       <span>
                         <FavIcon
                           coachId={coach.user_id}
                           initiallyFavorited={coach?.is_fevorite}
                         />
                       </span>
-                    </div>
+                    </div>}
                   </div>
                 </div>
               ))}

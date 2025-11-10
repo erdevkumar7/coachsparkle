@@ -11,9 +11,9 @@ export default async function GuestLayout({ children }) {
     let user;
     if (tokenData) {
         user = tokenData?.data;
-        if (user.user_type == 3) {
-            return redirect('/coach/dashboard');
-        }
+        // if (user.user_type == 3) {
+        //     return redirect('/coach/dashboard');
+        // }
     }
     return (
         <div>
