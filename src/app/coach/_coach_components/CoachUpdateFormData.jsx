@@ -285,7 +285,11 @@ export default function CoachUpdateForm({
       const res = await updateCoachData(form, getToken)
  
       if (res.data.success) {
-        toast.success(profile_status === 'complete' ? 'Profile published!' : 'Draft saved!');
+        if(profile_status === 'complete'){
+          toast.success('Profile published!');
+        }else{
+          toast.warning('Profile is saved in Draft!')
+        }
         setSelectedCertificates([]);
         router.refresh();
       } else {

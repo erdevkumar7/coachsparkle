@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import { PackageBookingAndStripePayment } from "@/app/api/packages";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 
-export default function Booking({ coach_id, package_id, packageData: initialPackageData }) {
+export default function Booking({userData, coach_id, package_id, packageData: initialPackageData }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isReschedule = searchParams.get('reschedule') === 'true';
@@ -239,6 +239,11 @@ export default function Booking({ coach_id, package_id, packageData: initialPack
   const handleBookingSubmit = async () => {
     if (selectedDates.length === 0) {
       toast.error("Please select at least one date and time");
+      return;
+    }
+
+     if (userData.user_type == 3) {
+      toast.error("You are not valid user");
       return;
     }
 

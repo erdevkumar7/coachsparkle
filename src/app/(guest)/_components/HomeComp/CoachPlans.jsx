@@ -2,8 +2,10 @@
 import axios from "axios"
 import Link from "next/link";
 import { useEffect, useState } from "react"
+import { useRouter } from 'next/navigation';
 
-export default function CoachPlans({ sectionData }) {
+export default function CoachPlans({ userData, sectionData }) {
+    const router = useRouter();
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const [plans, setPlans] = useState([]);
     const [planType, setPlanType] = useState("monthly");
@@ -20,6 +22,12 @@ export default function CoachPlans({ sectionData }) {
             console.error("Error fetching plans", error);
         }
     };
+
+    const handleCoachLogin = () => {
+        sessionStorage.setItem('role', 3);
+        router.push();
+        router.push('/register');
+    }
 
     console.log('plansplans', plans)
 
@@ -81,16 +89,29 @@ export default function CoachPlans({ sectionData }) {
                                                 )}
                                             </ul>
 
-                                            {plan.plan_amount > 0 ? (
-                                                <button>
-                                                    Subscribe
-                                                </button>
-                                            ) : (
-                                                <Link href="/select-role">
+                                             {/* {userData?.user_type === 3 && plan.plan_amount > 0 ? (
+                                                <Link href="/coach/subscription-plan">
                                                     <button>
-                                                        Sign up
+                                                        Subscribe
                                                     </button>
                                                 </Link>
+                                            ) : (
+                                                <button onClick={handleCoachLogin}>
+                                                    Sign up
+                                                </button>
+                                            )} */}
+
+                                            {userData ? (
+                                                userData.user_type === 2 ? null : // Case 1: user_type 2 → show nothing
+                                                    userData.user_type === 3 && plan.plan_amount > 0 ? (
+                                                        // Case 2: user_type 3 and paid plan
+                                                        <Link href="/coach/subscription-plan">
+                                                            <button>Subscribe</button>
+                                                        </Link>
+                                                    ) : null
+                                            ) : (
+                                                // Case 3: not logged in → show signup
+                                                <button onClick={handleCoachLogin}>Sign up</button>
                                             )}
                                         </div>
                                     </div>
