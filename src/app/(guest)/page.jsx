@@ -10,8 +10,16 @@ import FeaturedCoaches from "./_components/HomeComp/FeaturedCoaches";
 import Link from "next/link";
 import CoachPlans from "./_components/HomeComp/CoachPlans";
 import SmartMatching from "./_components/HomeComp/SmartMatching";
+import { HandleValidateTokenOnServer } from "../api/user";
 
 export default async function Home() {
+  const tokenData = await HandleValidateTokenOnServer();
+  let user;
+
+  if (tokenData) {
+    user = tokenData?.data;
+  }
+
   // Fetch both APIs concurrently using Promise.all
   const [featuredCoachesResponse, globalPartnersResponse, homePageContentResponse] = await Promise.all([
     // Featured coaches API call
@@ -146,7 +154,11 @@ export default async function Home() {
       </div>
 
       <LatestArticles />
-      <CoachPlans sectionData={planSection} />
+
+      <CoachPlans
+        userData={user}
+        sectionData={planSection}
+      />
 
       <div className="your-organization-coach">
         <div className="container">
