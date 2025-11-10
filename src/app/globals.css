@@ -1675,6 +1675,17 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
 
 @media (min-width: 768px) and (max-width: 1024px) {
+ 
+marquee#coachMarquee {
+    height: 500px;
+}
+button#remov-coll-on-tech {
+  padding: 8px;
+}
+  footer.coach-footer-section {
+    background-color: #f4f3f9;
+    padding: 50px 15px;
+}
 
   nav.navbar.navbar-expand-lg.coach-top-navber-add.user-add-top {
     padding: 0px 30px;
@@ -1705,11 +1716,22 @@ nav.navbar .inner-tab-nav {
   font-family: Inter;
   font-size: 30px;
 }
-
+button#remov-coll-on-tech:focus {
+  box-shadow: none !important;
+}
 .smarter-matching-inner input.form-control.search-input {
   width: 248px;
-  height: 60px;
+  height: 50px;
+  font-size: 15px;
 }
+.ai-btn-find button {
+  height: 50px !important;
+  font-size: 15px !important;
+}
+.smarter-matching-inner p {
+  font-size: 16px;
+}
+
 
 .smarter-matching .counters-content {
   max-width: 780px;
@@ -1839,9 +1861,9 @@ h1 {
 }
 
 .explore-coaches-inner-content .professional-cards .card {
-  width: 350px;
+  width: 95%;
+  margin: auto;
 }
-
 .explore-coaches-inner-content a.view-all-add-btn {
   gap: 10px;
   height: 50px;
@@ -2420,9 +2442,8 @@ h1.text-center.premium-text-add {
   .view-all-coaches-view {
     margin-bottom: 0px;
   }
-
   .choose-plan-you .pricing .col-md-4 {
-    margin-bottom: 40px;
+    margin-bottom: 40px !important;
   }
 
   .choose-plan-you .card h2 {
