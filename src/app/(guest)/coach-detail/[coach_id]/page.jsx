@@ -33,10 +33,12 @@ export default async function CoachDetail({ params }) {
   const tokenData = await HandleValidateTokenOnServer();
   const blogs = await getLatestMasterBlogs();
   let fav_user_id;
+  let userType;
   if (tokenData) {
-    fav_user_id = tokenData.data.id
+    fav_user_id = tokenData.data.id;
+    userType = tokenData.data.user_type;
   }
-
+  // console.log('userType', userType)
   const [coach, allPackageIdRes, calendarData, incrementViewRes] = await Promise.all([
     getCoachById(coach_id, fav_user_id),
     packageIdsByCoachId(coach_id),
@@ -218,9 +220,9 @@ export default async function CoachDetail({ params }) {
                           </div>
                         </div>
                       </div>
-                      <div className="coach-action-profile-icon">
+                      {userType === 3 ? null : <div className="coach-action-profile-icon">
                         <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite} />
-                      </div>
+                      </div>}
                       <div className="coach-action-share-icon">
                         <ShareIcon className="mui-iconss share-icons-add" />
                       </div>
@@ -312,7 +314,7 @@ export default async function CoachDetail({ params }) {
                         {/* <label><input className="form-check-input" type="checkbox" value="" id="no" /> No</label> */}
                       </div>
                     </div>
-                    <SendMessageButton coachId={coach.user_id} coachName={coach.first_name}/>
+                    <SendMessageButton coachId={coach.user_id} coachName={coach.first_name} />
                     {/* <button
                       className="btn btn-primary"
                       data-bs-toggle="modal"

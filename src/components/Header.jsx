@@ -267,6 +267,26 @@ export default function Header({ user }) {
                             </>
                           )}
 
+                          {user?.user_type == 3 && (
+                            <>
+                              <Link className="dropdown-item"
+                                href={"/coach/dashboard"}>
+                                <AppsIcon /> &nbsp; Dashboard{" "}
+                              </Link>
+                              <Link
+                                className="dropdown-item"
+                                href={"/coach/profile"}
+                              >
+                                <AccountCircleOutlinedIcon />&nbsp;
+                                Profile{" "}
+                              </Link>
+                              <a className="dropdown-item" onClick={handleLogout}>
+                                <PowerSettingsNewOutlinedIcon className="mui-icons power-icons" />
+                                &nbsp;Logout{" "}
+                              </a>
+                            </>
+                          )}
+
                         </div>
                       </li>
                     </ul>

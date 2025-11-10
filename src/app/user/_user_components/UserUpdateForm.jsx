@@ -82,7 +82,7 @@ export default function UserUpdateFormData({
         prefer_mode: user?.prefer_mode || "",
         prefer_coaching_time: user?.prefer_coaching_timing || "",
         short_bio: user?.short_bio || "",
-        coach_agreement: user?.coach_agreement,
+        coach_agreement: user?.is_avail_for_relavant,
       });
     }
   }, [user]);

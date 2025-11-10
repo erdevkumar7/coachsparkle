@@ -8,11 +8,22 @@ import {
   getCommunicationChannels,
   getAllMasters
 } from "@/app/api/guest";
+import { HandleValidateTokenOnServer } from "@/app/api/user";
 
 
 export default async function SendCoachingRequestPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
+
+  const tokenData = await HandleValidateTokenOnServer();
+  let user;
+
+  if (tokenData) {
+    user = tokenData?.data;
+    // if (user.user_type == 3) {
+    //   console.log('Not valid user')
+    // }
+  }
 
   // If no token → redirect instantly without API call
   if (!token) {
@@ -52,6 +63,7 @@ export default async function SendCoachingRequestPage() {
 
   return (
     <RequestForm
+      userData={user} 
       coachType={coachType}
       ageGroup={ageGroup}
       deliveryMode={deliveryMode}
