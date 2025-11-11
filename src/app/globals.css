@@ -1676,6 +1676,52 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
 @media (min-width: 768px) and (max-width: 1024px) {
  
+.main-panel .service-profile-add {
+  display: block !important;
+}
+
+  nav#sidebar {
+    margin-left: 15px;
+}
+  .coach-banner-add .coach-card img {
+    width: 180px;
+    height: 180px;
+} 
+.coach-wrap {
+  padding-top: 0;
+  padding-right: 15px;
+}
+.senior-engineer-details-add {
+  display: block !important;
+}
+
+.coach-banner-add .coach-actions {
+  text-align: left;
+}
+
+.coach-banner-add .coach-card {
+  border-radius: 12px;
+  gap: 13px;
+}
+
+.coach-banner-add .coach-card {
+  gap: 10px;
+  padding: 15px;
+}
+.coach-banner-add .coach-card {
+  margin-right: 10px;
+}
+
+.search-container .search-input {
+  width: 570px !important;
+  height: 50px !important;
+}
+
+
+
+
+
+
 marquee#coachMarquee {
     height: 500px;
 }
@@ -1732,7 +1778,10 @@ button#remov-coll-on-tech:focus {
   font-size: 16px;
 }
 
-
+.sign-user-content {
+  width: 68% !important;
+  margin: auto;
+}
 .smarter-matching .counters-content {
   max-width: 780px;
   margin-top: 40px;
