@@ -16,12 +16,20 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false); // Add this state for sending
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Report modal states
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
+  const [reportMessage, setReportMessage] = useState({ text: "", type: "" });
+
   const messagesEndRef = useRef(null);
   const { sendMessage } = useChat();
   const router = useRouter();
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
+  console.log('selectedCoachselectedCoach', selectedCoach)
   const token = Cookies.get('token');
 
   // Get current user from localStorage
@@ -67,6 +75,82 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
         onSearch(activeTab, value);
       }
     }, 500);
+  };
+
+  // Report functionality
+  const openReportModal = () => {
+    setReportReason("");
+    setReportMessage({ text: "", type: "" });
+    setIsReportModalOpen(true);
+  };
+
+  const closeReportModal = () => {
+    setIsReportModalOpen(false);
+    setReportReason("");
+    setReportMessage({ text: "", type: "" });
+  };
+
+  const handleReportSubmit = async () => {
+    if (!reportReason.trim()) {
+      setReportMessage({
+        text: "Please enter a reason for reporting",
+        type: "error"
+      });
+      return;
+    }
+
+    if (!selectedCoach) {
+      setReportMessage({
+        text: "No coach selected",
+        type: "error"
+      });
+      return;
+    }
+
+    setIsSubmittingReport(true);
+    setReportMessage({ text: "", type: "" });
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chatreport`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          reported_against_id: selectedCoach.id,
+          reported_against_type: 3,
+          reason: reportReason.trim()
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setReportMessage({
+          text: "Report submitted successfully!",
+          type: "success"
+        });
+
+        // Close modal after success
+        setTimeout(() => {
+          closeReportModal();
+        }, 2000);
+      } else {
+        setReportMessage({
+          text: data.message || "Failed to submit report",
+          type: "error"
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting report:", error);
+      setReportMessage({
+        text: "An error occurred while submitting the report",
+        type: "error"
+      });
+    } finally {
+      setIsSubmittingReport(false);
+    }
   };
 
   // Select coach from URL parameter
@@ -165,7 +249,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
       ...coach,
       unread: unreadCounts[chatKey] || 0,
       lastMessageText: lastMessage ? lastMessage.message : coach.lastMessage,
-      lastMessageTime: lastMessage ? formatTime(lastMessage.created_at) : formatTime(new Date(coach.time))
+      lastMessageTime: lastMessage ? lastMessage.created_at : coach.time
     };
   });
 
@@ -203,6 +287,144 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   console.log('currentTab', currentTab)
   return (
     <div className="chat-message-start">
+      {/* Report Modal */}
+      {isReportModalOpen && (
+        <div className="modal-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div className="modal-content" style={{
+            backgroundColor: 'white',
+            padding: '20px',
+            borderRadius: '8px',
+            width: '90%',
+            maxWidth: '500px',
+            maxHeight: '80vh',
+            overflow: 'auto'
+          }}>
+            <div className="modal-header" style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '20px',
+              borderBottom: '1px solid #eee',
+              paddingBottom: '10px'
+            }}>
+              <h3 style={{ margin: 0 }}>Report Coach</h3>
+              <button
+                onClick={closeReportModal}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: '#666'
+                }}
+                disabled={isSubmittingReport}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="modal-body">
+              {selectedCoach && (
+                <p style={{ marginBottom: '15px' }}>
+                  Reporting: <strong>{selectedCoach.name}</strong>
+                </p>
+              )}
+
+              <div className="form-group">
+                <label htmlFor="reportReason" style={{
+                  display: 'block',
+                  marginBottom: '8px',
+                  fontWeight: 'bold'
+                }}>
+                  Reason for reporting *
+                </label>
+                <textarea
+                  id="reportReason"
+                  value={reportReason}
+                  onChange={(e) => setReportReason(e.target.value)}
+                  placeholder="Please describe the issue you're experiencing..."
+                  style={{
+                    width: '100%',
+                    minHeight: '120px',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '4px',
+                    resize: 'vertical',
+                    fontFamily: 'inherit'
+                  }}
+                  disabled={isSubmittingReport}
+                />
+              </div>
+
+              {reportMessage.text && (
+                <div
+                  className={`alert ${reportMessage.type === 'success' ? 'alert-success' : 'alert-error'}`}
+                  style={{
+                    padding: '10px',
+                    marginTop: '15px',
+                    borderRadius: '4px',
+                    backgroundColor: reportMessage.type === 'success' ? '#d4edda' : '#f8d7da',
+                    color: reportMessage.type === 'success' ? '#155724' : '#721c24',
+                    border: `1px solid ${reportMessage.type === 'success' ? '#c3e6cb' : '#f5c6cb'}`
+                  }}
+                >
+                  {reportMessage.text}
+                </div>
+              )}
+            </div>
+
+            <div className="modal-footer" style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '10px',
+              marginTop: '20px',
+              borderTop: '1px solid #eee',
+              paddingTop: '10px'
+            }}>
+              <button
+                onClick={closeReportModal}
+                style={{
+                  padding: '8px 16px',
+                  border: '1px solid #ddd',
+                  borderRadius: '4px',
+                  background: 'white',
+                  cursor: 'pointer'
+                }}
+                disabled={isSubmittingReport}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReportSubmit}
+                disabled={!reportReason.trim() || isSubmittingReport}
+                style={{
+                  padding: '8px 16px',
+                  border: 'none',
+                  borderRadius: '4px',
+                  background: !reportReason.trim() || isSubmittingReport ? '#ccc' : '#dc3545',
+                  color: 'white',
+                  cursor: !reportReason.trim() || isSubmittingReport ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {isSubmittingReport ? 'Submitting...' : 'Submit Report'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
       <ul className="tab">
         {tabs.map((tab, idx) => (
           <li className="item-nav" key={idx}>
@@ -307,33 +529,45 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
 
                 <div className="col-md-6 col-lg-7 col-xl-8 right-side-message">
                   <div className="chat-show-right-side">
-                    {!selectedCoach ? (
-                      <div className="start-chat-with-coach">
-                        <div className="start-chat-add">
-                          <img
-                            className="alert-icon"
-                            src="/coachsparkle/assets/images/alrt-icon.png"
-                            alt="alert"
-                            width="60"
-                            data-tooltip-id="alert-tooltip"
-                            data-tooltip-content={currentTab.bannerDescription}
-                            style={{ cursor: 'pointer' }}
-                          />
-                          <div>
-                            <p><b>{currentTab.bannerTitle}</b></p>
-                            {/* <p>{currentTab.bannerDescription}</p> */}
-                            <Tooltip
+
+                    <div className="start-chat-with-coach">
+                      <div className="start-chat-add">
+                        <img
+                          className="alert-icon"
+                          src="/coachsparkle/assets/images/alrt-icon.png"
+                          alt="alert"
+                          width="60"
+                          data-tooltip-id="alert-tooltip"
+                          data-tooltip-content={currentTab.bannerDescription}
+                          style={{ cursor: 'pointer' }}
+                        />
+                        <div>
+                          <p><b>{currentTab.bannerTitle}</b></p>
+                          <p>{currentTab.bannerDescription}</p>
+                          {/* <Tooltip
                               id="alert-tooltip"
                               place="top"
                               variant="dark"
                               className="custom-tooltip"
                               classNameArrow="custom-tooltip-arrow"
-                            />
-                          </div>
+                            /> */}
                         </div>
-                        <a className="report-btn-add">Report</a>
                       </div>
-                    ) : isLoading ? (
+
+                      {selectedCoach && (
+                        <a
+                          className="report-btn-add"
+                          onClick={openReportModal}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          Report
+                        </a>
+                      )}
+
+
+                    </div>
+
+                    {isLoading ? (
                       <div className="text-center p-4">Loading messages...</div>
                     ) : (
                       <>
@@ -350,6 +584,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       {isOwnMessage ? 'You' : msg.sender?.first_name || 'User'}
                                     </span>
                                     <span className="message-time">
+                                      {/* {msg.created_at} */}
                                       {formatTime(msg.created_at)}
                                     </span>
                                   </div>
@@ -389,11 +624,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                 </div>
                               );
                             })
-                          ) : (
-                            <div className="text-center p-4">
-                              No messages yet. Start a conversation!
-                            </div>
-                          )}
+                          ) : null}
                           <div ref={messagesEndRef} />
                         </div>
 
