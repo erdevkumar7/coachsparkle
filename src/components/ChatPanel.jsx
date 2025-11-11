@@ -17,6 +17,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   const [isSending, setIsSending] = useState(false); // Add this state for sending
   const [searchTerm, setSearchTerm] = useState("");
 
+  // console.log('updatedTabs', tabs)
   // Report modal states
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
@@ -29,7 +30,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
-  console.log('selectedCoachselectedCoach', selectedCoach)
+  // console.log('selectedCoachselectedCoach', selectedCoach)
   const token = Cookies.get('token');
 
   // Get current user from localStorage
@@ -233,6 +234,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   // Update unread counts in the coaches list - FILTER BY TYPE
   const updatedCoaches = currentTab.coaches.map(coach => {
     const user = getCurrentUser();
+    console.log('ccccccc', user)
     if (!user) return coach;
 
     // Create type-specific chat key for unread counts 
@@ -249,7 +251,8 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
       ...coach,
       unread: unreadCounts[chatKey] || 0,
       lastMessageText: lastMessage ? lastMessage.message : coach.lastMessage,
-      lastMessageTime: lastMessage ? lastMessage.created_at : coach.time
+      lastMessageTime: lastMessage ? lastMessage.time : coach.time
+      //  lastMessageTime: lastMessage ? 'aa' : 'bb'
     };
   });
 
@@ -284,7 +287,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
     }
   };
 
-  console.log('currentTab', currentTab)
+  // console.log('currentTab', currentTab)
   return (
     <div className="chat-message-start">
       {/* Report Modal */}
@@ -584,8 +587,8 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       {isOwnMessage ? 'You' : msg.sender?.first_name || 'User'}
                                     </span>
                                     <span className="message-time">
-                                      {/* {msg.created_at} */}
-                                      {formatTime(msg.created_at)}
+                                      {msg.created_at}
+                                      {/* {formatTime(msg.created_at)} */}
                                     </span>
                                   </div>
 
