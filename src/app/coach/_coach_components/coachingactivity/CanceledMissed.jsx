@@ -23,11 +23,12 @@ export default function CanceledMissed({ initialCanceled, token }) {
   };
 
 
-  const handleRescheduleRequest = (rqst) => {
-    console.log('item', rqst)
+  const handleRescheduleRequest = (session) => {
+    // console.log('item', rqst)
+     router.push(`/coach-detail/${session.package_coach_id}/package/${session.package_id}/booking?reschedule=true&user_id=${session.package_booked_user_id}&booking_id=${session.booking_id}`);
   };
 
-
+  // console.log('getCoahcingCanceled', getCoahcingCanceled)
 
   return (
     <>
