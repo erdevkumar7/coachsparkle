@@ -103,7 +103,7 @@ export default function CoachPlans({ userData, sectionData }) {
 
                                             {userData ? (
                                                 userData.user_type === 2 ? null : // Case 1: user_type 2 → show nothing
-                                                    userData.user_type === 3 && plan.plan_amount > 0 ? (
+                                                    userData.user_type === 3 ? (
                                                         // Case 2: user_type 3 and paid plan
                                                         <Link href="/coach/subscription-plan">
                                                             <button>Subscribe</button>

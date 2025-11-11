@@ -13,6 +13,8 @@ export default function Booking({userData, coach_id, package_id, packageData: in
   const searchParams = useSearchParams();
   const isReschedule = searchParams.get('reschedule') === 'true';
   const originalBookingId = searchParams.get('booking_id');
+  const packageBookedUserId = searchParams.get('user_id');
+
 
   const [packageData, setPackageData] = useState(initialPackageData);
   const [selectedDates, setSelectedDates] = useState([]);
@@ -192,6 +194,7 @@ export default function Booking({userData, coach_id, package_id, packageData: in
     // Prepare reschedule payload according to your specification
     const selectedSession = selectedDates[0];
     const payload = {
+      "user_id" : packageBookedUserId,
       "booking_id": originalBookingId,
       "status": 0, // Set to confirmed status (adjust as needed)
       "session_date_start": selectedSession.date.toISOString().split('T')[0], // YYYY-MM-DD
