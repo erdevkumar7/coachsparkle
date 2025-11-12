@@ -30,7 +30,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
-  // console.log('selectedCoachselectedCoach', selectedCoach)
+  console.log('selectedCoachselectedCoach', selectedCoach)
   const token = Cookies.get('token');
 
   // Get current user from localStorage
@@ -234,7 +234,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   // Update unread counts in the coaches list - FILTER BY TYPE
   const updatedCoaches = currentTab.coaches.map(coach => {
     const user = getCurrentUser();
-    console.log('ccccccc', user)
+
     if (!user) return coach;
 
     // Create type-specific chat key for unread counts 
@@ -245,14 +245,14 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
     const lastMessage = messages[chatKey] && messages[chatKey].length > 0
       ? messages[chatKey][messages[chatKey].length - 1]
       : null;
-    // console.log('chatKey', chatKey) 
+    // console.log('ccccccc', lastMessage)
 
     return {
       ...coach,
       unread: unreadCounts[chatKey] || 0,
       lastMessageText: lastMessage ? lastMessage.message : coach.lastMessage,
-      lastMessageTime: lastMessage ? lastMessage.time : coach.time
-      //  lastMessageTime: lastMessage ? 'aa' : 'bb'
+      lastMessageTime: lastMessage ? formatTime(lastMessage.created_at) : formatTime(coach.time)
+      //  lastMessageTime: lastMessage ? 'aaa' : 'bbb'
     };
   });
 
@@ -587,8 +587,8 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       {isOwnMessage ? 'You' : msg.sender?.first_name || 'User'}
                                     </span>
                                     <span className="message-time">
-                                      {msg.created_at}
-                                      {/* {formatTime(msg.created_at)} */}
+                                      {/* {msg.created_at} */}
+                                      {formatTime(msg.created_at)}
                                     </span>
                                   </div>
 

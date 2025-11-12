@@ -5,9 +5,10 @@
     margin-top: 0px;
     margin-bottom: 30px;
 }
-/* h3.message-board-text {
-    margin-top: 0px;
-} */
+p.small.text-muted.text-truncate.mb-0 {
+    max-width: 150px !important;
+    padding-right: 8px;
+}
 
 /* Optional custom styles for the tooltip */
 .custom-tooltip {
