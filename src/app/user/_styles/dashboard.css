@@ -728,12 +728,97 @@ p.coach-rating span {
 }
 
 .boder-line-add .inner-card-add .bg-gray-100.rounded-xl.p-4.text-center {
-    padding: 8px !important;
     align-items: center !important;
+    padding: 8px !important;
+    cursor: pointer;
 }
 
 
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .card.matched-add .coach button.msg-btn {
+        width: 30%;
+    }
+
+    .goals-progress .view-btn {
+        width: 30%;
+    }
+    .inner-card-add img {
+        width: 38px;
+    }
+    .inner-card-add p.text-blue-600.font-bold {
+        font-size: 12px;
+    }
+
+    .inner-card-add .new-add-comeing p.font-medium {
+        margin-bottom: 0 !important;
+        font-size: 13px !important;
+    }
+
+    button.user-update-btn {
+        width: 40%;
+        justify-content: center;
+    }
+    .goals-progress .buttons {
+        display: block;
+    }
+
+    .goals-progress .right-column button.btn.view {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .goals-progress .right-column button.btn.message {
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .goal-setting-tips .coach-item {
+        display: block;
+    }
+    .coach-card p.coach-desc-title {
+        margin-bottom: 14px;
+        font-size: 12px;
+    }
+
+    .user-dash-add {
+        margin-bottom: 0px !important;
+    }
+
+    .top-user-section-add {
+        margin-top: 30px;
+    }
+
+    .coach-top-navber-add .register-content {
+        display: flex;
+        justify-content: right;
+    }
+    .content-wrapper.user-dash-top-content {
+        padding-right: 15px;
+    }
+
+    .goals-progress .card-header {
+        display: flex;
+        padding-right: 0px;
+    }
+
+
+}
+
 @media (max-width: 767px) {
+
+    .favourite-user-warp button.btn.btn-primary.button-note {
+        height: 42px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .favourite-user-warp button.btn.btn-outline-secondary.button-msg {
+        height: 42px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+ 
 
     .msg_left_text_add p.small.text-muted.text-truncate.mb-0 {
         width: 90%;
@@ -748,10 +833,10 @@ p.coach-rating span {
     .top-user-section-add {
         margin-top: 0px;
     }
-
-    .flex.items-center.gap-3.mt-4 {
+    .user-profile-change-image {
         justify-content: center;
         margin-top: 10px !important;
+        margin-bottom: 10px !important;
     }
 
     .user-dash-add h3.font-weight-bold.quick-text-add {
@@ -813,7 +898,15 @@ p.coach-rating span {
         display: block;
         text-align: center;
     }
-
+    .topbar.d-flex.justify-content-between.align-items-center.py-2.px-2 {
+        display: flex !important;
+    }
+    .sorting-data.d-flex.align-items-center.gap-2 {
+        justify-content: right !important;
+    }
+    .sorting-data.gap-2 svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-1umw9bq-MuiSvgIcon-root {
+        margin-top: -30px;
+    }
     .user-update-btn {
         display: flex;
         justify-content: center;
@@ -825,8 +918,13 @@ p.coach-rating span {
         margin-bottom: 10px;
     }
     .goals-progress .view-btn {
+        margin-top: 20px !important;
         border-radius: 12px;
-        width: 100%;
+        width: 68%;
+        margin: auto;
+        float: none;
+        display: flex;
+        justify-content: center;
     }
     .goals-progress .card.matched-add .coach {
         display: block;
@@ -896,7 +994,9 @@ p.coach-rating span {
         display: flex;
         justify-content: center;
     }
-
+    .register-content.user_dash_add_mob {
+        padding-left: 30px !important;
+    }
     .goals-progress .right-column .coaching-card h3.title {
         text-align: center;
     }
@@ -907,8 +1007,9 @@ p.coach-rating span {
     .favourite-user-warp .status-bar.d-flex.align-items-center.gap-1 {
         margin: auto auto 10px;
         display: block !important;
-        width: 100% !important;
+        width: 90% !important;
         text-align: center;
+        padding-bottom: 14px;
     }
     .favourite-user-warp {
         padding-top: 20px !important;
@@ -918,8 +1019,8 @@ p.coach-rating span {
     }
     
     .topbar h3 {
-        font-size: 20px;
-        font-weight: 500;
+        font-size: 20px !important;
+        font-weight: 500 !important;
     }
     .pending-coach-result {
         display: block !important;

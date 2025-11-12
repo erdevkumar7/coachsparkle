@@ -158,9 +158,9 @@ a#notificationDropdown {
 @media only screen and (max-width: 767px) {
 
 
-ul.navbar-nav.list-show .register-content {
+/* ul.navbar-nav.list-show .register-content {
     margin-left: 0px !important;
-} 
+}  */
 a.sign-up-add {
   min-width: 110px;
 }
@@ -210,7 +210,7 @@ a.sign-up-add {
 }
   .register-login.head-top-login-add .register-content {
     margin-top: 0;
-    margin-left: 20px !important;
+    margin-left: 0px !important;
   }
   .coach-top-navber-add div#navbarTogglerDemo01 {
     background-color: #fff;

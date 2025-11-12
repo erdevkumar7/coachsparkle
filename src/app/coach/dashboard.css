@@ -355,9 +355,10 @@ p.coach-name-text {
   font-size: 15px;
 }
 .coach-dashboard-add .snapshot .glance-box {
+  background: #f8fcff;
   width: 215px;
   height: 110px;
-  background: #F8FCFF;
+  cursor: pointer;
 }
 
 .locked-card {
@@ -1908,7 +1909,10 @@ td.edit-add-btn button {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
- 
+  form.account-setting-form .account-form-row {
+    display: block;
+}
+
   .main-panel .profile-form .preview-section {
     max-width: 100%;
     height: auto;
@@ -2042,6 +2046,14 @@ button.btn.btn-primary.button-note {
 .current-sub-plan .subscription-card {
   width: 100% !important;
   padding: 20px;
+}
+
+.react-tel-input input.form-control {
+  width: 100% !important;
+}
+
+.account-form-row.account-three-cols input[type="email"] {
+  margin-bottom: 10px;
 }
 
 
