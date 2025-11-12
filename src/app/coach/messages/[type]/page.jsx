@@ -103,8 +103,8 @@ export default function Messages() {
       });
 
       const result = await response.json();
-
-      if (result.success) {
+     
+      if (result.success) {       
         // Update coaches list for this tab
         const updatedTabs = [...tabs];
         updatedTabs[tabIndex].coaches = result.data.map(coach => ({
@@ -114,7 +114,7 @@ export default function Messages() {
           lastMessage: coach.last_message,
           time: coach.last_message_time,
           unread: coach.unread_count,
-        }));
+        }));    
 
         // Update count in label
         if (tabIndex === 0) {
@@ -172,6 +172,8 @@ export default function Messages() {
   const handleCoachSelect = (coachId) => {
     updateUrlWithCoachId(coachId);
   };
+
+      
 
   // Show loading or error if invalid type
   if (![1, 2, 3].includes(type)) {
