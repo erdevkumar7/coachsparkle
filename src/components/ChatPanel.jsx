@@ -16,7 +16,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false); // Add this state for sending
   const [searchTerm, setSearchTerm] = useState("");
- 
+
   // Report modal states
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
@@ -29,7 +29,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
-  console.log('currentTab', currentTab)
+  // console.log('currentTab', currentTab)
   const token = Cookies.get('token');
 
   // Get current user from localStorage
@@ -480,16 +480,19 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                 className={`border-bottom coach-item ${selectedCoachIndex === index ? "active-chat" : ""}`}
                                 onClick={() => handleCoachSelection(coach, index)}
                               >
-                                <a
-                                  href="#!"
-                                  className="d-flex justify-content-between"
-                                >
+                                <a className="d-flex justify-content-between">
                                   <div className="d-flex flex-row msg_left_text_add">
                                     <img
                                       src={coach.img}
                                       alt="avatar"
                                       className="d-flex align-self-center me-2"
                                       width="60"
+                                      onClick={(e) => {
+                                        if (coach.user_type === 3) {
+                                          e.stopPropagation(); // prevent <li> click
+                                           router.push(`/coach-detail/${coach.id}`);
+                                        }
+                                      }}
                                     />
                                     <div className="pt-1" style={{ flex: 1 }}>
                                       <div className="d-flex justify-content-between align-items-center user-name-adding">
