@@ -110,6 +110,7 @@ export default function Messages() {
         updatedTabs[tabIndex].coaches = result.data.map(coach => ({
           id: coach.id,
           name: coach.name,
+          user_type: coach.user_type,
           img: coach.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`,
           lastMessage: coach.last_message,
           time: coach.last_message_time,
