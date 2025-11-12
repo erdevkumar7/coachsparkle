@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import { PackageBookingAndStripePayment } from "@/app/api/packages";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 
-export default function Booking({userData, coach_id, package_id, packageData: initialPackageData }) {
+export default function Booking({ userData, coach_id, package_id, packageData: initialPackageData }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isReschedule = searchParams.get('reschedule') === 'true';
@@ -194,7 +194,7 @@ export default function Booking({userData, coach_id, package_id, packageData: in
     // Prepare reschedule payload according to your specification
     const selectedSession = selectedDates[0];
     const payload = {
-      "user_id" : packageBookedUserId,
+      "user_id": packageBookedUserId,
       "booking_id": originalBookingId,
       "status": 0, // Set to confirmed status (adjust as needed)
       "session_date_start": selectedSession.date.toISOString().split('T')[0], // YYYY-MM-DD
@@ -223,9 +223,15 @@ export default function Booking({userData, coach_id, package_id, packageData: in
         toast.success("Session rescheduled successfully!");
 
         // Redirect back to calendar or booking page
-        setTimeout(() => {
-          router.push('/user/booking');
-        }, 1000);
+        if (packageBookedUserId) {
+          setTimeout(() => {
+            router.push('/coach/coaching-activities');
+          }, 500);
+        } else {
+          setTimeout(() => {
+            router.push('/user/coaching-activities');
+          }, 500);
+        }
 
       } else {
         toast.error(response.message || "Reschedule failed. Please try again.");
@@ -245,7 +251,7 @@ export default function Booking({userData, coach_id, package_id, packageData: in
       return;
     }
 
-     if (userData.user_type == 3) {
+    if (userData.user_type == 3) {
       toast.error("You are not valid user");
       return;
     }
