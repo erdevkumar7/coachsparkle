@@ -16,8 +16,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false); // Add this state for sending
   const [searchTerm, setSearchTerm] = useState("");
-
-  // console.log('updatedTabs', tabs)
+ 
   // Report modal states
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
@@ -30,7 +29,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
 
   const currentTab = tabs[activeTab];
   const selectedCoach = selectedCoachIndex !== null ? currentTab.coaches[selectedCoachIndex] : null;
-  console.log('selectedCoachselectedCoach', selectedCoach)
+  console.log('currentTab', currentTab)
   const token = Cookies.get('token');
 
   // Get current user from localStorage
@@ -120,7 +119,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
         },
         body: JSON.stringify({
           reported_against_id: selectedCoach.id,
-          reported_against_type: 3,
+          reported_against_type: selectedCoach.user_type,
           reason: reportReason.trim()
         }),
       });
@@ -288,6 +287,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
   };
 
   // console.log('currentTab', currentTab)
+
   return (
     <div className="chat-message-start">
       {/* Report Modal */}
