@@ -4,7 +4,7 @@ import ShareIcon from '@mui/icons-material/Share';
 export default function CustomShareIcon({ coach }) {
     // Add this function to your component
     const handleShareCoach = async (coach) => {
-        const coachProfileUrl = `${window.location.origin}/${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/coach-detail/${coach?.user_id}`;
+        const coachProfileUrl = `${window.location.origin}${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/coach-detail/${coach?.user_id}`;
         const shareText = `Check out ${coach?.first_name} ${coach?.last_name} - ${coach?.professional_title} on CoachSparkle`;
 
         try {
