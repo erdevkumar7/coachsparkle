@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { HandleValidateToken } from "@/app/api/auth";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CircularProgress } from "@mui/material";
+import { newDateTimeFormatter } from "@/lib/commonFunction";
 
 export default function UserDashboard() {
     const router = useRouter();
@@ -15,30 +16,67 @@ export default function UserDashboard() {
     const [favoriteCoaches, setFavoriteCoaches] = useState([]);
     const [userGoals, setUserGoals] = useState([]);
     const [loadingGoals, setLoadingGoals] = useState(true);
-
     const [atAGlanceData, setAtAGlanceData] = useState(null);
     const [loadingAtAGlance, setLoadingAtAGlance] = useState(true);
+
+    const [recentActivityData, setRecentActivityData] = useState(null);
+    const [loadingRecentActivity, setLoadingRecentActivity] = useState(true);
 
     useEffect(() => {
         const token = Cookies.get('token');
         if (!token) {
             router.push('/login');
+            return;
         }
 
-        const fetchUser = async () => {
-            const tokenData = await HandleValidateToken(token);
-            if (!tokenData) {
-                Cookies.remove('token');
-                localStorage.removeItem('user');
-                router.push('/login');
-                return;
-            }
+        const fetchAllData = async () => {
+            try {
 
-            setUser(tokenData.data)
+                // Validate token first
+                const tokenData = await HandleValidateToken(token);
+                if (!tokenData) {
+                    Cookies.remove('token');
+                    localStorage.removeItem('user');
+                    router.push('/login');
+                    return;
+                }
+
+                setUser(tokenData.data);
+
+                // Prepare all API calls
+                const favoritesPromise = fetchAllFavorites(token);
+                const goalsPromise = fetchUserGoals(token);
+                const glancePromise = fetchAtAGlanceData(token);
+                const recentActivityPromise = fetchRecentActivity(token);
+
+                // Execute all promises concurrently
+                const [favorites, goals, glanceData, recentActivity] = await Promise.all([
+                    favoritesPromise,
+                    goalsPromise,
+                    glancePromise,
+                    recentActivityPromise
+                ]);
+
+                // Set states with results
+                setFavoriteCoaches(favorites);
+                setUserGoals(goals);
+                setAtAGlanceData(glanceData);
+                setRecentActivityData(recentActivity);
+
+            } catch (error) {
+                console.error("Error fetching dashboard data:", error);
+                // Handle individual errors gracefully
+                setUserGoals([]);
+                setAtAGlanceData(null);
+                setRecentActivityData(null);
+            } finally {
+                setLoadingGoals(false);
+                setLoadingAtAGlance(false);
+                setLoadingRecentActivity(false);
+            }
         };
 
-        const fetchAllFavorites = async () => {
-            const token = Cookies.get("token");
+        const fetchAllFavorites = async (token) => {
             const perPage = 4;
             let pageNum = 1;
             let allFavorites = [];
@@ -70,15 +108,15 @@ export default function UserDashboard() {
                     (a, b) => new Date(b.created_at) - new Date(a.created_at)
                 );
 
-                setFavoriteCoaches(sorted.slice(0, 3));
+                return sorted.slice(0, 3);
             } catch (error) {
                 console.error("Error fetching favorites:", error);
+                return [];
             }
         };
 
-        const fetchUserGoals = async () => {
+        const fetchUserGoals = async (token) => {
             try {
-                setLoadingGoals(true);
                 const response = await fetch(`${apiUrl}/getusergoals`, {
                     method: "GET",
                     headers: {
@@ -88,25 +126,15 @@ export default function UserDashboard() {
                 });
 
                 const result = await response.json();
-
-                if (result.success) {
-                    setUserGoals(result.data || []);
-                } else {
-                    console.error("Failed to fetch user goals:", result.message);
-                    setUserGoals([]);
-                }
+                return result.success ? (result.data || []) : [];
             } catch (error) {
                 console.error("Error fetching user goals:", error);
-                setUserGoals([]);
-            } finally {
-                setLoadingGoals(false);
+                return [];
             }
         };
 
-        const fetchAtAGlanceData = async () => {
-            const token = Cookies.get("token");
+        const fetchAtAGlanceData = async (token) => {
             try {
-                setLoadingAtAGlance(true);
                 const response = await fetch(`${apiUrl}/at-a-glance-user-dashboard`, {
                     method: "GET",
                     headers: {
@@ -116,27 +144,36 @@ export default function UserDashboard() {
                 });
 
                 const result = await response.json();
-
-                if (result.success) {
-                    setAtAGlanceData(result.data);
-                } else {
-                    console.error("Failed to fetch at-a-glance data:", result.message);
-                    setAtAGlanceData(null);
-                }
+                return result.success ? result.data : null;
             } catch (error) {
                 console.error("Error fetching at-a-glance data:", error);
-                setAtAGlanceData(null);
-            } finally {
-                setLoadingAtAGlance(false);
+                return null;
             }
         };
 
-        fetchAllFavorites();
-        fetchUser();
-        fetchUserGoals();
-        fetchAtAGlanceData();
-    }, []);
+        const fetchRecentActivity = async (token) => {
+            try {
+                const response = await fetch(`${apiUrl}/recentCoachingactivity`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
 
+                const result = await response.json();
+                return result.success ? result : null;
+            } catch (error) {
+                console.error("Error fetching recent activity:", error);
+                return null;
+            }
+        };
+
+        fetchAllData();
+    }, [router, apiUrl]);
+
+
+    // Rest of your component remains the same...
     const getProgressColor = (percent) => {
         if (percent >= 80) return "success";
         if (percent >= 50) return "warning";
@@ -149,16 +186,13 @@ export default function UserDashboard() {
     };
 
     const handleUpdateGoal = () => {
-        // Navigate to profile update page or open goal update modal
         router.push('/user/profile');
     };
 
     const handleViewSession = (coachId, packageId) => {
-        // Navigate to session details page
         router.push(`/coach-detail/${coachId}/package/${packageId}`);
     };
 
-    // Format date for upcoming session
     const formatUpcomingSession = (upcomingSession) => {
         if (!upcomingSession || !upcomingSession.session_date_start) {
             return "No upcoming session";
@@ -168,13 +202,11 @@ export default function UserDashboard() {
             const date = new Date(upcomingSession.session_date_start);
             const time = upcomingSession.slot_time_start || "00:00";
 
-            // Format date as "Aug 15"
             const formattedDate = date.toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric'
             });
 
-            // Format time as "8:00 PM"
             const [hours, minutes] = time.split(':');
             const hour = parseInt(hours);
             const ampm = hour >= 12 ? 'PM' : 'AM';
@@ -188,11 +220,25 @@ export default function UserDashboard() {
         }
     };
 
-
-    // Check if user has any coach matches to respond to
     const hasUnrespondedMatches = atAGlanceData?.total_coach_matches > 0;
 
-    // console.log('atAGlanceData', atAGlanceData)
+    // Helper function to get status text and class based on booking status
+    const getBookingStatus = (status) => {
+        switch (status) {
+            case 0:
+                return { text: "Pending", className: "status-pending" };
+            case 1:
+                return { text: "Confirmed", className: "status-confirmed" };
+            case 2:
+                return { text: "Completed", className: "status-completed" };
+            case 3:
+                return { text: "Cancelled", className: "status-cancelled" };
+            default:
+                return { text: "Pending", className: "status-pending" };
+        }
+    };
+
+    // console.log('recentActivityData', recentActivityData)
 
     return (
         <div className="main-panel">
@@ -432,7 +478,17 @@ export default function UserDashboard() {
                     <div className="right-column">
                         <div className="coaching-card">
                             <h3 className="title">Recent Coaching Activities</h3>
-                            <div className="card">
+
+                            {/* Loading State */}
+                            {loadingRecentActivity && (
+                                <div className="card">
+                                    <p className="section-title">Loading Recent activities</p>
+                                    <div className="circular_for_glance loading-make-size flex justify-center py-4">
+                                        <CircularProgress size={24} />
+                                    </div>
+                                </div>
+                            )}
+                            {/* <div className="card">
                                 <p className="section-title">Your Active Match</p>
                                 <span className="status">Awaiting response</span>
                                 <div className="coach-info">
@@ -449,11 +505,11 @@ export default function UserDashboard() {
                                     <button className="btn view">View Profile</button>
                                     <button className="btn message">Message</button>
                                 </div>
-                            </div>
+                            </div> */}
 
-
+                            {/* 
                             <div className="card">
-                                <p className="section-title">You’re working with Tracy</p>
+                                <p className="section-title">You’re working with Tony Buck</p>
                                 <span className="status">Awaiting response</span>
                                 <h5>professional title will goes here...</h5>
 
@@ -469,34 +525,116 @@ export default function UserDashboard() {
                                     <button className="btn view">View Profile</button>
                                     <button className="btn message">Message</button>
                                 </div>
-                            </div>
+                            </div> */}
 
+                            {/* Latest Booking Card */}
+                            {!loadingRecentActivity && (
+                                <>
+                                    {(() => {
+                                        const hasBooking = recentActivityData?.latest_booking &&
+                                            !Array.isArray(recentActivityData.latest_booking);
+                                        const hasCoachingRequest = recentActivityData?.latest_coaching_request &&
+                                            !Array.isArray(recentActivityData.latest_coaching_request);
 
+                                        if (hasBooking || hasCoachingRequest) {
+                                            return (
+                                                <>
+                                                    {hasBooking && (
+                                                        <div className="card">
+                                                            <p className="section-title">You're working with {recentActivityData.latest_booking.first_name} {recentActivityData.latest_booking.last_name}</p>
+                                                            <span className={`status ${getBookingStatus(recentActivityData.latest_booking.status).className}`}>
+                                                                {getBookingStatus(recentActivityData.latest_booking.status).text}
+                                                            </span>
+                                                            <h5>{recentActivityData.latest_booking.title}</h5>
 
+                                                            <div className="coach-info">
+                                                                <img
+                                                                    src={recentActivityData.latest_booking.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                                                                    alt="Coach Image"
+                                                                    className="coach-img"
+                                                                    onError={(e) => {
+                                                                        e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
+                                                                    }}
+                                                                />
+                                                                <div className="coach-details">
+                                                                    <p className="coach-name">{recentActivityData.latest_booking.first_name} {recentActivityData.latest_booking.last_name}</p>
+                                                                    <p className="coach-rating">
+                                                                        {/* <i className="bi bi-star-fill"></i>
+                                                                        <span>5.0</span> */}
+                                                                        {newDateTimeFormatter(recentActivityData.latest_booking.session_date_start, recentActivityData.latest_booking.slot_time_start)}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="buttons">
+                                                                <button
+                                                                    className="btn view"
+                                                                    onClick={() => router.push(`/coach-detail/${recentActivityData.latest_booking.coach_id}`)}
+                                                                >
+                                                                    View Profile
+                                                                </button>
+                                                                <button
+                                                                    className="btn message"
+                                                                    onClick={() => router.push(`/user/user-message/3?coach_id=${recentActivityData.latest_booking.coach_id}`)}
+                                                                >
+                                                                    Message
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {hasCoachingRequest && (
+                                                        <div className="card">
+                                                            <p className="section-title">Coaching Request Sent</p>
+                                                            {/* <span className="status">Awaiting response</span> */}
+                                                            <h5>{recentActivityData.latest_coaching_request.professional_title}</h5>
 
-                            <div className="card">
-                                <p className="section-title">Recently Matched Coach</p>
-                                <span className="status">Awaiting response</span>
-                                <h5>professional title will goes here...</h5>
+                                                            <div className="coach-info">
+                                                                <img
+                                                                    src={recentActivityData.latest_coaching_request.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                                                                    alt="Coach Image"
+                                                                    className="coach-img"
+                                                                    onError={(e) => {
+                                                                        e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
+                                                                    }}
+                                                                />
+                                                                <div className="coach-details">
+                                                                    <p className="coach-name">
+                                                                        {recentActivityData.latest_coaching_request.first_name} {recentActivityData.latest_coaching_request.last_name}
+                                                                    </p>
+                                                                    <p className="coach-rating">
+                                                                        <i className="bi bi-star-fill"></i>
+                                                                        <span>{recentActivityData.latest_coaching_request.average_rating || 0}</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="buttons">
+                                                                <button
+                                                                    className="btn view"
+                                                                    onClick={() => router.push(`/coach-detail/${recentActivityData.latest_coaching_request.coach_id}`)}
+                                                                >
+                                                                    View Profile
+                                                                </button>
+                                                                <button
+                                                                    className="btn message"
+                                                                    onClick={() => router.push(`/user/user-message/2?coach_id=${recentActivityData.latest_coaching_request.coach_id}`)}
+                                                                >Message
+                                                                </button>
+                                                            </div>
+                                                        </div>
 
-                                <div className="coach-info">
-                                    <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <div className="coach-details">
-                                        <p className="coach-name">Tracy McCoy</p>
-
-                                        <p className="coach-rating"><i className="bi bi-star-fill"></i><span>5.0</span></p>
-                                    </div>
-                                </div>
-                                <div className="buttons">
-                                    <button className="btn view">View Profile</button>
-                                    <button className="btn message">Message</button>
-                                </div>
-                            </div>
-
-
+                                                    )}
+                                                </>
+                                            );
+                                        } else {
+                                            return (
+                                                <div className="card no-recent-activity">
+                                                    <p className="section-title">No recent activities</p>
+                                                    <p>Start by booking a session or sending coaching requests!</p>
+                                                </div>)
+                                        }
+                                    })()}
+                                </>
+                            )}
                         </div>
-
-
                     </div>
                 </div>
 
@@ -564,10 +702,25 @@ export default function UserDashboard() {
 
                 <div className="activity-log-card">
                     <h3 className="activity-title">Activity Log</h3>
-                    <ul className="activity-list">
-                        <li>- You Sent A Request To Coach Tracy McCoy <span className="activity-time">(3 days ago)</span></li>
-                    </ul>
+                    {loadingRecentActivity ? (
+                        <div className="activity-list loading-state">
+                            <p>Loading activities...</p>
+                        </div>
+                    ) : recentActivityData?.activities && recentActivityData.activities.length > 0 ? (
+                        <ul className="activity-list">
+                            {recentActivityData.activities.map((activity, index) => (
+                                <li key={index}>
+                                    - {activity.message} <span className="activity-time">({activity.time_ago})</span>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <ul className="activity-list">
+                            <li>- No recent activities</li>
+                        </ul>
+                    )}
                 </div>
+
             </div>
         </div>
     );
