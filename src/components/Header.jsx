@@ -14,6 +14,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 import { useState } from "react";
+import axios from "axios";
 
 
 export default function Header({ user }) {
@@ -37,13 +38,38 @@ export default function Header({ user }) {
     setCollapsed(!collapsed);
   };
 
-  const handleLogout = () => {
-    // HandleAuthLogout()
-    Cookies.remove("token");
-    localStorage.removeItem("user");
-    window.location.href = `${FRONTEND_BASE_URL}/login`;
-    // router.push("/login");
-    toast.success("Logout Successful!")
+  // const handleLogout = () => {
+  //   Cookies.remove("token");
+  //   localStorage.removeItem("user");
+  //   window.location.href = `${FRONTEND_BASE_URL}/login`;
+  //   toast.success("Logout Successful!")
+  // };
+
+  const handleLogout = async () => {
+    const token = Cookies.get("token");
+
+    try {
+      if (token) {
+        axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ).catch(error => {
+          console.error("Logout API error:", error);
+        });
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      Cookies.remove("token");
+      localStorage.removeItem("user");
+      toast.success("Logout Successful!");
+      window.location.href = `${FRONTEND_BASE_URL}/login`;
+    }
   };
 
   return (
