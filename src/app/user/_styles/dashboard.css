@@ -392,7 +392,37 @@ a.dropdown-item.preview-item {
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 0 5px #0000000d;
+    height: 98%;
 }
+span.status.status-confirmed {
+    background-color: #28A745;
+    border-radius: 20px;
+    color: #fff;
+    width: 30%;
+}
+
+span.status.status-pending {
+    background-color: #fff2cc;
+    border-radius: 20px;
+    color: #a97a0c;
+    width: 30%;
+    text-align: center;
+}
+span.status.status-completed {
+    background: #6c757d;
+    border-radius: 20px;
+    color: #fff;
+    width: 30%;
+    text-align: center;
+}
+span.status.status-cancelled {
+    background: #ff2e2e;
+    border-radius: 20px;
+    color: #fff;
+    width: 30%;
+    text-align: center;
+}
+
 
 .goals-progress .title {
     font-size: 16px;
