@@ -481,8 +481,8 @@ export default function UserDashboard() {
 
                             {/* Loading State */}
                             {loadingRecentActivity && (
-                                <div className="card">
-                                    <p className="section-title">Loading Recent activities ...</p>
+                                <div className="loading-recent">
+                                    <p className="section-title text-center">Loading Recent activities ...</p>
                                     <div className="circular_for_glance loading-make-size flex justify-center py-4">
                                         {/* <CircularProgress size={24} /> */}
                                     </div>
