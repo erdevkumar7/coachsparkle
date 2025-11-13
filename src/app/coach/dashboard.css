@@ -1909,6 +1909,22 @@ td.edit-add-btn button {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+  nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
+    border-radius: 0;
+    position: absolute;
+    top: 96px;
+    width: 32% !important;
+    left: 0 !important;
+  }
+
+  nav#sidebar {
+    border-radius: 0;
+    position: absolute;
+    top: 80px;
+    left: -244px;
+}
+
+  
   form.account-setting-form .account-form-row {
     display: block;
 }
