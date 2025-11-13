@@ -482,9 +482,9 @@ export default function UserDashboard() {
                             {/* Loading State */}
                             {loadingRecentActivity && (
                                 <div className="card">
-                                    <p className="section-title">Loading Recent activities</p>
+                                    <p className="section-title">Loading Recent activities ...</p>
                                     <div className="circular_for_glance loading-make-size flex justify-center py-4">
-                                        <CircularProgress size={24} />
+                                        {/* <CircularProgress size={24} /> */}
                                     </div>
                                 </div>
                             )}
@@ -555,6 +555,8 @@ export default function UserDashboard() {
                                                                     onError={(e) => {
                                                                         e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
                                                                     }}
+                                                                    style={{ cursor: 'pointer' }}
+                                                                    onClick={() => router.push(`/coach-detail/${recentActivityData.latest_booking.coach_id}`)}
                                                                 />
                                                                 <div className="coach-details">
                                                                     <p className="coach-name">{recentActivityData.latest_booking.first_name} {recentActivityData.latest_booking.last_name}</p>
@@ -595,6 +597,8 @@ export default function UserDashboard() {
                                                                     onError={(e) => {
                                                                         e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
                                                                     }}
+                                                                    style={{ cursor: 'pointer' }}
+                                                                    onClick={() => router.push(`/coach-detail/${recentActivityData.latest_coaching_request.coach_id}`)}
                                                                 />
                                                                 <div className="coach-details">
                                                                     <p className="coach-name">
@@ -669,6 +673,8 @@ export default function UserDashboard() {
                                                         onError={(e) => {
                                                             e.target.src = `${FRONTEND_BASE_URL}/images/default_profile.jpg`;
                                                         }}
+                                                        style={{ cursor: 'pointer' }}
+                                                        onClick={() => router.push(`/coach-detail/${coach?.id}`)}
                                                     />
                                                     <span className="coach-name">
                                                         {coach?.first_name} {coach?.last_name}
@@ -680,7 +686,7 @@ export default function UserDashboard() {
                                                         {coach?.reviews.rating || "5.0"}
                                                     </span>
 
-                                                    <button className="btn-book">Book Now</button>
+                                                    <button className="btn-book" onClick={() => router.push(`/coach-detail/${coach?.id}`)}>Book Now</button>
                                                 </div>
                                             );
                                         })

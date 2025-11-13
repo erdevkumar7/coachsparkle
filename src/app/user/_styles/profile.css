@@ -11,6 +11,10 @@
 .profile-form-add {
     margin-top: 40px;
 }
+textarea#short_bio {
+  min-height: 100px;
+  resize: vertical; /* allows manual resizing by the user */
+}
 
 .profile-form-add h3.text-your-name {
     border-bottom: 1px solid #e7e7e7;
