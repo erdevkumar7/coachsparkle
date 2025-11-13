@@ -143,11 +143,13 @@ export default function favourite() {
                               src={imageUrl}
                               alt="Coach"
                               className="coach-img"
+                              style={{cursor: 'pointer'}}
                               onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.src =
                                   "/coachsparkle/assets/images/professional-img.png";
                               }}
+                              onClick={()=> router.push(`/coach-detail/${coach?.id}`)}
                             />
                             <div>
                               <p className="favourite-text-tittle">{fullName}</p>
@@ -167,7 +169,7 @@ export default function favourite() {
 
                           <div className="two-btn-free">
                             <button
-                              className="start-btn"
+                              className="start-btn"                              
                               onClick={() => {
                                 router.push(`/coach-detail/${coach?.id}`);
                               }}
@@ -194,11 +196,11 @@ export default function favourite() {
           )}
 
 
-          <Pagination
+          {!loadingFavourites && <Pagination
             currentPage={currentPage}
             lastPage={totalPages}
             onPageChange={(page) => setCurrentPage(page)}
-          />
+          />}
         </div>
       </div>
     </div>

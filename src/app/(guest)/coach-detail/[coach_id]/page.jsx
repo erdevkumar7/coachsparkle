@@ -14,7 +14,6 @@ import { notFound } from "next/navigation";
 import ActionButton from "@/components/reusable/ActionButton";
 import SendMessageButton from "../../_components/SendMessageButton";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ShareIcon from '@mui/icons-material/Share';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TranslateIcon from '@mui/icons-material/Translate';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -25,6 +24,7 @@ import { HandleValidateTokenOnServer } from "@/app/api/user";
 import Link from "next/link";
 import { getLatestMasterBlogs } from "../../../api/guest";
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
+import CustomShareIcon from "../../_components/coach-detail/CustomShareIcon";
 
 
 export default async function CoachDetail({ params }) {
@@ -223,9 +223,9 @@ export default async function CoachDetail({ params }) {
                       {userType === 3 ? null : <div className="coach-action-profile-icon">
                         <FavIcon coachId={coach.user_id} initiallyFavorited={coach?.is_fevorite} />
                       </div>}
-                      <div className="coach-action-share-icon">
-                        <ShareIcon className="mui-iconss share-icons-add" />
-                      </div>
+
+                      <CustomShareIcon coach={coach} />
+
                       <div className="tags">
                         {coach?.service_names &&
                           coach.service_names.map((service) => (
