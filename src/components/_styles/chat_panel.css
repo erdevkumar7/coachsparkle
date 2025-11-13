@@ -392,6 +392,29 @@ p.small.text-muted.mb-0.time-add {
 }
 
 @media (max-width: 767px) {
+   
+    .left-side-message input.form-control.rounded {
+        border-radius: 50px !important;
+        box-shadow: none;
+    }
+
+    .row.both-chat-start {
+        gap: 10px;
+    }
+    .chat-message-start h5 {
+        margin-top: 0px;
+        font-size: 24px;
+    }
+
+    .chat-message-start ul.tab {
+        margin-bottom: 15px;
+    }
+    .left-col-add button.btn.btn-sm.btn-outline-primary {
+        padding: 8px 12px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
     ul.tab {
         justify-content: space-between;
     }
