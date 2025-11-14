@@ -5,6 +5,7 @@ import Pagination from "@/components/Pagination";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { newDateTimeFormatter } from "@/lib/commonFunction";
 
 export default function CoachingProgress({ initialProgress, token }) {
   const router = useRouter();
@@ -36,7 +37,6 @@ export default function CoachingProgress({ initialProgress, token }) {
     setSelectedRequest(null);
   };
 
-  console.log('getCoahcingProgress', getCoahcingProgress)
 
   // const coachingProgress = [
   //   {
@@ -52,6 +52,7 @@ export default function CoachingProgress({ initialProgress, token }) {
   //   },  
   // ];
 
+  // console.log('getCoahcingProgress', getCoahcingProgress)
 
   return (
     <>
@@ -60,7 +61,7 @@ export default function CoachingProgress({ initialProgress, token }) {
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
               <h3>
-                Coaching In Progress ({initialProgress.pagination.total < 10 ? `0${initialProgress.pagination.total}` : initialProgress.pagination.total})
+                Coaching In Progress ({initialProgress.pagination.total > 0 && initialProgress.pagination.total < 10 ? `0${initialProgress.pagination.total}` : initialProgress.pagination.total})
               </h3>
             </div>
             <div
@@ -106,9 +107,11 @@ export default function CoachingProgress({ initialProgress, token }) {
                         <span className="fw-semibold d-block name">
                           {session.package_title?.slice(0, 20)} With {session.first_name} {session.last_name}
                         </span>
-                        <span className="d-block time">{session.session_date_start}
+                        <span className="d-block time">
+                          {/* {session.session_date_start}
                           {session.slot_time_start &&
-                            <> at {session.slot_time_start} </>}
+                            <> at {session.slot_time_start} </>} */}
+                          {newDateTimeFormatter(session.session_date_start, session.slot_time_start)}
                         </span>
                         <img src="/coachsparkle/images/zoom.png" alt="platform" />
                       </div>
@@ -159,7 +162,7 @@ export default function CoachingProgress({ initialProgress, token }) {
                 <p><strong>Coach Name:</strong> {selectedRequest?.first_name} {selectedRequest?.last_name}</p>
                 <p><strong>Coach Location:</strong> {selectedRequest?.country} </p>
                 <p><strong>Preferred Contact Mode:</strong> Email / Phone </p>
-              </div>       
+              </div>
               <div className="request-modal-body">
                 <h6>4. Session Status</h6>
                 <p>

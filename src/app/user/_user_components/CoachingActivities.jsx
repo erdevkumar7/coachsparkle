@@ -1,5 +1,5 @@
 import StatusItem from "./coaching_activities/StatusItem";
-import PendingRequest from "./coaching_activities/PendingRequest";
+import PendingRequest from "./coaching_activities/UserCoachingRequest";
 import CoachingProgress from "./coaching_activities/CoachingProgress";
 import CompletedCoaching from "./coaching_activities/CompletedCoaching";
 import CanceledMissed from "./coaching_activities/CanceledMissed";

@@ -178,7 +178,7 @@ export default function LoginForm() {
                     setError('Invalid User Credentials');
                 }
             } else if (err.response && err.response.status === 403) {
-                setError('Please check your email for a verification link');
+                setError(err?.response?.data?.error || 'Please check your email for a verification link');
             } else {
                 setError('Something went wrong. Please try again.');
             }
