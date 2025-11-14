@@ -163,10 +163,10 @@ export default function CoachingRequests({ initialRequest, token }) {
               <div className="request-modal-body">
                 <h6>1. Coaching Details</h6>
                 <p>
-                  <strong>Type of Coaching:</strong> {selectedRequest?.coach_category || "N/A"}
+                  <strong>Type of Coaching:</strong> {selectedRequest?.coach_type || "N/A"}
                 </p>
                 <p>
-                  <strong>Sub Coaching Category:</strong> {selectedRequest?.coach_sub_category || "N/A"}
+                  <strong>Sub Coaching Category:</strong> {selectedRequest?.coach_subtype || "N/A"}
                 </p>
                 <p>
                   <strong>Preferred Mode of Delivery:</strong> {selectedRequest?.delivery_mode || "N/A"}
