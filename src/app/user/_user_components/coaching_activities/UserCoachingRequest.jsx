@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/navigation";
 
-export default function PendingRequest({ initialRequest, token }) {
+export default function UserCoachingRequest({ initialRequest, token }) {
   const router = useRouter();
   const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
   const [currentPage, setCurrentPage] = useState(initialRequest.pagination.current_page);
@@ -67,7 +67,7 @@ export default function PendingRequest({ initialRequest, token }) {
     setCurrentPage(1); // Reset to first page when changing items per page
   };
 
-  console.log('initialRequest', initialRequest)
+  // console.log('pendingRequest', pendingRequest)
 
   return (
     <>
@@ -75,7 +75,7 @@ export default function PendingRequest({ initialRequest, token }) {
         <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
           <div>
             <h3>
-              Pending Coaching ({initialRequest.request_count})
+              Pending Coaching ({initialRequest.request_count > 0 && initialRequest.request_count < 10 ? `0${initialRequest.request_count}` : initialRequest.request_count})
             </h3>
           </div>
           <div className="sorting-data d-flex align-items-center gap-2">
@@ -117,13 +117,13 @@ export default function PendingRequest({ initialRequest, token }) {
                   <div>
                     <p className="favourite-text-tittle">{item.first_name} {item.last_name}</p>
                     <p className="life-add-text">
-                      {item.coaching_category}
-                      {item.company_name && <>at <b>{item.company_name}</b></>}
+                      {item.coach_type ? item.coach_type : item.coach_subtype}
+                      {item.company_name && <> at <b>{item.company_name}</b></>}
 
                     </p>
                     <div className="star-add-pointer">
                       <i className="bi bi-star-fill"></i>
-                      <p>{item.rating}</p>
+                      <p>{item.review_coach}</p>
                     </div>
                   </div>
                 </div>
@@ -165,10 +165,10 @@ export default function PendingRequest({ initialRequest, token }) {
               <div className="request-modal-body">
                 <h6>1. Coaching Details</h6>
                 <p>
-                  <strong>Type of Coaching:</strong> {selectedRequest?.coach_category || "N/A"}
+                  <strong>Type of Coaching:</strong> {selectedRequest?.coach_type || "N/A"}
                 </p>
                 <p>
-                  <strong>Sub Coaching Category:</strong> {selectedRequest?.coach_sub_category || "N/A"}
+                  <strong>Sub Coaching Category:</strong> {selectedRequest?.coach_subtype || "N/A"}
                 </p>
                 <p>
                   <strong>Preferred Mode of Delivery:</strong> {selectedRequest?.delivery_mode || "N/A"}

@@ -5,6 +5,7 @@ import Pagination from "@/components/Pagination";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { newDateTimeFormatter } from "@/lib/commonFunction";
 
 export default function CoachingProgress({ initialCanceled, token }) {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function CoachingProgress({ initialCanceled, token }) {
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
               <h3>
-                Canceled / Missed ({initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total})
+                Canceled / Missed ({initialCanceled.pagination.total > 0 && initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total})
               </h3>
             </div>
             <div
@@ -84,9 +85,11 @@ export default function CoachingProgress({ initialCanceled, token }) {
                         <span className="fw-semibold d-block name">
                           {session.package_title?.slice(0, 20)} With {session.first_name} {session.last_name}
                         </span>
-                        <span className="d-block time">{session.session_date_start}
+                        <span className="d-block time">
+                          {/* {session.session_date_start}
                           {session.slot_time_start &&
-                            <> at {session.slot_time_start} </>}
+                            <> at {session.slot_time_start} </>} */}
+                             {newDateTimeFormatter(session.session_date_start, session.slot_time_start)}
                         </span>
                         <img src="/coachsparkle/images/zoom.png" alt="platform" />
                       </div>

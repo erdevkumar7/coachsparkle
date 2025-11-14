@@ -5,6 +5,7 @@ import Pagination from "@/components/Pagination";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { newDateTimeFormatter } from "@/lib/commonFunction";
 
 export default function CompletedCoaching({ initialCompleted, token }) {
   const router = useRouter();
@@ -76,14 +77,14 @@ export default function CompletedCoaching({ initialCompleted, token }) {
       setLastPage(res.data.pagination.last_page);
     }
   };
-// console.log('getCompletedgetCompleted', getCompleted)
+  console.log('getCompletedgetCompleted', getCompleted)
   return (
     <div className="mt-5 meditation-package">
       <div className="coaching-progress-status">
         <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
           <div>
             <h3>
-              Completed Coaching ({initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total})
+              Completed Coaching ({initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total})
             </h3>
           </div>
           <div
@@ -133,7 +134,10 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                     <span className="fw-semibold d-block name">
                       {completed.package_title?.slice(0, 20)} With {completed.first_name} {completed.last_name}
                     </span>
-                    <span className="d-block time">Completed {completed.session_date_end}</span>
+                    <span className="d-block time">
+                      {/* Completed {completed.session_date_end} */}
+                      Completed {newDateTimeFormatter(completed.session_date_end, completed.slot_time_end)}
+                    </span>
                   </div>
                 </div>
 

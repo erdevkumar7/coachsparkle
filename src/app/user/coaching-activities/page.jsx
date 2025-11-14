@@ -3,7 +3,7 @@ import "../_styles/dashboard.css";
 import "../_styles/coaching_activities.css";
 import "../../coach/_styles/coach_coaching_activities.css";
 import StatusItem from "../_user_components/coaching_activities/StatusItem";
-import PendingRequest from "../_user_components/coaching_activities/PendingRequest";
+import UserCoachingRequest from "../_user_components/coaching_activities/UserCoachingRequest";
 import CoachingProgress from "../_user_components/coaching_activities/CoachingProgress";
 import CompletedCoaching from "../_user_components/coaching_activities/CompletedCoaching";
 import CanceledMissed from "../_user_components/coaching_activities/CanceledMissed";
@@ -62,28 +62,28 @@ export default async function Activities() {
   // const initialCompleted = await completeRes.json();
   // const initialCanceled = await cancelRes.json();
 
-  console.log('initialCanceled', initialCanceled)
+  // console.log('initialCanceled', initialCanceled)
 
   const statusItems = [
     {
       icon: "/coachsparkle/assets/images/glance-img-one.png",
       title: "Pending Coaching",
-      count: pendingRequest.pagination.total < 10 ? `0${pendingRequest.pagination.total}` : pendingRequest.pagination.total,
+      count: pendingRequest.pagination.total > 0 && pendingRequest.pagination.total < 10 ? `0${pendingRequest.pagination.total}` : pendingRequest.pagination.total,
     },
     {
       icon: "/coachsparkle/assets/images/glance-img-three.png",
       title: "In progress",
-      count: coachingProgress.pagination.total < 10 ? `0${coachingProgress.pagination.total}` : coachingProgress.pagination.total,
+      count: coachingProgress.pagination.total > 0 && coachingProgress.pagination.total < 10 ? `0${coachingProgress.pagination.total}` : coachingProgress.pagination.total,
     },
     {
       icon: "/coachsparkle/assets/images/match-three.png",
       title: "Completed",
-      count: initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
+      count: initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
     },
     {
       icon: "/coachsparkle/assets/images/match-four.png",
       title: "Canceled / Missed",
-      count: initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
+      count: initialCanceled.pagination.total > 0 && initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
     },
   ];
 
@@ -104,7 +104,7 @@ export default async function Activities() {
           ))}
         </div>
 
-        <PendingRequest
+        <UserCoachingRequest
           initialRequest={pendingRequest}
           token={token}
         />
