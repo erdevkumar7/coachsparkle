@@ -21,7 +21,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
       setLastPage(res.data.pagination.last_page);
     }
   };
-  console.log('getCompleted',getCompleted)
+  // console.log('getCompleted',getCompleted)
   return (
     <div className="mt-5 status-complete">
       <div className="completed-status">
@@ -103,7 +103,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                     <button
                       className="btn btn-outline-secondary button-msg"
                       onClick={() => {
-                        router.push(`/coach/messages/1?user_id=${completed.id}`);
+                        router.push(`/coach/messages/3?user_id=${completed.package_booked_user_id}`);
                       }}>
                       Message
                     </button>

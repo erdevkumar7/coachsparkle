@@ -36,7 +36,7 @@ export default function CoachingProgress({ initialProgress, token }) {
   };
 
 
-  // console.log('getCoahcingProgress', getCoahcingProgress)
+  console.log('getCoahcingProgress', getCoahcingProgress)
   return (
     <>
       <div className="mt-5 status-coaching-top">

@@ -99,7 +99,7 @@ export default function CanceledMissed({ initialCanceled, token }) {
                       <button
                         className="btn btn-outline-secondary button-msg"
                         onClick={() => {
-                          router.push(`/user/user-message/3?coach_id=${session.id}`)
+                          router.push(`/coach/messages/3?user_id=${session.package_booked_user_id}`);
                         }}>
                         Message
                       </button>
