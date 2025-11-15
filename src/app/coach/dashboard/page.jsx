@@ -16,7 +16,7 @@ export default async function CoachDashboard() {
   const token = cookieStore.get("token")?.value;
 
 
-  const [pendingRes, QuickSnapRes, servicePerformanceRes] = await Promise.all([
+  const [pendingRes, QuickSnapRes, servicePerformanceRes, articlesRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/getPendingCoaching`, {
       method: 'POST',
       headers: {
@@ -43,15 +43,28 @@ export default async function CoachDashboard() {
       },
       cache: 'no-store',
     }),
-  ])
+
+        // Add articles API call
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/getcoachBlog`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+    }),
+  ]);
+
   const pendingRequest = await pendingRes.json();
   const QuickSnapData = await QuickSnapRes.json();
   const servicePerformanceInitailData = await servicePerformanceRes.json();
+  const articlesInitialData = await articlesRes.json(); // Get articles data
 
   const profile_complete_percentage = QuickSnapData?.data?.profile_percentage || 0;
-
   const upcomingSession = QuickSnapData.data.upcoming_sessions || [];
   // const servicePerformances = servicePerformanceInitailData.data || [];
+
+  // console.log('articlesInitialData', articlesInitialData)
 
   return (
     <div className="main-panel">
@@ -111,7 +124,7 @@ export default async function CoachDashboard() {
         </div>
 
         <div className="my-articles">
-          <MyArticles />
+           <MyArticles articlesInitialData={articlesInitialData} />
         </div>
 
         <div className="activity-log">
