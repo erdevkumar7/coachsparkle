@@ -46,18 +46,18 @@ export default async function CoachDashboard() {
   ])
   const pendingRequest = await pendingRes.json();
   const QuickSnapData = await QuickSnapRes.json();
-  const servicePerformanceData = await servicePerformanceRes.json();
+  const servicePerformanceInitailData = await servicePerformanceRes.json();
 
   const profile_complete_percentage = QuickSnapData?.data?.profile_percentage || 0;
 
   const upcomingSession = QuickSnapData.data.upcoming_sessions || [];
-  const servicePerformances = servicePerformanceData.data || [];
-  // console.log('profile_complete_percentage', profile_complete_percentage)
+  // const servicePerformances = servicePerformanceInitailData.data || [];
+
   return (
     <div className="main-panel">
       <div className="new-content-wrapper coach-wrap">
         <div className="coach-dashboard-add">
-          <WelcomeBack profile_complete_percentage={profile_complete_percentage}/>
+          <WelcomeBack profile_complete_percentage={profile_complete_percentage} />
 
           <div className="snapshot">
             <QuickSnapshot QuickSnapData={QuickSnapData} />
@@ -103,7 +103,10 @@ export default async function CoachDashboard() {
 
         <div className="services-performances">
           <div className="service-performance">
-            <ServicePerformancess servicePerformances={servicePerformances} />
+            <ServicePerformancess
+              servicePerformanceInitailData={servicePerformanceInitailData}
+              token={token}
+            />
           </div>
         </div>
 

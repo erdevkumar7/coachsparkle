@@ -9,6 +9,8 @@ import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import Pagination from "@/components/Pagination";
+import { getCoachServicePerformances } from "@/app/api/coach";
 
 // Helper function to get status badge
 const getStatusBadge = (package_status) => {
@@ -18,7 +20,7 @@ const getStatusBadge = (package_status) => {
     case 2:
       return <span className="badge unpublished">Unpublished</span>;
     default:
-      return <span className="badge unpublished">Unknown</span>;
+      return <span className="badge unpublished">Unpublished</span>;
   }
 };
 
@@ -28,10 +30,15 @@ const calculateInquiryRate = (viewCount, confirmedBooking) => {
   return ((confirmedBooking / viewCount) * 100).toFixed(1);
 };
 
-export default function ServicePerformancess({ servicePerformances = [] }) {
+export default function ServicePerformancess({ servicePerformanceInitailData = [], token }) {
   const { user } = useUser();
   const router = useRouter();
-  const token = Cookies.get('token');
+
+  const [servicePerformances, setServicePerformances] = useState(servicePerformanceInitailData?.data);
+  const [currentPage, setCurrentPage] = useState(servicePerformanceInitailData.pagination?.current_page);
+  const [lastPage, setLastPage] = useState(servicePerformanceInitailData.pagination?.last_page);
+
+  // const token = Cookies.get('token');
   let isProUser = user.subscription_plan.plan_status;
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -75,12 +82,12 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
 
       if (res.ok) {
         // Success - close modal and refresh data or update state
-        toast.success('Package deleted successfully!');      
+        toast.success('Package deleted successfully!');
         // You might want to refresh the data here or remove the item from state       
-          handleCloseModal();
-          // Optionally refresh the page or update the servicePerformances array
-           router.refresh();  // Simple refresh approach
-       
+        handleCloseModal();
+        // Optionally refresh the page or update the servicePerformances array
+        router.refresh();  // Simple refresh approach
+
       } else {
         toast.error(result.message || 'Failed to delete package');
       }
@@ -96,6 +103,15 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
   const handleManageService = () => {
     router.push(`/coach/service-packages`)
   }
+
+  const fetchPageData = async (page) => {
+    const res = await getCoachServicePerformances(page, token);
+    if (res?.data) {
+      setServicePerformances(res.data.data);
+      setCurrentPage(res.data.pagination.current_page);
+      setLastPage(res.data.pagination.last_page);
+    }
+  };
 
   return (
     <div className="position-relative">
@@ -144,7 +160,7 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
           pointerEvents: !isProUser ? "none" : "auto",
         }}
       >
-        {servicePerformances.length > 0 ? (
+        {servicePerformances?.length > 0 ? (
           <table className="w-100">
             <thead>
               <tr className="service-add">
@@ -188,9 +204,9 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
                     >
                       <DeleteOutlineOutlinedIcon className="mui-delet-add-icon" />
                     </button>
-                    <Link href={`/coach/all-packages/${service.id}?coach_id=${user?.user_id}`}>
+                    {service.package_status === 1 ? <Link href={`/coach/all-packages/${service.id}?coach_id=${user?.user_id}`}>
                       <RemoveRedEyeOutlinedIcon className="mui-eye-add-icon" />
-                    </Link>
+                    </Link> : <RemoveRedEyeOutlinedIcon className="mui-eye-add-icon new-disabled-eye-icon" />}
                   </td>
                 </tr>
               ))}
@@ -350,12 +366,18 @@ export default function ServicePerformancess({ servicePerformances = [] }) {
         </div>
       )}
 
-      {isProUser && servicePerformances.length > 0 && (
-        <div className="footer-btn mt-4">
-          <button className="manage-btn" onClick={handleManageService}>
-            Manage Services <EastIcon className="mui-icons" />
-          </button>
-        </div>
+      {isProUser && servicePerformances?.length > 0 && (
+          <div className="footer-btn mt-4">
+            <Pagination
+              currentPage={currentPage}
+              lastPage={lastPage}
+              onPageChange={fetchPageData}
+            />
+            
+            <button className="manage-btn" onClick={handleManageService}>
+              Manage Services <EastIcon className="mui-icons" />
+            </button>
+          </div>
       )}
     </div>
   );
