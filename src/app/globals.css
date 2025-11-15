@@ -1676,6 +1676,30 @@ footer.coach-footer-section .new-add-footer .mui-icons {
 
 @media (min-width: 768px) and (max-width: 1024px) {
  
+  .col-md-8.coach-profile-list-left {
+    padding-left: 0;
+    padding-right: 0 !important;
+    width: 58%;
+}
+  .coach-banner-add .coach-actions {
+    text-align: left !important;
+    display: flex;
+}  
+  .coach-banner-add .coach-card {
+    display: block !important;
+}
+.coach-banner-add button.book {
+  font-weight: 600;
+  width: 41%;
+}
+
+.tags {
+  padding-top: 10px;
+}
+.coach-banner-add .coach-info h2 {
+  color: #000;
+  padding-top: 10px;
+}
 .main-panel .service-profile-add {
   display: block !important;
 }
@@ -1684,9 +1708,13 @@ footer.coach-footer-section .new-add-footer .mui-icons {
     margin-left: 15px;
 }
   .coach-banner-add .coach-card img {
-    width: 180px;
-    height: 180px;
+    width: 180px !important;
+    height: 180px !important;
 } 
+.coach-top-navber-add .register-content {
+  display: flex;
+  justify-content: right;
+}
 .coach-wrap {
   padding-top: 0;
   padding-right: 15px;

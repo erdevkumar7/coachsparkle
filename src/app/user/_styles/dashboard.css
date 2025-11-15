@@ -765,7 +765,9 @@ p.coach-rating span {
 
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
-   
+    span.status.status-pending {
+        width: 50%;
+    } 
     nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
         border-radius: 0;
         position: absolute;
@@ -781,11 +783,15 @@ p.coach-rating span {
         left: -244px;
     }
     .card.matched-add .coach button.msg-btn {
-        width: 30%;
+        width: 35%;
     }
 
+    .coach-banner-add .coach-actions {
+        text-align: left;
+        flex-direction: column;
+    }
     .goals-progress .view-btn {
-        width: 30%;
+        width: 35%;
     }
     .inner-card-add img {
         width: 38px;
@@ -800,7 +806,7 @@ p.coach-rating span {
     }
 
     button.user-update-btn {
-        width: 40%;
+        width: 45%;
         justify-content: center;
     }
     .goals-progress .buttons {
