@@ -213,7 +213,7 @@ export default function ServicePerformancess({ servicePerformanceInitailData = [
             </tbody>
           </table>
         ) : (
-          <div className="text-center py-4 text-muted">
+          <div className="no-performances-data">
             No service performances data available
           </div>
         )}
@@ -373,7 +373,7 @@ export default function ServicePerformancess({ servicePerformanceInitailData = [
               lastPage={lastPage}
               onPageChange={fetchPageData}
             />
-            
+
             <button className="manage-btn" onClick={handleManageService}>
               Manage Services <EastIcon className="mui-icons" />
             </button>
