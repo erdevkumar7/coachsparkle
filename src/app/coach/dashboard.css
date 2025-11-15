@@ -1909,6 +1909,75 @@ td.edit-add-btn button {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+  .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown {
+    width: calc(97% - 40px) !important;
+    top: 370px !important;
+    left: 31px !important;
+    right: 20px !important;
+}
+  .react-datepicker.custom-calendar {
+    width: 100%;
+}
+.rating-reviews .view-all button {
+  width: 32%;
+  height: 45px;
+}
+
+.service-performance {
+  box-shadow: 0 2px 15px #00000017;
+  overflow: scroll;
+}
+.services-performances th, td {
+  font-size: 14px;
+  min-width: 150px;
+}
+.main-panel .session-card {
+  width: 100%;
+  max-width: 90%;
+}
+.quick-text {
+  width: 100%;
+  text-align: center;
+}
+.add-draft-service {
+  width: 100%;
+}
+
+.action-button button.save-btn-add {
+  background-color: #009bfa !important;
+  padding: 10px 20px !important;
+  width: 220px;
+  justify-content: center;
+}
+
+.left-side-message {
+  background: #ffffffd9;
+  width: 40% !important;
+  padding: 15px 10px;
+}
+
+.main-panel {
+  display: flex;
+  width: 93% !important;
+  margin: auto;
+}
+.right-side-message {
+  width: 53% !important;
+  background-color: #fff;
+}
+.col-md-4.matches-right-side {
+  width: 38.3333%;
+}
+.coach-dashboard-add .snapshot .glance-box {
+  width: 210px;
+  height: 110px;
+}
+.matches-add {
+  gap: 15px;
+  width: 95%;
+  margin-top: 30px;
+}
+
   nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
     border-radius: 0;
     position: absolute;
@@ -1916,6 +1985,22 @@ td.edit-add-btn button {
     width: 32% !important;
     left: 0 !important;
   }
+
+  .reviews-right-side .manage-btn button {
+    width: 100%;
+    height: 45px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+}
+.services-performances .manage-btn {
+  align-items: center;
+  width: 30%;
+  height: 45px;
+}
 
   nav#sidebar {
     border-radius: 0;
@@ -1937,14 +2022,16 @@ td.edit-add-btn button {
     max-width: 100%;
 }
 .main-panel .session-card {
-    width: 100%;
+  width: 100%;
+  max-width: 100%;
 }
 .dashboard-wrapper {
   min-height: calc(100vh - 60px);
   padding-top: 40px;
 }
 .new-content-wrapper.coach-wrap {
-  width: 97%;
+  width: 100%;
+  padding-left: 0;
 }
 .pkg-price {
   padding-top: 10px;
@@ -2077,6 +2164,32 @@ button.btn.btn-primary.button-note {
 
 }
 
+
+.new-disabled-eye-icon {
+  opacity: 0.6;
+}
+button.manage_add_btn-show {
+  color: #fff;
+  cursor: pointer;
+  background: #009bfa;
+  border: none;
+  border-radius: 12px;
+  align-items: center;
+  width: 18%;
+  height: 45px;
+  margin-bottom: 11px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  gap: 11px;
+}
+
+
+.delete-and-edit-articles {
+  padding: 0px;
+}
 
 
 
