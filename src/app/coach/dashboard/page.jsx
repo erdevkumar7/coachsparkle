@@ -44,7 +44,7 @@ export default async function CoachDashboard() {
       cache: 'no-store',
     }),
 
-        // Add articles API call
+    // Add articles API call
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/getcoachBlog`, {
       method: 'POST',
       headers: {
@@ -124,7 +124,8 @@ export default async function CoachDashboard() {
         </div>
 
         <div className="my-articles">
-           <MyArticles articlesInitialData={articlesInitialData} />
+          <MyArticles articlesInitialData={articlesInitialData}
+            token={token} />
         </div>
 
         <div className="activity-log">
