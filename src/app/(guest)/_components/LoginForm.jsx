@@ -44,14 +44,28 @@ export default function LoginForm() {
 
         // Check for Google OAuth callback parameters
         const urlParams = new URLSearchParams(window.location.search);
+
+            const error = urlParams.get("error");
+    if (error === "invalid_user_type") {
+        toast.error("Invalid user type for this email");
+        return; // Stop further execution
+    }
+    
         const token = urlParams.get('token');
         const user = urlParams.get('user');
-        const type = urlParams.get('type');
+        // const type = urlParams.get('type');
+        const type = urlParams.get('user_type');
 
+
+        // if (token && user) {
+        //     // Handle Google OAuth success
+        //     handleGoogleAuthSuccess(token, user, type);
+        // }
         if (token && user) {
-            // Handle Google OAuth success
             handleGoogleAuthSuccess(token, user, type);
         }
+
+
     }, [searchParams]);
 
     useEffect(() => {
@@ -68,14 +82,16 @@ export default function LoginForm() {
     const handleGoogleAuthSuccess = (token, userData, userType) => {
         try {
             const user = JSON.parse(userData);
-
+            // console.log(userType); return;
             // Store token and user data
             Cookies.set('token', token, {
                 expires: 7,
                 secure: true,
                 sameSite: 'Lax',
             });
-            localStorage.setItem('user', JSON.stringify(user));
+            // localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(JSON.parse(userData)));
+
 
             toast.success("Google login successful!");
 
