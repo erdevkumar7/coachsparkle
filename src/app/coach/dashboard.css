@@ -598,17 +598,166 @@ i.bi.bi-star-fill {
   display: flex;
   justify-content: right;
 }
+
+.footer-btn.mt-4.create-article-sec {
+    align-items: center;
+    display: flex;
+    justify-content: right;
+}
+/* Modal Styles */
+.article-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+.article-modal-backdrop.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.article-modal-backdrop.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+.article-modal-backdrop .modal-content {
+  background: white;
+  padding: 20px !important;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Rest of your existing modal styles */
+
+.article-modal-backdrop .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.article-modal-backdrop .modal-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.article-modal-backdrop .modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.article-modal-backdrop .form-group {
+  margin-bottom: 20px;
+}
+
+.article-modal-backdrop .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.article-modal-backdrop .form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.article-modal-backdrop .form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.article-modal-backdrop .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.article-modal-backdrop .btn-cancel {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.article-modal-backdrop .btn-submit {
+  padding: 10px 20px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.article-modal-backdrop .btn-submit:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.article-modal-backdrop .current-image {
+  margin-top: 10px;
+}
+
+.article-modal-backdrop .current-image p {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+
+
+
+
+
+
+
+
+/* Modal Styles */
 .tracy-text .rating {
   padding-top: 5px;
   font-weight: 600;
 }
 
 .rating-reviews .review-container {
-  max-width: 900px;
-  margin: 0px auto;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, .09);
+    border-radius: 12px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 2px 15px #00000017;
+    width: 100%;
+}
+
+.footer-btn.mt-4.create-article-sec {
+    display: flex;
+    align-items: center;
+}
+.articles-tables table {
+    width: 100%;
 }
 .quick-text i.bi.bi-star {
   font-size: 20px;
