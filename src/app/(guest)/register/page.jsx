@@ -19,6 +19,7 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { CircularProgress } from "@mui/material";
+import GoogleAuthButton from "../_components/GoogleLogin";
 
 
 
@@ -161,7 +162,12 @@ export default function Register() {
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="social-buttons">
                                     <button type="button" className="apple-btn"><img src="./images/apple.png" alt="apple" />Continue with Apple</button>
-                                    <button type="button" className="google-btn"><img src="./images/google.png" alt="google" />Log in with Google</button>
+                                    {/* <button type="button" className="google-btn"><img src="./images/google.png" alt="google" />Log in with Google</button> */}
+                                    <GoogleAuthButton
+                                        role={userType}
+                                        text="Log in with Google"
+                                        className="google-btn"
+                                    />
                                 </div>
 
                                 <div className="divider"><span>or</span></div>

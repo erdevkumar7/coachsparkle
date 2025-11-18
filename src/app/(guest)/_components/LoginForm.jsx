@@ -10,7 +10,7 @@ import { loginSchema } from '@/lib/validationSchema';
 import { toast } from 'react-toastify';
 import EastIcon from '@mui/icons-material/East';
 import axios from 'axios';
-
+import GoogleAuthButton from './GoogleLogin';
 
 export default function LoginForm() {
     const searchParams = useSearchParams();
@@ -61,12 +61,12 @@ export default function LoginForm() {
         // Check for Google OAuth callback parameters
         const urlParams = new URLSearchParams(window.location.search);
 
-            const error = urlParams.get("error");
-    if (error === "invalid_user_type") {
-        toast.error("Invalid user type for this email");
-        return; // Stop further execution
-    }
-    
+        const error = urlParams.get("error");
+        if (error === "invalid_user_type") {
+            toast.error("Invalid user type for this email");
+            return; // Stop further execution
+        }
+
         const token = urlParams.get('token');
         const user = urlParams.get('user');
         // const type = urlParams.get('type');
@@ -347,7 +347,7 @@ export default function LoginForm() {
                                     <img src="./images/google.png" alt="google" />
                                     Log in with Google
                                 </button> */}
-                                <button
+                                {/* <button
                                     className="google-login"
                                     type="button"
                                     onClick={() => handleGoogleLogin(role)}
@@ -355,7 +355,12 @@ export default function LoginForm() {
                                 >
                                     <img src="./images/google.png" alt="google" />
                                     {googleLoading ? 'Redirecting...' : 'Log in with Google'}
-                                </button>
+                                </button> */}
+                                <GoogleAuthButton
+                                    role={role}
+                                    text="Log in with Google"
+                                    className="google-login"
+                                />
 
                                 <p className="signup-text">
                                     Don’t have an account?
