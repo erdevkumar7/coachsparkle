@@ -598,7 +598,15 @@ i.bi.bi-star-fill {
   display: flex;
   justify-content: right;
 }
-
+span.online-status {
+    color: #000;
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    border-radius: 12px;
+    padding: 6px 20px;
+    font-family: Inter;
+    font-weight: 600;
+}
 .footer-btn.mt-4.create-article-sec {
     align-items: center;
     display: flex;

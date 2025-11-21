@@ -366,7 +366,7 @@ export default function ServicePerformancess({ servicePerformanceInitailData = [
         </div>
       )}
 
-      {isProUser && servicePerformances?.length > 0 && (
+      {isProUser && servicePerformances?.length > 0 ? (
           <div className="footer-btn mt-4">
             <Pagination
               currentPage={currentPage}
@@ -378,7 +378,7 @@ export default function ServicePerformancess({ servicePerformanceInitailData = [
               Manage Services <EastIcon className="mui-icons" />
             </button>
           </div>
-      )}
+      ) : null}
     </div>
   );
 }

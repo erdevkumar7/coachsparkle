@@ -43,12 +43,13 @@ export default function WelcomeBack({ profile_complete_percentage }) {
                             </div>
                             <p className="coach-name-text">Coach</p>
                         </div>
-                        <div className="status">
+                        {/* <div className="status">
                             <select>
                                 <option>Online</option>
                                 <option>Offline</option>
                             </select>
-                        </div>
+                        </div> */}
+                        <span className="online-status">Online</span>
                     </div>
                 </div>
                 <div className="progress-bar">
