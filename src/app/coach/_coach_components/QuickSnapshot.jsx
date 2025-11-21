@@ -1,8 +1,10 @@
 "use client";
 import { useUser } from "@/context/UserContext";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
+import { useRouter } from "next/navigation";
 
 export default function QuickSnapshot({ QuickSnapData }) {
+  const router = useRouter();
   const {
     average_rating,
     completed_bookings,
@@ -20,7 +22,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
     upcoming_sessions = [],
   } = QuickSnapData?.data || {};
 
-  console.log('QuickSnapDataaaaaa', QuickSnapData)
+  // console.log('QuickSnapDataaaaaa', QuickSnapData)
   const { user } = useUser();
   let isProUser = user.subscription_plan.plan_status;
 
@@ -47,7 +49,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
     <>
       <h3 className="text-lg font-semibold mb-4 quick-text">Quick Snapshot</h3>
       <div className="grid">
-        <div className="card">
+        <div className="card" onClick={() => router.push('/coach/coaching-activities')}>
           <div className="glance-box">
             <img
               src="/coachsparkle/assets/images/snapshot-img-one.png"
@@ -60,7 +62,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
           </div>
         </div>
 
-        <div className="card">
+        <div className="card" onClick={() => router.push('/coach/coaching-activities')}>
           <div className="glance-box">
             <img
               src="/coachsparkle/assets/images/snapshot-img-two.png"
@@ -125,7 +127,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
           </div>
         </div>
 
-        <div className="card">
+        <div className="card" onClick={() => router.push(`/coach/messages/1`)}>
           <div className="glance-box">
             <img
               src="/coachsparkle/assets/images/snapshot-img-six.png"
@@ -161,7 +163,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
           />
         )}
 
-        <div className="card">
+        <div className="card" onClick={() => router.push('/coach/review')}>
           <div className="glance-box">
             <img
               src="/coachsparkle/assets/images/snapshot-img-eight.png"
