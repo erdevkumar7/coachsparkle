@@ -28,6 +28,19 @@ p.small.text-muted.text-truncate.mb-0 {
     opacity: 0.8;
 }
 
+
+p.add-point {
+    background-color: #28a745;
+    border-radius: 50px;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: 38px;
+    left: 40px;
+}
+.msg_left_text_add {
+    position: relative;
+}
 .chat-message-start nav{
     flex-wrap: wrap !important;
     margin-bottom: 0;
