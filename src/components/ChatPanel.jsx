@@ -490,17 +490,22 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       onClick={(e) => {
                                         if (coach.user_type === 3) {
                                           e.stopPropagation(); // prevent <li> click
-                                           router.push(`/coach-detail/${coach.id}`);
+                                          router.push(`/coach-detail/${coach.id}`);
                                         }
                                       }}
                                     />
+                                    {coach.is_online ? (
+                                    //  <p className="add-point"></p>
+                                    <p className="add-point"></p>
+                                    ) : null}
+
                                     <div className="pt-1" style={{ flex: 1 }}>
                                       <div className="d-flex justify-content-between align-items-center user-name-adding">
                                         <p className="fw-bold mb-0">
                                           {coach.name}
                                         </p>
-
                                       </div>
+
                                       {/* <p className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}>
                                         {coach.lastMessageText}
                                       </p> */}
@@ -508,6 +513,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       <p
                                         className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}
                                         dangerouslySetInnerHTML={{ __html: coach.lastMessageText }} />
+
                                     </div>
                                   </div>
                                   <div className="pt-1 time-zone-add">

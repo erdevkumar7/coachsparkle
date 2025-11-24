@@ -115,6 +115,7 @@ export default function Messages() {
           lastMessage: coach.last_message,
           time: coach.last_message_time,
           unread: coach.unread_count,
+          is_online: coach.is_online
         }));    
 
         // Update count in label
