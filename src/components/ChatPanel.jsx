@@ -286,6 +286,22 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
     }
   };
 
+  const processMessageHTML = (html) => {
+    if (!html) return '';
+
+    // Check if the content starts with <h6> (case insensitive, with optional attributes)
+    if (html.trim().toLowerCase().startsWith('<h6')) {
+      // Extract content from the first h6 tag only
+      const match = html.match(/<h6[^>]*>(.*?)<\/h6>/i);
+      if (match && match[1]) {
+        return match[1]; // Return only the content inside the first h6
+      }
+    }
+
+    // Return original HTML if it doesn't start with h6
+    return html;
+  };
+
   // console.log('currentTab', currentTab)
 
   return (
@@ -495,8 +511,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                       }}
                                     />
                                     {coach.is_online ? (
-                                    //  <p className="add-point"></p>
-                                    <p className="add-point"></p>
+                                      <p className="add-point"></p>
                                     ) : null}
 
                                     <div className="pt-1" style={{ flex: 1 }}>
@@ -510,9 +525,10 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                         {coach.lastMessageText}
                                       </p> */}
 
-                                      <p
-                                        className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}
-                                        dangerouslySetInnerHTML={{ __html: coach.lastMessageText }} />
+                                      <p className="small text-muted text-truncate mb-0" style={{ maxWidth: '200px' }}
+                                        // dangerouslySetInnerHTML={{ __html: coach.lastMessageText }} 
+                                        dangerouslySetInnerHTML={{ __html: processMessageHTML(coach.lastMessageText) }}
+                                      />
 
                                     </div>
                                   </div>
