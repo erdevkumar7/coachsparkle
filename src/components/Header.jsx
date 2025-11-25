@@ -124,9 +124,10 @@ export default function Header({ user }) {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  For Corporate <KeyboardArrowDownIcon className="mui-icons" />
+                  For Corporate 
+                  {/* <KeyboardArrowDownIcon className="mui-icons" /> */}
                 </Link>
-                <ul className="dropdown-menu">
+                {/* <ul className="dropdown-menu">
                   <li>
                     <Link className="dropdown-item" href="/">
                       Corporate 1
@@ -142,14 +143,14 @@ export default function Header({ user }) {
                       Corporate 3
                     </Link>
                   </li>
-                </ul>
+                </ul> */}
               </li>
 
-              <li className="nav-item mobile-event-add">
+              {/* <li className="nav-item mobile-event-add">
                 <Link className="nav-link" href="/">
                   Events
                 </Link>
-              </li>
+              </li> */}
             </div>
 
             {user ? (

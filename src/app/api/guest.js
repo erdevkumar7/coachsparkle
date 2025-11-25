@@ -172,18 +172,24 @@ export const getCommunicationChannels = async () => {
     return await res.json();
 }
 
-export const getLatestMasterBlogs = async () => {
-    const res = await fetch(`${apiUrl}/getmasterblogs`, {
+export const getLatestMasterBlogs = async (coach_id) => {
+     const res = await fetch(`${apiUrl}/getFrontcoachBlog`, {
         method: 'POST',
         headers: {
+            "Content-Type": "application/json",
             Accept: "application/json",
         },
+        body: JSON.stringify({
+            coach_id: coach_id // pass coach id
+        }),
+        cache: "no-store" // optional: avoid caching issues in Next.js
     });
 
     const json = await res.json();
     if (json?.success && Array.isArray(json.data)) {
         return json.data.slice(0, 3);
     }
+
     return [];
 };
 
