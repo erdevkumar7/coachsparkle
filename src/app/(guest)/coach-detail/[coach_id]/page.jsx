@@ -31,7 +31,8 @@ export default async function CoachDetail({ params }) {
 
   const { coach_id } = await params;
   const tokenData = await HandleValidateTokenOnServer();
-  const blogs = await getLatestMasterBlogs();
+  const blogs = await getLatestMasterBlogs(coach_id);
+
   let fav_user_id;
   let userType;
   if (tokenData) {
@@ -249,31 +250,33 @@ export default async function CoachDetail({ params }) {
                           </ActionButton>
                         </div>
                       </>}
-
-
                   </div>
+
                   <div className="about-section publs_artcl">
                     <h4>Published Articles</h4>
-                    <div className="artcl-flex">
-                      {blogs.map((blog) => (
-                        <div className="item-artcl" key={blog.id}>
-                          <Image src={blog.blog_image} alt={blog.blog_name}
-                            className="top-image" width={1000} height={226} />
+                    {blogs.length > 0 ? (
+                      <div className="artcl-flex">
+                        {blogs.map((blog) => (
+                          <div className="item-artcl" key={blog.id}>
+                            <Image src={blog.blog_image} alt={blog.blog_name}
+                              className="top-image" width={1000} height={226} />
 
-                          <div className="item-cont1">
-                            <h4>
-                              {blog.blog_name}
-                            </h4>
-                            <p>
-                              {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 100)}...
-                            </p>
-                            {/* <Link href={`/coachsparkle/articles/${blog.id}`}><button>Read Article</button></Link> */}
-                            <Link href={`#`}><button>Read Article</button></Link>
+                            <div className="item-cont1">
+                              <h4>
+                                {blog.blog_name}
+                              </h4>
+                              <p>
+                                {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 100)}...
+                              </p>
+                              {/* <Link href={`/coachsparkle/articles/${blog.id}`}><button>Read Article</button></Link> */}
+                              <Link href={`#`}><button>Read Article</button></Link>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-
+                        ))}
+                      </div>) : (
+                      <div className="artcl-flex no-artical">
+                          <p>No articles published yet.</p>                  
+                      </div>)}
                   </div>
 
                   {similarCoachData.data?.length > 0 && <div className="about-section sim-coachs">
