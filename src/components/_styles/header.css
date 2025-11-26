@@ -12,6 +12,7 @@ a.navbar-logo-add:focus-visible {
   width: 78%;
 }
 
+
 .coach-top-navber-add ul.navbar-nav.list-show {
   justify-content: center;
   align-items: center;
@@ -157,10 +158,14 @@ a#notificationDropdown {
 
 @media only screen and (max-width: 767px) {
 
+  .mobile-view-add-screen {
+    display: none !important;
+  }
 
-/* ul.navbar-nav.list-show .register-content {
-    margin-left: 0px !important;
-}  */
+  .mobile-view-toggle-right i.bi.bi-list.fs-2 {
+    color: #009bfa;
+}
+
 a.sign-up-add {
   min-width: 110px;
 }
