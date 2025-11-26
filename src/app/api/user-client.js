@@ -1,3 +1,6 @@
+import axios from "axios";
+import Cookies from "js-cookie";
+
 export const getUserPendingCoachingClient = async (page = 1, token, itemsPerPage) => {
   if (!token) {
     return { error: "No token provided", data: null };
@@ -186,3 +189,27 @@ export async function deleteUserReview(reviewId, token) {
     return { error: "Unexpected error", data: null };
   }
 }
+
+
+export const getNotifications = async (token) => {
+  try {    
+    if (!token) {
+      return { status: false, count: 0, notifications: [] };
+    }
+
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/getNotifications`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
+    return { status: false, count: 0, notifications: [] };
+  }
+};

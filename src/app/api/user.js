@@ -31,7 +31,7 @@ export const getUserProfileData = async () => {
             return { error: json.message || 'Unknown error', data: null };
         }
 
-        return { error: null, data: json.data };
+        return { error: null, data: json.data, token };
     } catch (err) {
         console.error('Fetch error:', err);
         return { error: 'Unexpected error', data: null };
@@ -135,16 +135,33 @@ export const HandleValidateTokenOnServer = async () => {
 }
 
 // app/api/auth.js
-export async function HandleValidateTokenServer(token) {
+export const HandleValidateTokenOnServerWithReturnToken = async () => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
+    if (!token) return null;
+
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validate-token`, {
-            method: "POST",
-            headers: { "Authorization": `Bearer ${token}` },
-            cache: "no-store" // ensure fresh validation
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validateToken`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json',
+            },
+            cache: 'no-store',
         });
-        if (!res.ok) return null;
-        return await res.json();
-    } catch {
+
+        if (!res.ok) {
+            // Cookies.remove('token');
+            // localStorage.removeItem('token');
+            // localStorage.removeItem('user');
+            return null;
+        }
+
+        const jsonData = await res.json();
+
+        return { jsonData, token };
+
+    } catch (error) {
         return null;
     }
 }

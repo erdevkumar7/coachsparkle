@@ -9,18 +9,17 @@ import { PusherDebug } from "@/components/PusherDebug";
 import { UserProvider } from "@/context/UserContext";
 
 export default async function UserLayout({ children }) {
-  const { data: user, error, removeToken } = await getUserProfileData();
+  const { data: user, error, token } = await getUserProfileData();
   if (!user) {
     return redirect('/login');
   } else if (user.user_type == 3) {
     return redirect('/coach/dashboard');
   }
 
-
   return (
     <UserProvider initialUser={user}>
       <ChatProvider user={user}>
-        <Header user={user} error={error} removeToken={removeToken} />
+        <Header user={user}  token={token} />
         {/* <UserHeader user={user} error={error} removeToken={removeToken} /> */}
 
         <div className="top-user-section-add">
