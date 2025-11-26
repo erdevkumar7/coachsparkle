@@ -12,18 +12,19 @@ import { PusherDebug } from '@/components/PusherDebug';
 import Header from '@/components/Header';
 
 export default async function CoachLayout({ children }) {
-  const { data: user, error } = await getUserProfileData();
+  const { data: user, error, token } = await getUserProfileData();
 
   if (!user) {
     return redirect('/login');
   } else if (user.user_type == 2) {
     return redirect('/user/dashboard');
   }
+ 
 
   return (
     <UserProvider initialUser={user}>
       <ChatProvider user={user}>
-          <Header user={user} />
+          <Header user={user} token={token} />
         {/* <CoachHeader user={user}/> */}
         <div className="container dashboard-wrapper">
           <CoachSideBarComp user={user}/>
