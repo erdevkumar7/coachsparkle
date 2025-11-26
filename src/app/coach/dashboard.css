@@ -464,7 +464,7 @@ p.coach-name-text {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .active-coaching .legend span::before {
@@ -526,7 +526,7 @@ p.coach-name-text {
   padding: 12px 10px;
   font-family: Inter;
   font-size: 14px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   width: 55%;
 }
 
@@ -581,7 +581,7 @@ i.bi.bi-star-fill {
   background: #009bfa;
   border: none;
   border-radius: 12px;
-  width: 30%;
+  width: 26%;
   height: 45px;
   margin-top: 30px;
   margin-bottom: 10px;
@@ -903,8 +903,8 @@ i.bi.bi-arrow-right {
 }
 .reviews-right-side .session-card {
   padding: 16px;
+  border: none;
 }
-
 .reviews-right-side .session {
     border-bottom: 1px solid #e7e7e7;
     align-items: center;
@@ -955,25 +955,26 @@ i.bi.bi-arrow-right {
 .reviews-right-side .manage-btn {
   text-align: right;
 }
-
 .reviews-right-side .manage-btn button {
-  color: #fff;
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  background: #009bfa;
+  float: right;
+  background: rgb(0, 155, 250);
   border: none;
   border-radius: 12px;
-  width: 65%;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
   height: 45px;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 12px 0;
+  margin-right: 15px;
+  padding: 12px 0px;
   font-size: 14px;
-  font-weight: 600;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  float: right;
+  font-weight: 500 !important;
 }
+
 .rating-reviews {
   gap: 30px;
   width: 98%;
@@ -2353,6 +2354,35 @@ button.manage_add_btn-show {
 /* mobile-view-css */
 @media only screen and (max-width: 767px) {
  
+
+.social-links h3 {
+    margin-bottom: 25px;
+}
+
+.form-group.main-coach-cate-add {
+    max-width: 100% !important;
+}
+.form-row.three-cols .form-group.target-input {
+  max-width: 100% !important;
+}
+.react-datepicker__month-container {
+    width: 100%;
+}  
+button.activity-log-btn {
+    width: 40%;
+} 
+  .footer-btn.mt-4.create-article-sec {
+    align-items: center;
+    display: block;
+}
+
+button.manage_add_btn-show {
+  width: 80%;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
   .payment-history .table-responsive.card td {
     min-width: 125px;
 }
@@ -2371,6 +2401,7 @@ button.manage_add_btn-show {
   }
   .session-card h3.text-lg.font-semibold.quick-text {
     margin-bottom: 11px;
+    font-size: 20px;
 }
 
   .chat-container .chat-header {
@@ -2548,6 +2579,7 @@ p.pro-add-value {
 .reviews-right-side .manage-btn button {
   width: 80%;
   padding: 0;
+  margin-right: 0px;
 }
 
 .reviews-right-side .session-date .day {
@@ -2561,12 +2593,15 @@ p.pro-add-value {
 }
 .services-performances .manage-btn {
   width: 80%;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 10px;
 }
 
 .services-performances .footer-btn {
   text-align: right;
-  display: flex;
   justify-content: center;
+  display: block;
 }
 
 .articles-tables {
@@ -2789,8 +2824,11 @@ textarea.delivery-textarea.form-control {
 }
 .react-datepicker__month-container .react-datepicker__day {
   padding: 0;
+  line-height: 2.4 !important;
 }
-
+.react-datepicker__day.day-green.react-datepicker__day--026.react-datepicker__day--keyboard-selected.react-datepicker__day--today {
+  line-height: 2.4 !important;
+}
 .card.media-section h3.quick-text {
   margin-bottom: 0px;
 }
