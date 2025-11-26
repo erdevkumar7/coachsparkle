@@ -1,4 +1,6 @@
 "use client";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./_styles/header.css";
 import Link from "next/link";
@@ -13,13 +15,117 @@ import { toast } from "react-toastify";
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
-import { useState } from "react";
-import axios from "axios";
+import { getNotifications } from "@/app/api/user-client";
 
 
-export default function Header({ user }) {
+export default function Header({ user, token }) {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+
+  // console.log('uiiii', user.user_type)
+  // Fetch notifications
+  const fetchNotifications = async () => {
+    if (!user) return;
+
+    setLoading(true);
+    try {
+      const data = await getNotifications(token);
+      if (data.status) {
+        setNotifications(data.notifications || []);
+        setNotificationCount(data.count || 0);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setNotifications([]);
+      setNotificationCount(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Mark notification as read
+  const markAsRead = async (messageId) => {
+    try {
+      const token = Cookies.get("token");
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/markNotificationAsRead`,
+        { message_id: messageId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Update local state
+      setNotifications(prev =>
+        prev.map(notif =>
+          notif.message_id === messageId
+            ? { ...notif, is_read: 1 }
+            : notif
+        )
+      );
+      setNotificationCount(prev => Math.max(0, prev - 1));
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+    }
+  };
+
+  // Handle notification click
+  const handleNotificationClick = (notification) => {
+    // Mark as read
+    if (notification.is_read === 0) {
+      markAsRead(notification.message_id);
+    }
+
+    // Handle different message types
+    if (user?.user_type === 3) {
+      switch (notification.message_type) {
+        case 1:
+          router.push(`/coach/messages/1?user_id=${notification.sender_id}`);
+          break;
+        case 2:
+          router.push(`/coach/messages/2?user_id=${notification.sender_id}`);
+          break;
+        case 3:
+          router.push(`/coach/messages/3?user_id=${notification.sender_id}`);
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (user?.user_type === 2) {
+      switch (notification.message_type) {
+        case 1:
+          router.push(`/user/user-message/1?coach_id=${notification.sender_id}`);
+          break;
+        case 2:
+          router.push(`/user/user-message/2?coach_id=${notification.sender_id}`);
+          break;
+        case 3:
+          router.push(`/user/user-message/3?coach_id=${notification.sender_id}`);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchNotifications();
+
+      // Optional: Set up interval to refresh notifications
+      // const interval = setInterval(fetchNotifications, 30000); 
+
+      // return () => clearInterval(interval);
+    }
+  }, [user]);
 
 
   const toggleSidebar = () => {
@@ -71,6 +177,37 @@ export default function Header({ user }) {
       window.location.href = `${FRONTEND_BASE_URL}/login`;
     }
   };
+
+  // Helper function to get badge color based on message type
+  const getMessageTypeBadge = (messageType) => {
+    switch (messageType) {
+      case 1:
+        return 'bg-primary'; // Message
+      case 2:
+        return 'bg-success'; // Coaching Request
+      case 3:
+        return 'bg-warning text-dark'; // Booking/Appointment
+      default:
+        return 'bg-secondary';
+    }
+  };
+
+  // Helper function to get text for message type
+  const getMessageTypeText = (messageType) => {
+    switch (messageType) {
+      case 1:
+        return 'Message';
+      case 2:
+        return 'Request';
+      case 3:
+        return 'Booking';
+      default:
+        return 'Notification';
+    }
+  };
+
+
+  console.log('notificationsnotifications', notifications)
 
   return (
     <nav className="navbar navbar-expand-lg coach-top-navber-add user-add-top">
@@ -124,7 +261,7 @@ export default function Header({ user }) {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  For Corporate 
+                  For Corporate
                   {/* <KeyboardArrowDownIcon className="mui-icons" /> */}
                 </Link>
                 {/* <ul className="dropdown-menu">
@@ -164,25 +301,29 @@ export default function Header({ user }) {
                     >
                       <span className="icon-menu"></span>
                     </button>
-                    <ul className="navbar-nav navbar-nav-right">
+                    <ul className="navbar-nav navbar-nav-right mobile-view-drop">
                       <li className="nav-item dropdown">
                         <a
                           className="nav-link count-indicator dropdown-toggle"
                           id="notificationDropdown"
                           href="#"
                           data-bs-toggle="dropdown"
+                          onClick={fetchNotifications}
                         >
                           <NotificationsNoneOutlinedIcon />
-                          <span className="count"></span>
+                          {/* <span className="count"></span> */}
+                          {notificationCount > 0 && (
+                            <span className="count">{notificationCount}</span>
+                          )}
                         </a>
-                        <div
+                        {/* <div
                           className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
                           aria-labelledby="notificationDropdown"
                         >
                           <p className="mb-0 font-weight-normal float-left dropdown-header">
                             Notifications
                           </p>
-                          {/* <a className="dropdown-item preview-item">
+                          <a className="dropdown-item preview-item">
                             <div className="preview-thumbnail">
                               <div className="preview-icon bg-success">
                                 <i className="bi bi-info-circle mx-0"></i>
@@ -197,8 +338,8 @@ export default function Header({ user }) {
                                 Just now{" "}
                               </p>
                             </div>
-                          </a> */}
-                          {/* <a className="dropdown-item preview-item">
+                          </a>
+                          <a className="dropdown-item preview-item">
                             <div className="preview-thumbnail">
                               <div className="preview-icon bg-warning">
                                 <SettingsOutlinedIcon className="mui-icons" />
@@ -214,7 +355,7 @@ export default function Header({ user }) {
                                 Private message{" "}
                               </p>
                             </div>
-                          </a> */}
+                          </a>
                           <a className="dropdown-item preview-item">
                             <div className="preview-thumbnail">
                               <div className="preview-icon bg-info">
@@ -231,7 +372,100 @@ export default function Header({ user }) {
                               </p>
                             </div>
                           </a>
+                        </div> */}
+
+                        <div
+                          className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                          aria-labelledby="notificationDropdown"
+                          style={{ minWidth: '350px', maxHeight: '400px', overflowY: 'auto' }}
+                        >
+                          <div className="dropdown-header">
+                            <p className="mb-0 font-weight-normal float-left">
+                              Notifications
+                            </p>
+                            {notifications.length > 0 && (
+                              <small
+                                className="float-right text-primary cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  // Mark all as read functionality can be added here
+                                }}
+                              >
+                                Mark all as read
+                              </small>
+                            )}
+                          </div>
+
+                          {loading ? (
+                            <div className="dropdown-item text-center">
+                              <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                              </div>
+                            </div>
+                          ) : notifications.length > 0 ? (
+                            notifications.map((notification) => (
+                              <a
+                                key={notification.message_id}
+                                className={`dropdown-item preview-item ${notification.is_read === 0 ? 'unread-notification' : ''}`}
+                                onClick={() => handleNotificationClick(notification)}
+                                style={{ cursor: 'pointer' }}
+                              >
+                                <div className="preview-thumbnail">
+                                  <img
+                                    src={notification.sender_detail?.profile || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                                    alt={notification.sender_detail?.first_name}
+                                    style={{
+                                      width: '40px',
+                                      height: '40px',
+                                      borderRadius: '50%',
+                                      objectFit: 'cover'
+                                    }}
+                                  />
+                                </div>
+                                <div className="preview-item-content" style={{ flex: 1 }}>
+                                  <div className="d-flex justify-content-between align-items-start">
+                                    <h6 className="preview-subject font-weight-normal mb-1" style={{ fontSize: '14px', lineHeight: '1.3' }}>
+                                      {notification.sender_detail?.first_name} {notification.sender_detail?.last_name}
+                                    </h6>
+                                    <span className={`badge ${getMessageTypeBadge(notification.message_type)}`} style={{ fontSize: '10px' }}>
+                                      {getMessageTypeText(notification.message_type)}
+                                    </span>
+                                  </div>
+                                  <p className="preview-message mb-1" style={{ fontSize: '12px', color: '#666' }}>
+                                    {notification.message.length > 100
+                                      ? `${notification.message.substring(0, 100)}...`
+                                      : notification.message
+                                    }
+                                  </p>
+                                  <p className="font-weight-light small-text mb-0 text-muted" style={{ fontSize: '11px' }}>
+                                    {notification.time}
+                                  </p>
+                                </div>
+                                {notification.is_read === 0 && (
+                                  <div className="unread-indicator">
+                                    <span className="badge bg-danger" style={{ width: '8px', height: '8px', padding: 0 }}></span>
+                                  </div>
+                                )}
+                              </a>
+                            ))
+                          ) : (
+                            <div className="dropdown-item text-center text-muted">
+                              No notifications
+                            </div>
+                          )}
+
+                          {/* {notifications.length > 0 && (
+    <div className="dropdown-footer text-center">
+      <small 
+        className="text-primary cursor-pointer"
+        onClick={() => router.push('/notifications')}
+      >
+        View All
+      </small>
+    </div>
+  )} */}
                         </div>
+
                       </li>
 
                       <li className="nav-item">
@@ -247,7 +481,7 @@ export default function Header({ user }) {
                       </li>
                       <li className="nav-item nav-profile dropdown">
                         <a
-                          className="nav-link dropdown-toggle"
+                          className="nav-link dropdown-toggle mobile-view-add-screen"
                           href="#"
                           data-bs-toggle="dropdown"
                           id="profileDropdown"
@@ -318,7 +552,7 @@ export default function Header({ user }) {
                       </li>
                     </ul>
                     <button
-                      className="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                      className="navbar-toggler navbar-toggler-right d-lg-none align-self-center mobile-view-toggle-right"
                       type="button"
                       onClick={toggleSidebar}
                     >
