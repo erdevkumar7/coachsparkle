@@ -178,36 +178,9 @@ export default function Header({ user, token }) {
     }
   };
 
-  // Helper function to get badge color based on message type
-  const getMessageTypeBadge = (messageType) => {
-    switch (messageType) {
-      case 1:
-        return 'bg-primary'; // Message
-      case 2:
-        return 'bg-success'; // Coaching Request
-      case 3:
-        return 'bg-warning text-dark'; // Booking/Appointment
-      default:
-        return 'bg-secondary';
-    }
-  };
-
-  // Helper function to get text for message type
-  const getMessageTypeText = (messageType) => {
-    switch (messageType) {
-      case 1:
-        return 'Message';
-      case 2:
-        return 'Request';
-      case 3:
-        return 'Booking';
-      default:
-        return 'Notification';
-    }
-  };
 
 
-  console.log('notificationsnotifications', notifications)
+  // console.log('notificationsnotifications', notifications)
 
   return (
     <nav className="navbar navbar-expand-lg coach-top-navber-add user-add-top">
@@ -391,7 +364,7 @@ export default function Header({ user, token }) {
                                   // Mark all as read functionality can be added here
                                 }}
                               >
-                                Mark all as read
+                                {/* Mark all as read */}
                               </small>
                             )}
                           </div>
@@ -427,9 +400,9 @@ export default function Header({ user, token }) {
                                     <h6 className="preview-subject font-weight-normal mb-1" style={{ fontSize: '14px', lineHeight: '1.3' }}>
                                       {notification.sender_detail?.first_name} {notification.sender_detail?.last_name}
                                     </h6>
-                                    <span className={`badge ${getMessageTypeBadge(notification.message_type)}`} style={{ fontSize: '10px' }}>
-                                      {getMessageTypeText(notification.message_type)}
-                                    </span>
+                                    {notification.document_type == 'enquiry' && <span className="badge bg-primary" style={{ fontSize: '10px' }}> Equiry </span>}
+                                    {notification.document_type == 'pdf' && <span className="badge bg-success" style={{ fontSize: '10px' }}> Request </span>}
+                                    {notification.document_type == 'link' && <span className="badge bg-warning text-dark" style={{ fontSize: '10px' }}> Booking </span>}
                                   </div>
                                   <p className="preview-message mb-1" style={{ fontSize: '12px', color: '#666' }}>
                                     {notification.message.length > 100
@@ -534,8 +507,8 @@ export default function Header({ user, token }) {
                         <a
                           className="nav-link count-indicator"
                           id="notificationDropdown"
-                          href="#"
-                          data-bs-toggle="dropdown"
+                          href={user?.user_type === 2 ? `${FRONTEND_BASE_URL}/user/user-message/1` : user?.user_type === 3 ? `${FRONTEND_BASE_URL}/coach/messages/1` : "#"}
+                        // data-bs-toggle="dropdown"
                         >
                           <MailOutlineOutlinedIcon />
                           <span className="count"></span>
