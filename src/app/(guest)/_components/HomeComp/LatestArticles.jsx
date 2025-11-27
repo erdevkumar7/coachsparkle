@@ -20,7 +20,7 @@ export default async function LatestArticles() {
                         <div className="articles-btn-top">
                             <Link href="/articles" className="articles-btn-add">All articles</Link>
                         </div>
-                        <div className="latest-articles-cards-content row">
+                        <div className="latest-articles-cards-content latest-text-add-card row">
                             {blogs && blogs.slice(0, 3).map((blog) => (
                                 <div className="col-12 col-sm-6 col-md-4 latest-articles-cards" key={blog.id}>
                                     <div className="card h-100">

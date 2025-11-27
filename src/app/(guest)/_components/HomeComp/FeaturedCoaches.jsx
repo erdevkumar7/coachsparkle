@@ -30,7 +30,7 @@ export default async function FeaturedCoaches() {
           </div>
         </div>
 
-        <div className="row view-all-coaches-view">
+        <div className="row view-all-coaches-view feature-card-add">
           {coaches.length > 0 ? coaches.map((coach) =>
             <div className="col-12 col-sm-6 col-md-3 coaches-view-cards" key={coach.user_id}>
               <div className="card h-100">
