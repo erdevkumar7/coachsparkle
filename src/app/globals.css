@@ -3367,6 +3367,13 @@ input.email_input_user {
   background-color: #3c3b3b;
 }
 
+.view-all-coaches-view.feature-card-add .card-body {
+  padding: 16px !important;
+}
+.latest-articles-cards-content.latest-text-add-card .card-body {
+  padding: 16px !important;
+}
+
 @media only screen and (max-width: 767px) {
   
   .view-all-coaches-list h1 {

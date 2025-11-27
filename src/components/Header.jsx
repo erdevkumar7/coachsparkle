@@ -348,9 +348,9 @@ export default function Header({ user, token }) {
                         </div> */}
 
                         <div
-                          className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                          className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list notification-drop-add"
                           aria-labelledby="notificationDropdown"
-                          style={{ minWidth: '350px', maxHeight: '400px', overflowY: 'auto' }}
+                          
                         >
                           <div className="dropdown-header">
                             <p className="mb-0 font-weight-normal float-left">
@@ -395,7 +395,7 @@ export default function Header({ user, token }) {
                                     }}
                                   />
                                 </div>
-                                <div className="preview-item-content" style={{ flex: 1 }}>
+                                <div className="preview-item-content">
                                   <div className="d-flex justify-content-between align-items-start">
                                     <h6 className="preview-subject font-weight-normal mb-1" style={{ fontSize: '14px', lineHeight: '1.3' }}>
                                       {notification.sender_detail?.first_name} {notification.sender_detail?.last_name}
@@ -404,12 +404,12 @@ export default function Header({ user, token }) {
                                     {notification.document_type == 'pdf' && <span className="badge bg-success" style={{ fontSize: '10px' }}> Request </span>}
                                     {notification.document_type == 'link' && <span className="badge bg-warning text-dark" style={{ fontSize: '10px' }}> Booking </span>}
                                   </div>
-                                  <p className="preview-message mb-1" style={{ fontSize: '12px', color: '#666' }}>
+                                  <span className="login-msg-add mb-1" style={{ fontSize: '12px', color: '#666' }}>
                                     {notification.message.length > 100
                                       ? `${notification.message.substring(0, 100)}...`
                                       : notification.message
                                     }
-                                  </p>
+                                  </span>
                                   <p className="font-weight-light small-text mb-0 text-muted" style={{ fontSize: '11px' }}>
                                     {notification.time}
                                   </p>
