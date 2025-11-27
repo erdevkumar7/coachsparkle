@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function LatestArticles() {
-    const blogs = await getFeaturedcoachBlogForHomeAndArticlePage();
+    const blogsData = await getFeaturedcoachBlogForHomeAndArticlePage(1);
+    const blogs = blogsData?.data;
 
     return (
         <div className="latest-articles-explore">

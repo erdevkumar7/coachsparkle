@@ -193,8 +193,23 @@ export const getLatestMasterBlogs = async (coach_id) => {
     return [];
 };
 
-export const getFeaturedcoachBlogForHomeAndArticlePage = async () => {
-    const res = await fetch(`${apiUrl}/getFeaturedcoachBlog`, {
+// export const getFeaturedcoachBlogForHomeAndArticlePage = async (page = 1) => {
+//     const res = await fetch(`${apiUrl}/getFeaturedcoachBlog?page=${page}`, {
+//         method: 'POST',
+//         headers: {
+//             Accept: "application/json",
+//         },
+//     });
+
+//     const json = await res.json();
+//     if (json?.success && Array.isArray(json.data)) {
+//         return json.data;
+//     }
+//     return [];
+// };
+
+export const getFeaturedcoachBlogForHomeAndArticlePage = async (page = 1) => {
+    const res = await fetch(`${apiUrl}/getFeaturedcoachBlog?page=${page}`, {
         method: 'POST',
         headers: {
             Accept: "application/json",
@@ -203,10 +218,14 @@ export const getFeaturedcoachBlogForHomeAndArticlePage = async () => {
 
     const json = await res.json();
     if (json?.success && Array.isArray(json.data)) {
-        return json.data;
+        return {
+            data: json.data,
+            pagination: json.pagination // Make sure your API returns pagination info
+        };
     }
-    return [];
+    return { data: [], pagination: null };
 };
+
 
 export const getMasterBlogs = async () => {
     const res = await fetch(`${apiUrl}/getmasterblogs`, {
