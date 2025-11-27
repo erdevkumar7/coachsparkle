@@ -455,16 +455,78 @@ export default function Header({ user, token }) {
                           )}
 
                           {/* {notifications.length > 0 && (
-    <div className="dropdown-footer text-center">
-      <small 
-        className="text-primary cursor-pointer"
-        onClick={() => router.push('/notifications')}
-      >
-        View All
-      </small>
-    </div>
-  )} */}
+                            <div className="dropdown-footer text-center">
+                              <small
+                                className="text-primary cursor-pointer"
+                                onClick={() => router.push('/notifications')}
+                              >
+                                View All
+                              </small>
+                            </div>
+                          )} */}
                         </div>
+
+                        {/* <div
+                          className="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                          aria-labelledby="notificationDropdown"
+                          style={{ minWidth: '300px', maxHeight: '400px', overflowY: 'auto' }}
+                        >
+                          <div className="dropdown-header">
+                            <p className="mb-0 font-weight-normal float-left">
+                              Notifications
+                            </p>
+                            {notifications.length > 0 && (
+                              <small
+                                className="float-right text-primary cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
+                              >
+                                Mark all as read
+                              </small>
+                            )}
+                          </div>
+
+                          {loading ? (
+                            <div className="dropdown-item text-center">
+                              <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                              </div>
+                            </div>
+                          ) : notifications.length > 0 ? (
+                            notifications.map((notification) => (
+                              <a
+                                key={notification.message_id}
+                                className={`dropdown-item preview-item ${notification.is_read === 0 ? 'bg-light' : ''}`}
+                                onClick={() => handleNotificationClick(notification)}
+                                style={{ cursor: 'pointer' }}
+                              >
+                                <div className="preview-thumbnail">
+                                  <div className={`preview-icon ${notification.is_read === 0 ? 'bg-warning' : 'bg-info'}`}>
+                                    <i className="bi bi-bell mx-0"></i>
+                                  </div>
+                                </div>
+                                <div className="preview-item-content">
+                                  <h6 className="preview-subject font-weight-normal">
+                                    {notification.message.length > 100
+                                      ? `${notification.message.substring(0, 100)}...`
+                                      : notification.message
+                                    }
+                                  </h6>
+                                  <p className="font-weight-light small-text mb-0 text-muted">
+                                    {notification.time}
+                                  </p>
+                                </div>
+                              </a>
+                            ))
+                          ) : (
+                            <div className="dropdown-item text-center text-muted">
+                              No notifications
+                            </div>
+                          )}
+
+
+                        </div> */}
 
                       </li>
 

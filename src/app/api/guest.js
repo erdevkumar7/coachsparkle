@@ -173,7 +173,7 @@ export const getCommunicationChannels = async () => {
 }
 
 export const getLatestMasterBlogs = async (coach_id) => {
-     const res = await fetch(`${apiUrl}/getFrontcoachBlog`, {
+    const res = await fetch(`${apiUrl}/getFrontcoachBlog`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -190,6 +190,21 @@ export const getLatestMasterBlogs = async (coach_id) => {
         return json.data.slice(0, 3);
     }
 
+    return [];
+};
+
+export const getFeaturedcoachBlogForHomeAndArticlePage = async () => {
+    const res = await fetch(`${apiUrl}/getFeaturedcoachBlog`, {
+        method: 'POST',
+        headers: {
+            Accept: "application/json",
+        },
+    });
+
+    const json = await res.json();
+    if (json?.success && Array.isArray(json.data)) {
+        return json.data;
+    }
     return [];
 };
 
