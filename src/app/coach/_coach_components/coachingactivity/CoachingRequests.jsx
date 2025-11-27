@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function CoachingRequests({ initialRequest, token }) {
   const router = useRouter();
@@ -17,6 +18,17 @@ export default function CoachingRequests({ initialRequest, token }) {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(6); // Add items per page state
+
+  // New states for bulk delete
+  const [isBulkEdit, setIsBulkEdit] = useState(false);
+  const [selectedRequests, setSelectedRequests] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const [pendingCount, setPendingCount] = useState(
+    initialRequest.request_count > 0 && initialRequest.request_count < 10
+      ? `0${initialRequest.request_count}`
+      : initialRequest.request_count
+  );
 
   dayjs.extend(relativeTime);
 
@@ -47,6 +59,12 @@ export default function CoachingRequests({ initialRequest, token }) {
       setPendingRequest(res.data.data);
       setCurrentPage(res.data.pagination.current_page);
       setLastPage(res.data.pagination.last_page);
+
+      // Update the count from the fresh API response
+      const newCount = res.data.request_count;
+      setPendingCount(
+        newCount > 0 && newCount < 10 ? `0${newCount}` : newCount
+      );
     }
   };
 
@@ -67,6 +85,84 @@ export default function CoachingRequests({ initialRequest, token }) {
     setCurrentPage(1); // Reset to first page when changing items per page
   };
 
+  // Bulk edit handlers
+  const toggleBulkEdit = () => {
+    setIsBulkEdit(!isBulkEdit);
+    setSelectedRequests([]); // Reset selection when toggling
+  };
+
+  const handleSelectRequest = (requestId) => {
+    setSelectedRequests(prev => {
+      if (prev.includes(requestId)) {
+        return prev.filter(id => id !== requestId);
+      } else {
+        return [...prev, requestId];
+      }
+    });
+  };
+
+  const handleSelectAll = () => {
+    if (selectedRequests.length === pendingRequest.length) {
+      setSelectedRequests([]);
+    } else {
+      setSelectedRequests(pendingRequest.map(item => item.request_id));
+    }
+  };
+
+  const handleDeleteSelected = async () => {
+    if (selectedRequests.length === 0) return;
+
+    setIsDeleting(true);
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(`${apiUrl}/deletecoachingRequest`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: selectedRequests
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Calculate new count by subtracting deleted items
+        const currentCount = parseInt(pendingCount) || initialRequest.request_count;
+        const newCount = currentCount - selectedRequests.length;
+
+        // Update the count state
+        setPendingCount(
+          newCount > 0 && newCount < 10 ? `0${newCount}` : newCount
+        );
+        // Refresh the data
+        await fetchPageData(currentPage);
+        // Reset states
+        setSelectedRequests([]);
+        setIsBulkEdit(false);
+        toast.success(result.message || 'Requests deleted successfully');
+      } else {
+        toast.error('Failed to delete requests');
+      }
+    } catch (error) {
+      console.error('Error deleting requests:', error);
+      toast.error('Error deleting requests');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Format count for display (ensure it's always a string with leading zero if needed)
+  const displayCount = () => {
+    const count = parseInt(pendingCount);
+    if (isNaN(count)) return pendingCount;
+
+    return count > 0 && count < 10 ? `0${count}` : count.toString();
+  };
+
   // console.log('pendingRequest', pendingRequest)
   return (
     <>
@@ -74,13 +170,16 @@ export default function CoachingRequests({ initialRequest, token }) {
         <div className="coaching-status">
           <div className="topbar d-flex justify-content-between align-items-center py-2 px-2">
             <div>
-              <h3>Coaching Requests ({initialRequest.request_count > 0 && initialRequest.request_count < 10 ? `0${initialRequest.request_count}` : initialRequest.request_count})</h3>
+              <h3>
+                Coaching Requests ({displayCount()})
+                {/* Coaching Requests ({initialRequest.request_count > 0 && initialRequest.request_count < 10 ? `0${initialRequest.request_count}` : initialRequest.request_count}) */}
+              </h3>
             </div>
             <div className="sorting-data d-flex align-items-center gap-2">
               <span>Sort By:</span>
-              <select>
+              {/* <select>
                 <option>Most Recent</option>
-              </select>
+              </select> */}
               <select
                 value={itemsPerPage}
                 onChange={handleItemsPerPageChange}
@@ -88,17 +187,73 @@ export default function CoachingRequests({ initialRequest, token }) {
                 <option value={6}>6</option>
                 <option value={12}>12</option>
               </select>
-              <Link href="#">Bulk Edit</Link>
+
+              {/* Bulk Edit Button */}
+              {isBulkEdit ? (
+                <div className="d-flex align-items-center gap-2">
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={handleDeleteSelected}
+                    disabled={selectedRequests.length === 0 || isDeleting}
+                  >
+                    {isDeleting ? 'Deleting...' : `Delete (${selectedRequests.length})`}
+                  </button>
+                  <button
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={toggleBulkEdit}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={toggleBulkEdit}
+                >
+                  Bulk Edit
+                </button>
+              )}
             </div>
           </div>
+
+          {/* Select All Checkbox - Only show in bulk edit mode */}
+          {isBulkEdit && pendingRequest.length > 0 && (
+            <div className="px-4 py-2">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="selectAll"
+                  checked={selectedRequests.length === pendingRequest.length && pendingRequest.length > 0}
+                  onChange={handleSelectAll}
+                />
+                <label className="form-check-label" htmlFor="selectAll">
+                  Select All ({selectedRequests.length} selected)
+                </label>
+              </div>
+            </div>
+          )}
+
           <div className="d-flex justify-content-between flex-wrap py-4 px-4">
             <div className="row gap-4">
               {pendingRequest.map((rqst, indx) => (
-                <div key={indx} className="col-md-4 coaching-content p-3">
+                <div key={indx} className="col-md-4 coaching-content p-3 position-relative">
                   {/* <div className="d-flex justify-content-between align-items-center mb-2">
                     <h4 className="mb-0">Request received</h4>
                     <MoreHorizOutlinedIcon sx={{ color: '#A9A9A9' }} />
                   </div> */}
+                  {/* Selection Circle - Only show in bulk edit mode */}
+                  {isBulkEdit && (
+                    <div className="position-absolute top-0 start-0 m-2">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        style={{ width: '20px', height: '20px' }}
+                        checked={selectedRequests.includes(rqst.request_id)}
+                        onChange={() => handleSelectRequest(rqst.request_id)}
+                      />
+                    </div>
+                  )}
 
                   <div className="mb-3 status-div">
                     <button className="border px-3 py-1 rounded-pill" style={{
@@ -131,10 +286,16 @@ export default function CoachingRequests({ initialRequest, token }) {
                   </div>
 
                   <div className="d-flex gap-3">
-                    <button className="btn btn-primary button-note" onClick={() => handleViewRequest(rqst)}>View request</button>
-                    <button className="btn btn-outline-secondary button-msg" onClick={() => {
-                      router.push(`/coach/messages/2?user_id=${rqst.id}`);
-                    }}>
+                    <button className="btn btn-primary button-note"
+                      onClick={() => handleViewRequest(rqst)}
+                      disabled={isBulkEdit}
+                    >View request</button>
+                    <button
+                      className="btn btn-outline-secondary button-msg"
+                      onClick={() => {
+                        router.push(`/coach/messages/2?user_id=${rqst.id}`);
+                      }}
+                      disabled={isBulkEdit}>
                       Message
                     </button>
                   </div>
