@@ -103,7 +103,9 @@ select.form-control:not(:invalid) {
 .add_service_update_list input#«r1» {
     height: 30px !important;
 }
-
+.service-pack-add-card .session-card {
+    padding: 0px !important;
+}
 .session-wrapper .status-draft button {
     color: #6c727f;
     background-color: #d7d7d7;
