@@ -59,7 +59,7 @@ export default function CoachServicePackages() {
             <>
               <div className="card p-3">
                 <h3 className="quick-text">Service Packages</h3>
-                <div className="session-wrapper">
+                <div className="session-wrapper service-pack-add-card">
                   {packages &&
                     packages
                       .slice(0, 3)
