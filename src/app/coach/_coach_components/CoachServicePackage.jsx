@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { servicePackageSchema } from "@/lib/validationSchema";
 import dayjs from "dayjs";
 import BookingAvailabilityPicker from "./BookingAvailability";
-
+import { useRouter } from "next/navigation";
 
 
 export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
@@ -28,7 +28,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
-
+  const router = useRouter()
   // React Hook Form setup
   const {
     register,
@@ -841,7 +841,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     🚀 Ready to Stand out? <strong>Upgrade now</strong>
                   </span>
                 </div>
-                <button type="button" className="btn upgrade-btn px-4 py-2">
+                <button type="button" className="btn upgrade-btn px-4 py-2" onClick={() => router.push(`/coach/subscription-plan`)}>
                   Unlock Pro Features
                 </button>
               </div>
