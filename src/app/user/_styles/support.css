@@ -141,8 +141,15 @@
     margin-bottom: 0;
     padding: 5px;
     box-shadow: 0 5px 21px -5px #cdd1e1;
+    border: 2px solid #fff;
 }
-
+.faq-support-add.faqs-coaches .accordion-body p {
+    font-size: 15px;
+    line-height: 1.8;
+}
+.faq-support-add.faqs-coaches .accordion-body {
+    padding-top: 0px;
+}
 .faqs-coaches button.accordion-button {
     box-shadow: none !important;
     background: none !important;
