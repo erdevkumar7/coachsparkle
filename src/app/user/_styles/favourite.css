@@ -90,8 +90,10 @@
     font-size: 30px !important;
 }
 
-.inner-card-add .remove-ul{
-    border: 1px solid #D7D7D7;
+.inner-card-add .remove-ul {
+    border: 1px solid #d7d7d7;
     border-radius: 10px;
+    z-index: 99;
+    padding: 5px 0px;
+    min-width: 30% !important;
 }
-

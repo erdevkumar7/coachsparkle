@@ -2358,7 +2358,12 @@ button.manage_add_btn-show {
 .social-links h3 {
     margin-bottom: 25px;
 }
-
+.profile-form-add h3.text-lg.font-semibold {
+  padding-top: 10px;
+}
+.profile-form.service-profile-add.add_service_update_list .card.preview-section {
+  margin-top: 20px;
+}
 .form-group.main-coach-cate-add {
     max-width: 100% !important;
 }
@@ -2396,9 +2401,7 @@ button.manage_add_btn-show {
 .main-panel.account-section {
   padding-top: 10px !important;
 }
-    /* nav.navbar .register-login.head-top-login-add {
-      padding-left: 30px !important;
-  } */
+
   .session-card h3.text-lg.font-semibold.quick-text {
     margin-bottom: 11px;
     font-size: 20px;
@@ -2682,14 +2685,14 @@ h3.font-weight-bold.quick-text-add.my-changes {
   width: 100% !important;
 }
 
-
 .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
   margin: 10px !important;
 }
 
 .profile-form-add .service-profile-add {
-  display: block !important;
   margin-top: 20px !important;
+  display: block !important;
+  padding: 10px;
 }
 
 .profile-form .form-section {
@@ -2760,11 +2763,10 @@ textarea.delivery-textarea.form-control {
   padding: 12px;
 }
 .session-pkg-content .pkg-price {
-  padding-top: 0px;
+  padding-top: 15px;
   font-size: 20px;
   font-weight: bold;
 }
-
 
 .session-wrapper .session-description {
   height: auto;
@@ -2772,8 +2774,9 @@ textarea.delivery-textarea.form-control {
 }
 
 .session-card .session-pkg-content {
-  height: auto !important;
   margin-top: 15px;
+  height: auto !important;
+  padding: 15px !important;
 }
 .new-content-wrapper.coach-wrap .profile-form-add .card {
   padding: 8px !important;

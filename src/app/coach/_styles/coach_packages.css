@@ -120,7 +120,6 @@ select.form-control:not(:invalid) {
     right: 10px;
 }
 
-
 .session-wrapper .status {
     z-index: 2;
     position: absolute;
@@ -128,15 +127,12 @@ select.form-control:not(:invalid) {
     right: 10px;
 }
 
-
 .status.status-unpublished {
     z-index: 2;
     position: absolute;
     top: 10px;
     right: 10px;
 }
-
-
 
 .content-wrapper {
     padding: 0px 20px 0px 38px;
@@ -173,10 +169,9 @@ select.form-control:not(:invalid) {
 }
 
 .profile-form.service-profile-add .MuiFormControl-root.MuiFormControl-fullWidth.MuiTextField-root.range-picker-field.css-cmpglg-MuiFormControl-root-MuiTextField-root input#«r7» {
-
- margin-top: 8px !important;
+    margin-top: 8px !important;
     padding: 0px 10px !important;
-    }   
+}   
 
 .profile-form.service-profile-add input#«r2» {
     margin-top: 8px !important;
@@ -271,8 +266,8 @@ input#«r0» {
     background-color: #f4f4f4;
     border-top: 10px solid #e7e6e6;
     height: 420px;
-    margin-bottom: 0px;
-    padding: 12px;
+    margin-bottom: 0;
+    padding: 8px;
 }
 
 .icons-row.strength-value {
@@ -473,11 +468,8 @@ select#cancellation_policy {
 
 .preview-section .session-preview-content h2 {
     font-size: 22px;
+    padding-bottom: 8px;
 }
-
-/* .profile-form .preview-section img{
-    max-height: 25vh;
-} */
 
 p.best-text {
     margin-bottom: 0px;
@@ -494,7 +486,6 @@ p.best-text-one {
     color: #696974;
 }
 
-
 .delivery-row {
     display: flex;
     align-items: center;
@@ -502,12 +493,10 @@ p.best-text-one {
     flex-wrap: wrap;
 }
 
-
 .form-label {
     font-weight: 600;
     white-space: nowrap;
 }
-
 
 .delivery-checkboxes {
     display: flex;
@@ -515,16 +504,10 @@ p.best-text-one {
     align-items: center;
 }
 
-
 .delivery-checkboxes input {
     width: 15px;
     height: 15px;
 }
-
-/* .delivery-checkboxes input[type="checkbox"] {
-  accent-color: #009BFA;
-} */
-
 
 .delivery-option {
     display: flex;
@@ -559,19 +542,6 @@ p.best-text-one {
     display: flex !important;
 }
 
-/* .upload-btn {
-  background-color: #ecfffa;
-  border: 2px solid #00aaff;
-  color: #009BFA;
-  font-weight: 600;
-  border-radius: 24px;
-  padding: 6px 16px;
-  cursor: pointer;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-} */
-
 .file-name {
     color: #777;
     font-size: 14px;
@@ -580,7 +550,6 @@ p.best-text-one {
 .custom-file-upload input[type="file"] {
     display: none;
 }
-
 
 .profile-form .form-group {
     flex: 1 1 45%;
@@ -630,7 +599,6 @@ p.best-text-one {
     background-color: #0f3c73;
 }
 
-
 .profile-form p.set-text-one {
     color: #181A20;
     font-weight: 500;
@@ -659,7 +627,6 @@ p.best-text-one {
 .form-group.goal label {
     width: 68px;
 }
-
 
 .profile-form input#timings {
     margin-bottom: 15px;
