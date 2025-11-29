@@ -204,18 +204,19 @@ export default function Header({ user, token }) {
           <ul className="navbar-nav list-show">
             <div className="inner-tab-nav">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" href="/">
+
+                <Link className="nav-link active" href="/" onClick={() => closeMenu()}>
                   Home
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="/coach-detail/list">
+                <Link className="nav-link" href="/coach-detail/list"  onClick={() => closeMenu()}>
                   Explore Coaches <KeyboardArrowDownIcon className="mui-icons" />
                 </Link>
               </li>
 
               <li className="nav-item">
-                <Link className="nav-link" href="/send-coaching-request">
+                <Link className="nav-link" href="/send-coaching-request"  onClick={() => closeMenu()}>
                   Send Coaching Request
                   <KeyboardArrowDownIcon className="mui-icons" />
                 </Link>
@@ -232,7 +233,7 @@ export default function Header({ user, token }) {
                   href="#"
                   role="button"
                   data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  aria-expanded="false"  onClick={() => closeMenu()}
                 >
                   For Corporate
                   {/* <KeyboardArrowDownIcon className="mui-icons" /> */}
@@ -265,7 +266,7 @@ export default function Header({ user, token }) {
 
             {user ? (
               <div className="register-login head-top-login-add">
-                <div className="register-content user_dash_add_mob">
+                <div className="register-content user_dash_add_mob home-add-header">
                   <div className="navbar-menu-wrapper d-flex align-items-center justify-content-end logout-add-head">
                     <button
                       className="navbar-toggler navbar-toggler align-self-center"
@@ -600,11 +601,11 @@ export default function Header({ user, token }) {
               <>
                 <div className="register-login head-top-login-add">
                   <div className="register-content">
-                    <Link href="/login" className="Login-navbar">
+                    <Link href="/login" className="Login-navbar" onClick={() => closeMenu()}>
                       Login
                     </Link>
-                    <Link className="sign-up-add"
-                      href="/select-role"
+                    <Link className="sign-up-add" 
+                      href="/select-role" onClick={() => closeMenu()}
                       style={{
                         display: "inline-block",
                         padding: "15px 30px",

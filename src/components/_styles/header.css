@@ -252,6 +252,19 @@ a#notificationDropdown {
 /*Mobile-view-css*/
 
 @media only screen and (max-width: 767px) {
+
+  .register-content.user_dash_add_mob.home-add-header {
+    margin-left: 20px;
+}
+nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
+  border-radius: 0;
+  position: absolute;
+  top: 96px;
+  width: 80% !important;
+  left: 0 !important;
+}
+
+
   .dropdown-menu.dropdown-menu-right.navbar-dropdown.preview-list.notification-drop-add.show {
     top: 340px !important;
 }
@@ -313,7 +326,6 @@ a.sign-up-add {
 }
   .register-login.head-top-login-add .register-content {
     margin-top: 0;
-    margin-left: 0px !important;
   }
   .coach-top-navber-add div#navbarTogglerDemo01 {
     background-color: #fff;

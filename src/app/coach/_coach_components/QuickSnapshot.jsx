@@ -203,7 +203,7 @@ export default function QuickSnapshot({ QuickSnapData }) {
       </div>
 
       {!isProUser && (
-        <div className="cta">
+        <div className="cta" onClick={() => router.push(`/coach/subscription-plan`)}>
           <button>
             Upgrade to Pro Coach Plan <i className="bi bi-arrow-right"></i>
           </button>

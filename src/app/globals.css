@@ -3373,6 +3373,16 @@ input.email_input_user {
 .latest-articles-cards-content.latest-text-add-card .card-body {
   padding: 16px !important;
 }
+input:focus-visible {
+  outline: none !important;
+}
+
+h3.quick-text {
+  font-size: 24px;
+}
+
+
+
 
 @media only screen and (max-width: 767px) {
   
@@ -3452,12 +3462,14 @@ h1 {
     padding: 0 20px;
     padding-top: 25px;
   }
-
   .signup-right-side h4 {
-    font-size: 26px;
     text-align: center;
-  }
-
+    font-size: 22px;
+}
+button.btn-create {
+  margin-top: 30px !important;
+  height: 50px !important;
+}
   .signup-right-side .card {
     width: 100%;
     transition: border-color 0.3s;

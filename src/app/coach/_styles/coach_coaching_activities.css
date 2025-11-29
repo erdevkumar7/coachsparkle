@@ -126,9 +126,6 @@
   color: #6f7c8e;
 }
 
-/* .coaching-progress .content {
-  height: 48%;
-} */
 .coaching-status .row {
   width: 100%;
 }
@@ -232,11 +229,13 @@ h4.coaching-tittle-text {
 
 .completed .status-div button {
   font-size: 13px;
-  font-weight: 500px;
+  font-weight: 500;
   background-color: #6C757D;
   color: white;
 }
-
+.status-complete img.rounded-circle {
+  object-fit: cover;
+}
 .completed .name {
   font-size: 14px;
   font-weight: 400;
@@ -266,7 +265,7 @@ h4.coaching-tittle-text {
   background-color: white;
   width: 98px;
   height: auto;
-  font-size: 12px;
+  font-size: 13px;
   padding: 12px 14px 12px 14px;
   border-radius: 14px;
 }

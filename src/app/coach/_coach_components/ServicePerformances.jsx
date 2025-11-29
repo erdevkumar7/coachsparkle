@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import Pagination from "@/components/Pagination";
 import { getCoachServicePerformances } from "@/app/api/coach";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 // Helper function to get status badge
 const getStatusBadge = (package_status) => {
@@ -350,8 +351,8 @@ export default function ServicePerformancess({ servicePerformanceInitailData = [
             <p className="mb-0">
               Start making data-driven decision for your coaching
             </p>
-            <a
-              href="#"
+            <Link
+              href={`subscription-plan`}
               className="btn btn-primary btn-sm fw-semibold"
               style={{
                 backgroundColor: "#009BFA",
@@ -361,7 +362,7 @@ export default function ServicePerformancess({ servicePerformanceInitailData = [
               }}
             >
               Upgrade & Unlock Now <EastIcon className="mui-icons" />
-            </a>
+            </Link>
           </div>
         </div>
       )}

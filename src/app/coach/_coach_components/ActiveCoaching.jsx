@@ -84,7 +84,7 @@ export default function ActiveCoaching({ initialRequest, token }) {
               for unlimited matches, priority AI insights, and more tools to
               grow your coaching business!
             </p>
-            <button className="view-btn">
+            <button className="view-btn" onClick={() => router.push(`/coach/subscription-plan`)}>
               Unlock Full Access <i className="bi bi-arrow-right"></i>
             </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </>

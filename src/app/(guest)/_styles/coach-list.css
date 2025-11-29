@@ -189,7 +189,12 @@ button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPick
   padding-top: 0px;
   border-right: 0;
 }
-
+.coach-banner-add .container.list-start .fav-list svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-q7mezt  {
+  color: #fff !important;
+}
+.coach-action-profile-icon svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-q7mezt {
+  color: #009bfa !important;
+}
 .coach-banner-add .sidebar input[type="text"] {
   width: 100%;
   padding: 10px 20px;
