@@ -290,5 +290,21 @@ export const getCommunicationChannel = async () => {
     return await ageGroupRes.json();
 }
 
+export async function getBlogDetails(id) {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getBlogDetails`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id }),
+            next: { revalidate: 0 }
+        });
+
+        return await res.json();
+    } catch (error) {
+        console.log("Error fetching blog details:", error);
+        return null;
+    }
+}
+
 
 
