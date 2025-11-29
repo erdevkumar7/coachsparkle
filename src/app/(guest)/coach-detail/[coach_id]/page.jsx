@@ -258,18 +258,21 @@ export default async function CoachDetail({ params }) {
                       <div className="artcl-flex">
                         {blogs.map((blog) => (
                           <div className="item-artcl" key={blog.id}>
+                            <Link href={`/articles/${blog.id}`}>
                             <Image src={blog.blog_image} alt={blog.blog_name}
                               className="top-image" width={1000} height={226} />
-
+                            </Link>
                             <div className="item-cont1">
+                              <Link href={`/articles/${blog.id}`} className="text-decoration-none">
                               <h4>
                                 {blog.blog_name}
                               </h4>
+                              </Link>
                               <p>
                                 {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 100)}...
                               </p>
                               {/* <Link href={`/coachsparkle/articles/${blog.id}`}><button>Read Article</button></Link> */}
-                              <Link href={`#`}><button>Read Article</button></Link>
+                              <Link href={`/articles/${blog.id}`}><button>Read Article</button></Link>
                             </div>
                           </div>
                         ))}

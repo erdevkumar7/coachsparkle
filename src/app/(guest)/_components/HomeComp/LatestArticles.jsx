@@ -24,14 +24,18 @@ export default async function LatestArticles() {
                             {blogs && blogs.slice(0, 3).map((blog) => (
                                 <div className="col-12 col-sm-6 col-md-4 latest-articles-cards" key={blog.id}>
                                     <div className="card h-100">
+                                        <Link href={`/articles/${blog.id}`}>
                                         <Image
                                             src={blog.blog_image}
                                             alt={blog.blog_name}
                                             width={1000}
                                             height={226}
                                         />
+                                        </Link>
                                         <div className="card-body d-flex flex-column">
-                                            <h5 className="card-title">{blog.blog_name}</h5>
+                                            <Link href={`/articles/${blog.id}`} className="text-decoration-none">
+                                                <h5 className="card-title">{blog.blog_name}</h5>
+                                            </Link>
                                             <h6><i className="bi bi-calendar"></i> {new Date(blog.created_at).toLocaleDateString("en-US", {
                                                 year: "numeric",
                                                 month: "short",
@@ -40,7 +44,8 @@ export default async function LatestArticles() {
                                             <p className="card-text">
                                                 {blog.blog_content.replace(/<[^>]+>/g, '').slice(0, 80)}...
                                             </p>
-                                            <Link href={`#`} className="read-more-btn">Read More..</Link>
+                                            <Link href={`/articles/${blog.id}`} className="read-more-btn">Read More..</Link>
+
                                             {/* <Link href={`/coachsparkle/articles/${blog.id}`} className="read-more-btn">Read More..</Link> */}
                                         </div>
                                     </div>

@@ -62,14 +62,18 @@ export default function Articles() {
                   key={blog.id}
                 >
                   <div className="card h-100">
+                    <Link href={`/articles/${blog.id}`}>
                     <Image
                       src={blog.blog_image}
                       alt="Img"
                       width={1000}
                       height={226}
                     />
+                    </Link>
                     <div className="card-body d-flex flex-column">
+                      <Link href={`/articles/${blog.id}`} className="text-decoration-none">
                       <h5 className="card-title">{blog.blog_name}</h5>
+                      </Link>
                       <h6>
                         <i className="bi bi-calendar"></i>{" "}
                         {new Date(blog.created_at).toLocaleDateString("en-US", {
@@ -82,7 +86,7 @@ export default function Articles() {
                         {blog.blog_content.replace(/<[^>]+>/g, "").slice(0, 80)}
                         ...
                       </p>
-                      <Link href={'#'} className="read-more-btn">
+                       <Link href={`/articles/${blog.id}`} className="read-more-btn">
                         Read More..
                       </Link>
                     </div>
