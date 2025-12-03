@@ -229,11 +229,9 @@ export default function Header({ user, token }) {
 
               <li className="nav-item dropdown">
                 <Link
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"  onClick={() => closeMenu()}
+                  className="nav-link"
+                  href="/corporate"
+                  onClick={() => closeMenu()}
                 >
                   For Corporate
                   {/* <KeyboardArrowDownIcon className="mui-icons" /> */}
