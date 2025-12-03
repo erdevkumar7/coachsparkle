@@ -18,15 +18,16 @@ nav#sidebar a.nav-link {
     font-size: 20px !important;
 }
 .flex.items-center.mt-4.side-top-bar {
-    margin-top: 30px !important;
     justify-content: center;
-    width: 100%;
-    align-items: center;
-    display: flex;
     align-items: center;
     gap: 15px;
-    margin-bottom:30px;
+    width: 93%;
+    margin-bottom: 30px;
+    display: flex;
     overflow: hidden;
+    margin-top: 30px !important;
+    margin: auto;
+    padding-bottom: 10px;
 }
 .side-bar-left-top {
     border-bottom: solid 1px #EBEEF7;
@@ -34,7 +35,7 @@ nav#sidebar a.nav-link {
 .side-top-bar h5.font-medium {
     align-items: center;
     gap: 9px;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
     display: flex;
     font-size: 16px;
 }

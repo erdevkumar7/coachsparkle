@@ -261,8 +261,9 @@ p.basic-add-value {
   font-family: 'Inter';
   color: #191F33;
   font-weight: 400;
-  font-size: 19px;
+  font-size: 16px;
 }
+
 .coach-dashboard-add .status select {
   border: solid 1px #d7d7d7;
   color: #000000;
@@ -284,7 +285,8 @@ p.basic-add-value {
   width: 80%;
 }
 p.coach-name-text {
-  color: #767E94;
+  color: #767e94;
+  font-size: 14px;
 }
 .coach-dashboard-add .progress-bar {
   background: #fff;
