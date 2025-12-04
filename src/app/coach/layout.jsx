@@ -29,7 +29,7 @@ export default async function CoachLayout({ children }) {
         <div className="container dashboard-wrapper">
           <CoachSideBarComp user={user}/>
           {children}
-          <ChatSupportWrapper />
+          <ChatSupportWrapper user={user}/>
         </div>
         {/* <PusherDebugCoach /> */}
         {/* <PusherDebug />  */}
