@@ -371,6 +371,22 @@ span.MuiButtonBase-root {
 }
 .coach-banner-add button.book {
   background-color: #009bfa;
+  opacity: .8;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  cursor: default !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+/* .coach-banner-add button.book:hover {
+  background-color: #1489d1;
+} */
+
+.coach-banner-add button.book-latest-package {
+  background-color: #009bfa;
   color: white;
   border: none;
   padding: 10px 12px;
@@ -380,9 +396,10 @@ span.MuiButtonBase-root {
   font-size: 14px;
   font-weight: 600;
 }
-.coach-banner-add button.book:hover {
+.coach-banner-add button.book-latest-package:hover {
   background-color: #1489d1;
 }
+
 .coach-banner-add button.profile {
   background: none;
   color: #009bfa;
@@ -1873,6 +1890,13 @@ input.form-control.search-input {
     margin-bottom: 5px;
     margin-top: 5px;
   }
+  .coach-banner-add button.book-latest-package{
+    padding: 11px 12px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+  
   .coach-banner-add .coach-actions {
     min-width: 155px;
     padding-bottom: 5px;
