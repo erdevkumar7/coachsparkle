@@ -22,7 +22,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import FavIcon from "../../_components/coach-detail/FavIcon";
 import Cookies from "js-cookie";
 import { getAllMasters } from "@/app/api/guest";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { CircularProgress } from "@mui/material";
 import AvailabilityStartEndCalendar from "../../_components/coach-detail/AvailabilityStartEndCalendar";
 
@@ -38,6 +38,7 @@ export default function CoachList() {
   const [services, setServices] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(25); // Add items per page state
   const [getUserType, setUserType] = useState(null);
+  const router = useRouter();
 
   const [filters, setFilters] = useState({
     search_for: "",
@@ -118,7 +119,7 @@ export default function CoachList() {
       let userId = null;
 
       if (token) {
-        const user = localStorage.getItem("user");       
+        const user = localStorage.getItem("user");
         if (user) {
           const parsedUser = JSON.parse(user);
           userId = parsedUser.id;
@@ -358,7 +359,7 @@ export default function CoachList() {
                             {coach.first_name} {coach.last_name}
                           </h2>
                           {coach.is_verified ? <span className="check-box-add-icons">
-                            <CheckCircleIcon className="mui-icons" /> Verified 
+                            <CheckCircleIcon className="mui-icons" /> Verified
                           </span> : null}
                         </div>
                         <p className="reviews-text">
@@ -385,10 +386,15 @@ export default function CoachList() {
                         <p className="price">
                           {coach.price ? `$${coach.price}/month` : "N/A"}
                         </p>
-                        <button className="book">
-                          Book Now{" "}
-                          <EastIcon className="mui-icons fav-list-icons" />
-                        </button>
+                        {coach.latest_package_id ?
+                          <button className="book-latest-package" onClick={() => router.push(`/coach-detail/${coach.user_id}/package/${coach.latest_package_id}`)}>
+                            Book Now{" "}
+                            <EastIcon className="mui-icons fav-list-icons" />
+                          </button> :
+                          <button className="book">
+                            Book Now{" "}
+                            <EastIcon className="mui-icons fav-list-icons" />
+                          </button>}
                         <Link href={`/coach-detail/${coach.user_id}`}>
                           <button className="profile">
                             View Profile{" "}
