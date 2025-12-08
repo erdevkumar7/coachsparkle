@@ -41,6 +41,7 @@ export default function CoachList() {
   const router = useRouter();
 
   const [filters, setFilters] = useState({
+    query: "",
     search_for: "",
     delivery_mode: null,
     free_trial_session: null,
@@ -189,6 +190,8 @@ export default function CoachList() {
                   type="text"
                   className="form-control search-input"
                   placeholder="“E.g., Improve public speaking for work, in English, evenings preferre"
+                  value={filters.query || ""}
+                  onChange={(e) => updateFilter("query", e.target.value)}
                 />
                 <div className="ai-btn-find">
                   <button>Start AI Matching</button>

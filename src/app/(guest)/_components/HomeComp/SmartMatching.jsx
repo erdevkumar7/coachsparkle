@@ -3,8 +3,11 @@ import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SmartMatching({ coaches, sectionData, homePageCountData }) {
+    const [query, setQuery] = useState("");
+
     const router = useRouter();
 
     const availableCoaches = homePageCountData?.available_coach_count ?? 0;
@@ -30,10 +33,19 @@ export default function SmartMatching({ coaches, sectionData, homePageCountData 
                             {sectionData?.subtitle || "Describe your goal or challenge — our AI will match you with the right coach"}
                         </p>
                         <div className="search-container">
-                            <input type="text" className="form-control search-input" placeholder="“E.g., Improve public speaking for work, in English, evenings preferre" />
+                            <input
+                                type="text"
+                                className="form-control search-input"
+                                placeholder="“E.g., Improve public speaking for work, in English, evenings preferre"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                            />
                             <div className="ai-btn-find">
-                                <button>Start AI Matching</button>
+                                <button onClick={() => router.push(`/coach-detail/list?query=${encodeURIComponent(query)}`)}>
+                                    Start AI Matching
+                                </button>
                             </div>
+
                         </div>
 
                         <div className="counters-content">
