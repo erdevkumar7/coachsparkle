@@ -14,6 +14,7 @@ import { servicePackageSchema } from "@/lib/validationSchema";
 import dayjs from "dayjs";
 import BookingAvailabilityPicker from "./BookingAvailability";
 import { useRouter } from "next/navigation";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
 
 
 export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
@@ -838,7 +839,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
               <div className="upgrade-banner d-flex align-items-center justify-content-center gap-3 mt-5 p-3 bg-white">
                 <div className="d-flex align-items-center">
                   <span className="upgrade-banner-text">
-                    🚀 Ready to Stand out? <strong>Upgrade now</strong>
+                    <img src={`${FRONTEND_BASE_URL}/images/twemoji_rocket.png`} /> Ready to Stand out? <strong>Upgrade now</strong>
                   </span>
                 </div>
                 <button type="button" className="btn upgrade-btn px-4 py-2" onClick={() => router.push(`/coach/subscription-plan`)}>

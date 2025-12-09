@@ -62,7 +62,7 @@ export default function SmartMatching({ coaches, sectionData, homePageCountData 
                             </div>
                         </div>
                         {error && (
-                            <p style={{ color: " #d32f2f", marginTop: "8px" }} role="alert">
+                            <p className="alert-text-add" style={{ color: " #d32f2f", marginTop: "8px" }} role="alert">
                                 {error}
                             </p>
                         )}

@@ -318,7 +318,7 @@ p.coach-name-text {
   border-bottom: 1px solid #e7e7e7;
   padding-bottom: 15px;
   font-family: Inter;
-  font-size: 24px;
+  font-size: 21px;
   width: 100%;
 }
 .glance-box {
@@ -583,7 +583,7 @@ i.bi.bi-star-fill {
   background: #009bfa;
   border: none;
   border-radius: 12px;
-  width: 26%;
+  width: 30%;
   height: 45px;
   margin-top: 30px;
   margin-bottom: 10px;
@@ -2375,8 +2375,8 @@ button.manage_add_btn-show {
 .react-datepicker__month-container {
     width: 100%;
 }  
-button.activity-log-btn {
-    width: 40%;
+.log-btn button.activity-log-btn {
+  width: 80%;
 } 
   .footer-btn.mt-4.create-article-sec {
     align-items: center;
@@ -2516,8 +2516,10 @@ p.pro-add-value {
 }
 
 .matches-add .view-btn {
+  justify-content: center !important;
   width: 80%;
   display: flex;
+  margin: auto;
 }
 
 .coaching-card {
@@ -2547,8 +2549,15 @@ p.pro-add-value {
 }
 .details-add-btn {
   justify-content: center !important;
-  display: flex;
+  display: block;
 }
+.matches-add .locked-info-text {
+  width: 100%;
+  text-align: center;
+}
+
+
+
 .rating-reviews {
   gap: 30px;
   width: 100%;
@@ -2783,9 +2792,8 @@ textarea.delivery-textarea.form-control {
 .new-content-wrapper.coach-wrap .profile-form-add .card {
   padding: 8px !important;
 }
-
 .main-panel .preview-section .session-preview-content h2 {
-  font-size: 20px;
+  font-size: 19px;
 }
 .content-wrapper.coach-profile-add .form-row {
   gap: 11px;
@@ -3115,12 +3123,13 @@ nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
   margin-bottom: 10px;
 }
 
-.booking-top-inner .add-new-btn {  
-  padding: 10px 20px !important;
-  display: flex;
+.booking-top-inner .add-new-btn {
   justify-content: center;
-  margin: auto;
   width: 80%;
+  margin: auto;
+  display: flex;
+  padding: 10px 20px !important;
+  margin-top: 20px;
 }
 
 .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
@@ -3137,24 +3146,120 @@ nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
   text-align: center;
 }
 
+.coach-dashboard-add .cta {
+  margin-bottom: 15px;
+}
 
+.upgrade-warning {
+  display: block !important;
+}
+
+.upgrade-btn {
+  height: 45px;
+  width: 100%;
+}
+.reviews-right-side .session-card {
+  text-align: center;
+}
+
+.upgrade-warning .upgrade-btn {
+  border-radius: 8px;
+  height: 45px;
+}
+
+.industry-insights .position-absolute.translate-middle {
+  width: 100% !important;
+}
+
+.services-performances .service-performance .position-absolute.translate-middle.shadow-lg {
+  width: 100% !important;
+  margin-top: 30px;
+}
+
+.activity-log .log-btn {
+  justify-content: center;
+  margin-top: 20px;
+}
+.new-content-wrapper.coach-wrap .mt-5 {
+  margin-top: 0px !important;
+}
+
+.new-content-wrapper.coach-wrap .mt-5 h3 {
+  text-align: center;
+}
+
+.new-content-wrapper.coach-wrap p.mt-3.fs-5.w-100 {
+  text-align: center;
+}
+
+.profile-form-add .card p {
+  text-align: center;
+}
+.upgrade-banner {
+  display: block !important;
+}
+.upgrade-banner .upgrade-banner-text {
+  font-size: 16px;
+  text-align: center;
+  padding-bottom: 10px;
+  margin: auto;
+}
+button.btn.upgrade-btn.px-4.py-2 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+.request-modal-header h5 {
+  padding: 0px 14px !important;
+  font-size: 21px !important;
+}
+.new-content-wrapper.coach-wrap .request-modal {
+  width: 100%;
+  max-width: 93%;
+}
+
+.new-content-wrapper.coach-wrap .status-coachings {
+  margin-bottom: 20px !important;
+}
+
+.new-content-wrapper.coach-wrap .status-complete {
+  margin-top: 15px !important;
+}
+
+.new-content-wrapper.coach-wrap .canceled-missed {
+  margin-top: 15px !important;
+}
+.coaching-status .sorting-data {
+  justify-content: center;
+}
+.coaching-status .sorting-data {
+  padding-top: 10px;
+  justify-content: center;
+}
+.pro-coach-banner-botm button.btn.btn-not-pro-learn {
+  margin-bottom: 0px !important; 
+}
+
+.try-pro-free p.try-text-add {
+  text-align: left;
+  padding: 10px 10px;
+}
+
+.navbar .navbar-menu-wrapper {
+  width: calc(53% - 55px) !important;
+}
+
+.user-add-top ul.navbar-nav.navbar-nav-right {
+  padding-left: 154px !important;
+  width: auto !important;
+}
+button.navbar-toggler.navbar-toggler-right.d-lg-none.align-self-center.mobile-view-toggle-right {
+  padding-left: 0px;
+}
 
 
 }
 
-
 /* mobile-view-css */
-
-
-
-
-
-
-
-
-
-
-
 
 
 

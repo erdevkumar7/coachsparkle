@@ -194,9 +194,9 @@
   font-size: 24px;
   font-weight: 500;
 }
-
 .completed-status .topbar {
   background-color: #e5e5e5;
+  padding: 15px !important;
 }
 
 .completed-status .completed {
