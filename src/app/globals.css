@@ -266,16 +266,16 @@ p.text-center.span-txt {
 }
 
 .smarter-matching-inner .search-container {
-  display: flex;
   align-items: center;
   padding-top: 25px;
+  display: flex;
+  justify-content: left;
 }
-
 .smarter-matching-inner input.form-control.search-input {
   border: 1px solid #d7d7d7;
   border-radius: 12px;
   width: 448px;
-  height: 64px;
+  height: 62px;
   padding-left: 20px;
   font-family: Roboto;
   font-size: 17px;
@@ -3381,7 +3381,9 @@ h3.quick-text {
   font-size: 24px;
 }
 
-
+.coach_profile_form_add p.text-red-600.regist-err-msg {
+  margin-top: 0px !important;
+}
 
 
 @media only screen and (max-width: 767px) {
@@ -3392,12 +3394,15 @@ h3.quick-text {
 
 .coaches-view-cards .card img {
   cursor: pointer;
-  width: 100%;
-  height: 350px;
   object-fit: cover;
   object-position: top;
+  width: 100%;
+  height: auto;
 }
-
+p.text-center.span-txt {
+  width: 100%;
+  margin: auto;
+}
   .coach-top-navber-add div#navbarTogglerDemo01 {
     width: 100%;
 }
@@ -3585,6 +3590,14 @@ button.btn-create {
   font-family: Roboto;
   font-size: 16px;
 }
+
+p.alert-text-add {
+  padding-top: 0;
+  font-size: 15px;
+  padding-left: 10px;
+}
+
+
 .smarter-matching-inner input.form-control.search-input::placeholder {
     color: #0000007d;
 }

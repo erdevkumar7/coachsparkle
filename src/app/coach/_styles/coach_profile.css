@@ -416,9 +416,8 @@ button.save-btn-add {
   border-radius: 16px;
 }
 
-
 .social-links{
-         margin-top: 30px;
+  margin-top: 30px;
 }
 
 .social-links h3{
@@ -479,13 +478,28 @@ button.save-btn-add {
   cursor: pointer;
 }
 
-.media-size{
+.media-size {
   font-size: 10px;
+}
+
+@media screen and (max-width: 767px) {
+  
+.limit-box {
+    display: block !important;
+}
+.upgrade-btn {
+  border-radius: 8px;
+  height: 44px;
+}
+
+
 }
 
 
 
 @media screen and (max-width: 768px) {
+  
+
   .form-row {
     flex-direction: column;
   }
