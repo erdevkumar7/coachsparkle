@@ -39,9 +39,10 @@ export default function CoachList() {
   const [itemsPerPage, setItemsPerPage] = useState(25); // Add items per page state
   const [getUserType, setUserType] = useState(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState({
-    query: "",
+    query: searchParams.get('query') ?? "",
     search_for: "",
     delivery_mode: null,
     free_trial_session: null,
@@ -56,7 +57,6 @@ export default function CoachList() {
     availability_end: null,
   });
 
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     // Check for coaching_sub_categories in URL params

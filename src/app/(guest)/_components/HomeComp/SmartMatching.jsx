@@ -7,12 +7,23 @@ import { useState } from "react";
 
 export default function SmartMatching({ coaches, sectionData, homePageCountData }) {
     const [query, setQuery] = useState("");
-
+    const [error, setError] = useState("");
     const router = useRouter();
 
     const availableCoaches = homePageCountData?.available_coach_count ?? 0;
     const matchedCount = homePageCountData?.matched_count ?? 0;
     const goalAchievedCount = homePageCountData?.coaching_goal_achieve_count ?? 0;
+
+
+    const handleAIMatching = (query) => {
+        if (!query || query.trim() === "") {
+            setError("Please enter a query to find matching coaches.");
+            return;
+        }
+        router.push(`/coach-detail/list?query=${encodeURIComponent(query)}`)
+        setError("");
+    }
+
     return (
         <div className="smarter-matching py-5">
             <div className="container">
@@ -38,15 +49,23 @@ export default function SmartMatching({ coaches, sectionData, homePageCountData 
                                 className="form-control search-input"
                                 placeholder="“E.g., Improve public speaking for work, in English, evenings preferre"
                                 value={query}
-                                onChange={(e) => setQuery(e.target.value)}
+                                // onChange={(e) => setQuery(e.target.value)}
+                                onChange={(e) => {
+                                    setQuery(e.target.value);
+                                    if (error) setError("");
+                                }}
                             />
                             <div className="ai-btn-find">
-                                <button onClick={() => router.push(`/coach-detail/list?query=${encodeURIComponent(query)}`)}>
+                                <button onClick={() => handleAIMatching(query)}>
                                     Start AI Matching
                                 </button>
                             </div>
-
                         </div>
+                        {error && (
+                            <p style={{ color: " #d32f2f", marginTop: "8px" }} role="alert">
+                                {error}
+                            </p>
+                        )}
 
                         <div className="counters-content">
                             <div className="row counters-inner-content">
