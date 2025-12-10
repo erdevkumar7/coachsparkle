@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import axios from "axios";
 import Link from "next/link";
@@ -39,6 +39,8 @@ export default function CoachList() {
   const [itemsPerPage, setItemsPerPage] = useState(25); // Add items per page state
   const [getUserType, setUserType] = useState(null);
   const router = useRouter();
+  const searchInputRef = useRef(null);
+
   const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState({
@@ -170,6 +172,20 @@ export default function CoachList() {
     setCurrentPage(1); // Reset to first page when changing items per page
   };
 
+  const handleTryAIMatch = () => {
+    const top = searchInputRef.current?.offsetTop - 150; // adjust scroll if needed
+
+    window.scrollTo({
+      top: top,
+      behavior: "smooth"
+    });
+
+    // Highlight + focus
+    searchInputRef.current?.focus();
+    searchInputRef.current?.select();
+  };
+
+
   // console.log('coachesvvv', coaches)
 
   return (
@@ -187,11 +203,12 @@ export default function CoachList() {
               </p>
               <div className="search-container">
                 <input
+                  ref={searchInputRef}
                   type="text"
                   className="form-control search-input"
                   placeholder="“E.g., Improve public speaking for work, in English, evenings preferre"
                   value={filters.query || ""}
-                  onChange={(e) => updateFilter("query", e.target.value)}
+                  onChange={(e) => updateFilter('query', e.target.value)}
                 />
                 <div className="ai-btn-find">
                   <button>Start AI Matching</button>
@@ -429,7 +446,7 @@ export default function CoachList() {
 
               <div className="info1">
                 <p>Couldn't find what you are looking for?</p>
-                <button className="ai-mtc">
+                <button className="ai-mtc" onClick={handleTryAIMatch}>
                   Try AI Match <EastIcon className="mui-icons east-icons-add" />
                 </button>
               </div>
