@@ -20,7 +20,7 @@ export default function SmartMatching({ coaches, sectionData, homePageCountData 
             setError("Please enter a query to find matching coaches.");
             return;
         }
-        router.push(`/coach-detail/list?query=${encodeURIComponent(query)}`)
+        router.push(`/coach-detail/aimatch?query=${encodeURIComponent(query)}`)
         setError("");
     }
 
