@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import { Sparkles, MessageCircle, ArrowRight, X, Check, AlertCircle } from "lucide-react";
 // import "../../_styles/coach-list.css";
 
-const SparkleBot = ({ initialQuery, apiUrl = "ttp://localhost/coach-backend/api" }) => {
+const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/coach-backend/api' }) => {
     const [step, setStep] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [matches, setMatches] = useState([]);
     const [minimized, setMinimized] = useState(false);
+    const [validationErrors, setValidationErrors] = useState(null);
 
     const [responses, setResponses] = useState({
         initialGoal: "",
@@ -74,10 +75,16 @@ const SparkleBot = ({ initialQuery, apiUrl = "ttp://localhost/coach-backend/api"
         setResponses(fullResponses);
         setLoading(true);
         setError(null);
+        setValidationErrors(null);
 
         try {
-            // ✅ REAL API CALL to your Laravel backend
-            const response = await fetch(`${apiUrl}/coaches/match`, {
+            // Add timeout and sanitize apiUrl
+            const controller = new AbortController();
+            const timeoutMs = 10000; // 10s
+            const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+            const endpoint = `${String(apiUrl).replace(/\/$/, '')}/coaches/match`;
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,11 +99,34 @@ const SparkleBot = ({ initialQuery, apiUrl = "ttp://localhost/coach-backend/api"
                     budget: fullResponses.budget || '$80–$150',
                     mode: fullResponses.mode,
                 }),
+                signal: controller.signal,
             });
 
-            const data = await response.json();
+            clearTimeout(timeout);
 
-            if (data.success && data.matches) {
+            // Try to parse response body safely
+            let data = null;
+            const text = await response.text();
+            try {
+                data = text ? JSON.parse(text) : {};
+            } catch (e) {
+                data = { raw: text };
+            }
+
+            if (!response.ok) {
+                if (response.status === 422) {
+                    // Validation errors from Laravel: { message: 'Validation failed', errors: { field: [..] } }
+                    const validation = data?.errors || data?.validation || data;
+                    setValidationErrors(validation);
+                    setError(data?.message || 'Validation failed. Please review your inputs.');
+                    return; // allow user to fix inputs
+                }
+
+                const msg = data?.message || data?.raw || `Status ${response.status}`;
+                throw new Error(`Server returned ${response.status}: ${msg}`);
+            }
+
+            if (data && data.success && data.matches) {
                 // Transform API response to component format
                 const transformedMatches = data.matches.map(coach => ({
                     id: coach.id,
@@ -120,16 +150,24 @@ const SparkleBot = ({ initialQuery, apiUrl = "ttp://localhost/coach-backend/api"
                 setMatches(transformedMatches);
                 setStep(s => s + 1);
             } else {
-                throw new Error(data.message || 'Failed to find matches');
+                throw new Error(data?.message || 'Failed to find matches');
             }
         } catch (err) {
             console.error('API Error:', err);
-            setError(err.message || 'Failed to connect to matching service');
 
-            // Show error but don't block - user can try again
-            setTimeout(() => setError(null), 5000);
+            if (err.name === 'AbortError') {
+                setError('Request timed out — please try again.');
+            } else if (err.message && err.message.includes('Failed to fetch')) {
+                // Common network error (CORS / DNS / invalid URL)
+                setError('Network error: failed to reach matching service. Check your API URL and CORS settings.');
+            } else {
+                setError(err.message || 'Failed to connect to matching service');
+            }
+
+            // Show transient error
+            setTimeout(() => setError(null), 6000);
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
@@ -402,6 +440,18 @@ const SparkleBot = ({ initialQuery, apiUrl = "ttp://localhost/coach-backend/api"
 
                             {messages[step].type === 'multi' && (
                                 <MultiStepForm onSubmit={handleMultiSubmit} />
+                            )}
+
+                            {/* Show validation errors (if any) */}
+                            {validationErrors && (
+                                <div className="alert alert-danger mt-3 small">
+                                    <strong>Validation issues:</strong>
+                                    <ul className="mb-0 mt-1">
+                                        {Object.entries(validationErrors).map(([field, msgs]) => (
+                                            <li key={field}><strong>{field}:</strong> {Array.isArray(msgs) ? msgs.join(' ') : String(msgs)}</li>
+                                        ))}
+                                    </ul>
+                                </div>
                             )}
 
                             <div className="mt-3 d-flex justify-content-between">
