@@ -64,9 +64,10 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
         setStep(s => s + 1);
     };
 
-    const handleChoiceSelect = (choice) => {
+    const handleChoiceSelect = (choiceId, label) => {
         const field = messages[step].field;
-        setResponses(prev => ({ ...prev, [field]: choice }));
+        // store both id and label to increase compatibility with backend expectations
+        setResponses(prev => ({ ...prev, [field]: choiceId, [`${field}Label`]: label }));
         setStep(s => s + 1);
     };
 
@@ -224,7 +225,7 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
     const ChoiceButtons = ({ options, onSelect }) => (
         <div className="sb-choices">
             {options.map(opt => (
-                <button key={opt.id} className="btn btn-outline-secondary sb-choice" onClick={() => onSelect(opt.id)}>
+                <button key={opt.id} className="btn sb-choice" onClick={() => onSelect(opt.id, opt.label)}>
                     <div className="choice-title">{opt.label}</div>
                 </button>
             ))}
@@ -269,7 +270,7 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                 {questions.map(q => (
                     <div key={q.field} className="mb-3">
                         <div className="small text-muted mb-2">{q.label}</div>
-                        <div className="d-flex gap-2 flex-wrap">
+                        <div className="d-flex gap-2 flex-wrap industry-add-content">
                             {q.options.map(opt => (
                                 <button
                                     key={opt}
@@ -283,9 +284,9 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                     </div>
                 ))}
 
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-end find-my-matches-btn-add">
                     <button
-                        className="btn btn-success d-flex align-items-center gap-2"
+                        className="btn d-flex align-items-center gap-2"
                         disabled={!allAnswered}
                         onClick={() => onSubmit(prefs)}
                     >
@@ -336,12 +337,12 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                     {coach.matchPercentage && (
                         <div className="mt-2 mb-2">
                             <div className="d-flex align-items-center gap-2">
-                                <div className="progress flex-grow-1" style={{ height: '6px' }}>
+                                {/* <div className="progress flex-grow-1" style={{ height: '6px' }}>
                                     <div
                                         className="progress-bar bg-success"
                                         style={{ width: `${coach.matchPercentage}%` }}
                                     />
-                                </div>
+                                </div> */}
                                 <span className="badge bg-success">{coach.matchPercentage}% Match</span>
                             </div>
                         </div>
@@ -408,25 +409,20 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
             <div className="sparklebot-wrapper card p-3 shadow-sm">
                 <div className="d-flex align-items-center mb-2">
                     <div className="me-2 sb-logo"><Sparkles /></div>
-                    <div>
+                    <div className="sparkle-goals-text">
                         <strong>SparkleBot</strong>
                         <div className="small text-muted">AI matching tailored to your goals</div>
                     </div>
 
-                    <div className="ms-auto d-flex align-items-center gap-2">
-                        <Progress stepIndex={step} />
-                        <button className="btn btn-sm btn-light" aria-label="Minimize" onClick={() => setMinimized(true)}>
-                            <X />
-                        </button>
-                    </div>
+
                 </div>
 
-                <div className="sb-body">
+                <div className="sb-body sparkle-goals-content">
                     {step < 4 ? (
                         <>
                             <div className="bot-msg p-3 mb-3 rounded bg-light">
-                                <MessageCircle className="me-2" />
-                                <div className="fw-semibold">{messages[step].bot}</div>
+
+                                <div className="fw-semibold"><MessageCircle className="me-2" /> {messages[step].bot}</div>
                                 {messages[step].hint && <div className="small text-muted mt-1">{messages[step].hint}</div>}
                             </div>
 
@@ -435,7 +431,16 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                             )}
 
                             {messages[step].type === 'choice' && (
-                                <ChoiceButtons options={messages[step].options} onSelect={handleChoiceSelect} />
+                                <>
+                                  <ChoiceButtons options={messages[step].options} onSelect={handleChoiceSelect} />
+
+                                  {/* Inline validation message for coaching_style */}
+                                  {validationErrors?.coaching_style && (
+                                    <div className="text-danger small mt-2">
+                                      The selected coaching style is invalid. Please choose a different option.
+                                    </div>
+                                  )}
+                                </>
                             )}
 
                             {messages[step].type === 'multi' && (
@@ -455,7 +460,7 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                             )}
 
                             <div className="mt-3 d-flex justify-content-between">
-                                <button className="btn btn-link btn-sm" disabled={step === 0} onClick={() => setStep(s => Math.max(0, s - 1))}>Back</button>
+                                {/* <button className="btn btn-link btn-sm" disabled={step === 0} onClick={() => setStep(s => Math.max(0, s - 1))}>Back</button> */}
                             </div>
                         </>
                     ) : loading ? (
@@ -466,71 +471,31 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                         </div>
                     ) : matches.length > 0 ? (
                         <div>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
+                            <div className="d-flex justify-content-between align-items-center best-matches mb-3">
                                 <h5 className="mb-0">Your Best Matches</h5>
                                 <div className="small text-muted">{matches.length} coaches found</div>
                             </div>
 
                             {matches.map(c => <CoachCard key={c.id} coach={c} />)}
 
-                            <div className="mt-3 d-flex gap-2 justify-content-end">
-                                <button className="btn btn-outline-secondary btn-sm" onClick={() => { setStep(0); setMatches([]); setResponses({}); }}>
+                            <div className="mt-3 d-flex gap-2 justify-content-end start-over-btn-add">
+                                <button className="btn btn-sm" onClick={() => { setStep(0); setMatches([]); setResponses({}); }}>
                                     Start Over
                                 </button>
-                                <button className="btn btn-primary btn-sm">View All Coaches</button>
+                                <button className="btn btn-sm">View All Coaches</button>
                             </div>
                         </div>
                     ) : (
                         <div className="text-center py-5">
                             <div className="mb-3">😔</div>
                             <p className="text-muted">No matches found. Try adjusting your preferences.</p>
-                            <button className="btn btn-primary" onClick={() => { setStep(0); setResponses({}); }}>
+                            <button className="btn over-start-btn" onClick={() => { setStep(0); setResponses({}); }}>
                                 Start Over
                             </button>
                         </div>
                     )}
                 </div>
 
-                <style jsx>{`
-                    .sparklebot-container { position: fixed; z-index: 1200; right: 24px; bottom: 24px; }
-                    .sparklebot-container.minimized { right: 24px; bottom: 24px; }
-
-                    .sb-floating-btn { background: var(--bs-primary, #3b82f6); color: #fff; width:56px; height:56px; border-radius:50%; border:0; display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 24px rgba(16,24,40,0.12); }
-
-                    .sparklebot-wrapper { border-radius: 12px; overflow: hidden; box-shadow: 0 12px 40px rgba(13, 38, 59, 0.12); }
-                    .sb-logo :global(svg) { color: var(--bs-primary, #3b82f6); }
-                    .sb-progress { display:flex; gap:6px; align-items:center; }
-                    .dot { width:8px; height:8px; border-radius:50%; background:#eef2ff; }
-                    .dot.active { background: var(--bs-primary, #3b82f6); box-shadow: 0 0 0 6px rgba(59,130,246,0.06); }
-
-                    .sb-input { display:flex; gap:8px; }
-                    .sb-text { border-radius: 12px; padding: 12px 14px; box-shadow: inset 0 1px 2px rgba(16,24,40,0.02); }
-                    .sb-submit { width:48px; height:48px; display:flex; align-items:center; justify-content:center; border-radius:10px; }
-
-                    .sb-choices { display:flex; flex-direction:column; gap:8px; }
-                    .sb-choice { text-align:left; padding:12px; border-radius:10px; transition: transform .12s ease, box-shadow .12s ease; }
-                    .sb-choice:active { transform: translateY(1px); }
-
-                    .sb-multi .btn { min-width:96px; }
-                    .sb-avatar { width:56px; height:56px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#0f172a; }
-                    .sb-coach-card { border-radius:12px; }
-                    .sb-rating .star { color:#e9ecef; }
-                    .sb-rating .star.filled { color: #f59e0b; }
-                    .spin { animation: spin 1s linear infinite; }
-                    @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
-
-                    /* Responsive: bottom sheet on mobile */
-                    @media (max-width: 767px) {
-                        .sparklebot-container { left: 12px; right: 12px; bottom: 12px; }
-                        .sparklebot-wrapper { width: auto; border-radius: 12px; }
-                        .sb-floating-btn { position: fixed; right: 16px; bottom: 16px; }
-                    }
-
-                    /* Minimized state hides the card and shows floating button */
-                    .sparklebot-container.minimized .sparklebot-wrapper { display: none; }
-
-                    .visually-hidden { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
-                `}</style>
             </div>
         </div>
     );
