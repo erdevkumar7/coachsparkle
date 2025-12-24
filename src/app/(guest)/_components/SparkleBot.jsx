@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Sparkles, MessageCircle, ArrowRight, X, Check } from "lucide-react";
+import { Sparkles, MessageCircle, ArrowRight, X, Check, AlertCircle } from "lucide-react";
 // import "../../_styles/coach-list.css";
 
-const SparkleBot = ({ initialQuery }) => {
+const SparkleBot = ({ initialQuery, apiUrl = "ttp://localhost/coach-backend/api" }) => {
     const [step, setStep] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [matches, setMatches] = useState([]);
     const [minimized, setMinimized] = useState(false);
 
@@ -69,43 +70,76 @@ const SparkleBot = ({ initialQuery }) => {
     };
 
     const handleMultiSubmit = async (prefs) => {
-        setResponses(prev => ({ ...prev, ...prefs }));
+        const fullResponses = { ...responses, ...prefs };
+        setResponses(fullResponses);
         setLoading(true);
+        setError(null);
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 900));
+        try {
+            // ✅ REAL API CALL to your Laravel backend
+            const response = await fetch(`${apiUrl}/coaches/match`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    initial_goal: fullResponses.initialGoal,
+                    desired_outcome: fullResponses.desiredOutcome,
+                    coaching_style: fullResponses.coachingStyle,
+                    industry_experience: fullResponses.industryExperience,
+                    language: fullResponses.language,
+                    budget: fullResponses.budget || '$80–$150',
+                    mode: fullResponses.mode,
+                }),
+            });
 
-        setMatches([
-            {
-                id: 1,
-                name: "Sarah Chen",
-                title: "Career & Leadership Coach",
-                experience: "12 yrs",
-                rating: 4.9,
-                sessions: 850,
-                price: "$120",
-                avatarColor: "#FDE68A",
-                languages: ["English", "Mandarin"],
-                specialties: ["Leadership", "Burnout Recovery"],
-                matchReason: "Structured leadership coaching with measurable outcomes."
-            },
-            {
-                id: 2,
-                name: "David Kumar",
-                title: "Mindfulness Coach",
-                experience: "8 yrs",
-                rating: 4.8,
-                sessions: 620,
-                price: "$95",
-                avatarColor: "#BFDBFE",
-                languages: ["English", "Tamil"],
-                specialties: ["Stress", "Work-life Balance"],
-                matchReason: "Focused on practical mindfulness techniques for stress reduction."
+            const data = await response.json();
+
+            if (data.success && data.matches) {
+                // Transform API response to component format
+                const transformedMatches = data.matches.map(coach => ({
+                    id: coach.id,
+                    name: coach.name,
+                    title: coach.title,
+                    experience: coach.experience_years || 'N/A',
+                    rating: coach.rating,
+                    sessions: coach.total_sessions,
+                    price: coach.price_display,
+                    avatarColor: getRandomColor(),
+                    languages: coach.languages || [],
+                    specialties: coach.specialties || [],
+                    matchReason: coach.match_reason,
+                    matchScore: coach.match_score,
+                    matchPercentage: coach.match_percentage,
+                    photo: coach.photo,
+                    avatar: coach.avatar,
+                    profileUrl: coach.profile_url,
+                }));
+
+                setMatches(transformedMatches);
+                setStep(s => s + 1);
+            } else {
+                throw new Error(data.message || 'Failed to find matches');
             }
-        ]);
+        } catch (err) {
+            console.error('API Error:', err);
+            setError(err.message || 'Failed to connect to matching service');
 
+            // Show error but don't block - user can try again
+            setTimeout(() => setError(null), 5000);
+        } finally {
         setLoading(false);
-        setStep(s => s + 1);
+        }
+    };
+
+    const getRandomColor = () => {
+        const colors = ['#FDE68A', '#BFDBFE', '#FCA5A5', '#D8B4FE', '#A7F3D0'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    };
+
+    const getInitials = (name) => {
+        return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
     };
 
     /* ---------- UI subcomponents ---------- */
@@ -122,16 +156,27 @@ const SparkleBot = ({ initialQuery }) => {
         return (
             <div className="sb-input">
                 <label className="visually-hidden">Answer</label>
-                <input
+                <textarea
                     aria-label="Your answer"
                     value={value}
                     onChange={e => setValue(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && value && onSubmit(value)}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter' && !e.shiftKey && value.trim()) {
+                            e.preventDefault();
+                            onSubmit(value.trim());
+                        }
+                    }}
                     placeholder={placeholder}
                     className="form-control sb-text"
+                    rows={2}
                     autoFocus
                 />
-                <button className="btn btn-primary sb-submit" onClick={() => value && onSubmit(value)} aria-label="Submit answer">
+                <button
+                    className="btn btn-primary sb-submit"
+                    onClick={() => value.trim() && onSubmit(value.trim())}
+                    disabled={!value.trim()}
+                    aria-label="Submit answer"
+                >
                     <ArrowRight />
                 </button>
             </div>
@@ -149,12 +194,34 @@ const SparkleBot = ({ initialQuery }) => {
     );
 
     const MultiStepForm = ({ onSubmit }) => {
-        const [prefs, setPrefs] = useState({ industryExperience: '', language: '', budget: '', mode: '' });
+        const [prefs, setPrefs] = useState({
+            industryExperience: '',
+            language: '',
+            budget: '',
+            mode: ''
+        });
+
         const questions = [
-            { label: 'Industry experience', field: 'industryExperience', options: ['Yes', 'No'] },
-            { label: 'Language', field: 'language', options: ['English', 'Tamil', 'Other'] },
-            { label: 'Budget', field: 'budget', options: ['<$80', '$80–$150', '$150+'] },
-            { label: 'Mode', field: 'mode', options: ['Online', 'Offline', 'Hybrid'] }
+            {
+                label: 'Industry experience',
+                field: 'industryExperience',
+                options: ['Yes', 'No', 'Not important']
+            },
+            {
+                label: 'Language',
+                field: 'language',
+                options: ['English', 'Mandarin', 'Tamil', 'Malay', 'Others']
+            },
+            {
+                label: 'Budget per session',
+                field: 'budget',
+                options: ['< $80', '$80–$150', '$150–$300', 'No preference yet']
+            },
+            {
+                label: 'Mode',
+                field: 'mode',
+                options: ['Online', 'Face-to-face', 'Hybrid', 'No preference']
+            }
         ];
 
         const allAnswered = Object.values(prefs).every(Boolean);
@@ -179,8 +246,13 @@ const SparkleBot = ({ initialQuery }) => {
                 ))}
 
                 <div className="d-flex justify-content-end">
-                    <button className="btn btn-success" disabled={!allAnswered} onClick={() => onSubmit(prefs)}>
-                        Find My Matches ✨
+                    <button
+                        className="btn btn-success d-flex align-items-center gap-2"
+                        disabled={!allAnswered}
+                        onClick={() => onSubmit(prefs)}
+                    >
+                        <Sparkles size={16} />
+                        Find My Matches
                     </button>
                 </div>
             </div>
@@ -190,9 +262,21 @@ const SparkleBot = ({ initialQuery }) => {
     const CoachCard = ({ coach }) => (
         <div className="card sb-coach-card mb-3">
             <div className="card-body d-flex gap-3 align-items-start">
-                <div className="sb-avatar" style={{ background: coach.avatarColor }} aria-hidden>
-                    {coach.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                {/* Avatar */}
+                <div className="sb-avatar-wrapper">
+                    {coach.photo || coach.avatar ? (
+                        <img
+                            src={coach.photo || coach.avatar}
+                            alt={coach.name}
+                            className="sb-avatar-img"
+                        />
+                    ) : (
+                        <div className="sb-avatar" style={{ background: coach.avatarColor }}>
+                            {getInitials(coach.name)}
+                        </div>
+                    )}
                 </div>
+
                 <div className="flex-grow-1">
                     <div className="d-flex justify-content-between align-items-start">
                         <div>
@@ -200,21 +284,63 @@ const SparkleBot = ({ initialQuery }) => {
                             <div className="small text-muted">{coach.title} • {coach.experience}</div>
                         </div>
                         <div className="text-end">
-                            <div className="small text-muted">{coach.price}</div>
-                            <div className="sb-rating">{Array.from({length:5}).map((_,i)=> (
-                                <span key={i} className={`star ${i < Math.round(coach.rating) ? 'filled':''}`}>★</span>
-                            ))}</div>
+                            <div className="fw-bold text-primary">{coach.price}</div>
+                            <div className="sb-rating">
+                                {Array.from({length: 5}).map((_, i) => (
+                                    <span key={i} className={`star ${i < Math.round(coach.rating) ? 'filled' : ''}`}>★</span>
+                                ))}
+                                <span className="small text-muted ms-1">({coach.sessions})</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="mt-2">
-                        <div className="small mb-1 text-muted">Specialties</div>
-                        <div className="mb-2">{coach.specialties.map(s => <span key={s} className="badge bg-secondary me-1">{s}</span>)}</div>
-                        <div className="text-muted small">{coach.matchReason}</div>
+                    {/* Match Score */}
+                    {coach.matchPercentage && (
+                        <div className="mt-2 mb-2">
+                            <div className="d-flex align-items-center gap-2">
+                                <div className="progress flex-grow-1" style={{ height: '6px' }}>
+                                    <div
+                                        className="progress-bar bg-success"
+                                        style={{ width: `${coach.matchPercentage}%` }}
+                                    />
+                                </div>
+                                <span className="badge bg-success">{coach.matchPercentage}% Match</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Match Reason */}
+                    <div className="mt-2 p-2 bg-light rounded">
+                        <div className="small d-flex align-items-start gap-2">
+                            <Sparkles size={14} className="text-primary mt-1 flex-shrink-0" />
+                            <span className="text-muted">{coach.matchReason}</span>
+                        </div>
                     </div>
 
+                    {/* Specialties */}
+                    <div className="mt-2">
+                        {coach.specialties.slice(0, 3).map(s => (
+                            <span key={s} className="badge bg-secondary me-1 mb-1">{s}</span>
+                        ))}
+                    </div>
+
+                    {/* Languages */}
+                    {coach.languages.length > 0 && (
+                        <div className="mt-2 small text-muted">
+                            🗣️ {coach.languages.join(', ')}
+                        </div>
+                    )}
+
+                    {/* Actions */}
                     <div className="mt-3 d-flex gap-2">
-                        <button className="btn btn-outline-primary btn-sm">View Profile</button>
+                        <a
+                            href={coach.profileUrl || `/coach/${coach.id}`}
+                            className="btn btn-outline-primary btn-sm"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            View Profile
+                        </a>
                         <button className="btn btn-primary btn-sm">Book Consultation</button>
                     </div>
                 </div>
@@ -225,6 +351,15 @@ const SparkleBot = ({ initialQuery }) => {
     /* ---------- Render ---------- */
     return (
         <div className={`sparklebot-container ${minimized ? 'minimized' : ''}`} aria-live="polite">
+            {/* Error Toast */}
+            {error && (
+                <div className="sb-error-toast">
+                    <AlertCircle size={20} />
+                    <span>{error}</span>
+                    <button onClick={() => setError(null)} className="btn-close btn-close-white btn-sm" />
+                </div>
+            )}
+
             {/* Minimized floating button */}
             {minimized ? (
                 <button className="sb-floating-btn" aria-label="Open SparkleBot" onClick={() => setMinimized(false)}>
@@ -270,27 +405,38 @@ const SparkleBot = ({ initialQuery }) => {
                             )}
 
                             <div className="mt-3 d-flex justify-content-between">
-                                <button className="btn btn-link btn-sm" disabled={step===0} onClick={() => setStep(s => Math.max(0, s-1))}>Back</button>
-                                <button className="btn btn-outline-secondary btn-sm" onClick={() => { setStep(4); setMatches([]); }}>Skip & View Sample Matches</button>
+                                <button className="btn btn-link btn-sm" disabled={step === 0} onClick={() => setStep(s => Math.max(0, s - 1))}>Back</button>
                             </div>
                         </>
                     ) : loading ? (
-                        <div className="d-flex align-items-center gap-2 p-3 justify-content-center">
-                            <Sparkles className="spin" /> <div className="fw-medium">Finding best matches…</div>
+                        <div className="d-flex align-items-center gap-2 p-5 justify-content-center flex-column">
+                            <Sparkles className="spin" size={48} />
+                            <div className="fw-medium">Finding your perfect matches…</div>
+                            <div className="small text-muted">Analyzing 1000+ coach profiles</div>
                         </div>
-                    ) : (
+                    ) : matches.length > 0 ? (
                         <div>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h5 className="mb-0">Your Best Matches</h5>
-                                <div className="small text-muted">Based on your preferences</div>
+                                <div className="small text-muted">{matches.length} coaches found</div>
                             </div>
 
                             {matches.map(c => <CoachCard key={c.id} coach={c} />)}
 
-                            <div className="mt-2 text-end">
-                                <button className="btn btn-outline-secondary btn-sm me-2" onClick={() => setStep(0)}>Start Over</button>
+                            <div className="mt-3 d-flex gap-2 justify-content-end">
+                                <button className="btn btn-outline-secondary btn-sm" onClick={() => { setStep(0); setMatches([]); setResponses({}); }}>
+                                    Start Over
+                                </button>
                                 <button className="btn btn-primary btn-sm">View All Coaches</button>
                             </div>
+                        </div>
+                    ) : (
+                        <div className="text-center py-5">
+                            <div className="mb-3">😔</div>
+                            <p className="text-muted">No matches found. Try adjusting your preferences.</p>
+                            <button className="btn btn-primary" onClick={() => { setStep(0); setResponses({}); }}>
+                                Start Over
+                            </button>
                         </div>
                     )}
                 </div>
