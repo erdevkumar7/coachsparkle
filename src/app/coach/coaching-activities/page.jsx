@@ -95,29 +95,15 @@ export default async function CoachingActivitiesPage() {
         },
     ];
 
+    const normalize = (data) => ({
+        data: Array.isArray(data?.data) ? data.data : [],
+        pagination: {
+            current_page: Number(data?.pagination?.current_page ?? 1),
+            total: Number(data?.pagination?.total ?? 0),
+            last_page: Number(data?.pagination?.last_page ?? 1),
+        },
+    });
 
-    // const requests = [
-    //     {
-    //         img: "/coachsparkle/assets/images/glance-img-one.png",
-    //         title: "Coaching Requests",
-    //         count: pendingRequest.pagination.total > 0 && pendingRequest.pagination.total < 10 ? `0${pendingRequest.pagination.total}` : pendingRequest.pagination.total,
-    //     },
-    //     {
-    //         img: "/coachsparkle/assets/images/glance-img-three.png",
-    //         title: "In progress",
-    //         count: coachingProgress.pagination.total > 0 && coachingProgress.pagination.total < 10 ? `0${coachingProgress.pagination.total}` : coachingProgress.pagination.total,
-    //     },
-    //     {
-    //         img: "/coachsparkle/assets/images/match-three.png",
-    //         title: "Completed",
-    //         count: initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
-    //     },
-    //     {
-    //         img: "/coachsparkle/assets/images/match-four.png",
-    //         title: "Canceled / Missed",
-    //         count: initialCanceled.pagination.total > 0 && initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
-    //     },
-    // ];
 
     // console.log('initialCompletedData', initialCompletedData)
     return (
@@ -135,22 +121,23 @@ export default async function CoachingActivitiesPage() {
                 </div>
 
                 <CoachingRequests
-                    initialRequest={pendingRequest}
+                    initialRequest={normalize(pendingRequest)}
                     token={token}
                 />
 
+
                 <CoachingProgress
-                    initialProgress={coachingProgress}
+                    initialProgress={normalize(coachingProgress)}
                     token={token}
                 />
 
                 <CompletedCoaching
-                    initialCompleted={initialCompleted}
+                    initialCompleted={normalize(initialCompleted)}
                     token={token}
                 />
 
                 <CanceledMissed
-                    initialCanceled={initialCanceled}
+                    initialCanceled={normalize(initialCanceled)}
                     token={token}
                 />
             </div>
