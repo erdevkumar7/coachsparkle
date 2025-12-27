@@ -383,7 +383,6 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                             <Link href={`/coach-detail/${coach.id}`}>
                                 <button className="btn btn-outline-primary btn-sm">
                                 View Profile{" "}
-                                <EastIcon className="mui-icons fav-list-icons" />
                                 </button>
                             </Link>
                             {/* View Profile
@@ -392,11 +391,9 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                         {coach.latest_package_id ?
                             <button className="btn btn-primary btn-sm" onClick={() => router.push(`/coach-detail/${coach.id}/package/${coach.latest_package_id}`)}>
                             Book Now{" "}
-                            <EastIcon className="mui-icons fav-list-icons" />
                             </button> :
                             <button className="btn btn-primary btn-sm">
                             Book Now{" "}
-                            <EastIcon className="mui-icons fav-list-icons" />
                         </button>}
                     </div>
                 </div>
