@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { Sparkles, MessageCircle, ArrowRight, X, Check, AlertCircle } from "lucide-react";
+import { FRONTEND_BASE_URL } from "@/utiles/config";
+import Link from "next/link";
 // import "../../_styles/coach-list.css";
 
 const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/coach-backend/api' }) => {
@@ -372,15 +374,30 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
 
                     {/* Actions */}
                     <div className="mt-3 d-flex gap-2">
-                        <a
+                        {/* <a
                             href={coach.profileUrl || `/coach/${coach.id}`}
                             className="btn btn-outline-primary btn-sm"
                             target="_blank"
                             rel="noopener noreferrer"
-                        >
-                            View Profile
-                        </a>
-                        <button className="btn btn-primary btn-sm">Book Consultation</button>
+                        > */}
+                            <Link href={`/coach-detail/${coach.id}`}>
+                                <button className="btn btn-outline-primary btn-sm">
+                                View Profile{" "}
+                                <EastIcon className="mui-icons fav-list-icons" />
+                                </button>
+                            </Link>
+                            {/* View Profile
+                        </a> */}
+                        {/* <button className="btn btn-primary btn-sm">Book Now</button> */}
+                        {coach.latest_package_id ?
+                            <button className="btn btn-primary btn-sm" onClick={() => router.push(`/coach-detail/${coach.id}/package/${coach.latest_package_id}`)}>
+                            Book Now{" "}
+                            <EastIcon className="mui-icons fav-list-icons" />
+                            </button> :
+                            <button className="btn btn-primary btn-sm">
+                            Book Now{" "}
+                            <EastIcon className="mui-icons fav-list-icons" />
+                        </button>}
                     </div>
                 </div>
             </div>
