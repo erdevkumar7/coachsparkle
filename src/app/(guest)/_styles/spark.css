@@ -7,6 +7,8 @@
 img.sb-avatar-img {
     width: 150px;
     border-radius: 5px;
+    height: 150px;
+    object-fit: cover;
 }
 .d-flex.align-items-center.mb-2 {
     justify-content: center;
@@ -139,11 +141,6 @@ a.btn.btn-outline-primary.btn-sm {
     padding: 9px 20px;
 }
 
-.start-over-btn-add button.btn.btn-sm {
-    width: 100%;
-    border: solid 1px #009bfa;
-    padding: 14px;
-}
 
 
 .start-over-btn-add button.btn.btn-sm:hover {
@@ -193,6 +190,7 @@ button.btn.btn-outline-primary.btn-sm {
     width: 50%;
     border: 1px solid #009bfa;
     padding: 14px;
+    font-size: 15px;
 }
 
 .start-over-btn-add a.btn.btn-sm:hover {
@@ -201,8 +199,8 @@ button.btn.btn-outline-primary.btn-sm {
 }
 
 .start-over-btn-add button.btn.btn-sm {
-    width: 50% !important;
+    width: 50%!important;
     border: 1px solid #009bfa;
     padding: 14px;
+    font-size: 15px;
 }
-
