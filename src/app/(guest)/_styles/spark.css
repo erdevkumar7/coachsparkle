@@ -179,3 +179,30 @@ button.over-start-btn:hover {
     margin-top: 20px;
 }
 
+button.btn.btn-outline-primary.btn-sm:hover {
+    background: #009bfa;
+    border: solid 1px #009bfa;
+    color: #fff;
+}
+button.btn.btn-outline-primary.btn-sm {
+    color: #212529bf;
+    border: solid 1px #009bfa;
+}
+
+.start-over-btn-add a.btn.btn-sm {
+    width: 50%;
+    border: 1px solid #009bfa;
+    padding: 14px;
+}
+
+.start-over-btn-add a.btn.btn-sm:hover {
+    background: #009bfa;
+    color: #fff;
+}
+
+.start-over-btn-add button.btn.btn-sm {
+    width: 50% !important;
+    border: 1px solid #009bfa;
+    padding: 14px;
+}
+
