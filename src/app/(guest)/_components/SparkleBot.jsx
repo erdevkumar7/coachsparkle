@@ -499,7 +499,10 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                                 <button className="btn btn-sm" onClick={() => { setStep(0); setMatches([]); setResponses({}); }}>
                                     Start Over
                                 </button>
-                                <button className="btn btn-sm">View All Coaches</button>
+                                {/* <a className="btn btn-sm">View All Coaches</a> */}
+                                <Link className="btn btn-sm" href="/coach-detail/list">
+                                    Explore Coaches
+                                </Link>
                             </div>
                         </div>
                     ) : (
