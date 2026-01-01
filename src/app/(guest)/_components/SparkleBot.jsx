@@ -261,7 +261,7 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
             {
                 label: 'Mode',
                 field: 'mode',
-                options: ['Online', 'Face-to-face', 'Hybrid', 'No preference']
+                options: ['Online', 'In-person', 'Hybrid', 'No preference']
             }
         ];
 
