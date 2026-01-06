@@ -285,10 +285,14 @@ button.btn.btn-outline-primary.btn-sm {
   }
 
   .best-matches {
-    margin-top: 20px;
-    display: block !important;
+        margin-top: 20px;
+        display: block !important;
+        text-align: center;
   }
 
+.best-matches .small.text-muted {
+    text-align: center;
+}
   .best-matches h5 {
     width: 100%;
   }
