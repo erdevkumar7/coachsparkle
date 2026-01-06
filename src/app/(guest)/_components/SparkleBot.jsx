@@ -368,7 +368,7 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                     {/* Languages */}
                     {coach.languages.length > 0 && (
                         <div className="mt-2 small text-muted">
-                            🗣️ {coach.languages.join(', ')}
+                            {coach.languages.join(', ')}
                         </div>
                     )}
 

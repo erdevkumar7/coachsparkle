@@ -1476,7 +1476,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 
 .fav-list svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-1umw9bq-MuiSvgIcon-root {
   color: #fff !important;
-} 
+}
 
 .coach-action-profile-icon svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-1umw9bq-MuiSvgIcon-root {
   color: #009bfa !important;
@@ -1531,7 +1531,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 
 /*coach-list-page-mobile-css*/
 @media only screen and (max-width: 767px) {
-  
+
   .coach-profile-list-left .about-section .certifi {
     display: block ;
 }
@@ -1619,7 +1619,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
     margin-bottom: 15px;
     display: block;
     margin: 15px 0px;
-} 
+}
 .about-section.publs_artcl img.top-image {
   margin-top: 0px !important;
 }
@@ -1710,7 +1710,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   font-size: 18px;
   font-weight: 600;
   width: 100%;
-} 
+}
 .senior-engineer-details-add .box-txts {
   margin-bottom: 10px;
   display: block;
@@ -1731,7 +1731,7 @@ span.avail-text {
 .coach-banner-add button.profile {
     border-radius: 12px;
     width: 100%;
-} 
+}
 .container.list-start .info1 {
   text-align: center;
   justify-content: end;
@@ -1817,9 +1817,11 @@ input.form-control.search-input {
   padding-right: 0 !important;
 }
 .coach-profile-list-left .profile-card .badge-tag {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important;
 }
+
 .coach-banner-add p.senior-engineer-text strong {
   text-align: center;
 }
@@ -1896,7 +1898,7 @@ input.form-control.search-input {
     margin-bottom: 5px;
     margin-top: 5px;
   }
-  
+
   .coach-banner-add .coach-actions {
     min-width: 155px;
     padding-bottom: 5px;

@@ -303,7 +303,11 @@ button.btn.btn-outline-primary.btn-sm {
 .profie-detail-add {
     display: block !important;
 }
-
+.start-over-btn-add a.btn.btn-sm {
+    width: 100%;
+    padding: 14px;
+    margin-top: 0px !important;
+}
 
 
 }
