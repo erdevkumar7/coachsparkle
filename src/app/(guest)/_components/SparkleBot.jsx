@@ -302,7 +302,7 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
 
     const CoachCard = ({ coach }) => (
         <div className="card sb-coach-card mb-3">
-            <div className="card-body d-flex gap-3 align-items-start">
+            <div className="card-body d-flex gap-3 align-items-start profie-detail-add">
                 {/* Avatar */}
                 <div className="sb-avatar-wrapper">
                     {coach.photo || coach.avatar ? (
@@ -373,7 +373,7 @@ const SparkleBot = ({ initialQuery, apiUrl = process.env.NEXT_PUBLIC_API_URL || 
                     )}
 
                     {/* Actions */}
-                    <div className="mt-3 d-flex gap-2">
+                    <div className="mt-3 d-flex gap-2 two-btn-view">
                         {/* <a
                             href={coach.profileUrl || `/coach/${coach.id}`}
                             className="btn btn-outline-primary btn-sm"
