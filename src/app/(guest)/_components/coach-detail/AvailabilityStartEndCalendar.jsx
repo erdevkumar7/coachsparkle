@@ -38,11 +38,17 @@ export default function AvailabilityStartEndCalendar({ value, onChange }) {
             const date = ownerState.day;
             const isStart = range[0] && dayjs(date).isSame(range[0], 'day');
             const isEnd = range[1] && dayjs(date).isSame(range[1], 'day');
+            const isInRange =
+              range[0] &&
+              range[1] &&
+              dayjs(date).isAfter(range[0], 'day') &&
+              dayjs(date).isBefore(range[1], 'day');
 
             return {
               className: clsx({
                 'start-date': isStart,
                 'end-date': isEnd,
+                'in-range': isInRange,
               }),
             };
           },

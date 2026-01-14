@@ -512,6 +512,7 @@ export default function CoachServicePackageFormChild({
                       {...register("currency")}
                     >
                       <option value="USD">USD</option>
+                      <option value="SGD">SGD</option>
                     </select>
                     {errors.currency && (
                       <div className="invalid-feedback">

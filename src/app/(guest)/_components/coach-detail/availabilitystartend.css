@@ -5,7 +5,13 @@
 }
 
 .MuiPickersDay-root.end-date {
-  background-color: #19add2 !important;
+  background-color: #00ccff !important;
+  color: white !important;
+  border-radius: 50%;
+}
+
+.MuiPickersDay-root.in-range {
+  background-color: #00ccff !important;
   color: white !important;
   border-radius: 50%;
 }

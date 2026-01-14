@@ -8,6 +8,8 @@ import "../_styles/faq.css";
 export default function Faq() {
   const [faqData, setFaqData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchFaq = async () => {
@@ -28,6 +30,20 @@ export default function Faq() {
     return <p className="text-center">Loading FAQs...</p>;
   }
 
+  const filteredFaqs = faqData.map(category => ({
+    ...category,
+    faqs: category.faqs.filter(faq =>
+      searchQuery === "" ||
+      faq.title.toLowerCase().includes(searchQuery) ||
+      faq.description.toLowerCase().includes(searchQuery)
+    )
+  })).filter(category => category.faqs.length > 0);
+
+
+  const handleSearchSubmit = () => {
+    setSearchQuery(searchInput.trim().toLowerCase());
+  };
+
   return (
     <div className="about-us-page-add">
       <section className="hero">
@@ -39,8 +55,10 @@ export default function Faq() {
             <input
               type="text"
               placeholder="Search FAQs (e.g., how to cancel session, edit profile)"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-            <button type="button">
+            <button type="button" onClick={handleSearchSubmit}>
               Submit <i className="bi bi-arrow-right"></i>
             </button>
           </div>
@@ -55,67 +73,67 @@ export default function Faq() {
             navigate Coach Sparkle with ease.
           </p>
 
-          <div className="accordion" id="accordionExample">
-            {faqData.map((category, catIndex) => (
-              <div key={category.id} className="accordion-text-top">
-                <h4>
-                  <img
-                    src={`/coachsparkle/images/accordion-icon-${
-                      category.id === 1
-                        ? "one"
-                        : category.id === 2
-                        ? "two"
-                        : category.id === 3
-                        ? "three"
-                        : category.id === 4
-                        ? "four"
-                        : "default"
-                    }.png`}
-                    alt="accordion-icon"
-                  />{" "}
-                  {category.name}
-                </h4>
-                {category.faqs.map((faq, faqIndex) => {
-                  const headingId = `heading-${category.id}-${faq.id}`;
-                  const collapseId = `collapse-${category.id}-${faq.id}`;
-                  return (
-                    <div className="accordion-item" key={faq.id}>
-                      <h2 className="accordion-header" id={headingId}>
-                        <button
-                          className={`accordion-button ${
-                            faqIndex === 0 ? "" : "collapsed"
-                          }`}
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#${collapseId}`}
-                          aria-expanded={faqIndex === 0 ? "true" : "false"}
-                          aria-controls={collapseId}
+          {filteredFaqs.length > 0 ? (
+            <div className="accordion" id="accordionExample">
+              {filteredFaqs.map((category, catIndex) => (
+                <div key={category.id} className="accordion-text-top">
+                  <h4>
+                    <img
+                      src={`/coachsparkle/images/accordion-icon-${category.id === 1
+                          ? "one"
+                          : category.id === 2
+                            ? "two"
+                            : category.id === 3
+                              ? "three"
+                              : category.id === 4
+                                ? "four"
+                                : "default"
+                        }.png`}
+                      alt="accordion-icon"
+                    />{" "}
+                    {category.name}
+                  </h4>
+                  {category.faqs.map((faq, faqIndex) => {
+                    const headingId = `heading-${category.id}-${faq.id}`;
+                    const collapseId = `collapse-${category.id}-${faq.id}`;
+                    return (
+                      <div className="accordion-item" key={faq.id}>
+                        <h2 className="accordion-header" id={headingId}>
+                          <button
+                            className={`accordion-button ${faqIndex === 0 ? "" : "collapsed"
+                              }`}
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={`#${collapseId}`}
+                            aria-expanded={faqIndex === 0 ? "true" : "false"}
+                            aria-controls={collapseId}
+                          >
+                            {faq.title}
+                          </button>
+                        </h2>
+                        <div
+                          id={collapseId}
+                          className={`accordion-collapse collapse ${faqIndex === 0 ? "show" : ""
+                            }`}
+                          aria-labelledby={headingId}
+                          data-bs-parent="#accordionExample"
                         >
-                          {faq.title}
-                        </button>
-                      </h2>
-                      <div
-                        id={collapseId}
-                        className={`accordion-collapse collapse ${
-                          faqIndex === 0 ? "show" : ""
-                        }`}
-                        aria-labelledby={headingId}
-                        data-bs-parent="#accordionExample"
-                      >
-                        <div className="accordion-body">
-                          <p>{faq.description}</p>
+                          <div className="accordion-body">
+                            <p>{faq.description}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-
-            <p className="still-below-text">
-              Still need help? Contact us <a href="#">here.</a>
-            </p>
-          </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center">No FAQs found.</p>
+          )}
+          <p className="still-below-text">
+            Still need help? Contact us <a href="#">here.</a>
+          </p>
         </div>
       </div>
     </div>

@@ -193,28 +193,28 @@ export const coachSchema = yup.object().shape({
 
     linkdin_link: yup
         .string()
-        .url("Enter a valid URL")
+        // .url("Enter a valid URL")
         .max(255, 'Linkdin URL must be at most 255 characters'),
 
     website_link: yup
         .string()
-        .url("Enter a valid URL")
+        // .url("Enter a valid URL")
         .max(255, 'Website URL must be at most 255 characters'),
 
     youtube_link: yup
         .string()
-        .url("Enter a valid URL")
+        // .url("Enter a valid URL")
         .max(255, 'Youtube URL must be at most 255 characters'),
 
     podcast_link: yup
         .string()
-        .url("Enter a valid URL")
+        // .url("Enter a valid URL")
         .max(255, 'Podcast URL must be at most 255 characters'),
 
 
     blog_article: yup
         .string()
-        .url("Enter a valid URL")
+        // .url("Enter a valid URL")
         .max(255, 'Blog URL must be at most 255 characters'),
 });
 

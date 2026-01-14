@@ -211,14 +211,13 @@ export default function Header({ user, token }) {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" href="/coach-detail/list"  onClick={() => closeMenu()}>
-                  Explore Coaches <KeyboardArrowDownIcon className="mui-icons" />
+                  Explore Coaches
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link className="nav-link" href="/send-coaching-request"  onClick={() => closeMenu()}>
                   Send Coaching Request
-                  <KeyboardArrowDownIcon className="mui-icons" />
                 </Link>
                 {/* <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" href="/">Match 1</Link></li>

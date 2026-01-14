@@ -40,7 +40,7 @@ export default function CoachList() {
   const [getUserType, setUserType] = useState(null);
   const router = useRouter();
   const searchInputRef = useRef(null);
-
+  const [filtersResetKey, setFiltersResetKey] = useState(0);
   const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState({
@@ -185,6 +185,26 @@ export default function CoachList() {
     searchInputRef.current?.select();
   };
 
+  const handleClearFilters = () => {
+    setFilters({
+      query: "",
+      search_for: "",
+      delivery_mode: null,
+      free_trial_session: null,
+      is_corporate: null,
+      countries: [],
+      services: [],
+      coaching_sub_categories: [],
+      languages: [],
+      average_rating: null,
+      price: null,
+      availability_start: null,
+      availability_end: null,
+    });
+
+    setCurrentPage(1);
+    setFiltersResetKey(prev => prev + 1);
+  };
 
   // console.log('coachesvvv', coaches)
 
@@ -239,6 +259,10 @@ export default function CoachList() {
         </div>
         <div className="container list-start">
           <aside className="sidebar">
+            <div className="d-flex align-items-center justify-content-between">
+              <h4>Filters</h4>
+              <a className="text-decoration" style={{ cursor: "pointer" }} onClick={handleClearFilters}>Clear all Filters</a>
+            </div>
             <input
               type="text"
               placeholder="Search for any skill, title or company"
@@ -274,6 +298,7 @@ export default function CoachList() {
             <div className="filter-section">
               <h4>Location</h4>
               <MultipleSelect
+                key={filtersResetKey}
                 countries={countries}
                 value={filters.countries}
                 onChange={(selected) => updateFilter("countries", selected)}
@@ -283,6 +308,7 @@ export default function CoachList() {
             <div className="filter-section">
               <h4>Coaching Category</h4>
               <CoachCategory
+                key={filtersResetKey}
                 value={filters.coaching_sub_categories}
                 onChange={(selected) =>
                   updateFilter("coaching_sub_categories", selected)
@@ -293,6 +319,7 @@ export default function CoachList() {
             <div className="filter-section">
               <h4>Services</h4>
               <CoachServices
+                key={filtersResetKey}
                 services={services}
                 value={filters.services}
                 onChange={(selected) => updateFilter("services", selected)}
@@ -302,6 +329,7 @@ export default function CoachList() {
             <div className="filter-section">
               <h4>Delivery Mode</h4>
               <CoachDeliveryMode
+                key={filtersResetKey}
                 deliveryMode={deliveryMode}
                 value={filters.delivery_mode}
                 onChange={(val) => updateFilter("delivery_mode", val)}
@@ -311,6 +339,7 @@ export default function CoachList() {
             <div className="filter-section">
               <h4>Free Trial / Volunteer / Pro Bono</h4>
               <CoachTrials
+                key={filtersResetKey}
                 value={filters.free_trial_session}
                 onChange={(val) => updateFilter("free_trial_session", val)}
               />
@@ -319,6 +348,7 @@ export default function CoachList() {
             <div className="filter-section rating-add">
               <h4>Available for Corporate Work</h4>
               <CoachCorporateWork
+                key={filtersResetKey}
                 value={filters.is_corporate}
                 onChange={(val) => updateFilter("is_corporate", val)}
               />
@@ -327,6 +357,7 @@ export default function CoachList() {
             <div className="filter-section">
               <h4>Languages</h4>
               <CoachLanguages
+                key={filtersResetKey}
                 allLanguages={allLanguages}
                 value={filters.languages}
                 onChange={(selected) => updateFilter("languages", selected)}
@@ -336,6 +367,7 @@ export default function CoachList() {
             <div className="filter-section">
               <h4>Availability</h4>
               <AvailabilityStartEndCalendar
+                key={filtersResetKey}
                 value={[filters.availability_start, filters.availability_end]}
                 onChange={([start, end]) => {
                   updateFilter("availability_start", start ? start.format("YYYY-MM-DD") : null);
@@ -347,6 +379,7 @@ export default function CoachList() {
             <div className="filter-section rating-star">
               <h4>Rating</h4>
               <SingleActiveRating
+                key={filtersResetKey}
                 value={filters.average_rating}
                 onChange={(val) => updateFilter("average_rating", val)}
               />

@@ -181,7 +181,11 @@ export default function LoginForm() {
                 await handleNavigation('/user/dashboard');
             } else if (result.data.user.user_type === 3) {
                 toast.success("Login successful!");
-                await handleNavigation('/coach/dashboard');
+                if (result.data.user.subscription_plan.plan_status === 0) {
+                    await handleNavigation('/coach/subscription-plan');
+                } else {
+                    await handleNavigation('/coach/dashboard');        
+                }
             } else {
                 await handleNavigation('/');
             }
