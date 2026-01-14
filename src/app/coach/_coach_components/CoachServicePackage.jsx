@@ -577,6 +577,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       {...register("currency")}
                     >
                       <option value="USD">USD</option>
+                      <option value="SGD">SGD</option>
                     </select>
                     {errors.currency && (
                       <div className="invalid-feedback">

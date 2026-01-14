@@ -53,7 +53,7 @@ export default async function Footer() {
                                 <li><ArrowForwardIosIcon className="mui-icons" /><Link href={`/term-conditions`} className="text-decoration-none">Terms of Use</Link></li>
                                 <li><ArrowForwardIosIcon className="mui-icons" /><Link href={`/privacy-policy`} className="text-decoration-none">Privacy Policy</Link></li>
                                 {/* <li><ArrowForwardIosIcon className="mui-icons"/><a href="#" className="text-decoration-none">Cookie Policy</a></li> */}
-                                <li><ArrowForwardIosIcon className="mui-icons" /><a href="#" className="text-decoration-none">Site Map</a></li>
+                                {/* <li><ArrowForwardIosIcon className="mui-icons" /><a href="#" className="text-decoration-none">Site Map</a></li> */}
                             </ul>
                         </div>
 
@@ -62,10 +62,10 @@ export default async function Footer() {
                             <ul className="list-unstyled">
                                 <li><ArrowForwardIosIcon className="mui-icons" /><Link href={`/coach-detail/list`} className="text-decoration-none">Explore Coaches</Link></li>
                                 <li><ArrowForwardIosIcon className="mui-icons" /><Link href={`/send-coaching-request`} className="text-decoration-none">Send Coaching Request</Link></li>
-                                <li><ArrowForwardIosIcon className="mui-icons" /><a href="#" className="text-decoration-none">AI Match</a></li>
-                                <li><ArrowForwardIosIcon className="mui-icons" /><a href="#" className="text-decoration-none">List As Coach</a></li>
-                                <li><ArrowForwardIosIcon className="mui-icons" /><Link href="/coach-detail/list?isCorporate=1" className="text-decoration-none">For Corporate</Link></li>
-                                <li><ArrowForwardIosIcon className="mui-icons" /><a href="#" className="text-decoration-none">Events</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons" /><Link href={'/coach-detail/aimatch'}>AI Match</Link></li>
+                                <li><ArrowForwardIosIcon className="mui-icons" /><a href={'/coachsparkle/login?redirect=/send-coaching-request&role=3'} className="text-decoration-none">List As Coach</a></li>
+                                <li><ArrowForwardIosIcon className="mui-icons" /><Link href="/coach-detail/corporate" className="text-decoration-none">For Corporate</Link></li>
+                                {/* <li><ArrowForwardIosIcon className="mui-icons" /><a href="#" className="text-decoration-none">Events</a></li> */}
                             </ul>
                         </div>
 

@@ -20,7 +20,7 @@ export default async function CoachLayout({ children }) {
     return redirect('/user/dashboard');
   }
  
-
+console.log(user);
   return (
     <UserProvider initialUser={user}>
       <ChatProvider user={user}>

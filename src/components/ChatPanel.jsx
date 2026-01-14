@@ -641,7 +641,7 @@ const ChatPanel = ({ tabs = [], activeTab = 0, selectedCoachId, onSearch, onTabC
                                   {msg.message_type === 3 && (
                                     <>
                                       {msg.document && <Link href={msg.document} target="_blank"><img
-                                        src="/coachsparkle/images/google-meet.png"
+                                        src="/coachsparkle/images/common-booking.png"
                                         alt="file"
                                         className="session-img"
                                       /></Link>}
