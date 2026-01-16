@@ -608,20 +608,19 @@ export default function CoachServicePackageFormChild({
                     <BookingAvailabilityPicker
                       formData={formData}
                       setFormData={(data) => {
-                        // Update both fields in react-hook-form
                         setValue("booking_availability_start", data.booking_availability_start);
                         setValue("booking_availability_end", data.booking_availability_end);
-
-                        // Trigger validation for both fields
+                        setValue("booking_time", JSON.stringify(data.booking_availability));
                         trigger(["booking_availability_start", "booking_availability_end"]);
                       }}
+                      sessionDuration={formData.session_duration || 60}
+                      bookingSlots={formData.booking_slots || 1}
                       isProUser={isProUser}
-                      error={errors.booking_availability_start || errors.booking_availability_end}
                     />
                   </div>
 
 
-                  <div className="form-group col-md-4">
+                  {/* <div className="form-group col-md-4">
                     <label htmlFor="booking_time">Availability Time</label>
                     <input
                       type="time"
@@ -630,17 +629,13 @@ export default function CoachServicePackageFormChild({
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.booking_time ? "is-invalid" : ""
                         }`}
                       {...register("booking_time")}
-                    // step="900" // 15-minute intervals (900 seconds)
                     />
                     {errors.booking_time && (
                       <div className="invalid-feedback">
                         {errors.booking_time.message}
                       </div>
                     )}
-                    {/* <small className="form-text text-muted">
-                     Select the time when sessions are available (24-hour format)
-                    </small> */}
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="d-flex gap-2">

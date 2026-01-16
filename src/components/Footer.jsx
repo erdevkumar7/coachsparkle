@@ -64,7 +64,7 @@ export default async function Footer() {
                                 <li><ArrowForwardIosIcon className="mui-icons" /><Link href={`/send-coaching-request`} className="text-decoration-none">Send Coaching Request</Link></li>
                                 <li><ArrowForwardIosIcon className="mui-icons" /><Link href={'/coach-detail/aimatch'}>AI Match</Link></li>
                                 <li><ArrowForwardIosIcon className="mui-icons" /><a href={'/coachsparkle/login?redirect=/send-coaching-request&role=3'} className="text-decoration-none">List As Coach</a></li>
-                                <li><ArrowForwardIosIcon className="mui-icons" /><Link href="/coach-detail/corporate" className="text-decoration-none">For Corporate</Link></li>
+                                <li><ArrowForwardIosIcon className="mui-icons" /><Link href="/corporate" className="text-decoration-none">For Corporate</Link></li>
                                 {/* <li><ArrowForwardIosIcon className="mui-icons" /><a href="#" className="text-decoration-none">Events</a></li> */}
                             </ul>
                         </div>

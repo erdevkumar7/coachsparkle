@@ -101,7 +101,19 @@ export default function CoachUpdateForm({
         // If it's not numeric, it means we stored custom text in price_range
         return isNumeric ? "" : pr;
       })(),
-      age_group: user?.age_group || "",
+      age_group: (() => {
+        if (!user?.age_group) return [];
+        try {
+          const arr = Array.isArray(user.age_group)
+            ? user.age_group
+            : JSON.parse(user.age_group);
+
+          return arr.map(v => parseInt(v));
+        } catch {
+          return [];
+        }
+      })(),
+
       language_names: user?.language_names?.map((lang) => lang.id) || [],
       service_keyword: user?.service_keyword?.map((servc) => servc.id) || [],
 
@@ -260,7 +272,7 @@ export default function CoachUpdateForm({
         ? data.custom_price_text
         : data.price_range
     };
-   
+
 
     const form = new FormData();
     Object.entries(finalData).forEach(([key, value]) => {
@@ -270,7 +282,7 @@ export default function CoachUpdateForm({
         form.append(key, typeof value === 'boolean' ? (value ? 1 : 0) : value);
       }
     });
-    form.append('profile_status', profile_status); 
+    form.append('profile_status', profile_status);
     //  console.log('finalData', form);
     // form.append('video_link', data.video_link);
 
@@ -283,11 +295,11 @@ export default function CoachUpdateForm({
 
     try {
       const res = await updateCoachData(form, getToken)
- 
+
       if (res.data.success) {
-        if(profile_status === 'complete'){
+        if (profile_status === 'complete') {
           toast.success('Profile published!');
-        }else{
+        } else {
           toast.warning('Profile is saved in Draft!')
         }
         setSelectedCertificates([]);
@@ -521,10 +533,6 @@ export default function CoachUpdateForm({
                     </FormControl>
                   )}
                 />
-
-
-
-
               </div>
             </div>
 
@@ -593,7 +601,7 @@ export default function CoachUpdateForm({
 
               <div className="form-group target-input">
                 <label>Target Audience / Age Group</label>
-                <select {...register('age_group')}
+                {/* <select multiple {...register('age_group')}
                 >
                   <option value="">Select</option>
                   {ageGroup.map((g) => (
@@ -601,7 +609,40 @@ export default function CoachUpdateForm({
                       {g.group_name}
                     </option>
                   ))}
-                </select>
+                </select> */}
+                <Controller
+                  name="age_group"
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl fullWidth>
+                      <Select
+                        className="sub-coaching-category-input"
+                        {...field}
+                        multiple
+                        value={Array.isArray(field.value) ? field.value : []}
+                        onChange={(e) => field.onChange(e.target.value)}
+                        displayEmpty
+                        renderValue={(selected) => {
+                          if (!selected?.length) return <em>Select Age Group</em>;
+                          return (
+                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                              {selected.map((id) => {
+                                const item = ageGroup.find((g) => g.id === id);
+                                return item ? <Chip key={id} label={item.group_name} /> : null;
+                              })}
+                            </Box>
+                          );
+                        }}
+                      >
+                        {ageGroup.map((age) => (
+                          <MenuItem key={age.id} value={age.id}>
+                            {age.group_name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                />
                 {errors.age_group && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.age_group.message}</p>}
               </div>
               <div className="form-group language-input-add">

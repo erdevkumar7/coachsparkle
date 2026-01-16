@@ -109,10 +109,16 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
   }, [package_id]);
 
   useEffect(() => {
-    if (!currentDate) return;
-    const key = currentDate.toISOString().slice(0, 10);
-    setTimeSlots(availability[key] || []);
-  }, [currentDate, availability]);
+  if (!currentDate) return;
+
+  const key = currentDate.toISOString().slice(0, 10);
+  const slots = availability[key] || [];
+
+  slots.sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+
+  setTimeSlots(slots);
+}, [currentDate, availability]);
+
 
   const getActiveDays = (year, month) => {
     return Object.keys(availability).reduce((active, dateStr) => {
