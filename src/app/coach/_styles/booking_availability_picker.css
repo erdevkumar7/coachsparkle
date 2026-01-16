@@ -1,0 +1,33 @@
+.MuiDateCalendar-root.css-5wchs2-MuiDateCalendar-root {
+    margin: 0px !important;
+}
+
+.css-1pcem9a {
+    border: 1px solid #ccc;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 13px !important;
+    cursor: pointer;
+    min-height: 46px !important; 
+    margin-top: 4px !important;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: white;
+}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeMedium.MuiButton-outlinedSizeMedium.MuiButton-colorPrimary.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeMedium.MuiButton-outlinedSizeMedium.MuiButton-colorPrimary.css-1blvszr-MuiButtonBase-root-MuiButton-root {
+    width: 100%;
+}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButton-colorPrimary.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButton-colorPrimary.css-74d805-MuiButtonBase-root-MuiButton-root {
+    width: 100%;
+}
+

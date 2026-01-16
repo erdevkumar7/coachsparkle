@@ -135,8 +135,8 @@ export const coachSchema = yup.object().shape({
 
 
     age_group: yup
-        .string()
-        .required('Audience is required'),
+        .array().of(yup.number()).min(1, "Select at least 1 age group")
+        .required('Select at least 1 age group'),
 
     language_names: yup
         .array()

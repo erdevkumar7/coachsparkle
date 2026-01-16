@@ -261,7 +261,7 @@ export default function CoachList() {
           <aside className="sidebar">
             <div className="d-flex align-items-center justify-content-between">
               <h4>Filters</h4>
-              <a className="text-decoration" style={{ cursor: "pointer" }} onClick={handleClearFilters}>Clear all Filters</a>
+              <a style={{ cursor: "pointer", color: "#009bfa" }} onClick={handleClearFilters}>Clear all Filters</a>
             </div>
             <input
               type="text"

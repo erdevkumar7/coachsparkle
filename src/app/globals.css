@@ -1526,10 +1526,11 @@ footer.coach-footer-section .coach-footer-one p {
 }
 
 footer.coach-footer-section ul.list-unstyled li a {
-  color: #000000;
-  font-family: "Roboto";
-  font-size: 16px;
-  font-weight: 400;
+    color: #000;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
 }
 
 footer.coach-footer-section i.fa.fa-angle-right {
