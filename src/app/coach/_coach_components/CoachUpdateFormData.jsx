@@ -115,7 +115,7 @@ export default function CoachUpdateForm({
       })(),
 
       language_names: user?.language_names?.map((lang) => lang.id) || [],
-      service_keyword: user?.service_keyword?.map((servc) => servc.id) || [],
+      service_names: user?.service_names || [],
 
       service_names: user?.service_names || [],
       detailed_bio: user?.detailed_bio || "",
@@ -830,17 +830,16 @@ export default function CoachUpdateForm({
                 </label>
                 <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
                   <Controller
-                    name="service_keyword"
+                    name="service_names"
                     control={control}
                     render={({ field }) => (
                       <MultipleSelectChip
                         value={field.value}
                         onChange={field.onChange}
-                        options={getAllServices}
                       />
                     )}
                   />
-                  {errors.service_keyword && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_keyword.message}</p>}
+                  {errors.service_names && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_names.message}</p>}
                 </div>
 
                 {/* <div className="d-flex flex-wrap gap-2">
@@ -865,7 +864,7 @@ export default function CoachUpdateForm({
               <div className="keyword-limit-wrapper mt-4">
                 <h6 className="fw-bold">5 Keywords Used</h6>
                 <div className="d-flex flex-wrap gap-2 mb-3">
-                  {user?.service_keyword && user.service_keyword.slice(0, 5).map((kw, idx) => (
+                  {user?.service_names && user.service_names.slice(0, 5).map((kw, idx) => (
                     <span className="keyword-chip" key={idx}>
                       {kw.service}
                     </span>
@@ -873,7 +872,7 @@ export default function CoachUpdateForm({
 
                 </div>
 
-                {user?.service_keyword && user.service_keyword.length >= 5 && <div className="limit-box d-flex justify-content-between align-items-center mb-3">
+                {user?.service_names && user.service_names.length >= 5 && <div className="limit-box d-flex justify-content-between align-items-center mb-3">
                   <p className="d-flex align-items-center gap-1">
                     <i className="bi bi-exclamation-triangle"></i>
                     Keyword limit reached.
@@ -885,7 +884,7 @@ export default function CoachUpdateForm({
 
                 <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
                   <Controller
-                    name="service_keyword"
+                    name="service_names"
                     control={control}
                     render={({ field }) => (
                       <MultipleSelectChip
@@ -901,11 +900,10 @@ export default function CoachUpdateForm({
                           if (!isProUser && selectedIds.length > 5) return;
                           field.onChange(selectedIds);
                         }}
-                        options={getAllServices}
                       />
                     )}
                   />
-                  {errors.service_keyword && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_keyword.message}</p>}
+                  {errors.service_names && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_names.message}</p>}
                 </div>
 
                 <div className="info-box">

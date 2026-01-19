@@ -6,7 +6,8 @@ import { useState } from "react";
 import EastIcon from '@mui/icons-material/East';
 
 export default function ActiveCoaching({ initialRequest, token }) {  
-  const [allRequests, setAllRequests] = useState(initialRequest.data);
+  const requestsArray = Array.isArray(initialRequest?.data) ? initialRequest.data : [];
+  const [allRequests, setAllRequests] = useState(requestsArray);
   const router = useRouter()
   const { user } = useUser();
   let isProUser = user.subscription_plan.plan_status;
