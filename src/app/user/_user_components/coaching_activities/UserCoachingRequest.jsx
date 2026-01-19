@@ -10,9 +10,9 @@ import { toast } from "react-toastify";
 
 export default function UserCoachingRequest({ initialRequest, token }) {
   const router = useRouter();
-  const [pendingRequest, setPendingRequest] = useState(initialRequest.data);
-  const [currentPage, setCurrentPage] = useState(initialRequest.pagination.current_page);
-  const [lastPage, setLastPage] = useState(initialRequest.pagination.last_page);
+  const [pendingRequest, setPendingRequest] = useState(initialRequest?.data ?? []);
+  const [currentPage, setCurrentPage] = useState(initialRequest?.pagination?.current_page ?? 1);
+const [lastPage, setLastPage] = useState(initialRequest?.pagination?.last_page ?? 1);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(6);

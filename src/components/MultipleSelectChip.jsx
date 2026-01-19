@@ -1,82 +1,97 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
+"use client";
+import { useState } from "react";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+export default function MultipleSelectChip({ value = [], onChange, max = null }) {
+  const [inputValue, setInputValue] = useState("");
 
-function getStyles(id, selectedIds, theme) {
-  return {
-    fontWeight: selectedIds.includes(id)
-      ? theme.typography.fontWeightMedium
-      : theme.typography.fontWeightRegular,
+  const addTag = (tag) => {
+    tag = tag.trim();
+    if (!tag) return;
+
+    // Prevent duplicates
+    if (value.includes(tag)) return;
+
+    // Optional limit for free users
+    if (max && value.length >= max) return;
+
+    onChange([...value, tag]);
   };
-}
 
-export default function MultipleSelectChip({ value, onChange, options }) {
-  const theme = useTheme();
+  const removeTag = (tag) => {
+    onChange(value.filter((v) => v !== tag));
+  };
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    onChange(typeof value === 'string' ? value.split(',') : value);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      addTag(inputValue);
+      setInputValue("");
+    }
+  };
+
+  const handleBlur = () => {
+    // Add on blur for UX
+    if (inputValue.trim()) {
+      addTag(inputValue);
+      setInputValue("");
+    }
   };
 
   return (
-    <FormControl sx={{
-      m: 1,
-      width: 300,
-      '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-          borderColor: 'gray',
-        },
-        '&:hover fieldset': {
-          borderColor: 'darkgray',
-        },
-        '&.Mui-focused fieldset': {
-          borderColor: 'gray',
-        },
-      },
-    }}>
-      <Select
-        multiple
-        value={value}
-        onChange={handleChange}
-        input={<OutlinedInput id="select-multiple-chip" />}
-        renderValue={(selected) => (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {selected.map((id) => {
-              const srvc = options.find((srvc) => srvc.id === id);
-              return <Chip key={id} label={srvc?.service || id} />;
-            })}
-          </Box>
-        )}
-        MenuProps={MenuProps}
-      >
-        {options.map((srvc) => (
-          <MenuItem
-            key={srvc.id}
-            value={srvc.id}
-            style={getStyles(srvc.id, value, theme)}
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: "6px",
+        padding: "6px",
+        border: "1px solid #ccc",
+        borderRadius: "6px",
+        minHeight: "45px",
+      }}
+    >
+      {value.map((tag, i) => (
+        <div
+          key={i}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            background: "#eaeaea",
+            padding: "4px 8px",
+            borderRadius: "5px",
+            fontSize: "14px",
+          }}
+        >
+          {tag}
+          <span
+            onClick={() => removeTag(tag)}
+            style={{
+              marginLeft: 6,
+              cursor: "pointer",
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
           >
-            {srvc.service}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+            ×
+          </span>
+        </div>
+      ))}
+
+      <input
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        onBlur={handleBlur}
+        placeholder="Type & Enter..."
+        style={{
+          border: "none",
+          outline: "none",
+          flexGrow: 1,
+          width: "870px",
+          minWidth: "600px",
+          fontSize: "14px",
+        }}
+      />
+    </div>
   );
 }

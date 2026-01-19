@@ -316,7 +316,7 @@ export default function CoachList() {
               />
             </div>
 
-            <div className="filter-section">
+            {/* <div className="filter-section">
               <h4>Services</h4>
               <CoachServices
                 key={filtersResetKey}
@@ -324,7 +324,7 @@ export default function CoachList() {
                 value={filters.services}
                 onChange={(selected) => updateFilter("services", selected)}
               />
-            </div>
+            </div> */}
 
             <div className="filter-section">
               <h4>Delivery Mode</h4>

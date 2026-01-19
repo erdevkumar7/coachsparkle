@@ -64,8 +64,12 @@ export default async function CoachingActivitiesPage() {
         {
             img: "/coachsparkle/assets/images/glance-img-one.png",
             title: "Coaching Requests",
-            count: pendingRequest.pagination.total > 0 && pendingRequest.pagination.total < 10 ? `0${pendingRequest.pagination.total}` : pendingRequest.pagination.total,
-        },
+            count: pendingRequest.request_count === 0
+        ? 0
+        : pendingRequest.request_count < 10
+          ? `0${pendingRequest.request_count}`
+          : pendingRequest.request_count,
+      },
         {
             img: "/coachsparkle/assets/images/glance-img-three.png",
             title: "In progress",

@@ -177,7 +177,7 @@ export const coachSchema = yup.object().shape({
     //     .min(1, 'Please select at least one service keyword')
     //     .required('service keyword is required'),
 
-    service_keyword: yup
+    service_names: yup
         .array()
         .min(1, 'Please select at least one service keyword')
         .test(
