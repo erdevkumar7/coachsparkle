@@ -5,6 +5,7 @@ import ToggleSwitch from "@/components/ToggleSwitch";
 import { useState, useEffect } from "react";
 import EastIcon from '@mui/icons-material/East';
 import Cookies from 'js-cookie';
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 export default function SubscriptionPlans({ user }) {
     let isProUser = user.subscription_plan.plan_status;
@@ -19,8 +20,30 @@ export default function SubscriptionPlans({ user }) {
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [paymentHistoryLoading, setPaymentHistoryLoading] = useState(false);
     const [currentPaymentMethod, setCurrentPaymentMethod] = useState(null);
+    const [cards, setCards] = useState([]);
+    const [showAddCardModal, setShowAddCardModal] = useState(false);
+
 
     console.log('usersss', plans)
+    const fetchCards = async () => {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/list`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        const data = await res.json()
+        if (data.success) setCards(data.cards)
+    }
+
+    useEffect(() => {
+        if (isProUser) fetchCards()
+    }, [isProUser])
+
+
+    useEffect(() => {
+        if (isProUser) fetchCards()
+    }, [isProUser])
 
     // Fetch payment history
     const fetchPaymentHistory = async () => {
@@ -207,6 +230,99 @@ export default function SubscriptionPlans({ user }) {
         }
     }, [isProUser]);
 
+    const stripe = useStripe()
+    const elements = useElements()
+
+    const handleSaveCard = async () => {
+        if (!stripe || !elements) return
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/setup-intent`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        const { client_secret } = await res.json()
+
+        const result = await stripe.confirmCardSetup(client_secret, {
+            payment_method: {
+                card: elements.getElement(CardElement)
+            }
+        })
+
+        if (result.error) {
+            alert(result.error.message)
+            return
+        }
+
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/store`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                payment_method_id: result.setupIntent.payment_method
+            })
+        })
+
+        setShowAddCardModal(false)
+        fetchCards()
+    }
+
+    const handleMakeDefault = async (pmId) => {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/set-default`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ payment_method_id: pmId })
+        })
+
+        fetchCards()
+    }
+
+    const handleRemove = async (pmId) => {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/remove/${pmId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+
+        fetchCards()
+    }
+
+    const toggleAutoRenew = async () => {
+        setAutoRenew(!autoRenew)
+
+        await fetch(`${API}/subscription/auto-renew`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ auto_renew: !autoRenew })
+        })
+    }
+
+    const manualRenew = async (id) => {
+   const res = await fetch(`${API}/subscription/manual-renew`, {
+      method: 'POST',
+      headers: {
+         'Authorization': `Bearer ${token}`,
+         'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ subscription_id: id })
+   });
+
+   const data = await res.json();
+   if (data.success) {
+      alert('Renewed Successfully');
+      fetchSubscription(); // refresh UI
+   } else {
+      alert(data.message);
+   }
+};
+
+
     return (
         <>
             <div className="pro-coach-banner row align-items-center justify-content-between">
@@ -301,7 +417,12 @@ export default function SubscriptionPlans({ user }) {
                                 <li><i className="bi bi-check-circle-fill"></i> Real-Time Requests</li>
                                 <li><i className="bi bi-check-circle-fill"></i> Full Analytics</li>
                             </ul>
-
+                            {user.subscription_plan &&
+                                ['retrying', 'manual_pending', 'expired'].includes(user.subscription_plan.renewal_status) && (
+                                    <button className="btn btn-primary" onClick={() => manualRenew(sub.id)}>
+                                    Renew Now
+                                    </button>
+                            )}
                             <button onClick={handleOpenPlansModal}>
                                 Unlock Pro Now <EastIcon className='mui-icons' />
                             </button>
@@ -458,42 +579,104 @@ export default function SubscriptionPlans({ user }) {
                 {/* Payment Method Section */}
                 {isProUser ? (
                     <>
+                        {/* Payment Methods Section */}
                         <div className="payment-method-part mt-4">
-                            <h4>Payment Method</h4>
-                            <div className="payment-method">
-                                {currentPaymentMethod ? (
-                                    <div className="payment-method-card active">
-                                        <i className="bi bi-check-circle-fill"></i>
-                                        <small>
-                                            {currentPaymentMethod.payment_method === 'card'
-                                                ? 'Credit Card'
-                                                : currentPaymentMethod.payment_method}
-                                        </small>
-                                        <div className="debit-card-inner">
-                                            <div>
-                                                <img
-                                                    src={getCardIcon(currentPaymentMethod.payment_type)}
-                                                    width="40"
-                                                    alt={currentPaymentMethod.payment_type}
-                                                />
+                            <h4>Payment Methods</h4>
+
+                            <div className="card p-3">
+                                {cards && cards.length > 0 ? (
+                                    <>
+                                        {cards.map((card, index) => (
+                                            <div key={index} className={`d-flex align-items-center justify-content-between border rounded p-3 mb-2 ${card.is_default ? 'bg-light border-primary' : ''}`}>
+
+                                                <div className="d-flex align-items-center">
+                                                    <img
+                                                        src={getCardIcon(card.brand)}
+                                                        width="50"
+                                                        className="me-3"
+                                                    />
+
+                                                    <div>
+                                                        <div className="fw-bold">
+                                                            {card.brand?.toUpperCase()} •••• {card.last4}
+                                                        </div>
+                                                        <div className="text-muted small">
+                                                            Expires {card.exp_month}/{card.exp_year}
+                                                        </div>
+                                                        {!!card.is_default && (
+                                                            <span className="badge bg-success mt-1">Default</span>
+                                                        )}
+
+                                                    </div>
+                                                </div>
+
+                                                <div className="d-flex align-items-center gap-2">
+                                                    {!card.is_default && (
+                                                        <button
+                                                            className="btn btn-sm btn-outline-primary"
+                                                            onClick={() => handleMakeDefault(card.stripe_payment_method_id)}
+                                                        >
+                                                            Make Default
+                                                        </button>
+
+                                                    )}
+                                                    <button
+                                                        className="btn btn-sm btn-outline-danger"
+                                                        disabled={card.is_default}
+                                                        onClick={() => handleRemove(card.stripe_payment_method_id)}
+                                                    >
+                                                        Remove
+                                                    </button>
+
+                                                </div>
                                             </div>
-                                            <div className="card-number">
-                                                **** **** **** {currentPaymentMethod.payment_last4}
-                                            </div>
+                                        ))}
+
+                                        <div className="text-center mt-3">
+                                            <button className="btn btn-outline-primary" onClick={() => setShowAddCardModal(true)}>
+                                                + Add New Card
+                                            </button>
                                         </div>
-                                        <div className="remove-btn">&minus;</div>
-                                    </div>
+                                    </>
                                 ) : (
-                                    <div className="text-center py-3">
-                                        <p>No payment method found</p>
+                                    <div className="text-center py-5">
+                                        <p className="text-muted mb-3">No payment methods found</p>
+                                        <button className="btn btn-outline-primary" onClick={() => setShowAddCardModal(true)}>
+                                            + Add Card
+                                        </button>
                                     </div>
                                 )}
+                            </div>
+                        </div>
 
-                                <div className="payment-method-card d-flex justify-content-center align-items-center">
-                                    <div className="add-icon">+</div>
+                        {/* Auto Renew Section */}
+                        <div className="mt-4">
+                            <h4>Auto Renewal</h4>
+
+                            <div className="card p-3 d-flex flex-row justify-content-between align-items-center">
+                                <div>
+                                    <div className="fw-bold">Auto-renew is {autoRenew ? 'ON' : 'OFF'}</div>
+                                    <small className="text-muted">
+                                        {autoRenew
+                                            ? `Renews on ${formatNextPaymentDate(user?.subscription_plan?.end_date)}`
+                                            : `Ends on ${formatNextPaymentDate(user?.subscription_plan?.end_date)} (will not renew)`
+                                        }
+                                    </small>
+                                </div>
+
+                                <div>
+                                    <div className="form-check form-switch">
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={autoRenew}
+                                            onChange={() => setAutoRenew(!autoRenew)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
 
                         {/* Payment History Section */}
                         <div className="payment-history mt-4">
@@ -592,6 +775,48 @@ export default function SubscriptionPlans({ user }) {
                         </div>
                     </>
                 ) : null}
+                {/* Add Card Modal */}
+                {showAddCardModal && (
+                    <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Add New Card</h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        onClick={() => setShowAddCardModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    {/* Stripe elements will go here later */}
+                                    <div className="mb-3">
+                                        <label className="form-label">Card Details</label>
+                                        <div className="border rounded p-3">
+                                            {/* Placeholder - Stripe Elements here later */}
+                                            <div className="text-muted small"><CardElement options={{ style: { base: { fontSize: '16px' } } }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button className="btn btn-secondary" onClick={() => setShowAddCardModal(false)}>
+                                        Cancel
+                                    </button>
+                                    <button className="btn btn-primary" onClick={handleSaveCard}>
+                                        Save Card
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                )}
+
             </div>
         </>
     );
