@@ -23,6 +23,12 @@ export default function SubscriptionPlans({ user }) {
     const [cards, setCards] = useState([]);
     const [showAddCardModal, setShowAddCardModal] = useState(false);
 
+    useEffect(() => {
+        if (user?.subscription_plan) {
+            setAutoRenew(user.subscription_plan.auto_renew == 1);
+        }
+    }, [user]);
+
 
     console.log('usersss', plans)
     const fetchCards = async () => {
@@ -40,12 +46,6 @@ export default function SubscriptionPlans({ user }) {
         if (isProUser) fetchCards()
     }, [isProUser])
 
-
-    useEffect(() => {
-        if (isProUser) fetchCards()
-    }, [isProUser])
-
-    // Fetch payment history
     const fetchPaymentHistory = async () => {
         setPaymentHistoryLoading(true);
         try {
@@ -64,7 +64,6 @@ export default function SubscriptionPlans({ user }) {
             const data = await response.json();
             if (data.success && data.payments) {
                 setPaymentHistory(data.payments);
-                // Set current payment method from the most recent payment
                 if (data.payments.length > 0) {
                     setCurrentPaymentMethod(data.payments[0]);
                 }
@@ -76,7 +75,6 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Fetch plans from API
     const fetchPlans = async () => {
         setLoading(true);
         setError('');
@@ -105,7 +103,6 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Handle plan selection and payment
     const handleSelectPlan = async (planId, planName) => {
         setProcessingPayment(planId);
         setError('');
@@ -142,20 +139,17 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Open modal and fetch plans
     const handleOpenPlansModal = () => {
         setShowPlansModal(true);
         fetchPlans();
     };
 
-    // Close modal
     const handleCloseModal = () => {
         setShowPlansModal(false);
         setError('');
         setProcessingPayment(null);
     };
 
-    // Format price display
     const formatPrice = (plan) => {
         const amount = parseFloat(plan.plan_amount);
         const duration = plan.plan_duration;
@@ -173,7 +167,6 @@ export default function SubscriptionPlans({ user }) {
         return `$${amount.toFixed(2)} ${frequency}`;
     };
 
-    // Parse HTML content safely
     const parsePlanContent = (htmlContent) => {
         return { __html: htmlContent };
     };
@@ -191,11 +184,9 @@ export default function SubscriptionPlans({ user }) {
         })}`;
     }
 
-    // Format payment date for display
     const formatPaymentDate = (dateStr) => {
         if (!dateStr) return "";
 
-        // Handle "01-11-2025 12:21:04" format
         const [datePart] = dateStr.split(' ');
         const [day, month, year] = datePart.split("-");
         const formattedDate = new Date(`${year}-${month}-${day}`);
@@ -207,7 +198,6 @@ export default function SubscriptionPlans({ user }) {
         });
     };
 
-    // Get card icon based on payment type
     const getCardIcon = (paymentType) => {
         switch (paymentType?.toLowerCase()) {
             case 'visa':
@@ -223,7 +213,6 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Fetch payment history when component mounts for Pro users
     useEffect(() => {
         if (isProUser) {
             fetchPaymentHistory();
@@ -293,34 +282,46 @@ export default function SubscriptionPlans({ user }) {
         fetchCards()
     }
 
-    const toggleAutoRenew = async () => {
-        setAutoRenew(!autoRenew)
-
-        await fetch(`${API}/subscription/auto-renew`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
-            body: JSON.stringify({ auto_renew: !autoRenew })
-        })
-    }
-
     const manualRenew = async (id) => {
-   const res = await fetch(`${API}/subscription/manual-renew`, {
-      method: 'POST',
-      headers: {
-         'Authorization': `Bearer ${token}`,
-         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ subscription_id: id })
-   });
+        const res = await fetch(`${API}/subscription/manual-renew`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ subscription_id: id })
+        });
 
-   const data = await res.json();
-   if (data.success) {
-      alert('Renewed Successfully');
-      fetchSubscription(); // refresh UI
-   } else {
-      alert(data.message);
-   }
-};
+        const data = await res.json();
+        if (data.success) {
+            alert('Renewed Successfully');
+            fetchSubscription();
+        } else {
+            alert(data.message);
+        }
+    };
+
+    const toggleAutoRenew = async () => {
+        const newState = !autoRenew;
+        setAutoRenew(newState);
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subscription/auto-renew`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ auto_renew: newState })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            alert(data.message || "Failed to update auto renewal");
+            setAutoRenew(!newState); // revert on error
+        }
+    };
+
 
 
     return (
@@ -420,9 +421,9 @@ export default function SubscriptionPlans({ user }) {
                             {user.subscription_plan &&
                                 ['retrying', 'manual_pending', 'expired'].includes(user.subscription_plan.renewal_status) && (
                                     <button className="btn btn-primary" onClick={() => manualRenew(sub.id)}>
-                                    Renew Now
+                                        Renew Now
                                     </button>
-                            )}
+                                )}
                             <button onClick={handleOpenPlansModal}>
                                 Unlock Pro Now <EastIcon className='mui-icons' />
                             </button>
@@ -670,8 +671,9 @@ export default function SubscriptionPlans({ user }) {
                                             className="form-check-input"
                                             type="checkbox"
                                             checked={autoRenew}
-                                            onChange={() => setAutoRenew(!autoRenew)}
+                                            onChange={toggleAutoRenew}
                                         />
+
                                     </div>
                                 </div>
                             </div>
@@ -791,12 +793,11 @@ export default function SubscriptionPlans({ user }) {
                                 </div>
 
                                 <div className="modal-body">
-                                    {/* Stripe elements will go here later */}
                                     <div className="mb-3">
                                         <label className="form-label">Card Details</label>
                                         <div className="border rounded p-3">
-                                            {/* Placeholder - Stripe Elements here later */}
-                                            <div className="text-muted small"><CardElement options={{ style: { base: { fontSize: '16px' } } }} />
+                                            <div className="text-muted small">
+                                                <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
                                             </div>
                                         </div>
                                     </div>
