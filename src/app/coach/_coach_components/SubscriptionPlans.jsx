@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import EastIcon from '@mui/icons-material/East';
 import Cookies from 'js-cookie';
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { toast } from 'react-toastify';
 
 export default function SubscriptionPlans({ user }) {
     let isProUser = user.subscription_plan.plan_status;
@@ -22,6 +23,9 @@ export default function SubscriptionPlans({ user }) {
     const [currentPaymentMethod, setCurrentPaymentMethod] = useState(null);
     const [cards, setCards] = useState([]);
     const [showAddCardModal, setShowAddCardModal] = useState(false);
+    const [savingCard, setSavingCard] = useState(false)
+    const [makingDefault, setMakingDefault] = useState(null)
+    const [removingCard, setRemovingCard] = useState(null)
 
     useEffect(() => {
         if (user?.subscription_plan) {
@@ -225,43 +229,61 @@ export default function SubscriptionPlans({ user }) {
     const handleSaveCard = async () => {
         if (!stripe || !elements) return
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/setup-intent`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        setSavingCard(true)
 
-        const { client_secret } = await res.json()
-
-        const result = await stripe.confirmCardSetup(client_secret, {
-            payment_method: {
-                card: elements.getElement(CardElement)
-            }
-        })
-
-        if (result.error) {
-            alert(result.error.message)
-            return
-        }
-
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/store`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                payment_method_id: result.setupIntent.payment_method
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/setup-intent`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             })
-        })
 
-        setShowAddCardModal(false)
-        fetchCards()
+            const { client_secret } = await res.json()
+
+            const result = await stripe.confirmCardSetup(client_secret, {
+                payment_method: {
+                    card: elements.getElement(CardElement)
+                }
+            })
+
+            if (result.error) {
+                toast.error(result.error.message)
+                return
+            }
+
+            const storeRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/store`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    payment_method_id: result.setupIntent.payment_method
+                })
+            })
+
+            const data = await storeRes.json()
+
+            if (data.success) {
+                toast.success('Card added successfully')
+                setShowAddCardModal(false)
+                fetchCards()
+            } else {
+                toast.error(data.message || 'Failed to save card')
+            }
+
+        } catch (err) {
+            toast.error('Something went wrong, try again')
+        } finally {
+            setSavingCard(false)
+        }
     }
 
     const handleMakeDefault = async (pmId) => {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/set-default`, {
+        setMakingDefault(pmId)
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/set-default`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -270,16 +292,37 @@ export default function SubscriptionPlans({ user }) {
             body: JSON.stringify({ payment_method_id: pmId })
         })
 
-        fetchCards()
+        const data = await res.json()
+
+        if (data.success) {
+            toast.success('Default card updated!')
+            fetchCards()
+        } else {
+            toast.error(data.message || 'Failed to update default')
+        }
+
+        setMakingDefault(null)
     }
 
+
     const handleRemove = async (pmId) => {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/remove/${pmId}`, {
+        setRemovingCard(pmId)
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/remove/${pmId}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         })
 
-        fetchCards()
+        const data = await res.json()
+
+        if (data.success) {
+            toast.success('Card removed')
+            fetchCards()
+        } else {
+            toast.error(data.message || 'Failed to remove card')
+        }
+
+        setRemovingCard(null)
     }
 
     const manualRenew = async (id) => {
@@ -616,19 +659,18 @@ export default function SubscriptionPlans({ user }) {
                                                         <button
                                                             className="btn btn-sm btn-outline-primary"
                                                             onClick={() => handleMakeDefault(card.stripe_payment_method_id)}
+                                                            disabled={makingDefault === card.stripe_payment_method_id}
                                                         >
-                                                            Make Default
+                                                            {makingDefault === card.stripe_payment_method_id ? "Saving..." : "Make Default"}
                                                         </button>
-
                                                     )}
                                                     <button
                                                         className="btn btn-sm btn-outline-danger"
-                                                        disabled={card.is_default}
+                                                        disabled={removingCard === card.stripe_payment_method_id || card.is_default}
                                                         onClick={() => handleRemove(card.stripe_payment_method_id)}
                                                     >
-                                                        Remove
+                                                        {removingCard === card.stripe_payment_method_id ? "Removing..." : "Remove"}
                                                     </button>
-
                                                 </div>
                                             </div>
                                         ))}
@@ -807,10 +849,9 @@ export default function SubscriptionPlans({ user }) {
                                     <button className="btn btn-secondary" onClick={() => setShowAddCardModal(false)}>
                                         Cancel
                                     </button>
-                                    <button className="btn btn-primary" onClick={handleSaveCard}>
-                                        Save Card
+                                    <button className="btn btn-primary" onClick={handleSaveCard} disabled={savingCard}>
+                                        {savingCard ? "Saving..." : "Save Card"}
                                     </button>
-
                                 </div>
 
                             </div>
