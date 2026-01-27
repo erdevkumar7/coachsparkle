@@ -340,7 +340,7 @@ export default function UserUpdateFormData({
             ))}
           </select>
         </div> */}
-        <div className="form-group goal">
+        {/* <div className="form-group goal">
           <label htmlFor="coaching_goal_1">Goal #1</label>
           <select
             id="coaching_goal_1"
@@ -354,9 +354,18 @@ export default function UserUpdateFormData({
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         <div className="form-group goal">
+          <label htmlFor="coaching_goal_1">Goal #1</label>
+          <input type="text"
+            id="coaching_goal_1"
+            {...register("coaching_goal_1")}
+            disabled={loading}
+          />
+        </div>
+
+        {/* <div className="form-group goal">
           <label htmlFor="coaching_goal_2">Goal #2</label>
           <select
             id="coaching_goal_2"
@@ -370,9 +379,18 @@ export default function UserUpdateFormData({
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         <div className="form-group goal">
+          <label htmlFor="coaching_goal_2">Goal #2</label>
+          <input type="text"
+            id="coaching_goal_2"
+            {...register("coaching_goal_2")}
+            disabled={loading}
+          />
+        </div>
+
+        {/* <div className="form-group goal">
           <label htmlFor="coaching_goal_3">Goal #3</label>
           <select
             id="coaching_goal_3"
@@ -386,6 +404,15 @@ export default function UserUpdateFormData({
               </option>
             ))}
           </select>
+        </div> */}
+
+        <div className="form-group goal">
+          <label htmlFor="coaching_goal_3">Goal #3</label>
+          <input type="text"
+            id="coaching_goal_3"
+            {...register("coaching_goal_3")}
+            disabled={loading}
+          />
         </div>
 
         <div className="form-row preference-input">
