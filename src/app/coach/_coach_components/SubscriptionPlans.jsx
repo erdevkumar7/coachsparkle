@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import EastIcon from '@mui/icons-material/East';
 import Cookies from 'js-cookie';
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { toast } from 'react-toastify';
 
 export default function SubscriptionPlans({ user }) {
     let isProUser = user.subscription_plan.plan_status;
@@ -22,6 +23,15 @@ export default function SubscriptionPlans({ user }) {
     const [currentPaymentMethod, setCurrentPaymentMethod] = useState(null);
     const [cards, setCards] = useState([]);
     const [showAddCardModal, setShowAddCardModal] = useState(false);
+    const [savingCard, setSavingCard] = useState(false)
+    const [makingDefault, setMakingDefault] = useState(null)
+    const [removingCard, setRemovingCard] = useState(null)
+
+    useEffect(() => {
+        if (user?.subscription_plan) {
+            setAutoRenew(user.subscription_plan.auto_renew == 1);
+        }
+    }, [user]);
 
 
     console.log('usersss', plans)
@@ -40,12 +50,6 @@ export default function SubscriptionPlans({ user }) {
         if (isProUser) fetchCards()
     }, [isProUser])
 
-
-    useEffect(() => {
-        if (isProUser) fetchCards()
-    }, [isProUser])
-
-    // Fetch payment history
     const fetchPaymentHistory = async () => {
         setPaymentHistoryLoading(true);
         try {
@@ -64,7 +68,6 @@ export default function SubscriptionPlans({ user }) {
             const data = await response.json();
             if (data.success && data.payments) {
                 setPaymentHistory(data.payments);
-                // Set current payment method from the most recent payment
                 if (data.payments.length > 0) {
                     setCurrentPaymentMethod(data.payments[0]);
                 }
@@ -76,7 +79,6 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Fetch plans from API
     const fetchPlans = async () => {
         setLoading(true);
         setError('');
@@ -105,7 +107,6 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Handle plan selection and payment
     const handleSelectPlan = async (planId, planName) => {
         setProcessingPayment(planId);
         setError('');
@@ -142,20 +143,17 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Open modal and fetch plans
     const handleOpenPlansModal = () => {
         setShowPlansModal(true);
         fetchPlans();
     };
 
-    // Close modal
     const handleCloseModal = () => {
         setShowPlansModal(false);
         setError('');
         setProcessingPayment(null);
     };
 
-    // Format price display
     const formatPrice = (plan) => {
         const amount = parseFloat(plan.plan_amount);
         const duration = plan.plan_duration;
@@ -173,7 +171,6 @@ export default function SubscriptionPlans({ user }) {
         return `$${amount.toFixed(2)} ${frequency}`;
     };
 
-    // Parse HTML content safely
     const parsePlanContent = (htmlContent) => {
         return { __html: htmlContent };
     };
@@ -191,11 +188,9 @@ export default function SubscriptionPlans({ user }) {
         })}`;
     }
 
-    // Format payment date for display
     const formatPaymentDate = (dateStr) => {
         if (!dateStr) return "";
 
-        // Handle "01-11-2025 12:21:04" format
         const [datePart] = dateStr.split(' ');
         const [day, month, year] = datePart.split("-");
         const formattedDate = new Date(`${year}-${month}-${day}`);
@@ -207,7 +202,6 @@ export default function SubscriptionPlans({ user }) {
         });
     };
 
-    // Get card icon based on payment type
     const getCardIcon = (paymentType) => {
         switch (paymentType?.toLowerCase()) {
             case 'visa':
@@ -223,7 +217,6 @@ export default function SubscriptionPlans({ user }) {
         }
     };
 
-    // Fetch payment history when component mounts for Pro users
     useEffect(() => {
         if (isProUser) {
             fetchPaymentHistory();
@@ -236,43 +229,61 @@ export default function SubscriptionPlans({ user }) {
     const handleSaveCard = async () => {
         if (!stripe || !elements) return
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/setup-intent`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        setSavingCard(true)
 
-        const { client_secret } = await res.json()
-
-        const result = await stripe.confirmCardSetup(client_secret, {
-            payment_method: {
-                card: elements.getElement(CardElement)
-            }
-        })
-
-        if (result.error) {
-            alert(result.error.message)
-            return
-        }
-
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/store`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                payment_method_id: result.setupIntent.payment_method
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/setup-intent`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             })
-        })
 
-        setShowAddCardModal(false)
-        fetchCards()
+            const { client_secret } = await res.json()
+
+            const result = await stripe.confirmCardSetup(client_secret, {
+                payment_method: {
+                    card: elements.getElement(CardElement)
+                }
+            })
+
+            if (result.error) {
+                toast.error(result.error.message)
+                return
+            }
+
+            const storeRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/store`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    payment_method_id: result.setupIntent.payment_method
+                })
+            })
+
+            const data = await storeRes.json()
+
+            if (data.success) {
+                toast.success('Card added successfully')
+                setShowAddCardModal(false)
+                fetchCards()
+            } else {
+                toast.error(data.message || 'Failed to save card')
+            }
+
+        } catch (err) {
+            toast.error('Something went wrong, try again')
+        } finally {
+            setSavingCard(false)
+        }
     }
 
     const handleMakeDefault = async (pmId) => {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/set-default`, {
+        setMakingDefault(pmId)
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/set-default`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -281,46 +292,79 @@ export default function SubscriptionPlans({ user }) {
             body: JSON.stringify({ payment_method_id: pmId })
         })
 
-        fetchCards()
+        const data = await res.json()
+
+        if (data.success) {
+            toast.success('Default card updated!')
+            fetchCards()
+        } else {
+            toast.error(data.message || 'Failed to update default')
+        }
+
+        setMakingDefault(null)
     }
 
+
     const handleRemove = async (pmId) => {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/remove/${pmId}`, {
+        setRemovingCard(pmId)
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment-method/remove/${pmId}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         })
 
-        fetchCards()
-    }
+        const data = await res.json()
 
-    const toggleAutoRenew = async () => {
-        setAutoRenew(!autoRenew)
+        if (data.success) {
+            toast.success('Card removed')
+            fetchCards()
+        } else {
+            toast.error(data.message || 'Failed to remove card')
+        }
 
-        await fetch(`${API}/subscription/auto-renew`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
-            body: JSON.stringify({ auto_renew: !autoRenew })
-        })
+        setRemovingCard(null)
     }
 
     const manualRenew = async (id) => {
-   const res = await fetch(`${API}/subscription/manual-renew`, {
-      method: 'POST',
-      headers: {
-         'Authorization': `Bearer ${token}`,
-         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ subscription_id: id })
-   });
+        const res = await fetch(`${API}/subscription/manual-renew`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ subscription_id: id })
+        });
 
-   const data = await res.json();
-   if (data.success) {
-      alert('Renewed Successfully');
-      fetchSubscription(); // refresh UI
-   } else {
-      alert(data.message);
-   }
-};
+        const data = await res.json();
+        if (data.success) {
+            alert('Renewed Successfully');
+            fetchSubscription();
+        } else {
+            alert(data.message);
+        }
+    };
+
+    const toggleAutoRenew = async () => {
+        const newState = !autoRenew;
+        setAutoRenew(newState);
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subscription/auto-renew`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ auto_renew: newState })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            alert(data.message || "Failed to update auto renewal");
+            setAutoRenew(!newState); // revert on error
+        }
+    };
+
 
 
     return (
@@ -420,9 +464,9 @@ export default function SubscriptionPlans({ user }) {
                             {user.subscription_plan &&
                                 ['retrying', 'manual_pending', 'expired'].includes(user.subscription_plan.renewal_status) && (
                                     <button className="btn btn-primary" onClick={() => manualRenew(sub.id)}>
-                                    Renew Now
+                                        Renew Now
                                     </button>
-                            )}
+                                )}
                             <button onClick={handleOpenPlansModal}>
                                 Unlock Pro Now <EastIcon className='mui-icons' />
                             </button>
@@ -615,19 +659,18 @@ export default function SubscriptionPlans({ user }) {
                                                         <button
                                                             className="btn btn-sm btn-outline-primary"
                                                             onClick={() => handleMakeDefault(card.stripe_payment_method_id)}
+                                                            disabled={makingDefault === card.stripe_payment_method_id}
                                                         >
-                                                            Make Default
+                                                            {makingDefault === card.stripe_payment_method_id ? "Saving..." : "Make Default"}
                                                         </button>
-
                                                     )}
                                                     <button
                                                         className="btn btn-sm btn-outline-danger"
-                                                        disabled={card.is_default}
+                                                        disabled={removingCard === card.stripe_payment_method_id || card.is_default}
                                                         onClick={() => handleRemove(card.stripe_payment_method_id)}
                                                     >
-                                                        Remove
+                                                        {removingCard === card.stripe_payment_method_id ? "Removing..." : "Remove"}
                                                     </button>
-
                                                 </div>
                                             </div>
                                         ))}
@@ -670,8 +713,9 @@ export default function SubscriptionPlans({ user }) {
                                             className="form-check-input"
                                             type="checkbox"
                                             checked={autoRenew}
-                                            onChange={() => setAutoRenew(!autoRenew)}
+                                            onChange={toggleAutoRenew}
                                         />
+
                                     </div>
                                 </div>
                             </div>
@@ -791,12 +835,11 @@ export default function SubscriptionPlans({ user }) {
                                 </div>
 
                                 <div className="modal-body">
-                                    {/* Stripe elements will go here later */}
                                     <div className="mb-3">
                                         <label className="form-label">Card Details</label>
                                         <div className="border rounded p-3">
-                                            {/* Placeholder - Stripe Elements here later */}
-                                            <div className="text-muted small"><CardElement options={{ style: { base: { fontSize: '16px' } } }} />
+                                            <div className="text-muted small">
+                                                <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
                                             </div>
                                         </div>
                                     </div>
@@ -806,10 +849,9 @@ export default function SubscriptionPlans({ user }) {
                                     <button className="btn btn-secondary" onClick={() => setShowAddCardModal(false)}>
                                         Cancel
                                     </button>
-                                    <button className="btn btn-primary" onClick={handleSaveCard}>
-                                        Save Card
+                                    <button className="btn btn-primary" onClick={handleSaveCard} disabled={savingCard}>
+                                        {savingCard ? "Saving..." : "Save Card"}
                                     </button>
-
                                 </div>
 
                             </div>
