@@ -998,10 +998,6 @@ h5.what-user-text {
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  margin-bottom: 20px;
-  background: #fff;
 }
 .coach-profile-list-left .senior-engineer-details-add {
   display: flex;
@@ -2572,3 +2568,83 @@ button.ai-mtc {
     padding: 8px 11px;
     color: #fff;
 }
+  
+/* AI Matched Recommendations Styles */  
+.card.matched-add {  
+  padding: 20px;  
+  border-radius: 8px;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  margin-bottom: 20px;  
+  background-color: #fff;  
+}  
+  
+.card.matched-add h3 {  
+  margin-top: 0;  
+  margin-bottom: 20px;  
+  font-size: 1.5rem;  
+  font-weight: bold;  
+  color: #333;  
+} 
+.coach {  
+  display: flex;  
+  justify-content: space-between;  
+  align-items: center;  
+  padding: 15px 0;  
+  border-bottom: 1px solid #eee;  
+}  
+  
+.coach:last-child {  
+  border-bottom: none;  
+}  
+  
+.info {  
+  display: flex;  
+  align-items: center;  
+  gap: 15px;  
+}  
+  
+.coach-img {  
+  width: 50px;  
+  height: 50px;  
+  border-radius: 50%;  
+  object-fit: cover;  
+} 
+.name-text p {  
+  margin: 0;  
+  font-weight: bold;  
+  font-size: 1rem;  
+}  
+  
+.name-text span {  
+  display: flex;  
+  align-items: center;  
+  gap: 5px;  
+  color: #ff6b35;  
+  font-size: 0.9rem;  
+}  
+  
+.msg-btn {  
+  background-color: #007bff;  
+  color: white;  
+  border: none;  
+  padding: 8px 16px;  
+  border-radius: 4px;  
+  cursor: pointer;  
+  font-size: 0.9rem;  
+  transition: background-color 0.3s;  
+}  
+  
+.msg-btn:hover {  
+  background-color: #0056b3;  
+}  
+  
+.loading-spinner, .error-message, .no-recommendations {  
+  text-align: center;  
+  padding: 20px;  
+  color: #666;  
+}  
+  
+.action-buttons {  
+  display: flex;  
+  gap: 10px;  
+} 

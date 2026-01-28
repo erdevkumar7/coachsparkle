@@ -10,6 +10,7 @@ import FeaturedCoaches from "./_components/HomeComp/FeaturedCoaches";
 import Link from "next/link";
 import CoachPlans from "./_components/HomeComp/CoachPlans";
 import SmartMatching from "./_components/HomeComp/SmartMatching";
+import AIRecommendations from "./_components/HomeComp/AIRecommendations";
 import { HandleValidateTokenOnServer } from "../api/user";
 
 export default async function Home() {
@@ -172,6 +173,8 @@ export default async function Home() {
       </div>
 
       <LatestArticles />
+
+      <AIRecommendations />
 
       <CoachPlans
         userData={user}
