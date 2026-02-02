@@ -12,14 +12,36 @@ const AIRecommendations = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coaches/ai-recommendations`);
-        
+        // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/coaches/ai-recommendations`);
+
+        const fetchUrl = `${process.env.NEXT_PUBLIC_API_URL}/coaches/ai-recommendations`;
+        // console.log('Fetching AI recommendations from:', fetchUrl); // Log the full URL
+
+        // const token = localStorage.getItem("token"); // adjust key if needed
+
+        const getCookie = (name) => {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(';').shift();
+        };
+
+        const token = getCookie("token");
+
+        // console.log('the real for user id - curent token is:', token); // Log the token
+        const response = await fetch(fetchUrl, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (data.success && data.recommendations) {
           setRecommendations(data.recommendations);
         } else {
@@ -60,15 +82,15 @@ const AIRecommendations = () => {
 
   return (
     <div className="card matched-add">
-      <h3>AI Matched Recommendations</h3>
-      
+      <h3>AI Matched Recommendations12</h3>
+
       {recommendations.length > 0 ? (
         recommendations.map((coach) => (
           <div key={coach.id} className="coach">
             <div className="info">
-              <img 
-                src={coach.photo || "/coachsparkle/assets/images/professional-img.png"} 
-                alt={`${coach.name} Image`} 
+              <img
+                src={coach.photo || "/coachsparkle/assets/images/professional-img.png"}
+                alt={`${coach.name} Image`}
                 className="coach-img"
                 onError={(e) => {
                   e.target.src = "/coachsparkle/assets/images/professional-img.png";
