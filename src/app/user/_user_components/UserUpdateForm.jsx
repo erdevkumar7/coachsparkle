@@ -15,7 +15,6 @@ export default function UserUpdateFormData({
   deliveryMode,
   ageGroup,
   languages,
-  userGoals
 }) {
   const router = useRouter();
   const [getToken, setToken] = useState();
@@ -34,32 +33,6 @@ export default function UserUpdateFormData({
     resolver: yupResolver(userProfileSchema),
     mode: "onBlur",
   });
-
-  // Watch the goal values to react to changes
-  const goal1 = watch("coaching_goal_1");
-  const goal2 = watch("coaching_goal_2");
-  const goal3 = watch("coaching_goal_3");
-
-  // Create filtered goal options for each dropdown
-  const filteredGoals = useMemo(() => {
-    const selectedGoals = [goal1, goal2, goal3].filter(Boolean);
-
-    return {
-      goal1: userGoals.filter(goal =>
-        !selectedGoals.includes(goal.package_id.toString()) ||
-        goal.package_id.toString() === goal1
-      ),
-      goal2: userGoals.filter(goal =>
-        !selectedGoals.includes(goal.package_id.toString()) ||
-        goal.package_id.toString() === goal2
-      ),
-      goal3: userGoals.filter(goal =>
-        !selectedGoals.includes(goal.package_id.toString()) ||
-        goal.package_id.toString() === goal3
-      )
-    };
-  }, [goal1, goal2, goal3, userGoals]);
-
 
   useEffect(() => {
     getUserData();
@@ -148,7 +121,6 @@ export default function UserUpdateFormData({
       setLoading(false);
     }
   };
-  console.log('user goals', userGoals)
   return (
     <div className="profile-form">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -293,122 +265,30 @@ export default function UserUpdateFormData({
           progress.{" "}
         </p>
 
-        {/* <div className="form-group goal">
-          <label htmlFor="coaching_goal_1">Goal #1</label>
-          <select
-            id="coaching_goal_1"
-            {...register("coaching_goal_1")}
-            disabled={loading}
-          >
-            <option value="">Select First Goal</option>
-            {userGoals.map((goal) => (
-              <option key={goal.package_id} value={goal.package_id}>
-                {goal.title}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group goal">
-          <label htmlFor="coaching_goal_2">Goal #2</label>
-          <select
-            id="coaching_goal_2"
-            {...register("coaching_goal_2")}
-            disabled={loading}
-          >
-            <option value="">Select Second Goal</option>
-            {userGoals.map((goal) => (
-              <option key={goal.package_id} value={goal.package_id}>
-                {goal.title}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group goal">
-          <label htmlFor="coaching_goal_3">Goal #3</label>
-          <select
-            id="coaching_goal_3"
-            {...register("coaching_goal_3")}
-            disabled={loading}
-          >
-            <option value="">Select Third Goal</option>
-            {userGoals.map((goal) => (
-              <option key={goal.package_id} value={goal.package_id}>
-                {goal.title}
-              </option>
-            ))}
-          </select>
-        </div> */}
-        {/* <div className="form-group goal">
-          <label htmlFor="coaching_goal_1">Goal #1</label>
-          <select
-            id="coaching_goal_1"
-            {...register("coaching_goal_1")}
-            disabled={loading}
-          >
-            <option value="">Select First Goal</option>
-            {filteredGoals.goal1.map((goal) => (
-              <option key={goal.package_id} value={goal.package_id}>
-                {goal.title}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
         <div className="form-group goal">
           <label htmlFor="coaching_goal_1">Goal #1</label>
-          <input type="text"
+          <input
+            type="text"
             id="coaching_goal_1"
             {...register("coaching_goal_1")}
             disabled={loading}
           />
         </div>
 
-        {/* <div className="form-group goal">
-          <label htmlFor="coaching_goal_2">Goal #2</label>
-          <select
-            id="coaching_goal_2"
-            {...register("coaching_goal_2")}
-            disabled={loading}
-          >
-            <option value="">Select Second Goal</option>
-            {filteredGoals.goal2.map((goal) => (
-              <option key={goal.package_id} value={goal.package_id}>
-                {goal.title}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
         <div className="form-group goal">
           <label htmlFor="coaching_goal_2">Goal #2</label>
-          <input type="text"
+          <input
+            type="text"
             id="coaching_goal_2"
             {...register("coaching_goal_2")}
             disabled={loading}
           />
         </div>
 
-        {/* <div className="form-group goal">
-          <label htmlFor="coaching_goal_3">Goal #3</label>
-          <select
-            id="coaching_goal_3"
-            {...register("coaching_goal_3")}
-            disabled={loading}
-          >
-            <option value="">Select Third Goal</option>
-            {filteredGoals.goal3.map((goal) => (
-              <option key={goal.package_id} value={goal.package_id}>
-                {goal.title}
-              </option>
-            ))}
-          </select>
-        </div> */}
-
         <div className="form-group goal">
           <label htmlFor="coaching_goal_3">Goal #3</label>
-          <input type="text"
+          <input
+            type="text"
             id="coaching_goal_3"
             {...register("coaching_goal_3")}
             disabled={loading}

@@ -10,6 +10,7 @@ import FeaturedCoaches from "./_components/HomeComp/FeaturedCoaches";
 import Link from "next/link";
 import CoachPlans from "./_components/HomeComp/CoachPlans";
 import SmartMatching from "./_components/HomeComp/SmartMatching";
+import AIRecommendations from "./_components/HomeComp/AIRecommendations";
 import { HandleValidateTokenOnServer } from "../api/user";
 
 export default async function Home() {
@@ -51,11 +52,29 @@ export default async function Home() {
   ]);
 
 
-  // Parse both responses
+  // Safely parse responses (guard against HTML error pages or non-JSON bodies)
+  async function parseJsonSafe(response, label) {
+    try {
+      const contentType = response.headers.get('content-type') || '';
+      if (!response.ok) {
+        console.error(`${label} returned non-OK status`, response.status, await response.text());
+        return {};
+      }
+      if (!contentType.includes('application/json')) {
+        console.error(`${label} did not return JSON. Content-Type:`, contentType, await response.text());
+        return {};
+      }
+      return await response.json();
+    } catch (err) {
+      console.error(`Failed to parse ${label} response as JSON:`, err);
+      return {};
+    }
+  }
+
   const [featuredCoachesData, globalPartnersData, homePageContentData] = await Promise.all([
-    featuredCoachesResponse.json(),
-    globalPartnersResponse.json(),
-    homePageContentResponse.json(),
+    parseJsonSafe(featuredCoachesResponse, 'featuredCoachList'),
+    parseJsonSafe(globalPartnersResponse, 'getGlobalPartnersList'),
+    parseJsonSafe(homePageContentResponse, 'getHomePageSection'),
   ]);
 
   // Extract data safely
@@ -63,7 +82,7 @@ export default async function Home() {
   const globalPartners = globalPartnersData?.global_partners || [];
   const home_page_content = homePageContentData?.success ? homePageContentData.data : [];
 
-  // Extract specific sections 
+  // Extract specific sections
   const topSection = home_page_content.find(item => item.section_name === "top");
   const homePageCountData = home_page_content.find(item => item.section_name === "home_page_data");  // conut of available coach
 
@@ -154,6 +173,8 @@ export default async function Home() {
       </div>
 
       <LatestArticles />
+
+      <AIRecommendations />
 
       <CoachPlans
         userData={user}

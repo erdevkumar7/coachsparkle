@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import EastIcon from '@mui/icons-material/East';
 
-export default function ActiveCoaching({ initialRequest, token }) {  
+export default function ActiveCoaching({ initialRequest, token }) {
   const requestsArray = Array.isArray(initialRequest?.data) ? initialRequest.data : [];
   const [allRequests, setAllRequests] = useState(requestsArray);
   const router = useRouter()
   const { user } = useUser();
-  let isProUser = user.subscription_plan.plan_status;
+  // let isProUser = user.subscription_plan.plan_status;
+  const isProUser = user?.subscription_plan?.plan_status ?? false;
+
 
   const visibleRequests = isProUser ? allRequests : allRequests.slice(0, 3);
 

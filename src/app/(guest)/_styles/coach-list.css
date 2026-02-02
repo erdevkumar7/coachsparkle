@@ -998,10 +998,6 @@ h5.what-user-text {
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  margin-bottom: 20px;
-  background: #fff;
 }
 .coach-profile-list-left .senior-engineer-details-add {
   display: flex;
@@ -1476,7 +1472,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 
 .fav-list svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-1umw9bq-MuiSvgIcon-root {
   color: #fff !important;
-} 
+}
 
 .coach-action-profile-icon svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.mui-iconss.css-1umw9bq-MuiSvgIcon-root {
   color: #009bfa !important;
@@ -1531,7 +1527,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
 
 /*coach-list-page-mobile-css*/
 @media only screen and (max-width: 767px) {
-  
+
   .coach-profile-list-left .about-section .certifi {
     display: block ;
 }
@@ -1619,7 +1615,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
     margin-bottom: 15px;
     display: block;
     margin: 15px 0px;
-} 
+}
 .about-section.publs_artcl img.top-image {
   margin-top: 0px !important;
 }
@@ -1710,7 +1706,7 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit.MuiPickersArrowSwitcher-rightArro
   font-size: 18px;
   font-weight: 600;
   width: 100%;
-} 
+}
 .senior-engineer-details-add .box-txts {
   margin-bottom: 10px;
   display: block;
@@ -1731,7 +1727,7 @@ span.avail-text {
 .coach-banner-add button.profile {
     border-radius: 12px;
     width: 100%;
-} 
+}
 .container.list-start .info1 {
   text-align: center;
   justify-content: end;
@@ -1817,9 +1813,11 @@ input.form-control.search-input {
   padding-right: 0 !important;
 }
 .coach-profile-list-left .profile-card .badge-tag {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important;
 }
+
 .coach-banner-add p.senior-engineer-text strong {
   text-align: center;
 }
@@ -1896,7 +1894,7 @@ input.form-control.search-input {
     margin-bottom: 5px;
     margin-top: 5px;
   }
-  
+
   .coach-banner-add .coach-actions {
     min-width: 155px;
     padding-bottom: 5px;
@@ -2570,3 +2568,83 @@ button.ai-mtc {
     padding: 8px 11px;
     color: #fff;
 }
+  
+/* AI Matched Recommendations Styles */  
+.card.matched-add {  
+  padding: 20px;  
+  border-radius: 8px;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  margin-bottom: 20px;  
+  background-color: #fff;  
+}  
+  
+.card.matched-add h3 {  
+  margin-top: 0;  
+  margin-bottom: 20px;  
+  font-size: 1.5rem;  
+  font-weight: bold;  
+  color: #333;  
+} 
+.coach {  
+  display: flex;  
+  justify-content: space-between;  
+  align-items: center;  
+  padding: 15px 0;  
+  border-bottom: 1px solid #eee;  
+}  
+  
+.coach:last-child {  
+  border-bottom: none;  
+}  
+  
+.info {  
+  display: flex;  
+  align-items: center;  
+  gap: 15px;  
+}  
+  
+.coach-img {  
+  width: 50px;  
+  height: 50px;  
+  border-radius: 50%;  
+  object-fit: cover;  
+} 
+.name-text p {  
+  margin: 0;  
+  font-weight: bold;  
+  font-size: 1rem;  
+}  
+  
+.name-text span {  
+  display: flex;  
+  align-items: center;  
+  gap: 5px;  
+  color: #ff6b35;  
+  font-size: 0.9rem;  
+}  
+  
+.msg-btn {  
+  background-color: #007bff;  
+  color: white;  
+  border: none;  
+  padding: 8px 16px;  
+  border-radius: 4px;  
+  cursor: pointer;  
+  font-size: 0.9rem;  
+  transition: background-color 0.3s;  
+}  
+  
+.msg-btn:hover {  
+  background-color: #0056b3;  
+}  
+  
+.loading-spinner, .error-message, .no-recommendations {  
+  text-align: center;  
+  padding: 20px;  
+  color: #666;  
+}  
+  
+.action-buttons {  
+  display: flex;  
+  gap: 10px;  
+} 

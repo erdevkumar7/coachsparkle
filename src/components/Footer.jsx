@@ -21,13 +21,24 @@ export default async function Footer() {
         }),
     ]);
 
-    const [homePageContentData] = await Promise.all([
-        homePageContentResponse.json(),
-    ]);
+    let homePageContentData = {};
+    try {
+        // Guard against non-OK responses or non-JSON bodies (e.g., HTML error pages)
+        const contentType = homePageContentResponse.headers.get('content-type') || '';
+        if (!homePageContentResponse.ok) {
+            console.error('getHomePageSection returned non-OK status', homePageContentResponse.status, await homePageContentResponse.text());
+        } else if (!contentType.includes('application/json')) {
+            console.error('getHomePageSection did not return JSON. Content-Type:', contentType);
+        } else {
+            homePageContentData = await homePageContentResponse.json();
+        }
+    } catch (err) {
+        console.error('Failed to parse getHomePageSection response as JSON:', err);
+    }
 
     const home_page_content = homePageContentData?.success ? homePageContentData.data : [];
 
-    // Extract specific sections 
+    // Extract specific sections
     const footerOneSection = home_page_content.find(item => item.section_name === "footer_one");
     const footerTwoSection = home_page_content.find(item => item.section_name === "footer_two");
     const socialMediaSection = home_page_content.find(item => item.section_name === "social_media");
@@ -40,7 +51,7 @@ export default async function Footer() {
                     <div className="row coach-footer-inner">
                         <div className="col-md-3 coach-footer-one">
                             <img src={`${FRONTEND_BASE_URL}/images/signup-logo.png`} alt="Logo" style={{ width: '50%', marginTop: '-25px' }} />
-                            <p>{footerOneSection?.description || `Coach Sparkle connects learners worldwide with trusted coaches, tutors, 
+                            <p>{footerOneSection?.description || `Coach Sparkle connects learners worldwide with trusted coaches, tutors,
                             and trainers through AI-powered matching — sparking real growth through authentic human connections.`}</p>
                         </div>
 
