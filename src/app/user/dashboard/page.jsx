@@ -406,8 +406,9 @@ export default function UserDashboard() {
                                 </div>
                             ) : (
                                 userGoals.map((goal, index) => (
-                                    <div key={goal.package_id} className="goal">
-                                        <p className="build-text-add">{goal.title}</p>
+                                    <div key={index} className="goal">
+                                        <p className="build-text-add">{goal.goal}</p>
+                                        {goal.matched_package_title && <p className="text-muted small">Matched with: {goal.matched_package_title}</p>}
                                         <div className="progress">
                                             <div
                                                 className={`progress-bar ${getProgressColor(goal.progress_percent)}`}
@@ -422,14 +423,16 @@ export default function UserDashboard() {
                                             )}
 
                                         </div>
-                                        <div className="goal-actions">
-                                            <button
-                                                className="view-btn"
-                                                onClick={() => handleViewSession(goal.coach_id, goal.package_id)}
-                                            >
-                                                View Session
-                                            </button>
-                                        </div>
+                                        {goal.matched_package_id &&
+                                            <div className="goal-actions">
+                                                <button
+                                                    className="view-btn"
+                                                    onClick={() => handleViewSession(goal.coach_id, goal.matched_package_id)}
+                                                >
+                                                    View Session
+                                                </button>
+                                            </div>
+                                        }
                                     </div>
                                 ))
                             )}

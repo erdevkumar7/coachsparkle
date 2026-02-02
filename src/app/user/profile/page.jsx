@@ -1,23 +1,21 @@
 import "../_styles/dashboard.css";
 import "../_styles/profile.css";
 import UserUpdateFormData from "../_user_components/UserUpdateForm";
-import { getUserBookedGoalsListData, getUserProfileData } from "@/app/api/user";
+import { getUserProfileData } from "@/app/api/user";
 import { getAllMasters } from "@/app/api/guest";
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 
 export default async function Profile() {
     const { data: user, error, removeToken } = await getUserProfileData(); 
 
-    const [allMasters, userGoalRes] = await Promise.all([
+    const [allMasters] = await Promise.all([
         getAllMasters(),
-        getUserBookedGoalsListData()
     ]);
 
     const countries = allMasters?.countries || [];
     const deliveryMode = allMasters?.delivery_mode || [];
     const ageGroup = allMasters?.age_group || [];
     const languages = allMasters?.languages || [];
-    const userGoals = userGoalRes?.data || [];
   
     
     // console.log('userGoals', userGoals)
@@ -52,7 +50,6 @@ export default async function Profile() {
                             deliveryMode={deliveryMode}
                             ageGroup={ageGroup}
                             languages={languages}
-                            userGoals={userGoals}
                         />
                     </div>
                 </div>
