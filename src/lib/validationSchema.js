@@ -425,27 +425,27 @@ export const servicePackageSchema = yup.object().shape({
         .string()
         .required("Rescheduling policy is required"),
 
-    // booking_availability_start: yup
-    //     .string()
-    //     .required("Start date is required")
-    //     .test('is-valid-date', 'Invalid start date', (value) => {
-    //         return value && dayjs(value).isValid();
-    //     }),
-    // booking_availability_end: yup
-    //     .string()
-    //     .required("End date is required")
-    //     .test('is-valid-date', 'Invalid end date', (value) => {
-    //         return value && dayjs(value).isValid();
-    //     })
-        // .test('is-after-start', 'End date must be after start date', function (value) {
-        //     const { booking_availability_start } = this.parent;
-        //     if (!booking_availability_start || !value) return true;
-        //     return dayjs(value).isAfter(dayjs(booking_availability_start));
-        // }),
+    booking_availability_start: yup
+        .string()
+        .required("Start date is required")
+        .test('is-valid-date', 'Invalid start date', (value) => {
+            return value && dayjs(value).isValid();
+        }),
+    booking_availability_end: yup
+        .string()
+        .required("End date is required")
+        .test('is-valid-date', 'Invalid end date', (value) => {
+            return value && dayjs(value).isValid();
+        })
+        .test('is-after-start', 'End date must be after start date', function (value) {
+            const { booking_availability_start } = this.parent;
+            if (!booking_availability_start || !value) return true;
+            return dayjs(value).isAfter(dayjs(booking_availability_start));
+        }),
 
-    // booking_time: yup
-    //     .string()
-    //     .required("Booking time is required"),
+    booking_time: yup
+        .string()
+        .required("Booking time is required"),
 
     // booking_window_start: yup
     //     .string()
