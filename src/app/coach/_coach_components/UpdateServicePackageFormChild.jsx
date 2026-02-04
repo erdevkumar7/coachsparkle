@@ -116,6 +116,7 @@ const handleFileChange = (e) => {
   const file = e.target.files?.[0];
 
   if (file) {
+    
     setValue("media_file", file); // react-hook-form
     setMediaPreview(URL.createObjectURL(file)); // ✅ preview
   }
@@ -906,28 +907,35 @@ form.append("package_id", packageData.id);
                   <label htmlFor="media_file" className="form-label">
                     Media Upload
                   </label>
-                  <div className="custom-file-upload">
-                    <label htmlFor="media_file" className="upload-btn">
-                      Choose file
-                    </label>
+<div className="custom-file-upload">
+  <label htmlFor="media_file" className="upload-btn">
+    {formData.media_file
+      ? formData.media_file.name // newly selected file
+      : packageData?.media_file
+      ? packageData.media_file // existing file name
+      : "Choose file"}
+  </label>
 
-                    <input
-                      type="file"
-                      id="media_file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      disabled={!isProUser}
-                      className={`form-control ${
-                        !isProUser ? "disabled-bg" : ""
-                      } ${errors.media_file ? "is-invalid" : ""}`}
-                    />
-                  </div>
+  <input
+    type="file"
+    id="media_file"
+    accept="image/*"
+    onChange={handleFileChange}
+    disabled={!isProUser}
+    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+      errors.media_file ? "is-invalid" : ""
+    }`}
+    style={{ display: "none" }} // hide the actual file input
+  />
+</div>
+
                   {errors.media_file && (
                     <p style={{ color: "#dc3545" }}>
                       {errors.media_file.message}
                     </p>
                   )}
                 </div>
+
               {mediaPreview && (
   <div className="preview-image">
     <img
@@ -943,9 +951,6 @@ form.append("package_id", packageData.id);
     />
   </div>
 )}
-
-
-
               </div>
 
               <div className="card preview-section">

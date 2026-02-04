@@ -355,7 +355,7 @@ export const servicePackageSchema = yup.object().shape({
     description: yup.string()
         .required("Detailed description is required")
         .min(100, "Detailed description minimun 100 characters")
-        .max(1000, "Detailed description must be less than 1000 characters"),
+        .max(3000, "Detailed description must be less than 3000 characters"),
 
     focus: yup.string().
         required("Service focus is required")
@@ -425,27 +425,27 @@ export const servicePackageSchema = yup.object().shape({
         .string()
         .required("Rescheduling policy is required"),
 
-    booking_availability_start: yup
-        .string()
-        .required("Start date is required")
-        .test('is-valid-date', 'Invalid start date', (value) => {
-            return value && dayjs(value).isValid();
-        }),
-    booking_availability_end: yup
-        .string()
-        .required("End date is required")
-        .test('is-valid-date', 'Invalid end date', (value) => {
-            return value && dayjs(value).isValid();
-        })
-        .test('is-after-start', 'End date must be after start date', function (value) {
-            const { booking_availability_start } = this.parent;
-            if (!booking_availability_start || !value) return true;
-            return dayjs(value).isAfter(dayjs(booking_availability_start));
-        }),
+    // booking_availability_start: yup
+    //     .string()
+    //     .required("Start date is required")
+    //     .test('is-valid-date', 'Invalid start date', (value) => {
+    //         return value && dayjs(value).isValid();
+    //     }),
+    // booking_availability_end: yup
+    //     .string()
+    //     .required("End date is required")
+    //     .test('is-valid-date', 'Invalid end date', (value) => {
+    //         return value && dayjs(value).isValid();
+    //     })
+    //     .test('is-after-start', 'End date must be after start date', function (value) {
+    //         const { booking_availability_start } = this.parent;
+    //         if (!booking_availability_start || !value) return true;
+    //         return dayjs(value).isAfter(dayjs(booking_availability_start));
+    //     }),
 
-    booking_time: yup
-        .string()
-        .required("Booking time is required"),
+    // booking_time: yup
+    //     .string()
+    //     .required("Booking time is required"),
 
     // booking_window_start: yup
     //     .string()
@@ -488,14 +488,37 @@ export const servicePackageSchema = yup.object().shape({
     //         return dayjs(value).isBefore(dayjs(booking_availability_end)) || dayjs(value).isSame(dayjs(booking_availability_end));
     //     }),
 
-    media_file: yup
-        .mixed()
-        .test("fileSize", "File size is too large", (value) => {
-            if (!value) return true; // Optional field
-            return value.size <= 5000000; // 5MB limit
-        })
-        .test("fileType", "Unsupported file format", (value) => {
-            if (!value) return true; // Optional field
-            return ["image/jpeg", "image/png", "image/jpg"].includes(value.type);
-        }),
+media_file: yup
+  .mixed()
+  .nullable()
+  .when("media_url", {
+    is: (val) => !val, // if no existing media
+    then: (schema) =>
+      schema
+        .required("Media file is required")
+        .test(
+          "fileSize",
+          "File size is too large",
+          (value) => !value || value.size <= 5000000
+        )
+        .test(
+          "fileType",
+          "Unsupported file format",
+          (value) =>
+            !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        ),
+    otherwise: (schema) =>
+      schema.test(
+        "fileSize",
+        "File size is too large",
+        (value) => !value || value.size <= 5000000
+      ).test(
+        "fileType",
+        "Unsupported file format",
+        (value) =>
+          !value || ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+      ),
+  }),
+
+
 });
