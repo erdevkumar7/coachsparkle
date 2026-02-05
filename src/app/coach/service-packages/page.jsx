@@ -9,6 +9,8 @@ import { allPackagesOfaCoach } from "@/app/api/coach";
 import ViewServicePackage from "../_coach_components/ViewServicePackage";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function CoachServicePackages() {
   const router = useRouter();
@@ -86,11 +88,12 @@ export default function CoachServicePackages() {
               </div>
             </>
           )}
-
+<LocalizationProvider dateAdapter={AdapterDayjs}>
           <CoachServicePackageForm
             isProUser={isProUser}
             onPackageAdded={handlePackageAdded}
           />
+          </LocalizationProvider>
         </div>
       )}
     </div>
