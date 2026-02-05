@@ -143,6 +143,7 @@ const DashboardAIRecommendations = () => {
               />
               <div className="name-text">
                 <p>{coach.name}</p>
+                <p>{coach.title}</p>
                 <span>
                   <i className="bi bi-star-fill"></i> {coach.rating || '5.0'}
                 </span>

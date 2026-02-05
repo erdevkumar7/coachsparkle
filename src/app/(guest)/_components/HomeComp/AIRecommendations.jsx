@@ -82,7 +82,7 @@ const AIRecommendations = () => {
 
   return (
     <div className="card matched-add">
-      <h3>AI Matched Recommendations12</h3>
+      <h3>AI Matched Recommendations</h3>
 
       {recommendations.length > 0 ? (
         recommendations.map((coach) => (
@@ -98,6 +98,7 @@ const AIRecommendations = () => {
               />
               <div className="name-text">
                 <p>{coach.name}</p>
+                <p>{coach.title}</p>
                 <span>
                   <i className="bi bi-star-fill"></i> {coach.rating || '5.0'}
                 </span>
