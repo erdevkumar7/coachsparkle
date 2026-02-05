@@ -9,13 +9,23 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { PreviewPackage } from "./PreviewPackage";
 import EastIcon from "@mui/icons-material/East";
+import TimePicker from "react-time-picker";
+import { Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import { servicePackageSchema } from "@/lib/validationSchema";
 import dayjs from "dayjs";
 import BookingAvailabilityPicker from "./BookingAvailability";
 import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
-
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  Chip,
+  Box,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 
 export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [categories, setCategories] = useState([]);
@@ -29,15 +39,18 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
-  const router = useRouter()
+  const router = useRouter();
   // React Hook Form setup
+
   const {
+    user,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
     watch,
     reset,
+    control,
     trigger,
   } = useForm({
     resolver: yupResolver(servicePackageSchema),
@@ -48,7 +61,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       description: "",
       focus: "",
       delivery_mode_detail: "",
-      age_group: "",
+      age_group: [],
       session_count: "",
       session_duration: "",
       session_format: "",
@@ -69,19 +82,19 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       communication_channel: "",
     },
   });
-  console.log('errors', errors)
+  console.log("errors", errors);
   // Watch form values for preview
   const formData = watch();
-
+  const sessionDuration =
+    (Number(formData?.session_hours) || 0) * 60 +
+    (Number(formData?.session_minutes) || 0);
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const [allMasters] = await Promise.all([
-        getAllMasters(),
-      ]);
+      const [allMasters] = await Promise.all([getAllMasters()]);
 
       // console.log('allMasters', allMasters)
 
@@ -133,7 +146,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
       form.append("delivery_mode", selectedDeliveryMode);
       form.append("package_status", package_status);
-
+      data.age_group.forEach((age) => {
+        form.append("age_group[]", age); // 👈 notice the []
+      });
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
         {
@@ -143,7 +158,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
             Accept: "application/json",
           },
           body: form,
-        }
+        },
       );
 
       const result = await response.json();
@@ -157,7 +172,6 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
           toast.success("Draft saved successfully!");
         }
 
-
         onPackageAdded?.();
         // Reset the form with specific values for date fields
         reset({
@@ -167,7 +181,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
           description: "",
           focus: "",
           delivery_mode_detail: "",
-          age_group: "",
+          age_group: [],
           session_count: "",
           session_duration: "",
           session_format: "",
@@ -226,12 +240,15 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="title"
                     placeholder="Confidence Jumpstart Session"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.title ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                      errors.title ? "is-invalid" : ""
+                    }`}
                     {...register("title")}
                   />
                   {errors.title && (
-                    <div className="invalid-feedback">{errors.title.message}</div>
+                    <div className="invalid-feedback">
+                      {errors.title.message}
+                    </div>
                   )}
                 </div>
 
@@ -244,8 +261,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="short_description"
                     rows="3"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.short_description ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                      errors.short_description ? "is-invalid" : ""
+                    }`}
                     {...register("short_description")}
                   ></textarea>
                   {errors.short_description && (
@@ -256,15 +274,18 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="coaching_category">Coaching Category</label>
+                  <label htmlFor="coaching_category">Coaching Type</label>
                   <select
                     id="coaching_category"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.coaching_category ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                      errors.coaching_category ? "is-invalid" : ""
+                    }`}
                     {...register("coaching_category")}
                   >
-                    <option value="" className="disable-select-option">Select Category</option>
+                    <option value="" className="disable-select-option">
+                      Select Category
+                    </option>
                     {categories.map((cat) => (
                       <option key={cat.id} value={cat.id}>
                         {cat.category_name}
@@ -287,7 +308,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       onMouseLeave={() => setShowDetailDescription(false)}
                       style={{ cursor: "pointer" }}
                     >
-                      <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
+                      <InfoOutlinedIcon
+                        sx={{ color: "#40C0E7", fontSize: 20 }}
+                      />
                       {showDetailDescription && (
                         <div
                           className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
@@ -300,8 +323,12 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                             whiteSpace: "normal",
                           }}
                         >
-                          <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
-                          <p><strong>Guideline</strong></p>
+                          <InfoOutlinedIcon
+                            sx={{ color: "#40C0E7", fontSize: 20 }}
+                          />
+                          <p>
+                            <strong>Guideline</strong>
+                          </p>
                           <ol>
                             <li>This program is design for what purpose</li>
                             <li>What the package helps client to achieve?</li>
@@ -318,8 +345,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="description"
                     rows="3"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.description ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                      errors.description ? "is-invalid" : ""
+                    }`}
                     {...register("description")}
                   ></textarea>
                   {errors.description && (
@@ -336,33 +364,70 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="focus"
                     placeholder="e.g., Confidence, Goal clarity, Custom action plan"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.focus ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                      errors.focus ? "is-invalid" : ""
+                    }`}
                     {...register("focus")}
                   />
                   {errors.focus && (
-                    <div className="invalid-feedback">{errors.focus.message}</div>
+                    <div className="invalid-feedback">
+                      {errors.focus.message}
+                    </div>
                   )}
                 </div>
 
                 <div className="d-flex gap-2">
                   <div className="form-group col-md-6">
                     <label htmlFor="age_group"> Targeted Audience</label>
-                    <select
-                      id="age_group"
-                      disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.age_group ? "is-invalid" : ""
-                        }`}
-                      {...register("age_group")}
-                    >
-                      <option value="" className="disable-select-option">Select </option>
-                      {Array.isArray(ageGroups) &&
-                        ageGroups.map((group) => (
-                          <option key={group.id} value={group.id}>
-                            {group.group_name}
-                          </option>
-                        ))}
-                    </select>
+                    <Controller
+                      name="age_group"
+                      control={control}
+                      render={({ field }) => (
+                        <FormControl fullWidth error={!!errors.age_group}>
+                          <Select
+                            multiple
+                            displayEmpty
+                            value={field.value || []}
+                            onChange={(e) =>
+                              field.onChange(
+                                e.target.value.map(String), // 👈 force string
+                              )
+                            }
+                            renderValue={(selected) => {
+                              if (!selected.length) {
+                                return <em>Select Age Group</em>;
+                              }
+
+                              return (
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    gap: 0.5,
+                                  }}
+                                >
+                                  {selected.map((id) => {
+                                    const item = ageGroups.find(
+                                      (g) => String(g.id) === id,
+                                    );
+                                    return item ? (
+                                      <Chip key={id} label={item.group_name} />
+                                    ) : null;
+                                  })}
+                                </Box>
+                              );
+                            }}
+                          >
+                            {ageGroups.map((age) => (
+                              <MenuItem key={age.id} value={String(age.id)}>
+                                {age.group_name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      )}
+                    />
+
                     {errors.age_group && (
                       <div className="invalid-feedback">
                         {errors.age_group.message}
@@ -371,15 +436,21 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   </div>
 
                   <div className="form-group col-md-6">
-                    <label htmlFor="communication_channel"> Communication Channel</label>
+                    <label htmlFor="communication_channel">
+                      {" "}
+                      Communication Channel
+                    </label>
                     <select
                       id="communication_channel"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.communication_channel ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.communication_channel ? "is-invalid" : ""
+                      }`}
                       {...register("communication_channel")}
                     >
-                      <option value="" className="disable-select-option">Select </option>
+                      <option value="" className="disable-select-option">
+                        Select{" "}
+                      </option>
                       {Array.isArray(getCommunChannel) &&
                         getCommunChannel.map((chanel) => (
                           <option key={chanel.id} value={chanel.id}>
@@ -426,8 +497,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     rows={3}
                     placeholder="Enter details of delivery mode such as Zoom, Google Meet or venue"
                     disabled={!isProUser}
-                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : ""
-                      } ${errors.delivery_mode_detail ? "is-invalid" : ""}`}
+                    className={`delivery-textarea form-control ${
+                      !isProUser ? "disabled-bg" : ""
+                    } ${errors.delivery_mode_detail ? "is-invalid" : ""}`}
                     {...register("delivery_mode_detail")}
                   />
                   {errors.delivery_mode_detail && (
@@ -445,8 +517,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       min={1}
                       placeholder="1"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_count ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.session_count ? "is-invalid" : ""
+                      }`}
                       {...register("session_count", {
                         valueAsNumber: true,
                       })}
@@ -458,7 +531,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     )}
                   </div>
 
-                  <div className="form-group col-md-4 duration-per-session-input">
+                  {/* <div className="form-group col-md-4 duration-per-session-input">
                     <label htmlFor="session_duration">Duration per session</label>
                     <select
                       disabled={!isProUser}
@@ -483,6 +556,30 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         {errors.session_duration.message}
                       </div>
                     )}
+                  </div> */}
+
+                  <div className="form-group col-md-2">
+                    <label>Hours</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="24"
+                      disabled={!isProUser}
+                      className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
+                      {...register("session_hours", { valueAsNumber: true })}
+                    />
+                  </div>
+
+                  <div className="form-group col-md-2">
+                    <label>Minutes</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="60"
+                      disabled={!isProUser}
+                      className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
+                      {...register("session_minutes", { valueAsNumber: true })}
+                    />
                   </div>
 
                   <div className="form-group col-md-4">
@@ -494,7 +591,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         onMouseLeave={() => setShowSessionFormat(false)}
                         style={{ cursor: "pointer" }}
                       >
-                        <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
+                        <InfoOutlinedIcon
+                          sx={{ color: "#40C0E7", fontSize: 20 }}
+                        />
                         {showSessionFormat && (
                           <div
                             className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
@@ -507,19 +606,43 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                               whiteSpace: "normal",
                             }}
                           >
-                            <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
+                            <InfoOutlinedIcon
+                              sx={{ color: "#40C0E7", fontSize: 20 }}
+                            />
                             <ol style={{ marginTop: "20px" }}>
-                              <li><strong>1-on-1 Coaching</strong></li>
-                              <li><strong>Group Session</strong></li>
-                              <li><strong>Workshop / Masterclass</strong></li>
-                              <li><strong>Coaching Program / Package</strong></li>
-                              <li><strong>Self-paced Learning</strong></li>
-                              <li><strong>Webinar / Live Talk</strong></li>
-                              <li><strong>Drop-in / On-demand Session</strong></li>
-                              <li><strong>Corporate/Team Training</strong></li>
-                              <li><strong>Accountability / Check-in Calls</strong></li>
-                              <li><strong>Trial / Discovery Session</strong></li>
-                              <li><strong>Free / Pro Bono</strong></li>
+                              <li>
+                                <strong>1-on-1 Coaching</strong>
+                              </li>
+                              <li>
+                                <strong>Group Session</strong>
+                              </li>
+                              <li>
+                                <strong>Workshop / Masterclass</strong>
+                              </li>
+                              <li>
+                                <strong>Coaching Program / Package</strong>
+                              </li>
+                              <li>
+                                <strong>Self-paced Learning</strong>
+                              </li>
+                              <li>
+                                <strong>Webinar / Live Talk</strong>
+                              </li>
+                              <li>
+                                <strong>Drop-in / On-demand Session</strong>
+                              </li>
+                              <li>
+                                <strong>Corporate/Team Training</strong>
+                              </li>
+                              <li>
+                                <strong>Accountability / Check-in Calls</strong>
+                              </li>
+                              <li>
+                                <strong>Trial / Discovery Session</strong>
+                              </li>
+                              <li>
+                                <strong>Free / Pro Bono</strong>
+                              </li>
                             </ol>
                           </div>
                         )}
@@ -528,11 +651,14 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <select
                       disabled={!isProUser}
                       id="session_format"
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_format ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.session_format ? "is-invalid" : ""
+                      }`}
                       {...register("session_format")}
                     >
-                      <option value="" className="disable-select-option">Select </option>
+                      <option value="" className="disable-select-option">
+                        Select{" "}
+                      </option>
                       {Array.isArray(getFormats) &&
                         getFormats.map((fmt) => (
                           <option key={fmt.id} value={fmt.id}>
@@ -556,14 +682,17 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       min={0}
                       id="price"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.price ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.price ? "is-invalid" : ""
+                      }`}
                       {...register("price", {
                         valueAsNumber: true,
                       })}
                     />
                     {errors.price && (
-                      <div className="invalid-feedback">{errors.price.message}</div>
+                      <div className="invalid-feedback">
+                        {errors.price.message}
+                      </div>
                     )}
                   </div>
 
@@ -572,8 +701,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <select
                       id="currency"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.currency ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.currency ? "is-invalid" : ""
+                      }`}
                       {...register("currency")}
                     >
                       <option value="USD">USD</option>
@@ -595,7 +725,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                         onMouseLeave={() => setShowPricingModal(false)}
                         style={{ cursor: "pointer" }}
                       >
-                        <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
+                        <InfoOutlinedIcon
+                          sx={{ color: "#40C0E7", fontSize: 20 }}
+                        />
                         {showPricingModal && (
                           <div
                             className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
@@ -608,17 +740,39 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                               whiteSpace: "normal",
                             }}
                           >
-                            <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
+                            <InfoOutlinedIcon
+                              sx={{ color: "#40C0E7", fontSize: 20 }}
+                            />
                             <ol style={{ marginTop: "20px" }}>
-                              <li><strong>Package-Based Pricing</strong></li>
-                              <li><strong>Program-Based Pricing</strong></li>
-                              <li><strong>Subscription-Based Pricing</strong></li>
-                              <li><strong>Performance-Based Pricing</strong></li>
-                              <li><strong>Pay-As-You-Go</strong></li>
-                              <li><strong>Sliding Scale Pricing</strong></li>
-                              <li><strong>Ask for Quote: Custom-Based pricing</strong></li>
-                              <li><strong>Trial / Discovery</strong></li>
-                              <li><strong>Free / Pro Bono</strong></li>
+                              <li>
+                                <strong>Package-Based Pricing</strong>
+                              </li>
+                              <li>
+                                <strong>Program-Based Pricing</strong>
+                              </li>
+                              <li>
+                                <strong>Subscription-Based Pricing</strong>
+                              </li>
+                              <li>
+                                <strong>Performance-Based Pricing</strong>
+                              </li>
+                              <li>
+                                <strong>Pay-As-You-Go</strong>
+                              </li>
+                              <li>
+                                <strong>Sliding Scale Pricing</strong>
+                              </li>
+                              <li>
+                                <strong>
+                                  Ask for Quote: Custom-Based pricing
+                                </strong>
+                              </li>
+                              <li>
+                                <strong>Trial / Discovery</strong>
+                              </li>
+                              <li>
+                                <strong>Free / Pro Bono</strong>
+                              </li>
                             </ol>
                           </div>
                         )}
@@ -627,11 +781,14 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <select
                       id="price_model"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.price_model ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.price_model ? "is-invalid" : ""
+                      }`}
                       {...register("price_model")}
                     >
-                      <option value="" className="disable-select-option">Select </option>
+                      <option value="" className="disable-select-option">
+                        Select{" "}
+                      </option>
                       {getPriceModels.map((mdl) => (
                         <option key={mdl.id} value={mdl.id}>
                           {mdl.name}
@@ -648,15 +805,18 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
                 <div className="d-flex gap-2">
                   <div className="form-group col-md-4 slots-available-input">
-                    <label htmlFor="booking_slots">Slots available for Booking</label>
+                    <label htmlFor="booking_slots">
+                      Seats available for Booking
+                    </label>
                     <input
                       type="number"
                       min={1}
                       max={1000}
                       id="booking_slots"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.booking_slots ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.booking_slots ? "is-invalid" : ""
+                      }`}
                       {...register("booking_slots", {
                         valueAsNumber: true,
                       })}
@@ -670,15 +830,16 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
                   <div className="form-group col-md-6 availablity-list-input">
                     <label htmlFor="booking_availability">Availability</label>
+
                     <BookingAvailabilityPicker
                       formData={formData}
                       setFormData={(data) => {
-                        setValue("booking_availability_start", data.booking_availability_start);
-                        setValue("booking_availability_end", data.booking_availability_end);
-                        setValue("booking_time", JSON.stringify(data.booking_availability));
-                        trigger(["booking_availability_start", "booking_availability_end"]);
+                        setValue("formDataField", data); // or update react-hook-form values
                       }}
-                      sessionDuration={formData.session_duration || 60}
+                      sessionDuration={
+                        (Number(formData?.session_hours) || 0) * 60 +
+                          (Number(formData?.session_minutes) || 0) || 60
+                      }
                       bookingSlots={formData.booking_slots || 1}
                       isProUser={isProUser}
                     />
@@ -703,25 +864,32 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                 </div>
 
                 <div className="d-flex gap-2">
-                  <div className="form-group col-md-4">
+                  {/* <div className="form-group col-md-4">
                     <label>
                       Booking Window &nbsp;
-                      <InfoOutlinedIcon sx={{ color: "#40C0E7", fontSize: 20 }} />
+                      <InfoOutlinedIcon
+                        sx={{ color: "#40C0E7", fontSize: 20 }}
+                      />
                     </label>
                     <BookingWindowPicker
                       formData={formData}
                       setFormData={(data) => {
                         // Update both fields in react-hook-form
-                        setValue("booking_window_start", data.booking_window_start);
+                        setValue(
+                          "booking_window_start",
+                          data.booking_window_start,
+                        );
                         setValue("booking_window_end", data.booking_window_end);
 
                         // Trigger validation for both fields
                         trigger(["booking_window_start", "booking_window_end"]);
                       }}
                       isProUser={isProUser}
-                      error={errors.booking_window_start || errors.booking_window_end}
+                      error={
+                        errors.booking_window_start || errors.booking_window_end
+                      }
                     />
-                  </div>
+                  </div> */}
 
                   <div className="form-group col-md-4">
                     <label htmlFor="session_validity">Validity</label>
@@ -730,8 +898,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       id="session_validity"
                       placeholder="Use within 6 weeks from first session"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_validity ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.session_validity ? "is-invalid" : ""
+                      }`}
                       {...register("session_validity")}
                     />
                     {errors.session_validity && (
@@ -743,17 +912,21 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                 </div>
 
                 <div className="validity-cancel-resedule gap-2">
-
                   <div className="form-group col-md-4 cancellation-policy-input">
-                    <label htmlFor="cancellation_policy">Cancellation Policy</label>
+                    <label htmlFor="cancellation_policy">
+                      Cancellation Policy
+                    </label>
                     <select
                       id="cancellation_policy"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.cancellation_policy ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.cancellation_policy ? "is-invalid" : ""
+                      }`}
                       {...register("cancellation_policy")}
                     >
-                      <option value="" className="disable-select-option">Select Cancellation Policy </option>
+                      <option value="" className="disable-select-option">
+                        Select Cancellation Policy{" "}
+                      </option>
                       {Array.isArray(getCancelPolicies) &&
                         getCancelPolicies.map((concelPolicy) => (
                           <option key={concelPolicy.id} value={concelPolicy.id}>
@@ -771,14 +944,17 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   </div>
 
                   <div className="form-group col-md-4">
-                    <label htmlFor="rescheduling_policy">Rescheduling Policy</label>
+                    <label htmlFor="rescheduling_policy">
+                      Rescheduling Policy
+                    </label>
                     <input
                       type="text"
                       id="rescheduling_policy"
                       placeholder="One free reschedule allowed per session"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.rescheduling_policy ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.rescheduling_policy ? "is-invalid" : ""
+                      }`}
                       {...register("rescheduling_policy")}
                     />
                     {errors.rescheduling_policy && (
@@ -798,7 +974,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       Choose file
                     </label>
                     <span className="file-name">
-                      {formData.media_file ? formData.media_file.name : "No file chosen"}
+                      {formData.media_file
+                        ? formData.media_file.name
+                        : "No file chosen"}
                     </span>
                     <input
                       type="file"
@@ -806,8 +984,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       accept="image/*"
                       onChange={handleFileChange}
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.media_file ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.media_file ? "is-invalid" : ""
+                      }`}
                     />
                     {errors.media_file && (
                       <div className="invalid-feedback">
@@ -834,10 +1013,17 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
               <div className="upgrade-banner d-flex align-items-center justify-content-center gap-3 mt-5 p-3 bg-white">
                 <div className="d-flex align-items-center">
                   <span className="upgrade-banner-text">
-                    <img src={`${FRONTEND_BASE_URL}/images/twemoji_rocket.png`} /> Ready to Stand out? <strong>Upgrade now</strong>
+                    <img
+                      src={`${FRONTEND_BASE_URL}/images/twemoji_rocket.png`}
+                    />{" "}
+                    Ready to Stand out? <strong>Upgrade now</strong>
                   </span>
                 </div>
-                <button type="button" className="btn upgrade-btn px-4 py-2" onClick={() => router.push(`/coach/subscription-plan`)}>
+                <button
+                  type="button"
+                  className="btn upgrade-btn px-4 py-2"
+                  onClick={() => router.push(`/coach/subscription-plan`)}
+                >
                   Unlock Pro Features
                 </button>
               </div>
@@ -858,7 +1044,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   value="draft"
                   disabled={!isProUser || isSubmitting}
                 >
-                  {isSubmitting ? "Saving..." : "Save Draft"} <EastIcon className="mui-icons" />
+                  {isSubmitting ? "Saving..." : "Save Draft"}{" "}
+                  <EastIcon className="mui-icons" />
                 </button>
 
                 <button
@@ -867,9 +1054,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   value="unpublished"
                   disabled={!isProUser || isSubmitting}
                 >
-                  {isSubmitting ? "Un-Publishing..." : "Add Service Package"} <EastIcon className="mui-icons" />
+                  {isSubmitting ? "Un-Publishing..." : "Add Service Package"}{" "}
+                  <EastIcon className="mui-icons" />
                 </button>
-
 
                 <button
                   type="submit"
@@ -877,7 +1064,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   value="publish"
                   disabled={!isProUser || isSubmitting}
                 >
-                  {isSubmitting ? "Publishing..." : "Publish"} <EastIcon className="mui-icons" />
+                  {isSubmitting ? "Publishing..." : "Publish"}{" "}
+                  <EastIcon className="mui-icons" />
                 </button>
               </div>
             ) : null}

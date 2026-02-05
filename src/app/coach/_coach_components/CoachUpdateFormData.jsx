@@ -1139,6 +1139,7 @@ export default function CoachUpdateForm({
                         <span className="file-name">
                           <i className="bi bi-file-earmark-image text-primary me-2"></i>
                           {file.name}
+                          
                         </span>
                         <button
                           type="button"
