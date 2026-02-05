@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAllMasters } from "@/app/api/guest";
 import Cookies from "js-cookie";
@@ -61,6 +61,8 @@ export default function CoachServicePackageFormChild({
       coaching_category: packageData?.coaching_category || "",
       description: packageData?.description || "",
       focus: packageData?.focus || "",
+          session_hours: 0,
+    session_minutes: 0,
       delivery_mode_detail: packageData?.delivery_mode_detail || "",
       age_group: (() => {
   const v = packageData?.age_group;
@@ -105,13 +107,22 @@ export default function CoachServicePackageFormChild({
       communication_channel: packageData?.communication_channel || "",
     },
   });
+  const hours = useWatch({ control, name: "session_hours" });
+  const minutes = useWatch({ control, name: "session_minutes" });
 useEffect(() => {
   if (packageData?.media_url) setMediaPreview(packageData.media_url);
 }, [packageData]);
 
   // Watch form values for preview
   const formData = watch();
+  useEffect(() => {
+  const h = Number(hours) || 0;
+  const m = Number(minutes) || 0;
 
+  const totalMinutes = h * 60 + m;
+
+  setValue("session_duration_minutes", totalMinutes);
+}, [hours, minutes, setValue]);
 const handleFileChange = (e) => {
   const file = e.target.files?.[0];
 
@@ -501,25 +512,28 @@ form.append("package_id", packageData.id);
                     )}
                   </div>
 
-                  <div className="form-group col-md-4 duration-per-session-input">
-                    <label htmlFor="session_duration">
-                      Duration per session
-                    </label>
+                  <div className="form-group col-md-2"> 
+                    <label htmlFor="session_hours">Hours</label>
                     <input
-                      type="time"
+                      type="number"
+                      min="0"
+                      max="24"
                       disabled={!isProUser}
-                      id="session_duration"
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.session_duration ? "is-invalid" : ""
-                      }`}
-                      {...register("session_duration")}
+                      className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
+                      {...register("session_hours", { valueAsNumber: true })}
                     />
+                  </div>
 
-                    {errors.session_duration && (
-                      <div className="invalid-feedback">
-                        {errors.session_duration.message}
-                      </div>
-                    )}
+                  <div className="form-group col-md-2">
+                    <label htmlFor="session_hours">Minutes</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="60"
+                      disabled={!isProUser}
+                      className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
+                      {...register("session_minutes", { valueAsNumber: true })}
+                    />
                   </div>
 
                   <div className="form-group col-md-4">

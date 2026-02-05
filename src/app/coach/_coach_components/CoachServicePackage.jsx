@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAllMasters } from "@/app/api/guest";
 import Cookies from "js-cookie";
@@ -39,6 +39,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
+
   const router = useRouter();
   // React Hook Form setup
 
@@ -64,6 +65,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       age_group: [],
       session_count: "",
       session_duration: "",
+    session_hours: 0,
+    session_minutes: 0,
       session_format: "",
       price: "",
       currency: "USD",
@@ -83,11 +86,21 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
     },
   });
   console.log("errors", errors);
+const hours = useWatch({ control, name: "session_hours" });
+const minutes = useWatch({ control, name: "session_minutes" });
   // Watch form values for preview
   const formData = watch();
-  const sessionDuration =
-    (Number(formData?.session_hours) || 0) * 60 +
-    (Number(formData?.session_minutes) || 0);
+
+  useEffect(() => {
+  const h = Number(hours) || 0;
+  const m = Number(minutes) || 0;
+
+  const totalMinutes = h * 60 + m;
+
+  setValue("session_duration_minutes", totalMinutes);
+}, [hours, minutes, setValue]);
+
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -557,9 +570,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       </div>
                     )}
                   </div> */}
-
-                  <div className="form-group col-md-2">
-                    <label>Hours</label>
+                  
+                  <div className="form-group col-md-2"> 
+                    <label htmlFor="session_hours">Hours</label>
                     <input
                       type="number"
                       min="0"
@@ -571,7 +584,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   </div>
 
                   <div className="form-group col-md-2">
-                    <label>Minutes</label>
+                    <label htmlFor="session_hours">Minutes</label>
                     <input
                       type="number"
                       min="0"
@@ -581,7 +594,6 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       {...register("session_minutes", { valueAsNumber: true })}
                     />
                   </div>
-
                   <div className="form-group col-md-4">
                     <label htmlFor="session_format">
                       Session Format &nbsp;
@@ -830,16 +842,15 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
                   <div className="form-group col-md-6 availablity-list-input">
                     <label htmlFor="booking_availability">Availability</label>
-
                     <BookingAvailabilityPicker
                       formData={formData}
                       setFormData={(data) => {
-                        setValue("formDataField", data); // or update react-hook-form values
+                        setValue("booking_availability_start", data.booking_availability_start);
+                        setValue("booking_availability_end", data.booking_availability_end);
+                        setValue("booking_time", JSON.stringify(data.booking_availability));
+                        trigger(["booking_availability_start", "booking_availability_end"]);
                       }}
-                      sessionDuration={
-                        (Number(formData?.session_hours) || 0) * 60 +
-                          (Number(formData?.session_minutes) || 0) || 60
-                      }
+                      sessionDuration={formData.session_duration || 60}
                       bookingSlots={formData.booking_slots || 1}
                       isProUser={isProUser}
                     />
