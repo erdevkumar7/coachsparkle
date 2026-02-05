@@ -85,7 +85,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   console.log("errors", errors);
   // Watch form values for preview
   const formData = watch();
-
+  const sessionDuration =
+    (Number(formData?.session_hours) || 0) * 60 +
+    (Number(formData?.session_minutes) || 0);
   useEffect(() => {
     fetchData();
   }, []);
@@ -144,7 +146,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
       form.append("delivery_mode", selectedDeliveryMode);
       form.append("package_status", package_status);
-     data.age_group.forEach((age) => {
+      data.age_group.forEach((age) => {
         form.append("age_group[]", age); // 👈 notice the []
       });
       const response = await fetch(
@@ -556,26 +558,30 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     )}
                   </div> */}
 
-                  <div className="form-group col-md-4 duration-per-session-input">
-                    <label htmlFor="session_duration">
-                      Duration per session
-                    </label>
+                  <div className="form-group col-md-2">
+                    <label>Hours</label>
                     <input
-                      type="time"
+                      type="number"
+                      min="0"
+                      max="24"
                       disabled={!isProUser}
-                      id="session_duration"
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.session_duration ? "is-invalid" : ""
-                      }`}
-                      {...register("session_duration")}
+                      className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
+                      {...register("session_hours", { valueAsNumber: true })}
                     />
-
-                    {errors.session_duration && (
-                      <div className="invalid-feedback">
-                        {errors.session_duration.message}
-                      </div>
-                    )}
                   </div>
+
+                  <div className="form-group col-md-2">
+                    <label>Minutes</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="60"
+                      disabled={!isProUser}
+                      className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
+                      {...register("session_minutes", { valueAsNumber: true })}
+                    />
+                  </div>
+
                   <div className="form-group col-md-4">
                     <label htmlFor="session_format">
                       Session Format &nbsp;
@@ -824,27 +830,16 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
                   <div className="form-group col-md-6 availablity-list-input">
                     <label htmlFor="booking_availability">Availability</label>
+
                     <BookingAvailabilityPicker
                       formData={formData}
                       setFormData={(data) => {
-                        setValue(
-                          "booking_availability_start",
-                          data.booking_availability_start,
-                        );
-                        setValue(
-                          "booking_availability_end",
-                          data.booking_availability_end,
-                        );
-                        setValue(
-                          "booking_time",
-                          JSON.stringify(data.booking_availability),
-                        );
-                        trigger([
-                          "booking_availability_start",
-                          "booking_availability_end",
-                        ]);
+                        setValue("formDataField", data); // or update react-hook-form values
                       }}
-                      sessionDuration={formData.session_duration || 60}
+                      sessionDuration={
+                        (Number(formData?.session_hours) || 0) * 60 +
+                          (Number(formData?.session_minutes) || 0) || 60
+                      }
                       bookingSlots={formData.booking_slots || 1}
                       isProUser={isProUser}
                     />
