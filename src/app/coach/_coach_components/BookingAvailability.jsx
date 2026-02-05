@@ -1,6 +1,5 @@
 'use client';
-
-import * as React from 'react';
+import React from "react";
 import { Box, Popover, Typography, Button, Stack, Alert } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -32,10 +31,10 @@ export default function BookingAvailabilityPicker({
   const open = Boolean(anchorEl);
 
 
-  const generateSlots = (duration) => {
+  const generateSlots = (sessionDuration) => {
     const slots = [];
     let start = dayjs().hour(0).minute(0);
-    let end = dayjs().hour(24).minute(0);
+    const end = dayjs().hour(23).minute(59);
 
     while (start.isBefore(end)) {
       slots.push(start.format("HH:mm"));
@@ -157,9 +156,10 @@ export default function BookingAvailabilityPicker({
 };
 
 
-  const handleSave = () => {
+   const handleSave = () => {
     const days = getRangeDays(rangeStart, rangeEnd);
 
+    // Check if all days have required slots
     const failed = days.filter(d => {
       const count = draftAvailability[d]?.length || 0;
       return count !== bookingSlots;
@@ -173,14 +173,15 @@ export default function BookingAvailabilityPicker({
       return;
     }
 
-    setFormData({
-      booking_availability_start: rangeStart,
-      booking_availability_end: rangeEnd,
-      booking_availability: draftAvailability,
-      booking_time: JSON.stringify(draftAvailability)
-    });
+setFormData({
+  booking_availability_start: rangeStart,
+  booking_availability_end: rangeEnd,
+  booking_availability: draftAvailability,
+  booking_time: JSON.stringify(draftAvailability)
+});
 
     handleClose();
+
   };
 
 
@@ -274,32 +275,33 @@ export default function BookingAvailabilityPicker({
                   </Alert>
                 )}
 
-                <Box sx={{ flex: 1, overflowY: "auto", maxHeight: 420, pr: 1 }}>
-                  {draftSelectedDay &&
-                    generateSlots(sessionDuration).map(slot => {
-                      const selected = draftAvailability[draftSelectedDay]?.includes(slot);
+<Box sx={{ flex: 1, overflowY: "auto", maxHeight: 420, pr: 1 }}>
+  {draftSelectedDay &&
+    generateSlots(sessionDuration).map((slot) => {
+      const selected = draftAvailability[draftSelectedDay]?.includes(slot);
 
-                      return (
-                        <Box
-                          key={slot}
-                          onClick={() => toggleSlot(draftSelectedDay, slot)}
-                          sx={{
-                            py: 1,
-                            px: 2,
-                            mb: .5,
-                            borderRadius: 1,
-                            cursor: "pointer",
-                            bgcolor: selected ? "#4caf50" : "#eef0f3",
-                            color: selected ? "white" : "#444",
-                            fontSize: "14px",
-                            "&:hover": { opacity: 0.85 }
-                          }}
-                        >
-                          {slot}
-                        </Box>
-                      );
-                    })}
-                </Box>
+      return (
+        <Box
+          key={slot}
+          onClick={() => toggleSlot(draftSelectedDay, slot)}
+          sx={{
+            py: 1,
+            px: 2,
+            mb: 0.5,
+            borderRadius: 1,
+            cursor: "pointer",
+            bgcolor: selected ? "#4caf50" : "#eef0f3",
+            color: selected ? "white" : "#444",
+            fontSize: "14px",
+            "&:hover": { opacity: 0.85 },
+          }}
+        >
+          {slot}
+        </Box>
+      );
+    })}
+</Box>
+
 
                 <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                   <Button variant="outlined" onClick={handleBack}>
