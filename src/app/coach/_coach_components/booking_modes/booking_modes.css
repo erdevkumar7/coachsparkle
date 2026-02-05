@@ -143,3 +143,13 @@ textarea.form-control.instructions-textarea {
     border-radius: 6px;
     cursor: pointer;
 }
+
+.css-w6tl5u {
+    overflow: hidden;
+    width: 320px;
+    max-height: 336px;
+    /* margin: 0px auto; */
+    display: flex;
+    flex-direction: column;
+    height: 292px;
+}
