@@ -571,29 +571,62 @@ const minutes = useWatch({ control, name: "session_minutes" });
                     )}
                   </div> */}
                   
-                  <div className="form-group col-md-2"> 
-                    <label htmlFor="session_hours">Hours</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="24"
-                      disabled={!isProUser}
-                      className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
-                      {...register("session_hours", { valueAsNumber: true })}
-                    />
-                  </div>
+<div className="form-group col-md-2">
+  <label htmlFor="session_hours">Hours</label>
+  <input
+    type="number"
+    min="0"
+    max="24"
+    disabled={!isProUser}
+    className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
+    {...register("session_hours", {
+      valueAsNumber: true,
+      required: isProUser ? "Hours required" : false,
+      min: {
+        value: 0,
+        message: "Hours cannot be less than 0",
+      },
+      max: {
+        value: 24,
+        message: "Hours cannot be more than 24",
+      },
+    })}
+  />
+  {errors.session_hours && (
+    <div className="invalid-feedback">
+      {errors.session_hours.message}
+    </div>
+  )}
+</div>
 
-                  <div className="form-group col-md-2">
-                    <label htmlFor="session_hours">Minutes</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="60"
-                      disabled={!isProUser}
-                      className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
-                      {...register("session_minutes", { valueAsNumber: true })}
-                    />
-                  </div>
+<div className="form-group col-md-2">
+  <label htmlFor="session_minutes">Minutes</label>
+  <input
+    type="number"
+    min="0"
+    max="59"
+    disabled={!isProUser}
+    className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
+    {...register("session_minutes", {
+      valueAsNumber: true,
+      required: isProUser ? "Minutes required" : false,
+      min: {
+        value: 0,
+        message: "Minutes cannot be less than 0",
+      },
+      max: {
+        value: 59,
+        message: "Minutes cannot be more than 59",
+      },
+    })}
+  />
+  {errors.session_minutes && (
+    <div className="invalid-feedback">
+      {errors.session_minutes.message}
+    </div>
+  )}
+</div>
+
                   <div className="form-group col-md-4">
                     <label htmlFor="session_format">
                       Session Format &nbsp;
