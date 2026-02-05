@@ -916,17 +916,17 @@ form.append("package_id", packageData.id);
     : "Choose file"}
 </label>
 
-<input
-  type="file"
-  id="media_file"
-  className="hidden"
-  onChange={(e) =>
-    setFormData((prev) => ({
-      ...prev,
-      media_file: e.target.files[0],
-    }))
-  }
-/>
+  <input
+    type="file"
+    id="media_file"
+    accept="image/*"
+    onChange={handleFileChange}
+    disabled={!isProUser}
+    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+      errors.media_file ? "is-invalid" : ""
+    }`}
+    style={{ display: "none" }} // hide the actual file input
+  />
 </div>
 
                   {errors.media_file && (
