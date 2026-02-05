@@ -352,6 +352,19 @@ export const servicePackageSchema = yup.object().shape({
         .min(50, "Short description minimum 50 characters")
         .max(200, "Short description must be less than 200 characters"),
     coaching_category: yup.string().required("Coaching category is required"),
+      session_hours: yup
+    .number()
+    .typeError("Hours must be a number")
+    .required("Hours are required")
+    .min(0, "Hours cannot be less than 0")
+    .max(24, "Hours cannot be more than 24"),
+
+  session_minutes: yup
+    .number()
+    .typeError("Minutes must be a number")
+    .required("Minutes are required")
+    .min(0, "Minutes cannot be less than 0")
+    .max(59, "Minutes cannot be more than 59"),
     description: yup.string()
         .required("Detailed description is required")
         .min(100, "Detailed description minimun 100 characters")
@@ -379,7 +392,6 @@ export const servicePackageSchema = yup.object().shape({
         .required("Number of sessions is required")
         .min(1, "Must have at least 1 session")
         .positive("Must be a positive number"),
-    session_duration: yup.string().required("Session duration is required"),
     session_format: yup.string().required("Session format is required"),
     price: yup
         .number()
@@ -424,6 +436,8 @@ export const servicePackageSchema = yup.object().shape({
     rescheduling_policy: yup
         .string()
         .required("Rescheduling policy is required"),
+
+        
 
     // booking_availability_start: yup
     //     .string()
