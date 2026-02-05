@@ -919,11 +919,7 @@ export default function CoachServicePackageFormChild({
                   </label>
                   <div className="custom-file-upload">
                     <label htmlFor="media_file" className="upload-btn">
-                      {formData.media_file instanceof File
-                        ? formData.media_file.name // show only new file name
-                        : packageData?.media_file
-                          ? "File uploaded" // generic text, do NOT show URL
-                          : "Choose file"}
+                      { "Choose file"}
                     </label>
 
                     <input
