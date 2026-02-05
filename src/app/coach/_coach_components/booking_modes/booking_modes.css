@@ -124,3 +124,22 @@ textarea.form-control.instructions-textarea {
   line-height: 1.5;
   font-size: 14px;
 }
+
+.modal-content {
+    height: auto;
+    overflow: hidden;
+    width: 90% !important;
+    padding: 0!important;
+    margin: auto !important;
+}
+
+.btn-secondary, .coach-profile-list-right .btn-primary {
+    display: block;
+    width: 14% !important;
+    padding: 10px;
+    margin-bottom: 2px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
