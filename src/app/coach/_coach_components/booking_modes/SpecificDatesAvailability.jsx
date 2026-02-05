@@ -119,7 +119,7 @@ export default function SpecificDatesAvailability({ value = {}, onChange }) {
 
       {/* Calendar */}
       {openCalendar && (
-        <div className="border rounded p-2 mt-2 bg-white">
+        <div className="border rounded p-2 mt-2 bg-white calendara-class">
           <DateCalendar
             disablePast
             views={["day"]}

@@ -144,11 +144,11 @@ textarea.form-control.instructions-textarea {
     cursor: pointer;
 }
 
-.css-w6tl5u {
+.calendara-class {
     overflow: hidden;
     width: 320px;
     max-height: 336px;
-    /* margin: 0px auto; */
+    margin: 0px;
     display: flex;
     flex-direction: column;
     height: 292px;
