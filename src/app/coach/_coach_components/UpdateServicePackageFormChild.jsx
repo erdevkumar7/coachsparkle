@@ -908,25 +908,25 @@ form.append("package_id", packageData.id);
                     Media Upload
                   </label>
 <div className="custom-file-upload">
-  <label htmlFor="media_file" className="upload-btn">
-    {formData.media_file
-      ? formData.media_file.name // newly selected file
-      : packageData?.media_file
-      ? packageData.media_file // existing file name
-      : "Choose file"}
-  </label>
+<label htmlFor="media_file" className="upload-btn">
+  {formData.media_file instanceof File
+    ? formData.media_file.name // show only new file name
+    : packageData?.media_file
+    ? "File uploaded" // generic text, do NOT show URL
+    : "Choose file"}
+</label>
 
-  <input
-    type="file"
-    id="media_file"
-    accept="image/*"
-    onChange={handleFileChange}
-    disabled={!isProUser}
-    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-      errors.media_file ? "is-invalid" : ""
-    }`}
-    style={{ display: "none" }} // hide the actual file input
-  />
+<input
+  type="file"
+  id="media_file"
+  className="hidden"
+  onChange={(e) =>
+    setFormData((prev) => ({
+      ...prev,
+      media_file: e.target.files[0],
+    }))
+  }
+/>
 </div>
 
                   {errors.media_file && (
