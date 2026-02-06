@@ -614,9 +614,89 @@ p.coach-rating span {
     padding-bottom: 15px;
 }
 
-.card.matched-add .coach button.msg-btn {
-    margin-top: 0px;
-    width: 20%;
+.card.matched-add {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+.card.matched-add h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.card.matched-add .coach {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.card.matched-add .coach:last-child {
+  border-bottom: none;
+}
+
+.card.matched-add .info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.card.matched-add .coach-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card.matched-add .name-text p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.card.matched-add .name-text span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ff6b35;
+  font-size: 0.9rem;
+}
+
+.card.matched-add .msg-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+  margin-top: 0px;
+  width: 20%;
+}
+
+.card.matched-add .msg-btn:hover {
+  background-color: #0056b3;
+}
+
+.card.matched-add .loading-spinner,
+.card.matched-add .error-message,
+.card.matched-add .no-recommendations {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.card.matched-add .action-buttons {
+  display: flex;
+  gap: 10px;
 }
 
 .goal-left-column {
@@ -740,7 +820,7 @@ p.coach-rating span {
     padding-bottom: 18px;
     font-weight: 600;
     font-size: 24px;
-}   
+}
 
 .activity-log-card ul.activity-list {
     padding-left: 0pc;
@@ -769,7 +849,7 @@ p.coach-rating span {
 @media screen and (min-width: 768px) and (max-width: 1024px) {
     span.status.status-pending {
         width: 50%;
-    } 
+    }
     nav.sidebar.sidebar-offcanvas.add-sdbar.collapsed {
         border-radius: 0;
         position: absolute;
@@ -777,7 +857,7 @@ p.coach-rating span {
         width: 32% !important;
         left: 0 !important;
       }
-    
+
       nav#sidebar {
         border-radius: 0;
         position: absolute;
@@ -871,7 +951,7 @@ p.coach-rating span {
         align-items: center;
         justify-content: center;
     }
- 
+
 
     .msg_left_text_add p.small.text-muted.text-truncate.mb-0 {
         width: 90%;
@@ -1004,7 +1084,7 @@ p.coach-rating span {
         justify-content: center;
         margin-top: 15px !important;
     }
-    
+
 
     .goals-progress .right-column {
         width: 100%;
@@ -1038,7 +1118,7 @@ p.coach-rating span {
     .goals-progress .goal p {
         text-align: center;
     }
-     
+
     .card.matched-add h3 {
         text-align: center;
     }
@@ -1070,7 +1150,7 @@ p.coach-rating span {
     .favourite-user-warp .topbar.d-flex.justify-content-between.align-items-center.py-2.px-2 {
         display: block !important;
     }
-    
+
     .topbar h3 {
         font-size: 20px !important;
         font-weight: 500 !important;
@@ -1122,6 +1202,6 @@ p.coach-rating span {
         font-size: 15px;
         min-width: 110px;
     }
-    
+
 
 }

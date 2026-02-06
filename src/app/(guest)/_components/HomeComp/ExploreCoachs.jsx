@@ -12,7 +12,9 @@ export default async function ExploreCoachs({ sectionData }) {
     // Fetch subtypes for each type in parallel
     const typesWithSubtypes = await Promise.all(
         types.map(async (type) => {
-            const subtypes = await getSubCoachType(type.id);
+            const subtypesRaw = await getSubCoachType(type.id);
+            // Ensure we always store an array of subtypes (API sometimes returns an object like { success, data })
+            const subtypes = Array.isArray(subtypesRaw) ? subtypesRaw : (subtypesRaw?.data ?? []);
             return {
                 ...type,
                 subtypes

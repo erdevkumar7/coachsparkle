@@ -89,7 +89,12 @@ export const getSubCoachType = async (coach_type_id) => {
         },
     });
     const coachSubTypeData = await coachSubTypeRes.json();
-    return coachSubTypeData;
+
+    // Normalize response to always return an array of subtypes
+    if (Array.isArray(coachSubTypeData)) return coachSubTypeData;
+    if (coachSubTypeData?.success && Array.isArray(coachSubTypeData.data)) return coachSubTypeData.data;
+    // If API returns an object with data property or anything else, try to return data array; otherwise fallback to empty array
+    return coachSubTypeData?.data ?? [];
 }
 
 export const getAgeGroup = async () => {

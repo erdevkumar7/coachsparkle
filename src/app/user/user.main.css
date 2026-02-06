@@ -126,7 +126,7 @@
   align-items: center;
 }
 .coaching-progress-status .coaching-progress.p-3 {
-  width: 30% !important; 
+  width: 30% !important;
 }
 
 .coaching-progress-status .d-flex.flex-wrap.py-4.px-4 {
@@ -229,7 +229,8 @@
     margin-top: 15px;
     padding: 10px 21px;
     font-size: 14px;
-    width: 25%;
+    /* width: 25%; */
+    width:auto;
 }
 .inner-card-add img {
   width: 50px;

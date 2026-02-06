@@ -8,6 +8,7 @@ import { HandleValidateToken } from "@/app/api/auth";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CircularProgress } from "@mui/material";
 import { newDateTimeFormatter } from "@/lib/commonFunction";
+import DashboardAIRecommendations from "./_components/DashboardAIRecommendations";
 
 export default function UserDashboard() {
     const router = useRouter();
@@ -405,8 +406,9 @@ export default function UserDashboard() {
                                 </div>
                             ) : (
                                 userGoals.map((goal, index) => (
-                                    <div key={goal.package_id} className="goal">
-                                        <p className="build-text-add">{goal.title}</p>
+                                    <div key={index} className="goal">
+                                        <p className="build-text-add">{goal.goal}</p>
+                                        {goal.matched_package_title && <p className="text-muted small">Matched with: {goal.matched_package_title}</p>}
                                         <div className="progress">
                                             <div
                                                 className={`progress-bar ${getProgressColor(goal.progress_percent)}`}
@@ -421,57 +423,23 @@ export default function UserDashboard() {
                                             )}
 
                                         </div>
-                                        <div className="goal-actions">
-                                            <button
-                                                className="view-btn"
-                                                onClick={() => handleViewSession(goal.coach_id, goal.package_id)}
-                                            >
-                                                View Session
-                                            </button>
-                                        </div>
+                                        {goal.matched_package_id &&
+                                            <div className="goal-actions">
+                                                <button
+                                                    className="view-btn"
+                                                    onClick={() => handleViewSession(goal.coach_id, goal.matched_package_id)}
+                                                >
+                                                    View Session
+                                                </button>
+                                            </div>
+                                        }
                                     </div>
                                 ))
                             )}
                         </div>
 
 
-                        <div className="card matched-add">
-                            <h3>AI Matched Recommendations</h3>
-                            <div className="coach">
-
-                                <div className="info">
-                                    <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <div className="name-text">
-                                        <p>Tracy McCoy</p>
-                                        <span><i className="bi bi-star-fill"></i> 5.0</span>
-                                    </div>
-                                </div>
-                                <button className="msg-btn">Message</button>
-                            </div>
-                            <div className="coach">
-
-                                <div className="info">
-                                    <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <div className="name-text">
-                                        <p>Jim Saw</p>
-                                        <span><i className="bi bi-star-fill"></i> 5.0</span>
-                                    </div>
-                                </div>
-                                <button className="msg-btn">Book Trial</button>
-                            </div>
-                            <div className="coach">
-
-
-                                <div className="info">
-                                    <img src="/coachsparkle/assets/images/professional-img.png" alt="Coach Image" className="coach-img" />
-                                    <div className="name-text">
-                                        <p>Jammy Vardy</p>
-                                        <span><i className="bi bi-star-fill"></i> 5.0</span>
-                                    </div>
-                                </div>
-                                <button className="msg-btn">Message</button>
-                            </div>
-                        </div>
+                        <DashboardAIRecommendations />
 
                     </div>
 
@@ -507,7 +475,7 @@ export default function UserDashboard() {
                                 </div>
                             </div> */}
 
-                            {/* 
+                            {/*
                             <div className="card">
                                 <p className="section-title">You’re working with Tony Buck</p>
                                 <span className="status">Awaiting response</span>
