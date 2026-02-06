@@ -61,29 +61,29 @@ export default function CoachServicePackageFormChild({
       coaching_category: packageData?.coaching_category || "",
       description: packageData?.description || "",
       focus: packageData?.focus || "",
-          session_hours: 0,
-    session_minutes: 0,
+      session_hours: 0,
+      session_minutes: 0,
       delivery_mode_detail: packageData?.delivery_mode_detail || "",
       age_group: (() => {
-  const v = packageData?.age_group;
+        const v = packageData?.age_group;
 
-  if (Array.isArray(v)) return v.map(String);
+        if (Array.isArray(v)) return v.map(String);
 
-  if (typeof v === "string") {
-    try {
-      const parsed = JSON.parse(v);
-      if (Array.isArray(parsed)) return parsed.map(String);
-    } catch {
-      // "3,5,7" fallback
-      return v
-        .split(",")
-        .map(x => x.replace(/["[\]\s]/g, ""))
-        .filter(Boolean);
-    }
-  }
+        if (typeof v === "string") {
+          try {
+            const parsed = JSON.parse(v);
+            if (Array.isArray(parsed)) return parsed.map(String);
+          } catch {
+            // "3,5,7" fallback
+            return v
+              .split(",")
+              .map((x) => x.replace(/["[\]\s]/g, ""))
+              .filter(Boolean);
+          }
+        }
 
-  return [];
-})(),
+        return [];
+      })(),
 
       session_count: packageData?.session_count || "",
       session_duration: packageData?.session_duration || "",
@@ -109,30 +109,28 @@ export default function CoachServicePackageFormChild({
   });
   const hours = useWatch({ control, name: "session_hours" });
   const minutes = useWatch({ control, name: "session_minutes" });
-useEffect(() => {
-  if (packageData?.media_url) setMediaPreview(packageData.media_url);
-}, [packageData]);
+  useEffect(() => {
+    if (packageData?.media_url) setMediaPreview(packageData.media_url);
+  }, [packageData]);
 
   // Watch form values for preview
   const formData = watch();
   useEffect(() => {
-  const h = Number(hours) || 0;
-  const m = Number(minutes) || 0;
+    const h = Number(hours) || 0;
+    const m = Number(minutes) || 0;
 
-  const totalMinutes = h * 60 + m;
+    const totalMinutes = h * 60 + m;
 
-  setValue("session_duration_minutes", totalMinutes);
-}, [hours, minutes, setValue]);
-const handleFileChange = (e) => {
-  const file = e.target.files?.[0];
+    setValue("session_duration_minutes", totalMinutes);
+  }, [hours, minutes, setValue]);
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
 
-  if (file) {
-    
-    setValue("media_file", file); // react-hook-form
-    setMediaPreview(URL.createObjectURL(file)); // ✅ preview
-  }
-};
-
+    if (file) {
+      setValue("media_file", file); // react-hook-form
+      setMediaPreview(URL.createObjectURL(file)); // ✅ preview
+    }
+  };
 
   const onSubmit = async (data, e) => {
     const clickedButton = e.nativeEvent.submitter?.value || "draft";
@@ -142,32 +140,30 @@ const handleFileChange = (e) => {
       const token = Cookies.get("token");
       const form = new FormData();
 
-// 1️⃣ Normal fields (except media)
-// 1️⃣ Normal fields (skip file only)
-Object.entries(data).forEach(([key, value]) => {
-  if (value !== null && value !== undefined && key !== "media_file") {
-    form.append(key, value);
-  }
-});
+      // 1️⃣ Normal fields (except media)
+      // 1️⃣ Normal fields (skip file only)
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && key !== "media_file") {
+          form.append(key, value);
+        }
+      });
 
-// 2️⃣ Handle media_file / media_url
-if (data.media_file instanceof File) {
-  // New image selected → send file
-  form.append("media_file", data.media_file);
-} else if (data.media_url) {
-  // No new image, keep existing → send media_url
-  form.append("media_url", data.media_url);
-} else {
-  // No image at all → null
-  form.append("media_url", null);
-}
+      // 2️⃣ Handle media_file / media_url
+      if (data.media_file instanceof File) {
+        // New image selected → send file
+        form.append("media_file", data.media_file);
+      } else if (data.media_url) {
+        // No new image, keep existing → send media_url
+        form.append("media_url", data.media_url);
+      } else {
+        // No image at all → null
+        form.append("media_url", null);
+      }
 
-// 3️⃣ Extra fixed fields
-form.append("delivery_mode", selectedDeliveryMode);
-form.append("package_status", package_status);
-form.append("package_id", packageData.id);
-
-
+      // 3️⃣ Extra fixed fields
+      form.append("delivery_mode", selectedDeliveryMode);
+      form.append("package_status", package_status);
+      form.append("package_id", packageData.id);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/update-service-package`,
@@ -512,7 +508,7 @@ form.append("package_id", packageData.id);
                     )}
                   </div>
 
-                  <div className="form-group col-md-2"> 
+                  <div className="form-group col-md-2">
                     <label htmlFor="session_hours">Hours</label>
                     <input
                       type="number"
@@ -921,27 +917,23 @@ form.append("package_id", packageData.id);
                   <label htmlFor="media_file" className="form-label">
                     Media Upload
                   </label>
-<div className="custom-file-upload">
-<label htmlFor="media_file" className="upload-btn">
-  {formData.media_file instanceof File
-    ? formData.media_file.name // show only new file name
-    : packageData?.media_file
-    ? "File uploaded" // generic text, do NOT show URL
-    : "Choose file"}
-</label>
+                  <div className="custom-file-upload">
+                    <label htmlFor="media_file" className="upload-btn">
+                      { "Choose file"}
+                    </label>
 
-  <input
-    type="file"
-    id="media_file"
-    accept="image/*"
-    onChange={handleFileChange}
-    disabled={!isProUser}
-    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-      errors.media_file ? "is-invalid" : ""
-    }`}
-    style={{ display: "none" }} // hide the actual file input
-  />
-</div>
+                    <input
+                      type="file"
+                      id="media_file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      disabled={!isProUser}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
+                        errors.media_file ? "is-invalid" : ""
+                      }`}
+                      style={{ display: "none" }} // hide the actual file input
+                    />
+                  </div>
 
                   {errors.media_file && (
                     <p style={{ color: "#dc3545" }}>
@@ -950,21 +942,21 @@ form.append("package_id", packageData.id);
                   )}
                 </div>
 
-              {mediaPreview && (
-  <div className="preview-image">
-    <img
-      src={mediaPreview}
-      alt="Preview"
-      style={{
-        maxWidth: "100%",
-        maxHeight: "200px",
-        objectFit: "cover",
-        borderRadius: "6px",
-        border: "1px solid #ddd",
-      }}
-    />
-  </div>
-)}
+                {mediaPreview && (
+                  <div className="preview-image">
+                    <img
+                      src={mediaPreview}
+                      alt="Preview"
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "200px",
+                        objectFit: "cover",
+                        borderRadius: "6px",
+                        border: "1px solid #ddd",
+                      }}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="card preview-section">
