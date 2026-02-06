@@ -22,7 +22,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
   const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const availabilityMode = packageData?.booking_availability?.mode || "specific";
+  const availabilityMode = packageData?.booking_availability?.mode || "ondemand";
 
   // Load selected dates from sessionStorage on component mount
   useEffect(() => {
