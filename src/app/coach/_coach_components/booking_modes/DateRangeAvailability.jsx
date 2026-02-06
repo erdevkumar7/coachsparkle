@@ -1,4 +1,5 @@
 import "./booking_modes.css";
+
 export default function DateRangeAvailability({ value = {}, onChange }) {
   const days = [
     { key: "monday", label: "Monday" },
@@ -14,6 +15,42 @@ export default function DateRangeAvailability({ value = {}, onChange }) {
 
   return (
     <div>
+      <h6 className="mb-3">Date Range</h6>
+
+      {/* Start / End Date */}
+      <div className="row mb-3">
+        <div className="col-md-6">
+          <label className="form-label">Start Date</label>
+          <input
+            type="date"
+            className="form-control"
+            value={value.startDate || ""}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                startDate: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        <div className="col-md-6">
+          <label className="form-label">End Date</label>
+          <input
+            type="date"
+            className="form-control"
+            value={value.endDate || ""}
+            min={value.startDate || undefined}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                endDate: e.target.value,
+              })
+            }
+          />
+        </div>
+      </div>
+
       <h6 className="mb-3">Weekly Availability</h6>
 
       {days.map(({ key, label }) => {
@@ -44,12 +81,10 @@ export default function DateRangeAvailability({ value = {}, onChange }) {
               <span className="pill-indicator" />
             </label>
 
-            {/* Day */}
             <span className="fw-medium" style={{ width: 90 }}>
               {label}
             </span>
 
-            {/* Time inputs – show only when enabled */}
             {isEnabled && (
               <>
                 <input

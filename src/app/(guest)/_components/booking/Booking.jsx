@@ -22,6 +22,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
   const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const availabilityMode = packageData?.booking_availability?.mode || "specific";
 
   // Load selected dates from sessionStorage on component mount
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
   }, [selectedDates, isReschedule]);
 
   useEffect(() => {
-    if (!package_id) return;
+    if (!package_id || availabilityMode === "ondemand") return;
 
     fetchAvailability(package_id)
       .then((data) => {
@@ -106,18 +107,19 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
         console.error("Error fetching availability:", err);
         toast.error("Failed to load availability");
       });
-  }, [package_id]);
+  }, [package_id, availabilityMode]);
+
 
   useEffect(() => {
-  if (!currentDate) return;
+    if (!currentDate) return;
 
-  const key = currentDate.toISOString().slice(0, 10);
-  const slots = availability[key] || [];
+    const key = currentDate.toISOString().slice(0, 10);
+    const slots = availability[key] || [];
 
-  slots.sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+    slots.sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 
-  setTimeSlots(slots);
-}, [currentDate, availability]);
+    setTimeSlots(slots);
+  }, [currentDate, availability]);
 
 
   const getActiveDays = (year, month) => {
@@ -416,7 +418,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
           </div>
         </div>
 
-        <div className="calendar-panel p-4 flex-grow-1">
+        {/* <div className="calendar-panel p-4 flex-grow-1">
           {currentDate && (
             <Calendar
               currentDate={currentDate}
@@ -425,96 +427,109 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
               selectedDates={selectedDates.map(item => item.date)}
             />
           )}
-        </div>
+        </div> */}
 
-        <div className="time-panel p-4">
-          <div className="inner-panel">
-            <div className="fw-semibold mb-3">
-              {currentDate?.toLocaleDateString("en-US", {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-              })}
-            </div>
-
-            <div className="time-slot-scroll mb-3">
-              {timeSlots.length > 0 ? (
-                timeSlots.map((slot, idx) => (
-                  <div key={idx} className="mb-2">
-                    <button
-                      className={`time-slot-btn w-100 ${isReschedule && selectedDates.length > 0 && selectedDates[0].time === slot ? 'active' : ''
-                        }`}
-                      onClick={() => handleTimeSelect(slot)}
-                    >
-                      {slot}
-                    </button>
-                  </div>
-                ))
-              ) : (
-                <div className="text-muted small">No slots available</div>
+        {(availabilityMode === "specific" || availabilityMode === "range") && (
+          <>
+            <div className="calendar-panel p-4 flex-grow-1">
+              {currentDate && (
+                <Calendar
+                  currentDate={currentDate}
+                  onDateSelect={handleDateSelect}
+                  getActiveDays={getActiveDays}
+                  selectedDates={selectedDates.map(item => item.date)}
+                />
               )}
             </div>
 
-            <h6 className="fw-semibold mb-2">
-              {isReschedule ? 'Reschedule To' : 'Selected Dates & Times'}
-            </h6>
-            <div className="selected-dates add-selected-date">
-              <div className="selected-dates-section add-selected-date-inner">
-                {selectedDates.length === 0 ? (
-                  <div className="text-muted small">
-                    {isReschedule ? 'No reschedule date selected yet' : 'No dates selected yet'}
-                  </div>
-                ) : (
-                  <div className="selected-dates-list">
-                    {selectedDates.map((selected, index) => (
-                      <div key={index} className="selected-date-item d-flex align-items-center justify-content-between mb-2 p-2 bg-light rounded">
-                        <div>
-                          <span className="fw-medium">
-                            {selected.date.toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric"
-                            })}
-                          </span>
-                          <span className="ms-2">{selected.time}</span>
-                        </div>
+            <div className="time-panel p-4">
+              <div className="inner-panel">
+                <div className="fw-semibold mb-3">
+                  {currentDate?.toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </div>
+
+                <div className="time-slot-scroll mb-3">
+                  {timeSlots.length > 0 ? (
+                    timeSlots.map((slot, idx) => (
+                      <div key={idx} className="mb-2">
                         <button
-                          className="btn btn-sm btn-outline-danger"
-                          onClick={() => removeSelectedDate(selected)}
+                          className={`time-slot-btn w-100 ${isReschedule && selectedDates.length > 0 && selectedDates[0].time === slot ? 'active' : ''
+                            }`}
+                          onClick={() => handleTimeSelect(slot)}
                         >
-                          &times;
+                          {slot}
                         </button>
                       </div>
-                    ))}
-                    {/* {isReschedule && selectedDates.length > 0 && (
+                    ))
+                  ) : (
+                    <div className="text-muted small">No slots available</div>
+                  )}
+                </div>
+
+                <h6 className="fw-semibold mb-2">
+                  {isReschedule ? 'Reschedule To' : 'Selected Dates & Times'}
+                </h6>
+                <div className="selected-dates add-selected-date">
+                  <div className="selected-dates-section add-selected-date-inner">
+                    {selectedDates.length === 0 ? (
+                      <div className="text-muted small">
+                        {isReschedule ? 'No reschedule date selected yet' : 'No dates selected yet'}
+                      </div>
+                    ) : (
+                      <div className="selected-dates-list">
+                        {selectedDates.map((selected, index) => (
+                          <div key={index} className="selected-date-item d-flex align-items-center justify-content-between mb-2 p-2 bg-light rounded">
+                            <div>
+                              <span className="fw-medium">
+                                {selected.date.toLocaleDateString("en-US", {
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric"
+                                })}
+                              </span>
+                              <span className="ms-2">{selected.time}</span>
+                            </div>
+                            <button
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => removeSelectedDate(selected)}
+                            >
+                              &times;
+                            </button>
+                          </div>
+                        ))}
+                        {/* {isReschedule && selectedDates.length > 0 && (
                       <div className="text-info small mt-1">
                         <i className="bi bi-info-circle me-1"></i>
                         Reschedule mode: Only one session can be selected
                       </div>
                     )} */}
-                  </div>
-                )}
-              </div>
-
-              {selectedDates.length > 0 && (
-                <div className="mt-3">
-                  <button
-                    className={`btn w-100 book-selected-date ${isReschedule ? 'btn-warning' : 'btn-primary'
-                      }`}
-                    onClick={handleSubmit}
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                        {isReschedule ? 'Rescheduling...' : 'Processing...'}
-                      </>
-                    ) : (
-                      isReschedule ? `Reschedule Session` : `Book Selected Dates (${selectedDates.length})`
+                      </div>
                     )}
-                  </button>
+                  </div>
 
-                  {/* {isReschedule && (
+                  {selectedDates.length > 0 && (
+                    <div className="mt-3">
+                      <button
+                        className={`btn w-100 book-selected-date ${isReschedule ? 'btn-warning' : 'btn-primary'
+                          }`}
+                        onClick={handleSubmit}
+                        disabled={isProcessing}
+                      >
+                        {isProcessing ? (
+                          <>
+                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            {isReschedule ? 'Rescheduling...' : 'Processing...'}
+                          </>
+                        ) : (
+                          isReschedule ? `Reschedule Session` : `Book Selected Dates (${selectedDates.length})`
+                        )}
+                      </button>
+
+                      {/* {isReschedule && (
                     <div className="text-center mt-2">
                       <small className="text-muted">
                         <i className="bi bi-shield-check me-1"></i>
@@ -522,11 +537,80 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                       </small>
                     </div>
                   )} */}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+            </div>
+          </>
+        )}
+        {availabilityMode === "ondemand" && (
+          <div className="calendar-panel px-4 pt-4 pb-3 flex-grow-1">
+            <div className="card border-0">
+              {/* How it works */}
+              <div className="alert alert-light border d-flex align-items-start gap-2 mb-4">
+                <i className="bi bi-chat-left-text text-primary mt-1"></i>
+                <div>
+                  <div className="fw-semibold">How it works</div>
+                  <div className="small text-muted">
+                    Submit your preferred dates and times. The coach will confirm within 24 hours.
+                  </div>
+                </div>
+              </div>
+
+              {/* Name + Email */}
+              <div className="row g-3 mb-3">
+                <div className="col-md-6">
+                  <label className="form-label">Your Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="John Doe"
+                    defaultValue={userData?.name || ""}
+                  />
+                </div>
+
+                <div className="col-md-6">
+                  <label className="form-label">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="john@example.com"
+                    defaultValue={userData?.email || ""}
+                  />
+                </div>
+              </div>
+
+              {/* Preferred Dates */}
+              <div className="mb-4">
+                <label className="form-label">Preferred Dates & Times</label>
+                <textarea
+                  rows={4}
+                  className="form-control"
+                  placeholder="Please share 2-3 preferred time slots."
+                />
+              </div>
+
+              {/* Submit */}
+              <button
+                className="btn d-flex align-items-center justify-content-center mt-3 text-white border-0"
+                style={{
+                  backgroundColor: "#009bfa",
+                  borderRadius: "12px",
+                  gap: "5px",
+                  fontSize: "15px",
+                  padding: "10px 20px",
+                  cursor: "pointer",
+                }}
+                onClick={() => toast.success("Request submitted (UI only)")}
+              >
+                Submit Request <i className="bi bi-arrow-right ms-2"></i>
+              </button>
             </div>
           </div>
-        </div>
+        )}
+
+
       </div>
     </div>
   );

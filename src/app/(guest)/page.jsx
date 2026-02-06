@@ -174,7 +174,7 @@ export default async function Home() {
 
       <LatestArticles />
 
-      <AIRecommendations />
+      {/* <AIRecommendations /> */}
 
       <CoachPlans
         userData={user}
