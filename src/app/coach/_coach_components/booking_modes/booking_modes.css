@@ -1,0 +1,155 @@
+.mui-multi-selected-day {
+  background-color: #10b981 !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+}
+
+.mui-multi-selected-day:hover {
+  background-color: #0ea371 !important;
+}
+
+.MuiDateCalendar-root.css-5wchs2-MuiDateCalendar-root {
+    height: 286px;
+}
+
+/* Pill-style checkbox (matches screenshot style) */
+.pill-toggle {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: #e9ecef;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.pill-toggle input {
+  display: none;
+}
+
+.pill-toggle .pill-indicator {
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease, background 0.2s ease;
+  transform: translateX(0);
+}
+
+.pill-toggle.active {
+  background: #0d6efd; /* Bootstrap primary */
+}
+
+.pill-toggle.active .pill-indicator {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+/* Multi-select highlight for calendar */
+.mui-multi-selected-day {
+  background-color: #0d6efd !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+}
+
+/* Compact time inputs */
+.time-input-compact {
+  height: 34px;
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+/* Compact max input */
+.max-input-compact {
+  height: 34px;
+  padding: 4px 8px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+/* Compact delete button */
+.delete-btn-compact {
+  height: 34px;
+  width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+/* Match Add Time button height */
+.btn.btn-outline-primary.btn-sm {
+  height: 34px;
+  padding: 4px 10px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+input.form-control.form-control-sm.time-input-compact {
+    height: 36px;
+}
+
+.profile-form .form-group input, .form-group select, .form-group textarea {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    height: 48px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+input.form-control.form-control-sm.max-input-compact {
+    height: 38px;
+}   
+
+
+.profile-form.service-profile-add input#«ra», .profile-form.service-profile-add input#«r9», .profile-form.service-profile-add input#«rb», .profile-form.service-profile-add .availablity-list-input input, .profile-form.service-profile-add .range-picker-field input#«r5», .profile-form.service-profile-add .MuiFormControl-root.MuiFormControl-fullWidth.MuiTextField-root.range-picker-field.css-cmpglg-MuiFormControl-root-MuiTextField-root input#«r7», .profile-form.service-profile-add input#«r2», .profile-form.service-profile-add input#«r9», .profile-form.service-profile-add input#«r3» {
+    margin-top: 0px !important;
+    padding: 0 10px !important;
+}
+
+input.form-control.time-slot {
+    height: 36px !important;
+}
+
+
+textarea.form-control.instructions-textarea {
+  min-height: 140px;
+  resize: vertical;
+  padding: 10px 12px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.modal-content {
+    height: auto;
+    overflow: hidden;
+    width: 90% !important;
+    padding: 0!important;
+    margin: auto !important;
+}
+
+.btn-secondary, .coach-profile-list-right .btn-primary {
+    display: block;
+    width: 14% !important;
+    padding: 10px;
+    margin-bottom: 2px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.calendara-class {
+    overflow: hidden;
+    width: 320px;
+    max-height: 336px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 292px;
+}
