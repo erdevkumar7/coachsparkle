@@ -23,6 +23,7 @@ import {
   Autocomplete,
   TextField,
 } from "@mui/material";
+import AvailabilityModesField from "./booking_modes/BookingAvailabilityPicker";
 
 export default function CoachServicePackageFormChild({
   isProUser,
@@ -775,7 +776,16 @@ export default function CoachServicePackageFormChild({
                   </div>
 
                   <div className="form-group col-md-6 availablity-list-input">
-                    <label htmlFor="booking_availability">Availability</label>
+                    <AvailabilityModesField
+                      value={formData.booking_availability}
+                      isProUser={isProUser}
+                      sessionDurationMinutes={formData.session_duration_minutes}
+                      onChange={(val) => {
+                        setValue("booking_availability", val);
+                        trigger("booking_availability");
+                      }}
+                    />
+                    {/* <label htmlFor="booking_availability">Availability</label>
                     <BookingAvailabilityPicker
                       formData={formData}
                       setFormData={(data) => {
@@ -799,7 +809,7 @@ export default function CoachServicePackageFormChild({
                       sessionDuration={formData.session_duration || 60}
                       bookingSlots={formData.booking_slots || 1}
                       isProUser={isProUser}
-                    />
+                    /> */}
                   </div>
 
                   {/* <div className="form-group col-md-4">

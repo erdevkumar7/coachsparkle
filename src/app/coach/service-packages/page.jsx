@@ -88,11 +88,11 @@ export default function CoachServicePackages() {
               </div>
             </>
           )}
-<LocalizationProvider dateAdapter={AdapterDayjs}>
-          <CoachServicePackageForm
-            isProUser={isProUser}
-            onPackageAdded={handlePackageAdded}
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <CoachServicePackageForm
+              isProUser={isProUser}
+              onPackageAdded={handlePackageAdded}
+            />
           </LocalizationProvider>
         </div>
       )}

@@ -6,12 +6,29 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import "./booking_modes.css";
 
-const makeSlot = (time = "09:00 AM") => ({
+const makeSlot = (time = "00:00") => ({
   id: crypto.randomUUID(),
   time,
 });
 
-export default function SpecificDatesAvailability({ value = {}, onChange }) {
+const generateSlots = (start = "00:00", end = "23:59", duration = 60) => {
+  const slots = [];
+  let current = dayjs(`2024-01-01 ${start}`);
+  const endTime = dayjs(`2024-01-01 ${end}`);
+
+  while (current.add(duration, "minute").valueOf() <= endTime.valueOf()) {
+    slots.push(makeSlot(current.format("HH:mm")));
+    current = current.add(duration, "minute");
+  }
+
+  return slots;
+};
+
+export default function SpecificDatesAvailability({
+  value = {},
+  onChange,
+  sessionDurationMinutes = 60,
+}) {
   const [openCalendar, setOpenCalendar] = useState(false);
   const [selectedDates, setSelectedDates] = useState(() => {
     if (Array.isArray(value?.specificDates)) {
@@ -46,12 +63,13 @@ export default function SpecificDatesAvailability({ value = {}, onChange }) {
 
     setSelectedDates((prev) => {
       if (exists) return prev.filter((d) => d.date !== formatted);
+
       return [
         ...prev,
         {
           date: formatted,
           maxParticipants: 10,
-          slots: [makeSlot("09:00 AM")],
+          slots: generateSlots("00:00", "23:59", sessionDurationMinutes),
         },
       ];
     });
@@ -63,7 +81,7 @@ export default function SpecificDatesAvailability({ value = {}, onChange }) {
     setSelectedDates((prev) =>
       prev.map((d, i) =>
         i === dateIndex
-          ? { ...d, slots: [...d.slots, makeSlot("10:00 AM")] }
+          ? { ...d, slots: [...d.slots, makeSlot("00:00")] }
           : d
       )
     );
@@ -107,7 +125,6 @@ export default function SpecificDatesAvailability({ value = {}, onChange }) {
     <div>
       <label className="form-label fw-semibold">Session Dates</label>
 
-      {/* Header */}
       <div
         className="form-control d-flex align-items-center gap-2"
         style={{ cursor: "pointer" }}
@@ -117,7 +134,6 @@ export default function SpecificDatesAvailability({ value = {}, onChange }) {
         <span>{selectedDates.length} date(s) selected</span>
       </div>
 
-      {/* Calendar */}
       {openCalendar && (
         <div className="border rounded p-2 mt-2 bg-white calendara-class">
           <DateCalendar
@@ -138,11 +154,9 @@ export default function SpecificDatesAvailability({ value = {}, onChange }) {
         </div>
       )}
 
-      {/* Dates */}
       <div className="mt-4">
         {selectedDates.map((item, dateIndex) => (
           <div key={item.date} className="border rounded p-3 mb-3">
-            {/* Header row with Max */}
             <div className="d-flex justify-content-between align-items-center mb-2">
               <h6 className="fw-semibold mb-0">
                 {dayjs(item.date).format("dddd, MMMM D, YYYY")}
@@ -172,13 +186,9 @@ export default function SpecificDatesAvailability({ value = {}, onChange }) {
                     type="time"
                     className="form-control form-control-sm time-input-compact"
                     style={{ width: 130 }}
-                    value={dayjs(slot.time, "hh:mm A").format("HH:mm")}
+                    value={slot.time}
                     onChange={(e) =>
-                      updateTime(
-                        dateIndex,
-                        slot.id,
-                        dayjs(e.target.value, "HH:mm").format("hh:mm A")
-                      )
+                      updateTime(dateIndex, slot.id, e.target.value)
                     }
                   />
                   <button

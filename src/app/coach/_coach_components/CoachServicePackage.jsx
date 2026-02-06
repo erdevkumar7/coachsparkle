@@ -887,6 +887,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <AvailabilityModesField
                       value={formData.booking_availability}
                       isProUser={isProUser}
+                      sessionDurationMinutes={formData.session_duration_minutes}
                       onChange={(val) => {
                         setValue("booking_availability", val);
                         trigger("booking_availability");

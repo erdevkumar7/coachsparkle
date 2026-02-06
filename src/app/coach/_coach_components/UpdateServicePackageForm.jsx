@@ -7,7 +7,8 @@ import { CircularProgress } from "@mui/material";
 import { useUser } from "@/context/UserContext";
 import CoachServicePackageFormChild from "./UpdateServicePackageFormChild";
 import { toast } from "react-toastify";
-
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function UpdateServicePackageForm({ allMasters }) {
     const params = useParams();
@@ -117,18 +118,20 @@ console.log('packageDataaaa', packageData)
     return (
         <div className="main-panel">
             <div className="new-content-wrapper coach-wrap">
-                <CoachServicePackageFormChild
-                    isProUser={isProUser}
-                    onPackageAdded={handlePackageAdded}
-                    packageData={packageData}
-                    ageGroups={ageGroups}
-                    getCommunChannel={getCommunChannel}
-                    getPriceModels={getPriceModels}
-                    categories={categories}
-                    getCancelPolicies={getCancelPolicies}
-                    getFormats={getFormats}
-                    deliveryModes={deliveryModes}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <CoachServicePackageFormChild
+                        isProUser={isProUser}
+                        onPackageAdded={handlePackageAdded}
+                        packageData={packageData}
+                        ageGroups={ageGroups}
+                        getCommunChannel={getCommunChannel}
+                        getPriceModels={getPriceModels}
+                        categories={categories}
+                        getCancelPolicies={getCancelPolicies}
+                        getFormats={getFormats}
+                        deliveryModes={deliveryModes}
+                    />
+                </LocalizationProvider>
             </div>
         </div>
     );

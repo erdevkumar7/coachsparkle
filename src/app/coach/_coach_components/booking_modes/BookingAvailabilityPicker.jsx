@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AvailabilityModal from "./AvailabilityModal";
 
-export default function AvailabilityModesField({ value, onChange, isProUser }) {
+export default function AvailabilityModesField({ value, onChange, isProUser, sessionDurationMinutes }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedMode, setSelectedMode] = useState(value?.mode || "");
 
@@ -32,6 +32,7 @@ export default function AvailabilityModesField({ value, onChange, isProUser }) {
           show={showModal}
           initialMode={selectedMode}
           initialValue={value}
+          sessionDurationMinutes={sessionDurationMinutes}
           onClose={() => setShowModal(false)}
           onSave={(payload) => {
             onChange(payload);
