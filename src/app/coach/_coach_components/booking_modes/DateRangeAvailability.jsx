@@ -1,6 +1,25 @@
+"use client";
 import "./booking_modes.css";
+import dayjs from "dayjs";
 
-export default function DateRangeAvailability({ value = {}, onChange, sessionDurationMinutes = 60 }) {
+const generateSlots = (start = "00:00", end = "23:59", duration = 60) => {
+  const slots = [];
+  let current = dayjs(`2024-01-01 ${start}`);
+  const endTime = dayjs(`2024-01-01 ${end}`);
+
+  while (current.add(duration, "minute").valueOf() <= endTime.valueOf()) {
+    slots.push(current.format("HH:mm"));
+    current = current.add(duration, "minute");
+  }
+
+  return slots;
+};
+
+export default function DateRangeAvailability({
+  value = {},
+  onChange,
+  sessionDurationMinutes = 60,
+}) {
   const days = [
     { key: "monday", label: "Monday" },
     { key: "tuesday", label: "Tuesday" },
@@ -17,7 +36,6 @@ export default function DateRangeAvailability({ value = {}, onChange, sessionDur
     <div>
       <h6 className="mb-3">Date Range</h6>
 
-      {/* Start / End Date */}
       <div className="row mb-3">
         <div className="col-md-6">
           <label className="form-label">Start Date</label>
@@ -26,10 +44,7 @@ export default function DateRangeAvailability({ value = {}, onChange, sessionDur
             className="form-control"
             value={value.startDate || ""}
             onChange={(e) =>
-              onChange({
-                ...value,
-                startDate: e.target.value,
-              })
+              onChange({ ...value, startDate: e.target.value })
             }
           />
         </div>
@@ -42,10 +57,7 @@ export default function DateRangeAvailability({ value = {}, onChange, sessionDur
             value={value.endDate || ""}
             min={value.startDate || undefined}
             onChange={(e) =>
-              onChange({
-                ...value,
-                endDate: e.target.value,
-              })
+              onChange({ ...value, endDate: e.target.value })
             }
           />
         </div>
@@ -58,25 +70,32 @@ export default function DateRangeAvailability({ value = {}, onChange, sessionDur
 
         return (
           <div key={key} className="d-flex align-items-center gap-3 mb-2">
-            {/* Pill toggle */}
             <label className={`pill-toggle ${isEnabled ? "active" : ""}`}>
               <input
                 type="checkbox"
                 checked={isEnabled}
-                onChange={(e) =>
+                onChange={(e) => {
+                  const enabled = e.target.checked;
+
                   onChange({
                     ...value,
                     weeklyAvailability: {
                       ...weekly,
-                      [key]: {
-                        ...weekly?.[key],
-                        enabled: e.target.checked,
-                        start: weekly?.[key]?.start || "00:00",
-                        end: weekly?.[key]?.end || "00:00",
-                      },
+                      [key]: enabled
+                        ? {
+                            enabled: true,
+                            start: weekly?.[key]?.start || "00:00",
+                            end: weekly?.[key]?.end || "23:59",
+                            slots: generateSlots(
+                              weekly?.[key]?.start || "00:00",
+                              weekly?.[key]?.end || "23:59",
+                              sessionDurationMinutes
+                            ),
+                          }
+                        : { enabled: false },
                     },
-                  })
-                }
+                  });
+                }}
               />
               <span className="pill-indicator" />
             </label>
@@ -97,7 +116,15 @@ export default function DateRangeAvailability({ value = {}, onChange, sessionDur
                       ...value,
                       weeklyAvailability: {
                         ...weekly,
-                        [key]: { ...weekly?.[key], start: e.target.value },
+                        [key]: {
+                          ...weekly?.[key],
+                          start: e.target.value,
+                          slots: generateSlots(
+                            e.target.value,
+                            weekly?.[key]?.end || "23:59",
+                            sessionDurationMinutes
+                          ),
+                        },
                       },
                     })
                   }
@@ -109,13 +136,21 @@ export default function DateRangeAvailability({ value = {}, onChange, sessionDur
                   type="time"
                   className="form-control time-slot"
                   style={{ maxWidth: 120 }}
-                  value={weekly?.[key]?.end || "00:00"}
+                  value={weekly?.[key]?.end || "23:59"}
                   onChange={(e) =>
                     onChange({
                       ...value,
                       weeklyAvailability: {
                         ...weekly,
-                        [key]: { ...weekly?.[key], end: e.target.value },
+                        [key]: {
+                          ...weekly?.[key],
+                          end: e.target.value,
+                          slots: generateSlots(
+                            weekly?.[key]?.start || "00:00",
+                            e.target.value,
+                            sessionDurationMinutes
+                          ),
+                        },
                       },
                     })
                   }
@@ -126,7 +161,6 @@ export default function DateRangeAvailability({ value = {}, onChange, sessionDur
         );
       })}
 
-      {/* Booking Notice */}
       <div className="mt-3">
         <label className="form-label">Booking Notice</label>
         <select
