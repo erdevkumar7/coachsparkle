@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SpecificDatesAvailability from "./SpecificDatesAvailability";
 import DateRangeAvailability from "./DateRangeAvailability";
 import OnDemandAvailability from "./OnDemandAvailability";
+import "./booking_modes.css";
 
 export default function AvailabilityModal({
   show,
@@ -63,7 +64,7 @@ export default function AvailabilityModal({
               Cancel
             </button>
             <button
-              className="btn btn-primary"
+              className="btn btn-primary save-btn"
               onClick={() => onSave({ mode, data: draft })}
             >
               Save Availability

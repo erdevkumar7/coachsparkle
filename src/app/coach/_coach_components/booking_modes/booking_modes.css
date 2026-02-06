@@ -153,3 +153,7 @@ textarea.form-control.instructions-textarea {
     flex-direction: column;
     height: 292px;
 }
+
+save-btn {
+    height: 42px !important;
+}
