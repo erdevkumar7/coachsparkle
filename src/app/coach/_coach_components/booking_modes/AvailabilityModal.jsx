@@ -10,7 +10,6 @@ export default function AvailabilityModal({
   initialValue,
   onClose,
   onSave,
-  sessionDurationMinutes
 }) {
   const [mode, setMode] = useState(initialMode || "range");
   const [draft, setDraft] = useState(initialValue?.data || {});
@@ -50,10 +49,10 @@ export default function AvailabilityModal({
             </div>
 
             {mode === "specific" && (
-              <SpecificDatesAvailability value={draft} onChange={setDraft} sessionDurationMinutes={sessionDurationMinutes} />
+              <SpecificDatesAvailability value={draft} onChange={setDraft} />
             )}
             {mode === "range" && (
-              <DateRangeAvailability value={draft} onChange={setDraft} sessionDurationMinutes={sessionDurationMinutes} />
+              <DateRangeAvailability value={draft} onChange={setDraft} />
             )}
             {mode === "ondemand" && (
               <OnDemandAvailability value={draft} onChange={setDraft} />
