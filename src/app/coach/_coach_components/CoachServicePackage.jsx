@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAllMasters } from "@/app/api/guest";
 import Cookies from "js-cookie";
@@ -32,6 +32,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [categories, setCategories] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
   const [deliveryModes, setDeliveryModes] = useState([]);
+  const [mediaPreview, setMediaPreview] = useState(null);
   const [getFormats, setSessionFormats] = useState([]);
   const [getPriceModels, setPriceModels] = useState([]);
   const [getCommunChannel, setCommunChannel] = useState([]);
@@ -40,6 +41,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
+
   const router = useRouter();
   // React Hook Form setup
 
@@ -65,6 +67,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       age_group: [],
       session_count: "",
       session_duration: "",
+      session_hours: 0,
+      session_minutes: 0,
       session_format: "",
       price: "",
       currency: "USD",
@@ -84,14 +88,32 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
     },
   });
   console.log("errors", errors);
+  const hours = useWatch({ control, name: "session_hours" });
+  const minutes = useWatch({ control, name: "session_minutes" });
   // Watch form values for preview
   const formData = watch();
-  const sessionDuration =
-    (Number(formData?.session_hours) || 0) * 60 +
-    (Number(formData?.session_minutes) || 0);
+
+  useEffect(() => {
+    const h = Number(hours) || 0;
+    const m = Number(minutes) || 0;
+
+    const totalMinutes = h * 60 + m;
+
+    setValue("session_duration_minutes", totalMinutes);
+  }, [hours, minutes, setValue]);
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      setValue("media_file", file); // react-hook-form
+      setMediaPreview(URL.createObjectURL(file)); // ✅ preview
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -116,10 +138,10 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
   // console.log('getCancelPolicies', getCancelPolicies)
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setValue("media_file", file);
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   setValue("media_file", file);
+  // };
 
   const onSubmit = async (data, e) => {
     const clickedButton = e.nativeEvent.submitter?.value || "draft";
@@ -560,27 +582,59 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   </div> */}
 
                   <div className="form-group col-md-2">
-                    <label>Hours</label>
+                    <label htmlFor="session_hours">Hours</label>
                     <input
                       type="number"
                       min="0"
                       max="24"
                       disabled={!isProUser}
                       className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
-                      {...register("session_hours", { valueAsNumber: true })}
+                      {...register("session_hours", {
+                        valueAsNumber: true,
+                        required: isProUser ? "Hours required" : false,
+                        min: {
+                          value: 0,
+                          message: "Hours cannot be less than 0",
+                        },
+                        max: {
+                          value: 24,
+                          message: "Hours cannot be more than 24",
+                        },
+                      })}
                     />
+                    {errors.session_hours && (
+                      <div className="invalid-feedback">
+                        {errors.session_hours.message}
+                      </div>
+                    )}
                   </div>
 
                   <div className="form-group col-md-2">
-                    <label>Minutes</label>
+                    <label htmlFor="session_minutes">Minutes</label>
                     <input
                       type="number"
                       min="0"
-                      max="60"
+                      max="59"
                       disabled={!isProUser}
                       className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
-                      {...register("session_minutes", { valueAsNumber: true })}
+                      {...register("session_minutes", {
+                        valueAsNumber: true,
+                        required: isProUser ? "Minutes required" : false,
+                        min: {
+                          value: 0,
+                          message: "Minutes cannot be less than 0",
+                        },
+                        max: {
+                          value: 59,
+                          message: "Minutes cannot be more than 59",
+                        },
+                      })}
                     />
+                    {errors.session_minutes && (
+                      <div className="invalid-feedback">
+                        {errors.session_minutes.message}
+                      </div>
+                    )}
                   </div>
 
                   <div className="form-group col-md-4">
@@ -844,12 +898,24 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <BookingAvailabilityPicker
                       formData={formData}
                       setFormData={(data) => {
-                        setValue("formDataField", data); // or update react-hook-form values
+                        setValue(
+                          "booking_availability_start",
+                          data.booking_availability_start,
+                        );
+                        setValue(
+                          "booking_availability_end",
+                          data.booking_availability_end,
+                        );
+                        setValue(
+                          "booking_time",
+                          JSON.stringify(data.booking_availability),
+                        );
+                        trigger([
+                          "booking_availability_start",
+                          "booking_availability_end",
+                        ]);
                       }}
-                      sessionDuration={
-                        (Number(formData?.session_hours) || 0) * 60 +
-                          (Number(formData?.session_minutes) || 0) || 60
-                      }
+                      sessionDuration={formData.session_duration || 60}
                       bookingSlots={formData.booking_slots || 1}
                       isProUser={isProUser}
                     /> */}
@@ -981,13 +1047,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   </label>
                   <div className="custom-file-upload">
                     <label htmlFor="media_file" className="upload-btn">
-                      Choose file
+                      Upload Image
                     </label>
-                    <span className="file-name">
-                      {formData.media_file
-                        ? formData.media_file.name
-                        : "No file chosen"}
-                    </span>
+
                     <input
                       type="file"
                       id="media_file"
@@ -997,14 +1059,31 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
                         errors.media_file ? "is-invalid" : ""
                       }`}
+                      style={{ display: "none" }}
                     />
-                    {errors.media_file && (
-                      <div className="invalid-feedback">
-                        {errors.media_file.message}
-                      </div>
-                    )}
                   </div>
+
+                  {errors.media_file && (
+                    <p style={{ color: "#dc3545" }}>
+                      {errors.media_file.message}
+                    </p>
+                  )}
                 </div>
+                {mediaPreview && (
+                  <div className="preview-image">
+                    <img
+                      src={mediaPreview}
+                      alt="Preview"
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "200px",
+                        objectFit: "cover",
+                        borderRadius: "6px",
+                        border: "1px solid #ddd",
+                      }}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="card preview-section">
