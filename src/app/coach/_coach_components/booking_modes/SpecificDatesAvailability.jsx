@@ -13,8 +13,14 @@ const makeSlot = (time = "00:00") => ({
 
 const generateSlots = (start = "00:00", end = "23:59", duration = 60) => {
   const slots = [];
-  let current = dayjs(`2024-01-01 ${start}`);
-  const endTime = dayjs(`2024-01-01 ${end}`);
+
+  if (!duration || duration <= 0) return slots;
+
+  let current = dayjs(`2024-01-01 ${start}`, "YYYY-MM-DD HH:mm");
+  const endTime = dayjs(`2024-01-01 ${end}`, "YYYY-MM-DD HH:mm");
+
+  if (!current.isValid() || !endTime.isValid()) return slots;
+  if (current.isAfter(endTime)) return slots;
 
   while (current.add(duration, "minute").valueOf() <= endTime.valueOf()) {
     slots.push(makeSlot(current.format("HH:mm")));
@@ -49,19 +55,21 @@ export default function SpecificDatesAvailability({
   );
 
   useEffect(() => {
-    const payload = selectedDates.map((d) => ({
-      date: d.date,
-      maxParticipants: d.maxParticipants,
-      slots: d.slots.map((s) => s.time),
-    }));
-    onChange({ specificDates: payload });
+    onChange({
+      specificDates: selectedDates.map((d) => ({
+        date: d.date,
+        maxParticipants: d.maxParticipants,
+        slots: d.slots.map((s) => s.time),
+      })),
+    });
   }, [selectedDates, onChange]);
 
   const toggleDate = (date) => {
     const formatted = dayjs(date).format("YYYY-MM-DD");
-    const exists = selectedDates.some((d) => d.date === formatted);
 
     setSelectedDates((prev) => {
+      const exists = prev.some((d) => d.date === formatted);
+
       if (exists) return prev.filter((d) => d.date !== formatted);
 
       return [
@@ -80,9 +88,7 @@ export default function SpecificDatesAvailability({
   const addTime = (dateIndex) => {
     setSelectedDates((prev) =>
       prev.map((d, i) =>
-        i === dateIndex
-          ? { ...d, slots: [...d.slots, makeSlot("00:00")] }
-          : d
+        i === dateIndex ? { ...d, slots: [...d.slots, makeSlot("00:00")] } : d
       )
     );
   };
@@ -138,17 +144,15 @@ export default function SpecificDatesAvailability({
         <div className="border rounded p-2 mt-2 bg-white calendara-class">
           <DateCalendar
             disablePast
-            views={["day"]}
             onChange={toggleDate}
             slotProps={{
-              day: (ownerState) => {
-                const dateStr = ownerState.day.format("YYYY-MM-DD");
-                return {
-                  className: selectedSet.has(dateStr)
-                    ? "mui-multi-selected-day"
-                    : "",
-                };
-              },
+              day: (ownerState) => ({
+                className: selectedSet.has(
+                  ownerState.day.format("YYYY-MM-DD")
+                )
+                  ? "mui-multi-selected-day"
+                  : "",
+              }),
             }}
           />
         </div>
@@ -162,21 +166,14 @@ export default function SpecificDatesAvailability({
                 {dayjs(item.date).format("dddd, MMMM D, YYYY")}
               </h6>
 
-              <div className="d-flex align-items-center gap-2">
-                <span className="text-muted small">Max</span>
-                <input
-                  type="number"
-                  min={1}
-                  className="form-control form-control-sm max-input-compact"
-                  style={{ width: 80 }}
-                  value={item.maxParticipants}
-                  onChange={(e) => updateMax(dateIndex, e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="text-muted small mb-2">
-              <i className="bi bi-clock me-1"></i> Time Slots
+              <input
+                type="number"
+                min={1}
+                className="form-control form-control-sm"
+                style={{ width: 80 }}
+                value={item.maxParticipants}
+                onChange={(e) => updateMax(dateIndex, e.target.value)}
+              />
             </div>
 
             <div className="d-flex flex-wrap gap-2 align-items-center">
@@ -184,8 +181,7 @@ export default function SpecificDatesAvailability({
                 <div key={slot.id} className="d-flex align-items-center gap-2">
                   <input
                     type="time"
-                    className="form-control form-control-sm time-input-compact"
-                    style={{ width: 130 }}
+                    className="form-control form-control-sm"
                     value={slot.time}
                     onChange={(e) =>
                       updateTime(dateIndex, slot.id, e.target.value)
@@ -193,7 +189,7 @@ export default function SpecificDatesAvailability({
                   />
                   <button
                     type="button"
-                    className="btn btn-light border text-danger p-0 delete-btn-compact"
+                    className="btn btn-light border text-danger p-0"
                     onClick={() => removeTime(dateIndex, slot.id)}
                   >
                     <DeleteOutlineIcon fontSize="small" />
@@ -203,7 +199,7 @@ export default function SpecificDatesAvailability({
 
               <button
                 type="button"
-                className="btn btn-outline-primary btn-sm d-flex align-items-center gap-1"
+                className="btn btn-outline-primary btn-sm"
                 onClick={() => addTime(dateIndex)}
               >
                 <AddIcon fontSize="small" /> Add Time
