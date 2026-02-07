@@ -4,12 +4,18 @@ import dayjs from "dayjs";
 
 const generateSlots = (start = "00:00", end = "23:59", duration = 60) => {
   const slots = [];
+  const safeDuration = Math.max(1, Number(duration) || 60);
+
   let current = dayjs(`2024-01-01 ${start}`);
   const endTime = dayjs(`2024-01-01 ${end}`);
 
-  while (current.add(duration, "minute").valueOf() <= endTime.valueOf()) {
+  if (!current.isValid() || !endTime.isValid() || current.isAfter(endTime)) {
+    return slots;
+  }
+
+  while (current.valueOf() + safeDuration * 60 * 1000 <= endTime.valueOf()) {
     slots.push(current.format("HH:mm"));
-    current = current.add(duration, "minute");
+    current = current.add(safeDuration, "minute");
   }
 
   return slots;
