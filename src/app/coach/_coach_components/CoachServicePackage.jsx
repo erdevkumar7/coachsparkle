@@ -169,6 +169,12 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
       form.append("delivery_mode", selectedDeliveryMode);
       form.append("package_status", package_status);
+      if (data.booking_availability?.availability_id) {
+  form.append(
+    "availability_id",
+    data.booking_availability.availability_id
+  );
+}
       data.age_group.forEach((age) => {
         form.append("age_group[]", age); // 👈 notice the []
       });
@@ -581,63 +587,60 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     )}
                   </div> */}
 
-                  <div className="form-group col-md-2">
-                    <label htmlFor="session_hours">Hours</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="24"
-                      disabled={!isProUser}
-                      className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
-                      {...register("session_hours", {
-                        valueAsNumber: true,
-                        required: isProUser ? "Hours required" : false,
-                        min: {
-                          value: 0,
-                          message: "Hours cannot be less than 0",
-                        },
-                        max: {
-                          value: 24,
-                          message: "Hours cannot be more than 24",
-                        },
-                      })}
-                    />
-                    {errors.session_hours && (
-                      <div className="invalid-feedback">
-                        {errors.session_hours.message}
-                      </div>
-                    )}
-                  </div>
+<div className="form-group col-md-4">
+  <label className="d-block text-center">Duration</label>
 
-                  <div className="form-group col-md-2">
-                    <label htmlFor="session_minutes">Minutes</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="59"
-                      disabled={!isProUser}
-                      className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
-                      {...register("session_minutes", {
-                        valueAsNumber: true,
-                        required: isProUser ? "Minutes required" : false,
-                        min: {
-                          value: 0,
-                          message: "Minutes cannot be less than 0",
-                        },
-                        max: {
-                          value: 59,
-                          message: "Minutes cannot be more than 59",
-                        },
-                      })}
-                    />
-                    {errors.session_minutes && (
-                      <div className="invalid-feedback">
-                        {errors.session_minutes.message}
-                      </div>
-                    )}
-                  </div>
+  <div className="d-flex align-items-center gap-2">
+    {/* Hours */}
+    <input
+      type="number"
+      min="0"
+      max="24"
+      disabled={!isProUser}
+      placeholder="HH"
+      className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
+      style={{ width: "120px" }}
+      {...register("session_hours", {
+        valueAsNumber: true,
+        required: isProUser ? "Hours required" : false,
+        min: { value: 0, message: "Hours cannot be less than 0" },
+        max: { value: 24, message: "Hours cannot be more than 24" },
+      })}
+    />
 
-                  <div className="form-group col-md-4">
+    {/* Minutes */}
+    <input
+      type="number"
+      min="0"
+      max="59"
+      disabled={!isProUser}
+      placeholder="MM"
+      className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
+      style={{ width: "120px" }}
+      {...register("session_minutes", {
+        valueAsNumber: true,
+        required: isProUser ? "Minutes required" : false,
+        min: { value: 0, message: "Minutes cannot be less than 0" },
+        max: { value: 59, message: "Minutes cannot be more than 59" },
+      })}
+    />
+  </div>
+
+  {/* Errors */}
+  {errors.session_hours && (
+    <div className="invalid-feedback d-block">
+      {errors.session_hours.message}
+    </div>
+  )}
+  {errors.session_minutes && (
+    <div className="invalid-feedback d-block">
+      {errors.session_minutes.message}
+    </div>
+  )}
+</div>
+
+                </div>
+                  <div className="form-group col-md-12">
                     <label htmlFor="session_format">
                       Session Format &nbsp;
                       <span
@@ -727,8 +730,6 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       </div>
                     )}
                   </div>
-                </div>
-
                 <div className="coach-price-currency gap-2">
                   <div className="form-group col-md-4">
                     <label htmlFor="price">Total Price</label>
@@ -819,11 +820,14 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                               </li>
                               <li>
                                 <strong>
-                                  Ask for Quote: Custom-Based pricing
+                                  Ask for Quote (Custom-Based)
                                 </strong>
                               </li>
                               <li>
                                 <strong>Trial / Discovery</strong>
+                              </li>
+                              <li>
+                                <strong>Session</strong>
                               </li>
                               <li>
                                 <strong>Free / Pro Bono</strong>

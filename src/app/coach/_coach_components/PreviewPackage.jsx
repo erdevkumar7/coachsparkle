@@ -15,6 +15,11 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
         const item = list.find((el) => el.id === parseInt(id));
         return item ? item.name || item.mode_name : "";
     };
+    const getSafePrice = (price) => {
+  if (price === null || price === undefined) return 100;
+  if (Number.isNaN(price)) return 100;
+  return price;
+};
 
     return (
         <div className="session-card">
@@ -47,7 +52,10 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
                     action plan.`}
 
                 </p>
-                <div className="price">${pkg?.price ? pkg?.price : '100'} / {getNameById(allPriceModel, pkg?.price_model) || "Package"}</div>
+<div className="price">
+  ${getSafePrice(pkg?.price)} /{" "}
+  {getNameById(allPriceModel, pkg?.price_model) || "Package"}
+</div>
                 <div className="d-flex justify-content-center">
                     <button className="cursor-pointer">
                         View Details and Book Now

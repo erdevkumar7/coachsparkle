@@ -64,13 +64,22 @@ export default function CoachSideBarComp({user}) {
     ];
 
     const isActive = (href) => pathname === href || pathname.startsWith(href + "/");
-
+console.log('User Data ', user);
     return (
         <nav className="sidebar sidebar-offcanvas add-sdbar" id="sidebar">
 
             <div className="side-bar-left-top">
                 <div className="flex items-center mt-4 side-top-bar">
-                    <img alt="profile" src={user?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`} />
+<a href="/coachsparkle/coach/profile">
+  <img
+    alt="profile"
+    src={
+      user?.profile_image
+        ? user.profile_image
+        : `${FRONTEND_BASE_URL}/images/default_profile.jpg`
+    }
+  />
+</a>
                     <div>
                         {isProUser ? (
                             <p className="pro-add-value">Pro</p>
@@ -78,7 +87,11 @@ export default function CoachSideBarComp({user}) {
                             <p className="basic-add-value">Basic</p>
                         )}
                         <h5 className="font-medium text-with-check-icons">
-                            {user?.first_name} {user?.last_name} <span className="text-green-500 text-sm"><CheckCircleIcon /></span>
+                            {user?.first_name} {user?.last_name} {user?.is_verified == 1 ? (
+  <span className="text-green-500 text-sm">
+    <CheckCircleIcon />
+  </span>
+) : null}
                         </h5>
                         <p className="text-sm text-gray-500">Coach</p>
                     </div>
