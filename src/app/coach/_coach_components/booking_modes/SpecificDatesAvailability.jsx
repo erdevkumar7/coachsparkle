@@ -13,7 +13,6 @@ const makeSlot = (time = "00:00") => ({
 
 const generateSlots = (start = "00:00", end = "23:59", duration = 60) => {
   const slots = [];
-
   if (!duration || duration <= 0) return slots;
 
   let current = dayjs(`2024-01-01 ${start}`, "YYYY-MM-DD HH:mm");
@@ -36,6 +35,7 @@ export default function SpecificDatesAvailability({
   sessionDurationMinutes = 60,
 }) {
   const [openCalendar, setOpenCalendar] = useState(false);
+
   const [selectedDates, setSelectedDates] = useState(() => {
     if (Array.isArray(value?.specificDates)) {
       return value.specificDates.map((d) => ({
@@ -64,12 +64,14 @@ export default function SpecificDatesAvailability({
     });
   }, [selectedDates, onChange]);
 
+  /* =========================
+     UI LOGIC (UNCHANGED)
+  ========================= */
   const toggleDate = (date) => {
     const formatted = dayjs(date).format("YYYY-MM-DD");
 
     setSelectedDates((prev) => {
       const exists = prev.some((d) => d.date === formatted);
-
       if (exists) return prev.filter((d) => d.date !== formatted);
 
       return [

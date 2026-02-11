@@ -763,12 +763,18 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
 }
 
 .coach-profile-list-left .profile-card span.badge {
-  font-size: 14px;
   color: #997300;
-  font-family: "Inter";
-  padding: 10px 15px;
   border-radius: 50px;
+  padding: 10px 15px;
+  font-family: Inter;
+  font-size: 14px;
+
+  white-space: normal;       /* ✅ allow wrapping */
+  word-break: break-word;    /* ✅ long words break honge */
+  max-width: 100%;           /* ✅ parent ke andar rahe */
+  display: inline-block;     /* ✅ width respect kare */
 }
+
 .coach-profile-list-left .profile-card i {
   color: #000000;
 }

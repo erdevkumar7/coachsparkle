@@ -168,21 +168,19 @@ export default function DateRangeAvailability({
       })}
 
       <div className="mt-3">
-        <label className="form-label">Booking Notice</label>
-        <select
-          className="form-control"
-          value={value.bufferTime ?? 24}
-          onChange={(e) =>
-            onChange({ ...value, bufferTime: Number(e.target.value) })
-          }
-        >
-          <option value={0}>No minimum notice</option>
-          <option value={1}>At least 1 hour in advance</option>
-          <option value={4}>At least 4 hours in advance</option>
-          <option value={24}>At least 24 hours in advance</option>
-          <option value={48}>At least 48 hours in advance</option>
-          <option value={72}>At least 72 hours in advance</option>
-        </select>
+        <label className="form-label">Booking Conditions</label>
+<input
+  type="number"
+  className="form-control"
+  value={value?.bufferTime ?? 24}
+  onChange={(e) =>
+    onChange({
+      ...value,
+      bufferTime: e.target.value === "" ? "" : Number(e.target.value),
+    })
+  }
+/>
+
       </div>
     </div>
   );

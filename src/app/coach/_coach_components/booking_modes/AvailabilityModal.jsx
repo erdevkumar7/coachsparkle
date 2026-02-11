@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SpecificDatesAvailability from "./SpecificDatesAvailability";
 import DateRangeAvailability from "./DateRangeAvailability";
 import OnDemandAvailability from "./OnDemandAvailability";
+import { addSpecificDate } from "@/services/availabilityModes.api";
 import "./booking_modes.css";
 
 export default function AvailabilityModal({
@@ -10,21 +11,56 @@ export default function AvailabilityModal({
   initialValue,
   onClose,
   onSave,
-  sessionDurationMinutes
+  sessionDurationMinutes,
+  availabilityId,
 }) {
   const [mode, setMode] = useState(initialMode || "range");
   const [draft, setDraft] = useState(initialValue?.data || {});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setMode(initialMode || "range");
+    setMode(initialMode);
     setDraft(initialValue?.data || {});
   }, [initialMode, initialValue]);
 
   if (!show) return null;
 
+const handleSave = async () => {
+  if (!availabilityId) {
+    console.error("availabilityId missing");
+    alert("Availability mode not selected");
+    return;
+  }
+
+  try {
+    if (mode === 31 && draft?.specificDates?.length) {
+      for (const item of draft.specificDates) {
+        await addSpecificDate({
+          availabilityId,
+          session_date: item.date,
+          time_slot: item.slots,
+          max_participants: item.maxParticipants,
+        });
+      }
+    }
+
+    onSave({ mode, data: draft });
+    onClose();
+  } catch (err) {
+    console.error("Save failed", err);
+  }
+};
+
+
   return (
-    <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,.5)" }}>
-      <div className="modal-dialog modal-dialog-centered modal-xl" style={{ maxWidth: "80%" }}>
+    <div
+      className="modal fade show d-block"
+      style={{ background: "rgba(0,0,0,.5)" }}
+    >
+      <div
+        className="modal-dialog modal-dialog-centered modal-xl"
+        style={{ maxWidth: "80%" }}
+      >
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Availability Modes</h5>
@@ -34,9 +70,9 @@ export default function AvailabilityModal({
           <div className="modal-body">
             <div className="d-flex gap-2 mb-4">
               {[
-                { id: "specific", label: "Specific Dates" },
-                { id: "range", label: "Date Range" },
-                { id: "ondemand", label: "On-Demand" },
+                { id: 31, label: "Specific Dates" },
+                { id: 32, label: "Date Range" },
+                { id: 33, label: "On-Demand" },
               ].map((m) => (
                 <button
                   key={m.id}
@@ -49,14 +85,30 @@ export default function AvailabilityModal({
               ))}
             </div>
 
-            {mode === "specific" && (
-              <SpecificDatesAvailability value={draft} onChange={setDraft} sessionDurationMinutes={sessionDurationMinutes} />
+            {mode === 31 && (
+              <SpecificDatesAvailability
+                value={draft}
+                modeId={31}
+                onChange={setDraft}
+                sessionDurationMinutes={sessionDurationMinutes}
+              />
             )}
-            {mode === "range" && (
-              <DateRangeAvailability value={draft} onChange={setDraft} sessionDurationMinutes={sessionDurationMinutes} />
+
+            {mode === 32 && (
+              <DateRangeAvailability
+                value={draft}
+                modeId={32}
+                onChange={setDraft}
+                sessionDurationMinutes={sessionDurationMinutes}
+              />
             )}
-            {mode === "ondemand" && (
-              <OnDemandAvailability value={draft} onChange={setDraft} />
+
+            {mode === 33 && (
+              <OnDemandAvailability
+                value={draft}
+                modeId={33}
+                onChange={setDraft}
+              />
             )}
           </div>
 
@@ -66,9 +118,10 @@ export default function AvailabilityModal({
             </button>
             <button
               className="btn btn-primary save-btn"
-              onClick={() => onSave({ mode, data: draft })}
+              onClick={handleSave}
+              disabled={loading}
             >
-              Save Availability
+              {loading ? "Saving..." : "Save Availability"}
             </button>
           </div>
         </div>

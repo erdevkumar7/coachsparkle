@@ -10,8 +10,8 @@ import {
 import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 import MultipleSelectChip from "@/components/MultipleSelectChip";
 import MultipleSelectCheckmarks from "@/components/MultipleSelectCheckmarks";
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { coachSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
 import { updateCoachData } from "@/app/api/coach";
@@ -24,8 +24,7 @@ import {
   Autocomplete,
   TextField,
 } from "@mui/material";
-import EastIcon from '@mui/icons-material/East';
-
+import EastIcon from "@mui/icons-material/East";
 
 export default function CoachUpdateForm({
   user,
@@ -36,12 +35,13 @@ export default function CoachUpdateForm({
   ageGroup,
   getAllServices,
   price_range,
-  experience
+  experience,
 }) {
   const router = useRouter();
   let isProUser = user.subscription_plan.plan_status;
 
   const [getToken, setToken] = useState();
+  const [videoPreview, setVideoPreview] = useState(null);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [coachSubTypes, setSubCoachTypes] = useState([]);
@@ -57,17 +57,17 @@ export default function CoachUpdateForm({
     reset,
     getValues,
     control,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     defaultValues: {
       user_type: user?.user_type || 3,
-      first_name: user?.first_name || '',
-      last_name: user?.last_name || '',
-      email: user?.email || '',
-      gender: user?.gender || '',
-      country_id: user?.country_id || '',
-      state_id: user?.state_id || '',
-      city_id: user?.city_id || '',
+      first_name: user?.first_name || "",
+      last_name: user?.last_name || "",
+      email: user?.email || "",
+      gender: user?.gender || "",
+      country_id: user?.country_id || "",
+      state_id: user?.state_id || "",
+      city_id: user?.city_id || "",
       coach_type: user?.coach_type || "",
       coach_subtype: user?.coach_subtype?.map((sub) => sub.id) || [],
       professional_title: user?.professional_title || "",
@@ -108,7 +108,7 @@ export default function CoachUpdateForm({
             ? user.age_group
             : JSON.parse(user.age_group);
 
-          return arr.map(v => parseInt(v));
+          return arr.map((v) => parseInt(v));
         } catch {
           return [];
         }
@@ -137,19 +137,17 @@ export default function CoachUpdateForm({
 
   // console.log('user', user)
   useEffect(() => {
-    const authToken = Cookies.get('token');
+    const authToken = Cookies.get("token");
     if (!authToken) {
-      router.push('/login');
+      router.push("/login");
       return;
     }
     setToken(authToken);
-  }, [])
-
+  }, []);
 
   const selectedCountry = watch("country_id");
   const selectedState = watch("state_id");
   const selectedCoachType = watch("coach_type");
-
 
   useEffect(() => {
     if (!selectedCountry) return;
@@ -169,7 +167,6 @@ export default function CoachUpdateForm({
     });
   }, [selectedCountry]);
 
-
   useEffect(() => {
     if (!selectedState) return;
 
@@ -188,8 +185,6 @@ export default function CoachUpdateForm({
       }
     });
   }, [selectedState]);
-
-
 
   useEffect(() => {
     if (!selectedCoachType) {
@@ -227,62 +222,67 @@ export default function CoachUpdateForm({
     });
   }, [selectedCoachType]);
 
-
   const onCertificatesChange = (e) => {
     const selected = Array.from(e.target.files).filter(
-      file => file.type === 'image/jpeg' || file.type === 'image/jpg'
+      (file) => file.type === "image/jpeg" || file.type === "image/jpg",
     );
-    if (selected.length > 5) return alert('Max 5 files');
+    if (selected.length > 5) return alert("Max 5 files");
     setCertificates(selected);
   };
 
   const handleCertificateChange = (e) => {
     const files = Array.from(e.target.files);
 
-    if (files.length > 5) {
-      toast.error('You can upload a maximum of 5 certificates');
-      e.target.value = '';
-      return;
-    }
-
-    const validFiles = files.filter(file =>
-      file.type === 'image/jpeg' || file.type === 'image/jpg'
+    // JPG / JPEG validation
+    const validFiles = files.filter(
+      (file) => file.type === "image/jpeg" || file.type === "image/jpg",
     );
 
     if (validFiles.length !== files.length) {
-      toast.error('Only JPG/JPEG files are allowed');
+      toast.error("Only JPG/JPEG files are allowed");
     }
 
-    setSelectedCertificates(validFiles);
+    setSelectedCertificates((prev) => {
+      const combined = [...prev, ...validFiles];
+
+      if (combined.length > 5) {
+        toast.error("You can upload a maximum of 5 certificates");
+        return prev; // ❌ don't add extra
+      }
+
+      return combined; // ✅ append files
+    });
+
+    // allow re-selecting same file again
+    e.target.value = "";
   };
 
   const removeCertificate = (index) => {
-    setSelectedCertificates(prev => prev.filter((_, i) => i !== index));
+    setSelectedCertificates((prev) => prev.filter((_, i) => i !== index));
   };
 
-
   const onSubmit = async (data, e) => {
-    const clickedButton = e.nativeEvent.submitter?.value || 'draft';
-    const profile_status = clickedButton === 'publish' ? 'complete' : 'draft';
+    const clickedButton = e.nativeEvent.submitter?.value || "draft";
+    const profile_status = clickedButton === "publish" ? "complete" : "draft";
 
     const finalData = {
       ...data,
-      is_published: clickedButton === 'publish' ? 1 : 0,
-      price_range: data.price_range === "7" && data.custom_price_text
-        ? data.custom_price_text
-        : data.price_range
+      is_published: clickedButton === "publish" ? 1 : 0,
+      price_range:
+        data.price_range === "7" && data.custom_price_text
+          ? data.custom_price_text
+          : data.price_range,
     };
-
 
     const form = new FormData();
     Object.entries(finalData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((v) => form.append(`${key}[]`, v));
       } else {
-        form.append(key, typeof value === 'boolean' ? (value ? 1 : 0) : value);
+        form.append(key, typeof value === "boolean" ? (value ? 1 : 0) : value);
       }
     });
-    form.append('profile_status', profile_status);
+    form.append("profile_status", profile_status);
     //  console.log('finalData', form);
     // form.append('video_link', data.video_link);
 
@@ -294,22 +294,22 @@ export default function CoachUpdateForm({
     }
 
     try {
-      const res = await updateCoachData(form, getToken)
+      const res = await updateCoachData(form, getToken);
 
       if (res.data.success) {
-        if (profile_status === 'complete') {
-          toast.success('Profile published!');
+        if (profile_status === "complete") {
+          toast.success("Profile published!");
         } else {
-          toast.warning('Profile is saved in Draft!')
+          toast.warning("Profile is saved in Draft!");
         }
         setSelectedCertificates([]);
         router.refresh();
       } else {
-        toast.error('Update failed.');
+        toast.error("Update failed.");
       }
     } catch (err) {
       console.error(err);
-      toast.error('Something went wrong!');
+      toast.error("Something went wrong!");
     }
   };
 
@@ -326,32 +326,47 @@ export default function CoachUpdateForm({
             <div className="form-row two-cols">
               <div className="form-group">
                 <label>First Name*</label>
-                <input
-                  {...register('first_name')}
-                  placeholder="Emma"
-                />
-                {errors.first_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.first_name.message}</p>}
+                <input {...register("first_name")} placeholder="Emma" />
+                {errors.first_name && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.first_name.message}
+                  </p>
+                )}
               </div>
               <div className="form-group">
                 <label>Last Name*</label>
-                <input
-                  {...register('last_name')}
-                  placeholder="Rose"
-                />
-                {errors.last_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.last_name.message}</p>}
+                <input {...register("last_name")} placeholder="Rose" />
+                {errors.last_name && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.last_name.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="form-row two-cols">
               <div className="form-group">
                 <label>Email*</label>
-                <input {...register('email')} />
-                {errors.email && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.email.message}</p>}
+                <input {...register("email")} />
+                {errors.email && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               <div className="form-group">
                 <label>Country</label>
-                <select {...register('country_id')} >
+                <select {...register("country_id")}>
                   <option value="">Select Country</option>
                   {countries.map((c) => (
                     <option key={c.country_id} value={c.country_id}>
@@ -365,7 +380,7 @@ export default function CoachUpdateForm({
             <div className="form-row two-cols">
               <div className="form-group">
                 <label>State</label>
-                <select {...register('state_id')}>
+                <select {...register("state_id")}>
                   <option value="">Select State</option>
                   {states.map((s) => (
                     <option key={s.state_id} value={s.state_id}>
@@ -377,7 +392,7 @@ export default function CoachUpdateForm({
 
               <div className="form-group">
                 <label>City</label>
-                <select {...register('city_id')}>
+                <select {...register("city_id")}>
                   <option value="">Select City</option>
                   {cities.map((c) => (
                     <option key={c.city_id} value={c.city_id}>
@@ -391,7 +406,7 @@ export default function CoachUpdateForm({
             <div className="form-row four-cols">
               <div className="form-group">
                 <label>Gender*</label>
-                <select {...register('gender')}>
+                <select {...register("gender")}>
                   <option value="">Select</option>
                   <option value={1}>Male</option>
                   <option value={2}>Female</option>
@@ -400,20 +415,34 @@ export default function CoachUpdateForm({
               </div>
               <div className="form-group">
                 <label>Professional Title</label>
-                <input {...register('professional_title')} />
-                {errors.professional_title && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.professional_title.message}</p>}
+                <input {...register("professional_title")} />
+                {errors.professional_title && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.professional_title.message}
+                  </p>
+                )}
               </div>
               <div className="form-group">
                 <label>Company Name</label>
-                <input {...register('company_name')} />
-                {errors.company_name && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.company_name.message}</p>}
+                <input {...register("company_name")} />
+                {errors.company_name && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.company_name.message}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="form-row three-cols">
               <div className="form-group main-coach-cate-add">
                 <label>Main Coaching Category</label>
-                <select {...register('coach_type')} >
+                <select {...register("coach_type")}>
                   <option value="">Select</option>
                   {coachTypes.map((type) => (
                     <option key={type.id} value={type.id}>
@@ -498,7 +527,8 @@ export default function CoachUpdateForm({
                   control={control}
                   render={({ field }) => (
                     <FormControl fullWidth>
-                      <Select className="sub-coaching-category-input"
+                      <Select
+                        className="sub-coaching-category-input"
                         {...field}
                         multiple
                         value={field.value || []}
@@ -509,9 +539,17 @@ export default function CoachUpdateForm({
                             return <em>Select coach subtype</em>;
                           }
                           return (
-                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: 0.5,
+                              }}
+                            >
                               {selected.map((id) => {
-                                const subtype = coachSubTypes.find((s) => s.id === id);
+                                const subtype = coachSubTypes.find(
+                                  (s) => s.id === id,
+                                );
                                 return subtype ? (
                                   <Chip key={id} label={subtype.subtype_name} />
                                 ) : null;
@@ -537,11 +575,10 @@ export default function CoachUpdateForm({
             </div>
 
             <div className="form-row four-cols">
-
               <div className="form-group">
                 <label htmlFor="experience">Years of Experience</label>
                 {/* <input {...register('experience')} /> */}
-                <select {...register('experience')} >
+                <select {...register("experience")}>
                   <option value="">Select</option>
                   {experience.map((m) => (
                     <option key={m.id} value={m.id}>
@@ -549,11 +586,18 @@ export default function CoachUpdateForm({
                     </option>
                   ))}
                 </select>
-                {errors.experience && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.experience.message}</p>}
+                {errors.experience && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.experience.message}
+                  </p>
+                )}
               </div>
               <div className="form-group">
                 <label>Delivery Mode</label>
-                <select {...register('delivery_mode')} >
+                <select {...register("delivery_mode")}>
                   <option value="">Select</option>
                   {deliveryMode.map((m) => (
                     <option key={m.id} value={m.id}>
@@ -561,13 +605,20 @@ export default function CoachUpdateForm({
                     </option>
                   ))}
                 </select>
-                {errors.delivery_mode && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.delivery_mode.message}</p>}
+                {errors.delivery_mode && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.delivery_mode.message}
+                  </p>
+                )}
               </div>
 
               <div className="form-group">
                 <label>Price Range</label>
                 {/* <input {...register('price_range')} /> */}
-                <select {...register('price_range')} >
+                <select {...register("price_range")}>
                   <option value="">Select</option>
                   {price_range.map((m) => (
                     <option key={m.id} value={m.id}>
@@ -575,21 +626,36 @@ export default function CoachUpdateForm({
                     </option>
                   ))}
                 </select>
-                {errors.price_range && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.price_range.message}</p>}
+                {errors.price_range && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.price_range.message}
+                  </p>
+                )}
               </div>
 
               {/* Conditional free text input */}
               {watch("price_range") === "7" && (
                 <div className="form-group">
                   <label>Specify Price Range*</label>
-                  <input
-                    {...register('custom_price_text')}
-                  />
-                  <small style={{ color: '#666', fontSize: '12px', display: 'block', marginTop: '5px' }}>
+                  <input {...register("custom_price_text")} />
+                  <small
+                    style={{
+                      color: "#666",
+                      fontSize: "12px",
+                      display: "block",
+                      marginTop: "5px",
+                    }}
+                  >
                     (e.g., $150-300/session, $500/package)
                   </small>
                   {errors.custom_price_text && (
-                    <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>
+                    <p
+                      className="text-red-600 regist-err-msg"
+                      style={{ color: "red" }}
+                    >
                       {errors.custom_price_text.message}
                     </p>
                   )}
@@ -598,7 +664,6 @@ export default function CoachUpdateForm({
             </div>
 
             <div className="form-row three-cols">
-
               <div className="form-group target-input">
                 <label>Target Audience / Age Group</label>
                 {/* <select multiple {...register('age_group')}
@@ -623,12 +688,21 @@ export default function CoachUpdateForm({
                         onChange={(e) => field.onChange(e.target.value)}
                         displayEmpty
                         renderValue={(selected) => {
-                          if (!selected?.length) return <em>Select Age Group</em>;
+                          if (!selected?.length)
+                            return <em>Select Age Group</em>;
                           return (
-                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: 0.5,
+                              }}
+                            >
                               {selected.map((id) => {
                                 const item = ageGroup.find((g) => g.id === id);
-                                return item ? <Chip key={id} label={item.group_name} /> : null;
+                                return item ? (
+                                  <Chip key={id} label={item.group_name} />
+                                ) : null;
                               })}
                             </Box>
                           );
@@ -643,7 +717,14 @@ export default function CoachUpdateForm({
                     </FormControl>
                   )}
                 />
-                {errors.age_group && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.age_group.message}</p>}
+                {errors.age_group && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.age_group.message}
+                  </p>
+                )}
               </div>
               <div className="form-group language-input-add">
                 <label>Language</label>
@@ -658,7 +739,14 @@ export default function CoachUpdateForm({
                     />
                   )}
                 />
-                {errors.language_names && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.language_names.message}</p>}
+                {errors.language_names && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.language_names.message}
+                  </p>
+                )}
               </div>
 
               {/* <div className="form-group language-input-add">
@@ -702,38 +790,54 @@ export default function CoachUpdateForm({
                   )}
                 />
               </div> */}
-
-
             </div>
             <div className="form-row three-cols">
               <div className="form-group">
                 <label>Free Trial Available</label>
-                <select
-                  {...register('free_trial_session')}
-                >
+                <select {...register("free_trial_session")}>
                   <option value="">Select</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
-                {errors.free_trial_session && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.free_trial_session.message}</p>}
+                {errors.free_trial_session && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.free_trial_session.message}
+                  </p>
+                )}
               </div>
               <div className="form-group">
                 <label>Is Pro Bono Coach</label>
-                <select
-                  {...register('is_pro_bono')}
-                >
+                <select {...register("is_pro_bono")}>
                   <option value="">Select</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
-                {errors.is_pro_bono && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.is_pro_bono.message}</p>}
+                {errors.is_pro_bono && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.is_pro_bono.message}
+                  </p>
+                )}
               </div>
               <div className="form-group">
                 <label>Average Charge/Hour</label>
-                <input className="price-range-add-input"
-                  {...register('price')}
+                <input
+                  className="price-range-add-input"
+                  {...register("price")}
                 />
-                {errors.price && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.price.message}</p>}
+                {errors.price && (
+                  <p
+                    className="text-red-600 regist-err-msg"
+                    style={{ color: "red" }}
+                  >
+                    {errors.price.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="form-group mb-4">
@@ -744,7 +848,7 @@ export default function CoachUpdateForm({
               <textarea
                 required
                 className="bio-textarea"
-                {...register('detailed_bio')}
+                {...register("detailed_bio")}
                 rows="10"
                 placeholder={`Hi, I’m Alex — a certified mindset and performance coach with a passion for helping individuals break through self-doubt and reach their goals. I bring 8 years of experience coaching professionals across tech, education, and creative industries.
 
@@ -754,8 +858,14 @@ export default function CoachUpdateForm({
                               • Certifications or notable background
                               • The types of clients you support`}
               />
-              {errors.detailed_bio && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.detailed_bio.message}</p>}
-
+              {errors.detailed_bio && (
+                <p
+                  className="text-red-600 regist-err-msg"
+                  style={{ color: "red" }}
+                >
+                  {errors.detailed_bio.message}
+                </p>
+              )}
             </div>
 
             <div className="form-group mb-4">
@@ -766,7 +876,7 @@ export default function CoachUpdateForm({
               <textarea
                 required
                 className="bio-textarea"
-                {...register('exp_and_achievement')}
+                {...register("exp_and_achievement")}
                 rows="10"
                 placeholder={`E.g., I have 5+ years of experience coaching professionals in career transitions, confidence building, and leadership communication. My clients include young executives, startup founders, and mid-career changers.
 
@@ -777,7 +887,14 @@ export default function CoachUpdateForm({
                  • Key achievements or transformation stories`}
               />
             </div>
-            {errors.exp_and_achievement && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.exp_and_achievement.message}</p>}
+            {errors.exp_and_achievement && (
+              <p
+                className="text-red-600 regist-err-msg"
+                style={{ color: "red" }}
+              >
+                {errors.exp_and_achievement.message}
+              </p>
+            )}
             <div className="form-checkbox">
               {isProUser ? (
                 <>
@@ -839,7 +956,14 @@ export default function CoachUpdateForm({
                       />
                     )}
                   />
-                  {errors.service_names && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_names.message}</p>}
+                  {errors.service_names && (
+                    <p
+                      className="text-red-600 regist-err-msg"
+                      style={{ color: "red" }}
+                    >
+                      {errors.service_names.message}
+                    </p>
+                  )}
                 </div>
 
                 {/* <div className="d-flex flex-wrap gap-2">
@@ -864,23 +988,25 @@ export default function CoachUpdateForm({
               <div className="keyword-limit-wrapper mt-4">
                 <h6 className="fw-bold">5 Keywords Used</h6>
                 <div className="d-flex flex-wrap gap-2 mb-3">
-                  {user?.service_names && user.service_names.slice(0, 5).map((kw, idx) => (
-                    <span className="keyword-chip" key={idx}>
-                      {kw.service}
-                    </span>
-                  ))}
-
+                  {user?.service_names &&
+                    user.service_names.slice(0, 5).map((kw, idx) => (
+                      <span className="keyword-chip" key={idx}>
+                        {kw.service}
+                      </span>
+                    ))}
                 </div>
 
-                {user?.service_names && user.service_names.length >= 5 && <div className="limit-box d-flex justify-content-between align-items-center mb-3">
-                  <p className="d-flex align-items-center gap-1">
-                    <i className="bi bi-exclamation-triangle"></i>
-                    Keyword limit reached.
-                  </p>
-                  <div className="btn upgrade-btn d-flex align-items-center gap-2">
-                    <i className="bi bi-lock-fill"></i> Upgrade to Add More
+                {user?.service_names && user.service_names.length >= 5 && (
+                  <div className="limit-box d-flex justify-content-between align-items-center mb-3">
+                    <p className="d-flex align-items-center gap-1">
+                      <i className="bi bi-exclamation-triangle"></i>
+                      Keyword limit reached.
+                    </p>
+                    <div className="btn upgrade-btn d-flex align-items-center gap-2">
+                      <i className="bi bi-lock-fill"></i> Upgrade to Add More
+                    </div>
                   </div>
-                </div>}
+                )}
 
                 <div className="d-flex align-items-center gap-2 mb-3 keywords-input">
                   <Controller
@@ -903,7 +1029,14 @@ export default function CoachUpdateForm({
                       />
                     )}
                   />
-                  {errors.service_names && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.service_names.message}</p>}
+                  {errors.service_names && (
+                    <p
+                      className="text-red-600 regist-err-msg"
+                      style={{ color: "red" }}
+                    >
+                      {errors.service_names.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="info-box">
@@ -931,14 +1064,22 @@ export default function CoachUpdateForm({
                 placeholder="https://linkedin.com/"
                 {...register("linkdin_link")}
               />
-              {errors.linkdin_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.linkdin_link.message}</p>}
+              {errors.linkdin_link && (
+                <p
+                  className="text-red-600 regist-err-msg"
+                  style={{ color: "red" }}
+                >
+                  {errors.linkdin_link.message}
+                </p>
+              )}
             </div>
 
-
-            <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
+            <div className={`form-group ${!isProUser ? "disable-input" : ""}`}>
               <label>
                 Website
-                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+                {!isProUser && (
+                  <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                )}
               </label>
               <input
                 type="text"
@@ -946,13 +1087,21 @@ export default function CoachUpdateForm({
                 disabled={!isProUser}
                 {...register("website_link")}
               />
-              {errors.website_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.website_link.message}</p>}
-
+              {errors.website_link && (
+                <p
+                  className="text-red-600 regist-err-msg"
+                  style={{ color: "red" }}
+                >
+                  {errors.website_link.message}
+                </p>
+              )}
             </div>
-            <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
+            <div className={`form-group ${!isProUser ? "disable-input" : ""}`}>
               <label>
                 Youtube
-                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+                {!isProUser && (
+                  <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                )}
               </label>
               <input
                 type="text"
@@ -960,35 +1109,59 @@ export default function CoachUpdateForm({
                 disabled={!isProUser}
                 {...register("youtube_link")}
               />
-              {errors.youtube_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.youtube_link.message}</p>}
+              {errors.youtube_link && (
+                <p
+                  className="text-red-600 regist-err-msg"
+                  style={{ color: "red" }}
+                >
+                  {errors.youtube_link.message}
+                </p>
+              )}
             </div>
-
           </div>
 
           <div className="form-row three-cols">
-            <div className={`form-group ${!isProUser ? 'disable-input' : ''}`}>
-              <label>Podcast
-
-                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
-
+            <div className={`form-group ${!isProUser ? "disable-input" : ""}`}>
+              <label>
+                Podcast
+                {!isProUser && (
+                  <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                )}
               </label>
               <input
                 type="text"
                 disabled={!isProUser}
                 {...register("podcast_link")}
               />
-              {errors.podcast_link && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.podcast_link.message}</p>}
+              {errors.podcast_link && (
+                <p
+                  className="text-red-600 regist-err-msg"
+                  style={{ color: "red" }}
+                >
+                  {errors.podcast_link.message}
+                </p>
+              )}
             </div>
-            <div className={`form-group ${!isProUser ? 'disable-input' : ""}`}>
-              <label>Blog/Published Articles
-                {!isProUser && <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>}
+            <div className={`form-group ${!isProUser ? "disable-input" : ""}`}>
+              <label>
+                Blog/Published Articles
+                {!isProUser && (
+                  <i className="bi bi-lock-fill text-warning ms-1 fs-4"></i>
+                )}
               </label>
               <input
                 type="text"
                 disabled={!isProUser}
                 {...register("blog_article")}
               />
-              {errors.blog_article && <p className="text-red-600 regist-err-msg" style={{ color: 'red' }}>{errors.blog_article.message}</p>}
+              {errors.blog_article && (
+                <p
+                  className="text-red-600 regist-err-msg"
+                  style={{ color: "red" }}
+                >
+                  {errors.blog_article.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -996,14 +1169,16 @@ export default function CoachUpdateForm({
         <div className="card media-section">
           <h3 className="quick-text">Media</h3>
           <div className="upload-section mt-4">
-
             <div className="mb-4">
               <label className="form-label fw-semibold d-block">
                 Upload Your Coach Introduction Video
-                <span className="ms-2 media-size">Max 2min, MP4, under 100 MB</span>
+                <span className="ms-2 media-size">
+                  Max 2min, MP4, under 100 MB
+                </span>
               </label>
               <small className="d-block mb-2 media-size">
-                Showcase your personality, approach and services in a short video to build trust with potential clients
+                Showcase your personality, approach and services in a short
+                video to build trust with potential clients
               </small>
 
               <Controller
@@ -1012,8 +1187,10 @@ export default function CoachUpdateForm({
                 rules={{
                   validate: (file) => {
                     if (!file) return true; // optional
-                    if (file.type !== "video/mp4") return "Only MP4 files are allowed.";
-                    if (file.size > 100 * 1024 * 1024) return "Video must be under 100MB.";
+                    if (file.type !== "video/mp4")
+                      return "Only MP4 files are allowed.";
+                    if (file.size > 100 * 1024 * 1024)
+                      return "Video must be under 100MB.";
                     return true;
                   },
                 }}
@@ -1024,7 +1201,15 @@ export default function CoachUpdateForm({
                       type="file"
                       id="video-upload"
                       accept="video/mp4"
-                      onChange={(e) => field.onChange(e.target.files[0])}
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        field.onChange(file);
+
+                        if (file) {
+                          const previewUrl = URL.createObjectURL(file);
+                          setVideoPreview(previewUrl);
+                        }
+                      }}
                     />
                     <label htmlFor="video-upload" className="custom-file-btn">
                       Choose file
@@ -1035,6 +1220,21 @@ export default function CoachUpdateForm({
                   </div>
                 )}
               />
+              {videoPreview && (
+  <div className="mt-3">
+    <video
+      src={videoPreview}
+      controls
+      width="100%"
+      style={{
+        maxHeight: "300px",
+        borderRadius: "8px",
+        background: "#000"
+      }}
+    />
+  </div>
+)}
+
               {errors.video_link && (
                 <p className="text-danger">{errors.video_link.message}</p>
               )}
@@ -1135,11 +1335,13 @@ export default function CoachUpdateForm({
                   <h6 className="mb-2">Selected Certificates:</h6>
                   <div className="selected-files-list">
                     {selectedCertificates.map((file, index) => (
-                      <div key={index} className="selected-file-item d-flex align-items-center justify-content-between mb-2 p-2 border rounded">
+                      <div
+                        key={index}
+                        className="selected-file-item d-flex align-items-center justify-content-between mb-2 p-2 border rounded"
+                      >
                         <span className="file-name">
                           <i className="bi bi-file-earmark-image text-primary me-2"></i>
                           {file.name}
-                          
                         </span>
                         <button
                           type="button"
@@ -1154,7 +1356,6 @@ export default function CoachUpdateForm({
                 </div>
               )}
             </div>
-
           </div>
         </div>
 
