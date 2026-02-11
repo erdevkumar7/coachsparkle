@@ -168,7 +168,7 @@ export default function DateRangeAvailability({
       })}
 
       <div className="mt-3">
-        <label className="form-label">Booking Candidate</label>
+        <label className="form-label">Booking Conditions</label>
 <input
   type="number"
   className="form-control"

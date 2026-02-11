@@ -7,6 +7,7 @@ const SLA_OPTIONS = [
   { value: 24, label: "Within 24 hours" },
   { value: 48, label: "Within 48 hours" },
   { value: 72, label: "Within 72 hours" },
+  { value: 0, label: "Other"}
 ];
 
 export default function OnDemandAvailability({ value = {}, onChange }) {
