@@ -813,6 +813,7 @@ span.MuiSlider-track.css-xvk2i-MuiSlider-track {
 .coach-profile-list-left .about-section {
   margin-top: 0px;
   padding-top: 30px;
+  display: block;
   padding-bottom: 10px;
 }
 
