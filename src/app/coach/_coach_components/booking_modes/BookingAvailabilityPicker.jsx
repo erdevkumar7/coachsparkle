@@ -27,12 +27,6 @@ export default function AvailabilityModesField({
 
   setSelectedMode(availabilityId);
 
-  // 👇 clear previous saved data when switching mode
-  onChange({
-    availability_id: Number(availabilityId),
-    data: {},
-  });
-
   setShowModal(true);
 };
 
@@ -140,7 +134,7 @@ return (
         onClose={handleCloseModal}
         onSave={handleSaveAvailability}
         initialMode={Number(selectedMode)}
-        initialValue={null}
+        initialValue={value}
         sessionDurationMinutes={sessionDurationMinutes}
       />
     )}
