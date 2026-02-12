@@ -243,7 +243,7 @@ input#«r0» {
     max-width: 450px;
     flex: 450;
     position: relative;
-    overflow-y: auto scroll;
+    overflow-y: auto;
 }
 
 .session-card img {
@@ -266,7 +266,7 @@ input#«r0» {
 }
 
 .session-card .session-pkg-content {
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     border-top: 10px solid #e7e6e6;
     height: 420px;
     margin-bottom: 0;
@@ -363,9 +363,10 @@ select#cancellation_policy {
 
 .action-btn button {
     color: #009BFA;
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     border: none;
     font-size: 14px;
+    background: none;
 }
 
 .custom-file-upload label.upload-btn {
