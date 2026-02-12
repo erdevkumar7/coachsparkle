@@ -22,9 +22,10 @@ export default function AvailabilityModal({
   const [draft, setDraft] = useState(initialValue?.data || {});
 
   useEffect(() => {
-    setMode(initialMode);
-    setDraft(initialValue?.data || {});
-  }, [initialMode, initialValue]);
+  setMode(initialMode);
+  setDraft(initialValue?.data || {});
+}, [initialMode, initialValue]);
+
 
   if (!show) return null;
 
