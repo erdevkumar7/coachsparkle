@@ -14,6 +14,22 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { coachSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
+import {
+  Editor,
+  EditorProvider,
+  Toolbar,
+  BtnBold,
+  BtnItalic,
+  BtnUnderline,
+  BtnStrikeThrough,
+  BtnBulletList,
+  BtnNumberedList,
+  BtnLink,
+  BtnClearFormatting,
+  BtnUndo,
+  BtnRedo,
+  Separator,
+} from "react-simple-wysiwyg";
 import { updateCoachData } from "@/app/api/coach";
 import {
   FormControl,
@@ -845,48 +861,92 @@ export default function CoachUpdateForm({
                 Share a warm and confident introduction to help potential
                 clients understand who you are and how you can help.
               </label>
-              <textarea
-                required
-                className="bio-textarea"
-                {...register("detailed_bio")}
-                rows="10"
-                placeholder={`Hi, I’m Alex — a certified mindset and performance coach with a passion for helping individuals break through self-doubt and reach their goals. I bring 8 years of experience coaching professionals across tech, education, and creative industries.
 
-                              Suggested pointers to include:
-                              • Your name and coaching niche
-                              • Your mission or passion as a coach
-                              • Certifications or notable background
-                              • The types of clients you support`}
+              <Controller
+                name="detailed_bio"
+                control={control}
+                rules={{ required: "Bio is required" }}
+                render={({ field }) => (
+                  <EditorProvider>
+                    <Editor
+                      value={field.value || ""}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      style={{ minHeight: "200px" }}
+                    >
+                      <Toolbar>
+                        <BtnUndo />
+                        <BtnRedo />
+                        <Separator />
+
+                        <BtnBold />
+                        <BtnItalic />
+                        <BtnUnderline />
+                        <BtnStrikeThrough />
+                        <Separator />
+
+                        <BtnBulletList />
+                        <BtnNumberedList />
+                        <Separator />
+
+                        <BtnLink />
+                        <BtnClearFormatting />
+                      </Toolbar>
+                    </Editor>
+                  </EditorProvider>
+                )}
               />
+
               {errors.detailed_bio && (
-                <p
-                  className="text-red-600 regist-err-msg"
-                  style={{ color: "red" }}
-                >
-                  {errors.detailed_bio.message}
-                </p>
+                <p style={{ color: "red" }}>{errors.detailed_bio.message}</p>
               )}
             </div>
 
             <div className="form-group mb-4">
               <label className="form-label fw-semibold">
-                Tell potential clients about your coaching experiences,
-                expertise, and results you've helped others achieve.
+                Experience & Achievements
               </label>
-              <textarea
-                required
-                className="bio-textarea"
-                {...register("exp_and_achievement")}
-                rows="10"
-                placeholder={`E.g., I have 5+ years of experience coaching professionals in career transitions, confidence building, and leadership communication. My clients include young executives, startup founders, and mid-career changers.
 
-                  Highlight:
-                 • Years of experience
-                 • Coaching specialties
-                 • Typical clients or industries served
-                 • Key achievements or transformation stories`}
+              <Controller
+                name="exp_and_achievement"
+                control={control}
+                rules={{ required: "Experience & Achievement is required" }}
+                render={({ field }) => (
+                  <EditorProvider>
+                    <Editor
+                      value={field.value || ""}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      style={{ minHeight: "200px" }}
+                    >
+                      <Toolbar>
+                        <BtnUndo />
+                        <BtnRedo />
+                        <Separator />
+
+                        <BtnBold />
+                        <BtnItalic />
+                        <BtnUnderline />
+                        <BtnStrikeThrough />
+                        <Separator />
+
+                        <BtnBulletList />
+                        <BtnNumberedList />
+                        <Separator />
+
+                        <BtnLink />
+                        <BtnClearFormatting />
+                      </Toolbar>
+                    </Editor>
+                  </EditorProvider>
+                )}
               />
+
+              {errors.exp_and_achievement && (
+                <p style={{ color: "red" }}>
+                  {errors.exp_and_achievement.message}
+                </p>
+              )}
             </div>
+
             {errors.exp_and_achievement && (
               <p
                 className="text-red-600 regist-err-msg"
@@ -1221,19 +1281,19 @@ export default function CoachUpdateForm({
                 )}
               />
               {videoPreview && (
-  <div className="mt-3">
-    <video
-      src={videoPreview}
-      controls
-      width="100%"
-      style={{
-        maxHeight: "300px",
-        borderRadius: "8px",
-        background: "#000"
-      }}
-    />
-  </div>
-)}
+                <div className="mt-3">
+                  <video
+                    src={videoPreview}
+                    controls
+                    width="100%"
+                    style={{
+                      maxHeight: "300px",
+                      borderRadius: "8px",
+                      background: "#000",
+                    }}
+                  />
+                </div>
+              )}
 
               {errors.video_link && (
                 <p className="text-danger">{errors.video_link.message}</p>

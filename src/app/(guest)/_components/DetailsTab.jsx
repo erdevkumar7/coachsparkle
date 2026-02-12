@@ -20,6 +20,13 @@ export default function LabTabs({ coach }) {
         getUserReviews(1); // Load first page on initial render
     }, [coach?.user_id]);
 
+    const stripHtml = (html) => {
+  if (!html) return "";
+
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent.replace(/\s+/g, " ").trim();
+};
+
     const getUserReviews = async (page = 1, loadMore = false) => {
         if (!coach?.user_id) return;
         
@@ -139,13 +146,26 @@ export default function LabTabs({ coach }) {
                                     ))}
                             </strong>
                         </p>
-                        <p>{coach?.detailed_bio?.trim() ? coach.detailed_bio : 'Not available'}</p>
+<p>
+  {coach?.detailed_bio
+    ? stripHtml(coach.detailed_bio)
+    : "Not available"}
+</p>
                     </div>
                 </TabPanel>
                 
                 <TabPanel value="2">
                     <div className='tab-cont'>
-                        <p>{coach?.exp_and_achievement?.trim() ? coach.exp_and_achievement : 'Not available'}</p>
+                        <p>
+  {coach?.exp_and_achievement
+    ? stripHtml(coach.exp_and_achievement)
+    : "Not available"}
+</p>
+                                                <p>
+  {coach?.exp_and_achievement
+    ? stripHtml(coach.exp_and_achievement)
+    : "Not available"}
+</p>
                     </div>
                 </TabPanel>
                 

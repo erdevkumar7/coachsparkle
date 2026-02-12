@@ -11,6 +11,7 @@ import { formatBookingAvailability } from "@/lib/commonFunction";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import CustomShareIcon from "@/app/(guest)/_components/coach-detail/CustomShareIcon";
 
 export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
   const router = useRouter();
@@ -108,7 +109,7 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
                 View Details
               </button>
               <button className="cursor-pointer">
-                <ShareIcon />
+                <CustomShareIcon coach={pkg} />
               </button>
             </div>
             <div
