@@ -2,7 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+const authHeaders = () => ({
+  Authorization: `Bearer ${Cookies.get("token")}`,
+});
 export const addSpecificDate = async ({
   availabilityId,   // 31
   session_date,     // "2026-02-02"
@@ -56,4 +58,36 @@ export const getAvailabilityModes = async () => {
   );
 
   return res.data; 
+};
+
+export const getSpecificMode = async (id) => {
+  const res = await fetch(`${API_URL}/get-specific-mode/${id}`, {
+    headers: authHeaders(),
+  });
+  const json = await res.json();
+  return json?.specificDate;
+};
+
+export const getDateRange = async (id) => {
+  const res = await fetch(`${API_URL}/get-date-range/${id}`, {
+    headers: authHeaders(),
+  });
+  const json = await res.json();
+  return json?.daterange;
+};
+
+export const getWeeklyAvailability = async (id) => {
+  const res = await fetch(`${API_URL}/get-weekly-availability/${id}`, {
+    headers: authHeaders(),
+  });
+  const json = await res.json();
+  return json?.daterangeid || [];
+};
+
+export const getOnDemand = async (id) => {
+  const res = await fetch(`${API_URL}/get-on-demond/${id}`, {
+    headers: authHeaders(),
+  });
+  const json = await res.json();
+  return json?.onDemond;
 };
