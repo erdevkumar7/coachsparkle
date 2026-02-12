@@ -106,7 +106,7 @@ select.form-control:not(:invalid) {
 .service-pack-add-card .session-card {
     padding: 0 !important;
     height: 600px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 .session-wrapper .status-draft button {
     color: #6c727f;
@@ -448,7 +448,7 @@ select#cancellation_policy {
 .profile-form .preview-section {
     max-width: 55%;
     height: 809px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .profile-form .preview-section button {

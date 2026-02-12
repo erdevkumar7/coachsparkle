@@ -11,22 +11,17 @@ const makeSlot = (time = "00:00") => ({
   time,
 });
 
-const generateSlots = (start = "00:00", end = "23:59", duration = 60) => {
-  const slots = [];
-  if (!duration || duration <= 0) return slots;
+const getNextSlot = (lastTime = "00:00", duration = 60) => {
+  const safeDuration = Math.max(1, Number(duration) || 60);
 
-  let current = dayjs(`2024-01-01 ${start}`, "YYYY-MM-DD HH:mm");
-  const endTime = dayjs(`2024-01-01 ${end}`, "YYYY-MM-DD HH:mm");
+  const next = dayjs(`2024-01-01 ${lastTime}`, "YYYY-MM-DD HH:mm").add(
+    safeDuration,
+    "minute"
+  );
 
-  if (!current.isValid() || !endTime.isValid()) return slots;
-  if (current.isAfter(endTime)) return slots;
+  if (!next.isValid()) return null;
 
-  while (current.add(duration, "minute").valueOf() <= endTime.valueOf()) {
-    slots.push(makeSlot(current.format("HH:mm")));
-    current = current.add(duration, "minute");
-  }
-
-  return slots;
+  return next.format("HH:mm");
 };
 
 export default function SpecificDatesAvailability({
@@ -64,9 +59,6 @@ export default function SpecificDatesAvailability({
     });
   }, [selectedDates, onChange]);
 
-  /* =========================
-     UI LOGIC (UNCHANGED)
-  ========================= */
   const toggleDate = (date) => {
     const formatted = dayjs(date).format("YYYY-MM-DD");
 
@@ -79,7 +71,7 @@ export default function SpecificDatesAvailability({
         {
           date: formatted,
           maxParticipants: 10,
-          slots: generateSlots("00:00", "23:59", sessionDurationMinutes),
+          slots: [makeSlot("00:00")], // ✅ only one initial slot
         },
       ];
     });
@@ -89,9 +81,19 @@ export default function SpecificDatesAvailability({
 
   const addTime = (dateIndex) => {
     setSelectedDates((prev) =>
-      prev.map((d, i) =>
-        i === dateIndex ? { ...d, slots: [...d.slots, makeSlot("00:00")] } : d
-      )
+      prev.map((d, i) => {
+        if (i !== dateIndex) return d;
+
+        const lastTime = d.slots[d.slots.length - 1]?.time || "00:00";
+        const nextTime = getNextSlot(lastTime, sessionDurationMinutes);
+
+        if (!nextTime) return d;
+
+        return {
+          ...d,
+          slots: [...d.slots, makeSlot(nextTime)],
+        };
+      })
     );
   };
 
@@ -168,14 +170,17 @@ export default function SpecificDatesAvailability({
                 {dayjs(item.date).format("dddd, MMMM D, YYYY")}
               </h6>
 
-              <input
-                type="number"
-                min={1}
-                className="form-control form-control-sm"
-                style={{ width: 80 }}
-                value={item.maxParticipants}
-                onChange={(e) => updateMax(dateIndex, e.target.value)}
-              />
+              <div className="d-flex align-items-center gap-2">
+                <span className="text-muted small">Max Participants</span>
+                <input
+                  type="number"
+                  min={1}
+                  className="form-control form-control-sm"
+                  style={{ width: 80 }}
+                  value={item.maxParticipants}
+                  onChange={(e) => updateMax(dateIndex, e.target.value)}
+                />
+              </div>
             </div>
 
             <div className="d-flex flex-wrap gap-2 align-items-center">

@@ -143,102 +143,221 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   //   setValue("media_file", file);
   // };
 
-  const onSubmit = async (data, e) => {
-    const clickedButton = e.nativeEvent.submitter?.value || "draft";
-    let package_status;
-    switch (clickedButton) {
-      case "unpublished":
-        package_status = 0;
-        break;
-      case "publish":
-        package_status = 1;
-        break;
-      default:
-        package_status = 2; // draft
+const onSubmit = async (data, e) => {
+  const clickedButton = e?.nativeEvent?.submitter?.value || "draft";
+  let package_status;
+
+  switch (clickedButton) {
+    case "unpublished":
+      package_status = 0;
+      break;
+    case "publish":
+      package_status = 1;
+      break;
+    default:
+      package_status = 2; // draft
+  }
+
+  try {
+    const token = Cookies.get("token");
+    const form = new FormData();
+
+    // -----------------------------
+    // Validate booking availability
+    // -----------------------------
+    if (!data?.booking_availability?.availability_id) {
+      toast.error("Please select booking availability mode");
+      return;
     }
 
-    try {
-      const token = Cookies.get("token");
-      const form = new FormData();
+    // -----------------------------
+    // Append form fields
+    // -----------------------------
+    Object.entries(data).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === "") return;
 
-      Object.entries(data).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          form.append(key, value);
-        }
-      });
+      if (key === "booking_availability") {
+        form.append("booking_availability", JSON.stringify(value));
+      } 
+      else if (Array.isArray(value)) {
+        value.forEach((v) => {
+          if (v !== null && v !== undefined && v !== "") {
+            form.append(`${key}[]`, String(v));
+          }
+        });
+      } 
+      else if (key === "media_file" && value instanceof File) {
+        form.append("media_file", value);
+      } 
+      else {
+        form.append(key, String(value));
+      }
+    });
 
-      form.append("delivery_mode", selectedDeliveryMode);
-      form.append("package_status", package_status);
-      if (data.booking_availability?.availability_id) {
-  form.append(
-    "availability_id",
-    data.booking_availability.availability_id
-  );
-}
-      data.age_group.forEach((age) => {
-        form.append("age_group[]", age); // 👈 notice the []
-      });
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
+    // -----------------------------
+    // REQUIRED BACKEND FIELDS
+    // -----------------------------
+    form.append("delivery_mode", String(selectedDeliveryMode));
+    form.append("package_status", String(package_status));
+
+    // ⚠️ CRITICAL: Laravel expects THIS EXACT NAME
+    form.append("availabilityid", String(data.booking_availability.availability_id));
+
+    // -----------------------------
+    // Debug FormData
+    // -----------------------------
+    console.group("📦 FormData Payload");
+    for (let [key, val] of form.entries()) {
+      console.log(key, val instanceof File ? "[FILE]" : val);
+    }
+    console.groupEnd();
+
+    // -----------------------------
+    // Save Service Package
+    // -----------------------------
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: form,
+      }
+    );
+
+    const result = await response.json();
+
+    if (!result?.status) {
+      console.error("❌ Package save failed:", result);
+      toast.error(result?.message || "Failed to save package");
+      return;
+    }
+
+    const packageId = result?.data?.id;
+    toast.success("Service package saved!");
+
+    // -----------------------------
+    // Save Availability
+    // -----------------------------
+    const availability = data.booking_availability;
+    const availabilityId = availability.availability_id;
+    const payload = availability.data;
+
+    // 🔹 Specific Dates (31)
+    if (availabilityId === 31 && Array.isArray(payload?.specificDates)) {
+      for (const item of payload.specificDates) {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/specific-date-add/${availabilityId}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              session_date: item.date,
+              time_slot: item.slots,
+              max_participants: item.maxParticipants || data.booking_slots || 1,
+              package_id: packageId,
+            }),
+          }
+        );
+      }
+    }
+
+    // 🔹 Date Range (32)
+    if (availabilityId === 32 && payload) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/date-range-add/${availabilityId}`,
         {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
+            "Content-Type": "application/json",
           },
-          body: form,
-        },
+          body: JSON.stringify({
+            start_date: payload.startDate,
+            end_date: payload.endDate,
+            weekday: Object.keys(payload.weeklyAvailability || {})
+              .filter((d) => payload.weeklyAvailability[d]?.enabled)
+              .join(","),
+            booking_notice: payload.bufferTime || 0,
+            package_id: packageId,
+          }),
+        }
       );
 
-      const result = await response.json();
+      const dateRangeResult = await res.json();
+      const dateRangeId = dateRangeResult?.date_range_id;
 
-      if (result.status) {
-        if (package_status === 0) {
-          toast.warning("Package marked as unpublished!");
-        } else if (package_status === 1) {
-          toast.success("Package published successfully!");
-        } else {
-          toast.success("Draft saved successfully!");
+      if (dateRangeId) {
+        for (const day in payload.weeklyAvailability || {}) {
+          if (!payload.weeklyAvailability[day]?.enabled) continue;
+
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/weekly-availability-add/${dateRangeId}/${data.session_duration_minutes || 60}`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                days: day,
+                start_time: payload.weeklyAvailability[day].start,
+                end_time: payload.weeklyAvailability[day].end,
+              }),
+            }
+          );
         }
-
-        onPackageAdded?.();
-        // Reset the form with specific values for date fields
-        reset({
-          title: "",
-          short_description: "",
-          coaching_category: "",
-          description: "",
-          focus: "",
-          delivery_mode_detail: "",
-          age_group: [],
-          session_count: "",
-          session_duration: "",
-          session_format: "",
-          price: "",
-          currency: "USD",
-          price_model: "",
-          booking_slots: "",
-          booking_window: "",
-          session_validity: "",
-          cancellation_policy: "",
-          rescheduling_policy: "",
-          media_file: null,
-          booking_availability_start: "",
-          booking_availability_end: "",
-          booking_time: "",
-          booking_window_start: "",
-          booking_window_end: "",
-          communication_channel: "",
-        });
-        setSelectedDeliveryMode("");
-      } else {
-        toast.error(result.message || "Something went wrong.");
       }
-    } catch (err) {
-      console.error("Error submitting package:", err);
-      toast.error("Network or server error.");
     }
-  };
+
+    // 🔹 On Demand (33)
+    if (availabilityId === 33 && payload) {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/on-demond-add/${availabilityId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            response_time: payload.responseSLA || [],
+            instructions_clients: payload.instructions || "",
+            package_id: packageId,
+          }),
+        }
+      );
+    }
+
+    // -----------------------------
+    // UI Feedback
+    // -----------------------------
+    if (package_status === 0) toast.warning("Saved as unpublished");
+    else if (package_status === 1) toast.success("Published successfully");
+    else toast.success("Draft saved");
+
+    reset();
+    setSelectedDeliveryMode("");
+    setMediaPreview(null);
+    onPackageAdded?.();
+
+  } catch (err) {
+    console.error("🔥 Submit failed:", err);
+    toast.error("Network or server error.");
+  }
+};
+
+
+
 
   return (
     <div className="profile-form-add">
@@ -269,9 +388,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="title"
                     placeholder="Confidence Jumpstart Session"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.title ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.title ? "is-invalid" : ""
+                      }`}
                     {...register("title")}
                   />
                   {errors.title && (
@@ -290,9 +408,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="short_description"
                     rows="3"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.short_description ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.short_description ? "is-invalid" : ""
+                      }`}
                     {...register("short_description")}
                   ></textarea>
                   {errors.short_description && (
@@ -307,9 +424,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                   <select
                     id="coaching_category"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.coaching_category ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.coaching_category ? "is-invalid" : ""
+                      }`}
                     {...register("coaching_category")}
                   >
                     <option value="" className="disable-select-option">
@@ -374,9 +490,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="description"
                     rows="3"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.description ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.description ? "is-invalid" : ""
+                      }`}
                     {...register("description")}
                   ></textarea>
                   {errors.description && (
@@ -393,9 +508,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     id="focus"
                     placeholder="e.g., Confidence, Goal clarity, Custom action plan"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.focus ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.focus ? "is-invalid" : ""
+                      }`}
                     {...register("focus")}
                   />
                   {errors.focus && (
@@ -472,9 +586,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <select
                       id="communication_channel"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.communication_channel ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.communication_channel ? "is-invalid" : ""
+                        }`}
                       {...register("communication_channel")}
                     >
                       <option value="" className="disable-select-option">
@@ -526,9 +639,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     rows={3}
                     placeholder="Enter details of delivery mode such as Zoom, Google Meet or venue"
                     disabled={!isProUser}
-                    className={`delivery-textarea form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    } ${errors.delivery_mode_detail ? "is-invalid" : ""}`}
+                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : ""
+                      } ${errors.delivery_mode_detail ? "is-invalid" : ""}`}
                     {...register("delivery_mode_detail")}
                   />
                   {errors.delivery_mode_detail && (
@@ -546,9 +658,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       min={1}
                       placeholder="1"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.session_count ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_count ? "is-invalid" : ""
+                        }`}
                       {...register("session_count", {
                         valueAsNumber: true,
                       })}
@@ -587,149 +698,148 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     )}
                   </div> */}
 
-<div className="form-group col-md-4">
-  <label className="d-block text-center">Duration</label>
+                  <div className="form-group col-md-4">
+                    <label className="d-block text-center">Duration</label>
 
-  <div className="d-flex align-items-center gap-2">
-    {/* Hours */}
-    <input
-      type="number"
-      min="0"
-      max="24"
-      disabled={!isProUser}
-      placeholder="HH"
-      className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
-      style={{ width: "120px" }}
-      {...register("session_hours", {
-        valueAsNumber: true,
-        required: isProUser ? "Hours required" : false,
-        min: { value: 0, message: "Hours cannot be less than 0" },
-        max: { value: 24, message: "Hours cannot be more than 24" },
-      })}
-    />
+                    <div className="d-flex align-items-center gap-2">
+                      {/* Hours */}
+                      <input
+                        type="number"
+                        min="0"
+                        max="24"
+                        disabled={!isProUser}
+                        placeholder="HH"
+                        className={`form-control ${errors.session_hours ? "is-invalid" : ""}`}
+                        style={{ width: "120px" }}
+                        {...register("session_hours", {
+                          valueAsNumber: true,
+                          required: isProUser ? "Hours required" : false,
+                          min: { value: 0, message: "Hours cannot be less than 0" },
+                          max: { value: 24, message: "Hours cannot be more than 24" },
+                        })}
+                      />
 
-    {/* Minutes */}
-    <input
-      type="number"
-      min="0"
-      max="59"
-      disabled={!isProUser}
-      placeholder="MM"
-      className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
-      style={{ width: "120px" }}
-      {...register("session_minutes", {
-        valueAsNumber: true,
-        required: isProUser ? "Minutes required" : false,
-        min: { value: 0, message: "Minutes cannot be less than 0" },
-        max: { value: 59, message: "Minutes cannot be more than 59" },
-      })}
-    />
-  </div>
+                      {/* Minutes */}
+                      <input
+                        type="number"
+                        min="0"
+                        max="59"
+                        disabled={!isProUser}
+                        placeholder="MM"
+                        className={`form-control ${errors.session_minutes ? "is-invalid" : ""}`}
+                        style={{ width: "120px" }}
+                        {...register("session_minutes", {
+                          valueAsNumber: true,
+                          required: isProUser ? "Minutes required" : false,
+                          min: { value: 0, message: "Minutes cannot be less than 0" },
+                          max: { value: 59, message: "Minutes cannot be more than 59" },
+                        })}
+                      />
+                    </div>
 
-  {/* Errors */}
-  {errors.session_hours && (
-    <div className="invalid-feedback d-block">
-      {errors.session_hours.message}
-    </div>
-  )}
-  {errors.session_minutes && (
-    <div className="invalid-feedback d-block">
-      {errors.session_minutes.message}
-    </div>
-  )}
-</div>
-
-                </div>
-                  <div className="form-group col-md-12">
-                    <label htmlFor="session_format">
-                      Session Format &nbsp;
-                      <span
-                        className="position-relative d-inline-block"
-                        onMouseEnter={() => setShowSessionFormat(true)}
-                        onMouseLeave={() => setShowSessionFormat(false)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <InfoOutlinedIcon
-                          sx={{ color: "#40C0E7", fontSize: 20 }}
-                        />
-                        {showSessionFormat && (
-                          <div
-                            className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
-                            style={{
-                              top: "80%",
-                              left: "900%",
-                              transform: "translateX(-50%)",
-                              zIndex: 10,
-                              width: "320px",
-                              whiteSpace: "normal",
-                            }}
-                          >
-                            <InfoOutlinedIcon
-                              sx={{ color: "#40C0E7", fontSize: 20 }}
-                            />
-                            <ol style={{ marginTop: "20px" }}>
-                              <li>
-                                <strong>1-on-1 Coaching</strong>
-                              </li>
-                              <li>
-                                <strong>Group Session</strong>
-                              </li>
-                              <li>
-                                <strong>Workshop / Masterclass</strong>
-                              </li>
-                              <li>
-                                <strong>Coaching Program / Package</strong>
-                              </li>
-                              <li>
-                                <strong>Self-paced Learning</strong>
-                              </li>
-                              <li>
-                                <strong>Webinar / Live Talk</strong>
-                              </li>
-                              <li>
-                                <strong>Drop-in / On-demand Session</strong>
-                              </li>
-                              <li>
-                                <strong>Corporate/Team Training</strong>
-                              </li>
-                              <li>
-                                <strong>Accountability / Check-in Calls</strong>
-                              </li>
-                              <li>
-                                <strong>Trial / Discovery Session</strong>
-                              </li>
-                              <li>
-                                <strong>Free / Pro Bono</strong>
-                              </li>
-                            </ol>
-                          </div>
-                        )}
-                      </span>
-                    </label>
-                    <select
-                      disabled={!isProUser}
-                      id="session_format"
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.session_format ? "is-invalid" : ""
-                      }`}
-                      {...register("session_format")}
-                    >
-                      <option value="" className="disable-select-option">
-                        Select{" "}
-                      </option>
-                      {Array.isArray(getFormats) &&
-                        getFormats.map((fmt) => (
-                          <option key={fmt.id} value={fmt.id}>
-                            {fmt.name}
-                          </option>
-                        ))}
-                    </select>
-                    {errors.session_format && (
-                      <div className="invalid-feedback">
-                        {errors.session_format.message}
+                    {/* Errors */}
+                    {errors.session_hours && (
+                      <div className="invalid-feedback d-block">
+                        {errors.session_hours.message}
+                      </div>
+                    )}
+                    {errors.session_minutes && (
+                      <div className="invalid-feedback d-block">
+                        {errors.session_minutes.message}
                       </div>
                     )}
                   </div>
+
+                </div>
+                <div className="form-group col-md-12">
+                  <label htmlFor="session_format">
+                    Session Format &nbsp;
+                    <span
+                      className="position-relative d-inline-block"
+                      onMouseEnter={() => setShowSessionFormat(true)}
+                      onMouseLeave={() => setShowSessionFormat(false)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <InfoOutlinedIcon
+                        sx={{ color: "#40C0E7", fontSize: 20 }}
+                      />
+                      {showSessionFormat && (
+                        <div
+                          className="position-absolute bg-light text-dark border small rounded shadow badge bg-light text-dark px-2 py-3 text-start"
+                          style={{
+                            top: "80%",
+                            left: "900%",
+                            transform: "translateX(-50%)",
+                            zIndex: 10,
+                            width: "320px",
+                            whiteSpace: "normal",
+                          }}
+                        >
+                          <InfoOutlinedIcon
+                            sx={{ color: "#40C0E7", fontSize: 20 }}
+                          />
+                          <ol style={{ marginTop: "20px" }}>
+                            <li>
+                              <strong>1-on-1 Coaching</strong>
+                            </li>
+                            <li>
+                              <strong>Group Session</strong>
+                            </li>
+                            <li>
+                              <strong>Workshop / Masterclass</strong>
+                            </li>
+                            <li>
+                              <strong>Coaching Program / Package</strong>
+                            </li>
+                            <li>
+                              <strong>Self-paced Learning</strong>
+                            </li>
+                            <li>
+                              <strong>Webinar / Live Talk</strong>
+                            </li>
+                            <li>
+                              <strong>Drop-in / On-demand Session</strong>
+                            </li>
+                            <li>
+                              <strong>Corporate/Team Training</strong>
+                            </li>
+                            <li>
+                              <strong>Accountability / Check-in Calls</strong>
+                            </li>
+                            <li>
+                              <strong>Trial / Discovery Session</strong>
+                            </li>
+                            <li>
+                              <strong>Free / Pro Bono</strong>
+                            </li>
+                          </ol>
+                        </div>
+                      )}
+                    </span>
+                  </label>
+                  <select
+                    disabled={!isProUser}
+                    id="session_format"
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_format ? "is-invalid" : ""
+                      }`}
+                    {...register("session_format")}
+                  >
+                    <option value="" className="disable-select-option">
+                      Select{" "}
+                    </option>
+                    {Array.isArray(getFormats) &&
+                      getFormats.map((fmt) => (
+                        <option key={fmt.id} value={fmt.id}>
+                          {fmt.name}
+                        </option>
+                      ))}
+                  </select>
+                  {errors.session_format && (
+                    <div className="invalid-feedback">
+                      {errors.session_format.message}
+                    </div>
+                  )}
+                </div>
                 <div className="coach-price-currency gap-2">
                   <div className="form-group col-md-4">
                     <label htmlFor="price">Total Price</label>
@@ -738,9 +848,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       min={0}
                       id="price"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.price ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.price ? "is-invalid" : ""
+                        }`}
                       {...register("price", {
                         valueAsNumber: true,
                       })}
@@ -757,9 +866,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <select
                       id="currency"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.currency ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.currency ? "is-invalid" : ""
+                        }`}
                       {...register("currency")}
                     >
                       <option value="USD">USD</option>
@@ -771,7 +879,9 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       </div>
                     )}
                   </div>
+                </div>
 
+                <div className="d-flex gap-2">
                   <div className="form-group col-md-4 pricing-model-input">
                     <label htmlFor="price_model">
                       Pricing Model &nbsp;
@@ -840,9 +950,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <select
                       id="price_model"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.price_model ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.price_model ? "is-invalid" : ""
+                        }`}
                       {...register("price_model")}
                     >
                       <option value="" className="disable-select-option">
@@ -860,9 +969,6 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       </div>
                     )}
                   </div>
-                </div>
-
-                <div className="d-flex gap-2">
                   <div className="form-group col-md-4 slots-available-input">
                     <label htmlFor="booking_slots">
                       Seats available for Booking
@@ -873,9 +979,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       max={1000}
                       id="booking_slots"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.booking_slots ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.booking_slots ? "is-invalid" : ""
+                        }`}
                       {...register("booking_slots", {
                         valueAsNumber: true,
                       })}
@@ -887,7 +992,26 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     )}
                   </div>
 
-                  <div className="form-group col-md-6 availablity-list-input">
+                  {/* <div className="form-group col-md-4">
+                    <label htmlFor="booking_time">Availability Time</label>
+                    <input
+                      type="time"
+                      id="booking_time"
+                      disabled={!isProUser}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.booking_time ? "is-invalid" : ""
+                        }`}
+                      {...register("booking_time")}
+                    />
+                    {errors.booking_time && (
+                      <div className="invalid-feedback">
+                        {errors.booking_time.message}
+                      </div>
+                    )}
+                  </div> */}
+                </div>
+                
+                <div className="d-flex gap-2">
+                    <div className="form-group col-md-12 availablity-list-input">
                     <AvailabilityModesField
                       value={formData.booking_availability}
                       isProUser={isProUser}
@@ -925,25 +1049,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       isProUser={isProUser}
                     /> */}
                   </div>
-
-                  {/* <div className="form-group col-md-4">
-                    <label htmlFor="booking_time">Availability Time</label>
-                    <input
-                      type="time"
-                      id="booking_time"
-                      disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.booking_time ? "is-invalid" : ""
-                        }`}
-                      {...register("booking_time")}
-                    />
-                    {errors.booking_time && (
-                      <div className="invalid-feedback">
-                        {errors.booking_time.message}
-                      </div>
-                    )}
-                  </div> */}
                 </div>
-
                 <div className="d-flex gap-2">
                   {/* <div className="form-group col-md-4">
                     <label>
@@ -979,9 +1085,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       id="session_validity"
                       placeholder="Use within 6 weeks from first session"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.session_validity ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_validity ? "is-invalid" : ""
+                        }`}
                       {...register("session_validity")}
                     />
                     {errors.session_validity && (
@@ -1000,9 +1105,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                     <select
                       id="cancellation_policy"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.cancellation_policy ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.cancellation_policy ? "is-invalid" : ""
+                        }`}
                       {...register("cancellation_policy")}
                     >
                       <option value="" className="disable-select-option">
@@ -1033,9 +1137,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       id="rescheduling_policy"
                       placeholder="One free reschedule allowed per session"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.rescheduling_policy ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.rescheduling_policy ? "is-invalid" : ""
+                        }`}
                       {...register("rescheduling_policy")}
                     />
                     {errors.rescheduling_policy && (
@@ -1061,9 +1164,8 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
                       accept="image/*"
                       onChange={handleFileChange}
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.media_file ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.media_file ? "is-invalid" : ""
+                        }`}
                       style={{ display: "none" }}
                     />
                   </div>
