@@ -154,9 +154,6 @@ textarea.form-control.instructions-textarea {
     height: 292px;
 }
 
-save-btn {
-    height: 42px !important;
-}
 
 .multi-select {
   min-height: 38px;
@@ -222,3 +219,10 @@ save-btn {
 .dropdown-item.selected {
   background: #e7f1ff;
 }
+
+.modal-footer .btn-primary,
+.modal-footer .btn-secondary {
+  height: 42px;
+  padding: 10px 20px;
+}
+

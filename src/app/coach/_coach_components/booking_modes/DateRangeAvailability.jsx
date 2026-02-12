@@ -89,15 +89,15 @@ export default function DateRangeAvailability({
                       ...weekly,
                       [key]: enabled
                         ? {
-                            enabled: true,
-                            start: weekly?.[key]?.start || "00:00",
-                            end: weekly?.[key]?.end || "23:59",
-                            slots: generateSlots(
-                              weekly?.[key]?.start || "00:00",
-                              weekly?.[key]?.end || "23:59",
-                              sessionDurationMinutes
-                            ),
-                          }
+                          enabled: true,
+                          start: weekly?.[key]?.start || "00:00",
+                          end: weekly?.[key]?.end || "23:59",
+                          slots: generateSlots(
+                            weekly?.[key]?.start || "00:00",
+                            weekly?.[key]?.end || "23:59",
+                            sessionDurationMinutes
+                          ),
+                        }
                         : { enabled: false },
                     },
                   });
@@ -169,17 +169,18 @@ export default function DateRangeAvailability({
 
       <div className="mt-3">
         <label className="form-label">Booking Conditions</label>
-<input
-  type="number"
-  className="form-control"
-  value={value?.bufferTime ?? 24}
-  onChange={(e) =>
-    onChange({
-      ...value,
-      bufferTime: e.target.value === "" ? "" : Number(e.target.value),
-    })
-  }
-/>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="e.g. At least 24 hours in advance"
+          value={value?.bufferTime || ""}
+          onChange={(e) =>
+            onChange({
+              ...value,
+              bufferTime: e.target.value,
+            })
+          }
+        />
 
       </div>
     </div>
