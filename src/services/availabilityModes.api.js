@@ -39,7 +39,7 @@ export const addSpecificDate = async ({
 };
 
 export const getAvailabilityModes = async () => {
-  const token = Cookies.get("token"); // ya jaha se tum token rakh rahe ho
+  const token = Cookies.get("token");
 
   if (!token) {
     throw new Error("Auth token missing");
