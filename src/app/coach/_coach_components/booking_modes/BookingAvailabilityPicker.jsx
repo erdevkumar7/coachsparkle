@@ -154,7 +154,12 @@ export default function AvailabilityModesField({
           {value.availability_id === 33 && (
             <>
               <div className="small">
-                SLA: {value.data.responseSLA?.join(", ") || "-"}
+                {/* SLA: {value.data.responseSLA?.join(", ") || "-"} */}
+                SLA: {
+                  Array.isArray(value?.data?.responseSLA)
+                    ? value.data.responseSLA.join(", ")
+                    : value?.data?.responseSLA || "-"
+                }
               </div>
               <div className="small">
                 Instructions: {value.data.instructions || "-"}

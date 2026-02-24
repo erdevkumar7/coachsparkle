@@ -8,13 +8,17 @@ import Cookies from "js-cookie";
 import { PackageBookingAndStripePayment } from "@/app/api/packages";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 
-export default function Booking({ userData, coach_id, package_id, packageData: initialPackageData }) {
+export default function Booking({
+  userData,
+  coach_id,
+  package_id,
+  packageData: initialPackageData,
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isReschedule = searchParams.get('reschedule') === 'true';
-  const originalBookingId = searchParams.get('booking_id');
-  const packageBookedUserId = searchParams.get('user_id');
-
+  const isReschedule = searchParams.get("reschedule") === "true";
+  const originalBookingId = searchParams.get("booking_id");
+  const packageBookedUserId = searchParams.get("user_id");
 
   const [packageData, setPackageData] = useState(initialPackageData);
   const [selectedDates, setSelectedDates] = useState([]);
@@ -22,26 +26,154 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
   const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const availabilityMode = packageData?.booking_availability?.mode || "ondemand";
+  const availabilityMode =
+    packageData?.coach_profile?.availability?.length > 0
+      ? "range" // or "specific" depending on your business logic
+      : "ondemand";
+
+  // onDemand
+  const [errors, setErrors] = useState({
+    username: "",
+    useremail: "",
+    prefered_dt: "",
+  });
+  const [onDemandForm, setOnDemandForm] = useState({
+    username: "",
+    useremail: "",
+    prefered_dt: "",
+  });
+
+  const handleOnDemandChange = (e) => {
+    const { name, value } = e.target;
+
+    setOnDemandForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+     // remove error instantly when user types
+  setErrors((prev) => ({
+    ...prev,
+    [name]: "",
+  }));
+  };
+
+  const validateOnDemandForm = () => {
+    const newErrors = {};
+
+    if (!onDemandForm.username.trim()) {
+      newErrors.username = "Name is required";
+    }
+
+    if (!onDemandForm.useremail.trim()) {
+      newErrors.useremail = "Email is required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(onDemandForm.useremail)
+    ) {
+      newErrors.useremail = "Enter a valid email";
+    }
+
+    if (!onDemandForm.prefered_dt.trim()) {
+      newErrors.prefered_dt = "Preferred date & time is required";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleOnDemandSubmit = async (e) => {
+    e.preventDefault(); // ✅ stops page refresh
+    if (!validateOnDemandForm()) return;
+    try {
+      setIsProcessing(true);
+
+      const payload = {
+        userid: onDemandForm.userid,
+        username: onDemandForm.username,
+        useremail: onDemandForm.useremail,
+        prefered_dt: onDemandForm.prefered_dt,
+      };
+
+      // if (!onDemandForm.username || !onDemandForm.useremail) {
+      //   toast.error("Please fill all fields");
+      //   return;
+      // }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/on-demond-enquiry-process`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Request submitted successfully ✅");
+
+        // reset form
+        setOnDemandForm({
+          username: "",
+          useremail: "",
+          prefered_dt: "",
+        });
+        setErrors({});
+      } else {
+        toast.error(data.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Server error");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  console.log("USER DATA:", userData);
+
+  //   useEffect(() => {
+  //   if (!userData || !packageData?.coach_profile) return;
+
+  //   setOnDemandForm((prev) => ({
+  //     ...prev,
+  //     userid: userData?.id || "",
+  //     username:
+  //       `${userData?.first_name || ""} ${userData?.last_name || ""}`.trim(),
+  //     useremail: userData?.email || "",
+  //     coachname:
+  //       `${packageData?.coach_profile?.first_name || ""} ${
+  //         packageData?.coach_profile?.last_name || ""
+  //       }`.trim(),
+  //   }));
+  // }, [userData, packageData]);
+
+  // =========
 
   // Load selected dates from sessionStorage on component mount
   useEffect(() => {
-    const savedSelections = sessionStorage.getItem(`booking_selections_${package_id}`);
+    const savedSelections = sessionStorage.getItem(
+      `booking_selections_${package_id}`,
+    );
     if (savedSelections) {
       try {
         const parsedSelections = JSON.parse(savedSelections);
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
-        const validSelections = parsedSelections.filter(item => {
+        const validSelections = parsedSelections.filter((item) => {
           const itemDate = new Date(item.date);
           itemDate.setHours(0, 0, 0, 0);
           return itemDate >= currentDate;
         });
 
-        const selectionsWithDates = validSelections.map(item => ({
+        const selectionsWithDates = validSelections.map((item) => ({
           ...item,
-          date: new Date(item.date)
+          date: new Date(item.date),
         }));
 
         setSelectedDates(selectionsWithDates);
@@ -49,7 +181,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
         if (validSelections.length !== parsedSelections.length) {
           sessionStorage.setItem(
             `booking_selections_${package_id}`,
-            JSON.stringify(validSelections)
+            JSON.stringify(validSelections),
           );
         }
       } catch (error) {
@@ -61,13 +193,13 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
   // Save selected dates to sessionStorage whenever they change
   useEffect(() => {
     if (selectedDates.length > 0) {
-      const selectionsForStorage = selectedDates.map(item => ({
+      const selectionsForStorage = selectedDates.map((item) => ({
         ...item,
-        date: item.date.toISOString()
+        date: item.date.toISOString(),
       }));
       sessionStorage.setItem(
         `booking_selections_${package_id}`,
-        JSON.stringify(selectionsForStorage)
+        JSON.stringify(selectionsForStorage),
       );
     } else {
       sessionStorage.removeItem(`booking_selections_${package_id}`);
@@ -83,22 +215,71 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
     }
   }, [selectedDates, isReschedule]);
 
+  // useEffect(() => {
+  //   if (!package_id || availabilityMode === "ondemand") return;
+
+  //   fetchAvailability(package_id)
+  //     .then((data) => {
+  //       const availabilityMap = {};
+  //       if (Array.isArray(data.availability)) {
+  //         data.availability.forEach((item) => {
+  //           availabilityMap[item.date] = item.available_times;
+  //         });
+  //       }
+
+  //       setAvailability(availabilityMap);
+  //       setPackageData(data);
+
+  //       const availableDates = Object.keys(availabilityMap);
+  //       if (availableDates.length > 0) {
+  //         setCurrentDate(new Date(availableDates[0]));
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error fetching availability:", err);
+  //       toast.error("Failed to load availability");
+  //     });
+  // }, [package_id, availabilityMode]);
   useEffect(() => {
     if (!package_id || availabilityMode === "ondemand") return;
 
     fetchAvailability(package_id)
       .then((data) => {
-        const availabilityMap = {};
-        if (Array.isArray(data.availability)) {
-          data.availability.forEach((item) => {
-            availabilityMap[item.date] = item.available_times;
-          });
-        }
-
-        setAvailability(availabilityMap);
         setPackageData(data);
 
+        const availabilityMap = {};
+
+        const ranges = data?.coach_profile?.availability || [];
+
+        ranges.forEach((range) => {
+          const start = new Date(range.start_date);
+          const end = new Date(range.end_date);
+
+          const weeklyRules = range.weekly_availability || [];
+
+          // loop all dates inside range
+          for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            const weekday = d
+              .toLocaleDateString("en-US", { weekday: "long" })
+              .toLowerCase();
+
+            weeklyRules.forEach((rule) => {
+              if (rule.days === weekday) {
+                const dateKey = d.toISOString().slice(0, 10);
+
+                // time_slots comes as string -> parse it
+                const slots = JSON.parse(rule.time_slots || "[]");
+
+                availabilityMap[dateKey] = slots;
+              }
+            });
+          }
+        });
+
+        setAvailability(availabilityMap);
+
         const availableDates = Object.keys(availabilityMap);
+
         if (availableDates.length > 0) {
           setCurrentDate(new Date(availableDates[0]));
         }
@@ -109,18 +290,16 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
       });
   }, [package_id, availabilityMode]);
 
-
   useEffect(() => {
     if (!currentDate) return;
 
     const key = currentDate.toISOString().slice(0, 10);
     const slots = availability[key] || [];
 
-    slots.sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+    slots.sort((a, b) => a.localeCompare(b, "en", { numeric: true }));
 
     setTimeSlots(slots);
   }, [currentDate, availability]);
-
 
   const getActiveDays = (year, month) => {
     return Object.keys(availability).reduce((active, dateStr) => {
@@ -148,7 +327,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
     } else {
       // For normal booking: Allow multiple sessions
       const existingIndex = selectedDates.findIndex(
-        item => item.date.toISOString().slice(0, 10) === dateKey
+        (item) => item.date.toISOString().slice(0, 10) === dateKey,
       );
 
       if (existingIndex >= 0) {
@@ -156,7 +335,10 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
         updatedDates[existingIndex].time = time;
         setSelectedDates(updatedDates);
       } else {
-        setSelectedDates([...selectedDates, { date: new Date(currentDate), time }]);
+        setSelectedDates([
+          ...selectedDates,
+          { date: new Date(currentDate), time },
+        ]);
       }
       toast.success("Date and time added!");
     }
@@ -164,7 +346,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
 
   const removeSelectedDate = (dateToRemove) => {
     const updatedDates = selectedDates.filter(
-      item => item.date.toISOString() !== dateToRemove.date.toISOString()
+      (item) => item.date.toISOString() !== dateToRemove.date.toISOString(),
     );
     setSelectedDates(updatedDates);
   };
@@ -183,17 +365,19 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
 
     const token = Cookies.get("token");
     if (!token) {
-      const selectionsForStorage = selectedDates.map(item => ({
+      const selectionsForStorage = selectedDates.map((item) => ({
         ...item,
-        date: item.date.toISOString()
+        date: item.date.toISOString(),
       }));
       sessionStorage.setItem(
         `booking_selections_${package_id}`,
-        JSON.stringify(selectionsForStorage)
+        JSON.stringify(selectionsForStorage),
       );
 
-      router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking?reschedule=true&booking_id=${originalBookingId}`);
-      sessionStorage.setItem('role', 2);
+      router.push(
+        `/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking?reschedule=true&booking_id=${originalBookingId}`,
+      );
+      sessionStorage.setItem("role", 2);
       return;
     }
 
@@ -202,25 +386,28 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
     // Prepare reschedule payload according to your specification
     const selectedSession = selectedDates[0];
     const payload = {
-      "user_id": packageBookedUserId,
-      "booking_id": originalBookingId,
-      "status": 0, // Set to confirmed status (adjust as needed)
-      "session_date_start": selectedSession.date.toISOString().split('T')[0], // YYYY-MM-DD
-      "slot_time_start": selectedSession.time
+      user_id: packageBookedUserId,
+      booking_id: originalBookingId,
+      status: 0, // Set to confirmed status (adjust as needed)
+      session_date_start: selectedSession.date.toISOString().split("T")[0], // YYYY-MM-DD
+      slot_time_start: selectedSession.time,
     };
 
     try {
       // Use the same API endpoint but with different payload for reschedule
       // const response = await PackageBookingSubmit(payload, token);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookingRescheduleByUser`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/bookingRescheduleByUser`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       const response = await res.json();
 
@@ -233,14 +420,13 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
         // Redirect back to calendar or booking page
         if (packageBookedUserId) {
           setTimeout(() => {
-            router.push('/coach/coaching-activities');
+            router.push("/coach/coaching-activities");
           }, 500);
         } else {
           setTimeout(() => {
-            router.push('/user/coaching-activities');
+            router.push("/user/coaching-activities");
           }, 500);
         }
-
       } else {
         toast.error(response.message || "Reschedule failed. Please try again.");
       }
@@ -266,29 +452,31 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
 
     const token = Cookies.get("token");
     if (!token) {
-      const selectionsForStorage = selectedDates.map(item => ({
+      const selectionsForStorage = selectedDates.map((item) => ({
         ...item,
-        date: item.date.toISOString()
+        date: item.date.toISOString(),
       }));
       sessionStorage.setItem(
         `booking_selections_${package_id}`,
-        JSON.stringify(selectionsForStorage)
+        JSON.stringify(selectionsForStorage),
       );
 
-      router.push(`/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`);
-      sessionStorage.setItem('role', 2);
+      router.push(
+        `/login?redirect=/coach-detail/${packageData?.coach_profile?.coach_id}/package/${packageData?.coach_profile?.package_id}/booking`,
+      );
+      sessionStorage.setItem("role", 2);
       return;
     }
 
     setIsProcessing(true);
 
     const payload = {
-      "package_id": packageData?.coach_profile?.package_id,
-      "coach_id": packageData?.coach_profile?.coach_id,
-      "slot_date_time": selectedDates.map(selected => [
-        selected.date.toISOString().split('T')[0],
-        selected.time
-      ])
+      package_id: packageData?.coach_profile?.package_id,
+      coach_id: packageData?.coach_profile?.coach_id,
+      slot_date_time: selectedDates.map((selected) => [
+        selected.date.toISOString().split("T")[0],
+        selected.time,
+      ]),
     };
 
     try {
@@ -303,7 +491,9 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
           setSelectedDates([]);
         }
       } else {
-        toast.error(response.data.message || "Booking failed. Please try again.");
+        toast.error(
+          response.data.message || "Booking failed. Please try again.",
+        );
       }
     } catch (err) {
       console.error("Error submitting package:", err);
@@ -328,9 +518,13 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
       {isReschedule && (
         <div className="alert alert-info mb-4">
           <i className="bi bi-arrow-repeat me-2"></i>
-          <strong>Reschedule Mode:</strong> You are rescheduling a canceled session.
+          <strong>Reschedule Mode:</strong> You are rescheduling a canceled
+          session.
           {selectedDates.length > 0 && (
-            <span className="ms-2">Selected: {selectedDates[0].date.toLocaleDateString()} at {selectedDates[0].time}</span>
+            <span className="ms-2">
+              Selected: {selectedDates[0].date.toLocaleDateString()} at{" "}
+              {selectedDates[0].time}
+            </span>
           )}
         </div>
       )}
@@ -340,7 +534,11 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
           <div className="position-relative mb-3">
             <div className="top-divider-line"></div>
             <img
-              src={packageData?.coach_profile?.profile_image ? packageData?.coach_profile?.profile_image : `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+              src={
+                packageData?.coach_profile?.profile_image
+                  ? packageData?.coach_profile?.profile_image
+                  : `${FRONTEND_BASE_URL}/images/default_profile.jpg`
+              }
               alt="Coach"
               className="rounded-circle top-0 translate-middle-x profile-img"
             />
@@ -362,7 +560,11 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
               {packageData?.coach_profile?.session_price && !isReschedule && (
                 <li className="d-flex align-items-start">
                   <i className="bi bi-receipt me-2 pkg-icons"></i>
-                  <span>{packageData?.coach_profile?.session_price} {packageData?.coach_profile?.price_model} {packageData?.coach_profile?.currency}</span>
+                  <span>
+                    {packageData?.coach_profile?.session_price}{" "}
+                    {packageData?.coach_profile?.price_model}{" "}
+                    {packageData?.coach_profile?.currency}
+                  </span>
                 </li>
               )}
               {/* {isReschedule && (
@@ -377,7 +579,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                   <i className="bi bi-people me-2 pkg-icons"></i>
                   <span>
                     {packageData?.coach_profile?.session_count} Session
-                    {packageData?.coach_profile?.session_count > 1 ? 's' : ''}
+                    {packageData?.coach_profile?.session_count > 1 ? "s" : ""}
                   </span>
                 </li>
               )}
@@ -437,7 +639,7 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                   currentDate={currentDate}
                   onDateSelect={handleDateSelect}
                   getActiveDays={getActiveDays}
-                  selectedDates={selectedDates.map(item => item.date)}
+                  selectedDates={selectedDates.map((item) => item.date)}
                 />
               )}
             </div>
@@ -457,8 +659,13 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                     timeSlots.map((slot, idx) => (
                       <div key={idx} className="mb-2">
                         <button
-                          className={`time-slot-btn w-100 ${isReschedule && selectedDates.length > 0 && selectedDates[0].time === slot ? 'active' : ''
-                            }`}
+                          className={`time-slot-btn w-100 ${
+                            isReschedule &&
+                            selectedDates.length > 0 &&
+                            selectedDates[0].time === slot
+                              ? "active"
+                              : ""
+                          }`}
                           onClick={() => handleTimeSelect(slot)}
                         >
                           {slot}
@@ -471,24 +678,29 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                 </div>
 
                 <h6 className="fw-semibold mb-2">
-                  {isReschedule ? 'Reschedule To' : 'Selected Dates & Times'}
+                  {isReschedule ? "Reschedule To" : "Selected Dates & Times"}
                 </h6>
                 <div className="selected-dates add-selected-date">
                   <div className="selected-dates-section add-selected-date-inner">
                     {selectedDates.length === 0 ? (
                       <div className="text-muted small">
-                        {isReschedule ? 'No reschedule date selected yet' : 'No dates selected yet'}
+                        {isReschedule
+                          ? "No reschedule date selected yet"
+                          : "No dates selected yet"}
                       </div>
                     ) : (
                       <div className="selected-dates-list">
                         {selectedDates.map((selected, index) => (
-                          <div key={index} className="selected-date-item d-flex align-items-center justify-content-between mb-2 p-2 bg-light rounded">
+                          <div
+                            key={index}
+                            className="selected-date-item d-flex align-items-center justify-content-between mb-2 p-2 bg-light rounded"
+                          >
                             <div>
                               <span className="fw-medium">
                                 {selected.date.toLocaleDateString("en-US", {
                                   month: "short",
                                   day: "numeric",
-                                  year: "numeric"
+                                  year: "numeric",
                                 })}
                               </span>
                               <span className="ms-2">{selected.time}</span>
@@ -514,18 +726,25 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                   {selectedDates.length > 0 && (
                     <div className="mt-3">
                       <button
-                        className={`btn w-100 book-selected-date ${isReschedule ? 'btn-warning' : 'btn-primary'
-                          }`}
+                        className={`btn w-100 book-selected-date ${
+                          isReschedule ? "btn-warning" : "btn-primary"
+                        }`}
                         onClick={handleSubmit}
                         disabled={isProcessing}
                       >
                         {isProcessing ? (
                           <>
-                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                            {isReschedule ? 'Rescheduling...' : 'Processing...'}
+                            <span
+                              className="spinner-border spinner-border-sm me-2"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            {isReschedule ? "Rescheduling..." : "Processing..."}
                           </>
+                        ) : isReschedule ? (
+                          `Reschedule Session`
                         ) : (
-                          isReschedule ? `Reschedule Session` : `Book Selected Dates (${selectedDates.length})`
+                          `Book Selected Dates (${selectedDates.length})`
                         )}
                       </button>
 
@@ -553,46 +772,69 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                 <div>
                   <div className="fw-semibold">How it works</div>
                   <div className="small text-muted">
-                    Submit your preferred dates and times. The coach will confirm within 24 hours.
+                    Submit your preferred dates and times. The coach will
+                    confirm within 24 hours.
                   </div>
                 </div>
               </div>
 
               {/* Name + Email */}
-              <div className="row g-3 mb-3">
-                <div className="col-md-6">
-                  <label className="form-label">Your Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="John Doe"
-                    defaultValue={userData?.name || ""}
-                  />
+              <form onSubmit={handleOnDemandSubmit}>
+                <div className="row g-3 mb-3">
+                  <div className="col-md-6">
+                    <label className="form-label">Your Name</label>
+                    <input
+                      type="text"
+                      // className="form-control"
+                      className={`form-control ${errors.username ? "is-invalid" : ""}`}
+                      placeholder="John Doe"
+                      name="username"
+                      // defaultValue={userData?.user_name || ""}
+                      value={onDemandForm.username}
+                      onChange={handleOnDemandChange}
+                    />
+                    {errors.username && (
+                      <div className="invalid-feedback">{errors.username}</div>
+                    )}
+                  </div>
+
+                  <div className="col-md-6">
+                    <label className="form-label">Email</label>
+                    <input
+                      type="email"
+                      // className="form-control"
+                       className={`form-control ${errors.useremail ? "is-invalid" : ""}`}
+                      placeholder="john@example.com"
+                      name="useremail"
+                      value={onDemandForm.useremail}
+                      onChange={handleOnDemandChange}
+                      // defaultValue={userData?.email || ""}
+                    />
+                    {errors.useremail && (
+                      <div className="invalid-feedback">{errors.useremail}</div>
+                    )}
+                  </div>
                 </div>
 
-                <div className="col-md-6">
-                  <label className="form-label">Email</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="john@example.com"
-                    defaultValue={userData?.email || ""}
+                {/* Preferred Dates */}
+                <div className="mb-4">
+                  <label className="form-label">Preferred Dates & Times</label>
+                  <textarea
+                    rows={4}
+                    // className="form-control"
+                      className={`form-control ${errors.prefered_dt ? "is-invalid" : ""}`}
+                    name="prefered_dt"
+                    placeholder="Please share 2-3 preferred time slots."
+                    value={onDemandForm.prefered_dt}
+                    onChange={handleOnDemandChange}
                   />
+                  {errors.prefered_dt && (
+                    <div className="invalid-feedback">{errors.prefered_dt}</div>
+                  )}
                 </div>
-              </div>
 
-              {/* Preferred Dates */}
-              <div className="mb-4">
-                <label className="form-label">Preferred Dates & Times</label>
-                <textarea
-                  rows={4}
-                  className="form-control"
-                  placeholder="Please share 2-3 preferred time slots."
-                />
-              </div>
-
-              {/* Submit */}
-              <button
+                {/* Submit */}
+                {/* <button
                 className="btn d-flex align-items-center justify-content-center mt-3 text-white border-0"
                 style={{
                   backgroundColor: "#009bfa",
@@ -605,12 +847,26 @@ export default function Booking({ userData, coach_id, package_id, packageData: i
                 onClick={() => toast.success("Request submitted (UI only)")}
               >
                 Submit Request <i className="bi bi-arrow-right ms-2"></i>
-              </button>
+              </button> */}
+                <button
+                  className="btn d-flex align-items-center justify-content-center mt-3 text-white border-0"
+                  style={{
+                    backgroundColor: "#009bfa",
+                    borderRadius: "12px",
+                    gap: "5px",
+                    fontSize: "15px",
+                    padding: "10px 20px",
+                  }}
+                  // onClick={handleOnDemandSubmit}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? "Submitting..." : "Submit Request"}
+                  <i className="bi bi-arrow-right ms-2"></i>
+                </button>
+              </form>
             </div>
           </div>
         )}
-
-
       </div>
     </div>
   );
