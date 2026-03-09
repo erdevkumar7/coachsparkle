@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -197,22 +198,71 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
       const availabilityData = data.booking_availability.data;
 
       // 🔹 31 - Specific Dates
-      if (availabilityId === 31) {
-        const sessionDatesObject = {};
+      // if (availabilityId === 31) {
+      //   const sessionDatesObject = {};
 
-        if (
-          availabilityData?.specificDates &&
-          Array.isArray(availabilityData.specificDates)
-        ) {
-          availabilityData.specificDates.forEach((item) => {
-            if (item.date && Array.isArray(item.slots)) {
-              sessionDatesObject[item.date] = item.slots;
+      //   if (
+      //     availabilityData?.specificDates &&
+      //     Array.isArray(availabilityData.specificDates)
+      //   ) {
+      //     availabilityData.specificDates.forEach((item) => {
+      //       if (item.date && Array.isArray(item.slots)) {
+      //         sessionDatesObject[item.date] = item.slots;
+      //       }
+      //     });
+      //   }
+
+      //   form.append("session_dates", JSON.stringify(sessionDatesObject));
+      // }
+
+      // 🔹 31 - Specific Dates
+// if (availabilityId === 31) {
+//   const sessionDatesObject = {};
+
+//   if (
+//     availabilityData?.specificDates &&
+//     Array.isArray(availabilityData.specificDates)
+//   ) {
+//     availabilityData.specificDates.forEach((item) => {
+//       if (item.date && Array.isArray(item.slots)) {
+//         sessionDatesObject[item.date] = {
+//           times: item.slots.map((t) => dayjs(t).format("HH:mm")), // ensure correct format
+//           max_participants: Number(data.booking_slots) || 1, // seats available
+//         };
+//       }
+//     });
+//   }
+
+//   form.append("session_dates", JSON.stringify(sessionDatesObject));
+// }
+
+// 09/03
+if (availabilityId === 31) {
+  const sessionDatesObject = {};
+
+  if (
+    availabilityData?.specificDates &&
+    Array.isArray(availabilityData.specificDates)
+  ) {
+    availabilityData.specificDates.forEach((item) => {
+      if (item.date && Array.isArray(item.slots)) {
+        sessionDatesObject[item.date] = {
+          times: item.slots.map((t) => {
+            // if already HH:mm keep it
+            if (typeof t === "string" && t.match(/^\d{2}:\d{2}$/)) {
+              return t;
             }
-          });
-        }
-
-        form.append("session_dates", JSON.stringify(sessionDatesObject));
+            // if full datetime convert to HH:mm
+            return dayjs(t).format("HH:mm");
+          }),
+          max_participants: Number(data.booking_slots) || 1,
+        };
       }
+    });
+  }
+
+  form.append("session_dates", JSON.stringify(sessionDatesObject));
+}
 
       // 🔹 32 - Date Range
       // if (availabilityId === 32) {
@@ -279,9 +329,22 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
 
         form.append(
           "instructions_clients",
+          // "instructions_for_clients",
           availabilityData?.instructions || "",
         );
       }
+      // 🔹 33 - On Demand
+// if (availabilityId === 33) {
+//   form.append(
+//     "response_time",
+//     availabilityData?.responseSLA || ""
+//   );
+
+//   form.append(
+//     "instructions_clients",
+//     availabilityData?.instructions || ""
+//   );
+// }
 
       // -----------------------------
       // Debug Payload

@@ -23,17 +23,18 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
 
     return (
         <div className="session-card">
-            
+
             <Image src={pkg?.media_file ? URL.createObjectURL(pkg?.media_file) : '/coachsparkle/images/service-package1.png'} alt="Team Member" className="img-fluid" width={1000} height={226} />
 
-    
+
             <div className="session-preview-content">
                 <h2>{pkg?.title || "Confidence Jumpstart Session"}</h2>
                 <div className="icons-row">
                     <PersonalVideoIcon className="mui-icons"/> {getNameById(allDelveryMode, DeliveryMode) || "Online"}
                     <PersonOutlineOutlinedIcon className="mui-icons"/> {getNameById(allSessionFormat, pkg?.session_format) || "1-on-1 coaching"}
-                    <CalendarMonthOutlinedIcon className="mui-icons"/> 
-                    {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_end) || 'Jun - Aug 2025'}
+                    <CalendarMonthOutlinedIcon className="mui-icons"/>
+                    {/* {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_end) || 'Jun - Aug 2025'} */}
+                     {pkg?.availability_display}
                 </div>
                 <div className="icons-row">
                     <ForumOutlinedIcon className="mui-icons"/> {pkg?.session_count ? `${pkg?.session_count} Sessions` : "1 Sessions"}

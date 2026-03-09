@@ -7,6 +7,7 @@ import {
   getSpecificMode,
   getWeeklyAvailability,
   getOnDemand,
+
 } from "@/services/availabilityModes.api";
 
 export default function AvailabilityModesField({
@@ -77,13 +78,22 @@ export default function AvailabilityModesField({
       };
     }
 
-    if (availabilityId === 33 && recordId) {
-      const ondemand = await getOnDemand(recordId);
-      data = {
-        responseSLA: parseSlots(ondemand?.response_time),
-        instructions: ondemand?.instructions_clients || "",
-      };
-    }
+    // if (availabilityId === 33 && recordId) {
+    //   const ondemand = await getOnDemand(recordId);
+    //   data = {
+    //     responseSLA: parseSlots(ondemand?.response_time),
+    //     instructions: ondemand?.instructions_clients || "",
+    //   };
+    // }
+        if (availabilityId === 33 && recordId) {
+  const ondemand = await getOnDemand(recordId);
+
+  data = {
+    responseSLA: ondemand?.response_time || "",
+    instructions: ondemand?.instructions_clients || "",
+  };
+}
+
 
     setSelectedMode(String(availabilityId));
     setShowModal(true);
@@ -94,6 +104,15 @@ export default function AvailabilityModesField({
       data,
     });
   };
+
+
+    // edit 7/03
+  const recordId = value?.record_id;
+  useEffect(() => {
+  if (value?.availability_id) {
+    setSelectedMode(String(value.availability_id));
+  }
+}, [value]);
 
   return (
     <>
@@ -155,11 +174,16 @@ export default function AvailabilityModesField({
             <>
               <div className="small">
                 {/* SLA: {value.data.responseSLA?.join(", ") || "-"} */}
-                SLA: {
-                  Array.isArray(value?.data?.responseSLA)
-                    ? value.data.responseSLA.join(", ")
-                    : value?.data?.responseSLA || "-"
-                }
+                {/* SLA: {
+        Array.isArray(value?.data?.responseSLA)
+          ? value.data.responseSLA.join(", ")
+          : value?.data?.responseSLA || "-"
+      } */}
+        SLA: {
+        value?.data?.responseSLA
+          ? `Within ${value.data.responseSLA} hours`
+          : "-"
+      }
               </div>
               <div className="small">
                 Instructions: {value.data.instructions || "-"}

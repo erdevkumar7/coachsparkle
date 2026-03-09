@@ -70,7 +70,9 @@ export default function CoachingListDetailPackage({ packages }) {
                   <PersonOutlineOutlinedIcon className="mui-icons" />
                   {pkg?.session_format?.name} |
                   <CalendarMonthOutlinedIcon className="mui-icons" />
-                  {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"}
+                  {/* {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"} */}
+                   {pkg?.availability_display}
+
                 </div>
                 <div className="icons-row">
                   <ForumOutlinedIcon className="mui-icons" />

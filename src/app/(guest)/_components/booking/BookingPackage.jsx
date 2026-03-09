@@ -98,7 +98,8 @@ export default function BookingPackage({ pkg, allPackages }) {
                 <PersonOutlineOutlinedIcon className="text-muted mui-icons" />{" "}
                 {pkg?.session_format?.name}
                 <CalendarMonthOutlinedIcon className="text-muted mui-icons" />{" "}
-                {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"}
+                {/* {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"} */}
+                 {pkg?.availability_display}
               </div>
               <div className="d-flex gap-3 small mb-2">
                 <ForumOutlinedIcon className="text-muted mui-icons" />{pkg?.session_count ? pkg?.session_count : 1} Sessions
