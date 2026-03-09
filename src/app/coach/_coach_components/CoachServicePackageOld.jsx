@@ -142,257 +142,222 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   //   const file = e.target.files[0];
   //   setValue("media_file", file);
   // };
-  const onSubmit = async (data, e) => {
-    const clickedButton = e?.nativeEvent?.submitter?.value || "draft";
 
-    let package_status =
-      clickedButton === "publish" ? 1 : clickedButton === "unpublished" ? 0 : 2;
+const onSubmit = async (data, e) => {
+  const clickedButton = e?.nativeEvent?.submitter?.value || "draft";
+  let package_status;
 
-    try {
-      const token = Cookies.get("token");
-
-      if (!data?.booking_availability?.availability_id) {
-        toast.error("Please select booking availability mode");
-        return;
-      }
-
-      const form = new FormData();
-
-      // -----------------------------
-      // Append normal fields
-      // -----------------------------
-      Object.entries(data).forEach(([key, value]) => {
-        if (
-          value === null ||
-          value === undefined ||
-          value === "" ||
-          key === "booking_availability"
-        ) {
-          return;
-        }
-
-        if (Array.isArray(value)) {
-          value.forEach((v) => form.append(`${key}[]`, String(v)));
-        } else if (key === "media_file" && value instanceof File) {
-          form.append("media_file", value);
-        } else {
-          form.append(key, String(value));
-        }
-      });
-
-      // -----------------------------
-      // Append Required Backend Fields
-      // -----------------------------
-      form.append("delivery_mode", String(selectedDeliveryMode));
-      form.append("package_status", String(package_status));
-      form.append(
-        "availabilityid",
-        String(data.booking_availability.availability_id),
-      );
-
-      // -----------------------------
-      // Handle Availability Modes
-      // -----------------------------
-      const availabilityId = data.booking_availability.availability_id;
-      const availabilityData = data.booking_availability.data;
-
-      // 🔹 31 - Specific Dates
-      // if (availabilityId === 31) {
-      //   const sessionDatesObject = {};
-
-      //   if (
-      //     availabilityData?.specificDates &&
-      //     Array.isArray(availabilityData.specificDates)
-      //   ) {
-      //     availabilityData.specificDates.forEach((item) => {
-      //       if (item.date && Array.isArray(item.slots)) {
-      //         sessionDatesObject[item.date] = item.slots;
-      //       }
-      //     });
-      //   }
-
-      //   form.append("session_dates", JSON.stringify(sessionDatesObject));
-      // }
-
-      // 🔹 31 - Specific Dates
-// if (availabilityId === 31) {
-//   const sessionDatesObject = {};
-
-//   if (
-//     availabilityData?.specificDates &&
-//     Array.isArray(availabilityData.specificDates)
-//   ) {
-//     availabilityData.specificDates.forEach((item) => {
-//       if (item.date && Array.isArray(item.slots)) {
-//         sessionDatesObject[item.date] = {
-//           times: item.slots.map((t) => dayjs(t).format("HH:mm")), // ensure correct format
-//           max_participants: Number(data.booking_slots) || 1, // seats available
-//         };
-//       }
-//     });
-//   }
-
-//   form.append("session_dates", JSON.stringify(sessionDatesObject));
-// }
-
-// 09/03
-if (availabilityId === 31) {
-  const sessionDatesObject = {};
-
-  if (
-    availabilityData?.specificDates &&
-    Array.isArray(availabilityData.specificDates)
-  ) {
-    availabilityData.specificDates.forEach((item) => {
-      if (item.date && Array.isArray(item.slots)) {
-        sessionDatesObject[item.date] = {
-          times: item.slots.map((t) => {
-            // if already HH:mm keep it
-            if (typeof t === "string" && t.match(/^\d{2}:\d{2}$/)) {
-              return t;
-            }
-            // if full datetime convert to HH:mm
-            return dayjs(t).format("HH:mm");
-          }),
-          max_participants: Number(data.booking_slots) || 1,
-        };
-      }
-    });
+  switch (clickedButton) {
+    case "unpublished":
+      package_status = 0;
+      break;
+    case "publish":
+      package_status = 1;
+      break;
+    default:
+      package_status = 2; // draft
   }
 
-  form.append("session_dates", JSON.stringify(sessionDatesObject));
-}
+  try {
+    const token = Cookies.get("token");
+    const form = new FormData();
 
-      // 🔹 32 - Date Range
-      // if (availabilityId === 32) {
-      //   form.append("start_date", availabilityData?.startDate || "");
-      //   form.append("end_date", availabilityData?.endDate || "");
+    // -----------------------------
+    // Validate booking availability
+    // -----------------------------
+    if (!data?.booking_availability?.availability_id) {
+      toast.error("Please select booking availability mode");
+      return;
+    }
 
-      //   const enabledDays = Object.keys(
-      //     availabilityData?.weeklyAvailability || {}
-      //   ).filter(
-      //     (day) => availabilityData.weeklyAvailability[day]?.enabled
-      //   );
+    // -----------------------------
+    // Append form fields
+    // -----------------------------
+    Object.entries(data).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === "") return;
 
-      //   form.append("weekday", enabledDays.join(","));
-      //   form.append("booking_notice", availabilityData?.bufferTime || 0);
-
-      //   form.append(
-      //     "weekly_availability",
-      //     JSON.stringify(availabilityData?.weeklyAvailability || {})
-      //   );
-      // }
-
-      // 🔹 32 - Date Range (FINAL CORRECT LOGIC)
-      if (availabilityId === 32) {
-        form.append("start_date", availabilityData?.startDate || "");
-        form.append("end_date", availabilityData?.endDate || "");
-        form.append("booking_notice", availabilityData?.bufferTime || 0);
-
-        const weeklyAvailability = availabilityData?.weeklyAvailability || {};
-        const formattedWeekday = {};
-
-        const sessionDuration =
-          Number(data.session_hours || 0) * 60 +
-          Number(data.session_minutes || 0);
-
-        if (!sessionDuration || sessionDuration <= 0) {
-          toast.error("Please enter valid session duration.");
-          return;
-        }
-
-        Object.keys(weeklyAvailability).forEach((day) => {
-          const dayData = weeklyAvailability[day];
-
-          // Only check enabled
-          if (dayData?.enabled) {
-            // ✅ Always send full range
-            formattedWeekday[day.toLowerCase()] = ["00:00:00", "23:59:00"];
+      if (key === "booking_availability") {
+        form.append("booking_availability", JSON.stringify(value));
+      } 
+      else if (Array.isArray(value)) {
+        value.forEach((v) => {
+          if (v !== null && v !== undefined && v !== "") {
+            form.append(`${key}[]`, String(v));
           }
         });
-
-        if (Object.keys(formattedWeekday).length === 0) {
-          toast.error("Please select at least one weekday.");
-          return;
-        }
-
-        form.append("weekday", JSON.stringify(formattedWeekday));
+      } 
+      else if (key === "media_file" && value instanceof File) {
+        form.append("media_file", value);
+      } 
+      else {
+        form.append(key, String(value));
       }
+    });
 
-      // 🔹 33 - On Demand
-      if (availabilityId === 33) {
-        form.append(
-          "response_time",
-          JSON.stringify(availabilityData?.responseSLA || []),
+    // -----------------------------
+    // REQUIRED BACKEND FIELDS
+    // -----------------------------
+    form.append("delivery_mode", String(selectedDeliveryMode));
+    form.append("package_status", String(package_status));
+
+    // ⚠️ CRITICAL: Laravel expects THIS EXACT NAME
+    form.append("availabilityid", String(data.booking_availability.availability_id));
+
+    // -----------------------------
+    // Debug FormData
+    // -----------------------------
+    console.group("📦 FormData Payload");
+    for (let [key, val] of form.entries()) {
+      console.log(key, val instanceof File ? "[FILE]" : val);
+    }
+    console.groupEnd();
+
+    // -----------------------------
+    // Save Service Package
+    // -----------------------------
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: form,
+      }
+    );
+
+    const result = await response.json();
+
+    if (!result?.status) {
+      console.error("❌ Package save failed:", result);
+      toast.error(result?.message || "Failed to save package");
+      return;
+    }
+
+    const packageId = result?.data?.id;
+    toast.success("Service package saved!");
+
+    // -----------------------------
+    // Save Availability
+    // -----------------------------
+    const availability = data.booking_availability;
+    const availabilityId = availability.availability_id;
+    const payload = availability.data;
+
+    // 🔹 Specific Dates (31)
+    if (availabilityId === 31 && Array.isArray(payload?.specificDates)) {
+      for (const item of payload.specificDates) {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/specific-date-add/${availabilityId}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              session_dates: item.date,
+              time_slot: item.slots,
+              max_participants: item.maxParticipants || data.booking_slots || 1,
+              package_id: packageId,
+            }),
+          }
         );
-
-        form.append(
-          "instructions_clients",
-          // "instructions_for_clients",
-          availabilityData?.instructions || "",
-        );
       }
-      // 🔹 33 - On Demand
-// if (availabilityId === 33) {
-//   form.append(
-//     "response_time",
-//     availabilityData?.responseSLA || ""
-//   );
+    }
 
-//   form.append(
-//     "instructions_clients",
-//     availabilityData?.instructions || ""
-//   );
-// }
-
-      // -----------------------------
-      // Debug Payload
-      // -----------------------------
-      console.group("📦 FINAL FormData");
-      for (let [key, val] of form.entries()) {
-        console.log(key, val instanceof File ? "[FILE]" : val);
-      }
-      console.groupEnd();
-
-      // -----------------------------
-      // Single API Call
-      // -----------------------------
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/adduserservicepackage`,
+    // 🔹 Date Range (32)
+    if (availabilityId === 32 && payload) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/date-range-add/${availabilityId}`,
         {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
+            "Content-Type": "application/json",
           },
-          body: form,
-        },
+          body: JSON.stringify({
+            start_date: payload.startDate,
+            end_date: payload.endDate,
+            weekday: Object.keys(payload.weeklyAvailability || {})
+              .filter((d) => payload.weeklyAvailability[d]?.enabled)
+              .join(","),
+            booking_notice: payload.bufferTime || 0,
+            package_id: packageId,
+          }),
+        }
       );
 
-      const result = await response.json();
+      const dateRangeResult = await res.json();
+      const dateRangeId = dateRangeResult?.date_range_id;
 
-      if (!result?.status) {
-        toast.error(result?.message || "Failed to save package");
-        return;
+      if (dateRangeId) {
+        for (const day in payload.weeklyAvailability || {}) {
+          if (!payload.weeklyAvailability[day]?.enabled) continue;
+
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/weekly-availability-add/${dateRangeId}/${data.session_duration_minutes || 60}`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                days: day,
+                start_time: payload.weeklyAvailability[day].start,
+                end_time: payload.weeklyAvailability[day].end,
+              }),
+            }
+          );
+        }
       }
-
-      toast.success(
-        package_status === 1
-          ? "Published successfully"
-          : package_status === 0
-            ? "Saved as unpublished"
-            : "Draft saved",
-      );
-
-      reset();
-      setSelectedDeliveryMode("");
-      setMediaPreview(null);
-      onPackageAdded?.();
-    } catch (err) {
-      console.error("🔥 Submit failed:", err);
-      toast.error("Network or server error.");
     }
-  };
+
+    // 🔹 On Demand (33)
+    if (availabilityId === 33 && payload) {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/on-demond-add/${availabilityId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            response_time: payload.responseSLA || [],
+            instructions_clients: payload.instructions || "",
+            package_id: packageId,
+          }),
+        }
+      );
+    }
+
+    // -----------------------------
+    // UI Feedback
+    // -----------------------------
+    if (package_status === 0) toast.warning("Saved as unpublished");
+    else if (package_status === 1) toast.success("Published successfully");
+    else toast.success("Draft saved");
+
+    reset();
+    setSelectedDeliveryMode("");
+    setMediaPreview(null);
+    onPackageAdded?.();
+
+  } catch (err) {
+    console.error("🔥 Submit failed:", err);
+    toast.error("Network or server error.");
+  }
+};
+
+
+
 
   return (
     <div className="profile-form-add">
@@ -423,9 +388,8 @@ if (availabilityId === 31) {
                     id="title"
                     placeholder="Confidence Jumpstart Session"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.title ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.title ? "is-invalid" : ""
+                      }`}
                     {...register("title")}
                   />
                   {errors.title && (
@@ -444,9 +408,8 @@ if (availabilityId === 31) {
                     id="short_description"
                     rows="3"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.short_description ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.short_description ? "is-invalid" : ""
+                      }`}
                     {...register("short_description")}
                   ></textarea>
                   {errors.short_description && (
@@ -461,9 +424,8 @@ if (availabilityId === 31) {
                   <select
                     id="coaching_category"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.coaching_category ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.coaching_category ? "is-invalid" : ""
+                      }`}
                     {...register("coaching_category")}
                   >
                     <option value="" className="disable-select-option">
@@ -528,9 +490,8 @@ if (availabilityId === 31) {
                     id="description"
                     rows="3"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.description ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.description ? "is-invalid" : ""
+                      }`}
                     {...register("description")}
                   ></textarea>
                   {errors.description && (
@@ -547,9 +508,8 @@ if (availabilityId === 31) {
                     id="focus"
                     placeholder="e.g., Confidence, Goal clarity, Custom action plan"
                     disabled={!isProUser}
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.focus ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.focus ? "is-invalid" : ""
+                      }`}
                     {...register("focus")}
                   />
                   {errors.focus && (
@@ -626,9 +586,8 @@ if (availabilityId === 31) {
                     <select
                       id="communication_channel"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.communication_channel ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.communication_channel ? "is-invalid" : ""
+                        }`}
                       {...register("communication_channel")}
                     >
                       <option value="" className="disable-select-option">
@@ -680,9 +639,8 @@ if (availabilityId === 31) {
                     rows={3}
                     placeholder="Enter details of delivery mode such as Zoom, Google Meet or venue"
                     disabled={!isProUser}
-                    className={`delivery-textarea form-control ${
-                      !isProUser ? "disabled-bg" : ""
-                    } ${errors.delivery_mode_detail ? "is-invalid" : ""}`}
+                    className={`delivery-textarea form-control ${!isProUser ? "disabled-bg" : ""
+                      } ${errors.delivery_mode_detail ? "is-invalid" : ""}`}
                     {...register("delivery_mode_detail")}
                   />
                   {errors.delivery_mode_detail && (
@@ -700,9 +658,8 @@ if (availabilityId === 31) {
                       min={1}
                       placeholder="1"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.session_count ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_count ? "is-invalid" : ""
+                        }`}
                       {...register("session_count", {
                         valueAsNumber: true,
                       })}
@@ -757,14 +714,8 @@ if (availabilityId === 31) {
                         {...register("session_hours", {
                           valueAsNumber: true,
                           required: isProUser ? "Hours required" : false,
-                          min: {
-                            value: 0,
-                            message: "Hours cannot be less than 0",
-                          },
-                          max: {
-                            value: 24,
-                            message: "Hours cannot be more than 24",
-                          },
+                          min: { value: 0, message: "Hours cannot be less than 0" },
+                          max: { value: 24, message: "Hours cannot be more than 24" },
                         })}
                       />
 
@@ -780,14 +731,8 @@ if (availabilityId === 31) {
                         {...register("session_minutes", {
                           valueAsNumber: true,
                           required: isProUser ? "Minutes required" : false,
-                          min: {
-                            value: 0,
-                            message: "Minutes cannot be less than 0",
-                          },
-                          max: {
-                            value: 59,
-                            message: "Minutes cannot be more than 59",
-                          },
+                          min: { value: 0, message: "Minutes cannot be less than 0" },
+                          max: { value: 59, message: "Minutes cannot be more than 59" },
                         })}
                       />
                     </div>
@@ -804,6 +749,7 @@ if (availabilityId === 31) {
                       </div>
                     )}
                   </div>
+
                 </div>
                 <div className="form-group col-md-12">
                   <label htmlFor="session_format">
@@ -874,9 +820,8 @@ if (availabilityId === 31) {
                   <select
                     disabled={!isProUser}
                     id="session_format"
-                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                      errors.session_format ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_format ? "is-invalid" : ""
+                      }`}
                     {...register("session_format")}
                   >
                     <option value="" className="disable-select-option">
@@ -903,9 +848,8 @@ if (availabilityId === 31) {
                       min={0}
                       id="price"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.price ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.price ? "is-invalid" : ""
+                        }`}
                       {...register("price", {
                         valueAsNumber: true,
                       })}
@@ -922,9 +866,8 @@ if (availabilityId === 31) {
                     <select
                       id="currency"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.currency ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.currency ? "is-invalid" : ""
+                        }`}
                       {...register("currency")}
                     >
                       <option value="USD">USD</option>
@@ -986,7 +929,9 @@ if (availabilityId === 31) {
                                 <strong>Sliding Scale Pricing</strong>
                               </li>
                               <li>
-                                <strong>Ask for Quote (Custom-Based)</strong>
+                                <strong>
+                                  Ask for Quote (Custom-Based)
+                                </strong>
                               </li>
                               <li>
                                 <strong>Trial / Discovery</strong>
@@ -1005,9 +950,8 @@ if (availabilityId === 31) {
                     <select
                       id="price_model"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.price_model ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.price_model ? "is-invalid" : ""
+                        }`}
                       {...register("price_model")}
                     >
                       <option value="" className="disable-select-option">
@@ -1035,9 +979,8 @@ if (availabilityId === 31) {
                       max={1000}
                       id="booking_slots"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.booking_slots ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.booking_slots ? "is-invalid" : ""
+                        }`}
                       {...register("booking_slots", {
                         valueAsNumber: true,
                       })}
@@ -1066,9 +1009,9 @@ if (availabilityId === 31) {
                     )}
                   </div> */}
                 </div>
-
+                
                 <div className="d-flex gap-2">
-                  <div className="form-group col-md-12 availablity-list-input">
+                    <div className="form-group col-md-12 availablity-list-input">
                     <AvailabilityModesField
                       value={formData.booking_availability}
                       isProUser={isProUser}
@@ -1142,9 +1085,8 @@ if (availabilityId === 31) {
                       id="session_validity"
                       placeholder="Use within 6 weeks from first session"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.session_validity ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.session_validity ? "is-invalid" : ""
+                        }`}
                       {...register("session_validity")}
                     />
                     {errors.session_validity && (
@@ -1163,9 +1105,8 @@ if (availabilityId === 31) {
                     <select
                       id="cancellation_policy"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.cancellation_policy ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.cancellation_policy ? "is-invalid" : ""
+                        }`}
                       {...register("cancellation_policy")}
                     >
                       <option value="" className="disable-select-option">
@@ -1196,9 +1137,8 @@ if (availabilityId === 31) {
                       id="rescheduling_policy"
                       placeholder="One free reschedule allowed per session"
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.rescheduling_policy ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.rescheduling_policy ? "is-invalid" : ""
+                        }`}
                       {...register("rescheduling_policy")}
                     />
                     {errors.rescheduling_policy && (
@@ -1224,9 +1164,8 @@ if (availabilityId === 31) {
                       accept="image/*"
                       onChange={handleFileChange}
                       disabled={!isProUser}
-                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${
-                        errors.media_file ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${!isProUser ? "disabled-bg" : ""} ${errors.media_file ? "is-invalid" : ""
+                        }`}
                       style={{ display: "none" }}
                     />
                   </div>

@@ -9,3 +9,27 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   basePath: '/coachsparkle',
+//   assetPrefix: '/coachsparkle',
+
+//   images: {
+//     remotePatterns: [
+//       {
+//         protocol: 'http',
+//         hostname: '127.0.0.1',
+//         port: '8000',
+//         pathname: '/public/**',
+//       },
+//       {
+//         protocol: 'https',
+//         hostname: 'coachsparkle-backend.votivereact.in',
+//         pathname: '/**',
+//       },
+//     ],
+//   },
+// };
+
+// export default nextConfig;

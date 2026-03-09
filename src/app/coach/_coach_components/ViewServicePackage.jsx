@@ -79,7 +79,8 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
             <PersonalVideoIcon className="mui-icons" /> {pkg?.delivery_mode?.mode_name}
             <PersonOutlineOutlinedIcon className="mui-icons" /> {pkg?.session_format?.name}
             <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
-            {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_end) || "Jun - Aug 2025"}
+            {/* {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_end) || "Jun - Aug 2025"} */}
+              {pkg?.availability_display}
           </div>
           <div className="icons-row">
             <ForumOutlinedIcon className="mui-icons" /> {pkg?.session_count} Sessions{" "}

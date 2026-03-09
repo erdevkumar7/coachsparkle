@@ -19,160 +19,122 @@ export default function Booking({
   const isReschedule = searchParams.get("reschedule") === "true";
   const originalBookingId = searchParams.get("booking_id");
   const packageBookedUserId = searchParams.get("user_id");
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
   const [packageData, setPackageData] = useState(initialPackageData);
   const [selectedDates, setSelectedDates] = useState([]);
   const [availability, setAvailability] = useState({});
   const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-//   const availabilityMode =
-//     packageData?.coach_profile?.availability?.length > 0
-//       ? "range" // or "specific" depending on your business logic
-//       : "ondemand";
-const [availabilityMode, setAvailabilityMode] = useState(null);
+  const availabilityMode =
+    packageData?.coach_profile?.availability?.length > 0
+      ? "range" // or "specific" depending on your business logic
+      : "ondemand";
 
   // onDemand
-  const [errors, setErrors] = useState({
-    username: "",
-    useremail: "",
-    prefered_dt: "",
-  });
-  const [onDemandForm, setOnDemandForm] = useState({
-    username: "",
-    useremail: "",
-    prefered_dt: "",
-  });
+  // const [errors, setErrors] = useState({
+  //   username: "",
+  //   useremail: "",
+  //   prefered_dt: "",
+  // });
+  // const [onDemandForm, setOnDemandForm] = useState({
+  //   username: "",
+  //   useremail: "",
+  //   prefered_dt: "",
+  // });
 
-  const handleOnDemandChange = (e) => {
-    const { name, value } = e.target;
+  // const handleOnDemandChange = (e) => {
+  //   const { name, value } = e.target;
 
-    setOnDemandForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  //   setOnDemandForm((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
 
-     // remove error instantly when user types
-  setErrors((prev) => ({
-    ...prev,
-    [name]: "",
-  }));
-  };
+  //    // remove error instantly when user types
+  // setErrors((prev) => ({
+  //   ...prev,
+  //   [name]: "",
+  // }));
+  // };
 
-  const validateOnDemandForm = () => {
-    const newErrors = {};
+  // const validateOnDemandForm = () => {
+  //   const newErrors = {};
 
-    if (!onDemandForm.username.trim()) {
-      newErrors.username = "Name is required";
-    }
+  //   if (!onDemandForm.username.trim()) {
+  //     newErrors.username = "Name is required";
+  //   }
 
-    if (!onDemandForm.useremail.trim()) {
-      newErrors.useremail = "Email is required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(onDemandForm.useremail)
-    ) {
-      newErrors.useremail = "Enter a valid email";
-    }
+  //   if (!onDemandForm.useremail.trim()) {
+  //     newErrors.useremail = "Email is required";
+  //   } else if (
+  //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(onDemandForm.useremail)
+  //   ) {
+  //     newErrors.useremail = "Enter a valid email";
+  //   }
 
-    if (!onDemandForm.prefered_dt.trim()) {
-      newErrors.prefered_dt = "Preferred date & time is required";
-    }
+  //   if (!onDemandForm.prefered_dt.trim()) {
+  //     newErrors.prefered_dt = "Preferred date & time is required";
+  //   }
 
-    setErrors(newErrors);
+  //   setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
-  };
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
-//   ======
+  // const handleOnDemandSubmit = async (e) => {
+  //   e.preventDefault(); // ✅ stops page refresh
+  //   if (!validateOnDemandForm()) return;
+  //   try {
+  //     setIsProcessing(true);
 
+  //     const payload = {
+  //       userid: onDemandForm.userid,
+  //       username: onDemandForm.username,
+  //       useremail: onDemandForm.useremail,
+  //       prefered_dt: onDemandForm.prefered_dt,
+  //     };
 
-  const handleOnDemandSubmit = async (e) => {
-    e.preventDefault(); // ✅ stops page refresh
-    if (!validateOnDemandForm()) return;
+  //     // if (!onDemandForm.username || !onDemandForm.useremail) {
+  //     //   toast.error("Please fill all fields");
+  //     //   return;
+  //     // }
 
-      // ✅ get token (change key if your cookie name differs)
-  const token = Cookies.get("token");
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/on-demond-enquiry-process`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(payload),
+  //       },
+  //     );
 
-  // ✅ check user logged in or not
-  if (!token) {
-    toast.error("Please login first");
-    return;
-  }
+  //     const data = await response.json();
 
-    try {
-      setIsProcessing(true);
+  //     if (response.ok) {
+  //       toast.success("Request submitted successfully ✅");
 
-      const payload = {
-         userid: userData.id, // ✅ FIXED (IMPORTANT)
-      coachname: `${packageData?.coach_profile?.first_name || ""} ${
-        packageData?.coach_profile?.last_name || ""
-      }`.trim(),
+  //       // reset form
+  //       setOnDemandForm({
+  //         username: "",
+  //         useremail: "",
+  //         prefered_dt: "",
+  //       });
+  //       setErrors({});
+  //     } else {
+  //       toast.error(data.message || "Something went wrong");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Server error");
+  //   } finally {
+  //     setIsProcessing(false);
+  //   }
+  // };
 
-        // userid: onDemandForm.userid,
-        //    user_id: userData.id,
-        // userid: userData.id,
-        username: onDemandForm.username,
-        useremail: onDemandForm.useremail,
-        prefered_dt: onDemandForm.prefered_dt,
-      };
-      console.log("ON DEMAND PAYLOAD:", payload); // ✅ debug
-
-      // if (!onDemandForm.username || !onDemandForm.useremail) {
-      //   toast.error("Please fill all fields");
-      //   return;
-      // }
-
-      const response = await fetch(
-        `${apiUrl}/on-demond-enquiry-process`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-               // ✅ send auth token
-          Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toast.success("Request submitted successfully ✅");
-
-        // reset form
-        setOnDemandForm({
-          username: "",
-          useremail: "",
-          prefered_dt: "",
-        });
-        setErrors({});
-      } else {
-        toast.error(data.message || "Something went wrong");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Server error");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  console.log("USER DATA:", userData);
-  console.log("USER ID:", userData.id);
-
-  if (!userData?.id) return null;
-
-  useEffect(() => {
-  if (!userData) return;
-
-  setOnDemandForm((prev) => ({
-    ...prev,
-    username:
-      `${userData?.first_name || ""} ${userData?.last_name || ""}`.trim(),
-    useremail: userData?.email || "",
-  }));
-}, [userData]);
+  // console.log("USER DATA:", userData);
 
   //   useEffect(() => {
   //   if (!userData || !packageData?.coach_profile) return;
@@ -278,72 +240,55 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
   //       toast.error("Failed to load availability");
   //     });
   // }, [package_id, availabilityMode]);
- useEffect(() => {
-  if (!package_id) return;
+  useEffect(() => {
+    if (!package_id || availabilityMode === "ondemand") return;
 
-  fetchAvailability(package_id)
-    .then((data) => {
-      setPackageData(data);
+    fetchAvailability(package_id)
+      .then((data) => {
+        setPackageData(data);
 
-      const availabilityMap = {};
+        const availabilityMap = {};
 
-      const ranges = data?.coach_profile?.availability || [];
+        const ranges = data?.coach_profile?.availability || [];
 
-      // ✅ If no availability returned → ON DEMAND
-      if (!ranges.length) {
-        setAvailabilityMode("ondemand");
-        return;
-      }
+        ranges.forEach((range) => {
+          const start = new Date(range.start_date);
+          const end = new Date(range.end_date);
 
-      // otherwise calendar-based booking
-      setAvailabilityMode("range");
+          const weeklyRules = range.weekly_availability || [];
 
-      ranges.forEach((range) => {
-        const start = new Date(range.start_date);
-        const end = new Date(range.end_date);
+          // loop all dates inside range
+          for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            const weekday = d
+              .toLocaleDateString("en-US", { weekday: "long" })
+              .toLowerCase();
 
-        const weeklyRules = range.weekly_availability || [];
+            weeklyRules.forEach((rule) => {
+              if (rule.days === weekday) {
+                const dateKey = d.toISOString().slice(0, 10);
 
-        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-          const weekday = d
-            .toLocaleDateString("en-US", { weekday: "long" })
-            .toLowerCase();
+                // time_slots comes as string -> parse it
+                const slots = JSON.parse(rule.time_slots || "[]");
 
-          weeklyRules.forEach((rule) => {
-            if (rule.days === weekday) {
-              const dateKey = d.toISOString().slice(0, 10);
-
-              const slots = JSON.parse(rule.time_slots || "[]");
-
-              if (slots.length > 0) {
                 availabilityMap[dateKey] = slots;
               }
-            }
-          });
+            });
+          }
+        });
+
+        setAvailability(availabilityMap);
+
+        const availableDates = Object.keys(availabilityMap);
+
+        if (availableDates.length > 0) {
+          setCurrentDate(new Date(availableDates[0]));
         }
+      })
+      .catch((err) => {
+        console.error("Error fetching availability:", err);
+        toast.error("Failed to load availability");
       });
-
-      // ✅ If slots empty → fallback to ondemand
-      if (Object.keys(availabilityMap).length === 0) {
-        setAvailabilityMode("ondemand");
-        return;
-      }
-
-      setAvailability(availabilityMap);
-
-      const availableDates = Object.keys(availabilityMap);
-      if (availableDates.length > 0) {
-        setCurrentDate(new Date(availableDates[0]));
-      }
-    })
-    .catch((err) => {
-      console.error("Error fetching availability:", err);
-      toast.error("Failed to load availability");
-
-      // fallback safety
-      setAvailabilityMode("ondemand");
-    });
-}, [package_id]);
+  }, [package_id, availabilityMode]);
 
   useEffect(() => {
     if (!currentDate) return;
@@ -686,7 +631,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
           )}
         </div> */}
 
-        {availabilityMode === "range" && (
+        {(availabilityMode === "specific" || availabilityMode === "range") && (
           <>
             <div className="calendar-panel p-4 flex-grow-1">
               {currentDate && (
@@ -834,46 +779,47 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
               </div>
 
               {/* Name + Email */}
-              <form onSubmit={handleOnDemandSubmit}
+              <form 
+              // onSubmit={handleOnDemandSubmit}
               >
                 <div className="row g-3 mb-3">
                   <div className="col-md-6">
                     <label className="form-label">Your Name</label>
                     <input
                       type="text"
-                    //   className="form-control"
-                      className={`form-control ${errors.username ? "is-invalid" : ""}`}
+                      className="form-control"
+                      // className={`form-control ${errors.username ? "is-invalid" : ""}`}
                       placeholder="John Doe"
                       name="username"
-                    //   defaultValue={userData?.user_name || ""}
-                      value={onDemandForm.username}
-                      onChange={handleOnDemandChange}
+                      // defaultValue={userData?.user_name || ""}
+                      // value={onDemandForm.username}
+                      // onChange={handleOnDemandChange}
                     />
-                    {errors.username && (
+                    {/* {errors.username && (
                       <div className="invalid-feedback">{errors.username}</div>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="col-md-6">
                     <label className="form-label">Email</label>
                     <input
                       type="email"
-                    //   className="form-control"
-                       className={`form-control ${errors.useremail ? "is-invalid" : ""}`}
+                      className="form-control"
+                      //  className={`form-control ${errors.useremail ? "is-invalid" : ""}`}
                       placeholder="john@example.com"
                       name="useremail"
-                      value={onDemandForm.useremail}
-                      onChange={handleOnDemandChange}
-                    //   defaultValue={userData?.email || ""}
+                      // value={onDemandForm.useremail}
+                      // onChange={handleOnDemandChange}
+                      // defaultValue={userData?.email || ""}
                     />
-                    {errors.useremail && (
+                    {/* {errors.useremail && (
                       <div className="invalid-feedback">{errors.useremail}</div>
-                    )}
+                    )} */}
                   </div>
                 </div>
 
                 {/* Preferred Dates */}
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label className="form-label">Preferred Dates & Times</label>
                   <textarea
                     rows={4}
@@ -887,10 +833,10 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
                   {errors.prefered_dt && (
                     <div className="invalid-feedback">{errors.prefered_dt}</div>
                   )}
-                </div>
+                </div> */}
 
                 {/* Submit */}
-                {/* <button
+                <button
                 className="btn d-flex align-items-center justify-content-center mt-3 text-white border-0"
                 style={{
                   backgroundColor: "#009bfa",
@@ -903,8 +849,8 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
                 onClick={() => toast.success("Request submitted (UI only)")}
               >
                 Submit Request <i className="bi bi-arrow-right ms-2"></i>
-              </button> */}
-                <button
+              </button>
+                {/* <button
                   className="btn d-flex align-items-center justify-content-center mt-3 text-white border-0"
                   style={{
                     backgroundColor: "#009bfa",
@@ -918,7 +864,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
                 >
                   {isProcessing ? "Submitting..." : "Submit Request"}
                   <i className="bi bi-arrow-right ms-2"></i>
-                </button>
+                </button> */}
               </form>
             </div>
           </div>
