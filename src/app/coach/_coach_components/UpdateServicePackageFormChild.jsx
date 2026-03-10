@@ -128,7 +128,7 @@ export default function CoachServicePackageFormChild({
             : [],
         };
       }
-      console.log(packageData);
+     
       if (packageData.availability_id === 32 && packageData.date_range[0]) {
          
         availabilityData = {
@@ -225,24 +225,34 @@ export default function CoachServicePackageFormChild({
       form.append("media_url", data.media_url);
     }
 
-const sessionDatesArray = data.booking_availability.data.specificDates;
+const sessionDatesArray = data?.booking_availability?.data?.specificDates || [];
+const weekdaysArrays = data?.booking_availability?.data?.weeklyAvailability || {};
 const formattedSessionDates = {};
+const formattedWeekDays = {};
 
-sessionDatesArray.forEach(item => {
+sessionDatesArray.forEach((item) => {
   formattedSessionDates[item.date] = {
     times: item.slots,
     max_participants: item.maxParticipants
   };
 });
+Object.entries(weekdaysArrays).forEach(([day, item]) => {
+  formattedWeekDays[day] = [
+    item.start,
+    item.end
+  ];
+});
 
-    // 🔥 Availability
- console.log(formattedSessionDates);
     if (data.booking_availability) {
       form.append("availabilityid", data.booking_availability.availability_id);
       form.append("availability_record_id", data.booking_availability.record_id); // if backend expects this
       form.append(
         "session_dates",
         JSON.stringify(formattedSessionDates)
+      );
+      form.append(
+        "weekday",
+        JSON.stringify(formattedWeekDays)
       );
 
     }
@@ -268,9 +278,11 @@ sessionDatesArray.forEach(item => {
     if (result.status) {
       toast.success("Package updated successfully!");
     } else {
+
       toast.error(result.message || "Something went wrong.");
     }
   } catch (err) {
+    console.log("Full Error:", err);
     toast.error("Network or server error.");
   }
 };
