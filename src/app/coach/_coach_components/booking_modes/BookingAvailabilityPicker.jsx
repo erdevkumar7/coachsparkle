@@ -7,7 +7,7 @@ import {
   getSpecificMode,
   getWeeklyAvailability,
   getOnDemand,
-  
+
 } from "@/services/availabilityModes.api";
 
 export default function AvailabilityModesField({

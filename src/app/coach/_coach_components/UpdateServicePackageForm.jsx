@@ -114,7 +114,7 @@ export default function UpdateServicePackageForm({ allMasters }) {
             </div>
         );
     }
-console.log('packageDataaaa', packageData)
+
     return (
         <div className="main-panel">
             <div className="new-content-wrapper coach-wrap">

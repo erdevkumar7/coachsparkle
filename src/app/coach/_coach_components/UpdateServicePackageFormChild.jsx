@@ -61,6 +61,10 @@ export default function CoachServicePackageFormChild({
       short_description: packageData?.short_description || "",
       coaching_category: packageData?.coaching_category || "",
       description: packageData?.description || "",
+      availability: packageData?.availability || [],
+      specific_dates: packageData?.specific_dates || [],
+      date_range: packageData?.date_range || [],
+      on_demond: packageData?.on_demond || [],
       focus: packageData?.focus || "",
       session_hours: 0,
       session_minutes: 0,
@@ -98,10 +102,6 @@ export default function CoachServicePackageFormChild({
       rescheduling_policy: packageData?.rescheduling_policy || "",
       media_file: null,
       media_url: packageData?.media_url || null,
-      booking_availability_start: packageData?.booking_availability_start
-        ? packageData.booking_availability_start.split(" ")[0] // Extract date part
-        : "",
-      booking_availability_end: packageData?.booking_availability_end || "",
       booking_time: packageData?.booking_time || "",
       booking_window_start: packageData?.booking_window_start || "",
       booking_window_end: packageData?.booking_window_end || "",
@@ -116,10 +116,11 @@ export default function CoachServicePackageFormChild({
     let availabilityData = {};
 
     try {
-      if (packageData.availability_id === 31 && packageData.specific_availability) {
+      if (packageData.availability_id === 31 && packageData.specific_dates) {
+        
         availabilityData = {
-          specificDates: Array.isArray(packageData.specific_availability)
-            ? packageData.specific_availability.map((d) => ({
+          specificDates: Array.isArray(packageData.specific_dates)
+            ? packageData.specific_dates.map((d) => ({
               date: d.session_dates,
               slots: JSON.parse(d.time_slots || "[]"),
               maxParticipants: d.max_participants,
@@ -127,14 +128,15 @@ export default function CoachServicePackageFormChild({
             : [],
         };
       }
-
-      if (packageData.availability_id === 32 && packageData.date_range_availability) {
+      console.log(packageData);
+      if (packageData.availability_id === 32 && packageData.date_range[0]) {
+         
         availabilityData = {
-          startDate: packageData.date_range_availability.start_date,
-          endDate: packageData.date_range_availability.end_date,
-          bufferTime: packageData.date_range_availability.booking_notice,
+          startDate: packageData.date_range[0].start_date,
+          endDate: packageData.date_range[0].end_date,
+          bufferTime: packageData.date_range[0].booking_notice,
           weeklyAvailability:
-            packageData.weekly_availability?.reduce((acc, d) => {
+            packageData.date_range[0].weekly_availability?.reduce((acc, d) => {
               acc[d.days] = {
                 enabled: true,
                 start: d.start_time?.slice(0, 5),
@@ -145,16 +147,22 @@ export default function CoachServicePackageFormChild({
             }, {}) || {},
         };
       }
+     
 
-      if (packageData.availability_id === 33 && packageData.on_demand_availability) {
-        availabilityData = {
-          responseSLA: JSON.parse(
-            packageData.on_demand_availability.response_time || "[]"
-          ),
-          instructions:
-            packageData.on_demand_availability.instructions_clients || "",
-        };
-      }
+ if (packageData.availability_id === 33 && packageData.on_demond?.[0]) {
+
+  const response = packageData.on_demond[0].response_time || "";
+
+  const hours = response.replace(/[^0-9]/g, "");
+
+  const responseArray = hours ? [hours] : [];
+
+  availabilityData = {
+    responseSLA: responseArray,
+    instructions: packageData.on_demond[0].instructions_clients || "",
+  };
+
+}
     } catch (e) {
       console.error("Availability parse error:", e);
     }
@@ -217,13 +225,24 @@ export default function CoachServicePackageFormChild({
       form.append("media_url", data.media_url);
     }
 
+const sessionDatesArray = data.booking_availability.data.specificDates;
+const formattedSessionDates = {};
+
+sessionDatesArray.forEach(item => {
+  formattedSessionDates[item.date] = {
+    times: item.slots,
+    max_participants: item.maxParticipants
+  };
+});
+
     // 🔥 Availability
+ console.log(formattedSessionDates);
     if (data.booking_availability) {
       form.append("availabilityid", data.booking_availability.availability_id);
       form.append("availability_record_id", data.booking_availability.record_id); // if backend expects this
       form.append(
-        "availability_payload",
-        JSON.stringify(data.booking_availability.data)
+        "session_dates",
+        JSON.stringify(formattedSessionDates)
       );
 
     }

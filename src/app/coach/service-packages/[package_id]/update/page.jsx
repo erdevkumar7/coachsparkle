@@ -7,7 +7,7 @@ export default async function UpdateServicePackage() {
 
    const allMasters = await getAllMasters() || {};
    // console.log('alll', allMasters)
- 
+
 
    return (
       <UpdateServicePackageForm allMasters={allMasters}/>
