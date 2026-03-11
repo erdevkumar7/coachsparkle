@@ -28,10 +28,25 @@ export default function SpecificDatesAvailability({
   value = {},
   onChange,
   sessionDurationMinutes = 60,
+  dynamicValue,
 }) {
   const [openCalendar, setOpenCalendar] = useState(false);
 
+  /**
+   * INITIAL STATE
+   * Edit mode (DB data) OR Add mode
+   */
   const [selectedDates, setSelectedDates] = useState(() => {
+    // EDIT MODE (DB records)
+    if (Array.isArray(dynamicValue) && dynamicValue.length > 0) {
+      return dynamicValue.map((item) => ({
+        date: item.session_dates,
+        maxParticipants: item.max_participants ?? 10,
+        slots: JSON.parse(item.time_slots || "[]").map((t) => makeSlot(t)),
+      }));
+    }
+
+    // ADD MODE (existing logic)
     if (Array.isArray(value?.specificDates)) {
       return value.specificDates.map((d) => ({
         date: d.date,
@@ -41,14 +56,30 @@ export default function SpecificDatesAvailability({
         ),
       }));
     }
+
     return [];
   });
 
+  /**
+   * Calendar auto open in edit mode
+   */
+  useEffect(() => {
+    if (Array.isArray(dynamicValue) && dynamicValue.length > 0) {
+      setOpenCalendar(true);
+    }
+  }, [dynamicValue]);
+
+  /**
+   * Selected dates set
+   */
   const selectedSet = useMemo(
     () => new Set(selectedDates.map((d) => d.date)),
     [selectedDates]
   );
 
+  /**
+   * Send data to parent
+   */
   useEffect(() => {
     onChange({
       specificDates: selectedDates.map((d) => ({
@@ -59,6 +90,9 @@ export default function SpecificDatesAvailability({
     });
   }, [selectedDates, onChange]);
 
+  /**
+   * Toggle date
+   */
   const toggleDate = (date) => {
     const formatted = dayjs(date).format("YYYY-MM-DD");
 
@@ -71,7 +105,7 @@ export default function SpecificDatesAvailability({
         {
           date: formatted,
           maxParticipants: 10,
-          slots: [makeSlot("00:00")], // ✅ only one initial slot
+          slots: [makeSlot("00:00")],
         },
       ];
     });
@@ -79,6 +113,9 @@ export default function SpecificDatesAvailability({
     setOpenCalendar(false);
   };
 
+  /**
+   * Add new slot
+   */
   const addTime = (dateIndex) => {
     setSelectedDates((prev) =>
       prev.map((d, i) => {
@@ -97,6 +134,9 @@ export default function SpecificDatesAvailability({
     );
   };
 
+  /**
+   * Update slot time
+   */
   const updateTime = (dateIndex, slotId, value) => {
     setSelectedDates((prev) =>
       prev.map((d, i) =>
@@ -112,6 +152,9 @@ export default function SpecificDatesAvailability({
     );
   };
 
+  /**
+   * Remove slot
+   */
   const removeTime = (dateIndex, slotId) => {
     setSelectedDates((prev) =>
       prev.map((d, i) =>
@@ -122,6 +165,9 @@ export default function SpecificDatesAvailability({
     );
   };
 
+  /**
+   * Update max participants
+   */
   const updateMax = (dateIndex, value) => {
     const max = Math.max(1, Number(value) || 1);
     setSelectedDates((prev) =>
@@ -131,19 +177,27 @@ export default function SpecificDatesAvailability({
     );
   };
 
+  /**
+   * Date count
+   */
+  const dateCount =
+    dynamicValue?.length > 0 ? dynamicValue.length : selectedDates.length;
+
   return (
     <div>
       <label className="form-label fw-semibold">Session Dates</label>
 
+      {/* Calendar toggle */}
       <div
         className="form-control d-flex align-items-center gap-2"
         style={{ cursor: "pointer" }}
         onClick={() => setOpenCalendar((v) => !v)}
       >
         <i className="bi bi-calendar3"></i>
-        <span>{selectedDates.length} date(s) selected</span>
+        <span>{dateCount} date(s) selected</span>
       </div>
 
+      {/* Calendar */}
       {openCalendar && (
         <div className="border rounded p-2 mt-2 bg-white calendara-class">
           <DateCalendar
@@ -162,6 +216,7 @@ export default function SpecificDatesAvailability({
         </div>
       )}
 
+      {/* Dates list */}
       <div className="mt-4">
         {selectedDates.map((item, dateIndex) => (
           <div key={item.date} className="border rounded p-3 mb-3">
@@ -194,6 +249,7 @@ export default function SpecificDatesAvailability({
                       updateTime(dateIndex, slot.id, e.target.value)
                     }
                   />
+
                   <button
                     type="button"
                     className="btn btn-light border text-danger p-0"

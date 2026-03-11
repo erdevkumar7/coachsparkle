@@ -9,7 +9,11 @@ const SLA_OPTIONS = [
   { value: 0, label: "Other" },
 ];
 
-export default function OnDemandAvailability({ value = {}, onChange }) {
+export default function OnDemandAvailability({ value = {}, onChange, dynamicValue }) {
+
+  const safeDynamicValue = dynamicValue || {};
+const responsetime = safeDynamicValue.response_time ?? '';
+const instructions_clients = safeDynamicValue.instructions_clients ?? '';
   return (
     <div>
       <h6 className="mb-3">On-Demand Booking</h6>
@@ -18,7 +22,7 @@ export default function OnDemandAvailability({ value = {}, onChange }) {
       <label className="mb-1">Response Time</label>
       <select
         className="form-control"
-        value={value.responseSLA || ""}
+        value={value.responseSLA ?? responsetime}
         onChange={(e) =>
           onChange({
             ...value,
@@ -39,7 +43,7 @@ export default function OnDemandAvailability({ value = {}, onChange }) {
       <textarea
         className="form-control instructions-textarea"
         rows={6}
-        value={value.instructions || ""}
+        value={value.instructions ?? instructions_clients}
         onChange={(e) =>
           onChange({ ...value, instructions: e.target.value })
         }

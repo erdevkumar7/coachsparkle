@@ -17,7 +17,9 @@ export default function AvailabilityModal({
   onClose,
   onSave,
   sessionDurationMinutes,
+  dynamicValue
 }) {
+  
   const [mode, setMode] = useState(initialMode);
   const [draft, setDraft] = useState(initialValue?.data || {});
 
@@ -26,8 +28,41 @@ export default function AvailabilityModal({
   setDraft(initialValue?.data || {});
 }, [initialMode, initialValue]);
 
+useEffect(() => {
+
+  const data = dynamicValue?.date_range?.[0];
+  if (!data) return;
+
+  const weekly = {};
+
+  if (Array.isArray(data.weekly_availability)) {
+
+    data.weekly_availability.forEach((item) => {
+
+      const dayKey = (item.days || item.day)?.toLowerCase();
+      if (!dayKey) return;
+
+      weekly[dayKey] = {
+        enabled: true,
+        start: item.start_time?.slice(0,5) || "00:00",
+        end: item.end_time?.slice(0,5) || "23:59",
+      };
+
+    });
+
+  }
+
+  setDraft({
+    startDate: data.start_date || "",
+    endDate: data.end_date || "",
+    bufferTime: data.booking_notice || "",
+    weeklyAvailability: weekly
+  });
+
+}, [dynamicValue]);
 
   if (!show) return null;
+
 
   return (
     <div className="modal fade show d-block" style={{ background: "rgba(0,0,0,.5)" }}>
@@ -50,6 +85,7 @@ export default function AvailabilityModal({
                 value={draft}
                 onChange={setDraft}
                 sessionDurationMinutes={sessionDurationMinutes}
+                dynamicValue={dynamicValue?.specific_dates}
               />
             )}
 
@@ -58,6 +94,7 @@ export default function AvailabilityModal({
                 value={draft}
                 onChange={setDraft}
                 sessionDurationMinutes={sessionDurationMinutes}
+                dynamicValue={dynamicValue?.date_range?.[0]}
               />
             )}
 
@@ -65,6 +102,7 @@ export default function AvailabilityModal({
               <OnDemandAvailability
                 value={draft}
                 onChange={setDraft}
+                dynamicValue={dynamicValue?.on_demond?.[0]}
               />
             )}
           </div>

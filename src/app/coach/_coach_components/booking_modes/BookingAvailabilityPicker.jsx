@@ -15,6 +15,7 @@ export default function AvailabilityModesField({
   onChange,
   isProUser,
   sessionDurationMinutes,
+  packageData
 }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedMode, setSelectedMode] = useState("");
@@ -93,8 +94,6 @@ export default function AvailabilityModesField({
     instructions: ondemand?.instructions_clients || "",
   };
 }
-
-
     setSelectedMode(String(availabilityId));
     setShowModal(true);
 
@@ -157,6 +156,7 @@ export default function AvailabilityModesField({
           {value.availability_id === 32 && (
             <>
               <strong>
+                
                 {value.data.startDate} → {value.data.endDate}
               </strong>
               {Object.entries(value.data.weeklyAvailability || {}).map(
@@ -193,7 +193,9 @@ export default function AvailabilityModesField({
         </div>
       )}
 
+
       {showModal && (
+
         <AvailabilityModal
           show={showModal}
           onClose={() => {
@@ -201,6 +203,7 @@ export default function AvailabilityModesField({
             setShowModal(false);
           }}
           onSave={(payload) => {
+            
             onChange({
               availability_id: payload.mode,
               record_id: value?.record_id,
@@ -211,6 +214,7 @@ export default function AvailabilityModesField({
           }}
           initialMode={Number(selectedMode)}
           initialValue={value}
+          dynamicValue = {packageData}
           sessionDurationMinutes={sessionDurationMinutes}
         />
       )}
