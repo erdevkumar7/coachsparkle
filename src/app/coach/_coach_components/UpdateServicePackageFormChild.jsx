@@ -246,6 +246,11 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
     if (data.booking_availability) {
       form.append("availabilityid", data.booking_availability.availability_id);
       form.append("availability_record_id", data.booking_availability.record_id); // if backend expects this
+      form.append("instruction_client", data?.booking_availability?.data?.instructions);
+      form.append("response_time", data?.booking_availability?.data?.responseSLA);
+      form.append("start_date", data?.booking_availability?.data?.startDate);
+      form.append("end_date", data?.booking_availability?.data?.endDate);
+      form.append("booking_notice", data?.booking_availability?.data?.bufferTime);
       form.append(
         "session_dates",
         JSON.stringify(formattedSessionDates)
@@ -254,7 +259,6 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
         "weekday",
         JSON.stringify(formattedWeekDays)
       );
-
     }
 
     form.append("delivery_mode", selectedDeliveryMode);
@@ -883,6 +887,7 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
                       value={formData.booking_availability}
                       isProUser={isProUser}
                       sessionDurationMinutes={formData.session_duration_minutes}
+                      packageData = {packageData}
                       onChange={(val) => {
                         setValue("booking_availability", val);
                         trigger("booking_availability");
