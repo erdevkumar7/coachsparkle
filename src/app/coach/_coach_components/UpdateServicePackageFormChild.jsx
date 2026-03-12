@@ -226,7 +226,11 @@ export default function CoachServicePackageFormChild({
     }
 
 const sessionDatesArray = data?.booking_availability?.data?.specificDates || [];
-const weekdaysArrays = data?.booking_availability?.data?.weeklyAvailability || {};
+const rawWeekly = data?.booking_availability?.data?.weeklyAvailability || {};
+
+const weekdaysArrays = Object.fromEntries(
+  Object.entries(rawWeekly).filter(([day, info]) => info?.enabled)
+);
 const formattedSessionDates = {};
 const formattedWeekDays = {};
 
@@ -242,6 +246,7 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
     item.end
   ];
 });
+
 
     if (data.booking_availability) {
       form.append("availabilityid", data.booking_availability.availability_id);
