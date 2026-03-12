@@ -287,8 +287,46 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
 
       const availabilityMap = {};
 
-      const ranges = data?.coach_profile?.availability || [];
+      const ranges = data?.coach_profile?.["Date Range"] || [];
+      const specificDates = data?.coach_profile?.["Specific Date"] || [];
+// =======================
+// SPECIFIC DATE MODE
+// =======================
 
+if (specificDates.length > 0) {
+  setAvailabilityMode("specificDate");
+
+  specificDates.forEach((item) => {
+    const dateKey = new Date(item.session_dates)
+      .toISOString()
+      .slice(0, 10);
+
+    let slots = [];
+
+    try {
+      slots =
+        typeof item.time_slots === "string"
+          ? JSON.parse(item.time_slots)
+          : item.time_slots;
+    } catch {
+      slots = [];
+    }
+
+    if (slots.length > 0) {
+      availabilityMap[dateKey] = slots;
+    }
+  });
+
+  setAvailability(availabilityMap);
+
+  const availableDates = Object.keys(availabilityMap);
+
+  if (availableDates.length > 0) {
+    setCurrentDate(new Date(availableDates[0]));
+  }
+
+  return;
+}
       // ✅ If no availability returned → ON DEMAND
       if (!ranges.length) {
         setAvailabilityMode("ondemand");
@@ -539,7 +577,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
 
       if (response.data.success) {
         sessionStorage.removeItem(`booking_selections_${package_id}`);
-
+        console.log(response.data);
         if (response.data.redirect_url) {
           window.location.href = response.data.redirect_url;
         } else {
@@ -686,7 +724,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
           )}
         </div> */}
 
-        {availabilityMode === "range" && (
+       {(availabilityMode === "range" || availabilityMode === "specificDate") && (
           <>
             <div className="calendar-panel p-4 flex-grow-1">
               {currentDate && (
