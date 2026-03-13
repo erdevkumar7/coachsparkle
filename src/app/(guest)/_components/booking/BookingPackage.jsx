@@ -12,6 +12,7 @@ import Booking from "./Booking";
 import BreadCrumb from "@/components/BreadCrumb";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { formatBookingAvailability, formatBookingWindow } from "@/lib/commonFunction";
+import CustomShareIcon from "../../_components/coach-detail/CustomShareIcon";
 import { useRouter } from "next/navigation";
 
 
@@ -88,7 +89,7 @@ export default function BookingPackage({ pkg, allPackages }) {
                 className="card-img-top rounded-top"
               />
               <button className="btn share-btn">
-                <ShareIcon />
+                 <CustomShareIcon coach={pkg.coach_id} package={pkg.id} />
               </button>
             </div>
             <div className="card-body text-start">

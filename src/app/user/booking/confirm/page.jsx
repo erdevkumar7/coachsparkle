@@ -56,6 +56,7 @@ export default async function BookingConfirmPage({ params, searchParams }) {
 
                         <h6 className="fw-bold mt-4">
                             Package Details:
+                            
                         </h6>
                         <ul className="list-unstyled small">
                             <li>
