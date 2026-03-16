@@ -63,10 +63,13 @@ export default async function BookingConfirmPage({ params, searchParams }) {
                                 <strong>Coach:</strong> {booking_confirm.first_name} {booking_confirm.last_name}
                             </li>
                             <li>
-                                <strong>Availability Mode:</strong> {booking_confirm.booking_availability_start.availability_mode} (to be confirmed)
+                            <strong>Availability Mode:</strong>{" "}
+                            {booking_confirm?.booking_availability_start?.availability_mode || "N/A"} (to be confirmed)
                             </li>
+
                             <li>
-                                <strong>Date:</strong> {booking_confirm.booking_availability_start.availability_display} (to be confirmed)
+                            <strong>Date:</strong>{" "}
+                            {booking_confirm?.booking_availability_start?.availability_display || "N/A"} (to be confirmed)
                             </li>
                             <li>
                                 <strong>Number of Sessions:</strong> {booking_confirm.session_count ?? 'N/A'}
