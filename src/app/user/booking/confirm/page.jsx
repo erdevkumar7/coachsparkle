@@ -56,13 +56,20 @@ export default async function BookingConfirmPage({ params, searchParams }) {
 
                         <h6 className="fw-bold mt-4">
                             Package Details:
+
                         </h6>
                         <ul className="list-unstyled small">
                             <li>
                                 <strong>Coach:</strong> {booking_confirm.first_name} {booking_confirm.last_name}
                             </li>
                             <li>
-                                <strong>Start Date:</strong> {booking_confirm.booking_availability_start} (to be confirmed)
+                            <strong>Availability Mode:</strong>{" "}
+                            {booking_confirm?.booking_availability_start?.availability_mode || "N/A"} (to be confirmed)
+                            </li>
+
+                            <li>
+                            <strong>Date:</strong>{" "}
+                            {booking_confirm?.booking_availability_start?.availability_display || "N/A"} (to be confirmed)
                             </li>
                             <li>
                                 <strong>Number of Sessions:</strong> {booking_confirm.session_count ?? 'N/A'}
