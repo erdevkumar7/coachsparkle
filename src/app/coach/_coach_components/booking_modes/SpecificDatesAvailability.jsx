@@ -11,11 +11,11 @@ const makeSlot = (time = "00:00") => ({
   time,
 });
 
-const getNextSlot = (lastTime = "00:00", duration = 60) => {
-  const safeDuration = Math.max(1, Number(duration) || 60);
+const getNextSlot = (lastTime = "00:00", duration = 0) => {
+  // const safeDuration = Math.max(1, Number(duration) || 0);
 
   const next = dayjs(`2024-01-01 ${lastTime}`, "YYYY-MM-DD HH:mm").add(
-    safeDuration,
+    duration,
     "minute"
   );
 
@@ -27,7 +27,7 @@ const getNextSlot = (lastTime = "00:00", duration = 60) => {
 export default function SpecificDatesAvailability({
   value = {},
   onChange,
-  sessionDurationMinutes = 60,
+  sessionDurationMinutes = 0,
   dynamicValue,
 }) {
   const [openCalendar, setOpenCalendar] = useState(false);

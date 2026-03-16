@@ -894,7 +894,6 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
                     <AvailabilityModesField
                       value={formData.booking_availability}
                       isProUser={isProUser}
-                      sessionDurationMinutes={formData.session_duration_minutes}
                       packageData = {packageData}
                       onChange={(val) => {
                         setValue("booking_availability", val);
