@@ -3,7 +3,7 @@ import "../_styles/dashboard.css";
 import "../_styles/coaching_activities.css";
 import "../../coach/_styles/coach_coaching_activities.css";
 import StatusItem from "../_user_components/coaching_activities/StatusItem";
-import OnDemondCoachingRequest from "../_user_components/coaching_activities/OnDemondCoachingRequest";
+import OnDemondCoachingRequest from "../_user_components/coaching_activities/OnDemandCoachingRequest";
 import UserCoachingRequest from "../_user_components/coaching_activities/UserCoachingRequest";
 import CoachingProgress from "../_user_components/coaching_activities/CoachingProgress";
 import CompletedCoaching from "../_user_components/coaching_activities/CompletedCoaching";
