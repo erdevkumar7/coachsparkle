@@ -16,7 +16,6 @@ export default function AvailabilityModal({
   initialValue,
   onClose,
   onSave,
-  sessionDurationMinutes,
   dynamicValue
 }) {
 
@@ -84,7 +83,6 @@ useEffect(() => {
               <SpecificDatesAvailability
                 value={draft}
                 onChange={setDraft}
-                sessionDurationMinutes={sessionDurationMinutes}
                 dynamicValue={dynamicValue?.specific_dates}
               />
             )}
@@ -93,7 +91,6 @@ useEffect(() => {
               <DateRangeAvailability
                 value={draft}
                 onChange={setDraft}
-                sessionDurationMinutes={sessionDurationMinutes}
                 dynamicValue={dynamicValue?.date_range?.[0]}
               />
             )}

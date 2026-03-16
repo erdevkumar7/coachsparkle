@@ -14,12 +14,12 @@ export default function AvailabilityModesField({
   value,
   onChange,
   isProUser,
-  sessionDurationMinutes,
   packageData
 }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedMode, setSelectedMode] = useState("");
   const [modes, setModes] = useState([]);
+  const [savedAvailability, setSavedAvailability] = useState(value || null);
 
   useEffect(() => {
     (async () => {
@@ -87,29 +87,36 @@ export default function AvailabilityModesField({
     //   };
     // }
         if (availabilityId === 33 && recordId) {
-  const ondemand = await getOnDemand(recordId);
+          const ondemand = await getOnDemand(recordId);
 
-  data = {
-    responseSLA: ondemand?.response_time || "",
-    instructions: ondemand?.instructions_clients || "",
-  };
+          data = {
+            responseSLA: ondemand?.response_time || "",
+            instructions: ondemand?.instructions_clients || "",
+          };
 }
+
     setSelectedMode(String(availabilityId));
     setShowModal(true);
 
-    onChange({
-      availability_id: availabilityId,
-      record_id: recordId,
-      data,
-    });
+    // onChange({
+    //   availability_id: availabilityId,
+    //   record_id: recordId,
+    //   data,
+    // });
   };
 
 
     // edit 7/03
   const recordId = value?.record_id;
   useEffect(() => {
+  if (savedAvailability?.availability_id) {
+    setSelectedMode(String(savedAvailability.availability_id));
+  }
+}, [savedAvailability]);
+
+useEffect(() => {
   if (value?.availability_id) {
-    setSelectedMode(String(value.availability_id));
+    setSavedAvailability(value);
   }
 }, [value]);
 
@@ -120,11 +127,11 @@ export default function AvailabilityModesField({
      <select
   className="form-control"
   disabled={!isProUser}
-  value={showModal ? selectedMode : value?.availability_id ?? ""}
+ value={showModal ? selectedMode : (savedAvailability?.availability_id ?? "")}
   onChange={handleChange}
   onClick={() => {
-    if (!showModal && value?.availability_id) {
-      setSelectedMode(String(value.availability_id));
+    if (!showModal && savedAvailability?.availability_id) {
+      setSelectedMode(String(savedAvailability.availability_id));
       setShowModal(true);
     }
   }}
@@ -138,16 +145,19 @@ export default function AvailabilityModesField({
 </select>
 
       {/* ✅ FULL PREVIEW */}
-      {value?.availability_id && (
+
+     {savedAvailability?.availability_id &&
+      savedAvailability?.data &&
+      Object.keys(savedAvailability.data).length > 0 && (
         <div className="mt-3 p-3 border rounded bg-light w-100">
           <div className="fw-semibold text-success mb-2">
             ✓ Saved Availability Mode:{" "}
-            {modes.find((m) => m.id === value.availability_id)
+            {modes.find((m) => m.id === savedAvailability.availability_id)
               ?.availability_mode_name}
           </div>
 
-          {value.availability_id === 31 &&
-            value?.data?.specificDates?.map((d, i) => (
+          {savedAvailability.availability_id === 31 &&
+          savedAvailability?.data?.specificDates?.map((d, i) => (
               <div key={i}>
                 <strong>{d.date}</strong>
                 <div className="small text-muted">
@@ -159,13 +169,13 @@ export default function AvailabilityModesField({
               </div>
             ))}
 
-          {value.availability_id === 32 && (
+          {savedAvailability.availability_id === 32 && (
             <>
               <strong>
 
-                {value.data.startDate} → {value.data.endDate}
+                {savedAvailability.data.startDate} → {savedAvailability.data.endDate}
               </strong>
-              {Object.entries(value.data.weeklyAvailability || {}).map(
+              {Object.entries(savedAvailability.data.weeklyAvailability || {}).map(
                 ([day, info]) =>
                   info.enabled && (
                     <div key={day} className="small text-muted">
@@ -176,7 +186,7 @@ export default function AvailabilityModesField({
             </>
           )}
 
-          {value.availability_id === 33 && (
+          {savedAvailability.availability_id === 33 && (
             <>
               <div className="small">
                 {/* SLA: {value.data.responseSLA?.join(", ") || "-"} */}
@@ -186,19 +196,18 @@ export default function AvailabilityModesField({
           : value?.data?.responseSLA || "-"
       } */}
         SLA: {
-        value?.data?.responseSLA
-          ? `Within ${value.data.responseSLA} hours`
+        savedAvailability?.data?.responseSLA
+          ? `Within ${savedAvailability.data.responseSLA} hours`
           : "-"
       }
               </div>
               <div className="small">
-                Instructions: {value.data.instructions || "-"}
+                Instructions: {savedAvailability.data.instructions || "-"}
               </div>
             </>
           )}
         </div>
       )}
-
 
       {showModal && (
 
@@ -209,19 +218,24 @@ export default function AvailabilityModesField({
             setShowModal(false);
           }}
           onSave={(payload) => {
-
-            onChange({
+            const newAvailability = {
               availability_id: payload.mode,
               record_id: value?.record_id,
               data: payload.data,
-            });
-            setSelectedMode("");
+            };
+
+            setSavedAvailability(newAvailability);
+            onChange(newAvailability);
+            setSelectedMode(String(payload.mode));
             setShowModal(false);
           }}
           initialMode={Number(selectedMode)}
-          initialValue={value}
+          initialValue={
+  savedAvailability?.availability_id === Number(selectedMode)
+    ? savedAvailability
+    : null
+}
           dynamicValue = {packageData}
-          sessionDurationMinutes={sessionDurationMinutes}
         />
       )}
     </>
