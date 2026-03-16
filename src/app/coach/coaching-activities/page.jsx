@@ -53,11 +53,20 @@ export default async function CoachingActivitiesPage() {
     ]);
 
 
+    const safeJson = async (res) => {
+    try {
+        if (!res || !res.ok) return {};
+        return await res.json();
+        } catch (e) {
+            return {};
+        }
+    };
+
     const [pendingRequest, coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
-        pendingRes.json(),
-        progressRes.json(),
-        completeRes.json(),
-        cancelRes.json()
+        safeJson(pendingRes),
+        safeJson(progressRes),
+        safeJson(completeRes),
+        safeJson(cancelRes)
     ]);
 
     // console.log('pendingRequest', pendingRequest)
