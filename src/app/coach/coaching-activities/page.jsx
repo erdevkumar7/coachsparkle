@@ -1,8 +1,10 @@
+
 import { cookies } from "next/headers";
 import CoachingRequests from "../_coach_components/coachingactivity/CoachingRequests";
 import StatusBar from "../_coach_components/coachingactivity/StatusBar";
 import "../_styles/coach_coaching_activities.css";
 import CoachingProgress from "../_coach_components/coachingactivity/CoachingProgress";
+import OnDemondCoachingRequest from "../_coach_components/coachingactivity/OnDemondCoachingRequest";
 import CompletedCoaching from "../_coach_components/coachingactivity/CompletedCoaching";
 import CanceledMissed from "../_coach_components/coachingactivity/CanceledMissed";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
@@ -127,6 +129,7 @@ export default async function CoachingActivitiesPage() {
                     token={token}
                 />
 
+                <OnDemondCoachingRequest />
 
                 <CoachingProgress
                     initialProgress={normalize(coachingProgress)}
