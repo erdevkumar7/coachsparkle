@@ -199,7 +199,7 @@ export default function AvailabilityModesField({
         <AvailabilityModal
           show={showModal}
           onClose={() => {
-            setSelectedMode("");
+            setSelectedMode(value);
             setShowModal(false);
           }}
           onSave={(payload) => {
