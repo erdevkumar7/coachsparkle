@@ -128,8 +128,6 @@ export default async function CoachingActivitiesPage() {
                     token={token}
                 />
 
-                <OnDemondCoachingRequest />
-
                 <CoachingProgress
                     initialProgress={normalize(coachingProgress)}
                     token={token}

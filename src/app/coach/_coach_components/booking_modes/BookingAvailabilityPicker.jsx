@@ -117,19 +117,25 @@ export default function AvailabilityModesField({
     <>
       <label className="form-label">Client Booking Availability</label>
 
-      <select
-        className="form-control"
-        disabled={!isProUser}
-        value={showModal ? selectedMode : ""}
-        onChange={handleChange}
-      >
-        <option value="">Select</option>
-        {modes.map((mode) => (
-          <option key={mode.id} value={mode.id}>
-            {mode.availability_mode_name}
-          </option>
-        ))}
-      </select>
+     <select
+  className="form-control"
+  disabled={!isProUser}
+  value={showModal ? selectedMode : value?.availability_id ?? ""}
+  onChange={handleChange}
+  onClick={() => {
+    if (!showModal && value?.availability_id) {
+      setSelectedMode(String(value.availability_id));
+      setShowModal(true);
+    }
+  }}
+>
+  <option value="">Select</option>
+  {modes.map((mode) => (
+    <option key={mode.id} value={mode.id}>
+      {mode.availability_mode_name}
+    </option>
+  ))}
+</select>
 
       {/* ✅ FULL PREVIEW */}
       {value?.availability_id && (
@@ -199,7 +205,7 @@ export default function AvailabilityModesField({
         <AvailabilityModal
           show={showModal}
           onClose={() => {
-            setSelectedMode(value);
+            setSelectedMode(String(value?.availability_id || ""));
             setShowModal(false);
           }}
           onSave={(payload) => {

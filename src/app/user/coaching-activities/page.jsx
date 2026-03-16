@@ -114,10 +114,6 @@ export default async function Activities() {
           initialRequest={pendingRequest}
           token={token}
         />
-
-        <OnDemondCoachingRequest
-          token={token}
-        />
         <CoachingProgress
           initialProgress={coachingProgress}
           token={token}

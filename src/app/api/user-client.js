@@ -56,33 +56,33 @@ export const getUserProgressCoachingClient = async (page = 1, token) => {
   }
 };
 
-export const getOnDemondCoachingRequest = async (page = 1, token) => {
+// export const getOnDemondCoachingRequest = async (page = 1, token) => {
  
-  if (!token) {
-    return { error: "No token provided", data: null };
-  }
+//   if (!token) {
+//     return { error: "No token provided", data: null };
+//   }
 
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getonDemondPackageRequest?page=${page}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
+//   try {
+//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getonDemondPackageRequest?page=${page}`, {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         Accept: "application/json",
+//       },
+//     });
 
-    const json = await response.json();
+//     const json = await response.json();
 
-    if (!json.success) {
-      return { error: json.message || "Unknown error", data: null };
-    }
+//     if (!json.success) {
+//       return { error: json.message || "Unknown error", data: null };
+//     }
 
-    return { error: null, data: json };
-  } catch (err) {
-    console.error("Fetch error:", err);
-    return { error: "Unexpected error", data: null };
-  }
-};
+//     return { error: null, data: json };
+//   } catch (err) {
+//     console.error("Fetch error:", err);
+//     return { error: "Unexpected error", data: null };
+//   }
+// };
 
 export const getUserCompletedCoachingClient = async (page = 1, token) => {
   console.log('page', page)
