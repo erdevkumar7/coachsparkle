@@ -120,7 +120,7 @@ export default function AvailabilityModesField({
      <select
   className="form-control"
   disabled={!isProUser}
-  value={showModal ? selectedMode : value?.availability_id ?? ""}
+  value={showModal ? selectedMode : (value?.availability_id ?? "")}
   onChange={handleChange}
   onClick={() => {
     if (!showModal && value?.availability_id) {
@@ -207,6 +207,7 @@ export default function AvailabilityModesField({
           onClose={() => {
             setSelectedMode(String(value?.availability_id || ""));
             setShowModal(false);
+            window.location.reload();
           }}
           onSave={(payload) => {
             
