@@ -818,6 +818,9 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
                                 <strong>Trial / Discovery</strong>
                               </li>
                               <li>
+                                <strong>Session</strong>
+                              </li>
+                              <li>
                                 <strong>Free / Pro Bono</strong>
                               </li>
                             </ol>

@@ -1,54 +1,66 @@
 "use client";
-import ShareIcon from '@mui/icons-material/Share';
 
-export default function CustomShareIcon({ coach }) {
-    // Add this function to your component
-    const handleShareCoach = async (coach) => {
-        const coachProfileUrl = `${window.location.origin}${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/coach-detail/${coach?.user_id}`;
-        const shareText = `Check out ${coach?.first_name} ${coach?.last_name} - ${coach?.professional_title} on CoachSparkle`;
+import ShareIcon from "@mui/icons-material/Share";
+import { toast } from "react-toastify";
 
-        try {
-            if (navigator.share) {
-                // Web Share API (mobile devices)
-                await navigator.share({
-                    title: `${coach?.first_name} ${coach?.last_name} - Coach Profile`,
-                    text: shareText,
-                    url: coachProfileUrl,
-                });
-            } else if (navigator.clipboard) {
-                // Fallback: Copy to clipboard
-                await navigator.clipboard.writeText(coachProfileUrl);
-                toast.success("Profile link copied to clipboard!");
-            } else {
-                // Fallback for older browsers
-                copyToClipboardFallback(coachProfileUrl);
-            }
-        } catch (error) {
-            console.error('Error sharing:', error);
-            // If Web Share API fails, fallback to clipboard
-            if (navigator.clipboard) {
-                await navigator.clipboard.writeText(coachProfileUrl);
-                toast.success("Profile link copied to clipboard!");
-            } else {
-                copyToClipboardFallback(coachProfileUrl);
-            }
-        }
-    };
+export default function CustomShareIcon({ coach, package_id }) {
 
-    // Fallback function for clipboard
-    const copyToClipboardFallback = (text) => {
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        toast.success("Profile link copied to clipboard!");
-    };
+  const handleShareCoach = async () => {
 
-    return (
-        <div className="coach-action-share-icon" onClick={() => handleShareCoach(coach)}>
-            <ShareIcon className="mui-iconss share-icons-add" />
-        </div>
-    );
+    let shareUrl = "";
+    let shareText = "";
+
+    // If package_id exists → share package
+    if (coach?.user_id && package_id) {
+      shareUrl = `${window.location.origin}${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/coach-detail/${coach.user_id}?package_id=${package_id}`;
+      shareText = `Check out ${coach?.first_name} ${coach?.last_name}'s package on CoachSparkle`;
+    }
+    // Otherwise → share coach profile
+    else if (coach?.user_id) {
+      shareUrl = `${window.location.origin}${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/coach-detail/${coach.user_id}`;
+      shareText = `Check out ${coach?.first_name} ${coach?.last_name} - ${coach?.professional_title} on CoachSparkle`;
+    }
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${coach?.first_name} ${coach?.last_name}`,
+          text: shareText,
+          url: shareUrl,
+        });
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Link copied to clipboard!");
+      } else {
+        copyToClipboardFallback(shareUrl);
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Link copied to clipboard!");
+      } else {
+        copyToClipboardFallback(shareUrl);
+      }
+    }
+  };
+
+  const copyToClipboardFallback = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+    toast.success("Link copied to clipboard!");
+  };
+
+  return (
+    <div
+      className="coach-action-share-icon"
+      onClick={handleShareCoach}
+    >
+      <ShareIcon className="mui-iconss share-icons-add" />
+    </div>
+  );
 }
