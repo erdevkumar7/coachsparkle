@@ -507,6 +507,7 @@ export default function UserDashboard() {
                                         if (hasBooking || hasCoachingRequest) {
                                             return (
                                                 <>
+                                                {console.log(recentActivityData.latest_booking)}
                                                     {hasBooking && (
                                                         <div className="card">
                                                             <p className="section-title">You're working with {recentActivityData.latest_booking.first_name} {recentActivityData.latest_booking.last_name}</p>
@@ -531,7 +532,7 @@ export default function UserDashboard() {
                                                                     <p className="coach-rating">
                                                                         {/* <i className="bi bi-star-fill"></i>
                                                                         <span>5.0</span> */}
-                                                                        {newDateTimeFormatter(recentActivityData.latest_booking.session_date_start, recentActivityData.latest_booking.slot_time_start)}
+                                                                        {recentActivityData.latest_booking.mode_date_display}, {recentActivityData.latest_booking.slot_time_start}
                                                                     </p>
                                                                 </div>
                                                             </div>
