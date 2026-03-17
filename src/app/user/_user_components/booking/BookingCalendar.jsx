@@ -78,7 +78,8 @@ export default function BookingCalendar() {
           // Create event object for each user booking
           const event = {
             title: pkg.title,
-            start: `${dateGroup.date}T${user.slot_time_start}:00`,
+            // start: `${dateGroup.date}T${user.slot_time_start}:00`,
+            start: dateGroup.date + "T" + (pkg.slot_time_start || "00:00:00"),
             extendedProps: {
               status: getStatusText(user.status),
               user: `${user.first_name} ${user.last_name}`,
