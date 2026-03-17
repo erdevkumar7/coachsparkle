@@ -77,10 +77,12 @@ export default function BookingCalendar() {
     apiData.forEach(dateGroup => {
       dateGroup.packages.forEach(pkg => {
         pkg.users.forEach(user => {
+          
           const event = {
             id: `${user.id}-${pkg.package_id}-${dateGroup.date}`, // Create a unique ID
             title: pkg.title,
-            start: `${dateGroup.date}T${user.slot_time_start}:00`,
+            // start: `${dateGroup.date}T${user.slot_time_start}:00`,
+            start: dateGroup.date + "T" + (pkg.slot_time_start || "00:00:00"),
             extendedProps: {
               status: getStatusText(user.status),
               user: `${user.first_name} ${user.last_name}`,
@@ -318,7 +320,7 @@ export default function BookingCalendar() {
       </>
     );
   };
-
+console.log(events);
   return (
     <div className="booking-section">
       <div className="mb-3 booking-header">
