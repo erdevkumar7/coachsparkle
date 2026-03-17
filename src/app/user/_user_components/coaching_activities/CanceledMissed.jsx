@@ -89,7 +89,7 @@ export default function CoachingProgress({ initialCanceled, token }) {
                           {/* {session.session_date_start}
                           {session.slot_time_start &&
                             <> at {session.slot_time_start} </>} */}
-                             {newDateTimeFormatter(session.session_date_start, session.slot_time_start)}
+                             {session.session_date_start}, {session.slot_time_start}
                         </span>
                         <img src="/coachsparkle/images/zoom.png" alt="platform" />
                       </div>
