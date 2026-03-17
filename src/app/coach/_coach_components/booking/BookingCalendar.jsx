@@ -49,7 +49,7 @@ export default function BookingCalendar() {
           body: JSON.stringify({ status: "all" }),
         }
       );
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -77,10 +77,12 @@ export default function BookingCalendar() {
     apiData.forEach(dateGroup => {
       dateGroup.packages.forEach(pkg => {
         pkg.users.forEach(user => {
+
           const event = {
             id: `${user.id}-${pkg.package_id}-${dateGroup.date}`, // Create a unique ID
             title: pkg.title,
-            start: `${dateGroup.date}T${user.slot_time_start}:00`,
+            // start: `${dateGroup.date}T${user.slot_time_start}:00`,
+            start: dateGroup.date + "T" + (pkg.slot_time_start || "00:00:00"),
             extendedProps: {
               status: getStatusText(user.status),
               user: `${user.first_name} ${user.last_name}`,
@@ -138,9 +140,9 @@ export default function BookingCalendar() {
 
       if (data.success) {
         // Update the event status in the local state
-        setEvents(prevEvents => 
-          prevEvents.map(event => 
-            event.id === selectedEvent.id 
+        setEvents(prevEvents =>
+          prevEvents.map(event =>
+            event.id === selectedEvent.id
               ? {
                   ...event,
                   extendedProps: {
@@ -152,7 +154,7 @@ export default function BookingCalendar() {
               : event
           )
         );
-        
+
         // Update the selected event
         setSelectedEvent(prev => ({
           ...prev,
@@ -162,7 +164,7 @@ export default function BookingCalendar() {
             rawStatus: newStatus
           }
         }));
-        
+
         toast.success("Status updated successfully!");
         setShowEditDialog(false); // Close the edit dialog after successful update
       } else {
@@ -250,8 +252,8 @@ export default function BookingCalendar() {
     if (!isEditMode) {
       // View Mode - Only show Message button
       return (
-        <button 
-          className="action-btn btn-outline-primary" 
+        <button
+          className="action-btn btn-outline-primary"
           onClick={() => {
             handleDialogClose();
             router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`);
@@ -267,47 +269,47 @@ export default function BookingCalendar() {
       <>
         {selectedEvent.extendedProps.rawStatus === 0 && ( // Pending
           <>
-            <button 
-              className="action-btn btn-outline-primary" 
+            <button
+              className="action-btn btn-outline-primary"
               onClick={() => handleStatusChange(1)} // Confirm
             >
               Confirm
             </button>
-            <button 
-              className="action-btn btn-outline-primary" 
+            <button
+              className="action-btn btn-outline-primary"
               onClick={() => handleStatusChange(3)} // Cancel
             >
               Cancel Session
             </button>
           </>
         )}
-        
+
         {selectedEvent.extendedProps.rawStatus === 1 && ( // Confirmed
           <>
-            {/* <button 
-              className="action-btn btn-outline-primary" 
+            {/* <button
+              className="action-btn btn-outline-primary"
               onClick={() => handleStatusChange(2)} // Complete
             >
               Complete Session
             </button> */}
-            <button 
-              className="action-btn btn-outline-primary" 
+            <button
+              className="action-btn btn-outline-primary"
               onClick={() => handleStatusChange(3)} // Cancel
             >
               Cancel Session
             </button>
           </>
         )}
-        
+
         {/* {selectedEvent.extendedProps.rawStatus === 3 && ( // Canceled
           <button className="action-btn btn-outline-primary">
             Reschedule
           </button>
         )} */}
-        
+
         {/* Always show Message button in edit mode too */}
-        <button 
-          className="action-btn btn-outline-primary" 
+        <button
+          className="action-btn btn-outline-primary"
           onClick={() => {
             handleDialogClose();
             router.push(`/coach/messages/3?user_id=${selectedEvent.extendedProps.userId}`);
@@ -318,7 +320,7 @@ export default function BookingCalendar() {
       </>
     );
   };
-
+console.log(events);
   return (
     <div className="booking-section">
       <div className="mb-3 booking-header">
