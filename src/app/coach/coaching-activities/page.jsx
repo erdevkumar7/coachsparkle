@@ -1,4 +1,3 @@
-
 import { cookies } from "next/headers";
 import CoachingRequests from "../_coach_components/coachingactivity/CoachingRequests";
 import StatusBar from "../_coach_components/coachingactivity/StatusBar";
@@ -52,20 +51,11 @@ export default async function CoachingActivitiesPage() {
     ]);
 
 
-    const safeJson = async (res) => {
-    try {
-        if (!res || !res.ok) return {};
-        return await res.json();
-        } catch (e) {
-            return {};
-        }
-    };
-
     const [pendingRequest, coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
-        safeJson(pendingRes),
-        safeJson(progressRes),
-        safeJson(completeRes),
-        safeJson(cancelRes)
+        pendingRes.json(),
+        progressRes.json(),
+        completeRes.json(),
+        cancelRes.json()
     ]);
 
     // console.log('pendingRequest', pendingRequest)
@@ -136,7 +126,6 @@ export default async function CoachingActivitiesPage() {
                     initialRequest={normalize(pendingRequest)}
                     token={token}
                 />
-
 
                 <CoachingProgress
                     initialProgress={normalize(coachingProgress)}

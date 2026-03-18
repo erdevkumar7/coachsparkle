@@ -148,7 +148,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                         {/* {completed.name} */}
                         {completed.package_title?.slice(0, 20)} With {completed.first_name} {completed.last_name}
                       </span>
-                      <span className="d-block time">Completed {completed.session_date_end}</span>
+                      <span className="d-block time">Completed {completed.coachingdate}, {completed.coachingtime}</span>
                     </div>
                   </div>
 
