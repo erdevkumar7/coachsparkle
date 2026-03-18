@@ -52,6 +52,7 @@ export default function CoachServicePackageFormChild({
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
+    reset,
     watch,
     control,
     trigger,
@@ -111,6 +112,7 @@ export default function CoachServicePackageFormChild({
   });
   const hours = useWatch({ control, name: "session_hours" });
   const minutes = useWatch({ control, name: "session_minutes" });
+
   useEffect(() => {
     if (!packageData?.availability_id) return;
 
@@ -174,7 +176,19 @@ export default function CoachServicePackageFormChild({
       data: availabilityData,
     });
   }, [packageData, setValue]);
+  useEffect(() => {
+  if (packageData?.session_duration != null) {
+    const totalMinutes = packageData.session_duration;
 
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    reset({
+      session_hours: hours,
+      session_minutes: minutes
+    });
+  }
+}, [packageData, reset]);
 
   useEffect(() => {
     if (packageData?.media_url) setMediaPreview(packageData.media_url);
