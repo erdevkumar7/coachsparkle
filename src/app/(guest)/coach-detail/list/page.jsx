@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
@@ -6,6 +7,7 @@ import Link from "next/link";
 import "../../_styles/coach-list.css";
 import RangeSlider from "../../_components/CoachRange";
 import MultipleSelect from "../../_components/CoachLocation";
+import DOMPurify from "dompurify";
 import CoachServices from "../../_components/CoachServices";
 import CoachTrials from "../../_components/CoachTrials";
 import CoachDeliveryMode from "../../_components/CoachDeliveryMode";
@@ -425,15 +427,12 @@ export default function CoachList() {
                             {coach.professional_title || "free coaching"}{" "}
                           </strong>
                         </p>
-                        <p className="description">
 
-                          {coach?.detailed_bio
-                            ? coach.detailed_bio.length > 270
-                              ? coach.detailed_bio.slice(0, 270) + "..."
-                              : coach.detailed_bio
-                            : "Focus on your personal and professional growth with tailored development support. Whether you're building new skills, leading a complex project, or aiming for your next milestone, you'll get practical guidance designed to help you move forward with confidence."}
-
-                        </p>
+                          <p className="description"
+                            dangerouslySetInnerHTML={{
+                              __html: coach?.detailed_bio || "No bio available"
+                            }}
+                          />
                       </div>
                       <div className="coach-actions">
                         <p className="price">
