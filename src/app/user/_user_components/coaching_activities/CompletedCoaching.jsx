@@ -136,7 +136,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                     </span>
                     <span className="d-block time">
                       {/* Completed {completed.session_date_end} */}
-                      Completed {newDateTimeFormatter(completed.session_date_end, completed.slot_time_end)}
+                      Completed {completed.coachingdate}, {completed.coachingtime}
                     </span>
                   </div>
                 </div>
