@@ -112,7 +112,7 @@ export default function CoachServicePackageFormChild({
   });
   const hours = useWatch({ control, name: "session_hours" });
   const minutes = useWatch({ control, name: "session_minutes" });
-  
+
   useEffect(() => {
     if (!packageData?.availability_id) return;
 
