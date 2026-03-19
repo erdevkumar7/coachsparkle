@@ -26,6 +26,7 @@ export default function Booking({
   const [timeSlots, setTimeSlots] = useState([]);
   const [currentDate, setCurrentDate] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState({});
 //   const availabilityMode =
 //     packageData?.coach_profile?.availability?.length > 0
 //       ? "range" // or "specific" depending on your business logic
@@ -115,7 +116,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
         useremail: onDemandForm.useremail,
         prefered_dt: onDemandForm.prefered_dt,
       };
-      console.log("ON DEMAND PAYLOAD:", payload); // ✅ debug
+   
 
       // if (!onDemandForm.username || !onDemandForm.useremail) {
       //   toast.error("Please fill all fields");
@@ -289,6 +290,8 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
 
       const ranges = data?.coach_profile?.["Date Range"] || [];
       const specificDates = data?.coach_profile?.["Specific Date"] || [];
+      const slots = data?.coach_profile?.booked_slots || {};  
+      setBookedSlots(slots);
 // =======================
 // SPECIFIC DATE MODE
 // =======================
@@ -412,7 +415,19 @@ if (specificDates.length > 0) {
     if (!currentDate) return;
 
     const dateKey = currentDate.toISOString().slice(0, 10);
+    // 🔥 1. Check if slot already booked (extra safety)
+  if (isSlotBooked(currentDate, time)) {
+    toast.error("This slot is already booked ❌");
+    return;
+  }
 
+  // 🔥 2. Check package booking_slots limit
+  const maxSlots = packageData?.coach_profile?.booking_slots || 0;
+  const totalbooking = packageData?.coach_profile?.total_booking || 0;
+  if (totalbooking >= maxSlots) {
+    toast.error("Slot booking limit reached for this package ❌");
+    return;
+  }
     if (isReschedule) {
       // For reschedule: Only allow one session
       setSelectedDates([{ date: new Date(currentDate), time }]);
@@ -477,13 +492,23 @@ if (specificDates.length > 0) {
     setIsProcessing(true);
 
     // Prepare reschedule payload according to your specification
-    const selectedSession = selectedDates[0];
+    
+const formattedSessions = selectedDates.reduce((acc, item) => {
+  const dateObj = new Date(item.date);
+
+  const formattedDate = dateObj.toISOString().split('T')[0]; // "2026-03-18"
+
+  acc[formattedDate] = item.time;
+  return acc;
+}, {});
+
     const payload = {
       user_id: packageBookedUserId,
       booking_id: originalBookingId,
-      status: 0, // Set to confirmed status (adjust as needed)
-      session_date_start: selectedSession.date.toISOString().split("T")[0], // YYYY-MM-DD
-      slot_time_start: selectedSession.time,
+      status: 0, 
+      slots: formattedSessions
+      // session_date_start: selectedSession.date.toISOString().split("T")[0], // YYYY-MM-DD
+      // slot_time_start: selectedSession.time,
     };
 
     try {
@@ -604,7 +629,67 @@ if (specificDates.length > 0) {
       handleBookingSubmit();
     }
   };
+  
 
+// ✅ SLOT BOOK CHECK FUNCTION (FINAL)
+const isSlotBooked = (date, time) => {
+  if (!bookedSlots || Object.keys(bookedSlots).length === 0) return false;
+
+  const dt = new Date(date);
+
+  const formattedDate =
+    dt.getFullYear() +
+    "-" +
+    String(dt.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(dt.getDate()).padStart(2, "0");
+
+  const bookedTimes = bookedSlots[formattedDate] || [];
+
+  // 🔥 normalize time (handles HH:mm, HH:mm:ss, AM/PM)
+  const toMinutes = (t) => {
+    if (!t) return -1;
+
+    t = t.toString().trim();
+
+    // 👉 handle AM/PM
+    if (t.toLowerCase().includes("am") || t.toLowerCase().includes("pm")) {
+      const [timePart, modifier] = t.split(" ");
+      let [hours, minutes] = timePart.split(":").map(Number);
+
+      if (modifier.toLowerCase() === "pm" && hours !== 12) {
+        hours += 12;
+      }
+      if (modifier.toLowerCase() === "am" && hours === 12) {
+        hours = 0;
+      }
+
+      return hours * 60 + minutes;
+    }
+
+    // 👉 handle HH:mm:ss or HH:mm
+    const parts = t.split(":");
+    const h = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+
+    return h * 60 + m;
+  };
+
+  const current = toMinutes(time);
+
+  // 🧪 DEBUG (optional - remove later)
+  console.log("DATE:", formattedDate);
+  console.log("UI SLOT:", time);
+  console.log("BOOKED SLOTS:", bookedTimes);
+
+  return bookedTimes.some((bt) => {
+  const booked = toMinutes(bt);
+  const current = toMinutes(time);
+
+  // 👉 30 min window block
+  return current >= booked && current < booked + 30;
+});
+};
   return (
     <div className="booking-container mt-5 mb-5 p-0">
       {/* Reschedule Banner */}
@@ -747,28 +832,41 @@ if (specificDates.length > 0) {
                   })}
                 </div>
 
-                <div className="time-slot-scroll mb-3">
-                  {timeSlots.length > 0 ? (
-                    timeSlots.map((slot, idx) => (
-                      <div key={idx} className="mb-2">
-                        <button
-                          className={`time-slot-btn w-100 ${
-                            isReschedule &&
-                            selectedDates.length > 0 &&
-                            selectedDates[0].time === slot
-                              ? "active"
-                              : ""
-                          }`}
-                          onClick={() => handleTimeSelect(slot)}
-                        >
-                          {slot}
-                        </button>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-muted small">No slots available</div>
-                  )}
-                </div>
+            <div className="time-slot-scroll mb-3">
+              {timeSlots.length > 0 ? (
+                timeSlots.map((slot, idx) => {
+                  const isBooked = isSlotBooked(currentDate, slot);
+                    console.log("👉 isBooked:", isBooked);
+                  return (
+                    <div key={idx} className="mb-2">
+                      <button
+                        className={`time-slot-btn w-100 ${
+                          isReschedule &&
+                          selectedDates.length > 0 &&
+                          selectedDates[0].time === slot
+                            ? "active"
+                            : ""
+                        }`}
+                        disabled={isBooked}
+                          onClick={() => {
+                            if (isBooked) return;   // ✅ extra safety
+                            handleTimeSelect(slot);
+                          }}
+                        style={{
+                          cursor: isBooked ? "not-allowed" : "pointer",
+                          opacity: isBooked ? 0.5 : 1,
+                          backgroundColor: isBooked ? "#ccc" : "",
+                        }}
+                      >
+                        {slot}
+                      </button>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-muted small">No slots available</div>
+              )}
+            </div>
 
                 <h6 className="fw-semibold mb-2">
                   {isReschedule ? "Reschedule To" : "Selected Dates & Times"}
