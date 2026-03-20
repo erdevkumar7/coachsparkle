@@ -97,7 +97,7 @@ export default async function CoachingActivitiesPage() {
                 : getTotal(coachingProgress),
         },
         {
-            icon: "/coachsparkle/assets/images/glance-img-three.png",
+            img: "/coachsparkle/assets/images/glance-img-three.png",
             title: "On Demond",
             count:
             getOnDemandTotal(onDemondRequestRes) > 0 && getOnDemandTotal(onDemondRequestRes) < 10
