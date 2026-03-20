@@ -91,33 +91,33 @@ const statusItems = [
     icon: "/coachsparkle/assets/images/glance-img-three.png",
     title: "In progress",
     count:
-      coachingProgress.pagination.total > 0 && coachingProgress.pagination.total < 10
+      coachingProgress?.pagination?.total > 0 && coachingProgress.pagination.total < 10
         ? `0${coachingProgress.pagination.total}`
-        : coachingProgress.pagination.total,
+        : coachingProgress?.pagination?.total || 0,
   },
   {
     icon: "/coachsparkle/assets/images/glance-img-three.png",
     title: "On Demond",
     count:
-      onDemondRequestRes.data.total > 0 && onDemondRequestRes.data.total < 10
+      onDemondRequestRes?.data?.total > 0 && onDemondRequestRes.data.total < 10
         ? `0${onDemondRequestRes.data.total}`
-        : onDemondRequestRes.data.total,
+        : onDemondRequestRes?.data?.total || 0,
   },
   {
     icon: "/coachsparkle/assets/images/match-three.png",
     title: "Completed",
     count:
-      initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10
+      initialCompleted?.pagination?.total > 0 && initialCompleted.pagination.total < 10
         ? `0${initialCompleted.pagination.total}`
-        : initialCompleted.pagination.total,
+        : initialCompleted?.pagination?.total || 0,
   },
   {
     icon: "/coachsparkle/assets/images/match-four.png",
     title: "Canceled / Missed",
     count:
-      initialCanceled.pagination.total > 0 && initialCanceled.pagination.total < 10
+      initialCanceled?.pagination?.total > 0 && initialCanceled.pagination.total < 10
         ? `0${initialCanceled.pagination.total}`
-        : initialCanceled.pagination.total,
+        : initialCanceled?.pagination?.total || 0,
   },
 ];
 
