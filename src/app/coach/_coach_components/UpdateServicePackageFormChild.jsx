@@ -230,7 +230,11 @@ export default function CoachServicePackageFormChild({
     }
 
 const sessionDatesArray = data?.booking_availability?.data?.specificDates || [];
-const weekdaysArrays = data?.booking_availability?.data?.weeklyAvailability || {};
+const rawWeekly = data?.booking_availability?.data?.weeklyAvailability || {};
+
+const weekdaysArrays = Object.fromEntries(
+  Object.entries(rawWeekly).filter(([day, info]) => info?.enabled)
+);
 const formattedSessionDates = {};
 const formattedWeekDays = {};
 
@@ -817,6 +821,9 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
                                 <strong>Trial / Discovery</strong>
                               </li>
                               <li>
+                                <strong>Session</strong>
+                              </li>
+                              <li>
                                 <strong>Free / Pro Bono</strong>
                               </li>
                             </ol>
@@ -890,7 +897,6 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
                     <AvailabilityModesField
                       value={formData.booking_availability}
                       isProUser={isProUser}
-                      sessionDurationMinutes={formData.session_duration_minutes}
                       packageData = {packageData}
                       onChange={(val) => {
                         setValue("booking_availability", val);
