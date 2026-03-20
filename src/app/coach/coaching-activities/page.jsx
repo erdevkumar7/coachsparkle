@@ -3,6 +3,7 @@ import CoachingRequests from "../_coach_components/coachingactivity/CoachingRequ
 import StatusBar from "../_coach_components/coachingactivity/StatusBar";
 import "../_styles/coach_coaching_activities.css";
 import CoachingProgress from "../_coach_components/coachingactivity/CoachingProgress";
+import OnDemondRequest from "../_coach_components/coachingactivity/OnDemondRequest";
 import CompletedCoaching from "../_coach_components/coachingactivity/CompletedCoaching";
 import CanceledMissed from "../_coach_components/coachingactivity/CanceledMissed";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
@@ -12,8 +13,17 @@ export default async function CoachingActivitiesPage() {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
-    const [pendingRes, progressRes, completeRes, cancelRes] = await Promise.all([
+    const [pendingRes, onDemondRes, progressRes, completeRes, cancelRes] = await Promise.all([
         fetch(`${apiUrl}/getPendingCoaching`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json',
+            },
+            cache: 'no-store',
+        }),
+
+        fetch(`${apiUrl}/getonDemondPackageRequest`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -51,8 +61,9 @@ export default async function CoachingActivitiesPage() {
     ]);
 
 
-    const [pendingRequest, coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
+    const [pendingRequest, onDemondRequestRes,  coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
         pendingRes.json(),
+        onDemondRes.json(),
         progressRes.json(),
         completeRes.json(),
         cancelRes.json()
@@ -80,6 +91,14 @@ export default async function CoachingActivitiesPage() {
             count: getTotal(coachingProgress) > 0 && getTotal(coachingProgress) < 10
                 ? `0${getTotal(coachingProgress)}`
                 : getTotal(coachingProgress),
+        },
+        {
+            icon: "/coachsparkle/assets/images/glance-img-three.png",
+            title: "On Demond",
+            count:
+            onDemondRequestRes.data.total > 0 && onDemondRequestRes.data.total < 10
+                ? `0${onDemondRequestRes.data.total}`
+                : onDemondRequestRes.data.total,
         },
         {
             img: "/coachsparkle/assets/images/match-three.png",
@@ -125,6 +144,11 @@ export default async function CoachingActivitiesPage() {
                 <CoachingRequests
                     initialRequest={normalize(pendingRequest)}
                     token={token}
+                />
+
+                <OnDemondRequest
+                onDemondRes={onDemondRequestRes.data.data}
+                token={token}
                 />
 
                 <CoachingProgress

@@ -65,13 +65,18 @@ export default function BookingPackage({ pkg, allPackages }) {
             alt="Coach"
           />
           <h3 className="mb-4">{pkg?.user?.first_name} {pkg?.user?.last_name}</h3>
-          <p className="coach-bio">
-            {pkg?.user?.detailed_bio
+            {/* {pkg?.user?.detailed_bio
               ? pkg?.user.detailed_bio.length > 270
                 ? pkg?.user.detailed_bio.slice(0, 270) + "..."
                 : pkg?.user.detailed_bio
-              : ""}
-          </p>
+              : ""} */}
+
+            <p className="coach-bio"
+                dangerouslySetInnerHTML={{
+                  __html: pkg?.user?.detailed_bio || "No bio available"
+                  }}
+               />
+
           <div className="manage-btn-add" onClick={handleClick}>
             <button className="btn mb-4 msg-btn">
               Message Coach <i className="bi bi-arrow-right"></i>
@@ -229,5 +234,3 @@ export default function BookingPackage({ pkg, allPackages }) {
     </>
   );
 };
-
-
