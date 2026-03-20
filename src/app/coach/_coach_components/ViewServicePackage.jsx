@@ -22,6 +22,7 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
   const handleClick = () => {
     router.push(`/coach/all-packages/${pkg.id}?coach_id=${pkg.coach_id}`);
     localStorage.setItem("allPackages", JSON.stringify(allPackageIds));
+    console.log(JSON.stringify(allPackageIds));
   };
 
   const handleUpdatePackage = () => {
