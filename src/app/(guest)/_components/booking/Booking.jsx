@@ -108,6 +108,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
       coachname: `${packageData?.coach_profile?.first_name || ""} ${
         packageData?.coach_profile?.last_name || ""
       }`.trim(),
+      coach_id: packageData?.coach_profile?.coach_id || coach_id,
 
         // userid: onDemandForm.userid,
         //    user_id: userData.id,
@@ -148,6 +149,9 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
           prefered_dt: "",
         });
         setErrors({});
+
+        // Redirect to user message page
+        router.push(`/user/user-message/2?coach_id=${payload.coach_id}`);
       } else {
         toast.error(data.message || "Something went wrong");
       }
