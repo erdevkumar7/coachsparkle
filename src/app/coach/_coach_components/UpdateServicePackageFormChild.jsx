@@ -66,8 +66,12 @@ export default function CoachServicePackageFormChild({
       date_range: packageData?.date_range || [],
       on_demond: packageData?.on_demond || [],
       focus: packageData?.focus || "",
-      session_hours: 0,
-      session_minutes: 0,
+      session_hours: packageData?.session_duration
+        ? Math.floor(packageData.session_duration / 60)
+        : 0,
+      session_minutes: packageData?.session_duration
+        ? packageData.session_duration % 60
+        : 0,
       delivery_mode_detail: packageData?.delivery_mode_detail || "",
       age_group: (() => {
         const v = packageData?.age_group;
