@@ -103,13 +103,14 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
     try {
       setIsProcessing(true);
 
+      const coachid = parseInt(coach_id);
       const payload = {
          userid: userData.id, // ✅ FIXED (IMPORTANT)
       coachname: `${packageData?.coach_profile?.first_name || ""} ${
         packageData?.coach_profile?.last_name || ""
       }`.trim(),
-      coach_id: packageData?.coach_profile?.coach_id || coach_id,
-
+      coach_id: coachid,
+      package_id: packageData?.coach_profile?.package_id || null,
         // userid: onDemandForm.userid,
         //    user_id: userData.id,
         // userid: userData.id,
@@ -117,7 +118,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
         useremail: onDemandForm.useremail,
         prefered_dt: onDemandForm.prefered_dt,
       };
-   
+
 
       // if (!onDemandForm.username || !onDemandForm.useremail) {
       //   toast.error("Please fill all fields");
@@ -294,7 +295,7 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
 
       const ranges = data?.coach_profile?.["Date Range"] || [];
       const specificDates = data?.coach_profile?.["Specific Date"] || [];
-      const slots = data?.coach_profile?.booked_slots || {};  
+      const slots = data?.coach_profile?.booked_slots || {};
       setBookedSlots(slots);
 // =======================
 // SPECIFIC DATE MODE
@@ -496,7 +497,7 @@ if (specificDates.length > 0) {
     setIsProcessing(true);
 
     // Prepare reschedule payload according to your specification
-    
+
 const formattedSessions = selectedDates.reduce((acc, item) => {
   const dateObj = new Date(item.date);
 
@@ -509,7 +510,7 @@ const formattedSessions = selectedDates.reduce((acc, item) => {
     const payload = {
       user_id: packageBookedUserId,
       booking_id: originalBookingId,
-      status: 0, 
+      status: 0,
       slots: formattedSessions
       // session_date_start: selectedSession.date.toISOString().split("T")[0], // YYYY-MM-DD
       // slot_time_start: selectedSession.time,
@@ -633,7 +634,7 @@ const formattedSessions = selectedDates.reduce((acc, item) => {
       handleBookingSubmit();
     }
   };
-  
+
 
 // ✅ SLOT BOOK CHECK FUNCTION (FINAL)
 const isSlotBooked = (date, time) => {
