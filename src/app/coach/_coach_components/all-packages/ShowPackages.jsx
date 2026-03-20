@@ -65,10 +65,8 @@ export default function ShowPackage({ pkg, allPackages }) {
       const data = await res.json();
       if (res.ok) {
         toast.success("Package deleted successfully!");
-        // handleNavigation('prev')
-        // if (onDelete) onDelete(pkg.id); // remove from UI instantly
         router.push('/coach/service-packages')
-        router.refresh(); // optional: ensure data sync
+        router.refresh();
       } else {
         toast.error(data.message || "Failed to delete package");
       }
@@ -81,13 +79,22 @@ export default function ShowPackage({ pkg, allPackages }) {
     }
   };
 
-  if (showBooking) {
-    breadcrumbItems.push({ label: "Booking", href: "#" });
-  }
+  // Check if package is draft
+  const isDraft = pkg?.status === 0 || pkg?.status === 'draft';
 
   return (
     <>
       <div className="service-page">
+        {/* Draft Badge */}
+        {isDraft && (
+          <div className="text-center mb-3">
+            <span className="badge bg-warning text-dark">
+              <i className="bi bi-eye-slash me-1"></i>
+              Draft - Not visible to users
+            </span>
+          </div>
+        )}
+
         <div className="swiper-wrapper-container position-relative">
           <div className="package-card">
             <div className="package-card-header d-flex justify-content-between align-items-start border-0">
@@ -159,7 +166,7 @@ export default function ShowPackage({ pkg, allPackages }) {
               </div>
 
               <div className="content">
-                <h6>What’s Included:</h6>
+                <h6>What's Included:</h6>
 
                 <ul>
                   <li>{pkg?.session_format?.name} coaching with {pkg?.user?.first_name}.</li>
@@ -183,7 +190,7 @@ export default function ShowPackage({ pkg, allPackages }) {
 
                 <ul>
                   <li>
-                    You’ll receive an onboarding email with scheduling
+                    You'll receive an onboarding email with scheduling
                     links
                   </li>
                   {pkg?.booking_window &&
@@ -206,12 +213,24 @@ export default function ShowPackage({ pkg, allPackages }) {
                 <h4>
                   ${pkg?.price} <small>/ {pkg?.price_model?.name}</small>
                 </h4>
-                <button
-                  className="btn book-btn mt-2"
-                  onClick={handleUpdatePackage}
-                >
-                  Update Package
-                </button>
+                <div className="d-grid gap-2">
+                  <button
+                    className="btn book-btn mt-2"
+                    onClick={handleUpdatePackage}
+                  >
+                    <i className="bi bi-pencil-square me-1"></i>
+                    Update Package
+                  </button>
+                  {isDraft && (
+                    <button
+                      className="btn btn-outline-primary mt-2"
+                      onClick={() => router.push(`/coach/service-packages/${pkg.id}/update`)}
+                    >
+                      <i className="bi bi-check-circle me-1"></i>
+                      Publish Package
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="d-flex gap-2 mt-4 small">
