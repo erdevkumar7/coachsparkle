@@ -99,16 +99,17 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
     toast.error("Please login first");
     return;
   }
-
+console.log('Package', packageData.coach_profile.package_id)
     try {
       setIsProcessing(true);
-
+      const coachid = parseInt(coach_id); 
       const payload = {
          userid: userData.id, // ✅ FIXED (IMPORTANT)
       coachname: `${packageData?.coach_profile?.first_name || ""} ${
         packageData?.coach_profile?.last_name || ""
       }`.trim(),
-
+        coach_id: coachid,
+        package_id: packageData?.coach_profile?.package_id || null,
         // userid: onDemandForm.userid,
         //    user_id: userData.id,
         // userid: userData.id,
@@ -117,7 +118,6 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
         prefered_dt: onDemandForm.prefered_dt,
       };
    
-
       // if (!onDemandForm.username || !onDemandForm.useremail) {
       //   toast.error("Please fill all fields");
       //   return;
@@ -158,9 +158,6 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
       setIsProcessing(false);
     }
   };
-
-  console.log("USER DATA:", userData);
-  console.log("USER ID:", userData.id);
 
   if (!userData?.id) return null;
 
