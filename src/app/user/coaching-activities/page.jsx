@@ -6,6 +6,7 @@ import StatusItem from "../_user_components/coaching_activities/StatusItem";
 import UserCoachingRequest from "../_user_components/coaching_activities/UserCoachingRequest";
 import CoachingProgress from "../_user_components/coaching_activities/CoachingProgress";
 import CompletedCoaching from "../_user_components/coaching_activities/CompletedCoaching";
+import OnDemondRequest from "../_user_components/coaching_activities/OnDemondRequest";
 import CanceledMissed from "../_user_components/coaching_activities/CanceledMissed";
 
 export default async function Activities() {
@@ -13,8 +14,17 @@ export default async function Activities() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
-  const [pendingRes, progressRes, completeRes, cancelRes] = await Promise.all([
+  const [pendingRes, onDemondRes, progressRes, completeRes, cancelRes] = await Promise.all([
     fetch(`${apiUrl}/getPendingCoaching`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      cache: 'no-store',
+    }),
+
+    fetch(`${apiUrl}/getonDemondPackageRequest`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,12 +61,13 @@ export default async function Activities() {
     })
   ])
 
-  const [pendingRequest, coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
-    pendingRes.json(),
-    progressRes.json(),
-    completeRes.json(),
-    cancelRes.json()
-  ]);
+const [pendingRequest, onDemondRequestRes, coachingProgress, initialCompleted, initialCanceled] = await Promise.all([
+  pendingRes.json(),     // pending
+  onDemondRes.json(),    // on-demand
+  progressRes.json(),    // progress
+  completeRes.json(),    // completed
+  cancelRes.json()       // canceled
+]);
   // const pendingRequest = await pendingRes.json();
   // const coachingProgress = await progressRes.json();
   // const initialCompleted = await completeRes.json();
@@ -64,33 +75,50 @@ export default async function Activities() {
 
   // console.log('initialCanceled', initialCanceled)
 
-  const statusItems = [
-    {
-      icon: "/coachsparkle/assets/images/glance-img-one.png",
-      title: "Pending Coaching",
-      count:
+const statusItems = [
+  {
+    icon: "/coachsparkle/assets/images/glance-img-one.png",
+    title: "Pending Coaching",
+    count:
       pendingRequest.request_count === 0
         ? 0
         : pendingRequest.request_count < 10
-          ? `0${pendingRequest.request_count}`
-          : pendingRequest.request_count,
-      },
-    {
-      icon: "/coachsparkle/assets/images/glance-img-three.png",
-      title: "In progress",
-      count: coachingProgress.pagination.total > 0 && coachingProgress.pagination.total < 10 ? `0${coachingProgress.pagination.total}` : coachingProgress.pagination.total,
-    },
-    {
-      icon: "/coachsparkle/assets/images/match-three.png",
-      title: "Completed",
-      count: initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10 ? `0${initialCompleted.pagination.total}` : initialCompleted.pagination.total,
-    },
-    {
-      icon: "/coachsparkle/assets/images/match-four.png",
-      title: "Canceled / Missed",
-      count: initialCanceled.pagination.total > 0 && initialCanceled.pagination.total < 10 ? `0${initialCanceled.pagination.total}` : initialCanceled.pagination.total,
-    },
-  ];
+        ? `0${pendingRequest.request_count}`
+        : pendingRequest.request_count,
+  },
+  {
+    icon: "/coachsparkle/assets/images/glance-img-three.png",
+    title: "In progress",
+    count:
+      coachingProgress.pagination.total > 0 && coachingProgress.pagination.total < 10
+        ? `0${coachingProgress.pagination.total}`
+        : coachingProgress.pagination.total,
+  },
+  {
+    icon: "/coachsparkle/assets/images/glance-img-three.png",
+    title: "On Demond",
+    count:
+      onDemondRequestRes.data.total > 0 && onDemondRequestRes.data.total < 10
+        ? `0${onDemondRequestRes.data.total}`
+        : onDemondRequestRes.data.total,
+  },
+  {
+    icon: "/coachsparkle/assets/images/match-three.png",
+    title: "Completed",
+    count:
+      initialCompleted.pagination.total > 0 && initialCompleted.pagination.total < 10
+        ? `0${initialCompleted.pagination.total}`
+        : initialCompleted.pagination.total,
+  },
+  {
+    icon: "/coachsparkle/assets/images/match-four.png",
+    title: "Canceled / Missed",
+    count:
+      initialCanceled.pagination.total > 0 && initialCanceled.pagination.total < 10
+        ? `0${initialCanceled.pagination.total}`
+        : initialCanceled.pagination.total,
+  },
+];
 
 
 
@@ -113,6 +141,12 @@ export default async function Activities() {
           initialRequest={pendingRequest}
           token={token}
         />
+
+        <OnDemondRequest
+        onDemondRes={onDemondRequestRes.data.data}
+        token={token}
+        />
+
         <CoachingProgress
           initialProgress={coachingProgress}
           token={token}
