@@ -144,7 +144,7 @@ const statusItems = [
         />
 
         <OnDemondRequest
-        onDemondRes={onDemondRequestRes.data.data}
+        onDemondRes={onDemondRequestRes?.data?.data || []}
         token={token}
         />
 
