@@ -75,6 +75,10 @@ export default async function CoachingActivitiesPage() {
         return data?.pagination?.total ?? 0;
     };
 
+    const getOnDemandTotal = (data) => {
+        return data?.data?.total ?? 0;
+    };
+
     const requests = [
         {
             img: "/coachsparkle/assets/images/glance-img-one.png",
@@ -96,9 +100,9 @@ export default async function CoachingActivitiesPage() {
             icon: "/coachsparkle/assets/images/glance-img-three.png",
             title: "On Demond",
             count:
-            onDemondRequestRes.data.total > 0 && onDemondRequestRes.data.total < 10
-                ? `0${onDemondRequestRes.data.total}`
-                : onDemondRequestRes.data.total,
+            getOnDemandTotal(onDemondRequestRes) > 0 && getOnDemandTotal(onDemondRequestRes) < 10
+                ? `0${getOnDemandTotal(onDemondRequestRes)}`
+                : getOnDemandTotal(onDemondRequestRes),
         },
         {
             img: "/coachsparkle/assets/images/match-three.png",
@@ -147,7 +151,7 @@ export default async function CoachingActivitiesPage() {
                 />
 
                 <OnDemondRequest
-                onDemondRes={onDemondRequestRes.data.data}
+                onDemondRes={onDemondRequestRes?.data?.data || []}
                 token={token}
                 />
 
