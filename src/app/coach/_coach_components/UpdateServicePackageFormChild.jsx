@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -52,7 +51,6 @@ export default function CoachServicePackageFormChild({
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
-    reset,
     watch,
     control,
     trigger,
@@ -112,7 +110,6 @@ export default function CoachServicePackageFormChild({
   });
   const hours = useWatch({ control, name: "session_hours" });
   const minutes = useWatch({ control, name: "session_minutes" });
-
   useEffect(() => {
     if (!packageData?.availability_id) return;
 
@@ -176,19 +173,7 @@ export default function CoachServicePackageFormChild({
       data: availabilityData,
     });
   }, [packageData, setValue]);
-  useEffect(() => {
-  if (packageData?.session_duration != null) {
-    const totalMinutes = packageData.session_duration;
 
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-
-    reset({
-      session_hours: hours,
-      session_minutes: minutes
-    });
-  }
-}, [packageData, reset]);
 
   useEffect(() => {
     if (packageData?.media_url) setMediaPreview(packageData.media_url);
@@ -241,11 +226,7 @@ export default function CoachServicePackageFormChild({
     }
 
 const sessionDatesArray = data?.booking_availability?.data?.specificDates || [];
-const rawWeekly = data?.booking_availability?.data?.weeklyAvailability || {};
-
-const weekdaysArrays = Object.fromEntries(
-  Object.entries(rawWeekly).filter(([day, info]) => info?.enabled)
-);
+const weekdaysArrays = data?.booking_availability?.data?.weeklyAvailability || {};
 const formattedSessionDates = {};
 const formattedWeekDays = {};
 
@@ -261,7 +242,6 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
     item.end
   ];
 });
-
 
     if (data.booking_availability) {
       form.append("availabilityid", data.booking_availability.availability_id);
@@ -833,9 +813,6 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
                                 <strong>Trial / Discovery</strong>
                               </li>
                               <li>
-                                <strong>Session</strong>
-                              </li>
-                              <li>
                                 <strong>Free / Pro Bono</strong>
                               </li>
                             </ol>
@@ -909,6 +886,7 @@ Object.entries(weekdaysArrays).forEach(([day, item]) => {
                     <AvailabilityModesField
                       value={formData.booking_availability}
                       isProUser={isProUser}
+                      sessionDurationMinutes={formData.session_duration_minutes}
                       packageData = {packageData}
                       onChange={(val) => {
                         setValue("booking_availability", val);
