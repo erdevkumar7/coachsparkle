@@ -82,12 +82,15 @@ export default function BookingCalendar() {
             id: `${user.id}-${pkg.package_id}-${dateGroup.date}`, // Create a unique ID
             title: pkg.title,
             // start: `${dateGroup.date}T${user.slot_time_start}:00`,
-            start: dateGroup.date + "T" + (pkg.slot_time_start || "00:00:00"),
+            start: dateGroup.date,
+            
+            // start: dateGroup.date + "T" + (pkg.slot_time_start || "00:00:00"),
             extendedProps: {
               status: getStatusText(user.status),
               user: `${user.first_name} ${user.last_name}`,
               profile_image: user.profile_image,
               email: user.email,
+              time: pkg.time,
               packageId: pkg.package_id,
               coachId: pkg.coach_id,
               userId: user.id,
@@ -414,7 +417,7 @@ console.log(events);
             </Typography>
             <Typography variant="body2">
               <strong>Time:</strong>{" "}
-              {selectedEvent?.start?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {selectedEvent?.extendedProps.time}
             </Typography>
             <Typography variant="body2">
               <strong>Status:</strong> {selectedEvent?.extendedProps.status}
