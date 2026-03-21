@@ -112,6 +112,8 @@ export default function DateRangeAvailability({
   }
 }, [dynamicValue]);
 
+
+
   return (
     <div>
       <h6 className="mb-3">Date Range</h6>
@@ -123,6 +125,7 @@ export default function DateRangeAvailability({
           <input
             type="date"
             className="form-control"
+            min={dayjs().format("YYYY-MM-DD")}
             value={value.startDate ?? dynamicValue?.start_date ?? ""}
             onChange={(e) =>
               onChange({ ...value, startDate: e.target.value })
@@ -136,7 +139,11 @@ export default function DateRangeAvailability({
             type="date"
             className="form-control"
             value={value.endDate ?? dynamicValue?.end_date ?? ""}
-            min={value.startDate ?? dynamicValue?.start_date ?? undefined}
+              min={
+    value.startDate
+      ? value.startDate
+      : dayjs().format("YYYY-MM-DD")
+  }
             onChange={(e) =>
               onChange({ ...value, endDate: e.target.value })
             }
