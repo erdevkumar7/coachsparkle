@@ -52,7 +52,10 @@ export default function CoachingProgress({ initialProgress, token }) {
   //   },
   // ];
 
-
+const capitalizeFirst = (str) => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
   return (
     <>
       <div className="mt-5">
@@ -89,7 +92,7 @@ export default function CoachingProgress({ initialProgress, token }) {
 
                     <div className="mb-3 status-div">
                       <button className="border px-3 py-1 rounded-pill">
-                        {session.status}
+                        {capitalizeFirst(session.status)}
                       </button>
                     </div>
 
