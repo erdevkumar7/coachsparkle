@@ -6,6 +6,7 @@ import { HandleValidateTokenOnServer } from "@/app/api/user";
 
 export default async function CoachPackageBookingPage({ params }) {
   const { coach_id, package_id } = await params;
+ 
   const packageData = await dateTimeAvalibility(package_id);
 
   if (!packageData.success) {
