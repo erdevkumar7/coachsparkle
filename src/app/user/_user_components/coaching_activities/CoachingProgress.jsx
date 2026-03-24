@@ -52,7 +52,6 @@ export default function CoachingProgress({ initialProgress, token }) {
   //   },
   // ];
 
-  // console.log('getCoahcingProgress', getCoahcingProgress)
 
   return (
     <>
@@ -155,8 +154,8 @@ export default function CoachingProgress({ initialProgress, token }) {
               <div className="request-modal-body">
                 <h6>1. Package Details</h6>
                 <p><strong>Package Name:</strong> {selectedRequest?.package_title || "N/A"}</p>
-                <p><strong>Session Start Date: </strong> {selectedRequest?.session_date_start || "N/A"}</p>
-                <p><strong>Session Timing: </strong> {selectedRequest?.slot_time_start || "N/A"}</p>
+                <p><strong>Session Start Date: </strong> {selectedRequest?.coachingdate || "N/A"}</p>
+                <p><strong>Session Timing: </strong> {selectedRequest?.coachingtime || "N/A"}</p>
               </div>
               <div className="request-modal-body">
                 <h6>2. Coach Information</h6>
