@@ -129,6 +129,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
               <div className="request-modal-body">
                 <h6>1. Package Details</h6>
                 <p><strong>Package ID:</strong> {selectedRequest.package_id}</p>
+                <p><strong>Package Name:</strong> {selectedRequest?.package?.title}</p>
                 <p><strong>Preferred Date:</strong> {selectedRequest.prefered_dt}</p>
               </div>
               <div className="request-modal-body">
