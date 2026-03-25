@@ -71,12 +71,16 @@ export default function Calendar({ currentDate, onDateSelect, getActiveDays, sel
         ))}
       </div>
 
-      <div className="calendar-grid-custom text-center">
+      {/* <div className="calendar-grid-custom text-center">
         {[...Array(startDay)].map((_, i) => (
           <div key={"empty-" + i}></div>
         ))}
         {[...Array(daysInMonth)].map((_, i) => {
           const day = i + 1;
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+            const currentCellDate = new Date(displayedYear, displayedMonth, day);
+            const isPast = currentCellDate < today; // 👈 only new logic
           const isActive = activeDays.includes(day);
           const isCurrent =
             currentDate.getDate() === day &&
@@ -91,17 +95,74 @@ export default function Calendar({ currentDate, onDateSelect, getActiveDays, sel
           else if (isActive) className += " active";
           else className += " inactive";
 
+          if (isPast) className += " disabled";
+
           return (
             <div
               key={day}
               className={className}
-              onClick={() => handleDateClick(day)}
+                    onClick={() => {
+        if (!isPast) handleDateClick(day); // 👈 only safety check
+      }}
             >
               {day}
             </div>
           );
         })}
+      </div> */}
+      <div className="calendar-grid-custom text-center">
+  {[...Array(startDay)].map((_, i) => (
+    <div key={"empty-" + i}></div>
+  ))}
+
+  {[...Array(daysInMonth)].map((_, i) => {
+    const day = i + 1;
+
+    // 🔹 Today
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // 🔹 Current cell date
+    const currentCellDate = new Date(displayedYear, displayedMonth, day);
+    currentCellDate.setHours(0, 0, 0, 0);
+
+    // 🔹 Past date check
+    const isPast = currentCellDate < today;
+
+    const isActive = activeDays.includes(day);
+    const isCurrent =
+      currentDate.getDate() === day &&
+      currentDate.getMonth() === displayedMonth &&
+      currentDate.getFullYear() === displayedYear;
+
+    const isSelected = selectedDayMap.includes(day);
+
+    let className = "calendar-day-custom";
+
+    if (isCurrent && !isPast) className += " current";
+    else if (isSelected && !isPast) className += " selected";
+    else if (isActive && !isPast) className += " active";
+    else className += " inactive";
+
+    // 🔹 Inline style for past dates (safe, won't affect other CSS)
+    const style = isPast
+      ? { opacity: 0.4, pointerEvents: "none", cursor: "not-allowed" }
+      : {};
+
+    return (
+      <div
+        key={day}
+        className={className}
+        style={style} // 👈 inline style applied
+        onClick={() => {
+          if (!isPast) handleDateClick(day);
+        }}
+      >
+        {day}
       </div>
+    );
+  })}
+</div>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import CustomShareIcon from "@/app/(guest)/_components/coach-detail/CustomShareIcon";
 
 
 export default function ShowPackage({ pkg, allPackages }) {
@@ -103,7 +104,7 @@ export default function ShowPackage({ pkg, allPackages }) {
             <div className="two_btn_remove_share">
 
               <button className="btn share-btn">
-                <ShareIcon />
+                <CustomShareIcon coach={pkg} />
               </button>
               <button
                 className="remove-service-package"

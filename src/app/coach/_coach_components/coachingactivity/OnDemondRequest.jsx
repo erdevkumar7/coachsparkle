@@ -95,7 +95,9 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
                       </button>
                       <button
                         className="btn btn-outline-secondary button-msg"
-                        onClick={() => router.push(`/user/user-message/3?coach_id=${req.coach_id}`)}
+                        onClick={() => {
+                          router.push(`/coach/messages/2?user_id=${req.user_id}`);
+                        }}
                       >
                         Message
                       </button>
@@ -118,7 +120,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
         <div className="request-modal-overlay">
           <div className="request-modal">
             <div className="request-modal-header d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">On Demond Request Details</h5>
+              <h5 className="mb-0">On Demand Request Details</h5>
               <button className="request-close-btn" onClick={handleCloseModal}>
                 &times;
               </button>

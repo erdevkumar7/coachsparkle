@@ -17,6 +17,7 @@ export default function CoachServicePackages() {
   const { user } = useUser();
   let isProUser = user.subscription_plan.plan_status;
   const [packages, setPackages] = useState([]);
+  const [packageCount, setPackageCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -31,6 +32,8 @@ export default function CoachServicePackages() {
       try {
         const response = await allPackagesOfaCoach(token);
         setPackages(response?.data);
+        setPackageCount(response?. packageCount);
+        
       } catch (error) {
         console.error("Error fetching packages:", error);
       } finally {
@@ -49,6 +52,11 @@ export default function CoachServicePackages() {
     setPackages((prev) => prev.filter((p) => p.id !== deletedId));
   };
 
+    const handleClick = (pkg) => {
+    router.push(`/coach/all-packages/${pkg.id}?coach_id=${pkg.coach_id}`);
+    localStorage.setItem("allPackages", JSON.stringify(pkg.id));
+  };
+
   return (
     <div className="main-panel">
       {loading ? (
@@ -60,7 +68,15 @@ export default function CoachServicePackages() {
           {isProUser ? (
             <>
               <div className="card p-3">
-                <h3 className="quick-text">Service Packages</h3>
+                <div className="d-flex">
+                <h3 className="quick-text">Service Packages ({packageCount})</h3>
+                  {packages.length > 0 && (
+                    <a href="#" className="text-decoration-none" onClick={() => handleClick(packages[0])}>
+                      View All
+                    </a>
+                  )}
+                </div>
+                
                 <div className="session-wrapper service-pack-add-card">
                   {packages &&
                     packages

@@ -119,7 +119,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
         <div className="request-modal-overlay">
           <div className="request-modal">
             <div className="request-modal-header d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">On Demond Request Details</h5>
+              <h5 className="mb-0">On Demand Request Details</h5>
               <button className="request-close-btn" onClick={handleCloseModal}>
                 &times;
               </button>
@@ -128,6 +128,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
               <div className="request-modal-body">
                 <h6>1. Package Details</h6>
                 <p><strong>Package ID:</strong> {selectedRequest.package_id}</p>
+                <p><strong>Package Name:</strong> {selectedRequest.package.title}</p>
                 <p><strong>Preferred Date:</strong> {selectedRequest.prefered_dt}</p>
               </div>
               <div className="request-modal-body">
