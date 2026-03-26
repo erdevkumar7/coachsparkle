@@ -44,7 +44,7 @@ const [currentDate, setCurrentDate] = useState(new Date());
       ondemondenquiryid: selectedRequest?.id,
       date: formattedDate,
     };
-console.log('On Demond Booking Confirm', `${apiUrl}confirmOnDemondBooking`);
+
     const res = await fetch(`${apiUrl}/confirmOnDemondBooking`, {
       method: "POST",
       headers: {
@@ -59,6 +59,17 @@ console.log('On Demond Booking Confirm', `${apiUrl}confirmOnDemondBooking`);
 
     if (data.status === "success") {
       toast.success("Booking Confirmed");
+        setRequests((prev) =>
+    prev.map((item) =>
+      item.id === selectedRequest.id
+        ? {
+            ...item,
+            status: 1,
+            booking_date: formattedDate,
+          }
+        : item
+    )
+  );
       setShowModal(false);
     } else {
       toast.error(data.message);
