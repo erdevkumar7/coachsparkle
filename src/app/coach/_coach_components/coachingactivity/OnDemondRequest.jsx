@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 export default function OnDemondRequest({ onDemondRes = [], token = "", totalbooked } = {}) {
   const router = useRouter();
-
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   // Hooks at top level
   const [requests, setRequests] = useState(onDemondRes || []);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,13 +44,14 @@ const [currentDate, setCurrentDate] = useState(new Date());
       ondemondenquiryid: selectedRequest?.id,
       date: formattedDate,
     };
-
+console.log('On Demond Booking Confirm', `${apiUrl}confirmOnDemondBooking`);
     const res = await fetch(`${apiUrl}/confirmOnDemondBooking`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      cache: 'no-store',
       body: JSON.stringify(payload),
     });
 
