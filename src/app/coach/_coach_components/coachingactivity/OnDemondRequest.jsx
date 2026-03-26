@@ -45,9 +45,7 @@ const [currentDate, setCurrentDate] = useState(new Date());
       date: formattedDate,
     };
 
-    console.log("Final Payload:", payload);
-
-    const res = await fetch("http://localhost:8000/api/confirmOnDemondBooking", {
+    const res = await fetch(`${apiUrl}/confirmOnDemondBooking`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
