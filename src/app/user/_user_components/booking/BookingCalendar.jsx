@@ -49,7 +49,7 @@ export default function BookingCalendar() {
         }
 
         const data = await response.json();
-console.log('FULL API RESPONSE', JSON.stringify(data, null, 2));
+
         if (data.success) {
           // Transform API data to calendar events
           const transformedEvents = transformApiDataToEvents(data.data);
@@ -86,6 +86,7 @@ console.log('FULL API RESPONSE', JSON.stringify(data, null, 2));
               status: getStatusText(user.status),
               user: `${user.first_name} ${user.last_name}`,
               profile_image: user.profile_image,
+              mode: pkg.mode,
               email: user.email,
               time: pkg.time,
               packageId: pkg.package_id,
@@ -344,6 +345,10 @@ console.log('FULL API RESPONSE', JSON.stringify(data, null, 2));
             </Typography>
             <Typography variant="body2">
               <strong>Email:</strong> {selectedEvent?.extendedProps.email}
+            </Typography>
+            <Typography variant="body2">
+              <strong>Package Mode:</strong>{" "}
+              {selectedEvent?.extendedProps.mode}
             </Typography>
             <Typography variant="body2">
               <strong>Date:</strong>{" "}
