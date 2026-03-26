@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import OnDemondCalendar from "@/components/OnDemondCalendar";
+import { toast } from "react-toastify";
 import Pagination from "@/components/Pagination";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import { useRouter } from "next/navigation";
 
-export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
+export default function OnDemondRequest({ onDemondRes = [], token = "", totalbooked } = {}) {
   const router = useRouter();
 
   // Hooks at top level
@@ -16,6 +18,8 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
   const [isOpen, setIsOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
+ const [showCalendar, setShowCalendar] = useState(false);
+const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleViewRequest = (req) => {
     setSelectedRequest(req);
@@ -27,10 +31,56 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
     setSelectedRequest(null);
   };
 
+  const handleConfirmBooking = async () => {
+  try {
+    // ✅ agar user ne select nahi kiya to current date use ho
+    const finalDate = currentDate
+      ? new Date(currentDate)
+      : new Date();
+
+    const formattedDate = finalDate.toISOString().split("T")[0];
+
+    const payload = {
+      ondemondenquiryid: selectedRequest?.id,
+      date: formattedDate,
+    };
+
+    console.log("Final Payload:", payload);
+
+    const res = await fetch("http://localhost:8000/api/confirmOnDemondBooking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (data.status === "success") {
+      toast.success("Booking Confirmed");
+      setShowModal(false);
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    toast.error(error);
+  }
+};
+
   const fetchPageData = (page) => {
     // Optional: Implement pagination fetch here
     setCurrentPage(page);
   };
+
+  const handleDateSelect = (date) => {
+    setCurrentDate(date);
+  };
+
+  const [selectedDates, setSelectedDates] = useState([
+  { date: new Date().toISOString().split("T")[0] }
+]);
 
   return (
     <>
@@ -67,7 +117,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
 
                     <div className="mb-3 status-div">
                       <button className="border px-3 py-1 rounded-pill">
-                        Pending
+                        {req.status == 1 ? 'Confirmed' : 'Pending'}
                       </button>
                     </div>
 
@@ -85,6 +135,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
                           {req.user_name} requested from {req.coach_name}
                         </span>
                         <span className="d-block time">{req.prefered_dt}</span>
+                        <span className="d-block time">{req.booking_date}</span>
                         <img src="/coachsparkle/images/zoom.png" alt="platform" />
                       </div>
                     </div>
@@ -143,7 +194,44 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
               </div>
               <div className="request-modal-body">
                 <h6>4. Session Status</h6>
-                <p><strong>Status:</strong> Pending</p>
+                <p><strong>Status:</strong>  {selectedRequest.status == 1 ? 'Confirmed' : 'Pending'}</p>
+              </div>
+              <div className="request-modal-body">
+                
+                <label>
+                  <input
+                    type="checkbox"
+                    style={{ width: "20px", height: "20px" }}
+                    checked={showCalendar}
+                    onChange={(e) => setShowCalendar(e.target.checked)}
+                  />
+                  Booking Calendar Show & Hide
+                </label>
+                <div className="calendar-panel p-4 flex-grow-1">
+{showCalendar && (
+  <>
+    {totalbooked >= selectedRequest.package.booking_slots ? (
+      
+      // ❌ ERROR MESSAGE
+      <div className="alert alert-danger mt-3">
+        Booking slots full ho chuke hain ❌
+      </div>
+
+    ) : (
+      
+      // ✅ CALENDAR SHOW
+      <div className="calendar-panel p-4 flex-grow-1">
+        <OnDemondCalendar
+          onDateSelect={handleDateSelect}
+          currentDate={currentDate}
+        />
+      </div>
+
+    )}
+  </>
+)}
+                </div>
+                <button className="btn btn-success d-block mt-3" onClick={handleConfirmBooking}>Confirm</button>
               </div>
             </div>
           </div>

@@ -68,7 +68,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
 
                     <div className="mb-3 status-div">
                       <button className="border px-3 py-1 rounded-pill">
-                        Pending
+                        {req.status == 1 ? "Confirmed" : "Pending"}
                       </button>
                     </div>
 
@@ -86,6 +86,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
                           {req.user_name} requested from {req.coach_name}
                         </span>
                         <span className="d-block time">{req.prefered_dt}</span>
+                         <span className="d-block time">{req.booking_date}</span>
                         <img src="/coachsparkle/images/zoom.png" alt="platform" />
                       </div>
                     </div>
@@ -142,7 +143,7 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
               </div>
               <div className="request-modal-body">
                 <h6>4. Session Status</h6>
-                <p><strong>Status:</strong> Pending</p>
+                <p><strong>Status:</strong> {selectedRequest.status == 1 ? "Confirmed" : "Pending"}</p>
               </div>
             </div>
           </div>

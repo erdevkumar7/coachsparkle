@@ -49,7 +49,7 @@ export default function BookingCalendar() {
         }
 
         const data = await response.json();
-
+console.log('FULL API RESPONSE', JSON.stringify(data, null, 2));
         if (data.success) {
           // Transform API data to calendar events
           const transformedEvents = transformApiDataToEvents(data.data);

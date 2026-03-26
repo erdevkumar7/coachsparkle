@@ -152,6 +152,7 @@ export default async function CoachingActivitiesPage() {
 
                 <OnDemondRequest
                 onDemondRes={onDemondRequestRes?.data?.data || []}
+                totalbooked={onDemondRequestRes?.totalbooked || 0}
                 token={token}
                 />
 
