@@ -31,9 +31,13 @@ export default function CoachServicePackages() {
     const fetchPackages = async () => {
       try {
         const response = await allPackagesOfaCoach(token);
-        setPackages(response?.data);
-        setPackageCount(response?. packageCount);
-        
+
+         if(response.status != false){
+            setPackages(response?.data);
+            setPackageCount(response?. packageCount);
+         }
+
+       
       } catch (error) {
         console.error("Error fetching packages:", error);
       } finally {
