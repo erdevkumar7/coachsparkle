@@ -91,6 +91,7 @@ export default function BookingCalendar() {
               profile_image: user.profile_image,
               email: user.email,
               time: pkg.time,
+              mode: pkg.mode,
               packageId: pkg.package_id,
               coachId: pkg.coach_id,
               userId: user.id,
@@ -411,6 +412,10 @@ console.log(events);
             <Typography variant="body2">
               <strong>Email:</strong> {selectedEvent?.extendedProps.email}
             </Typography>
+                        <Typography variant="body2">
+                          <strong>Package Mode:</strong>{" "}
+                          {selectedEvent?.extendedProps.mode}
+                        </Typography>
             <Typography variant="body2">
               <strong>Date:</strong>{" "}
               {selectedEvent?.start?.toLocaleDateString()}
