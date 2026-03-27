@@ -95,7 +95,7 @@ export default function SendMessagePanel({ userData }) {
     };
 
     try {
-      const resp = await fetch(`${apiUrl}/coachSendMessage`, {
+      const resp = await fetch(`${apiUrl}/coachSendMessageInquiry`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
