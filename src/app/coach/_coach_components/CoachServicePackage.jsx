@@ -42,6 +42,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   const [showSessionFormat, setShowSessionFormat] = useState(false);
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [selectedDeliveryMode, setSelectedDeliveryMode] = useState(1);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const router = useRouter();
   // React Hook Form setup
@@ -145,7 +146,7 @@ export default function CoachServicePackageForm({ isProUser, onPackageAdded }) {
   // };
   const onSubmit = async (data, e) => {
     const clickedButton = e?.nativeEvent?.submitter?.value || "draft";
-
+ 
     let package_status =
       clickedButton === "publish" ? 1 : clickedButton === "unpublished" ? 0 : 2;
 
@@ -384,7 +385,7 @@ if (availabilityId === 31) {
             ? "Saved as unpublished"
             : "Draft saved",
       );
-
+      setFormSubmitted(true);
       reset();
       setSelectedDeliveryMode("");
       setMediaPreview(null);
@@ -1078,6 +1079,7 @@ if (availabilityId === 31) {
                         setValue("booking_availability", val);
                         trigger("booking_availability");
                       }}
+                      formSubmitted={formSubmitted}
                     />
 
                     {/* <label htmlFor="booking_availability">Availability</label>
