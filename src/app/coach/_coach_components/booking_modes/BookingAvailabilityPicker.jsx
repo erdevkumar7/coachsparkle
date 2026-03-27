@@ -14,12 +14,13 @@ export default function AvailabilityModesField({
   value,
   onChange,
   isProUser,
-  packageData
+  packageData,
+  formSubmitted
 }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedMode, setSelectedMode] = useState("");
   const [modes, setModes] = useState([]);
-  const [savedAvailability, setSavedAvailability] = useState(value || null);
+  const [savedAvailability, setSavedAvailability] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -106,19 +107,19 @@ export default function AvailabilityModesField({
   };
 
 
-    // edit 7/03
-  const recordId = value?.record_id;
-  useEffect(() => {
-  if (savedAvailability?.availability_id) {
-    setSelectedMode(String(savedAvailability.availability_id));
-  }
-}, [savedAvailability]);
-
 useEffect(() => {
   if (value?.availability_id) {
     setSavedAvailability(value);
+    setSelectedMode(String(value.availability_id));
   }
 }, [value]);
+
+useEffect(() => {
+  if (formSubmitted) {
+    setSavedAvailability(null);
+    setSelectedMode("");
+  }
+}, [formSubmitted]);
 
   return (
     <>
@@ -127,7 +128,8 @@ useEffect(() => {
      <select
   className="form-control"
   disabled={!isProUser}
- value={showModal ? selectedMode : (savedAvailability?.availability_id ?? "")}
+//  value={showModal ? selectedMode : (savedAvailability?.availability_id ?? "")}
+value={selectedMode || savedAvailability?.availability_id || ""}
   onChange={handleChange}
   onClick={() => {
     if (!showModal && savedAvailability?.availability_id) {
