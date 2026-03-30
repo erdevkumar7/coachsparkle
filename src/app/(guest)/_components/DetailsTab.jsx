@@ -15,7 +15,7 @@ export default function LabTabs({ coach }) {
     const [loadingMore, setLoadingMore] = React.useState(false);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [hasMore, setHasMore] = React.useState(true);
-const baseUrl = "https://coachsparkle-backend.votivereact.in/uploads/documents/";
+
     React.useEffect(() => {
         getUserReviews(1); // Load first page on initial render
     }, [coach?.user_id]);
@@ -174,7 +174,7 @@ const baseUrl = "https://coachsparkle-backend.votivereact.in/uploads/documents/"
                         
                         {coach?.certificates?.length > 0 ? (
                         coach.certificates.map((doc, index) => {
-                            const fileUrl = `${baseUrl}${doc}`; // ✅ combine path + filename
+                             const fileUrl = `${coach.certificate_base_url}/${doc}`; 
 
                             return (
                             <a

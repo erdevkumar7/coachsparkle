@@ -68,7 +68,7 @@ export default function CoachUpdateForm({
   const [showModal, setShowModal] = useState(false);
 const [selectedCertificate, setSelectedCertificate] = useState(null);
 const [loading, setLoading] = useState(false);
-const videoBaseUrl = "http://localhost:8000/uploads/coach_video/";
+
   console.log('User Data', user)
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -1352,7 +1352,7 @@ useEffect(() => {
               {!videoPreview && user?.video_link && (
                 <div className="mt-3">
                   <video
-                    src={`${videoBaseUrl}${user.video_link}`} // ✅ filename + path
+                    src={user.video_full_link} // ✅ filename + path
                     controls
                     width="100%"
                     style={{
