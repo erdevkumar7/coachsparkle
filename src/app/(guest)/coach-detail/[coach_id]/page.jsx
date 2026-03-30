@@ -32,7 +32,7 @@ export default async function CoachDetail({ params }) {
   const { coach_id } = await params;
   const tokenData = await HandleValidateTokenOnServer();
   const blogs = await getLatestMasterBlogs(coach_id);
-
+const baseUrl = "http://localhost:8000/uploads/coach_video/";
   let fav_user_id;
   let userType;
   if (tokenData) {
@@ -292,8 +292,8 @@ export default async function CoachDetail({ params }) {
               <div className="col-md-4 coach-profile-list-right">
                 <div className="profile-card">
 
-                  {coach?.video_link ? (<video width="100%" height="100%" controls autoPlay>
-                    <source src={coach?.video_link} type="video/mp4" />
+                  {coach?.coach_video ? (<video width="100%" height="100%" controls autoPlay>
+                    <source src={`${baseUrl}${coach.coach_video}`} type="video/mp4" />
                   </video>) : (
                     <Image src={`${FRONTEND_BASE_URL}/images/profile-video.webp`} alt="Img"
                       className="top-image" width={1000} height={226} />
