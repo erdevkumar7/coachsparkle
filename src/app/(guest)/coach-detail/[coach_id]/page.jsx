@@ -32,7 +32,7 @@ export default async function CoachDetail({ params }) {
   const { coach_id } = await params;
   const tokenData = await HandleValidateTokenOnServer();
   const blogs = await getLatestMasterBlogs(coach_id);
-const baseUrl = "http://localhost:8000/uploads/coach_video/";
+const baseUrl = "https://coachsparkle-backend.votivereact.in/uploads/coach_video/";
   let fav_user_id;
   let userType;
   if (tokenData) {

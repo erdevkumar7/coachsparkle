@@ -15,7 +15,7 @@ export default function LabTabs({ coach }) {
     const [loadingMore, setLoadingMore] = React.useState(false);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [hasMore, setHasMore] = React.useState(true);
-const baseUrl = "http://localhost:8000/uploads/documents/";
+const baseUrl = "https://coachsparkle-backend.votivereact.in/uploads/documents/";
     React.useEffect(() => {
         getUserReviews(1); // Load first page on initial render
     }, [coach?.user_id]);
