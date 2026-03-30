@@ -14,6 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { coachSchema } from "@/lib/validationSchema";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import {
   Editor,
   EditorProvider,
@@ -63,7 +64,13 @@ export default function CoachUpdateForm({
   const [coachSubTypes, setSubCoachTypes] = useState([]);
   const [certificates, setCertificates] = useState([]);
   const [selectedCertificates, setSelectedCertificates] = useState([]);
-  // console.log('user', experience)
+  const [existingCertificates, setExistingCertificates] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+const [selectedCertificate, setSelectedCertificate] = useState(null);
+const [loading, setLoading] = useState(false);
+const videoBaseUrl = "http://localhost:8000/uploads/coach_video/";
+  console.log('User Data', user)
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const {
     register,
@@ -212,6 +219,7 @@ export default function CoachUpdateForm({
       return;
     }
 
+
     getSubCoachType(selectedCoachType).then((res) => {
       setSubCoachTypes(res);
 
@@ -329,7 +337,53 @@ export default function CoachUpdateForm({
     }
   };
 
-  // console.log("coachSubTypes", coachSubTypes);
+useEffect(() => {
+  if (user?.certificates) {
+    setExistingCertificates(user.certificates);
+  }
+}, [user]);
+
+ const handleDeleteCertificate = async () => {
+  if (!selectedCertificate) return;
+
+  try {
+    setLoading(true);
+
+   const token = Cookies.get("token");
+
+    const res = await fetch(
+      `${apiUrl}/delete-coach-certificate/${selectedCertificate.id}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.ok) {
+      // ✅ UI update
+      const updated = existingCertificates.filter(
+        (_, i) => i !== selectedCertificate.index
+      );
+      setExistingCertificates(updated);
+
+      setShowModal(false);
+      setSelectedCertificate(null);
+    } else {
+      alert(data.message || "Something went wrong");
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -1295,68 +1349,25 @@ export default function CoachUpdateForm({
                 </div>
               )}
 
+              {!videoPreview && user?.video_link && (
+                <div className="mt-3">
+                  <video
+                    src={`${videoBaseUrl}${user.video_link}`} // ✅ filename + path
+                    controls
+                    width="100%"
+                    style={{
+                      maxHeight: "300px",
+                      borderRadius: "8px",
+                      background: "#000",
+                    }}
+                  />
+                </div>
+              )}
+
               {errors.video_link && (
                 <p className="text-danger">{errors.video_link.message}</p>
               )}
             </div>
-
-            {/* <div>
-              <label className="form-label fw-semibold d-block">
-                Upload Credentials / Certifications
-                {!isProUser && (
-                  <i className="bi bi-lock-fill text-warning ms-1 fs-6"></i>
-                )}
-                <span className="text-muted ms-2 small media-size">
-                  (Upload up to 5 Certifications JPG)
-                </span>
-              </label>
-
-              <Controller
-                name="upload_credentials"
-                control={control}
-                rules={{
-                  validate: (files) => {
-                    if (!files) return true;
-                    if (files.length > 5) return "You can upload a maximum of 5 files.";
-                    const invalid = Array.from(files).some(
-                      (file) => !["image/jpeg", "image/jpg"].includes(file.type)
-                    );
-                    return invalid ? "Only JPG/JPEG files are allowed." : true;
-                  },
-                }}
-                render={({ field }) => (
-                  <div className="custom-file-input-wrapper">
-                    <input
-                      type="file"
-                      id="cert-upload"
-                      className="custom-file-hidden"
-                      multiple
-                      disabled={!isProUser}
-                      accept=".jpg,.jpeg"
-                      onChange={(e) => {
-                        const files = Array.from(e.target.files);
-                        if (files.length > 5) {
-                          toast.error('Maximum 5 files allowed');
-                          return;
-                        }
-                        field.onChange(files);
-                      }}
-                    />
-                    <label htmlFor="cert-upload" className="custom-file-btn">
-                      Choose file
-                    </label>
-                    <span className="custom-file-placeholder">
-                      {field.value?.length > 0
-                        ? `${field.value.length} files selected`
-                        : "No file chosen"}
-                    </span>
-                  </div>
-                )}
-              />
-              {errors.upload_credentials && (
-                <p className="text-danger">{errors.upload_credentials.message}</p>
-              )}
-            </div> */}
 
             <div>
               <label className="form-label fw-semibold d-block">
@@ -1388,6 +1399,35 @@ export default function CoachUpdateForm({
                     : "No file chosen"}
                 </span>
               </div>
+
+              {existingCertificates.length > 0 && (
+                <div className="mt-3">
+                  <h6 className="mb-2">Saved Certificates:</h6>
+
+                  {existingCertificates.map((file, index) => (
+                    <div
+                      key={file.id} // ✅ use id instead of index
+                      className="selected-file-item d-flex align-items-center justify-content-between mb-2 p-2 border rounded"
+                    >
+                      <span className="file-name">
+                        <i className="bi bi-file-earmark-image text-primary me-2"></i>
+                        {file.name}
+                      </span>
+
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => {
+                            setSelectedCertificate({ id: file.id, index });
+                            setShowModal(true);
+                          }}
+                        >
+                          <i className="bi bi-x"></i>
+                        </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Show selected files */}
               {selectedCertificates.length > 0 && (
@@ -1451,6 +1491,33 @@ export default function CoachUpdateForm({
           </button>
         </div>
       </form>
+
+      {showModal && (
+        <div className="coachpkg-modal-overlay">
+          <div className="coachpkg-modal-container">
+            <h4>Are you sure you want to delete this package?</h4>
+            <p>This action cannot be undone.</p>
+            <div className="coachpkg-modal-actions">
+              <button
+                className="coachpkg-btn coachpkg-btn-secondary "
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="coachpkg-btn coachpkg-btn-danger"
+                onClick={handleDeleteCertificate}
+                disabled={loading}
+              >
+                {loading ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
+            <button className="coachpkg-modal-close" onClick={() => setShowModal(false)}>
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

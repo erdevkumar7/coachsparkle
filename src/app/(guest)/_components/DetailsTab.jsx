@@ -15,7 +15,7 @@ export default function LabTabs({ coach }) {
     const [loadingMore, setLoadingMore] = React.useState(false);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [hasMore, setHasMore] = React.useState(true);
-
+const baseUrl = "http://localhost:8000/uploads/documents/";
     React.useEffect(() => {
         getUserReviews(1); // Load first page on initial render
     }, [coach?.user_id]);
@@ -171,19 +171,29 @@ export default function LabTabs({ coach }) {
                 
                 <TabPanel value="3">
                     <div className="certifi">
-                        {coach?.user_documents?.length > 0 ? (
-                            coach.user_documents.map((doc) => (
-                                <a
-                                    key={doc.id}
-                                    href={doc.document_file}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img src={doc.document_file} alt={doc.original_name} />
-                                </a>
-                            ))
+                        
+                        {coach?.certificates?.length > 0 ? (
+                        coach.certificates.map((doc, index) => {
+                            const fileUrl = `${baseUrl}${doc}`; // ✅ combine path + filename
+
+                            return (
+                            <a
+                                key={index}
+                                href={fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                src={fileUrl}
+                                alt={doc}
+                                width="100"
+                                className="m-2 border rounded"
+                                />
+                            </a>
+                            );
+                        })
                         ) : (
-                            <p>Not available</p>
+                        <p>Not available</p>
                         )}
                     </div>
                 </TabPanel>
