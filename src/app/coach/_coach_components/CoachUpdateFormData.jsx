@@ -1343,18 +1343,23 @@ useEffect(() => {
                       type="file"
                       id="video-upload"
                       accept="video/mp4"
-                      onChange={async (e) => {
-                        const file = e.target.files[0];
+onChange={async (e) => {
+  const file = e.target.files[0];
 
-                        if (file) {
-                          try {
-                            const uploadedFileName = await uploadVideoInChunks(file);
-                            setUploadedVideo(uploadedFileName);
-                          } catch (err) {
-                            console.error(err);
-                          }
-                        }
-                      }}
+  if (file) {
+    // ✅ preview instantly show
+    const previewUrl = URL.createObjectURL(file);
+    setVideoPreview(previewUrl);
+
+    try {
+      // ✅ chunk upload
+      const uploadedFileName = await uploadVideoInChunks(file);
+      setUploadedVideo(uploadedFileName);
+    } catch (err) {
+      console.error("Upload failed", err);
+    }
+  }
+}}
                     />
                     <label htmlFor="video-upload" className="custom-file-btn">
                       Choose file
@@ -1365,20 +1370,20 @@ useEffect(() => {
                   </div>
                 )}
               />
-              {videoPreview && (
-                <div className="mt-3">
-                  <video
-                    src={videoPreview}
-                    controls
-                    width="100%"
-                    style={{
-                      maxHeight: "300px",
-                      borderRadius: "8px",
-                      background: "#000",
-                    }}
-                  />
-                </div>
-              )}
+{videoPreview && (
+  <div className="mt-3">
+    <video
+      src={videoPreview}
+      controls
+      width="100%"
+      style={{
+        maxHeight: "300px",
+        borderRadius: "8px",
+        background: "#000",
+      }}
+    />
+  </div>
+)}
 
               {!videoPreview && user?.video_link && (
                 <div className="mt-3">
