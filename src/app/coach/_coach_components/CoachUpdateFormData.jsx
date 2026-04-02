@@ -68,6 +68,7 @@ export default function CoachUpdateForm({
   const [showModal, setShowModal] = useState(false);
 const [selectedCertificate, setSelectedCertificate] = useState(null);
 const [loading, setLoading] = useState(false);
+const [uploadedVideo, setUploadedVideo] = useState(null);
 
   console.log('User Data', user)
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -158,7 +159,33 @@ const [loading, setLoading] = useState(false);
     context: { isProUser }, // pass here
   });
 
-  // console.log('user', user)
+  const uploadVideoInChunks = async (file) => {
+  const chunkSize = 2 * 1024 * 1024; // 2MB
+  const totalChunks = Math.ceil(file.size / chunkSize);
+  const fileName = Date.now() + "_" + file.name;
+
+  for (let chunkNumber = 0; chunkNumber < totalChunks; chunkNumber++) {
+    const start = chunkNumber * chunkSize;
+    const end = Math.min(start + chunkSize, file.size);
+
+    const chunk = file.slice(start, end);
+
+    const formData = new FormData();
+    formData.append("file", chunk);
+    formData.append("fileName", fileName);
+    formData.append("chunkNumber", chunkNumber);
+    formData.append("totalChunks", totalChunks);
+
+    await fetch(`${apiUrl}/upload-video-chunk`, {
+      method: "POST",
+      body: formData,
+    });
+  }
+
+  return fileName; // final saved file name
+};
+
+   
   useEffect(() => {
     const authToken = Cookies.get("token");
     if (!authToken) {
@@ -218,7 +245,6 @@ const [loading, setLoading] = useState(false);
       });
       return;
     }
-
 
     getSubCoachType(selectedCoachType).then((res) => {
       setSubCoachTypes(res);
@@ -307,7 +333,9 @@ const [loading, setLoading] = useState(false);
       }
     });
     form.append("profile_status", profile_status);
-    //  console.log('finalData', form);
+   console.log('originalFile', typeof uploadedVideo); 
+    form.append("video_link", uploadedVideo);
+    
     // form.append('video_link', data.video_link);
 
     // Append certificates ONLY from state
@@ -1315,13 +1343,16 @@ useEffect(() => {
                       type="file"
                       id="video-upload"
                       accept="video/mp4"
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         const file = e.target.files[0];
-                        field.onChange(file);
 
                         if (file) {
-                          const previewUrl = URL.createObjectURL(file);
-                          setVideoPreview(previewUrl);
+                          try {
+                            const uploadedFileName = await uploadVideoInChunks(file);
+                            setUploadedVideo(uploadedFileName);
+                          } catch (err) {
+                            console.error(err);
+                          }
                         }
                       }}
                     />
@@ -1409,10 +1440,10 @@ useEffect(() => {
                       key={file.id} // ✅ use id instead of index
                       className="selected-file-item d-flex align-items-center justify-content-between mb-2 p-2 border rounded"
                     >
-                      <span className="file-name">
-                        <i className="bi bi-file-earmark-image text-primary me-2"></i>
-                        {file.name}
-                      </span>
+                    <div className="file-name text-truncate">
+                      <i className="bi bi-file-earmark-image text-primary me-2"></i>
+                      {file.name}
+                    </div>
 
                         <button
                           type="button"
