@@ -18,6 +18,20 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
+const formatDisplayDate = (dateStr) => {
+  if (!dateStr) return "";
+
+  const [year, month, day] = dateStr.split("-");
+  return `${day}-${month}-${year}`;
+};
+
+// ✅ Time: HH:mm:ss → HH:mm
+const formatDisplayTime = (timeStr) => {
+  if (!timeStr) return "";
+
+  return timeStr.slice(0, 5);
+};
+
   const handleViewRequest = (req) => {
     setSelectedRequest(req);
     setShowModal(true);
@@ -86,7 +100,9 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
                           {req.user_name} requested from {req.coach_name}
                         </span>
                         <span className="d-block time">{req.prefered_dt}</span>
-                         <span className="d-block time">{req.booking_date}</span>
+                         <span className="d-block time">  {formatDisplayDate(req.booking_date)}{" "}
+  {formatDisplayTime(req.booking_start_time)} to{" "}
+  {formatDisplayTime(req.booking_end_time)}</span>
                         <img src="/coachsparkle/images/zoom.png" alt="platform" />
                       </div>
                     </div>
@@ -143,7 +159,11 @@ export default function OnDemondRequest({ onDemondRes = [], token = "" } = {}) {
               </div>
               <div className="request-modal-body">
                 <h6>4. Session Status</h6>
-                <p><strong>Status:</strong> {selectedRequest.status == 1 ? "Confirmed" : "Pending"} ({selectedRequest.booking_date})</p>
+                <p><strong>Status:</strong> {selectedRequest.status == 1 ? "Confirmed" : "Pending"} (
+  {formatDisplayDate(selectedRequest.booking_date)}{" "}
+  {formatDisplayTime(selectedRequest.booking_start_time)} to{" "}
+  {formatDisplayTime(selectedRequest.booking_end_time)}
+)</p>
               </div>
             </div>
           </div>

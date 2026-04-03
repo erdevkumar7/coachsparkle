@@ -17,9 +17,34 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [lastPage, setLastPage] = useState(1); // optional if you have pagination
   const [isOpen, setIsOpen] = useState(true);
   const [showModal, setShowModal] = useState(false);
+
+const [startTime, setStartTime] = useState("");
+const [endTime, setEndTime] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null);
  const [showCalendar, setShowCalendar] = useState(false);
 const [currentDate, setCurrentDate] = useState(new Date());
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+  const [selectedDate, setSelectedDate] = useState(
+  formatDate(new Date()) // default today
+);
+const formatDisplayDate = (dateStr) => {
+  if (!dateStr) return "";
+
+  const [year, month, day] = dateStr.split("-");
+  return `${day}-${month}-${year}`;
+};
+
+// ✅ Time: HH:mm:ss → HH:mm
+const formatDisplayTime = (timeStr) => {
+  if (!timeStr) return "";
+
+  return timeStr.slice(0, 5);
+};
 
   const handleViewRequest = (req) => {
     setSelectedRequest(req);
@@ -32,17 +57,31 @@ const [currentDate, setCurrentDate] = useState(new Date());
   };
 
   const handleConfirmBooking = async () => {
-  try {
-    // ✅ agar user ne select nahi kiya to current date use ho
+ try {
+    // ✅ Date
     const finalDate = currentDate
       ? new Date(currentDate)
       : new Date();
 
     const formattedDate = finalDate.toISOString().split("T")[0];
 
+    // ✅ VALIDATION (important)
+    if (!startTime || !endTime) {
+      toast.error("Please select start and end time");
+      return;
+    }
+
     const payload = {
       ondemondenquiryid: selectedRequest?.id,
       date: formattedDate,
+
+      // ✅ ADD THESE
+      start_time: startTime,
+      end_time: endTime,
+
+      // optional (recommended)
+      start_datetime: `${formattedDate} ${startTime}`,
+      end_datetime: `${formattedDate} ${endTime}`,
     };
 
     const res = await fetch(`${apiUrl}/confirmOnDemondBooking`, {
@@ -51,7 +90,7 @@ const [currentDate, setCurrentDate] = useState(new Date());
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      cache: 'no-store',
+      cache: "no-store",
       body: JSON.stringify(payload),
     });
 
@@ -59,17 +98,29 @@ const [currentDate, setCurrentDate] = useState(new Date());
 
     if (data.status === "success") {
       toast.success("Booking Confirmed");
-        setRequests((prev) =>
-    prev.map((item) =>
-      item.id === selectedRequest.id
-        ? {
-            ...item,
-            status: 1,
-            booking_date: formattedDate,
-          }
-        : item
-    )
-  );
+
+      setRequests((prev) =>
+        prev.map((item) =>
+          item.id === selectedRequest.id
+            ? {
+                ...item,
+                status: 1,
+                booking_date: formattedDate,
+
+                // ✅ FIXED KEYS
+                booking_start_time: startTime,
+                booking_end_time: endTime,
+              }
+            : item
+        )
+      );
+      setSelectedRequest((prev) => ({
+        ...prev,
+        status: 1,
+        booking_date: formattedDate,
+        booking_start_time: startTime,
+        booking_end_time: endTime,
+      }));
       setShowModal(false);
     } else {
       toast.error(data.message);
@@ -84,9 +135,24 @@ const [currentDate, setCurrentDate] = useState(new Date());
     setCurrentPage(page);
   };
 
-  const handleDateSelect = (date) => {
-    setCurrentDate(date);
-  };
+const handleDateSelect = (date) => {
+  setCurrentDate(date);
+
+  // 🔍 check karo kya is date par booking already hai
+  const existingBooking = requests.find(
+    (item) => item.booking_date === date
+  );
+
+  if (existingBooking) {
+    // ✅ AUTO FILL
+    setStartTime(existingBooking.booking_start_time || "");
+    setEndTime(existingBooking.booking_end_time || "");
+  } else {
+    // ❌ reset
+    setStartTime("");
+    setEndTime("");
+  }
+};
 
   const [selectedDates, setSelectedDates] = useState([
   { date: new Date().toISOString().split("T")[0] }
@@ -145,7 +211,11 @@ const [currentDate, setCurrentDate] = useState(new Date());
                           {req.user_name} requested from {req.coach_name}
                         </span>
                         <span className="d-block time">{req.prefered_dt}</span>
-                        <span className="d-block time">{req.booking_date}</span>
+                        <span className="d-block time">
+  {formatDisplayDate(req.booking_date)}{" "}
+  {formatDisplayTime(req.booking_start_time)} to{" "}
+  {formatDisplayTime(req.booking_end_time)}
+</span>
                         <img src="/coachsparkle/images/zoom.png" alt="platform" />
                       </div>
                     </div>
@@ -204,7 +274,11 @@ const [currentDate, setCurrentDate] = useState(new Date());
               </div>
               <div className="request-modal-body">
                 <h6>4. Session Status</h6>
-                <p><strong>Status:</strong>  {selectedRequest.status == 1 ? 'Confirmed' : 'Pending'} ({selectedRequest.booking_date})</p>
+                <p><strong>Status:</strong>  {selectedRequest.status == 1 ? 'Confirmed' : 'Pending'} (
+  {formatDisplayDate(selectedRequest.booking_date)}{" "}
+  {formatDisplayTime(selectedRequest.booking_start_time)} to{" "}
+  {formatDisplayTime(selectedRequest.booking_end_time)}
+)</p>
               </div>
               <div className="request-modal-body">
                 
@@ -218,28 +292,86 @@ const [currentDate, setCurrentDate] = useState(new Date());
                   Booking Calendar Show & Hide
                 </label>
                 <div className="calendar-panel p-4 flex-grow-1">
-{showCalendar && (
-  <>
-    {totalbooked >= selectedRequest.package.booking_slots ? (
-      
-      // ❌ ERROR MESSAGE
-      <div className="alert alert-danger mt-3">
-        Booking slots full ho chuke hain ❌
-      </div>
+                {showCalendar && (
+                  <>
+                    {totalbooked >= selectedRequest.package.booking_slots ? (
+                      
+                      // ❌ ERROR MESSAGE
+                      <div className="alert alert-danger mt-3">
+                        Booking slots full ho chuke hain ❌
+                      </div>
 
-    ) : (
-      
-      // ✅ CALENDAR SHOW
-      <div className="calendar-panel p-4 flex-grow-1">
-        <OnDemondCalendar
-          onDateSelect={handleDateSelect}
-          currentDate={currentDate}
-        />
-      </div>
+                    ) : (
+                      
+                      // ✅ CALENDAR SHOW
+                    <div style={{ display: "flex", gap: "20px" }}>
+                      
+                      {/* LEFT: Calendar */}
+                      <div className="calendar-panel p-4">
+                        <OnDemondCalendar
+                          onDateSelect={handleDateSelect}
+                          currentDate={currentDate}
+                        />
+                      </div>
 
-    )}
-  </>
-)}
+                      {/* RIGHT: Time Picker */}
+                      <div className="time-panel">
+                        {selectedDate && (
+                          <>
+                            <h5>Start Time</h5>
+
+                          <input
+                            type="time"
+                            value={startTime}
+                            min={
+                              selectedDate === formatDate(new Date())
+                                ? new Date().toTimeString().slice(0, 5)
+                                : "00:00"
+                            }
+                            onChange={(e) => {
+                              const time = e.target.value;
+                              setStartTime(time);
+                            }}
+                            style={{
+                              width: "150px",
+                              padding: "8px",
+                              marginTop: "10px",
+                            }}
+                          />
+                          </>
+                        )}
+                      </div>
+                        <div className="time-panel">
+                        {selectedDate && (
+                          <>
+                            <h5>End Time</h5>
+
+                           <input
+                            type="time"
+                            value={endTime}
+                            min={startTime || "00:00"} // ✅ important
+                            onChange={(e) => {
+                              const time = e.target.value;
+                                if (time <= startTime) {
+                                  toast.error("End time must be greater than start time");
+                                  return;
+                                }
+                              setEndTime(time);
+                            }}
+                            style={{
+                              width: "150px",
+                              padding: "8px",
+                              marginTop: "10px",
+                            }}
+                          />
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    )}
+                  </>
+                )}
                 </div>
                 <button className="btn btn-success d-block mt-3" onClick={handleConfirmBooking}>Confirm</button>
               </div>
