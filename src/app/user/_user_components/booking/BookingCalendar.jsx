@@ -28,6 +28,23 @@ export default function BookingCalendar() {
   const token = Cookies.get('token');
   const router = useRouter();
   // Fetch data from API
+
+  // ✅ HH:mm:ss → HH:mm
+const formatTime = (time) => {
+  if (!time) return "";
+  return time.slice(0, 5);
+};
+
+// ✅ multiple times (e.g. "10:00:00, 11:30:00")
+const formatMultipleTime = (timeStr) => {
+  if (!timeStr) return "";
+
+  return timeStr
+    .split(",")
+    .map((t) => t.trim().slice(0, 5))
+    .join(", ");
+};
+
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
@@ -89,6 +106,8 @@ export default function BookingCalendar() {
               mode: pkg.mode,
               email: user.email,
               time: pkg.time,
+              starttime: pkg.start_time,
+              endtime: pkg.end_time,
               packageId: pkg.package_id,
               coachId: pkg.coach_id,
               userId: user.id,
@@ -356,7 +375,19 @@ export default function BookingCalendar() {
             </Typography>
             <Typography variant="body2">
               <strong>Time:</strong>{" "}
-              {selectedEvent?.extendedProps.time}
+              <span className="time">
+                {selectedEvent?.extendedProps.time ? (
+                  formatMultipleTime(selectedEvent.extendedProps.time)
+                ) : selectedEvent?.extendedProps.starttime &&
+                  selectedEvent?.extendedProps.endtime ? (
+                  <>
+                    {formatTime(selectedEvent.extendedProps.starttime)} to{" "}
+                    {formatTime(selectedEvent.extendedProps.endtime)}
+                  </>
+                ) : (
+                  "N/A"
+                )}
+              </span>
             </Typography>
             <Typography variant="body2">
               <strong>Status:</strong> {selectedEvent?.extendedProps.status}
