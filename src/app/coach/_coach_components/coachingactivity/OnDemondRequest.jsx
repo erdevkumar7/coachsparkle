@@ -133,25 +133,19 @@ const formatDisplayTime = (timeStr) => {
   const fetchPageData = (page) => {
     // Optional: Implement pagination fetch here
     setCurrentPage(page);
-  };
+  }
+
+const packageBookings = requests.filter(
+  (item) => item.package_id === selectedRequest?.package_id
+);
+const bookedDates = (packageBookings || [])
+  .map(item => item?.booking_date)
+  .filter(Boolean);
+
+const hasBooking = bookedDates.length > 0;
 
 const handleDateSelect = (date) => {
   setCurrentDate(date);
-
-  // 🔍 check karo kya is date par booking already hai
-  const existingBooking = requests.find(
-    (item) => item.booking_date === date
-  );
-
-  if (existingBooking) {
-    // ✅ AUTO FILL
-    setStartTime(existingBooking.booking_start_time || "");
-    setEndTime(existingBooking.booking_end_time || "");
-  } else {
-    // ❌ reset
-    setStartTime("");
-    setEndTime("");
-  }
 };
 
   const [selectedDates, setSelectedDates] = useState([
@@ -310,12 +304,15 @@ const handleDateSelect = (date) => {
                       <div className="calendar-panel p-4">
                         <OnDemondCalendar
                           onDateSelect={handleDateSelect}
+                          disabledDates={bookedDates}
                           currentDate={currentDate}
                         />
                       </div>
 
                       {/* RIGHT: Time Picker */}
+                       {!hasBooking && ( 
                       <div className="time-panel">
+                        
                         {selectedDate && (
                           <>
                             <h5>Start Time</h5>
@@ -341,6 +338,8 @@ const handleDateSelect = (date) => {
                           </>
                         )}
                       </div>
+                       )} 
+                      {!hasBooking && (
                         <div className="time-panel">
                         {selectedDate && (
                           <>
@@ -367,13 +366,22 @@ const handleDateSelect = (date) => {
                           </>
                         )}
                       </div>
+                      )}
                     </div>
 
                     )}
                   </>
                 )}
                 </div>
-                <button className="btn btn-success d-block mt-3" onClick={handleConfirmBooking}>Confirm</button>
+                {!hasBooking && (
+
+                  <button
+                    className="btn btn-success d-block mt-3"
+                    onClick={handleConfirmBooking}
+                  >
+                    Confirm
+                  </button>
+                )}
               </div>
             </div>
           </div>
