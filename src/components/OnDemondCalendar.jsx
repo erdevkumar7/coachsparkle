@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const OnDemondCalendar = ({ onDateSelect, currentDate }) => {
+const OnDemondCalendar = ({ onDateSelect, currentDate, disabledDates = [] }) => {
   const today = new Date();
 
   // ✅ Local date formatter (NO timezone issue)
@@ -62,6 +62,7 @@ const OnDemondCalendar = ({ onDateSelect, currentDate }) => {
 
   // ❌ Disable past dates
   const isPast = (date) => {
+
     if (!date) return true;
 
     const t = new Date();
@@ -73,9 +74,15 @@ const OnDemondCalendar = ({ onDateSelect, currentDate }) => {
     return d < t;
   };
 
+  const isBooked = (date) => {
+  if (!date) return false;
+  const formatted = formatDate(date);
+  return disabledDates.includes(formatted);
+};
+
   // ✅ Handle click
   const handleClick = (date) => {
-    if (!date || isPast(date)) return;
+    if (!date || isPast(date) || isBooked(date)) return;
 
     const formatted = formatDate(date);
 
@@ -145,10 +152,17 @@ const OnDemondCalendar = ({ onDateSelect, currentDate }) => {
                 padding: 8,
                 textAlign: "center",
                 cursor:
-                  date && !isPast(date) ? "pointer" : "not-allowed",
-                background:
-                  formatted === selectedDate ? "#007bff" : "#f0f0f0",
-                color: isPast(date) ? "#aaa" : "#000",
+                  date && !isPast(date) && !isBooked(date)
+                    ? "pointer"
+                    : "not-allowed",
+
+                background: isBooked(date)
+                  ? "#ff4d4f" // 🔴 booked
+                  : formatted === selectedDate
+                  ? "#007bff" // 🔵 selected
+                  : "#f0f0f0",
+
+                color: isPast(date) || isBooked(date) ? "#fff" : "#000",
                 borderRadius: 4,
               }}
             >
