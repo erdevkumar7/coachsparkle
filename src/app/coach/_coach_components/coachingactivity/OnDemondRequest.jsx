@@ -48,6 +48,8 @@ const formatDisplayTime = (timeStr) => {
 
   const handleViewRequest = (req) => {
     setSelectedRequest(req);
+  setStartTime("");
+  setEndTime("");
     setShowModal(true);
   };
 
