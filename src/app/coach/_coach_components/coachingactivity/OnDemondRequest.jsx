@@ -292,7 +292,7 @@ const handleDateSelect = (date) => {
                       
                       // ❌ ERROR MESSAGE
                       <div className="alert alert-danger mt-3">
-                        Booking slots full ho chuke hain ❌
+                        Booking slots are full ❌
                       </div>
 
                     ) : (
