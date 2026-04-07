@@ -136,7 +136,7 @@ const formatDisplayTime = (timeStr) => {
   }
 
 const packageBookings = requests.filter(
-  (item) => item.package_id === selectedRequest?.package_id
+  (item) => item.coach_id === selectedRequest?.coach_id
 );
 const bookedDates = (packageBookings || [])
   .map(item => item?.booking_date)
@@ -310,7 +310,7 @@ const handleDateSelect = (date) => {
                       </div>
 
                       {/* RIGHT: Time Picker */}
-                       {!hasBooking && ( 
+                       
                       <div className="time-panel">
                         
                         {selectedDate && (
@@ -338,8 +338,8 @@ const handleDateSelect = (date) => {
                           </>
                         )}
                       </div>
-                       )} 
-                      {!hasBooking && (
+                     
+
                         <div className="time-panel">
                         {selectedDate && (
                           <>
@@ -366,14 +366,13 @@ const handleDateSelect = (date) => {
                           </>
                         )}
                       </div>
-                      )}
+                      
                     </div>
 
                     )}
                   </>
                 )}
                 </div>
-                {!hasBooking && (
 
                   <button
                     className="btn btn-success d-block mt-3"
@@ -381,7 +380,6 @@ const handleDateSelect = (date) => {
                   >
                     Confirm
                   </button>
-                )}
               </div>
             </div>
           </div>
