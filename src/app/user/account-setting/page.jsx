@@ -9,6 +9,7 @@ import UserImageUploader from "@/app/user/_user_components/ImageUploader";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import PasswordField from "@/components/PasswordField";
+import { applyUserCookiePreferences } from "../../../utiles/cookieManager";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import PublicOffIcon from "@mui/icons-material/PublicOff";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
@@ -755,6 +756,7 @@ export default function Accountsetting() {
                                   const updated = { ...preferences, performance: e.target.checked };
                                   setPreferences(updated);
                                   updateSetting("is_performance_cookies", e.target.checked);
+                                  applyUserCookiePreferences(user?.user_id);
                                 }}
                               />
 
@@ -782,6 +784,7 @@ export default function Accountsetting() {
                                   const updated = { ...preferences, functional: e.target.checked };
                                   setPreferences(updated);
                                   updateSetting("is_functional_cookies", e.target.checked);
+                                  applyUserCookiePreferences(user?.user_id);
                                 }}
                               />
                             </div>
@@ -806,6 +809,7 @@ export default function Accountsetting() {
                                   const updated = { ...preferences, marketing: e.target.checked };
                                   setPreferences(updated);
                                   updateSetting("is_marketing_cookies", e.target.checked);
+                                  applyUserCookiePreferences(user?.user_id);
                                 }}
                               />
                             </div>
@@ -822,7 +826,7 @@ export default function Accountsetting() {
                             await updateSetting("is_performance_cookies", true, false);
                             await updateSetting("is_functional_cookies", true, false);
                             await updateSetting("is_marketing_cookies", true, false);
-
+                            applyUserCookiePreferences(user?.user_id);
                             toast.success("All cookies accepted!"); // ✅ single toast
                           }}
                         >
@@ -851,7 +855,7 @@ export default function Accountsetting() {
                             await updateSetting("is_performance_cookies", false, false);
                             await updateSetting("is_functional_cookies", false, false);
                             await updateSetting("is_marketing_cookies", false, false);
-
+                            applyUserCookiePreferences(user?.user_id);
                             toast.success("All cookies rejected!"); // ✅ single toast
                           }}
                         >

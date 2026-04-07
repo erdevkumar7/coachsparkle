@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import ClientCookieHandler from "@/components/ClientCookieHandler";
 import BootstrapClient from "@/components/BootstrapClient";
 import { Inter, Roboto } from "next/font/google";
 import { ToastContainer } from "react-toastify";
@@ -23,10 +23,12 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body className={`${inter.variable} ${roboto.variable}`}>
         <BootstrapClient />
+        <ClientCookieHandler />
         <ToastContainer position="bottom-right" autoClose={3000} />
         {children}
       </body>
