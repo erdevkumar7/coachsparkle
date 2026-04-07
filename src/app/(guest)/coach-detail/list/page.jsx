@@ -187,6 +187,18 @@ export default function CoachList() {
     searchInputRef.current?.select();
   };
 
+  const handleStartAIMatching = () => {
+    setCurrentPage(1);
+
+    // ensure query is used as AI search
+    setFilters((prev) => ({
+      ...prev,
+      query: prev.query
+    }));
+
+    getAllCoaches(1);
+  };
+
   const handleClearFilters = () => {
     setFilters({
       query: "",
@@ -233,7 +245,9 @@ export default function CoachList() {
                   onChange={(e) => updateFilter('query', e.target.value)}
                 />
                 <div className="ai-btn-find">
-                  <button>Start AI Matching</button>
+                  <button onClick={handleStartAIMatching}>
+                    Start AI Matching
+                  </button>
                 </div>
               </div>
             </div>
