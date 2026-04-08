@@ -164,8 +164,9 @@ const [availabilityMode, setAvailabilityMode] = useState(null);
     }
   };
 
-  console.log("USER DATA:", userData);
-  console.log("USER ID:", userData.id);
+if (!userData || !userData.id) {
+  router.push("/login");
+}
 
   if (!userData?.id) return null;
 
