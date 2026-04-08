@@ -99,7 +99,7 @@ export function applyUserCookiePreferences(userId = null, prefsOverride = null) 
 function loadAnalytics() {
   if (window.gtagLoaded) return;
 
-  const GA_ID = "G-XXXXXXXXXX";
+  const GA_ID = "G-QCX3G9KSPC";
 
   const script = document.createElement("script");
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
