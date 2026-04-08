@@ -26,7 +26,6 @@ import { CircularProgress } from "@mui/material";
 import { Controller } from "react-hook-form";
 import { useUser } from "@/context/UserContext";
 
-
 export default function Accountsetting() {
   const { user } = useUser();
   const router = useRouter();
@@ -35,7 +34,6 @@ export default function Accountsetting() {
   const [loading, setLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordApiErrors, setPasswordApiErrors] = useState([]);
-
 
   // const [settingsLoading, setSettingsLoading] = useState();
   const [newCoachEnabled, setNewCoachEnabled] = useState();
@@ -77,8 +75,6 @@ export default function Accountsetting() {
     mode: "onBlur",
   });
 
-
-
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -88,14 +84,14 @@ export default function Accountsetting() {
         // Fetch languages and settings in parallel
         const [mastersRes, settingsRes] = await Promise.all([
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/getallmastercategories`, {
-            method: 'GET',
+            method: "GET",
             headers: {
-              Accept: 'application/json',
+              Accept: "application/json",
             },
           }),
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/getsetting`, {
             headers: { Authorization: `Bearer ${token}` },
-          })
+          }),
         ]);
 
         if (mastersRes.ok) {
@@ -157,7 +153,6 @@ export default function Accountsetting() {
     }
   }, [user, accountForm, languages]);
 
-
   // ✅ Save Account Settings
   const onAccountSave = async (data) => {
     try {
@@ -179,7 +174,7 @@ export default function Accountsetting() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(data),
-        }
+        },
       );
 
       const result = await response.json();
@@ -187,7 +182,7 @@ export default function Accountsetting() {
       if (!response.ok) {
         if (result.errors) {
           Object.values(result.errors).forEach((errArray) =>
-            errArray.forEach((err) => toast.error(err))
+            errArray.forEach((err) => toast.error(err)),
           );
         } else {
           toast.error(result.message || "Failed to update settings");
@@ -217,18 +212,21 @@ export default function Accountsetting() {
         return;
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/change-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/change-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            current_password: data.current_password,
+            new_password: data.new_password,
+            new_password_confirmation: data.confirm_password,
+          }),
         },
-        body: JSON.stringify({
-          current_password: data.current_password,
-          new_password: data.new_password,
-          new_password_confirmation: data.confirm_password,
-        }),
-      });
+      );
 
       const result = await response.json();
 
@@ -267,7 +265,6 @@ export default function Accountsetting() {
     updateSetting("communication_preference", updated);
   };
 
-
   const updateSetting = async (key, value, showToast = true) => {
     try {
       const token = Cookies.get("token");
@@ -289,7 +286,8 @@ export default function Accountsetting() {
       const result = await res.json();
 
       if (!res.ok) {
-        if (showToast) toast.error(result.message || "Failed to update setting");
+        if (showToast)
+          toast.error(result.message || "Failed to update setting");
         return;
       }
 
@@ -329,7 +327,9 @@ export default function Accountsetting() {
         currentPrefs[key] = value;
 
         // store back as JSON string
-        Cookies.set(prefCookieName, JSON.stringify(currentPrefs), { expires: 365 });
+        Cookies.set(prefCookieName, JSON.stringify(currentPrefs), {
+          expires: 365,
+        });
       }
 
       if (showToast) toast.success(result.message || "Setting updated!");
@@ -338,7 +338,6 @@ export default function Accountsetting() {
       if (showToast) toast.error("Failed to update setting");
     }
   };
-
 
   const handleDeleteAccount = async () => {
     if (!confirmDelete) {
@@ -350,12 +349,15 @@ export default function Accountsetting() {
     try {
       setDeleting(true);
       const token = Cookies.get("token");
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/delete-account`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/delete-account`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       const result = await res.json();
 
@@ -387,12 +389,19 @@ export default function Accountsetting() {
             user_type={user?.user_type || 2}
           />
         </div>
-        <form className="account-setting-form" onSubmit={accountForm.handleSubmit(onAccountSave)}>
+        <form
+          className="account-setting-form"
+          onSubmit={accountForm.handleSubmit(onAccountSave)}
+        >
           <div className="account-form">
             <div className="account-form-row account-two-cols">
               <div className="account-form-group">
                 <label>First Name</label>
-                <input type="text" {...accountForm.register("first_name")} disabled={loading} />
+                <input
+                  type="text"
+                  {...accountForm.register("first_name")}
+                  disabled={loading}
+                />
                 {accountForm.formState.errors.first_name && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.first_name.message}
@@ -402,7 +411,11 @@ export default function Accountsetting() {
 
               <div className="account-form-group">
                 <label>Last Name</label>
-                <input type="text" {...accountForm.register("last_name")} disabled={loading} />
+                <input
+                  type="text"
+                  {...accountForm.register("last_name")}
+                  disabled={loading}
+                />
                 {accountForm.formState.errors.last_name && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.last_name.message}
@@ -414,7 +427,12 @@ export default function Accountsetting() {
             <div className="account-form-row account-three-cols">
               <div className="account-form-group">
                 <label>Email</label>
-                <input type="email" placeholder="Your registered email" {...accountForm.register("email")} disabled={loading} />
+                <input
+                  type="email"
+                  placeholder="Your registered email"
+                  {...accountForm.register("email")}
+                  disabled={loading}
+                />
                 {accountForm.formState.errors.email && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.email.message}
@@ -424,7 +442,11 @@ export default function Accountsetting() {
 
               <div className="account-form-group">
                 <label>Language Setting</label>
-                <select id="pref_lang" {...accountForm.register("pref_lang")} disabled={loading}>
+                <select
+                  id="pref_lang"
+                  {...accountForm.register("pref_lang")}
+                  disabled={loading}
+                >
                   <option value="">Select Language</option>
                   {languages.map((lang) => (
                     <option key={lang.id} value={lang.id}>
@@ -467,7 +489,12 @@ export default function Accountsetting() {
             <div className="account-form-row account-two-cols">
               <div className="account-form-group">
                 <label>Location</label>
-                <input type="text" placeholder="Enter your address" {...accountForm.register("address")} disabled={loading} />
+                <input
+                  type="text"
+                  placeholder="Enter your address"
+                  {...accountForm.register("address")}
+                  disabled={loading}
+                />
                 {accountForm.formState.errors.address && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.address.message}
@@ -476,7 +503,12 @@ export default function Accountsetting() {
               </div>
               <div className="account-form-group">
                 <label>Zip code</label>
-                <input type="text" placeholder="Enter your zip code" {...accountForm.register("zip_code")} disabled={loading} />
+                <input
+                  type="text"
+                  placeholder="Enter your zip code"
+                  {...accountForm.register("zip_code")}
+                  disabled={loading}
+                />
                 {accountForm.formState.errors.zip_code && (
                   <div className="invalid-feedback d-block">
                     {accountForm.formState.errors.zip_code.message}
@@ -486,14 +518,26 @@ export default function Accountsetting() {
             </div>
 
             <div>
-              <span className="d-block">Consent to Data Sharing and AI Matching</span>
+              <span className="d-block">
+                Consent to Data Sharing and AI Matching
+              </span>
               <div className="d-flex gap-2 pt-2">
-                <input type="checkbox" {...accountForm.register("is_avail_for_relavant")} disabled={loading} />
-                <label>I agree to let Coach Sparkle match me with relevant coaches</label>
+                <input
+                  type="checkbox"
+                  {...accountForm.register("is_avail_for_relavant")}
+                  disabled={loading}
+                />
+                <label>
+                  I agree to let Coach Sparkle match me with relevant coaches
+                </label>
               </div>
 
               <button className="save-changes-btn" disabled={loading}>
-                {loading ? <CircularProgress size={20} color="inherit" /> : <>Save Changes</>}
+                {loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  <>Save Changes</>
+                )}
               </button>
             </div>
           </div>
@@ -501,12 +545,30 @@ export default function Accountsetting() {
 
         <div className="password-section mt-5">
           <h3 className="quick-text">Change Password</h3>
-          <form className="account-setting-form mt-4" onSubmit={passwordForm.handleSubmit(onPasswordSave)}>
+          <form
+            className="account-setting-form mt-4"
+            onSubmit={passwordForm.handleSubmit(onPasswordSave)}
+          >
             <div className="account-form">
               <div className="account-form-row account-three-cols">
-                <PasswordField label="Current Password" name="current_password" register={passwordForm.register} error={passwordForm.formState.errors.current_password} />
-                <PasswordField label="New Password" name="new_password" register={passwordForm.register} error={passwordForm.formState.errors.new_password} />
-                <PasswordField label="Confirm Password" name="confirm_password" register={passwordForm.register} error={passwordForm.formState.errors.confirm_password} />
+                <PasswordField
+                  label="Current Password"
+                  name="current_password"
+                  register={passwordForm.register}
+                  error={passwordForm.formState.errors.current_password}
+                />
+                <PasswordField
+                  label="New Password"
+                  name="new_password"
+                  register={passwordForm.register}
+                  error={passwordForm.formState.errors.new_password}
+                />
+                <PasswordField
+                  label="Confirm Password"
+                  name="confirm_password"
+                  register={passwordForm.register}
+                  error={passwordForm.formState.errors.confirm_password}
+                />
               </div>
 
               {passwordApiErrors.length > 0 && (
@@ -519,7 +581,11 @@ export default function Accountsetting() {
 
               <div>
                 <button className="save-changes-btn" disabled={passwordLoading}>
-                  {passwordLoading ? <CircularProgress size={20} color="inherit" /> : <>Save Changes</>}
+                  {passwordLoading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    <>Save Changes</>
+                  )}
                 </button>
               </div>
             </div>
@@ -629,7 +695,6 @@ export default function Accountsetting() {
                   }}
                 />
                 <label>Private</label>
-
               </div>
               <div className="d-flex gap-2 mb-2 pt-2">
                 <PodcastsIcon className="mui-icons" />
@@ -654,8 +719,6 @@ export default function Accountsetting() {
                   onChange={() => handleCommunicationChange("push")}
                 />
                 <label>Push Toggles</label>
-
-
               </div>
               <div className="d-flex gap-2 mb-2 pt-2">
                 <i className="bi bi-openai mui-icons"></i>
@@ -751,15 +814,34 @@ export default function Accountsetting() {
                                 type="checkbox"
                                 role="switch"
                                 id="performanceCookies"
-                                checked={preferences.performance}
+                                checked={preferences.performance || false}
                                 onChange={(e) => {
-                                  const updated = { ...preferences, performance: e.target.checked };
+                                  const updated = {
+                                    ...preferences,
+                                    performance: e.target.checked,
+                                  };
                                   setPreferences(updated);
-                                  updateSetting("is_performance_cookies", e.target.checked);
-                                  applyUserCookiePreferences(user?.user_id);
+                                  updateSetting(
+                                    "is_performance_cookies",
+                                    e.target.checked,
+                                  );
+                                  const prefsToSave = {
+                                    is_performance_cookies: updated.performance,
+                                    is_functional_cookies: updated.functional,
+                                    is_marketing_cookies: updated.marketing,
+                                  };
+
+                                  Cookies.set(
+                                    `user_prefs_${user?.user_id}`,
+                                    JSON.stringify(prefsToSave),
+                                    { expires: 365 },
+                                  );
+                                  applyUserCookiePreferences(
+                                    user?.user_id,
+                                    prefsToSave,
+                                  );
                                 }}
                               />
-
                             </div>
                           </div>
                         </div>
@@ -779,12 +861,32 @@ export default function Accountsetting() {
                                 type="checkbox"
                                 role="switch"
                                 id="functionalCookies"
-                                checked={preferences.functional}
+                                checked={preferences.functional || false}
                                 onChange={(e) => {
-                                  const updated = { ...preferences, functional: e.target.checked };
+                                  const updated = {
+                                    ...preferences,
+                                    functional: e.target.checked,
+                                  };
                                   setPreferences(updated);
-                                  updateSetting("is_functional_cookies", e.target.checked);
-                                  applyUserCookiePreferences(user?.user_id);
+                                  updateSetting(
+                                    "is_functional_cookies",
+                                    e.target.checked,
+                                  );
+                                  const prefsToSave = {
+                                    is_performance_cookies: updated.performance,
+                                    is_functional_cookies: updated.functional,
+                                    is_marketing_cookies: updated.marketing,
+                                  };
+
+                                  Cookies.set(
+                                    `user_prefs_${user?.user_id}`,
+                                    JSON.stringify(prefsToSave),
+                                    { expires: 365 },
+                                  );
+                                  applyUserCookiePreferences(
+                                    user?.user_id,
+                                    prefsToSave,
+                                  );
                                 }}
                               />
                             </div>
@@ -804,12 +906,32 @@ export default function Accountsetting() {
                                 type="checkbox"
                                 role="switch"
                                 id="marketingCookies"
-                                checked={preferences.marketing}
+                                checked={preferences.marketing || false}
                                 onChange={(e) => {
-                                  const updated = { ...preferences, marketing: e.target.checked };
+                                  const updated = {
+                                    ...preferences,
+                                    marketing: e.target.checked,
+                                  };
                                   setPreferences(updated);
-                                  updateSetting("is_marketing_cookies", e.target.checked);
-                                  applyUserCookiePreferences(user?.user_id);
+                                  updateSetting(
+                                    "is_marketing_cookies",
+                                    e.target.checked,
+                                  );
+                                  const prefsToSave = {
+                                    is_performance_cookies: updated.performance,
+                                    is_functional_cookies: updated.functional,
+                                    is_marketing_cookies: updated.marketing,
+                                  };
+
+                                  Cookies.set(
+                                    `user_prefs_${user?.user_id}`,
+                                    JSON.stringify(prefsToSave),
+                                    { expires: 365 },
+                                  );
+                                  applyUserCookiePreferences(
+                                    user?.user_id,
+                                    prefsToSave,
+                                  );
                                 }}
                               />
                             </div>
@@ -821,18 +943,47 @@ export default function Accountsetting() {
                           type="button"
                           className="btn btn-primary"
                           onClick={async () => {
-                            setPreferences({ performance: true, functional: true, marketing: true });
+                            setPreferences({
+                              performance: true,
+                              functional: true,
+                              marketing: true,
+                            });
 
-                            await updateSetting("is_performance_cookies", true, false);
-                            await updateSetting("is_functional_cookies", true, false);
-                            await updateSetting("is_marketing_cookies", true, false);
-                            applyUserCookiePreferences(user?.user_id);
+                            await updateSetting(
+                              "is_performance_cookies",
+                              true,
+                              false,
+                            );
+                            await updateSetting(
+                              "is_functional_cookies",
+                              true,
+                              false,
+                            );
+                            await updateSetting(
+                              "is_marketing_cookies",
+                              true,
+                              false,
+                            );
+                            const prefsToSave = {
+                              is_performance_cookies: true,
+                              is_functional_cookies: true,
+                              is_marketing_cookies: true,
+                            };
+
+                            Cookies.set(
+                              `user_prefs_${user?.user_id}`,
+                              JSON.stringify(prefsToSave),
+                              { expires: 365 },
+                            );
+                            applyUserCookiePreferences(
+                              user?.user_id,
+                              prefsToSave,
+                            );
                             toast.success("All cookies accepted!"); // ✅ single toast
                           }}
                         >
                           Accept All Cookies
                         </button>
-
 
                         {/* <button
                           type="button"
@@ -850,12 +1001,43 @@ export default function Accountsetting() {
                           type="button"
                           className="btn btn-primary"
                           onClick={async () => {
-                            setPreferences({ performance: false, functional: false, marketing: false });
+                            setPreferences({
+                              performance: false,
+                              functional: false,
+                              marketing: false,
+                            });
 
-                            await updateSetting("is_performance_cookies", false, false);
-                            await updateSetting("is_functional_cookies", false, false);
-                            await updateSetting("is_marketing_cookies", false, false);
-                            applyUserCookiePreferences(user?.user_id);
+                            await updateSetting(
+                              "is_performance_cookies",
+                              false,
+                              false,
+                            );
+                            await updateSetting(
+                              "is_functional_cookies",
+                              false,
+                              false,
+                            );
+                            await updateSetting(
+                              "is_marketing_cookies",
+                              false,
+                              false,
+                            );
+                            const prefsToSave = {
+                              is_performance_cookies: false,
+                              is_functional_cookies: false,
+                              is_marketing_cookies: false,
+                            };
+
+                            Cookies.set(
+                              `user_prefs_${user?.user_id}`,
+                              JSON.stringify(prefsToSave),
+                              { expires: 365 },
+                            );
+
+                            applyUserCookiePreferences(
+                              user?.user_id,
+                              prefsToSave,
+                            );
                             toast.success("All cookies rejected!"); // ✅ single toast
                           }}
                         >
@@ -876,7 +1058,6 @@ export default function Accountsetting() {
                         >
                           Reject Cookies
                         </button> */}
-
                       </div>
                     </div>
                   </div>
@@ -910,7 +1091,8 @@ export default function Accountsetting() {
             {deleteError && (
               <div className="invalid-feedback d-block mt-1">{deleteError}</div>
             )}
-            <button className="delete-btn d-flex gap-2 align-items-center"
+            <button
+              className="delete-btn d-flex gap-2 align-items-center"
               disabled={deleting}
               onClick={handleDeleteAccount}
             >

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./_styles/header.css";
 import Link from "next/link";
+import ClientCookieHandler from "./ClientCookieHandler";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 import Cookies from "js-cookie";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -178,13 +179,20 @@ export default function Header({ user, token }) {
     }
   };
 
-
+const closeMenu = () => {
+  const navbar = document.getElementById("navbarTogglerDemo01");
+  if (navbar?.classList.contains("show")) {
+    navbar.classList.remove("show");
+  }
+};
 
   // console.log('notificationsnotifications', notifications)
 
   return (
+    
     <nav className="navbar navbar-expand-lg coach-top-navber-add user-add-top">
       <div className="container">
+        <ClientCookieHandler userId={user?.user_id} />
         <Link className="navbar-logo-add" href="/">
           <img src={`${FRONTEND_BASE_URL}/images/logo.png`} alt="Logo" />
         </Link>
