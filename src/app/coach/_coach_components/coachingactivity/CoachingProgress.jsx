@@ -137,7 +137,7 @@ export default function CoachingProgress({ initialProgress, token }) {
               <div className="request-modal-body">
                 <h6>1. Package Details</h6>
                 <p><strong>Package Name:</strong> {selectedRequest?.package_title || "N/A"}</p>
-                <p><strong>Session Start Date and Time: </strong> {newDateTimeFormatter(selectedRequest?.session_date_start, selectedRequest?.slot_time_start)}</p>
+                <p><strong>Session Start Date and Time: </strong> {selectedRequest.coachingdate}, {selectedRequest?.coachingtime}</p>
                 {/* <p><strong>Session Start Date: </strong> {selectedRequest?.session_date_start || "N/A"}</p>
                 <p><strong>Session Timing: </strong> {selectedRequest?.slot_time_start || "N/A"}</p> */}
               </div>
