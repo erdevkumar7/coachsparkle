@@ -105,37 +105,33 @@ const processApiData = (apiData) => {
 };
 
 function StyledDay(props) {
-
   const {
     highlightedDates = {},
     day,
     outsideCurrentMonth,
-    // MUI specific props that should NOT go to DOM
-    disableHighlightToday,
-    showDaysOutsideCurrentMonth,
-    isAnimating,
-    onDaySelect,
-    isFirstVisibleCell,
-    isLastVisibleCell,
-    today, // Extract this to prevent DOM error
-    selected,
-    focused,
-    // DOM props that are safe to pass
     ...other
   } = props;
 
-    // console.log('children', children)
-
   const dateStr = day.format('YYYY-MM-DD');
-   const dayNumber = day.date();
+  const dayNumber = day.date();
+
   const isAvailable = highlightedDates.available?.includes(dateStr);
   const isUnavailable = highlightedDates.unavailable?.includes(dateStr);
   const isBooked = highlightedDates.booked?.includes(dateStr);
 
+  // ✅ Past check
+  const isPast = day.isBefore(dayjs(), 'day');
+
   let dayStyle = {};
 
-  // Priority: unavailable -> booked -> available
-  if (isUnavailable) {
+  if (isPast) {
+    dayStyle = {
+      backgroundColor: '#f0f0f0',
+      color: '#aaa',
+      pointerEvents: 'none', // ❌ disable click
+      cursor: 'not-allowed',
+    };
+  } else if (isUnavailable) {
     dayStyle = {
       backgroundColor: '#f8d7da',
       color: '#721c24',
@@ -161,17 +157,12 @@ function StyledDay(props) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        '&:hover': {
-          backgroundColor: dayStyle.backgroundColor ?
-            (isUnavailable ? '#f1b0b7' :
-              isBooked ? '#bee5eb' :
-                '#c3e6cb') : 'inherit'
-        }
       }}
-    >{dayNumber}</Box>
+    >
+      {dayNumber}
+    </Box>
   );
 }
-
 
 export default function CoachDetailCalendar({ calendarData }) {
   const [processedData, setProcessedData] = React.useState({
@@ -192,6 +183,7 @@ export default function CoachDetailCalendar({ calendarData }) {
     <Box>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateCalendar
+        disablePast
           slots={{
             day: StyledDay,
           }}

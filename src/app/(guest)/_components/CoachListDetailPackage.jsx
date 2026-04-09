@@ -69,9 +69,19 @@ export default function CoachingListDetailPackage({ packages }) {
                   {pkg?.delivery_mode?.mode_name} |
                   <PersonOutlineOutlinedIcon className="mui-icons" />
                   {pkg?.session_format?.name} |
-                  <CalendarMonthOutlinedIcon className="mui-icons" />
-                  {/* {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"} */}
-                   {pkg?.availability_display}
+{
+  pkg?.availability_id !== 33 ? (
+    <>
+      <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
+      {pkg?.availability_display}
+    </>
+  ) : (
+    <>
+      <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
+      {pkg?.availability?.availability_mode_name}
+    </>
+  )
+}
 
                 </div>
                 <div className="icons-row">
@@ -107,7 +117,11 @@ export default function CoachingListDetailPackage({ packages }) {
                 </ul>
 
                 <div className="price">
-                  {pkg?.price} / {pkg?.price_model?.name}
+                    {(pkg?.currency === 'USD'
+    ? '$'
+    : pkg?.currency === 'SGD'
+    ? 'S$'
+    : '')}{pkg?.price} / {pkg?.price_model?.name}
                 </div>
                 <Link href={`/coach-detail/${pkg.coach_id}/package/${pkg.id}`} className="book-btn">
                   View Details and Booking Now!

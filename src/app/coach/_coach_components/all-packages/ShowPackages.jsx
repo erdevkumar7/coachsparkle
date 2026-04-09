@@ -86,6 +86,14 @@ export default function ShowPackage({ pkg, allPackages }) {
     breadcrumbItems.push({ label: "Booking", href: "#" });
   }
 
+let currency = '';
+
+if (pkg?.currency === 'USD') {
+  currency = '$';
+} else if (pkg?.currency === 'SGD') {
+  currency = 'S$';
+}
+
   return (
     <>
       <div className="service-page">
@@ -119,8 +127,20 @@ export default function ShowPackage({ pkg, allPackages }) {
                 <PersonalVideoIcon className="text-muted mui-icons" /> {pkg?.delivery_mode?.mode_name}
                 <PersonOutlineOutlinedIcon className="text-muted mui-icons" />{" "}
                 {pkg?.session_format?.name}
-                <CalendarMonthOutlinedIcon className="text-muted mui-icons" />{" "}
-                Jun - Aug 2025
+                
+                {
+  pkg?.availability_id !== 33 ? (
+    <>
+      <CalendarMonthOutlinedIcon className="text-muted mui-icons" />{" "}
+      {pkg?.availability_display}
+    </>
+  ) : (
+    <>
+      <CalendarMonthOutlinedIcon className="text-muted mui-icons" />{" "}
+      {pkg?.availability?.availability_mode_name}
+    </>
+  )
+}
               </div>
               <div className="d-flex gap-3 small mb-2">
                 <ForumOutlinedIcon className="text-muted mui-icons" />{pkg?.session_count ? pkg?.session_count : 1} Sessions
@@ -163,7 +183,7 @@ export default function ShowPackage({ pkg, allPackages }) {
                 <h6>What’s Included:</h6>
 
                 <ul>
-                  <li>{pkg?.session_format?.name} coaching with {pkg?.user?.first_name}.</li>
+                  <li>{pkg?.session_format?.name} coaching with User.</li>
                   {pkg?.coaching_category?.category_name && <li>Session with {pkg?.coaching_category?.category_name}.</li>}
                   <li>{pkg?.price_model?.description}</li>
                 </ul>
@@ -172,9 +192,9 @@ export default function ShowPackage({ pkg, allPackages }) {
               <div className="content">
                 <h6>Who Should Book This:</h6>
 
-                {pkg?.age_group?.group_name && <ul>
+                {pkg?.age_group && <ul>
                   <li>
-                    {pkg?.age_group?.group_name}
+                    {pkg?.age_group}
                   </li>
                 </ul>}
               </div>
@@ -205,7 +225,7 @@ export default function ShowPackage({ pkg, allPackages }) {
 
               <div className="text-center mt-4">
                 <h4>
-                  ${pkg?.price} <small>/ {pkg?.price_model?.name}</small>
+                  {currency}{pkg?.price} <small>/ {pkg?.price_model?.name}</small>
                 </h4>
                 <button
                   className="btn book-btn mt-2"

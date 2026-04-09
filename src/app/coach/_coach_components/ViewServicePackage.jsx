@@ -61,6 +61,14 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
     }
   };
 
+  let currency = '';
+
+if (pkg?.currency === 'USD') {
+  currency = '$';
+} else if (pkg?.currency === 'SGD') {
+  currency = 'S$';
+}
+
   return (
     <>
       {/* ===== Package Card ===== */}
@@ -79,9 +87,19 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
           <div className="icons-row first-online-add">
             <PersonalVideoIcon className="mui-icons" /> {pkg?.delivery_mode?.mode_name}
             <PersonOutlineOutlinedIcon className="mui-icons" /> {pkg?.session_format?.name}
-            <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
-            {/* {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_end) || "Jun - Aug 2025"} */}
-              {pkg?.availability_display}
+{
+  pkg?.availability_id !== 33 ? (
+    <>
+      <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
+      {pkg?.availability_display}
+    </>
+  ) : (
+    <>
+      <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
+      {pkg?.availability?.availability_mode_name}
+    </>
+  )
+}
           </div>
           <div className="icons-row">
             <ForumOutlinedIcon className="mui-icons" /> {pkg?.session_count} Sessions{" "}
@@ -93,7 +111,7 @@ export default function ViewServicePackage({ pkg, allPackageIds, onDelete }) {
           </div>
           <p className="session-description">{pkg?.short_description}</p>
           <div className="pkg-price">
-            ${pkg?.price} / {pkg?.price_model?.name}
+            {currency}{pkg?.price} / {pkg?.price_model?.name}
           </div>
 
           <div className="d-flex justify-content-between action-btn">

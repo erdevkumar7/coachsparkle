@@ -144,7 +144,13 @@ const bookedDates = (packageBookings || [])
   .map(item => item?.booking_date)
   .filter(Boolean);
 
-const hasBooking = bookedDates.length > 0;
+const bookedPackageRequests = (packageBookings || []).filter(
+  (item) => item?.status === 1
+);
+
+const isAlreadyBooked = bookedPackageRequests.some(
+  (item) => item.id === selectedRequest?.id
+);
 
 const handleDateSelect = (date) => {
   setCurrentDate(date);
@@ -312,7 +318,7 @@ const handleDateSelect = (date) => {
                       </div>
 
                       {/* RIGHT: Time Picker */}
-                       
+                       {!isAlreadyBooked && (
                       <div className="time-panel">
                         
                         {selectedDate && (
@@ -340,8 +346,9 @@ const handleDateSelect = (date) => {
                           </>
                         )}
                       </div>
+                       )}
                      
-
+                      {!isAlreadyBooked && (
                         <div className="time-panel">
                         {selectedDate && (
                           <>
@@ -368,20 +375,22 @@ const handleDateSelect = (date) => {
                           </>
                         )}
                       </div>
-                      
+                      )}
                     </div>
 
                     )}
                   </>
                 )}
                 </div>
-
+                  {!isAlreadyBooked && (
                   <button
                     className="btn btn-success d-block mt-3"
                     onClick={handleConfirmBooking}
                   >
                     Confirm
                   </button>
+                  )}
+
               </div>
             </div>
           </div>

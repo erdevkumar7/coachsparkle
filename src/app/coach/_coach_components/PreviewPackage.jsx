@@ -21,6 +21,14 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
   return price;
 };
 
+
+const currencySymbols = {
+  USD: '$',
+  SGD: 'S$',
+};
+
+const currency = currencySymbols[pkg?.currency] || '';
+
     return (
         <div className="session-card">
 
@@ -54,7 +62,7 @@ export function PreviewPackage({ pkg, DeliveryMode, allDelveryMode, allPriceMode
 
                 </p>
 <div className="price">
-  ${getSafePrice(pkg?.price)} /{" "}
+  {currency}{getSafePrice(pkg?.price)} /{" "}
   {getNameById(allPriceModel, pkg?.price_model) || "Package"}
 </div>
                 <div className="d-flex justify-content-center">

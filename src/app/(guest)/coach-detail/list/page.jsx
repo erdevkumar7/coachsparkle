@@ -308,7 +308,7 @@ export default function CoachList() {
                 />
               </div>
 
-              <p className="usd-text">All prices in USD</p>
+              <p className="usd-text">All prices in USD / SGD</p>
             </div>
 
             <div className="filter-section">
