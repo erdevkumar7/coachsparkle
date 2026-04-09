@@ -53,7 +53,7 @@ export default function BookingPackage({ pkg, allPackages }) {
     },
   ];
 
-
+console.log('package File', pkg)
   return (
     <>
       <BreadCrumb items={breadcrumbItems} />
@@ -102,9 +102,19 @@ export default function BookingPackage({ pkg, allPackages }) {
                 <PersonalVideoIcon className="text-muted mui-icons" /> {pkg?.delivery_mode?.mode_name}
                 <PersonOutlineOutlinedIcon className="text-muted mui-icons" />{" "}
                 {pkg?.session_format?.name}
-                <CalendarMonthOutlinedIcon className="text-muted mui-icons" />{" "}
-                {/* {formatBookingAvailability(pkg?.booking_availability_start, pkg?.booking_availability_start) || "Jun - Aug 2025"} */}
-                 {pkg?.availability_display}
+{
+  pkg?.availability_id !== 33 ? (
+    <>
+      <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
+      {pkg?.availability_display}
+    </>
+  ) : (
+    <>
+      <CalendarMonthOutlinedIcon className="mui-icons" />{" "}
+      {pkg?.availability?.availability_mode_name}
+    </>
+  )
+}
               </div>
               <div className="d-flex gap-3 small mb-2">
                 <ForumOutlinedIcon className="text-muted mui-icons" />{pkg?.session_count ? pkg?.session_count : 1} Sessions
@@ -156,9 +166,9 @@ export default function BookingPackage({ pkg, allPackages }) {
               <div className="content">
                 <h6>Who Should Book This:</h6>
 
-                {pkg?.age_group?.group_name && <ul>
+                {pkg?.age_group && <ul>
                   <li>
-                    {pkg?.age_group?.group_name}
+                    {pkg?.age_group}
                   </li>
                 </ul>}
               </div>
@@ -189,7 +199,11 @@ export default function BookingPackage({ pkg, allPackages }) {
 
               <div className="text-center mt-4">
                 <h4>
-                  ${pkg?.price} <small>/ {pkg?.price_model?.name}</small>
+                                     {(pkg?.currency === 'USD'
+    ? '$'
+    : pkg?.currency === 'SGD'
+    ? 'S$'
+    : '')}{pkg?.price} <small>/ {pkg?.price_model?.name}</small>
                 </h4>
                 <button
                   className="btn book-btn mt-2"

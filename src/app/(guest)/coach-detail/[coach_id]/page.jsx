@@ -83,7 +83,7 @@ export default async function CoachDetail({ params }) {
       href: `/coach-detail/${coach_id}`,
     },
   ];
-  console.log('coachData', coach)
+
   return (
     <>
       <BreadCrumb items={breadcrumbItems} />

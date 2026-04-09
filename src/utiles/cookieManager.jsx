@@ -26,7 +26,7 @@ function trackUser(userId) {
 
   localStorage.setItem("user_tracking", JSON.stringify(logs));
 
-  console.log("User tracked ✅", data);
+  
 }
 
 // 🧠 AUTO DETECT COOKIE FUNCTION
@@ -68,8 +68,6 @@ export function applyUserCookiePreferences(userId = null, prefsOverride = null) 
     prefs = result.prefs;
     finalUserId = result.userId;
   }
-
-  console.log("APPLY PREFS:", prefs, "User:", finalUserId);
 
   // 🟢 Functional
   if (prefs.is_functional_cookies) {
