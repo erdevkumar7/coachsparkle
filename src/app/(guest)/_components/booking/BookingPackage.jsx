@@ -53,7 +53,7 @@ export default function BookingPackage({ pkg, allPackages }) {
     },
   ];
 
-console.log('package File', pkg)
+
   return (
     <>
       <BreadCrumb items={breadcrumbItems} />

@@ -428,12 +428,25 @@ if (specificDates.length > 0) {
   }
 
   // 🔥 2. Check package booking_slots limit
-  const maxSlots = packageData?.coach_profile?.booking_slots || 0;
-  const totalbooking = packageData?.coach_profile?.total_booking || 0;
-  if (totalbooking >= maxSlots) {
-    toast.error("Slot booking limit reached for this package ❌");
-    return;
+  if(packageData?.coach_profile?.availability?.id == 32){
+    const maxSlots = packageData?.coach_profile?.booking_slots || 0;
+    const totalbooking = packageData?.coach_profile?.total_booking || 0;
+    if (totalbooking >= maxSlots) {
+      toast.error("Slot booking limit reached for this package ❌");
+      return;
+    }
+  }else if(packageData?.coach_profile?.availability?.id == 31){
+    const totalBookingObj = packageData?.coach_profile?.total_booking || {};
+    const bookingSlotsObj = packageData?.coach_profile?.booking_slots || {};
+
+    const totalbooking = totalBookingObj[selectedDate] || 0;
+    const maxSlots = bookingSlotsObj[selectedDate] || 0;
+    if (totalbooking >= maxSlots) {
+      toast.error("Slot booking limit reached for this date ❌");
+      return;
+    }
   }
+
     if (isReschedule) {
       // For reschedule: Only allow one session
       setSelectedDates([{ date: new Date(currentDate), time }]);

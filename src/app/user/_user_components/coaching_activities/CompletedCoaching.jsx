@@ -125,7 +125,7 @@ export default function CompletedCoaching({ initialCompleted, token }) {
                 <div className="d-flex align-items-start gap-2 mb-3 content">
                   <div>
                     <img
-                      src={completed?.profile_image || `${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                      src={completed?.profile_image || `/coachsparkle/images/default_profile.jpg`}
                       alt="User"
                       className="rounded-circle"
                       style={{ width: '50px', height: '50px' }} />
