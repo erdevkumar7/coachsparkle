@@ -29,19 +29,28 @@ export default async function CoachPackageById({ params }) {
     });
 
     // Fetch current package details
-    const packageDetails = await fetch(`${apiUrl}/getServicePackageById/${coach_id}/${package_id}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
-        body: JSON.stringify({ coach_id, package_id }),
-        cache: 'no-store',
-    }).then(res => res.json()).catch(err => {
-        console.error('Error fetching package details:', err);
-        return null;
-    });
+const res = await fetch(`${apiUrl}/getServicePackageById/${coach_id}/${package_id}`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+    },
+    body: JSON.stringify({ coach_id, package_id }),
+    cache: 'no-store',
+});
 
+console.log("STATUS:", res.status);
+
+const text = await res.text();
+console.log("RAW RESPONSE:", text);
+
+let packageDetails = null;
+
+try {
+    packageDetails = JSON.parse(text);
+} catch (e) {
+    console.error("JSON PARSE ERROR:", e);
+}
     // Increment profile view count
     await fetch(`${apiUrl}/submit-coach-and-package-views`, {
         method: "POST",
@@ -58,12 +67,15 @@ export default async function CoachPackageById({ params }) {
         console.error("Error increasing profile view count:", error);
     });
 
-    if (!packageDetails || !Array.isArray(packageDetails.data) || packageDetails.data.length === 0) {
-        return notFound(); // Show built-in 404 page
-    }
+if (!packageDetails || !packageDetails.data) {
+    return notFound();
+}
 
-    const allPackages = allPackageIdRes?.data || [];
-    const packages = packageDetails.data[0];
+const allPackages = allPackageIdRes?.data || [];
+
+const packages = Array.isArray(packageDetails.data)
+    ? packageDetails.data[0]
+    : packageDetails.data;
 
     return (
         <div>

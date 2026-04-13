@@ -89,7 +89,7 @@ const formatDisplayTime = (timeStr) => {
                     <div className="d-flex align-items-start gap-2 mb-3 content">
                       <div>
                         <img
-                          src={`${FRONTEND_BASE_URL}/images/default_profile.jpg`}
+                          src={`/coachsparkle/images/default_profile.jpg`}
                           alt="user"
                           className="rounded-circle"
                           style={{ width: '50px', height: '50px', borderRadius: '50%' }}
