@@ -428,6 +428,8 @@ if (specificDates.length > 0) {
   }
 
   // 🔥 2. Check package booking_slots limit
+
+
   if(packageData?.coach_profile?.availability?.id == 32){
     const maxSlots = packageData?.coach_profile?.booking_slots || 0;
     const totalbooking = packageData?.coach_profile?.total_booking || 0;
@@ -437,14 +439,23 @@ if (specificDates.length > 0) {
     }
   }else if(packageData?.coach_profile?.availability?.id == 31){
     const totalBookingObj = packageData?.coach_profile?.total_booking || {};
-    const bookingSlotsObj = packageData?.coach_profile?.booking_slots || {};
+    const selectedDateKey = currentDate.toISOString().slice(0, 10);
 
-    const totalbooking = totalBookingObj[selectedDate] || 0;
-    const maxSlots = bookingSlotsObj[selectedDate] || 0;
-    if (totalbooking >= maxSlots) {
-      toast.error("Slot booking limit reached for this date ❌");
-      return;
-    }
+const specificDates = packageData?.coach_profile?.["Specific Date"] || [];
+
+const matched = specificDates.find(
+  (d) => d.session_dates === selectedDateKey
+);
+
+const maxSlots = matched?.max_participants || 0;
+
+    const totalbooking = totalBookingObj[selectedDates] || 0;
+
+
+if (maxSlots > 0 && totalbooking >= maxSlots) {
+  toast.error("Slot booking limit reached for this date ❌");
+  return;
+}
   }
 
     if (isReschedule) {
