@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { fetchAvailability } from "@/app/api/guest";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import dayjs from "dayjs";
 import { PackageBookingAndStripePayment } from "@/app/api/packages";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
 
@@ -432,30 +433,26 @@ if (specificDates.length > 0) {
 
   if(packageData?.coach_profile?.availability?.id == 32){
     const maxSlots = packageData?.coach_profile?.booking_slots || 0;
-    const totalbooking = packageData?.coach_profile?.total_booking || 0;
+    const totalbooking = packageData?.coach_profile?.total_daterange_booking || 0;
     if (totalbooking >= maxSlots) {
       toast.error("Slot booking limit reached for this package ❌");
       return;
     }
   }else if(packageData?.coach_profile?.availability?.id == 31){
-    const totalBookingObj = packageData?.coach_profile?.total_booking || {};
-    const selectedDateKey = currentDate.toISOString().slice(0, 10);
+    const bookingSlotsLimit = packageData?.coach_profile?.booking_slots || {};
+    const booking_slots = packageData?.coach_profile?.total_specific_booking || {};
 
-const specificDates = packageData?.coach_profile?.["Specific Date"] || [];
-
-const matched = specificDates.find(
-  (d) => d.session_dates === selectedDateKey
-);
-
-const maxSlots = matched?.max_participants || 0;
-
-    const totalbooking = totalBookingObj[selectedDates] || 0;
+    const formattedDate = currentDate
+      ? dayjs(currentDate).format("YYYY-MM-DD")
+      : null;
+    const maxSlots = booking_slots[formattedDate] || 0;
+    const totalbooking = bookingSlotsLimit[formattedDate] || 0;
 
 
-if (maxSlots > 0 && totalbooking >= maxSlots) {
-  toast.error("Slot booking limit reached for this date ❌");
-  return;
-}
+    if (maxSlots > 0 && totalbooking <= maxSlots) {
+      toast.error("Slot booking limit reached for this date ❌");
+      return;
+    }
   }
 
     if (isReschedule) {
@@ -706,11 +703,6 @@ const isSlotBooked = (date, time) => {
   };
 
   const current = toMinutes(time);
-
-  // 🧪 DEBUG (optional - remove later)
-  console.log("DATE:", formattedDate);
-  console.log("UI SLOT:", time);
-  console.log("BOOKED SLOTS:", bookedTimes);
 
   return bookedTimes.some((bt) => {
   const booked = toMinutes(bt);
