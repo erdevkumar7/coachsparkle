@@ -40,14 +40,14 @@ export default function SmartMatching({ coaches, sectionData, homePageCountData 
                                     </>
                                 )}
                         </h1>
-                        <p className="lead">
+                        {/* <p className="lead">
                             {sectionData?.subtitle || "Describe your goal or challenge — our AI will match you with the right coach"}
-                        </p>
+                        </p> */}
                         <div className="search-container">
                             <input
                                 type="text"
                                 className="form-control search-input"
-                                placeholder="“E.g., Improve public speaking for work, in English, evenings preferre"
+                                placeholder="Tell us what you'd like to learn — our AI will match you with the right coach for your goals."
                                 value={query}
                                 // onChange={(e) => setQuery(e.target.value)}
                                 onChange={(e) => {
