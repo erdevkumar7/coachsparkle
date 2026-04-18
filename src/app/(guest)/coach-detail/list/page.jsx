@@ -240,7 +240,7 @@ export default function CoachList() {
                   ref={searchInputRef}
                   type="text"
                   className="form-control search-input"
-                  placeholder="“E.g., Improve public speaking for work, in English, evenings preferre"
+                  placeholder="Tell us what you'd like to learn — our AI will match you with the right coach for your goals."
                   value={filters.query || ""}
                   onChange={(e) => updateFilter('query', e.target.value)}
                 />
