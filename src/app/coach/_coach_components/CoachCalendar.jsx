@@ -143,6 +143,7 @@ export default function CoachCalendar() {
           selected={selectedDate}
           onChange={(date) => setSelectedDate(date)}
           inline
+          minDate={new Date()}
           dayClassName={(date) => getDayClassName(date)}
           calendarClassName="custom-calendar"
         />
