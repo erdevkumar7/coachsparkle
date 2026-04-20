@@ -357,14 +357,14 @@ export default function CoachingRequests({ initialRequest, token }) {
                   <strong>Target Age Group or Demographic:</strong> {selectedRequest?.target_age_group || "N/A"}
                 </p>
                 <p>
-                  <strong>Preferred Coaching/Teaching Style:</strong> {selectedRequest?.coaching_category || "N/A"}
+                  <strong>Preferred Coaching/Teaching Style:</strong> {selectedRequest?.coach_category || "N/A"}
                 </p>
                 <p>
                   <strong>Budget Range:</strong> {selectedRequest?.budget_range || "(Not specified)"}
                 </p>
-                <p>
+                {/* <p>
                   <strong>Preferred Schedule:</strong> (Not specified)
-                </p>
+                </p> */}
                 <p>
                   <strong>Gender Preference of Coach:</strong>{" "}
                   {selectedRequest?.gender_prefernece === 1 ? "Male"
@@ -376,21 +376,21 @@ export default function CoachingRequests({ initialRequest, token }) {
                   <strong>Coach Experience Level:</strong> {selectedRequest?.experience_level || "N/A"}
                 </p>
                 <p>
-                  <strong>Only Certified Coach:</strong> {selectedRequest?.certified_coach ? "Yes" : "(Not specified)"}
+                  <strong>Only Certified Coach:</strong> {selectedRequest?.certified_coach == 1 ? "Yes" : "(Not specified)"}
                 </p>
-                <p>
+                {/* <p>
                   <strong>Urgency or Preferred Start Date:</strong> {selectedRequest?.prefered_urgency_date || "N/A"}
-                </p>
-                <p>
+                </p> */}
+                {/* <p>
                   <strong>Special Requirements (If Any):</strong> Optional
-                </p>
+                </p> */}
               </div>
-              <div className="request-modal-body">
+              {/* <div className="request-modal-body">
                 <h6>4. Contact Information</h6>
                 <p>
                   <strong>Preferred Contact Mode:</strong> Email / Phone
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
