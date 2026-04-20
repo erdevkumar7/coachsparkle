@@ -1385,20 +1385,24 @@ onChange={async (e) => {
   </div>
 )}
 
-              {!videoPreview && user?.video_link && (
-                <div className="mt-3">
-                  <video
-                    src={user.video_full_link} // ✅ filename + path
-                    controls
-                    width="100%"
-                    style={{
-                      maxHeight: "300px",
-                      borderRadius: "8px",
-                      background: "#000",
-                    }}
-                  />
-                </div>
-              )}
+{!videoPreview &&
+  user?.video_link &&
+  user.video_link !== "null" &&
+  user.video_link !== "" &&
+  user.video_link !== "undefined" && (
+    <div className="mt-3">
+      <video
+        src={user.video_full_link}
+        controls
+        width="100%"
+        style={{
+          maxHeight: "300px",
+          borderRadius: "8px",
+          background: "#000",
+        }}
+      />
+    </div>
+)}
 
               {errors.video_link && (
                 <p className="text-danger">{errors.video_link.message}</p>
