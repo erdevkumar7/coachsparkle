@@ -492,7 +492,7 @@ export default function RequestForm({
                   )}
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <label className="form-label">Coach Experience Level*</label>
                   <select
                     className="form-selectbox"
@@ -526,7 +526,7 @@ export default function RequestForm({
                                             <option value={3}>Beginner</option>
                                           </select> */}
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <label className="form-label">Only Certified Coach</label>
                   <select
                     className="form-selectbox"
@@ -545,7 +545,7 @@ export default function RequestForm({
                     </p>
                   )}
                 </div>
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <label className="form-label">
                     Urgency/Preferred Start Date
                   </label>
@@ -566,7 +566,7 @@ export default function RequestForm({
                       {errors.preferred_start_date_urgency.message}
                     </p>
                   )}
-                </div>
+                </div> */}
                 {/* <div className="col-12">
                   <label className="form-label">
                     Special Requirements Or Notes
