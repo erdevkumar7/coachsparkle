@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { FRONTEND_BASE_URL } from "@/utiles/config";
@@ -24,9 +23,10 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import FavIcon from "../../_components/coach-detail/FavIcon";
 import Cookies from "js-cookie";
 import { getAllMasters } from "@/app/api/guest";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from "next/navigation";
 import { CircularProgress } from "@mui/material";
 import AvailabilityStartEndCalendar from "../../_components/coach-detail/AvailabilityStartEndCalendar";
+import { BotMessageSquare } from "lucide-react";
 
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -45,8 +45,12 @@ export default function CoachList() {
   const [filtersResetKey, setFiltersResetKey] = useState(0);
   const searchParams = useSearchParams();
 
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiResult, setAiResult] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   const [filters, setFilters] = useState({
-    query: searchParams.get('query') ?? "",
+    query: searchParams.get("query") ?? "",
     search_for: "",
     delivery_mode: null,
     free_trial_session: null,
@@ -61,24 +65,25 @@ export default function CoachList() {
     availability_end: null,
   });
 
-
   useEffect(() => {
     // Check for coaching_sub_categories in URL params
-    const subCategoriesParam = searchParams.get('coaching_sub_categories');
-    const isCorporateParam = searchParams.get('isCorporate');
+    const subCategoriesParam = searchParams.get("coaching_sub_categories");
+    const isCorporateParam = searchParams.get("isCorporate");
 
     if (subCategoriesParam) {
-      const subCategoryIds = subCategoriesParam.split(',').map(id => parseInt(id));
-      setFilters(prev => ({
+      const subCategoryIds = subCategoriesParam
+        .split(",")
+        .map((id) => parseInt(id));
+      setFilters((prev) => ({
         ...prev,
-        coaching_sub_categories: subCategoryIds
+        coaching_sub_categories: subCategoryIds,
       }));
     }
 
     if (isCorporateParam) {
-      setFilters(prev => ({
+      setFilters((prev) => ({
         ...prev,
-        is_corporate: parseInt(isCorporateParam)
+        is_corporate: parseInt(isCorporateParam),
       }));
     }
   }, [searchParams]);
@@ -128,7 +133,7 @@ export default function CoachList() {
         if (user) {
           const parsedUser = JSON.parse(user);
           userId = parsedUser.id;
-          setUserType(parsedUser.user_type)
+          setUserType(parsedUser.user_type);
         }
       }
 
@@ -136,16 +141,15 @@ export default function CoachList() {
         Object.entries(filters).filter(([key, val]) => {
           if (Array.isArray(val)) return val.length > 0;
           return val !== null && val !== "" && val !== undefined;
-        })
+        }),
       );
 
       if (userId) activeFilters.user_id = userId;
 
-
       const response = await axios.post(
         `${apiUrl}/coachlist?page=${page}&per_page=${itemsPerPage}`,
         activeFilters,
-        { headers: { "Content-Type": "application/json" } }
+        { headers: { "Content-Type": "application/json" } },
       );
 
       setCoaches(response.data.data);
@@ -179,7 +183,7 @@ export default function CoachList() {
 
     window.scrollTo({
       top: top,
-      behavior: "smooth"
+      behavior: "smooth",
     });
 
     // Highlight + focus
@@ -187,16 +191,106 @@ export default function CoachList() {
     searchInputRef.current?.select();
   };
 
-  const handleStartAIMatching = () => {
-    setCurrentPage(1);
+  // const handleStartAIMatching = () => {
+  //   setCurrentPage(1);
 
-    // ensure query is used as AI search
-    setFilters((prev) => ({
-      ...prev,
-      query: prev.query
-    }));
+  //   // ensure query is used as AI search
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     query: prev.query
+  //   }));
 
-    getAllCoaches(1);
+  //   getAllCoaches(1);
+  // };
+  const handleStartAIMatching = async () => {
+    if (!filters.query) return;
+
+    setAiLoading(true);
+
+    try {
+      // 🔥 FAKE AI LOGIC (convert text → filters)
+      const query = filters.query.toLowerCase();
+
+      let aiFilters = {};
+
+      if (query.includes("english")) {
+        aiFilters.languages = [1]; // adjust id
+      }
+
+      if (query.includes("corporate")) {
+        aiFilters.is_corporate = 1;
+      }
+
+      if (query.includes("public speaking")) {
+        aiFilters.coaching_sub_categories = [2]; // adjust id
+      }
+
+      if (query.includes("evening")) {
+        aiFilters.availability_start = "18:00";
+      }
+
+      // simulate delay (like API)
+      await new Promise((res) => setTimeout(res, 1000));
+
+      setAiResult({
+        message: "We found coaches based on your request",
+        filters: aiFilters,
+      });
+
+      setShowModal(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  //   const handleStartAIMatching = async () => {
+  //   if (!filters.query) return;
+
+  //   setAiLoading(true);
+
+  //   try {
+  //     // 👉 CALL AI API (this is the missing part)
+  //     const res = await axios.post(`${apiUrl}/ai-match`, {
+  //       query: filters.query
+  //     });
+
+  //     setAiResult(res.data);
+  //     setShowModal(true); // show modal
+
+  //   } catch (error) {
+  //     console.error("AI Match Error:", error);
+  //   } finally {
+  //     setAiLoading(false);
+  //   }
+  // };
+
+  // const handleApplyAIMatch = () => {
+  //   setShowModal(false);
+
+  //   if (aiResult?.filters) {
+  //     setFilters((prev) => ({
+  //       ...prev,
+  //       ...aiResult.filters,
+  //     }));
+  //   }
+
+  //   setCurrentPage(1);
+  // };
+
+  const handleApplyAIMatch = () => {
+    setShowModal(false);
+
+    if (aiResult?.filters) {
+      const updatedFilters = {
+        ...filters,
+        ...aiResult.filters,
+      };
+
+      setFilters(updatedFilters);
+      getAllCoaches(1); // 🔥 force API call with correct filters
+    }
   };
 
   const handleClearFilters = () => {
@@ -217,10 +311,26 @@ export default function CoachList() {
     });
 
     setCurrentPage(1);
-    setFiltersResetKey(prev => prev + 1);
+    setFiltersResetKey((prev) => prev + 1);
   };
 
   // console.log('coachesvvv', coaches)
+
+  // const matchPercent = Math.floor(Math.random() * 20) + 80; // 80–100%
+  // const matchReason = "Good match for your search preferences";
+  const isSearchActive = !!filters.query?.trim();
+
+  const matchPercent = Math.floor(Math.random() * 20) + 80;
+
+let matchReason = "Good match";
+
+if (filters.query?.toLowerCase().includes("english")) {
+  matchReason = "Speaks English fluently";
+}
+
+if (filters.query?.toLowerCase().includes("public speaking")) {
+  matchReason = "Expert in public speaking";
+}
 
   return (
     <>
@@ -235,18 +345,29 @@ export default function CoachList() {
                 Find the right coach your way — filter manually or get instant
                 AI-powered suggestions
               </p>
-              <div className="search-container">
+              <div className="search-container ai-search">
+                {/* <span className="ai-icon">✨</span> */}
                 <input
                   ref={searchInputRef}
                   type="text"
                   className="form-control search-input"
                   placeholder="Tell us what you'd like to learn — our AI will match you with the right coach for your goals."
                   value={filters.query || ""}
-                  onChange={(e) => updateFilter('query', e.target.value)}
+                  onChange={(e) => updateFilter("query", e.target.value)}
                 />
                 <div className="ai-btn-find">
-                  <button onClick={handleStartAIMatching}>
+                  {/* <button onClick={handleStartAIMatching}>
                     Start AI Matching
+                  </button> */}
+                  {/* <button onClick={handleStartAIMatching} disabled={aiLoading}>
+                    {aiLoading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      "Start AI Matching"
+                    )}
+                  </button> */}
+                  <button onClick={handleStartAIMatching} disabled={aiLoading}>
+                    {aiLoading ? "Loading..." : "Ask AI"}
                   </button>
                 </div>
               </div>
@@ -265,8 +386,7 @@ export default function CoachList() {
               <select
                 className="option-tab"
                 value={itemsPerPage}
-                onChange={handleItemsPerPageChange}
-              >
+                onChange={handleItemsPerPageChange}>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
               </select>
@@ -277,7 +397,11 @@ export default function CoachList() {
           <aside className="sidebar">
             <div className="d-flex align-items-center justify-content-between">
               <h4>Filters</h4>
-              <a style={{ cursor: "pointer", color: "#009bfa" }} onClick={handleClearFilters}>Clear all Filters</a>
+              <a
+                style={{ cursor: "pointer", color: "#009bfa" }}
+                onClick={handleClearFilters}>
+                Clear all Filters
+              </a>
             </div>
             <input
               type="text"
@@ -285,9 +409,12 @@ export default function CoachList() {
               value={filters.search_for}
               onChange={(e) => updateFilter("search_for", e.target.value)}
             />
-            <p className="results"> {pagination?.total
-              ? `${pagination.total} coaches found`
-              : "No coaches found"}</p>
+            <p className="results">
+              {" "}
+              {pagination?.total
+                ? `${pagination.total} coaches found`
+                : "No coaches found"}
+            </p>
 
             <div className="filter-section">
               <h4>Prices</h4>
@@ -386,8 +513,14 @@ export default function CoachList() {
                 key={filtersResetKey}
                 value={[filters.availability_start, filters.availability_end]}
                 onChange={([start, end]) => {
-                  updateFilter("availability_start", start ? start.format("YYYY-MM-DD") : null);
-                  updateFilter("availability_end", end ? end.format("YYYY-MM-DD") : null);
+                  updateFilter(
+                    "availability_start",
+                    start ? start.format("YYYY-MM-DD") : null,
+                  );
+                  updateFilter(
+                    "availability_end",
+                    end ? end.format("YYYY-MM-DD") : null,
+                  );
                 }}
               />
             </div>
@@ -427,13 +560,16 @@ export default function CoachList() {
                           <h2>
                             {coach.first_name} {coach.last_name}
                           </h2>
-                          {coach.is_verified ? <span className="check-box-add-icons">
-                            <CheckCircleIcon className="mui-icons" /> Verified
-                          </span> : null}
+                          {coach.is_verified ? (
+                            <span className="check-box-add-icons">
+                              <CheckCircleIcon className="mui-icons" /> Verified
+                            </span>
+                          ) : null}
                         </div>
                         <p className="reviews-text">
                           <StarOutlineIcon className="mui-icons" />
-                          <span>{coach?.averageRating || 'No Rating'}</span> ({`${coach?.totalReviews} reviews` || '0 reviews'})
+                          <span>{coach?.averageRating || "No Rating"}</span> (
+                          {`${coach?.totalReviews} reviews` || "0 reviews"})
                         </p>
                         <p className="senior-engineer-text">
                           <BusinessCenterIcon className="mui-icons" />
@@ -442,50 +578,105 @@ export default function CoachList() {
                           </strong>
                         </p>
 
-                          <p className="description"
-                            dangerouslySetInnerHTML={{
-                              __html: coach?.detailed_bio || "No bio available"
-                            }}
-                          />
+                        <p
+                          className="description"
+                          dangerouslySetInnerHTML={{
+                            __html: coach?.detailed_bio || "No bio available",
+                          }}
+                        />
+                        <div className="tags">
+                          {coach.service_names &&
+                          coach.service_names.length > 0 ? (
+                            coach.service_names.map((service, index) => (
+                              <span key={index}>{service}</span>
+                            ))
+                          ) : (
+                            <span>No services listed</span>
+                          )}
+                        </div>
                       </div>
                       <div className="coach-actions">
                         <p className="price">
                           {coach.price ? `$${coach.price}/month` : "N/A"}
                         </p>
-                        {coach.latest_package_id ?
-                          <button className="book-latest-package" onClick={() => router.push(`/coach-detail/${coach.user_id}/package/${coach.latest_package_id}`)}>
+                        {coach.latest_package_id ? (
+                          <button
+                            className="book-latest-package"
+                            onClick={() =>
+                              router.push(
+                                `/coach-detail/${coach.user_id}/package/${coach.latest_package_id}`,
+                              )
+                            }>
                             Book Now{" "}
                             <EastIcon className="mui-icons fav-list-icons" />
-                          </button> :
+                          </button>
+                        ) : (
                           <button className="book">
                             Book Now{" "}
                             <EastIcon className="mui-icons fav-list-icons" />
-                          </button>}
+                          </button>
+                        )}
                         <Link href={`/coach-detail/${coach.user_id}`}>
                           <button className="profile">
                             View Profile{" "}
                             <EastIcon className="mui-icons fav-list-icons" />
                           </button>
                         </Link>
+
+                        <div>
+                          {isSearchActive && (
+                          <div className="ai-match-box">
+                            <div className="progress-ring">
+                              <svg width="60" height="60">
+                                <circle
+                                  className="progress-bg"
+                                  cx="30"
+                                  cy="30"
+                                  r="26"
+                                  strokeWidth="5"
+                                />
+                                <circle
+                                  className="progress-bar"
+                                  cx="30"
+                                  cy="30"
+                                  r="26"
+                                  strokeWidth="5"
+                                  style={{
+                                    strokeDasharray: 2 * Math.PI * 26,
+                                    strokeDashoffset:
+                                      2 *
+                                      Math.PI *
+                                      26 *
+                                      (1 - matchPercent / 100),
+                                  }}
+                                />
+                              </svg>
+
+                              <div className="progress-text">
+                                {matchPercent} <span>%</span>
+                              </div>
+                            </div>
+
+                            <div className="match-info">
+                              {/* <p className="match-label">Match</p> */}
+                              <p className="match-reason">{matchReason}</p>
+                            </div>
+                          </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <div className="tags">
-                      {coach.service_names && coach.service_names.length > 0 ? (
-                        coach.service_names.map((service, index) => (
-                          <span key={index}>{service}</span>
-                        ))
-                      ) : (
-                        <span>No services listed</span>
-                      )}
-                    </div>
-                    {getUserType === 3 ? null : <div className="fav-list">
-                      <span>
-                        <FavIcon
-                          coachId={coach.user_id}
-                          initiallyFavorited={coach?.is_fevorite}
-                        />
-                      </span>
-                    </div>}
+
+                    {getUserType === 3 ? null : (
+                      <div className="fav-list">
+                        <span>
+                          <FavIcon
+                            coachId={coach.user_id}
+                            initiallyFavorited={coach?.is_fevorite}
+                          />
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -512,6 +703,42 @@ export default function CoachList() {
           )}
         </div>
       </div>
+
+      {aiLoading && (
+        <div className="ai-thinking">
+          🤖 Thinking<span className="dots"></span>
+        </div>
+      )}
+
+      {showModal && (
+        <div className="custom-modal-overlay">
+          <div className="custom-modal ai-modal">
+            <div className="ai-chat">
+              <div className="user-message">
+                <div className="user-bubble">
+                  <strong>You:</strong> {filters.query}
+                </div>
+              </div>
+
+              <div className="ai-message">
+                <div className="avatar">
+                  <BotMessageSquare size={20} />
+                </div>
+
+                <div className="bubble typing">
+                  <p className="typing-text">{aiResult?.message}</p>
+                </div>
+              </div>
+
+              <div className="modal-actions fade-in">
+                <button className="ok-btn" onClick={handleApplyAIMatch}>
+                  Show Matching Coaches →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
