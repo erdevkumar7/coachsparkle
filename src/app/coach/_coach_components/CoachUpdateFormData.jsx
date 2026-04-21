@@ -325,19 +325,21 @@ const [uploadedVideo, setUploadedVideo] = useState(null);
     };
 
     const form = new FormData();
-    Object.entries(finalData).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((v) => form.append(`${key}[]`, v));
-      } else {
-        form.append(key, typeof value === "boolean" ? (value ? 1 : 0) : value);
-      }
-    });
-    form.append("profile_status", profile_status);
-   console.log('originalFile', typeof uploadedVideo); 
-    form.append("video_link", uploadedVideo);
-    
-    // form.append('video_link', data.video_link);
+Object.entries(finalData).forEach(([key, value]) => {
+  if (key === "video_link") return; // ❌ yahi line add karo
 
+  if (Array.isArray(value)) {
+    value.forEach((v) => form.append(`${key}[]`, v));
+  } else {
+    form.append(key, typeof value === "boolean" ? (value ? 1 : 0) : value);
+  }
+});
+    form.append("profile_status", profile_status);
+   
+    if (uploadedVideo) {
+      form.append("video_link", uploadedVideo);
+    }
+    
     // Append certificates ONLY from state
     if (selectedCertificates.length > 0) {
       selectedCertificates.forEach((file) => {
