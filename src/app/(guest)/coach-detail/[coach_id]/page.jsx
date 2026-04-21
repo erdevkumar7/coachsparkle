@@ -291,12 +291,19 @@ export default async function CoachDetail({ params }) {
               <div className="col-md-4 coach-profile-list-right">
                 <div className="profile-card">
 
-                  {coach?.video_link ? (<video width="100%" height="100%" controls autoPlay>
+                {coach?.video_link && coach.video_link !== "null" ? (
+                  <video width="100%" height="100%" controls autoPlay>
                     <source src={coach?.video_full_link} type="video/mp4" />
-                  </video>) : (
-                    <Image src={`${FRONTEND_BASE_URL}/images/profile-video.webp`} alt="Img"
-                      className="top-image" width={1000} height={226} />
-                  )}
+                  </video>
+                ) : (
+                  <Image
+                    src={`${FRONTEND_BASE_URL}/images/profile-video.webp`}
+                    alt="Img"
+                    className="top-image"
+                    width={1000}
+                    height={226}
+                  />
+                )}
 
                   <div className="profile-message">
                     <p className="price">
