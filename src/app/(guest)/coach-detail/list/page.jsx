@@ -49,6 +49,8 @@ export default function CoachList() {
   const [aiResult, setAiResult] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  // const coachListRef = useRef(null);
+
   const [filters, setFilters] = useState({
     query: searchParams.get("query") ?? "",
     search_for: "",
@@ -290,6 +292,14 @@ export default function CoachList() {
 
       setFilters(updatedFilters);
       getAllCoaches(1); // 🔥 force API call with correct filters
+
+        // 🔥 scroll to results
+    // setTimeout(() => {
+    //   coachListRef.current?.scrollIntoView({
+    //     behavior: "smooth",
+    //     block: "start",
+    //   });
+    // }, 300);
     }
   };
 
@@ -536,7 +546,9 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
           </aside>
 
           {loading ? (
-            <main className="main-content">
+            <main className="main-content" 
+            // ref={coachListRef}
+            >
               <div className="d-flex justify-content-center align-items-center min-vh-100">
                 <CircularProgress />
               </div>
@@ -626,17 +638,17 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
                         <div>
                           {isSearchActive && (
                           <div className="ai-match-box">
-                            <div className="progress-ring">
+                            <div className="progress-ring1">
                               <svg width="60" height="60">
                                 <circle
-                                  className="progress-bg"
+                                  className="progress-bg1"
                                   cx="30"
                                   cy="30"
                                   r="26"
                                   strokeWidth="5"
                                 />
                                 <circle
-                                  className="progress-bar"
+                                  className="progress-bar1"
                                   cx="30"
                                   cy="30"
                                   r="26"
@@ -652,7 +664,7 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
                                 />
                               </svg>
 
-                              <div className="progress-text">
+                              <div className="progress-text1">
                                 {matchPercent} <span>%</span>
                               </div>
                             </div>
@@ -721,7 +733,7 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
               </div>
 
               <div className="ai-message">
-                <div className="avatar">
+                <div className="avatar1">
                   <BotMessageSquare size={20} />
                 </div>
 
