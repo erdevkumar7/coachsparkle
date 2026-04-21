@@ -2832,6 +2832,7 @@ button.ai-mtc {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: 10px;
 }
 
 .tags span {
@@ -3042,7 +3043,7 @@ button.ai-mtc {
 .user-bubble {
   word-break: break-word;
 }
-.avatar {
+.avatar1 {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3056,20 +3057,20 @@ button.ai-mtc {
 
 /* % and match reason  */
 /* Container */
-.progress-ring {
+.progress-ring1 {
   position: relative;
   width: 60px;
   height: 60px;
 }
 
 /* Background circle */
-.progress-bg {
+.progress-bg1 {
   fill: none;
   stroke: #e5e7eb;
 }
 
 /* Progress circle */
-.progress-bar {
+.progress-bar1 {
   fill: none;
   stroke: #009bfa;
   stroke-linecap: round;
@@ -3079,7 +3080,7 @@ button.ai-mtc {
 }
 
 /* Center number */
-.progress-text {
+.progress-text1 {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3104,7 +3105,7 @@ button.ai-mtc {
     font-family: 'Roboto';
 }
 
-.progress-bar {
+.progress-bar1 {
   animation: progressAnim 1s ease forwards;
 }
 
@@ -3112,4 +3113,13 @@ button.ai-mtc {
   from {
     stroke-dashoffset: 2 * 3.14 * 26;
   }
+}
+
+.senior-engineer-details-add .description{
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* 👈 number of lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 0;
 }
