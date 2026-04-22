@@ -31,14 +31,14 @@ import { BotMessageSquare } from "lucide-react";
 export default function CoachList() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const [coaches, setCoaches] = useState([]);
-  const [pagination, setPagination] = useState({});
+  // const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [countries, setCountries] = useState([]);
   const [deliveryMode, setDeliveryMode] = useState([]);
   const [allLanguages, setAllLanguages] = useState([]);
   const [services, setServices] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(25); // Add items per page state
+  // const [itemsPerPage, setItemsPerPage] = useState(25); 
   const [getUserType, setUserType] = useState(null);
   const router = useRouter();
   const searchInputRef = useRef(null);
@@ -120,9 +120,13 @@ export default function CoachList() {
     fetchMastersAndCoaches();
   }, []);
 
+  // useEffect(() => {
+  //   getAllCoaches(currentPage);
+  // }, [currentPage, filters, itemsPerPage]);
+
   useEffect(() => {
-    getAllCoaches(currentPage);
-  }, [currentPage, filters, itemsPerPage]);
+  getAllCoaches();
+}, [filters]);
 
   const getAllCoaches = async (page = 1) => {
     setLoading(true);
@@ -149,13 +153,14 @@ export default function CoachList() {
       if (userId) activeFilters.user_id = userId;
 
       const response = await axios.post(
-        `${apiUrl}/coachlist?page=${page}&per_page=${itemsPerPage}`,
+        // `${apiUrl}/coachlist?page=${page}&per_page=${itemsPerPage}`,
+        `${apiUrl}/coachlist`,
         activeFilters,
         { headers: { "Content-Type": "application/json" } },
       );
 
       setCoaches(response.data.data);
-      setPagination(response.data.pagination);
+      // setPagination(response.data.pagination);
     } catch (error) {
       console.error("Error fetching coaches:", error);
     } finally {
@@ -163,22 +168,22 @@ export default function CoachList() {
     }
   };
 
-  const handlePageChange = (page) => {
-    if (
-      page !== pagination.current_page &&
-      page >= 1 &&
-      page <= pagination.last_page
-    ) {
-      setCurrentPage(page);
-    }
-  };
+  // const handlePageChange = (page) => {
+  //   if (
+  //     page !== pagination.current_page &&
+  //     page >= 1 &&
+  //     page <= pagination.last_page
+  //   ) {
+  //     setCurrentPage(page);
+  //   }
+  // };
 
   // Add handler for items per page change
-  const handleItemsPerPageChange = (e) => {
-    const newItemsPerPage = parseInt(e.target.value);
-    setItemsPerPage(newItemsPerPage);
-    setCurrentPage(1); // Reset to first page when changing items per page
-  };
+  // const handleItemsPerPageChange = (e) => {
+  //   const newItemsPerPage = parseInt(e.target.value);
+  //   setItemsPerPage(newItemsPerPage);
+  //   setCurrentPage(1); // Reset to first page when changing items per page
+  // };
 
   const handleTryAIMatch = () => {
     const top = searchInputRef.current?.offsetTop - 150; // adjust scroll if needed
@@ -393,13 +398,13 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
               <select className="best-tab">
                 <option>Best Match</option>
               </select>
-              <select
+              {/* <select
                 className="option-tab"
                 value={itemsPerPage}
                 onChange={handleItemsPerPageChange}>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
-              </select>
+              </select> */}
             </div>
           </div>
         </div>
@@ -419,12 +424,16 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
               value={filters.search_for}
               onChange={(e) => updateFilter("search_for", e.target.value)}
             />
-            <p className="results">
+            {/* <p className="results">
               {" "}
               {pagination?.total
                 ? `${pagination.total} coaches found`
                 : "No coaches found"}
-            </p>
+            </p> */}
+
+            {coaches.length > 0
+  ? `${coaches.length} coaches found`
+  : "No coaches found"}
 
             <div className="filter-section">
               <h4>Prices</h4>
@@ -701,11 +710,11 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
               </div>
 
               <div className="paginaetd-icons">
-                <Pagination
+                {/* <Pagination
                   currentPage={currentPage}
                   lastPage={pagination.last_page}
                   onPageChange={handlePageChange}
-                />
+                /> */}
               </div>
             </main>
           ) : (
