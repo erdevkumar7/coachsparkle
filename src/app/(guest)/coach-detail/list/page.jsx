@@ -442,9 +442,6 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
                 : "No coaches found"}
             </p>
 
-            {coaches.length > 0
-  ? `${coaches.length} coaches found`
-  : "No coaches found"}
 
             <div className="filter-section">
               <h4>Prices</h4>
