@@ -313,7 +313,7 @@ const formatMultipleTime = (timeStr) => {
               <span className="dot today me-1"></span>Today
             </span>
           </div>
-          <button className="add-new-btn">Add New Session</button>
+          <button className="add-new-btn" onClick={() => window.location.href = `${FRONTEND_BASE_URL}/coach-detail/list`}>Add New Session</button>
         </div>
       </div>
       <div className="text-muted small mb-3">
