@@ -308,6 +308,17 @@ export default function CoachList() {
     }
   };
 
+const getMatchMeta = (percent) => {
+  if (percent > 74) {
+    return { label: 'High Match', color: '#28a745' }; // green
+  } else if (percent > 44) {
+    return { label: 'Medium Match', color: '#ffc107' }; // yellow
+  } else if (percent > 0) {
+    return { label: 'Low Match', color: '#dc3545' }; // red
+  } else {
+    return { label: 'No Match', color: '#6c757d' }; // gray
+  }
+};
   const handleClearFilters = () => {
     setFilters({
       query: "",
@@ -564,7 +575,11 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
             </main>
           ) : coaches.length > 0 ? (
             <main className="main-content">
-              {coaches.map((coach, index) => (
+              {coaches.map((coach, index) => {
+                var matchresult = '';
+                const percent = Math.min(Math.max(coach?.match_percentage || 0, 0), 100);
+               const { label, color } = getMatchMeta(percent);
+                return (
                 <div className="coach-card" key={index}>
                   <img
                     src={
@@ -645,7 +660,9 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
                         </Link>
 
                         <div>
+                          
                           {isSearchActive && (
+                            
                           <div className="ai-match-box">
                             <div className="progress-ring1">
                               <svg width="60" height="60">
@@ -663,24 +680,25 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
                                   r="26"
                                   strokeWidth="5"
                                   style={{
+                                    stroke: color,
                                     strokeDasharray: 2 * Math.PI * 26,
                                     strokeDashoffset:
                                       2 *
                                       Math.PI *
                                       26 *
-                                      (1 - matchPercent / 100),
+                                      (1 - percent / 100),
                                   }}
                                 />
                               </svg>
 
-                              <div className="progress-text1">
-                                {matchPercent} <span>%</span>
+                              <div className="progress-text1" style={{ color: color }}>
+                                {percent} <span>%</span>
                               </div>
                             </div>
 
                             <div className="match-info">
                               {/* <p className="match-label">Match</p> */}
-                              <p className="match-reason">{matchReason}</p>
+                              <p className="match-reason" style={{ color: color }}>{label}</p>
                             </div>
                           </div>
                           )}
@@ -700,7 +718,8 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
                     )}
                   </div>
                 </div>
-              ))}
+              )
+            })}
 
               <div className="info1">
                 <p>Couldn't find what you are looking for?</p>
