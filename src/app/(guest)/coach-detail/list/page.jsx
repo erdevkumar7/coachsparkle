@@ -437,14 +437,13 @@ if (filters.query?.toLowerCase().includes("public speaking")) {
             />
             <p className="results">
               {" "}
-              {pagination?.total
+              {/* {pagination?.total
                 ? `${pagination.total} coaches found`
-                : "No coaches found"}
-            </p>
-
-            {coaches.length > 0
-  ? `${coaches.length} coaches found`
-  : "No coaches found"}
+                : "No coaches found"} */}
+                            {coaches.length > 0
+                            ? `${coaches.length} coaches found`
+                            : "No coaches found"}
+                                      </p>
 
             <div className="filter-section">
               <h4>Prices</h4>
